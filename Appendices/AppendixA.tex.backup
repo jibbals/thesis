@@ -1,0 +1,23 @@
+% Appendix A
+
+\chapter{Appendix Title Here} % Main appendix title
+
+\label{AppendixA} % For referencing this appendix elsewhere, use \ref{AppendixA}
+
+Write your Appendix content here.
+
+\chapter{Carbon Monoxide AIRS images}
+\section{Melbourne}
+  \begin{python}
+    import os
+    
+    directory = "../OzoneWork/Images/AIRS/Melbourne"
+    extension = ".png"
+    files = [file for file in os.listdir(directory) if file.lower().endswith(extension)]
+
+    for file in files:
+      print r"\begin{figure}"
+      print r"\centering"
+      print r"\includegraphics[width=0.45\linewidth]{%s}" % file
+      print r"\end{figure}"
+  \end{python}
