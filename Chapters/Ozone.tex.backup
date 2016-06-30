@@ -14,7 +14,7 @@
   \subsection{Historical estimates}
     Tropospheric ozone is important for both air quality and climate change. 
     The impact of stratospheric ozone on the troposphere is dependent on weather, season, temperature, and many other factors. 
-    For example changing ozone in the tropical tropopause layer by 5\% causes 0.5 K dec$^{-1}$ radiative heating \citep{Forster2007}.
+    For example changing ozone in the tropical tropopause layer by 5\% causes 0.5 K dec$^{-1}$ radiative heating \citep{IPCC_Chapter2}.
     In Australia, records of ozone profiles provided by the Department of the Environment can be used to determine how often stratospheric ozone descends into the troposphere.
     
 
@@ -80,7 +80,7 @@
     These ozone rich tongues become elongated and filaments separate from the tongue which mix into tropospheric air.
     Stratospheric ozone brought deeper (lower) into the troposphere is more likely to affect the surface ozone budget and tropospheric chemistry \citep{Zanis2003,Langford_2009}.
     A high correlation is found between lower stratospheric and tropospheric ozone \citep{Terao_2008} with the highest STT associated with the jet-streams over the oceans in winter.
-    Irreversible STT of ozone is important for explaining tropospheric ozone variability \citep{Tang_2011}.
+    Irreversible STT of ozone is important for explaining tropospheric ozone variability \citep{Tang2010}.
     Stratosphere to Troposphere ozone transport can potentially increase regional surface ozone levels above safe levels \citep{Zhang_2014}.
     
     While photochemical production is the dominant source, stratosphere to troposphere transport of ozone is also important and climate change may drastically increase this quantity \citep{Hegglin_2009}.
@@ -206,7 +206,7 @@
     An example of an ozone profile is illustrated in Figure~\ref{ch_o3:fig:filterEG} and indicates how the algorithm detects an STT event, defines the event boundaries, and calculates the ozone flux.
     
     \begin{figure}[!htbp]
-      \includegraphics[width=\columnwidth]{Figures/Ozone/FilterEG.png}
+      \includegraphics[width=\columnwidth]{Figures/Ozone/filtereg.png}
       \caption{ (a) An ozone profile between 2km altitude and the tropopause (indicated by the dashed vertical line).
       The 'flux' area shows the estimate of stratospheric impact on tropospheric ozone.
       (b) The 99th percentile of filtered ozone perturbations (green dashed line) and the technique for determining the vertical extent of the 'event' (red dashed and solid lines).%
@@ -360,16 +360,18 @@
     where $z_{TPP}$ is the index of the level containing the tropopause.
     
     Figure \ref{ch_o3:fig:StationSeriesGEOSChem} shows the time series of tropospheric ozone (TVC$_{O_3}$) simulated over our three stations from January 1 2005 to January 1 2011.
-    Due to our simulation running with horizontal resolution of GEOS-Chem is 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, and the profiles and totals above each site are actually the average over this horizontal area containing each stat
+    Due to our simulation running with horizontal resolution of GEOS-Chem is 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, and the profiles and totals above each site are actually the average over this horizontal area containing each station.
     All three sites have a discernable yearly cycle, with Davis having the least spread as well as the greatest outliers.
-    These outlying tropospheric ozone columns all occur during the July to September months (TODO: reasons for why? summer turbulence?).
-    Both Macquarie Island and Melbourne have more variance in their tropospheric columns. 
+    These outlying tropospheric ozone columns all occur during the July to September months (TODO: reasons for why? simulated summer turbulence?).
+    Both Macquarie Island and Melbourne have more variance in their tropospheric columns.
     For both sites the data is more spread out over the winter months.
     This variability is shown in more detail in figure \ref{ch_o3:fig:YearlyCyclGEOSChem}.
     
-    
-    
-    TODO: describe \ref{ch_o3:fig:YearlyCyclGEOSChem}
+    Figure \ref{ch_o3:fig:YearlyCyclGEOSChem} shows the yearly averaged tropospheric ozone column over our three sites.
+    This figure is created using the monthly averages along with their standard deviations.
+    Melbourne has the largest tropical ozone column throughout the year, with a summer peak and winter minimum.
+    Davis has the lowest ozone levels, with an opposite seasonal cycle to that of Melbourne.
+    At Macquarie Island, there is a more subtle seasonal cycle, with slightly more ozone occuring in winter than in summer.
     
     \begin{figure}[!htbp]
       \includegraphics[width=\textwidth]{Figures/Ozone/StationSeries.png}
@@ -383,7 +385,7 @@
       \label{ch_o3:fig:YearlyCyclGEOSChem}
     \end{figure}
     
-  \subsection{Profile Comparisons}
+  \subsection{Profile from GEOS-Chem}
     GEOS-Chem provides 72 vertical levels of data, of which about 30 will be in the troposphere.
     Interpolating the vertical levels to a standard set of altitudes allows an examination of both the mean ozone profils and the standard deviation at each altitude.
     Recall that the profiles are output every 6 hours, so as well as getting the overall profile average it is easy to determine the daytime and night time average by only looking at particular hours.
@@ -412,5 +414,35 @@
       \caption{As figure \ref{ch_o3:fig:GEOSChemMonthlyProfilesDavis} over Melbourne.}
       \label{ch_o3:fig:GEOSChemMonthlyProfilesMelbourne}
     \end{figure}
+    
+    TODO: Compare the mean profiles of ozonesonde events against the GEOS-Chem ones.
+
+    Generally the vertical resolution of the GEOS-Chem ozone profile is too coarse to capture enough detail to determine whether or not an STT event is likely.
+    Modelled Ozone profiles have roughly 30 levels below the tropopause, while the ozonesondes have upwards of 80.
+    Figure TODO \ref{ch_o3:fig:GEOSChemEventProfilesSummary} shows the best and worst examples of the ozone profiles simulated and recorded above the three stations during detected STTs.
+    These best and worst examples are determined qualitatively, and are shown as examples of the model-measurement differences.
+    
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/Ozone/ModelledEventProfilesSummary.png}
+      \caption{Simulated and recorded ozone profiles above Davis, Melbourne, and Macquarie Island respectively from top to bottom.
+      The column on the left shows the best matching profile, while the right shows the worst (determined qualitatively).}
+      \label{ch_o3:fig:GEOSChemEventProfilesSummary}
+    \end{figure}
+    
+    Considering only the troposphere, I determine the correlation between the GEOS-Chem simulated profiles and the ozone sondes.
+    In order to compare the tropospheric ozone ppb profile, first the ozonesonde recorded profiles are interpolated to match the vertical levels used by GEOS-Chem on the matching day.
+    The interpolation takes the average of the recorded profile within each GEOS-Chem vertical level, and is referred to from here as the matched profile.
+    This is done to remove any bias caused by the difference in simulated and recorded vertical resolution.
+    The correlation is calculated by comparing the mean of the simulated and matched ozone profiles, up to the minimum of the tropopause altitudes determined through GEOS-Chem or from sondes.
+    figure \ref{ch_o3:fig:GEOSChemTroposphereCorrelation} shows the correlation between mean modelled tropospheric ozone ppb.
+    Quantitatively, the modelled tropospheric profile correlates well with the ozone sonde profiles.
+    
+    \begin{figure}[!htbp]
+      \includegraphics[width=0.8\textwidth]{Figures/Ozone/GEOSChemTroposphericCorrelation.png}
+      \caption{Correlation between the mean of simulated tropospheric ozone (ppb) and matched ozonesonde profiles (see text).}
+      \label{ch_o3:fig:GEOSChemTroposphereCorrelation}
+    \end{figure}
+    
+  \subsection{Estimation of southern ocean STT flux}
     
     
