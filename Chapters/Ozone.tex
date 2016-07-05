@@ -387,38 +387,58 @@
       \label{ch_o3:fig:YearlyCyclGEOSChem}
     \end{figure}
     
-  \subsection{Profile from GEOS-Chem}
+  \subsection{Ozone profiles compared with GEOS-Chem}
     GEOS-Chem provides 72 vertical levels of data, of which about 30 will be in the troposphere.
+    The ozone sondes generally have more than 100 vertical levels below the tropopause.
     Interpolating the vertical levels to a standard set of altitudes allows an examination of both the mean ozone profils and the standard deviation at each altitude.
-    Recall that the profiles are output every 6 hours, so as well as getting the overall profile average it is easy to determine the daytime and night time average by only looking at particular hours.
-    GEOS-Chem uses GMT/UTC time, outputting 4 profiles per day at 0~hrs, 6~hrs, 12~hrs, and 18~hrs.
-    The local offset in time at Davis, Macquarie Island, and Melbourne is \+7~hrs, \+11~hrs, \+10~hrs respectively.
+    For each of the GEOS-Chem and sonde vertical profiles, the data is interpolated to 100 points between 0 and 14~km, at which the mean and standard deviation is determined for each month.
     
-    Figures \ref{ch_o3:fig:GEOSChemMonthlyProfilesDavis}-\ref{ch_o3:fig:GEOSChemMonthlyProfilesMelbourne} show the monthly averaged ozone profile at Davis, Macquarie Island, and Melbourne respectively.
+    Figures \ref{ch_o3:fig:GEOSChemMonthlyProfilesDavis}-\ref{ch_o3:fig:GEOSChemMonthlyProfilesMelbourne} show the simulated monthly averaged ozone profile at Davis, Macquarie Island, and Melbourne respectively.
     The shaded areas show $\pm 1$ standard deviation, while the horizontal dotted line shows the mean tropopause height.
     The effect of pollution and mainland influence can be seen over Melbourne, mostly during the summer months (DJF), as the lower altitudes have increased ozone mean as well as more variance.
-    Also the yearly cycle of tropopause height for each site is noticible, and it matches (TODO does it?) the ozonesonde recorded tropopause seasonal cycle.
+    Also the yearly cycle of tropopause height for each site is noticible, and it matches the ozonesonde recorded tropopause seasonal cycle.
     Examining the mean profiles at particular hours only shows a noticible difference (not shown unless someone tells me to) over Melbourne, the other two stations are very similar regardless of which hour we examine.
     
     \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{Figures/Ozone/Davis_profiles.png}
+      \includegraphics[width=\textwidth]{Figures/Ozone/Davis_GC_monthprofiles.png}
       \caption{Tropospheric ozone (ppb) simulated by GEOS-Chem over Davis from January 1 2004 until December 31 2010, averaged monthly.
-      Shaded areas show one standard deviation, horizontal dotted line shows the mean tropopause height.}
+      Horizontal dotted line shows the mean tropopause height, shaded areas show one standard deviation.}
       \label{ch_o3:fig:GEOSChemMonthlyProfilesDavis}
     \end{figure}
     \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{Figures/Ozone/Macquarie_profiles.png}
+      \includegraphics[width=\textwidth]{Figures/Ozone/Macquarie_GC_monthprofiles.png}
       \caption{As figure \ref{ch_o3:fig:GEOSChemMonthlyProfilesDavis} over Macquarie Island.}
       \label{ch_o3:fig:GEOSChemMonthlyProfilesMacquarie}
     \end{figure}
     \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{Figures/Ozone/Melbourne_profiles.png}
+      \includegraphics[width=\textwidth]{Figures/Ozone/Melbourne_GC_monthprofiles.png}
       \caption{As figure \ref{ch_o3:fig:GEOSChemMonthlyProfilesDavis} over Melbourne.}
       \label{ch_o3:fig:GEOSChemMonthlyProfilesMelbourne}
     \end{figure}
     
-    TODO: Compare the mean profiles of ozonesonde events against the GEOS-Chem ones.
-
+    Figures \ref{ch_o3:fig:SondeMonthlyProfilesDavis}-\ref{ch_o3:fig:SondeMonthlyProfilesMelbourne} show the measured monthly averaged ozone profile at Davis, Macquarie Island, and Melbourne respectively.
+    At Davis, the tropopause level slightly lower in summer and autumn than in winter and spring.
+    This yearly variation matches the tropopause heights simulated by GEOS-Chem, and is opposite to the yearly tropopause height cycle seen in Melbourne.
+    Macquarie does not have a seasonal cycle of tropopause heights, which is also not seen in the GEOS-Chem profiles, although the GEOS-Chem tropopause heights are slightly higher at all months.
+    For all three sites the gradient of increasing ozone with increasing altitude is stronger in the GEOS-Chem output than the sonde measurements.
+    
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/Ozone/Davis_sonde_monthprofiles.png}
+      \caption{Tropospheric ozone (ppb) measured by ozone sonde over Davis, averaged monthly.
+      Horizontal dotted line shows the mean tropopause height, shaded areas show one standard deviation.}
+      \label{ch_o3:fig:GEOSChemMonthlyProfilesDavis}
+    \end{figure}
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/Ozone/Macquarie_sonde_monthprofiles.png}
+      \caption{As figure \ref{ch_o3:fig:GEOSChemMonthlyProfilesDavis} over Macquarie Island.}
+      \label{ch_o3:fig:GEOSChemMonthlyProfilesMacquarie}
+    \end{figure}
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/Ozone/Melbourne_sonde_monthprofiles.png}
+      \caption{As figure \ref{ch_o3:fig:GEOSChemMonthlyProfilesDavis} over Melbourne.}
+      \label{ch_o3:fig:GEOSChemMonthlyProfilesMelbourne}
+    \end{figure}
+    
     Generally the vertical resolution of the GEOS-Chem ozone profile is too coarse to capture enough detail to determine whether or not an STT event is likely.
     Modelled Ozone profiles have roughly 30 levels below the tropopause, while the ozonesondes have upwards of 100.
     Figure TODO \ref{ch_o3:fig:GEOSChemEventProfilesSummary} shows the best and worst examples of the ozone profiles simulated and recorded above the three stations during detected STTs.
@@ -432,18 +452,23 @@
     \end{figure}
     
     Considering only the troposphere, I determine the correlation between the GEOS-Chem simulated profiles and the ozone sondes.
-    In order to compare the tropospheric ozone ppb profile, first the ozonesonde recorded profiles are interpolated to match the vertical levels used by GEOS-Chem on the matching day.
-    The interpolation takes the average of the recorded profile within each GEOS-Chem vertical level, and is referred to from here as the matched profile.
-    This is done to remove any bias caused by the difference in simulated and recorded vertical resolution.
-    The correlation is calculated by comparing the mean of the simulated and matched ozone profiles, up to the minimum of the tropopause altitudes determined through GEOS-Chem or from sondes.
-    figure \ref{ch_o3:fig:GEOSChemTroposphereCorrelation} shows the correlation between mean modelled tropospheric ozone ppb.
+    This correlation is determined between simulated and measured tropospheric ozone in molecules cm$^{-2}$, for each site, for each day where there exists both a measurement and model output.
+    figure \ref{ch_o3:fig:GEOSChemTroposphereCorrelation} shows the correlation between mean modelled tropospheric ozone column.
+    TODO: deseasonalise correlation?
     Quantitatively, the modelled tropospheric profile correlates well with the ozone sonde profiles.
     
+    
     \begin{figure}[!htbp]
-      \includegraphics[width=0.8\textwidth]{Figures/Ozone/GEOSChemTroposphericCorrelation.png}
-      \caption{Correlation between the mean of simulated tropospheric ozone (ppb) and matched ozonesonde profiles (see text).}
+      \includegraphics[width=0.8\textwidth]{Figures/Ozone/station_correlations.png}
+      \caption{Correlation between tropospheric ozone column modelled by GEOS-Chem(vertical axes) and calculated from ozone sondes(horizontal axes). 
+      The line of best fit (black) and one to one line (grey) is also shown, note the axes are different for Melbourne.}
       \label{ch_o3:fig:GEOSChemTroposphereCorrelation}
     \end{figure}
+    
+    TODO: show modelled daily cycle?
+    Recall that the profiles are output every 6 hours, so as well as getting the overall profile average it is easy to determine the daytime and night time average by only looking at particular hours.
+    GEOS-Chem uses GMT/UTC time, outputting 4 profiles per day at 0~hrs, 6~hrs, 12~hrs, and 18~hrs.
+    The local offset in time at Davis, Macquarie Island, and Melbourne is \+7~hrs, \+11~hrs, \+10~hrs respectively.
     
   \subsection{Estimation of southern ocean STT flux}
     
