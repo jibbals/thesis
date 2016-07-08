@@ -31,8 +31,8 @@
   \subsection{Products and HCHO yield}
     Australian forests are strong emitters of both isoprene and monoterpenes, which go on to form various products including but not limited to secondary organic aerosols, oxygenated VOCs (OVOCs), ozone, OH, and HO$_2$.
     This production occurs over several steps, yields are often classed into at least two categories.
-    First generation yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (sometimes molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \citep{Wolfe2015}.
-    \citet{Wolfe2015} define prompt yield as the change in formaldehyde measurement per unit change in initial isoprene emissions.
+    First generation yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (sometimes molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \citep{Wolfe2016}.
+    \citet{Wolfe2016} define prompt yield as the change in formaldehyde measurement per unit change in initial isoprene emissions.
     Some argue that isoprene emissions are overestimated, due to the fact that they are based on relatively few measurements of isoprene emission factors \citep{Winters2009, FortemsCheiney2012, another} TODO: read and cite paper mentioned in Fortems.
     
     Isoprene production of HCHO depends on several factors, importantly NO$_X$ levels have a direct effect on the fate of VOCs in the atmosphere.
@@ -41,8 +41,8 @@
     In low NO$_X$ environments, reported HCHO yields from isoprene are from XtoY\%, while in high NO$_X$ environments this value is XtoY\% TODO: these values from table.
     For monoterpenes the yields are around X, Y\% for low, high NO$_X$ respectively.
     Emissions and yields for various species including some terpenes can be seen in table \ref{ch_isop:tab:VOCAusYields}.
-    \citet{Wolfe2015} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
-    (TODO:and finish Wolfe2015 discussion paper for yields)
+    \citet{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
+    (TODO:and finish Wolfe2016 discussion paper for yields)
     TODO:go through atkinsenarey2003
     
     
@@ -101,9 +101,9 @@
       \\
       & 57$\pm$6  & High NO$_X$ & \citep{AtkinsenArey2003}
       \\
-      $\alpha$-Pinene & 28$\pm$3 & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2005}$^b$
+      $\alpha$-Pinene & 28$\pm$3 & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2006}$^b$
       \\ 
-      & X$\pm$3 & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2015}
+      & X$\pm$3 & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2016}
       \\ 
       & 23$\pm$9 & High NO$_X$ & \citep{AtkinsenArey2003}
       \\ 
@@ -111,7 +111,7 @@
       \\ 
       $\beta$-Pinene & 65$\pm$3 & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2006}
       \\ 
-      & X$\pm$3 & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2015}
+      & X$\pm$3 & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2016}
       \\ 
       & 54$\pm$5 & High NO$_X$ & \citep{AtkinsenArey2003}
       \\ 
@@ -129,8 +129,8 @@
 
   \subsection{Biomass Burning}
     One complication when computing HCHO yield from VOC emissions is biomass burning interference, as smoke plumes can contribute to column HCHO.
-    Influence from biomass burning can be removed through measurements of acetonitrile and CO (eg: \citep{Wolfe2015}, TODO: other bb papers).
-    \citet{Wolfe2015} disregard HCHO measurements when acetonitrile > 210 pptv and CO > 300 ppbv.
+    Influence from biomass burning can be removed through measurements of acetonitrile and CO (eg: \citep{Wolfe2016}, TODO: other bb papers).
+    \citet{Wolfe2016} disregard HCHO measurements when acetonitrile > 210 pptv and CO > 300 ppbv.
     
   \subsection{MEGAN}
     One method used to estimate global isoprene (among other species) emissions is the Model of Emissions of Gases and Aerosols from Nature (MEGAN). 
@@ -403,7 +403,7 @@
     Once we have vertical columns of biogenic HCHO ($\Omega_{HCHO}$) we can infer the local (grid space) isoprene emissions (E$_{ISOP}$) using effective formaldehyde yield from isoprene (S) (todo: cites with examples of this yield).
     This is simply expressed with the equation:
     \begin{equation} \label{ch_isop:eqn:isop_yield}
-      \Omega_{HCHO} = S * E_{ISOP} + B
+      \Omega_{HCHO} = S \times E_{ISOP} + B
     \end{equation}
     Where B is the background HCHO.
     This works as long as there is fast HCHO yield, so that the effect of chemical transport is minimal.
@@ -459,6 +459,13 @@
     \label{ch_isop:tab:OMIQualityFlag}
     \end{table}
     
+  \subsection{Reading OMHCHO daily slant columns}
+    Each day the AURA satellite sweeps over the sunny side of the planet, recording roughly 90~k pixels, of which around 80~k are classified as good.
+    Each pixel contains several important peices of data which I use later: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, scattering weight, viewing zenith angle, solar zenith angle, latitude, longitude, and quality flag.
+    All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
+    
+    The shape factors and scattering weights lie along a z-axis which is vertically resolved to 47 layers and is shown in figure TODO: make figure showing this stuff and an example profile.
+    
   \subsection{Regridding to x by x 8-day averaged vertical columns}
     TODO: how this is done, and how we measure uncertainty, and how much uncertainty improved by this.
     
@@ -466,16 +473,8 @@
     In order to regrid these columns each latitude/longitude data point is mapped into a global grid of 0.25$^{\circ}$x0.3125$^{\circ}$ (matching GEOS-Chem native resolution) which may contain up to 15 entries from a particular day's orbits.
     Total vertical column amount entries are averaged over each 8 days starting on January 1st 2005.
     
-    Each satellite measurement of total vertical column has an associated shape factor, AMF, scattering weight, viewing zenith angle, solar zenith angle, and pacific region reference correction.
-    All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
-    Taking a more recent GEOS-Chem apriori shape factor and integrating along the vertical axis using equation \ref{ch_isop:eqn:AMFintwSdz} gives us a new AMF (AMF$_n$).
-    The shape factors and scattering weights lie along a z-axis which is vertically resolved to 47 layers and is shown in figure TODO: make figure showing this stuff and an example profile.
-    OMI's apriori shape factor is based on the GEOS-Chem model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
-    This is done in Python using the TODO:abc integration method.
-    All that remains for recalculating the total vertical column using our new apriori shape factor is to apply the new AMF and remove the old:
-    \begin{equation*}
-      \Omega_{new} = \Omega \frac{AMF}{AMF_n} 
-    \end{equation*}
+    TODO: Discuss saving the list of daily entries into a gridded space.
+    
     
     TODO: time per regridding and reprocessing:
     This mapping is not one to one and does require some processing time as well as RAM and computer storage space.
@@ -484,8 +483,6 @@
     Along with simple regridding, reprocessing the AMF using our updated version of GEOS-Chem's HCHO profile and reference sector took around Y hours per year.
     All processing is done using the HDF-EOS5 format.
     The scripts to regrid and reprocess the swath data set are available in the supplementary (TODO).
-    
-    
     
   \subsection{Filtering pyrogenic HCHO}
     TODO: How modis fire counts are used as well as statistics on removed data points.
@@ -511,9 +508,17 @@
     
   \subsection{Filtering anthropogenic HCHO}
     TODO
+  
+  \subsection{Recalculating the AMF to create our own vertical HCHO columns}
+    OMI's apriori shape factor is based on the GEOS-Chem model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
+    Taking a more recent GEOS-Chem apriori shape factor and integrating along the vertical axis using equation \ref{ch_isop:eqn:AMFintwSdz} gives us a new AMF (AMF$_n$).
+    This is done in Python using simple rectangular integration.
+    All that remains for recalculating the total vertical column using our new apriori shape factor is to apply the new AMF and remove the old:
+    \begin{equation*}
+      \Omega_{new} = \Omega \frac{AMF}{AMF_n} 
+    \end{equation*}
     
-  \subsection{Constructing vertical columns of HCHO}
-    The vertical column scattering weights and apriori shape factors provided in the OMHCHO dataset are defined on 47 levels with units being TODO: check these.
+    The vertical column scattering weights and apriori shape factors provided in the OMHCHO dataset are defined on 47 levels.
     In order to reformulate the vertical column using updated GEOS-Chem hcho apriori shape factors I have run GEOS-Chem version 10.01 on the full 72 level vertical grid at 2 by 2.5 (lat by lon) degree monthly resolution. 
     These monthly vertical profiles are then used to provide the apriori shape factor for the higher horizontally resolved satellite columns, which pick the nearest apriori from the model.
     The new apriori profiles are monthly averages, which is the same temporal resolution used by the OMI apriori shape factors.
@@ -522,12 +527,12 @@
     In order to reformulate the AMF, the 72 level profile from my GEOS-Chem UCX run is transformed from ppb to a normalized number density profile in order to match equation \ref{ch_isop:eqn:ShapeFactor}. 
     This conversion uses the following equation: 
     \begin{equation} \label{ch_isop:eqn:ppbto}
-      \eta_{HCHO} = ppb_{HCHO} \eta_a 10^{-9}
+      \eta_{HCHO} = ppb_{HCHO} \times \eta_a \times 10^{-9}
     \end{equation}
     where $\eta_{HCHO}$ is the number density of a HCHO, and ppb$_{HCHO}$ is the molecules of that species per billion molecules of air.
     In order to normalize these vertical density profiles over the globe, we divide by the modelled total vertical column $\Omega_{HCHO}$ which is determined by:
     \begin{equation*}
-      \Omega_{HCHO} = \Sigma_z \left( ppb_{HCHO}(z) (P(z)-P(z+1)) 2.12e13 \right)
+      \Omega_{HCHO} = 2.12\times 10^{13} \Sigma_z \left( ppb_{HCHO}(z) (P(z)-P(z+1)) \right)
     \end{equation*}
     where P(z) is the pressure (hPa) at the bottom of altitude level z, the constant 2.12e13 is determined from equation (TODO: run through this number in another section?).
     In effect this equation sums over the molecules per cm$^2$ in each altitude level.
@@ -543,28 +548,31 @@
 
     TODO: currently I'm assuming the surface pressure from omi measurements is just the bottom pressure level they provide.
     If I change this to use an inverted geometric midpoint calculation then I need to explain it, otherwise I will need to note the assumption
-    $ \sqrt{ \left( P_1 * P_{surf} \right)} = P_0 $
+    $ \sqrt{ \left( P_1 \times P_{surf} \right)} = P_0 $
     becomes $ P_{surf} = \frac{P_0^2}{P_1} $ where currently I'm using $P_0$ as the surface.
 
     S$_\sigma(\sigma)$ Is determined after running GEOS-Chem, which outputs vertical profiles of air density and HCHO mixing ratio, at 72 vertical levels with associated metadata such as vertical layer height and pressure, grid box location, height, and surface pressure.
     Using these outputs the vertical columns ($\Omega_a, \Omega_v$) are calculated for each horizontal grid point (i, j) as follows:
-    \begin{equation*}
-      \Omega_a(i,j) = \Sigma_z \left( N_a(i,j,z) * H(i,j,z) \right)
-      \Omega_z(i,j) = \Sigma_z \left( N_{HCHO}(i,j,z) * H(i,j,z) \right)
-    \end{equation*}
+    \begin{align*}
+      \Omega_a(i,j) &=& \Sigma_z \left( N_a(i,j,z) \times H(i,j,z) \right)
+      \\
+      \Omega_z(i,j) &=& \Sigma_z \left( N_{HCHO}(i,j,z) \times H(i,j,z) \right)
+    \end{align*}
     where $N_a$, and $N_{HCHO}$ are the densities of air and HCHO, H is the layer height (for each grid box).
-    Note that HCHO density is determined from the outputted mixing ratio: $N_{HCHO} = C_{HCHO}*N_a$.
+    Note that HCHO density is determined from the outputted mixing ratio: $N_{HCHO} = C_{HCHO} \times N_a$.
 
     Once S$_\sigma(\sigma)$ is determined it is then stored in HDF-EOS5 format, to be used in conjunction with the satellite measurements to calculate an AMF as shown in equation \ref{ch_isop:eqn:AMFintwSdz}.
-    As the GEOS-Chem V10.01 output is in bitpunch format, the code to read the data and create the shape factor is written in IDL, and is provided in supplementary TODO: put code into supplement section.
+    As the GEOS-Chem V10.01 output is in bitpunch format, the code to read the data and create the shape factor is written in IDL, which has many procedures and functions which are alread written to handle reading this format. The code is provided in supplementary TODO: put code into supplement section.
     
     For each OMI slant column, a new AMF is calculated using S$_\sigma(\sigma)$ and the provided scattering weights $\omega(\sigma)$ using equation \ref{ch_isop:eqn:AMFintwSdz}.
-    This integral is applied in python by taking the sum of S$_\sigma(\sigma) \times \omega(\sigma) \times \mathrm{d}\sigma$ for each $\sigma$ determined at 72 levels in GEOS-Chem, with the provided $\omega$ linear interpolated to these same levels.
+    This integral is applied in python by taking the sum of S$_\sigma(\sigma) \times \omega(\sigma) \times \mathrm{d}\sigma$ for each $\sigma$ determined at 72 levels in GEOS-Chem, with the provided $\omega$ interpolated linearly to these same levels.
     An example of these interpolations is shown in figure TODO: interpolation figure with symbols at original points and interpolated line overplotted for both functions over hPa.
     Globally this reprocessing changed the AMF by TODO: global total percent difference in AMF. 
     In total this caused TODO: total column HCHO change globally/yearly
     In Summer over Australia the global AMF difference was TODO: Difference summers only.
     This changed Australia's HCHO amounts from TODO: X to Y Tg per year plus minus one std.
+    
+    
     
   \subsection{Determining and applying the pacific ocean reference sector normalisation}
     \label{ch_isop:sec:RSC}
