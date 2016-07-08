@@ -451,20 +451,62 @@
       \label{ch_o3:fig:GEOSChemEventProfilesSummary}
     \end{figure}
     
-    Considering only the troposphere, I determine the correlation between the GEOS-Chem simulated profiles and the ozone sondes.
+    Considering the tropospheric ozone column, I determine the correlation between the GEOS-Chem simulated profiles and the ozone sondes using least squares linear regression.
+    This assumes that the ozonesondes are the true values, while the model output is linearly dependant on them with the addition of some random error.
     This correlation is determined between simulated and measured tropospheric ozone in molecules cm$^{-2}$, for each site, for each day where there exists both a measurement and model output.
-    figure \ref{ch_o3:fig:GEOSChemTroposphereCorrelation} shows the correlation between mean modelled tropospheric ozone column.
-    TODO: deseasonalise correlation?
-    Quantitatively, the modelled tropospheric profile correlates well with the ozone sonde profiles.
-    
+    Figure \ref{ch_o3:fig:GEOSChemTroposphereCorrelation} shows the correlation between mean modelled tropospheric ozone column.
+    The colours show which season the datapoints lie within, and suggest that seasonality plays a large role in this correlation; since summer and winter points are clumped at opposite ends.
     
     \begin{figure}[!htbp]
-      \includegraphics[width=0.8\textwidth]{Figures/Ozone/station_correlations.png}
-      \caption{Correlation between tropospheric ozone column modelled by GEOS-Chem(vertical axes) and calculated from ozone sondes(horizontal axes). 
-      The line of best fit (black) and one to one line (grey) is also shown, note the axes are different for Melbourne.}
+      \includegraphics[width=\textwidth]{Figures/Ozone/station_correlations.png}
+      \caption{Correlation between tropospheric ozone column modelled by GEOS-Chem (vertical axes) and calculated from ozone sondes (horizontal axes). 
+      Points are coloured based on their season, shown by the colour bar on the right.
+      The line of best fit (black) and one to one line (dashed) is also shown, note the axes are different for Melbourne.}
       \label{ch_o3:fig:GEOSChemTroposphereCorrelation}
     \end{figure}
     
+    Removing the monthly mean from each dataset, and dividing by that mean gives the relative monthly difference of each datapoint from the respective dataset determined annual cycle.
+    Figure \ref{ch_o3:fig:GEOSChemTroposphereCorrelationAnomalies} shows the least squares correlation between ozonesonde relative monthly anomalies and their GEOS-Chem counterparts.
+    Again the season is coloured, and removal of the monthly mean removes the summer and winter clumping which could be seen in figure \ref{ch_o3:fig:GEOSChemTroposphereCorrelation}.
+    The correlation coefficients are lower, since the model and the measurement both show the same seasonal trends this is expected.
+    What this plot shows is the correlation between simulated tropospheric columns being above (or below) average as well as the ozonesonde measured columns being above (or below) average.
+    The slopes are not one to one, which suggests the variance in sondes is not well matched by variance in simulated output.
+    This effect is strongest at the Davis and Macquarie Island stations, and is exacerbated when the seasonal cycle is removed.
+    
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/Ozone/station_correlations_anomalies.png}
+      \caption{Correlation between relative difference of tropospheric ozone column from the monthly mean between profiles modelled by GEOS-Chem (vertical axes) and profiles calculated from ozone sondes (horizontal axes). 
+      The line of best fit (black) and one to one line (dashed) is also shown.}
+      \label{ch_o3:fig:GEOSChemTroposphereCorrelationAnomalies}
+    \end{figure}
+    
+    (TODO: Update after model is rerun)
+    Quantitatively, the modelled tropospheric profile correlates reasonably well with the ozone sonde profiles, with correlation coefficients listed in table \ref{ch_o3:tab:station_correlations}.
+    Davis has a strong correlation ($r=0.527$) between sonde and simulated tropospheric column, which weakens greatly ($r=0.243$) when the season is removed.
+    This suggests the model has the season and amplitude of tropospheric ozone fairly well simulated over larger time scales, but may lack accuracy when examining time periods of less than a few months.
+    Macquarie and Melbourne are less affected by the removal of the seasonal cycle.
+    Melbourne has a correlation coefficient greater than $0.5$ with or without the seasonal cycle, showing that the model not only represents the larger time scales fairly well, but also has some accuracy catching days which are higher or lower than the monthly average.
+    
+    \begin{table}
+    % TODO: Update after model is rerun
+    \begin{tabular}{ | c  c  c  c  c  c | }
+      \hline
+      \textbf{Site} & \textbf{direct} & & \textbf{anomaly$^a$} & & \textbf{compared}
+      \\            & r  & r$^2$      & r & r$^2$   & \textbf{(N)}
+      \\ \hline
+      Davis & 0.527 & 0.278 & 0.243 & & 127
+      \\
+      Macquarie Island &  0.397 & 0.158 & 0.322 & & 259
+      \\ %\hline
+      Melbourne & 0.583 & 0.340 & 0.544 & & 277
+      \\ \hline
+    \end{tabular}
+    \caption{Correlations between GEOS-Chem and ozonesonde tropospheric ozone column.
+    \hspace{\textwidth} \\ 
+    ${}^a$Relative and normalised to monthly mean from GEOS-Chem and ozone sonde for respective data. \hspace{\textwidth} \\ }
+    \label{ch_o3:tab:station_correlations}
+    \end{table}
+        
     TODO: show modelled daily cycle?
     Recall that the profiles are output every 6 hours, so as well as getting the overall profile average it is easy to determine the daytime and night time average by only looking at particular hours.
     GEOS-Chem uses GMT/UTC time, outputting 4 profiles per day at 0~hrs, 6~hrs, 12~hrs, and 18~hrs.
