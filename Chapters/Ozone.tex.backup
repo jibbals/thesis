@@ -333,8 +333,15 @@
   
 \section{GEOS-Chem ozonesonde comparison}
   
-  \subsection{GEOS-Chem UCX}
-    TODO: Describe UCX run.
+  \subsection{GEOS-Chem stratospheric unified chemistry extension (UCX)}
+    GEOS-Chem version 10.01 is a global chemical-transport model developed at Harvard \citep{Bey2001}, which includes transport, emission, deposition, chemical creation and destruction of ozone and 103 other trace gases throughout the troposphere.
+    The stratospheric chemistry, including photolysis, is also modeled and stratosphere-troposphere coupling is calculated with the addition of UCX \citep{Eastham2014}, which also includes a further 28 trace gases.
+    Various emissions used by GEOS-Chem as boundary conditions are taken from an extended version of Model of Emissions of Gases and Aerosols from Nature version 2.1 (MEGAN2.1) \citep{Guenther2012}.
+    Atmospheric parameters and boundary conditions are sourced from NASA/GMAO's GEOS-5 operational data products.
+    
+    GEOS-Chem values used within this chapter are based on a simulation using UCX from 2004-2013 exclusive, with 2004 used as a spinup year.
+    GEOS-Chem uses measurements from the Total Ozone Mapping Spectrometer (TOMS) satellite instrument with the Fast-JX photolysis rate solver customised for use in the stratosphere in order to simulate stratospheric ozone photolysis.
+    Our GEOS-Chem run included a fix for properly reading the TOMS information, GEOS-Chem 10.01 mishandles the missing values otherwise.
     
   \subsection{Determining tropospheric ozone from GEOS-Chem}
     GEOS-Chem allows certain diagnostics, along with any tracer, to be output at higher temporal resolution for a list of latitude and longitude based boxes.
@@ -491,7 +498,7 @@
     % TODO: Update after model is rerun
     \begin{tabular}{ | c  c  c  c  c  c | }
       \hline
-      \textbf{Site} & \textbf{direct} & & \textbf{anomaly} & & \textbf{compared}
+      \textbf{Site} & \textbf{direct} & & \textbf{anomaly$^a$} & & \textbf{compared}
       \\            & r  & r$^2$      & r & r$^2$   & \textbf{(N)}
       \\ \hline
       Davis & 0.527 & 0.278 & 0.243 & & 127
@@ -501,7 +508,9 @@
       Melbourne & 0.583 & 0.340 & 0.544 & & 277
       \\ \hline
     \end{tabular}
-    \caption{Correlations between GEOS-Chem and ozonesonde tropospheric ozone column.}
+    \caption{Correlations between GEOS-Chem and ozonesonde tropospheric ozone column.
+    \hspace{\textwidth} \\ 
+    ${}^a$Relative and normalised to monthly mean from GEOS-Chem and ozone sonde for respective data. \hspace{\textwidth} \\ }
     \label{ch_o3:tab:station_correlations}
     \end{table}
         
@@ -511,5 +520,8 @@
     The local offset in time at Davis, Macquarie Island, and Melbourne is \+7~hrs, \+11~hrs, \+10~hrs respectively.
     
   \subsection{Estimation of southern ocean STT flux}
-    
+    A simplistic calculation of how much ozone in the southern high latitudes is due to STT is made through the following method.
+    STT event likelihood, multiplied by STT event tropospheric column contribution, multiplied by southern high latitude tropospheric ozone columns, averaged seasonally.
+    The monthly likelihood of STT events is determined from the ratio of detected STT events over sonde launches.
+    The monthly tropospheric STT column contribution is calculated from the flux calculation 
     
