@@ -448,7 +448,7 @@
     
     Generally the vertical resolution of the GEOS-Chem ozone profile is too coarse to capture enough detail to determine whether or not an STT event is likely.
     Modelled Ozone profiles have roughly 30 levels below the tropopause, while the ozonesondes have upwards of 100.
-    Figure TODO \ref{ch_o3:fig:GEOSChemEventProfilesSummary} shows the best and worst examples of the ozone profiles simulated and recorded above the three stations during detected STTs.
+    Figure TODO: \ref{ch_o3:fig:GEOSChemEventProfilesSummary} shows the best and worst examples of the ozone profiles simulated and recorded above the three stations during detected STTs.
     These best and worst examples are determined qualitatively, and are shown as examples of the model-measurement differences.
     
     \begin{figure}[!htbp]
@@ -523,5 +523,20 @@
     A simplistic calculation of how much ozone in the southern high latitudes is due to STT is made through the following method.
     STT event likelihood, multiplied by STT event tropospheric column contribution, multiplied by southern high latitude tropospheric ozone columns, averaged seasonally.
     The monthly likelihood of STT events is determined from the ratio of detected STT events over sonde launches.
-    The monthly tropospheric STT column contribution is calculated from the flux calculation 
+    The monthly fraction of tropospheric ozone column due to STT is calculated from the averaging the STT contributions binned by month.
+    The southern high latitude tropospheric column is computed from the monthly averaged tropospheric ozone columns output by GEOS-Chem, binned into months between 2005 and 2013 inclusive.
+    This modelled ozone column is the average between 55$^{\circ}$S and 85$^{\circ}$S for all longitudes.
+    The equation is straightforward once the required components are all computed:
+    \begin{equation*}
+      Flux_i = l_i \times f_i \times tropO3_i
+    \end{equation*}
+    where i subscripts index the month (Jan - Dec), Flux is our estimate of STT contribution to the tropospheric ozone column, l and f represent the likelihood and contributary fraction of STT events respectively.
+    Figure \ref{ch_o3:fig:SOExtrapolation} shows the seasonal STT contribution calculated this way.
+    
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/Ozone/SO_extrapolation.png}
+      \caption{Top panel shows the estimated STT contribution to tropospheric ozone VC. Bottom panel shows the three factors multiplied together in order to produce the estimation. Units for l and f are on the right, while units for ozone VC amounts are on the left.}
+      \label{ch_o3:fig:SOExtrapolation}
+    \end{figure}
+    
     
