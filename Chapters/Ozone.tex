@@ -333,16 +333,16 @@
 
   
 \section{GEOS-Chem ozonesonde comparison}
+  GEOS-Chem is a global chemical transport model \citep{Bey2001}, which includes transport, emission, deposition, chemical production and destruction of ozone and 103 other trace gases throughout the troposphere along with stratospheric chemistry, including photolysis. 
+  Stratosphere-troposphere coupling is calculated using the stratospheric unified chemistry extension (UCX) \citep{Eastham2014}, which includes a further 28 trace gases.
+  Transport is driven by assimilated meteorological fields from the Goddard Earth Observing System (GEOS-5) maintained by the Global Modeling and Assimilation Office (GMAO) at NASA.
   
-  \subsection{GEOS-Chem stratospheric unified chemistry extension (UCX)}
-    GEOS-Chem version 10.01 is a global chemical-transport model developed at Harvard \citep{Bey2001}, which includes transport, emission, deposition, chemical creation and destruction of ozone and 103 other trace gases throughout the troposphere.
-    The stratospheric chemistry, including photolysis, is also modeled and stratosphere-troposphere coupling is calculated with the addition of UCX \citep{Eastham2014}, which also includes a further 28 trace gases.
-    Various emissions used by GEOS-Chem as boundary conditions are taken from an extended version of Model of Emissions of Gases and Aerosols from Nature version 2.1 (MEGAN2.1) \citep{Guenther2012}.
-    Atmospheric parameters and boundary conditions are sourced from NASA/GMAO's GEOS-5 operational data products.
-    
-    GEOS-Chem values used within this chapter are based on a simulation using UCX from 2004-2013 exclusive, with 2004 used as a spinup year.
-    GEOS-Chem uses measurements from the Total Ozone Mapping Spectrometer (TOMS) satellite instrument with the Fast-JX photolysis rate solver customised for use in the stratosphere in order to simulate stratospheric ozone photolysis.
-    Our GEOS-Chem run included a fix for properly reading the TOMS information, GEOS-Chem 10.01 mishandles the missing values otherwise.
+  GEOS-Chem values used within this chapter are based on a simulation using UCX from 2004-2013, with 2004 used as a spinup year.
+  The simulation uses 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution, with 72 vertical levels from the surface to 0.1~hPa.
+  Biogenic emissions of organic chemicals are determined by the Model of Emissions of Gases and Aerosols from Nature (MEGAN) version 2.1 extended by Guenther et al \citep{Guenther2012}.
+  Anthropogenic emissions are given by the Emissions Database for Global Atmospheric Research (EDGAR) version 4.2.
+  Our simulation was modified from the standard v10-01 to a fix a bug in the treatment of the Total Ozone Mapping Spectrometer (TOMS) satellite data used to calculate photolysis (see TODO:wiki entry for fix or supplementary).
+  GEOS-Chem uses measurements from the Total Ozone Mapping Spectrometer (TOMS) satellite instrument with the Fast-JX photolysis rate solver customised for use in the stratosphere in order to simulate stratospheric ozone photolysis.
     
   \subsection{Determining tropospheric ozone from GEOS-Chem}
     GEOS-Chem allows certain diagnostics, along with any tracer, to be output at higher temporal resolution for a list of latitude and longitude based boxes.
