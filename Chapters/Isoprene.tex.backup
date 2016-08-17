@@ -288,15 +288,15 @@
     \end{equation}
     $\nabla I$ can also be expressed as the integral of the absorption slices over optical depth increments: 
     \begin{equation*}
-      \nabla I = \int_0^{\tau_v}{\frac{\delta I_B}{\delta \tau} \mathrm{d}\tau}
+      \nabla I = \int_0^{\tau_v}{\frac{\partial I_B}{\partial \tau} \mathrm{d}\tau}
     \end{equation*}
     which can be placed into equation \ref{ch_isop:eqn:AMFthin}:
     \begin{equation*}
-      AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\delta \ln{I_B}}{\delta \tau} \mathrm{d}\tau}
+      AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
     \end{equation*}
     and rewritten as:
     \begin{equation} \label{ch_isop:eqn:AMFcross}
-      AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\delta \ln{I_B}}{\delta \tau} \alpha(z)\eta(z)\mathrm{d}z}
+      AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
     \end{equation}
     where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. This uses the attenuation cross section relationship to optical depth (see section \ref{ch_isop:sec:satelliteHCHO:crosssection}).
 
@@ -307,12 +307,12 @@
 
     This is the same as $ \tau_v = \Omega_v \alpha_e $, which we can place into equation \ref{ch_isop:eqn:AMFcross} to obtain:
     \begin{equation*}
-      AMF=-\int_0^\infty{ \frac{\delta \ln{I_B}}{\delta \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
+      AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
     \end{equation*}
 
     Defining w(z) as the scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
     \begin{equation}
-      w(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\delta \ln{I_B}}{\delta \tau}
+      w(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
     \end{equation}
     and vertical shape factor S$_z$(z) representing a normalized vertical number density profile: 
     \begin{equation} \label{ch_isop:eqn:ShapeFactor}
@@ -331,11 +331,11 @@
     Mie scattering and clouds can complicate the calculation of w(z), however tables of values for this function at various parameter values can be used with modeled vertical shape factors for local AMF calculations.
     
     Using the vertical coordinate sigma ($\sigma$), which is related to pressure (P) by $P=\sigma \left( P_S - P_T \right) + P_T$, where subscripts S and T represent earth surface and top of the atmosphere respectively.
-    The hydrostatic relation $P = \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
-    \begin{equation*}
-      \rho_a g z = \sigma \left( P_S - P_T \right) + P_T \\
-      \mathrm{d}\sigma = \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
-    \end{equation*}
+    The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
+    \begin{align*}
+      \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
+      \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
+    \end{align*}
     
     Substitution into \ref{ch_isop:eqn:AMFintwSdz} gives AMF using the sigma coordinates:
     \begin{equation} \label{ch_isop:eqn:AMFintwSdsigma}
@@ -459,12 +459,19 @@
     \label{ch_isop:tab:OMIQualityFlag}
     \end{table}
     
-  \subsection{Reading OMHCHO daily slant columns}
-    Each day the AURA satellite sweeps over the sunny side of the planet, recording roughly 90~k pixels, of which around 80~k are classified as good.
-    Each pixel contains several important peices of data which I use later: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, scattering weight, viewing zenith angle, solar zenith angle, latitude, longitude, and quality flag.
-    All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
+  One final selection of the data is removed prior to calculation and analysis due to instrument sensitivity issues.
+  This removed data is based on the latitude of the satellite measurement, high northern and southern latitudes are removed as the effect of both the high solar zenith angle and (over arctic regions) the high albedo cause anomalous readings which are hard to correct.
+  The latitudes removed from analysis for OMI satellite data are based on the 95th(TODO: Choose percentile, implement moving latitude filter) percentile of `high' scattering weight profiles, determined per month (TODO: or per 8 day average?).
+  
     
-    The shape factors and scattering weights lie along a z-axis which is vertically resolved to 47 layers and is shown in figure TODO: make figure showing this stuff and an example profile.
+  \subsection{Reading OMHCHO daily slant columns}
+    Each day the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 80~k are classified as good.
+    Each pixel contains several important peices of data which I use later: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weight, vertical altitudes (hPa) used with scattering weights, viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, and quality flag.
+    All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
+    Each pixel and it's relevant data are saved in a long list, around 1.1 million pixels per day.
+    As well as the data directly read from the OMI swath files, further information is added to each pixel.
+    This is the new AMF calculated through replacing the apriori vertical profile with the newer GEOS-Chem simulated profile, which is described in section \ref{ch_isop:sec:recalculating_AMF_description}.
+    The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers and is shown in figure TODO: make figure showing this stuff and an example profile.
     
   \subsection{Regridding to x by x 8-day averaged vertical columns}
     TODO: how this is done, and how we measure uncertainty, and how much uncertainty improved by this.
@@ -510,6 +517,7 @@
     TODO
   
   \subsection{Recalculating the AMF to create our own vertical HCHO columns}
+  \label{ch_isop:sec:recalculating_AMF_description}
     OMI's apriori shape factor is based on the GEOS-Chem model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
     Taking a more recent GEOS-Chem apriori shape factor and integrating along the vertical axis using equation \ref{ch_isop:eqn:AMFintwSdz} gives us a new AMF (AMF$_n$).
     This is done in Python using simple rectangular integration.
@@ -596,7 +604,7 @@
     The track index (i) relates a the measurement to one of the 60 left to right columns of data.
     Corrections for each measurement are calculated by taking the difference between the measured slant column and the apriori slant column as follows:
     \begin{equation} \label{ch_isop:eqn:reference_sector_correction}
-      Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) * AMF(i,j)
+      Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF}(i,j)
     \end{equation}
     where j represents a latitude index and $VC_{GEOS-Chem}(lat)$ represents the apriori reference sector vertical column HCHO at the latitude corresponding to j.
     Note that the correction is in molecules per cm$^2$.
