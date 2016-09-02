@@ -288,15 +288,15 @@
     \end{equation}
     $\nabla I$ can also be expressed as the integral of the absorption slices over optical depth increments: 
     \begin{equation*}
-      \nabla I = \int_0^{\tau_v}{\frac{\delta I_B}{\delta \tau} \mathrm{d}\tau}
+      \nabla I = \int_0^{\tau_v}{\frac{\partial I_B}{\partial \tau} \mathrm{d}\tau}
     \end{equation*}
     which can be placed into equation \ref{ch_isop:eqn:AMFthin}:
     \begin{equation*}
-      AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\delta \ln{I_B}}{\delta \tau} \mathrm{d}\tau}
+      AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
     \end{equation*}
     and rewritten as:
     \begin{equation} \label{ch_isop:eqn:AMFcross}
-      AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\delta \ln{I_B}}{\delta \tau} \alpha(z)\eta(z)\mathrm{d}z}
+      AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
     \end{equation}
     where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. This uses the attenuation cross section relationship to optical depth (see section \ref{ch_isop:sec:satelliteHCHO:crosssection}).
 
@@ -307,12 +307,12 @@
 
     This is the same as $ \tau_v = \Omega_v \alpha_e $, which we can place into equation \ref{ch_isop:eqn:AMFcross} to obtain:
     \begin{equation*}
-      AMF=-\int_0^\infty{ \frac{\delta \ln{I_B}}{\delta \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
+      AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
     \end{equation*}
 
     Defining w(z) as the scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
     \begin{equation}
-      w(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\delta \ln{I_B}}{\delta \tau}
+      w(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
     \end{equation}
     and vertical shape factor S$_z$(z) representing a normalized vertical number density profile: 
     \begin{equation} \label{ch_isop:eqn:ShapeFactor}
@@ -331,11 +331,11 @@
     Mie scattering and clouds can complicate the calculation of w(z), however tables of values for this function at various parameter values can be used with modeled vertical shape factors for local AMF calculations.
     
     Using the vertical coordinate sigma ($\sigma$), which is related to pressure (P) by $P=\sigma \left( P_S - P_T \right) + P_T$, where subscripts S and T represent earth surface and top of the atmosphere respectively.
-    The hydrostatic relation $P = \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
-    \begin{equation*}
-      \rho_a g z = \sigma \left( P_S - P_T \right) + P_T \\
-      \mathrm{d}\sigma = \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
-    \end{equation*}
+    The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
+    \begin{align*}
+      \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
+      \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
+    \end{align*}
     
     Substitution into \ref{ch_isop:eqn:AMFintwSdz} gives AMF using the sigma coordinates:
     \begin{equation} \label{ch_isop:eqn:AMFintwSdsigma}
@@ -356,7 +356,6 @@
       AK(z) = \frac{w(z)}{AMF}
     \end{equation}
     Note that this is an approximation based on the OMI satellite HCHO dataset as performed in \citet{Gonzalez2015}.
-    
     
     
 %----------------------------------------------------------------------------------------
@@ -422,15 +421,14 @@
    
     Once the smearing sensitive grid squares are filtered out, application of equation \ref{ch_isop:eqn:isop_yield} gives us an estimate of isoprene emissions across the nation.
 
-  \subsection{Quality filtering HCHO slant columns}
+  \subsection{Quality filtering OMI HCHO slant columns}
     TODO: Quality flags and cloud cover metric uses, and discussion, along with statistics like how many datapoints are removed.
     
     The OMI dataset has a quality flag which can be used to remove unlikely or poor satellite measurements.
     The states represented by this quality flag are shown in table \ref{ch_isop:tab:OMIQualityFlag} which is taken from \citet{OMI_Readme}.
     Filtering bad or missing measurement pixels is preformed prior to any other filtering.
-    Any pixel with a cloud fraction of greater than 40\% is also removed at this point, as is done in \citet{Gonzalez2015, DeSmedt2015}.
-    The cloud fraction with each pixel is provided with the OMHCHO dataset, however its source is the OMI cloud product, OMCLDO2.
-    To give an idea of how much data is filtered out, around 30\% of the pixels which remain after filtering out the bad or missing data are subsequently removed due to cloudiness.
+    Any pixel with a cloud fraction of greater than 40\% is also removed, after the pixel is used in determining the reference sector correction, as is done in \citet{Gonzalez2015, DeSmedt2015}.
+    In \citet{Martin2003}, pixels with more than half of the backscattered intesity from the cloudy sky fraction are removed, in effect removing pixels with more than ~40\% cloud fraction before calculating the AMF for NO$_2$ slant columns. 
     
     \begin{table}[H]
     \begin{tabular}{ | l | l | p{10cm} |}
@@ -458,6 +456,23 @@
     \caption{OMI quality flag values table from \citet{OMI_Readme}}
     \label{ch_isop:tab:OMIQualityFlag}
     \end{table}
+    
+    The cloud fraction with each pixel is provided with the OMHCHO dataset, however its source is the OMI cloud product, OMCLDO2.
+    To give an idea of how much data is filtered out, around 30\% of the pixels which remain after filtering out the bad or missing data are subsequently removed due to cloudiness.
+    
+    Further filtering is performed to remove the measurements which are most likely to be unrealistic: pixels wit a solar zenith angle greater than 60$^\circ$, and those with column density outside the range $-0.5 \times 10^{16}$ to $10^{17} $~molecules cm$^{-2}$.
+    These are similar filters to those applied in TODO: read and cite Zhu et al. (2016), add similar justification if succinct.
+    This final filter is required due to currently unexplained large negative values which occur in the OMI HCHO product increasingly over time.
+    Figure TODO: shows how unfiltered HCHO columns are affected by a small set of highly negative values which heavily affect the mean column amount over any region.
+    
+    
+    
+    One final selection of the data is removed prior to calculation and analysis due to instrument sensitivity issues.
+    This removed data is based on the latitude of the satellite measurement, high northern and southern latitudes are removed as the effect of both the high solar zenith angle and (over arctic regions) the high albedo cause anomalous readings which are hard to correct.
+    The latitudes removed from analysis for OMI satellite data are TODO:
+    Option 1: based on the 95th( would need to choose percentile, and implement moving latitude filter) percentile of `high' scattering weight profiles, determined per month (or per 8 day average).
+    Option 2: flat based on lats removed by other publications. eg remove all pixels outside of $0^\circ \pm 60^\circ$.
+  
     
   \subsection{Reading OMHCHO daily slant columns}
     Each day the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 80~k are classified as good.
