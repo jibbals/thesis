@@ -147,7 +147,7 @@
     It is worth noting that tropopause altitudes at Davis may exceed 11~km altitude under certain synoptic conditions \citep{Alexander2013}: the relation of tropopause altitude with individual STT events will be investigated in detail below.
 
     \begin{figure}\begin{center}
-      \includegraphics[width=0.8\columnwidth]{Figures/Ozone/tpheights}
+      \includegraphics[width=0.8\columnwidth]{Figures/Ozone/tpheights.png}
       \caption{
 	Monthly mean tropopause altitudes (minimum of lapse-rate and ozone defined tropopauses). Dashed lines show 'event only' seasonal tropopause altitudes.%
       }
@@ -155,7 +155,7 @@
     \end{center}\end{figure}
 
     \begin{figure}\begin{center}
-      \includegraphics[width=0.8\columnwidth]{Figures/Ozone/seasonaltropozone}
+      \includegraphics[width=0.8\columnwidth]{Figures/Ozone/seasonaltropozone.png}
       \caption{
 	Seasonally averaged ozone over Davis, Macquarie, and Melbourne measured by ozonesondes.
 	Black solid lines show seasonal tropopause heights.%
@@ -277,9 +277,10 @@
 %----------------------------------------------------------------------------------------
 \section{Stratosphere to Troposphere flux analysis}
   \subsection{Determining a minimum estimate of stratospheric influence}
-    Determining how much ozone is transported from the stratophere with only a two dimensional line vector of ozone concentrations is tricky. 
-    It is possible to give a lower bound on stratospheric ozone influence by determining the ozone spike above a baseline amount for each column. 
-    This is a lower bound as it ignores dispersed ozone and any secondary peaks which may also be due to stratospheric transport.
+    Determining how much ozone is transported from the stratophere with only a two dimensional line vector of ozone concentrations is questionable.
+    It is assumed that the two dimensional profile is a vertical straight line, which accurately represents the ozone profile in the horizontal dimensions.
+    A conservative estimate on stratospheric ozone influence is determined through analysis of the ozone spike above a baseline amount for each column.
+    This is a lower bound as it ignores dispersed ozone, baseline enhancements, and any secondary peaks which may also be due to stratospheric transport.
     
     Using our estimate of STT ozone flux (see section \ref{ch_o3:sec:bandpassfilter}) we find a lower bound for the STT ozone flux over each of our three sites, excluding possible fire influence.
     Figure \ref{ch_o3:fig:fluxsummary} shows the climatological mean fraction of total tropospheric column ozone attributed to stratospheric ozone intrusions at each site, on days when an STT event occurs. These flux amounts are calculated after removal of the biomass burning events, although leaving the burning events in changes the means by less than 5\%. The mean fractions of stratospheric ozone are 2--4\%, although the largest fractional ozone in the tropospheric column attributed to stratospheric air exceeds 10\% at all locations.
@@ -332,6 +333,18 @@
 
   
 \section{GEOS-Chem ozonesonde comparison}
+  \subsection{Why compare to a model}
+    TODO: put this into ozonepaper OP
+    Ozone sondes are useful for looking at specific locations with high resolution, and in this work they provide an estimate of both STT occurence rates and STT ozone flux.
+    This information can be used in conjunction with global scale information in order to extrapolate ozone transport over a large area.
+    GEOS-Chem is used to simulate the global ozone concentrations.
+    In order to check that the model is reasonable, some simple validation is performed comparing sonde data to colocated grid boxes in GEOS-Chem, using the tropospheric columns of ozone as the metrics.
+    After the model is validated this way, an extrapolation is performed and the stratospherically sourced ozone is estimated over the latitude range from 30$^{\circ}$S to 75$^{\circ}$S (TODO: Update these numbers with final decided ones, and give a reason).
+    Examination of the GEOS-Chem output also gives us an insight as to whether the simulation can be used on its own in order to estimate STT event distribution and magnitude.
+    TODO: end OP
+    
+    A secondary reason to compare ozonesondes to GEOS-Chem is to check that GEOS-Chem chemistry is reasonable and robust. 
+    Model validation at any scale increases confidence in the model as well as providing background information to scientists who seek to expand or improve the model.
   
   \subsection{GEOS-Chem stratospheric unified chemistry extension (UCX)}
     GEOS-Chem version 10.01 is a global chemical-transport model developed at Harvard \citep{Bey2001}, which includes transport, emission, deposition, chemical creation and destruction of ozone and 103 other trace gases throughout the troposphere.
@@ -368,7 +381,7 @@
     
     Figure \ref{ch_o3:fig:StationSeriesGEOSChem} shows the time series of tropospheric ozone (TVC$_{O_3}$) simulated over our three stations from January 1 2005 to January 1 2011.
     Coplotted as stars are the measured tropospheric ozone columns calculated using the GPH and ozone partial pressure recorded by the ozone sondes.
-    Due to our simulation running with horizontal resolution of GEOS-Chem is 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, and the profiles and totals above each site are actually the average over this horizontal area containing each station.
+    The GEOS-Chem simulation uses horizontal resolution of 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, and the profiles and totals above each site are actually the average over the horizontal area containing each station.
     There is good aggreement between the modelled tropospheric ozone columns and the measurements, with matching seasonal cycles and magnitude.
     All three sites have a discernable yearly cycle, with Davis having the least spread as well as the greatest outliers.
     These outlying tropospheric ozone columns all occur during the July to September months (TODO: reasons for why? simulated summer turbulence?).
@@ -426,8 +439,8 @@
     Figures \ref{ch_o3:fig:SondeMonthlyProfilesDavis}-\ref{ch_o3:fig:SondeMonthlyProfilesMelbourne} show the measured monthly averaged ozone profile at Davis, Macquarie Island, and Melbourne respectively.
     At Davis, the tropopause level slightly lower in summer and autumn than in winter and spring.
     This yearly variation matches the tropopause heights simulated by GEOS-Chem, and is opposite to the yearly tropopause height cycle seen in Melbourne.
-    Macquarie does not have a seasonal cycle of tropopause heights, which is also not seen in the GEOS-Chem profiles, although the GEOS-Chem tropopause heights are slightly higher at all months.
-    For all three sites the gradient of increasing ozone with increasing altitude is stronger in the GEOS-Chem output than the sonde measurements.
+    Macquarie does not have a seasonal cycle of tropopause heights, which agrees with the GEOS-Chem profiles, although the GEOS-Chem tropopause heights are slightly higher at all months.
+    For Melbourne the gradient of increasing ozone with increasing altitude is stronger in the GEOS-Chem output than the sonde measurements.
     
     \begin{figure}[!htbp]
       \includegraphics[width=\textwidth]{Figures/Ozone/Davis_sonde_monthprofiles.png}
@@ -518,6 +531,21 @@
     Recall that the profiles are output every 6 hours, so as well as getting the overall profile average it is easy to determine the daytime and night time average by only looking at particular hours.
     GEOS-Chem uses GMT/UTC time, outputting 4 profiles per day at 0~hrs, 6~hrs, 12~hrs, and 18~hrs.
     The local offset in time at Davis, Macquarie Island, and Melbourne is \+7~hrs, \+11~hrs, \+10~hrs respectively.
+    
+    TODO: Add this to OP
+    Although GEOS-Chem reasonably matches the ozonesonde tropospheric ozone column, it does not have the resolution required to capture STTs.
+    Figure (TODO: add 3 or so profiles) show the best and worst comparisons of ozone profiles up to 14~km between the ozonesondes and GEOS-Chem.
+    The model output is shown in red, and is the average over 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude which contain the respective sonde release site.
+    The vertical resolution from GEOS-Chem is too low to allow detection of STTs, there are roughly 30 vertical levels up to the tropopause, while sondes have upwards of 100.
+    
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/Ozone/event_profile_comparison.png}
+      \caption{Ozonesonde profiles (black) against GEOS-Chem profiles (red) for three different dates, one over each site.
+      The dates were picked based on subjective visual analysis as follows: left is the best match - , middle is an average case - January 15th, 2007 over Davis, and right is the worst match - .}
+      \label{ch_o3:fig:GEOSChemTroposphereCorrelationAnomalies}
+    \end{figure}
+    
+    TODO: end OP
     
   \subsection{Estimation of southern ocean STT flux}
     A simplistic calculation of how much ozone in the southern high latitudes is due to STT is made through the following method.

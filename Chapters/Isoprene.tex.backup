@@ -460,11 +460,13 @@
     \end{table}
     
   \subsection{Reading OMHCHO daily slant columns}
-    Each day the AURA satellite sweeps over the sunny side of the planet, recording roughly 90~k pixels, of which around 80~k are classified as good.
-    Each pixel contains several important peices of data which I use later: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, scattering weight, viewing zenith angle, solar zenith angle, latitude, longitude, and quality flag.
+    Each day the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 80~k are classified as good.
+    Each pixel contains several important peices of data which I use later: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weight, vertical altitudes (hPa) used with scattering weights, viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, and quality flag.
     All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
-    
-    The shape factors and scattering weights lie along a z-axis which is vertically resolved to 47 layers and is shown in figure TODO: make figure showing this stuff and an example profile.
+    Each pixel and it's relevant data are saved in a long list, around 1.1 million pixels per day.
+    As well as the data directly read from the OMI swath files, further information is added to each pixel.
+    This is the new AMF calculated through replacing the apriori vertical profile with the newer GEOS-Chem simulated profile, which is described in section \ref{ch_isop:sec:recalculating_AMF_description}.
+    The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers and is shown in figure TODO: make figure showing this stuff and an example profile.
     
   \subsection{Regridding to x by x 8-day averaged vertical columns}
     TODO: how this is done, and how we measure uncertainty, and how much uncertainty improved by this.
@@ -510,6 +512,7 @@
     TODO
   
   \subsection{Recalculating the AMF to create our own vertical HCHO columns}
+  \label{ch_isop:sec:recalculating_AMF_description}
     OMI's apriori shape factor is based on the GEOS-Chem model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
     Taking a more recent GEOS-Chem apriori shape factor and integrating along the vertical axis using equation \ref{ch_isop:eqn:AMFintwSdz} gives us a new AMF (AMF$_n$).
     This is done in Python using simple rectangular integration.
@@ -596,7 +599,7 @@
     The track index (i) relates a the measurement to one of the 60 left to right columns of data.
     Corrections for each measurement are calculated by taking the difference between the measured slant column and the apriori slant column as follows:
     \begin{equation} \label{ch_isop:eqn:reference_sector_correction}
-      Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) * AMF(i,j)
+      Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF}(i,j)
     \end{equation}
     where j represents a latitude index and $VC_{GEOS-Chem}(lat)$ represents the apriori reference sector vertical column HCHO at the latitude corresponding to j.
     Note that the correction is in molecules per cm$^2$.

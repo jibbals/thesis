@@ -333,6 +333,17 @@
 
   
 \section{GEOS-Chem ozonesonde comparison}
+  \subsection{Why compare to a model}
+    
+    Ozone sondes are useful for looking at specific locations with high resolution, and in this work they provide an estimate of both STT occurence rates and STT ozone flux.
+    This information can be used in conjunction with global scale information in order to extrapolate ozone transport over a large area.
+    GEOS-Chem is used to simulate the global ozone concentrations.
+    In order to check that the model is reasonable, some simple validation is performed comparing sonde data to colocated grid boxes in GEOS-Chem, using the tropospheric columns of ozone as the metrics.
+    After the model is validated this way, an extrapolation is performed and the stratospherically sourced ozone is estimated over the latitude range from 30$^{\circ}$S to 75$^{\circ}$S (TODO: Update these numbers with final decided ones, and give a reason).
+    Examination of the GEOS-Chem output also gives us an insight as to whether the simulation can be used on its own in order to estimate STT event distribution and magnitude.
+    
+    A secondary reason to compare ozonesondes to GEOS-Chem is to check that GEOS-Chem chemistry is reasonable and robust. 
+    Model validation at any scale increases confidence in the model as well as providing background information to scientists who seek to expand or improve the model.
   
   \subsection{GEOS-Chem stratospheric unified chemistry extension (UCX)}
     GEOS-Chem version 10.01 is a global chemical-transport model developed at Harvard \citep{Bey2001}, which includes transport, emission, deposition, chemical creation and destruction of ozone and 103 other trace gases throughout the troposphere.
@@ -427,8 +438,8 @@
     Figures \ref{ch_o3:fig:SondeMonthlyProfilesDavis}-\ref{ch_o3:fig:SondeMonthlyProfilesMelbourne} show the measured monthly averaged ozone profile at Davis, Macquarie Island, and Melbourne respectively.
     At Davis, the tropopause level slightly lower in summer and autumn than in winter and spring.
     This yearly variation matches the tropopause heights simulated by GEOS-Chem, and is opposite to the yearly tropopause height cycle seen in Melbourne.
-    Macquarie does not have a seasonal cycle of tropopause heights, which is also not seen in the GEOS-Chem profiles, although the GEOS-Chem tropopause heights are slightly higher at all months.
-    For all three sites the gradient of increasing ozone with increasing altitude is stronger in the GEOS-Chem output than the sonde measurements.
+    Macquarie does not have a seasonal cycle of tropopause heights, which agrees with the GEOS-Chem profiles, although the GEOS-Chem tropopause heights are slightly higher at all months.
+    For Melbourne the gradient of increasing ozone with increasing altitude is stronger in the GEOS-Chem output than the sonde measurements.
     
     \begin{figure}[!htbp]
       \includegraphics[width=\textwidth]{Figures/Ozone/Davis_sonde_monthprofiles.png}
@@ -447,10 +458,18 @@
       \label{ch_o3:fig:GEOSChemMonthlyProfilesMelbourne}
     \end{figure}
     
-    Generally the vertical resolution of the GEOS-Chem ozone profile is too coarse to capture enough detail to determine whether or not an STT event is likely.
-    Modelled Ozone profiles have roughly 30 levels below the tropopause, while the ozonesondes have upwards of 100.
-    Figure TODO: \ref{ch_o3:fig:GEOSChemEventProfilesSummary} shows the best and worst examples of the ozone profiles simulated and recorded above the three stations during detected STTs.
+    Although GEOS-Chem reasonably matches the ozonesonde tropospheric ozone column, it does not have the resolution required to capture STTs.
+    Figure \ref{ch_o3:fig:event_profile_comparison} shows the best and worst comparisons of ozone profiles up to 14~km between the ozonesondes and GEOS-Chem.
+    The model output is shown in red, and is the average over 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude which contain the respective sonde release site.
+    The vertical resolution from GEOS-Chem is too low to allow detection of STTs, there are roughly 30 vertical levels up to the tropopause, while sondes have upwards of 100.
     These best and worst examples are determined qualitatively, and are shown as examples of the model-measurement differences.
+    
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/Ozone/event_profile_comparison.png}
+      \caption{Ozonesonde profiles (black) against GEOS-Chem profiles (red) for three different dates, one over each site.
+      The dates were picked based on subjective visual analysis as follows: left is the best match - May 19th 2004 over Macquarie, middle is an average case - January 15th, 2007 over Davis, and right is the worst match - February 3rd 2005 over Melbourne.}
+      \label{ch_o3:fig:event_profile_comparison}
+    \end{figure}
     
     \begin{figure}[!htbp]
       \includegraphics[width=\textwidth]{Figures/Ozone/ModelledEventProfilesSummary.png}
