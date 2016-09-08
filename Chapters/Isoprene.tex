@@ -366,7 +366,7 @@
 
   \subsection{Process Outline}
     First satellite slant columns of formaldehyde for the years 2004 - 2013 will be retreived from NASA, BIRA, etc (TODO: list satellites + sources or reference section).
-    This data needs to be quality assured and will undergo a basic analysis and filtering criteria as is done in several other studies, for example \citet{Marais_2012,Barkley_2013} TODO: more cites.
+    This data needs to be quality assured and will undergo a basic analysis and filtering criteria as is done in several other studies, for example \citet{Marais_2012,Barkley_2013, Bauwens2016} TODO: more cites.
     This filtering generally removes cloudy and uncertain data points, along with instrument anomalies such as the row anomaly experienced by OMI ( todo: cite row anomaly analysis/details ).
     
     In order to reduce uncertainty and increase the utility of the satellite data we regrid it from pointwise single time data points to 8-day averages on a latitude longitude grid which matches our model input and output grid spacing. 
@@ -420,6 +420,10 @@
     As such smearing sensitivity is both spatially and temporally diverse, shown in figure TODO: is a picture of the smearing sensitivity at blahpow.
    
     Once the smearing sensitive grid squares are filtered out, application of equation \ref{ch_isop:eqn:isop_yield} gives us an estimate of isoprene emissions across the nation.
+    
+    Most recently a \citet{Bauwens2016} undertook a similar process to what I am doing, although with slightly different focus, using the IMAGESv2 global CTM instead of GEOS-Chem.
+    They calculate emissions which create the closest match between model and satellite vertical columns, and compare these postiori data with the apriori (satellite data) and independent data sets.
+    (TODO: simple outline of what they did and how my focus is different, this paper will also need to be summarised in the LitReview)
 
   \subsection{Quality filtering OMI HCHO slant columns}
     TODO: Quality flags and cloud cover metric uses, and discussion, along with statistics like how many datapoints are removed.
@@ -483,29 +487,31 @@
     
   \subsection{Reading OMHCHO daily slant columns}
     Each day the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 80~k are classified as good.
-    Each pixel contains several important peices of data which I use later: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weight, vertical altitudes (hPa) used with scattering weights, viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, and quality flag.
+    Each pixel contains several important peices of data which I use later: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weight, vertical altitudes (hPa) used with scattering weights, viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
     All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
     Each pixel and it's relevant data are saved in a long list, around 1.1 million pixels per day.
     As well as the data directly read from the OMI swath files, further information is added to each pixel.
     This is the new AMF calculated through replacing the apriori vertical profile with the newer GEOS-Chem simulated profile, which is described in section \ref{ch_isop:sec:recalculating_AMF_description}.
     The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers and is shown in figure TODO: make figure showing this stuff and an example profile.
     
-  \subsection{Regridding to x by x 8-day averaged vertical columns}
+    TODO: Show an example of OMI swaths.
+    
+  \subsection{Regridding to 0.25 by 0.3125 8-day averaged vertical columns}
     TODO: how this is done, and how we measure uncertainty, and how much uncertainty improved by this.
     
-    Regridded OMI HCHO columns from the are based on 14-15 daily swaths of latitude, longitude coordinated arrays of total vertical column HCHO.
-    In order to regrid these columns each latitude/longitude data point is mapped into a global grid of 0.25$^{\circ}$x0.3125$^{\circ}$ (matching GEOS-Chem native resolution) which may contain up to 15 entries from a particular day's orbits.
-    Total vertical column amount entries are averaged over each 8 days starting on January 1st 2005.
+    Regridded OMI HCHO columns from the are based on 14-15 daily swaths of measurements provided by NASA. 
+    Each swath contains roughly $9 \times 10^4$ pixels, each of which contains various data including latitude, longitude vertical column HCHO, etc.
+    In order to regrid these columns each pixel is mapped into a global grid of 0.25$^{\circ}$x0.3125$^{\circ}$ latitude by longitude (matching GEOS-5 native resolution) which may contain up to 15 entries from a particular day's orbits.
+    Total vertical column amounts (both the satellite original and the columns reprocessed as follows) are averaged over each 8 days starting on January 1st 2005.
     
     TODO: Discuss saving the list of daily entries into a gridded space.
     
-    
     TODO: time per regridding and reprocessing:
-    This mapping is not one to one and does require some processing time as well as RAM and computer storage space.
+    This mapping requires some processing time as well as RAM and computer storage space, and has been performed on the National Computing Infrastructure (NCI) supercomputer cluster.
     In order to reprocess one year of swath files, X GB of daily data was downloaded and then transformed into Y GB of 8-day averaged gridded data.
-    This took around X minutes per day or Y hours per year using 8 concurrent processors on NCI's computer cluster running Python.
-    Along with simple regridding, reprocessing the AMF using our updated version of GEOS-Chem's HCHO profile and reference sector took around Y hours per year.
-    All processing is done using the HDF-EOS5 format.
+    This takes around X minutes per day, and is very parallelisable as each 8 day block is completely independent.
+    Using N$\times 8$ concurrent processors on NCI's computer cluster running Python allows for very fast reprocessing of our entire timeline.
+    As much as possible, processing is done using the HDF-EOS5 format, with GEOS-Chem output being read and processed from bitpunch to HDF-EOS5 prior to reprocessing.
     The scripts to regrid and reprocess the swath data set are available in the supplementary (TODO).
     
   \subsection{Filtering pyrogenic HCHO}
