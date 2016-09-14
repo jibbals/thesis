@@ -494,30 +494,33 @@
     This is the new AMF calculated through replacing the apriori vertical profile with the newer GEOS-Chem simulated profile, which is described in section \ref{ch_isop:sec:recalculating_AMF_description}.
     The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers and is shown in figure TODO: make figure showing this stuff and an example profile.
     
-  \subsection{Regridding to x by x 8-day averaged vertical columns}
+    TODO: Show an example of OMI swaths.
+    
+  \subsection{Regridding to 0.25 by 0.3125 8-day averaged vertical columns}
     TODO: how this is done, and how we measure uncertainty, and how much uncertainty improved by this.
     
-    Regridded OMI HCHO columns from the are based on 14-15 daily swaths of latitude, longitude coordinated arrays of total vertical column HCHO.
-    In order to regrid these columns each latitude/longitude data point is mapped into a global grid of 0.25$^{\circ}$x0.3125$^{\circ}$ (matching GEOS-Chem native resolution) which may contain up to 15 entries from a particular day's orbits.
-    Total vertical column amount entries are averaged over each 8 days starting on January 1st 2005.
+    Regridded OMI HCHO columns from the are based on 14-15 daily swaths of measurements provided by NASA. 
+    Each swath contains roughly $9 \times 10^4$ pixels, each of which contains various data including latitude, longitude vertical column HCHO, etc.
+    In order to regrid these columns each pixel is mapped into a global grid of 0.25$^{\circ}$x0.3125$^{\circ}$ latitude by longitude (matching GEOS-5 native resolution) which may contain up to 15 entries from a particular day's orbits.
+    Total vertical column amounts (both the satellite original and the columns reprocessed as follows) are averaged over each 8 days starting on January 1st 2005.
     
     TODO: Discuss saving the list of daily entries into a gridded space.
     
-    
     TODO: time per regridding and reprocessing:
-    This mapping is not one to one and does require some processing time as well as RAM and computer storage space.
+    This mapping requires some processing time as well as RAM and computer storage space, and has been performed on the National Computing Infrastructure (NCI) supercomputer cluster.
     In order to reprocess one year of swath files, X GB of daily data was downloaded and then transformed into Y GB of 8-day averaged gridded data.
-    This took around X minutes per day or Y hours per year using 8 concurrent processors on NCI's computer cluster running Python.
-    Along with simple regridding, reprocessing the AMF using our updated version of GEOS-Chem's HCHO profile and reference sector took around Y hours per year.
-    All processing is done using the HDF-EOS5 format.
+    This takes around X minutes per day, and is very parallelisable as each 8 day block is completely independent.
+    Using N$\times 8$ concurrent processors on NCI's computer cluster running Python allows for very fast reprocessing of our entire timeline.
+    As much as possible, processing is done using the HDF-EOS5 format, with GEOS-Chem output being read and processed from bitpunch to HDF-EOS5 prior to reprocessing.
     The scripts to regrid and reprocess the swath data set are available in the supplementary (TODO).
     
   \subsection{Filtering pyrogenic HCHO}
     TODO: How modis fire counts are used as well as statistics on removed data points.
     
-    On board NASA's AQUA satellite, the MODIS instrument is used to detect fire activity.
-    The product used here is called MYD14C8H, which takes 8 day averages of fire activity on a 0.5$^{\circ}$ square grid globally.
-    Regridding this product to the native meteorological grid of GEOS5 at 0.25$^{\circ}$ latitude by 0.3125$^{\circ}$ longitude is done in python with an interpolator which maps the values of the new grid rectangles to the value of the nearest grid square.
+    On board NASA's AQUA satellite, the MODIS instrument is used to detect daytime fire activity.
+    The product used here is called MYD14C8H (TODO: cite product), which takes 8 day averages of fire activity on a 0.5$^{\circ}$ square grid globally.
+    The X instrument on board NASA's TERRA satellite is used to detect night time fire activity, this product is called Y (TODO: find and cite).
+    Regridding these products to the native meteorological grid of GEOS5 at 0.25$^{\circ}$ latitude by 0.3125$^{\circ}$ longitude is done in python with an interpolator which maps the values of the new grid rectangles to the value of the nearest grid square.
     An example of the change in resolution is provided in figure \ref{ch_isop:fig:modisgridspace}, where the grids are shown over a basic map of Tasmania.
     The direct affect of this interpolation is shown as an example in figure \ref{ch_isop:fig:modisinterpolation}, which is showing the regridded MODIS fire count over Australia from January 2005 (avg of first 8 days) in two subplots.
     
@@ -533,6 +536,8 @@
       This example uses MODIS fire counts for 1-8 January 2005.}
       \label{ch_isop:fig:modisinterpolation}
     \end{center}\end{figure}
+    
+    
     
   \subsection{Filtering anthropogenic HCHO}
     TODO
