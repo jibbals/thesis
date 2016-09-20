@@ -517,10 +517,9 @@
   \subsection{Filtering pyrogenic HCHO}
     TODO: How modis fire counts are used as well as statistics on removed data points.
     
-    On board NASA's AQUA satellite, the MODIS instrument is used to detect daytime fire activity.
-    The product used here is called MYD14C8H (TODO: cite product), which takes 8 day averages of fire activity on a 0.5$^{\circ}$ square grid globally.
-    The X instrument on board NASA's TERRA satellite is used to detect night time fire activity, this product is called Y (TODO: find and cite).
-    Regridding these products to the native meteorological grid of GEOS5 at 0.25$^{\circ}$ latitude by 0.3125$^{\circ}$ longitude is done in python with an interpolator which maps the values of the new grid rectangles to the value of the nearest grid square.
+    On board NASA's AQUA satellite, the MODIS instrument is used to detect fire activity.
+    The product used here is called MYD14C8H (\citep{Giglio2006}), which looks at fire activity over eight days on a 0.5$^{\circ}$ square grid globally.
+    Regridding the product to the native meteorological grid of GEOS5 at 0.25$^{\circ}$ latitude by 0.3125$^{\circ}$ longitude is done in python with an interpolator which maps the values of the new grid rectangles to the value of the nearest grid square.
     An example of the change in resolution is provided in figure \ref{ch_isop:fig:modisgridspace}, where the grids are shown over a basic map of Tasmania.
     The direct affect of this interpolation is shown as an example in figure \ref{ch_isop:fig:modisinterpolation}, which is showing the regridded MODIS fire count over Australia from January 2005 (avg of first 8 days) in two subplots.
     
@@ -537,7 +536,15 @@
       \label{ch_isop:fig:modisinterpolation}
     \end{center}\end{figure}
     
+    Figure \ref{ch_isop:fig:fireexclusionexample} shows an example of the total column HCHO calculated using GEOS-Chem aprioris ($\Omega_{GEOS}$) before and after using the MYD14C8H product to exclude fire influenced pixels.
+    (TODO: show time series of how many pixels are removed and discuss if this causes any issues down the line)
+    % January 1, 2005 : 113384 / 130295 nan entries before and after fire exclusion within 60 degrees of equator
     
+    \begin{figure}[!htbp]\begin{center}
+      \includegraphics[width=\textwidth]{Figures/fire_exclusion_aus_8d.png}
+      \caption{Vertical column HCHO calculated using OMI satellite swaths with GEOS-Chem aprioris, averaged over 1-8 January 2005 with and without fire affected squares removed.}
+      \label{ch_isop:fig:fireexclusionexample}
+    \end{center}\end{figure}
     
   \subsection{Filtering anthropogenic HCHO}
     TODO
