@@ -366,8 +366,9 @@
 
   \subsection{Process Outline}
     First satellite slant columns of formaldehyde for the years 2004 - 2013 will be retreived from NASA, BIRA, etc (TODO: list satellites + sources or reference section).
-    This data needs to be quality assured and will undergo a basic analysis and filtering criteria as is done in several other studies, for example \citet{Marais_2012,Barkley_2013, Bauwens2016} TODO: more cites.
+    This data needs to be quality assured and will undergo a basic analysis and filtering criteria as is done in several other studies, for example \citet{Marais_2012,Barkley_2013, Bauwens2016, Zhu2016} TODO: more cites.
     This filtering generally removes cloudy and uncertain data points, along with instrument anomalies such as the row anomaly experienced by OMI ( todo: cite row anomaly analysis/details ).
+    A full account of the filters used when reading OMI satellite data is given in section \ref{ch_isop:sec:OMIFiltering}.
     
     In order to reduce uncertainty and increase the utility of the satellite data we regrid it from pointwise single time data points to 8-day averages on a latitude longitude grid which matches our model input and output grid spacing. 
     Using the 8-day average reduces the uncertainty in each datapoint significantly, TODO: citet marais and barkley uncertainty improvements, and point to section with our estimates of the improvements over Australia.
@@ -382,9 +383,10 @@
     Taking the biogenic slant columns, scattering weights, and apriori estimates of HCHO vertical profiles we determine vertical HCHO column amounts.
     This is an in depth process involving radiative transfer modelling in order to work out satellite sensitivities at various altitudes, as well as the effect from the local HCHO profile on those sensitivities.
     Several of these required data are available from the satellite data products, including the scattering weights and the zenith angles required to determine an AMF at any particular measured point.
+    In this work the shape factor is recalculated from GOES-Chem, with the associated OMI per-pixel scattering weights unchanged. 
     
     Each satellite slant column measurement is corrected by some amount, based on the divergence from a modeled reference sector.
-    The reference sector correction method corrects for several problems, however it introduces some a priori model influence.
+    The reference sector correction method corrects for several problems, however it introduces some apriori model influence.
     One of the problems removed through this correction method is instrument degradation, which can introduce bias over time.
     Another is the possible influence of varying dead/hot pixel masks across 2-D detector arrays such as OMI \citep{DeSmedt2015}.
     This method also corrects for the errors introduced through correlations between BrO and HCHO absorption cross sections, which are especially significant at high latitudes \citep{Gonzalez2015}.
@@ -426,6 +428,7 @@
     (TODO: simple outline of what they did and how my focus is different, this paper will also need to be summarised in the LitReview)
 
   \subsection{Quality filtering OMI HCHO slant columns}
+    \label{ch_isop:sec:OMIFiltering}
     TODO: Quality flags and cloud cover metric uses, and discussion, along with statistics like how many datapoints are removed.
     
     The OMI dataset has a quality flag which can be used to remove unlikely or poor satellite measurements.
@@ -465,7 +468,7 @@
     To give an idea of how much data is filtered out, around 30\% of the pixels which remain after filtering out the bad or missing data are subsequently removed due to cloudiness.
     
     Further filtering is performed to remove the measurements which are most likely to be unrealistic: pixels wit a solar zenith angle greater than 60$^\circ$, and those with column density outside the range $-0.5 \times 10^{16}$ to $10^{17} $~molecules cm$^{-2}$.
-    These are similar filters to those applied in TODO: read and cite Zhu et al. (2016), add similar justification if succinct.
+    These are similar filters to those applied in (TODO: read \citet{Zhu2016}, add similar justification if succinct).
     This final filter is required due to currently unexplained large negative values which occur in the OMI HCHO product increasingly over time.
     Figure \ref{ch_isop:fig:OMI_negative_hist} shows how unfiltered HCHO columns are affected by a small set of highly negative values which heavily affect the mean column amount over any region.
     The histograms here show the negative (left) and positive (right) total column HCHO measurements from a subset of swaths over Australia, on the 18th of March 2013.
@@ -486,8 +489,8 @@
   
     
   \subsection{Reading OMHCHO daily slant columns}
-    Each day the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 80~k are classified as good.
-    Each pixel contains several important peices of data which I use later: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weight, vertical altitudes (hPa) used with scattering weights, viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
+    Each day the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 50~k -- 80~k are classified as good.
+    Each pixel contains several important peices of data which are needed for recalculation of the HCHO vertical column: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weight, vertical altitudes (hPa) used with scattering weights, viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
     All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
     Each pixel and it's relevant data are saved in a long list, around 1.1 million pixels per day.
     As well as the data directly read from the OMI swath files, further information is added to each pixel.
