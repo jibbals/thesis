@@ -5,6 +5,7 @@
 \usepackage{palatino} % Use the Palatino font by default
 \usepackage{graphicx} % graphicx package for images
 \usepackage{url} % package for URL displaying
+\usepackage{amsmath} % for equations
 \usepackage[backend=bibtex,bibencoding=ascii,style=authoryear,sorting=none,natbib=true]{biblatex}
 %\usepackage[backend=biber,bibencoding=ascii,style=authoryear,sorting=none,natbib=true]{biblatex} 
 
@@ -31,10 +32,51 @@ Summary paragraphs of papers + some quotes
 %	PAPERS AND THEIR SUMMARIES
 %----------------------------------------------------------------------------------------
 
+\section{Important}
+  \subsection{Barkley 2013: Top-down isoprene emissions over tropical South America inferred from SCIAMACHY and OMI formaldehyde columns}
+    \citet{Barkley2013} use HCHO from SCIAMACHY and OMI, with a nested grid version of GEOS-Chem CTM to infer top-down isoprene emissions estimates over South America in 2006.
+    
+    \subsubsection{Reference sector correction}
+      Both retrievals use daily radiance reference spectrum instead of a solar irradiance spectrum: so the slant columns ($\Omega_S$) represent the difference from the radiance reference slant column.
+      An absolute normalisation is applied to $\Omega_S$ daily, using the median remote Pacific Ocean (110$^{circ}$-140$^{circ}$W, 15$^{circ}$N-15$^{circ}$S) slant column ($\Omega_{S_0}$), and the modelled daily background ($\Omega_{V_B}$) over the same region.
+      \begin{equation*}
+        \Omega_V = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
+      \end{equation*}
+      
+    
+    \subsubsection{Removing biomass burning (section 4)}
+      Scenes affected are removed using a gridded fire count from AATSR, and also the MODIS instruments on EOS-Aqua and EOS-Terra.
+      This filter is observed using three temporal resolutions: daily, eight-day, and monthly, with the effect on top-down emissions quantified.
+      If a fire occurs in a grid cell or one adjacent of both the concurrent and preceding day, it is removed.
+      This removed up to 25\% of land pixels for OMI over the Amazon.
+    
+    \subsubsection{Nested Grid}
+    
+    \subsubsection{Inferred emissions}
+    
+    \subsubsection{Accounting for Smearing}
+      
+  \subsection{Gonzalez 2015: }
+    \citet{Gonzalez2015}
+    \subsubsection{Reference sector correction (section 2.2.3)}
+      Each slant column is corrected by subtracting the difference between the OMI pacific slant column (at matching latitude) and the GEOS_Chem reference sector slant column from it before applying the AMF to determine the corrected vertical column.
+  
+  \subsection{De Smedt 2015: Diurnal, seasonal and long-term variations of global formaldehyde columns inferred from combined OMI and GOME-2 observations.}
+    \citet{DeSmedt2015}
+    \subsubsection{Reference Sector correction (Section 3)}
+      Corrected vertical column is the same as that used by \citet{Barkley2013}:
+      \begin{equation*}
+        \Omega_V = \frac{ \Nabla \Omega_{S} }{ AMF } + \Omega_{V_B}
+      \end{equation*}
+      The slant columns are determined using QDOAS software, using the daily radiance spectra over the remote pacific (15S to 15N, 180 to 240E) as a reference for the DOAS retrieval. 
+      ``This means retrieved slant columns are differential columns relative to the mean reference spectra.''
+      
+      
 %----------------------------------------------------------------------------------------
 %	VOCs Papers
 %----------------------------------------------------------------------------------------
 \section{VOCs}
+    
   \subsection{Gloudemans 2006: Validation of OMI, GOME-2A and GOME-2B tropospheric NO$_2$, SO$_2$ and HCHO products using MAX-DOAS observations from 2011 to 2014 in Wuxi, China}
     \citet{Gloudemans2006}
     
@@ -49,10 +91,15 @@ Summary paragraphs of papers + some quotes
     
     Meaningful TG profiles can be retrieved during cloudy conditions, except for heavy fog or optically thick clouds).
     
+  \subsection{Sitch 2015: }
+  
   \subsection{Wang 2016: Validation of OMI tropospheric HCHO using MAX-DOAS observations from 2011-2014 in Wuxi, China}
     \citet{Wang2016}
     Systematic underestimation of HCHO by $\sim$20\% by OMI.
     Discrepancies with MAX-DOAS increase with increasing cloud fractions, and AOD.
+    
+    VCDs recalculated using AMFs based on shape factors created with the MAX-DOAS observations were 35\% better (closer to MAX-DOAS VCDs) wrt. HCHO.
+    These improvements where strongest on days with large trace gas VCDs, and smog/pollution over Wuxi is common.
     
     Except for HCHO, correlation of satellite and MAX-DOAS column is sensitive to distance of pixels averaged away from the Wuxi site.
     This is probably due to HCHO being more homogeneous spatially.
@@ -73,13 +120,13 @@ volatile emissions over the past 3 decades}
     
     Global increases of carbon uptake from 1982-2011, especially for tropical areas, largely due to CO$_2$ fertilisation.
     
-    ``The terrestrial biosphere interacts with the atmosphere through photosynthesis and biogenic volatile organic compound (BVOC) emissions. Annually, terrestrial ecosystems assimilate ∼ 120 petagrams of carbon (Pg C) from the atmosphere (Beer et al., 2010), most of which reenters atmosphere through respiration and decomposition, resulting in a net global land carbon sink of 2.6 ± 0.7 Pg C a −1 (Le Quèrè et al., 2009; Sitch et al., 2015''
+    ``The terrestrial biosphere interacts with the atmosphere through photosynthesis and biogenic volatile organic compound (BVOC) emissions. Annually, terrestrial ecosystems assimilate $\sim$120 petagrams of carbon (Pg C) from the atmosphere (Beer et al., 2010), most of which reenters atmosphere through respiration and decomposition, resulting in a net global land carbon sink of 2.6 $\pm$ 0.7 Pg C a -1 (Le Quèrè et al., 2009; Sitch et al., 2015)''
     
   \subsection{Zhu 2016: }
     \citet{Zhu2016}
     Current satellite HCHO can provide a reliable proxy for isoprene emission variability, with a low mean bias due to column corrections and scattering weights.
     
-  \subsection{Sitch 2015: }
+
 %----------------------------------------------------------------------------------------
 %	Modelling Papers
 %----------------------------------------------------------------------------------------
