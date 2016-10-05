@@ -365,6 +365,17 @@
     \end{equation}
     Note that this is an approximation based on the OMI satellite HCHO dataset as performed in \citet{Gonzalez2015}.
     
+  \subsection{Reference sector correction for comparison of products to various models}
+    HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{Desmedt2008,Barkley2013,OMI_README}.
+    Since this oceanic background is used instead of a solar irradiance spectrum, in order to compare the output against different models, the vertical columns need to be corrected by an absolute amount.
+    The corrected vertical column ($\Omega_V$) is calculated as the slant column ($\Omega_S$) minus the reference slant column ($\Omega_{S_0}$) multiplied by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
+    \begin{equation*}
+      \Omega_V = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
+    \end{equation*}
+    This method is used in various papers, including \citet{Desmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013}.
+    
+    Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \citet{Abad2015}.
+    The updated correction is explained in detail in section \ref{ch_isop:sec:RSC}.
     
 %----------------------------------------------------------------------------------------
 %	BVOC FROM HCHO SECTION
@@ -399,10 +410,11 @@
     Another is the possible influence of varying dead/hot pixel masks across 2-D detector arrays such as OMI \citep{DeSmedt2015}.
     This method also corrects for the errors introduced through correlations between BrO and HCHO absorption cross sections, which are especially significant at high latitudes \citep{Gonzalez2015}.
     
-    The reference sector is defined over the pacific ocean at 140 to 160$^{\circ}$W and 90$^{\circ}$N to 90$^{\circ}$S, as in \citet{Gonzalez2015}
+    The reference sector we use is defined over the pacific ocean at 140 to 160$^{\circ}$W and 90$^{\circ}$N to 90$^{\circ}$S, as in \citet{Gonzalez2015}.
     HCHO concentrations are assumed to be at background levels over the pacific ocean, with their only source being CH$_4$ oxidation.
     A correction for each instrument pixel is created based on the difference between the background HCHO measurements from OMI and the GEOS-Chem modelled HCHO columns within the reference sector.
     This correction is calculated daily and applied to all good pixels based on their latitude.
+    
     
     When comparing satellite measurements against models it is important to recognise the impact of the apriori shape factor on the total column values.
     In order to remove the possible bias, the shape factor used by the satellite is often replaced using the profile from the model and then satellite total columns are recalculated (generally using equation \ref{ch_isop:eqn:AMFintwSdz}).
@@ -628,7 +640,6 @@
     
   \subsection{Determining and applying the pacific ocean reference sector normalisation}
     \label{ch_isop:sec:RSC}
-    TODO: \citep{Gonzalez2015} Implementation of reference sector creation and normalisation of the HCHO VCs
 
     As is done in \citet{Gonzalez2015}, a reference sector defined over the Pacific ocean is used to handle OMI instrument errors.
     This correction is calculated based on good satellite measurements over the pacific ocean reference sector; between 140$^{\circ}$W and 160$^{\circ}$W, covering every latitude.
@@ -648,7 +659,7 @@
     The track index (i) relates a the measurement to one of the 60 left to right columns of data.
     Corrections for each measurement are calculated by taking the difference between the measured slant column and the apriori slant column as follows:
     \begin{equation} \label{ch_isop:eqn:reference_sector_correction}
-      Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF}(i,j)
+      Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF_{GC}}(i,j)
     \end{equation}
     where j represents a latitude index and $VC_{GEOS-Chem}(lat)$ represents the apriori reference sector vertical column HCHO at the latitude corresponding to j.
     Note that the correction is in molecules per cm$^2$.

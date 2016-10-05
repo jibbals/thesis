@@ -174,6 +174,12 @@
     TODO: Go through Vigouroux2012, Lee2005 or Volkamer2005 and detail the DOAS Retrieval of HCHO.
     A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
     
+    Uncertainty in a single pixel for OMI is quite high (todo: link to picture with one day average plus omi uncertainty).
+    This can be reduced through temporal or spatial averaging, as the uncertainty decreases by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
+    Taking the eight day gridded average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces the uncertainty from TODO: numbers.
+    This can be seen more clearly in figure (TODO: image of OMI day retrieval compared to 8 day retrieval with uncertainties shown underneath).
+    
+    
     
   \subsection{OMI Algorithm (not DOAS)}
     The following information comes from the OMHCHO dataset documentation at \citet{OMI_Readme}.
@@ -359,6 +365,13 @@
     \end{equation}
     Note that this is an approximation based on the OMI satellite HCHO dataset as performed in \citet{Gonzalez2015}.
     
+  \subsection{Reference sector correction for intercomparison of products}
+    HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{Desmedt2008,Barkley2013,OMI_README}.
+    Since this oceanic background is used instead of a solar irradiance spectrum, in order to compare the output against different models, the vertical columns need to be corrected by an absolute amount.
+    The corrected vertical column ($\Omega_V$) is calculated as the slant column ($\Omega_S$) minus the reference slant column ($\Omega_{S_0}$) multiplied by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
+    \begin{equation*}
+      \Omega_V = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
+    \end{equation*}
     
 %----------------------------------------------------------------------------------------
 %	BVOC FROM HCHO SECTION
@@ -393,10 +406,11 @@
     Another is the possible influence of varying dead/hot pixel masks across 2-D detector arrays such as OMI \citep{DeSmedt2015}.
     This method also corrects for the errors introduced through correlations between BrO and HCHO absorption cross sections, which are especially significant at high latitudes \citep{Gonzalez2015}.
     
-    The reference sector is defined over the pacific ocean at 140 to 160$^{\circ}$W and 90$^{\circ}$N to 90$^{\circ}$S, as in \citet{Gonzalez2015}
+    The reference sector we use is defined over the pacific ocean at 140 to 160$^{\circ}$W and 90$^{\circ}$N to 90$^{\circ}$S, as in \citet{Gonzalez2015}.
     HCHO concentrations are assumed to be at background levels over the pacific ocean, with their only source being CH$_4$ oxidation.
     A correction for each instrument pixel is created based on the difference between the background HCHO measurements from OMI and the GEOS-Chem modelled HCHO columns within the reference sector.
     This correction is calculated daily and applied to all good pixels based on their latitude.
+    
     
     When comparing satellite measurements against models it is important to recognise the impact of the apriori shape factor on the total column values.
     In order to remove the possible bias, the shape factor used by the satellite is often replaced using the profile from the model and then satellite total columns are recalculated (generally using equation \ref{ch_isop:eqn:AMFintwSdz}).
