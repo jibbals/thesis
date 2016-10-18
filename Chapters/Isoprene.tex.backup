@@ -10,16 +10,12 @@
 \section{Australian Biogenic Volatile Organic Compounds (BVOCs)}
   \label{ch_isop:sec:bvoc}
 
-  \subsection{Isoprene, Monoterpene}
+  \subsection{Isoprene, Monoterpenes}
   
     Globally around 1150 Tg C yr$^{-1}$ of BVOCs are emitted \citep{Guenther1995}.
     90\% of these emissions come from plants and trees, with the most dominant species being isoprene (C$_5$H$_8$) (about 61\%), monoterpenes (C$_10$H$_16$), and methanol (CH$_3$OH) \citep{Guenther2012,Lathiere2006} (TODO: reread Guenther2012 for this sentence).
-    Worth noting is that these estimates are sensitive to chosen emission factors, many of which are based on only a few studies.
-  
-    TODO read and reference \verb|https://orbi.ulg.ac.be/bitstream/2268/174025/1/amt-8-1733-2015.pdf|
-    Isoprene is the main VOC released by plants, and has a large impact on the oxidative properties of the atmosphere. 
-    These emissions have been modelled at around 500~Tga$^{-1}$ \citep{todo:}.
-    It is important to note that many of these estimates are based on models with similar algorithms of isoprene emission which can depend greatly on input parameters \citep{Niinemets2010}. 
+    Isoprene has a large impact on the oxidative properties of the atmosphere, as it reacts quickly with the OH radical to form RO$_2$ and then in the presence of NO$_X$ various OVOCs(largely HCHO) and other SOAs(notably ozone) are formed. 
+    The emissions of isoprene have been modelled at around 500~Tga$^{-1}$ using relatively few plant phenotypes to set global emission factors, in \citet{Guenther1995}.
     
     Estimates of emissions of isoprene requires more work in order to generate confidence at a global scale.
     Due to isoprene being optically thin (see section \ref{ch_isop:sec:satelliteHCHO:OpticalDepth}) and having a short life time (around an hour) there are relatively few accurate measurements against which a comparison and verification can be made. 
@@ -191,7 +187,7 @@
     In version 3.0 of the OMI satellite data retrievals, HCHO is determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
     The algorithm used is based on direct fitting of radiances and irradiances.
     An OMI radiance measurement over the remote Pacific ocean is used instead of an irradiance measurement.
-    This means that the slant columns ($\Omega_S$) are actually the difference with respect to the radiance reference column ($\Omega_{S_0}}$).
+    This means that the slant columns ($\Omega_S$) are actually the difference with respect to the radiance reference column ($\Omega_{S_0}$).
     
     The model that is fitted to the measurements is made up of the radiance reference attenuated by HCHO contributions, inelastic (rotational Raman) scattering, and interferences from ozone, NO$_2$, BrO, and the O$_2$-O$_2$ collision complex.
     It includes additive and multiplicative closure polynomials and parameters for spectral shift and squeeze, and an undersampling correction and ``common mode'' spectrum.
@@ -365,13 +361,17 @@
     \end{equation}
     Note that this is an approximation based on the OMI satellite HCHO dataset as performed in \citet{Gonzalez2015}.
     
-  \subsection{Reference sector correction for intercomparison of products}
+  \subsection{Reference sector correction for comparison of products to various models}
     HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{Desmedt2008,Barkley2013,OMI_README}.
     Since this oceanic background is used instead of a solar irradiance spectrum, in order to compare the output against different models, the vertical columns need to be corrected by an absolute amount.
     The corrected vertical column ($\Omega_V$) is calculated as the slant column ($\Omega_S$) minus the reference slant column ($\Omega_{S_0}$) multiplied by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
     \begin{equation*}
       \Omega_V = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
     \end{equation*}
+    This method is used in various papers, including \citet{Desmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013}.
+    
+    Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \citet{Abad2015}.
+    The updated correction is explained in detail in section \ref{ch_isop:sec:RSC}.
     
 %----------------------------------------------------------------------------------------
 %	BVOC FROM HCHO SECTION
@@ -636,7 +636,6 @@
     
   \subsection{Determining and applying the pacific ocean reference sector normalisation}
     \label{ch_isop:sec:RSC}
-    TODO: \citep{Gonzalez2015} Implementation of reference sector creation and normalisation of the HCHO VCs
 
     As is done in \citet{Gonzalez2015}, a reference sector defined over the Pacific ocean is used to handle OMI instrument errors.
     This correction is calculated based on good satellite measurements over the pacific ocean reference sector; between 140$^{\circ}$W and 160$^{\circ}$W, covering every latitude.
@@ -656,7 +655,7 @@
     The track index (i) relates a the measurement to one of the 60 left to right columns of data.
     Corrections for each measurement are calculated by taking the difference between the measured slant column and the apriori slant column as follows:
     \begin{equation} \label{ch_isop:eqn:reference_sector_correction}
-      Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF}(i,j)
+      Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF_{OMI}}(i,j)
     \end{equation}
     where j represents a latitude index and $VC_{GEOS-Chem}(lat)$ represents the apriori reference sector vertical column HCHO at the latitude corresponding to j.
     Note that the correction is in molecules per cm$^2$.
