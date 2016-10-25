@@ -162,13 +162,25 @@
     One satellite is NASA's Earth Observing System's (EOS) Aura satellite, which houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
     Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the north and south poles. 
     OMI measurements are used to map several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
-    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \citep{Gonzalez2015}.
+    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \citep{Abad2015}.
     The swaths cover the planet daily, although half of these are at night time and contain no useful near-UV/Visible information.
     From here on the word pixel is used to describe one data point retrieved by OMI, which will be located by latitude and longitude within OMI's data product.
     
     Atmospheric HCHO can be measured using Differential Optical Absorption Spectroscopy (DOAS), as long as trace gases with similar features near the same wavelength are accounted for.
     TODO: Go through Vigouroux2012, Lee2005 or Volkamer2005 and detail the DOAS Retrieval of HCHO.
     A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
+    This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
+    The full method details for slant column retrieval by OMI are outlined in section TODO: reference the section
+    
+    TODO: put this in right section HCHO BOAS
+    Slant column abundance (S$_{HCHO}$) can be determined by fitting measured radiance (I) at particular wavelengths ($\lambda$), using modelled absorption cross sections ($\sigma$), effective albedo (A) including Rayleigh scattering, a correction for the Ring effect (c$_R\sigma_R$), and a closing polynomial (coefficents c$_0$-c$_3$).
+    \begin{equation}
+      \label{ch_isop:eqn:BOAS_HCHO}
+      I(\lambda)  	&=& A I_0 \exp {\left( - \Sigma_i S_i \sigma_i \right) } + c_R\sigma_R + c_0 + c_1(\sigma-\bar{\sigma}) + c_2(\sigma - \bar{\sigma})^2 + c_3(\sigma - \bar{\sigma})^3 \\
+    \end{equation}
+    
+    For HCHO, absorption cross sections and number densities for interfering gases are determined beforehand.
+    This is due to HCHO being so optically thin and interferences must be accounted for precisely \citep{Chance2002}.
     
     Uncertainty in a single pixel for OMI is quite high (todo: link to picture with one day average plus omi uncertainty).
     This can be reduced through temporal or spatial averaging, as the uncertainty decreases by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
@@ -242,12 +254,12 @@
     These properties are combined into a single array called the AMF which can be combined with a SC to produce a VC.
     AMFs are unique to each trace gas and due to their complexity and the influence of cloud cover they remain one of the larger error sources in remote sensing of BVOCs (TODO: source Millet 06 \citep{Palmer2001}).
     
-    The latest OMI algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \citep{Gonzalez2015}.
+    The latest OMI algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \citep{Abad2015}.
     The GEOS-Chem model has been substantially updated since then, and using the more recent version $V10.01$ to recalculate the AMF is performed within this thesis, details are shown in section \ref{ch_isop:sec:satelliteHCHO:CalculationOfVC}.
     
     The vertical distribution of a trace gas determined by CTM is independent of the vertically dependent observation sensitivity provided by RTM, which prevents model contamination of remotely sensed data.
     Two examples of this are GOME-2 products on the MetOp-A satellite and OMI products which use IMAGESv2 combined with LIDORT and GEOS-Chem with LIDORT for product processing respectively ( TODO: %cite(atmos.caf.dlr.de/gome/product_hcho.html?), and omi cite).
-    \citep{Gonzalez2015}.
+    \citep{Abad2015}.
     The actual formulation of an AMF is explained in section \ref{ch_isop:sec:satelliteHCHO:CalculationOfVC}).
   
   \subsection{OMI HCHO data products}
@@ -359,7 +371,7 @@
     \begin{equation} \label{ch_isop:eqn:AKfromw}
       AK(z) = \frac{w(z)}{AMF}
     \end{equation}
-    Note that this is an approximation based on the OMI satellite HCHO dataset as performed in \citet{Gonzalez2015}.
+    Note that this is an approximation based on the OMI satellite HCHO dataset as performed in \citet{Abad2015}.
     
   \subsection{Reference sector correction for comparison of products to various models}
     HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{Desmedt2008,Barkley2013,OMI_README}.
@@ -404,9 +416,9 @@
     The reference sector correction method corrects for several problems, however it introduces some apriori model influence.
     One of the problems removed through this correction method is instrument degradation, which can introduce bias over time.
     Another is the possible influence of varying dead/hot pixel masks across 2-D detector arrays such as OMI \citep{DeSmedt2015}.
-    This method also corrects for the errors introduced through correlations between BrO and HCHO absorption cross sections, which are especially significant at high latitudes \citep{Gonzalez2015}.
+    This method also corrects for the errors introduced through correlations between BrO and HCHO absorption cross sections, which are especially significant at high latitudes \citep{Abad2015}.
     
-    The reference sector we use is defined over the pacific ocean at 140 to 160$^{\circ}$W and 90$^{\circ}$N to 90$^{\circ}$S, as in \citet{Gonzalez2015}.
+    The reference sector we use is defined over the pacific ocean at 140 to 160$^{\circ}$W and 90$^{\circ}$N to 90$^{\circ}$S, as in \citet{Abad2015}.
     HCHO concentrations are assumed to be at background levels over the pacific ocean, with their only source being CH$_4$ oxidation.
     A correction for each instrument pixel is created based on the difference between the background HCHO measurements from OMI and the GEOS-Chem modelled HCHO columns within the reference sector.
     This correction is calculated daily and applied to all good pixels based on their latitude.
@@ -450,7 +462,7 @@
     The OMI dataset has a quality flag which can be used to remove unlikely or poor satellite measurements.
     The states represented by this quality flag are shown in table \ref{ch_isop:tab:OMIQualityFlag} which is taken from \citet{OMI_Readme}.
     Filtering bad or missing measurement pixels is preformed prior to any other filtering.
-    Any pixel with a cloud fraction of greater than 40\% is also removed, after the pixel is used in determining the reference sector correction, as is done in \citet{Gonzalez2015, DeSmedt2015}.
+    Any pixel with a cloud fraction of greater than 40\% is also removed, after the pixel is used in determining the reference sector correction, as is done in \citet{Abad2015, DeSmedt2015}.
     In \citet{Martin2003}, pixels with more than half of the backscattered intesity from the cloudy sky fraction are removed, in effect removing pixels with more than ~40\% cloud fraction before calculating the AMF for NO$_2$ slant columns. 
     
     \begin{table}[H]
@@ -637,7 +649,7 @@
   \subsection{Determining and applying the pacific ocean reference sector normalisation}
     \label{ch_isop:sec:RSC}
 
-    As is done in \citet{Gonzalez2015}, a reference sector defined over the Pacific ocean is used to handle OMI instrument errors.
+    As is done in \citet{Abad2015}, a reference sector defined over the Pacific ocean is used to handle OMI instrument errors.
     This correction is calculated based on good satellite measurements over the pacific ocean reference sector; between 140$^{\circ}$W and 160$^{\circ}$W, covering every latitude.
     Corrections are made using apriori HCHO columns in the same reference sector modelled using GEOS-Chem.
     The apriori reference sector of HCHO vertical columns (VCs) is created by GEOS-Chem using 15 minute time resolution, with 2 by 2.5$^{\circ}$ latitude by longitude resolution.

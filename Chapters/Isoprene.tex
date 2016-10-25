@@ -169,6 +169,8 @@
     Atmospheric HCHO can be measured using Differential Optical Absorption Spectroscopy (DOAS), as long as trace gases with similar features near the same wavelength are accounted for.
     TODO: Go through Vigouroux2012, Lee2005 or Volkamer2005 and detail the DOAS Retrieval of HCHO.
     A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
+    This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
+    The full method details for slant column retrieval by OMI are outlined in section \ref{ch_isop:sec:OMI_BOAS}.
     
     Uncertainty in a single pixel for OMI is quite high (todo: link to picture with one day average plus omi uncertainty).
     This can be reduced through temporal or spatial averaging, as the uncertainty decreases by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
@@ -176,13 +178,23 @@
     This can be seen more clearly in figure (TODO: image of OMI day retrieval compared to 8 day retrieval with uncertainties shown underneath).
     
     
-    
-  \subsection{OMI Algorithm (not DOAS)}
-    The following information comes from the OMHCHO dataset documentation at \citet{OMI_Readme}.
+  \subsection{OMI Algorithm BOAS}
+    \label{ch_isop:sec:OMI_BOAS}
+    The following information comes from the OMHCHO dataset documentation at \citet{OMI_Readme} and \citet{Chance2002}.
     The method of HCHO total column retrieval depends heavily on measured solar radiation.
     Radiance is directional radiant flux, expressed in Watts per square metre per steradian (a unit of angle used in three dimensional geometry).
     Irradiance is radiant flux received by a surface, expressed in watts per square metre.
     An OMI granule is the sunlit portion of an orbit (one day).
+    
+    The BOAS algorithm used by OMI is as follows.
+    Slant column abundance can be determined by fitting measured radiance (I) at particular wavelengths ($\lambda$), using modelled absorption cross sections ($\sigma$), effective albedo (A) including Rayleigh scattering, a correction for the Ring effect (c$_R\sigma_R$), and a closing polynomial (coefficents c$_0$-c$_3$).
+    \begin{equation}
+      \label{ch_isop:eqn:BOAS_HCHO}
+      I(\lambda)  	&=& A I_0 \exp {\left( - \Sigma_i S_i \sigma_i \right) } + c_R\sigma_R + c_0 + c_1(\sigma-\bar{\sigma}) + c_2(\sigma - \bar{\sigma})^2 + c_3(\sigma - \bar{\sigma})^3 \\
+    \end{equation}
+    
+    For HCHO, absorption cross sections and number densities for interfering gases are determined beforehand.
+    This is due to HCHO being so optically thin and interferences must be accounted for precisely \citep{Chance2002}.
     
     In version 3.0 of the OMI satellite data retrievals, HCHO is determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
     The algorithm used is based on direct fitting of radiances and irradiances.
