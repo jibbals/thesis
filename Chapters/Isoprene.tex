@@ -122,7 +122,7 @@
     }
     \label{ch_isop:tab:VOCLiteratureYields}
     \end{table}
-
+  
   \subsection{Biomass Burning}
     One complication when computing HCHO yield from VOC emissions is biomass burning interference, as smoke plumes can contribute to column HCHO.
     Influence from biomass burning can be removed through measurements of acetonitrile and CO (eg: \citep{Wolfe2016}, TODO: other bb papers).
@@ -252,7 +252,7 @@
     DOAS retrieval columns are an integration of a trace gas over the instrument's viewing path, in order to convert this total to a vertically distributed column a few assumptions and estimates are required. 
     The vertical profile of a trace gas is assumed or estimated via a CTM, while its' scattering and radiative properties are calculated at all altitudes using an RTM. 
     These properties are combined into a single array called the AMF which can be combined with a SC to produce a VC.
-    AMFs are unique to each trace gas and due to their complexity and the influence of cloud cover they remain one of the larger error sources in remote sensing of BVOCs (TODO: source Millet 06 \citep{Palmer2001}).
+    AMFs are unique to each trace gas and due to their complexity and the influence of cloud cover they remain one of the larger error sources in remote sensing of BVOCs \citep{Palmer2001,Millet2006}).
     
     The latest OMI algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \citep{Abad2015}.
     The GEOS-Chem model has been substantially updated since then, and using the more recent version $V10.01$ to recalculate the AMF is performed within this thesis, details are shown in section \ref{ch_isop:sec:satelliteHCHO:CalculationOfVC}.
@@ -399,6 +399,7 @@
     
     In order to reduce uncertainty and increase the utility of the satellite data we regrid it from pointwise single time data points to 8-day averages on a latitude longitude grid which matches our model input and output grid spacing. 
     Using the 8-day average reduces the uncertainty in each datapoint significantly, TODO: citet marais and barkley uncertainty improvements, and point to section with our estimates of the improvements over Australia.
+    TODO: mention rough random error reduction from 8 day averaging process (1/root n)
     
     Once the slant columns are quality filtered and gridded, additional data sources need to be used to account for anthropogenic and pyrogenic sources of HCHO.
     MODIS fire counts can be used in conjunction with NO$_2$ enhancements (also measured by satellite) to remove data points which may be affected by fires. 
@@ -422,14 +423,14 @@
     HCHO concentrations are assumed to be at background levels over the pacific ocean, with their only source being CH$_4$ oxidation.
     A correction for each instrument pixel is created based on the difference between the background HCHO measurements from OMI and the GEOS-Chem modelled HCHO columns within the reference sector.
     This correction is calculated daily and applied to all good pixels based on their latitude.
-    
+    The full process for this is shown in section (TODO:section here).
     
     When comparing satellite measurements against models it is important to recognise the impact of the apriori shape factor on the total column values.
     In order to remove the possible bias, the shape factor used by the satellite is often replaced using the profile from the model and then satellite total columns are recalculated (generally using equation \ref{ch_isop:eqn:AMFintwSdz}).
     Without performing this step a bias between modeled and measured total column values may be due to an apriori rather than actual chemistry or measurements.
-    In part this is due to the sensitivity of instruments not being constant vertically through the atmosphere.
+    In part this is due to the sensitivity of instruments varying vertically through the atmosphere.
     
-    Once we have vertical columns of biogenic HCHO ($\Omega_{HCHO}$) we can infer the local (grid space) isoprene emissions (E$_{ISOP}$) using effective formaldehyde yield from isoprene (S) (todo: cites with examples of this yield).
+    Once we have vertical columns of biogenic HCHO ($\Omega_{HCHO}$) we can infer the local (grid space) isoprene emissions (E$_{ISOP}$) using effective formaldehyde yield from isoprene (S) (todo: cites with examples of this yield, link to yield table).
     This is simply expressed with the equation:
     \begin{equation} \label{ch_isop:eqn:isop_yield}
       \Omega_{HCHO} = S \times E_{ISOP} + B
@@ -437,6 +438,7 @@
     Where B is the background HCHO.
     This works as long as there is fast HCHO yield, so that the effect of chemical transport is minimal.
     The background HCHO is assumed to be equal to HCHO measured in the remote pacific at the same time, however transport needs to be carefully handled.
+    This yield can be calculated using CTMs such as GEOS-Chem, which was used by \citet{Millet2006} and produced a molar HCHO yield of 2.3.
     
     Isoprene quickly forms HCHO in the atmosphere when in the presence of high levels of NO$_X$.
     However, over Australia NO$_X$ levels are generally not high enough and we must take extra care that we can account for the transport or 'smearing' caused by slower HCHO formation.
