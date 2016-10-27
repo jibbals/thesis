@@ -98,11 +98,11 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     Satellites recording reflected solar spectra use Differential Optical Absorption Spectroscopy (DOAS) to measure various trace gases in the atmosphere, including formaldehyde. Formaldehyde levels in the continental boundary layer are generally dominated by chemical formation due to VOC (largely isoprene) emissions \citep{Kefauver2014}.
     
     Using satellites allows a broad measure of seasonal and interannual variability of HCHO over Australia. These records can be compared with modeled estimates of HCHO and used as a proxy to estimate isoprene emissions.
-    This has been done in North America, South America, and Africa, with satellite and aircraft data combined for validation \citep{Millet_2006, Marais_2014}.
+    This has been done in North America \citep{Palmer2003}, South America, and Africa, with satellite and aircraft data combined for validation \citep{Millet_2006, Marais_2014}.
     
-    TODO: Read and add this list of sources on the hcho to isop process : taken from Wolfe2015
-    Early studies utilized linear steady-state relationships (Palmer et al., 2003), while recent computational advances have permitted full inversions that more fully account for transport, multiple sources and varying chemical regimes (Fortems-Cheiney et al., 2012). Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008, 2006; Palmer et al., 2006, 2003), South America (\citep{Barkley2013}, 2008), Europe (Curciet al., 2010; Dufour et al., 2009), Africa (Marais et al., 2012), Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; Shim et al., 2005; Stavrakou et al., 2009).
-
+    
+    Initially studies assumed a simple linear steady-state relationship between HCHO and it's precursors \citep{Palmer2003,Millet2006}.
+    This allowed a simple calculation of isoprene using the measured HCHO, with estimated reaction rates and yields.
     The methodology for calculating VOCs from HCHO is laid out in \citet{Palmer_2003}, and takes into account the expected lifetime and reaction rates of the precursor VOCs and HCHO.
     Assuming HCHO is produced quickly from short-lived intermediates we get
     \begin{eqnarray*}
@@ -114,16 +114,20 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     \Omega = \frac{1}{k_{HCHO}} \sum_{i} Y_i E_i
     \end{eqnarray*}
     Where i indexes a chemical species, and $E_i$ is emission fluxes ( C atoms $cm^{-2}s^{-1}$).
-
-    Inferring the VOC emissions then requires estimates of the HCHO yield (Y$_i$) which can be attained via modelling as layed out in \citet{Millet_2006}.
-
-    During low NO$_X$ conditions, the precursor HCHO has a longer lifetime (days).
+    Estimates of the HCHO yield (Y$_i$) can be attained simply as shown in \citet{Millet_2006}.
+    This involves a reduced major axis (RMA) correllation calculation between modelled HCHO and isoprene columns, multiplied by their reaction rates (as a normalising factor).  
+    In high NOx environments where HCHO has a lifetime on the order of 30 minutes, it can be used to map isoprene emissions with spatial resolution from 10-100 kms.
+    This can be determined using the calculations from (TODO: cite and formula for spatial resolution).
+    
+    One problem with this technique is accounting for transport of the precursors, especially in low NO$_X$ conditions in which isoprene has a longer lifetime (days).
     This allows horizontal transport to occur and complicates the algorithms.
     Horizontal transport 'smears' the HCHO signal so that source location would need to be calculated using windspeeds and loss rates.
     For conditions where VOCs have a lifetime of days determining the major HCHO contributors requires a complex inversion to map HCHO columns to VOC emissions.
-
-    In high NOx environments where HCHO has a lifetime on the order of 30 minutes, it can be used to map isoprene emissions with spatial resolution from 10-100 kms.
-    This can be determined using the calculations from (TODO: cite and formula for spatial resolution).
+    
+    TODO: Read through this list of sources on the hcho to isop process : taken from Wolfe2015
+    More recently, full inversions that better account for transport, source attribution, and chemical schemes have been implemented (Fortems-Cheiney et al., 2012). 
+    Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008, 2006; Palmer et al., 2006, \citep{Palmer2003}), South America (\citep{Barkley2013}, 2008), Europe (Curciet al., 2010; Dufour et al., 2009), Africa (Marais et al., 2012), Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; Shim et al., 2005; Stavrakou et al., 2009).
+    
 
   \subsection{Measurements}
   
