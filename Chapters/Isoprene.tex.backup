@@ -29,7 +29,7 @@
     This production occurs over several steps, yields are often classed into at least two categories.
     First generation yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (sometimes molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \citep{Wolfe2016}.
     \citet{Wolfe2016} define prompt yield as the change in formaldehyde measurement per unit change in initial isoprene emissions.
-    Some argue that isoprene emissions are overestimated, due to the fact that they are based on relatively few measurements of isoprene emission factors \citep{Winters2009, FortemsCheiney2012, another} TODO: read and cite paper mentioned in Fortems.
+    Some argue that isoprene emissions are overestimated, due to the fact that they are based on relatively few measurements of isoprene emission factors \citep{Winters2009, FortemsCheiney2012} TODO: read and cite paper mentioned in Fortems.
     
     Isoprene production of HCHO depends on several factors, importantly NO$_X$ levels have a direct effect on the fate of VOCs in the atmosphere.
     At higher NO mixing ratios (at least a few hundred pptv), organic peroxy radicals (RO$_2$) react mostly with NO. 
@@ -122,7 +122,7 @@
     }
     \label{ch_isop:tab:VOCLiteratureYields}
     \end{table}
-
+  
   \subsection{Biomass Burning}
     One complication when computing HCHO yield from VOC emissions is biomass burning interference, as smoke plumes can contribute to column HCHO.
     Influence from biomass burning can be removed through measurements of acetonitrile and CO (eg: \citep{Wolfe2016}, TODO: other bb papers).
@@ -584,12 +584,12 @@
   
   \subsection{Recalculating the AMF to create our own vertical HCHO columns}
   \label{ch_isop:sec:recalculating_AMF_description}
-    OMI's apriori shape factor is based on the GEOS-Chem model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
+    OMI's apriori shape factor is based on the GEOS-Chem (v9) model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
     Taking a more recent GEOS-Chem apriori shape factor and integrating along the vertical axis using equation \ref{ch_isop:eqn:AMFintwSdz} gives us a new AMF (AMF$_n$).
     This is done in Python using simple rectangular integration.
     All that remains for recalculating the total vertical column using our new apriori shape factor is to apply the new AMF and remove the old:
     \begin{equation*}
-      \Omega_{new} = \Omega \frac{AMF}{AMF_n} 
+      \Omega_{new} = \Omega \frac{AMF}{AMF_n}
     \end{equation*}
     
     The vertical column scattering weights and apriori shape factors provided in the OMHCHO dataset are defined on 47 levels.
@@ -636,7 +636,8 @@
     Note that HCHO density is determined from the outputted mixing ratio: $N_{HCHO} = C_{HCHO} \times N_a$.
 
     Once S$_\sigma(\sigma)$ is determined it is then stored in HDF-EOS5 format, to be used in conjunction with the satellite measurements to calculate an AMF as shown in equation \ref{ch_isop:eqn:AMFintwSdz}.
-    As the GEOS-Chem V10.01 output is in bitpunch format, the code to read the data and create the shape factor is written in IDL, which has many procedures and functions which are alread written to handle reading this format. The code is provided in supplementary TODO: put code into supplement section.
+    As the GEOS-Chem V10.01 output is in bitpunch format, the code to read the data and create the shape factor is written in IDL, which has many procedures and functions which are alread written to handle reading this format.
+    The code is provided in supplementary TODO: put code into supplement section.
     
     For each OMI slant column, a new AMF is calculated using S$_\sigma(\sigma)$ and the provided scattering weights $\omega(\sigma)$ using equation \ref{ch_isop:eqn:AMFintwSdz}.
     This integral is applied in python by taking the sum of S$_\sigma(\sigma) \times \omega(\sigma) \times \mathrm{d}\sigma$ for each $\sigma$ determined at 72 levels in GEOS-Chem, with the provided $\omega$ interpolated linearly to these same levels.
@@ -651,19 +652,29 @@
   \subsection{Determining and applying the pacific ocean reference sector normalisation}
     \label{ch_isop:sec:RSC}
 
-    As is done in \citet{Abad2015}, a reference sector defined over the Pacific ocean is used to handle OMI instrument errors.
-    This correction is calculated based on good satellite measurements over the pacific ocean reference sector; between 140$^{\circ}$W and 160$^{\circ}$W, covering every latitude.
+    As is done in \citet{Abad2015}, a reference sector defined over the Pacific ocean is used to correct OMI instrument degradation.
+    This correction is calculated based on satellite measurements over the pacific ocean reference sector; between 140$^{\circ}$W and 160$^{\circ}$W, covering every latitude.
     Corrections are made using apriori HCHO columns in the same reference sector modelled using GEOS-Chem.
     The apriori reference sector of HCHO vertical columns (VCs) is created by GEOS-Chem using 15 minute time resolution, with 2 by 2.5$^{\circ}$ latitude by longitude resolution.
     These simulated values use the GEOS-Chem output averaged between 1300 and 1400 local time at each grid box, in order to match the overpass time of OMI.
     The longitudinal average is taken within the apriori reference sector, as corrections are assumed to be longitudinally invariant.
-    The modeled reference sector is interpolated to arbitrary latitude in order to be used in OMI measurement correction array creation.
+    The modeled reference sector is interpolated latitudinally in for use in the OMI measurement correction array creation.
     Figure TODO shows the simulated reference sector VCs as an example, calculated on January 1st 2005.
     In this figure the vertical resolution is increased from 2$^{\circ}$ to 0.36$^{\circ}$, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
-    
     Each day, good satellite measurements taken over the reference sector are used to determine a correction array.
     The correction is based on the difference between measured slant column and the modeled slant column within the reference sector.
     The model does not produce slant columns associated with each measurement, however one is created by multiplying the VC with the associated slant column's AMF.
+    
+    \begin{figure}[!htbp]\begin{center}
+      \includegraphics[width=0.7\textwidth]{Figures/HCHO/Summary_RSC_Effect8d_20050101.png}
+      \caption{ %
+	Example of remote pacific reference sector correction (RSC) using 8-day average measurements and one month modelled data.
+	$\Omega_{VC}$ shows the uncorrected vertical columns, while $\Omega_{VCC}$ shows the corrected vertical columns.
+	OMI corrections shows the correction applied globally based on latitude and OMI track number(sensor).
+	$\Omega_{GC}$ shows the GEOS-Chem modelled HCHO VC over the RSC, with $\Omega_{VCC}$ showing the corrected VC over the same area.
+      }
+      \label{ch_isop:fig:Summary_RSC}
+    \end{center}\end{figure}
     
     For OMI swaths, each row of measured data contains 60 `Across track'(track) measurements.
     The track index (i) relates a the measurement to one of the 60 left to right columns of data.
