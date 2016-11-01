@@ -659,7 +659,7 @@
     These simulated values use the GEOS-Chem output averaged between 1300 and 1400 local time at each grid box, in order to match the overpass time of OMI.
     The longitudinal average is taken within the apriori reference sector, as corrections are assumed to be longitudinally invariant.
     The modeled reference sector is interpolated latitudinally in for use in the OMI measurement correction array creation.
-    Figure TODO shows the simulated reference sector VCs as an example, calculated on January 1st 2005.
+    Figure \ref{ch_isop:fig:Summary_RSC} the simulated reference sector VCs as an example, calculated on January 1st 2005.
     In this figure the vertical resolution is increased from 2$^{\circ}$ to 0.36$^{\circ}$, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
     Each day, good satellite measurements taken over the reference sector are used to determine a correction array.
     The correction is based on the difference between measured slant column and the modeled slant column within the reference sector.
@@ -677,7 +677,7 @@
     \end{center}\end{figure}
     
     For OMI swaths, each row of measured data contains 60 `Across track'(track) measurements.
-    The track index (i) relates a the measurement to one of the 60 left to right columns of data.
+    The track index (i) relates a the measurement to one of the 60 columns of data.
     Corrections for each measurement are calculated by taking the difference between the measured slant column and the apriori slant column as follows:
     \begin{equation} \label{ch_isop:eqn:reference_sector_correction}
       Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF_{OMI}}(i,j)
@@ -685,8 +685,8 @@
     where j represents a latitude index and $VC_{GEOS-Chem}(lat)$ represents the apriori reference sector vertical column HCHO at the latitude corresponding to j.
     Note that the correction is in molecules per cm$^2$.
     
-    This correction is independently calculated for each of the 60 tracks, at each latitude where a good satellite measurement exists which used that track.
-    TODO: median binned RSC method $Correction(i,lat(j))$ is determined by sorting the corrections for each track based into 500 latitude bins. 
+    The reference sector correction is independently calculated for each of the 60 tracks, at each latitude where a good satellite measurement exists which used that track.
+    The Correction$(i,lat(j))$ function is determined by binning corrections for each track into 500 equidistant latitude bands. 
     
     Due incomplete latitudinal coverage, the correction for each track is interpolated linearly between measurements, with corrections outside of the highest measured latitudes being equal to the corrections at the highest measured latitudes.
     Figure \ref{ch_isop:fig:track_correction_interpolations} shows an example of the 60 track corrections for January 1st 2005, the points are satellite measurements and the lines are the interpolations for each track.
@@ -695,6 +695,8 @@
       \caption{Example of track correction interpolations for January 1st 2005, points represent satellite slant column measurements, with lines interpolating and extrapolating along the latitudinal direction.}
       \label{ch_isop:fig:track_correction_interpolations}
     \end{center}\end{figure}
+    
+    Another way to look at this correction is given in the OMI corrections panel of figure \ref{ch_isop:fig:Summary_RSC}, which has the sensors along the x axis, and latitude on the y axis, and shows how for this example 8-day period, the corrections are distributed with more negative values towards the left or right sensors, especially in the tropics.
     
     One correction is associated with every good satellite measurement which is used to create a reference sector corrected measurement (Vertical Column Corrected or VCC) through the following equation:
     \begin{equation}
