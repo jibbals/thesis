@@ -48,13 +48,16 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     Natural emissions from areas with little anthropogenic influence and no ground based measurements characterise the majority of Australian land mass \citep{VanDerA2008}.
     One source of information which covers the entirety of Australia is remote sensing performed by instruments on satellites which overpass daily recording reflected solar radiation (and emitted terrestrial radiation).
     These can be used to quantify the abundance of several chemical species as well as estimate their distribution in vertical columns over the land.
-    While satellite data is effective at covering huge areas (the entire earth) it only exists at a particular time of day, is subject to cloud cover, and generally does not have fine horizontal or vertical resolution.
-    Concentrations retrieved from satellite have large uncertainties.
 
     The existence of satellite data covering remote areas provides an opportunity to develop more robust models of global climate and chemistry.
     Understanding of emissions from these areas is necessary to inform national policy on air pollution levels.
     Satellite data allow us to verify large scale model estimates of natural emissions.
     These measurements can be used to improve models, inform national policy, and predict harmful events.
+    
+    While satellite data is effective at covering huge areas (the entire earth) it only exists at a particular time of day, is subject to cloud cover, and generally does not have fine horizontal or vertical resolution.
+    Concentrations retrieved from satellite have large uncertainties.
+    This can be overcome if we know the sources of uncertainty and ensure they are not introducing systematic biases.
+    By averaging over several measurements any random error can be reduced by a factor of one over the square root of the number of measurements.
 
 %----------------------------------------------------------------------------------------
 %	Isoprene Section
@@ -62,10 +65,10 @@ In this thesis I will combine satellite and ground based atmospheric measurement
 \section{Isoprene}
 \label{ch1:sec:isoprene}
 
-  \subsection{Structure}
+  \subsection{Basics}
     Isoprene, or 2-methylbuta-1,3-diene, is a Volatile Organic Compound (VOC) and has chemical formula of C$_5$H$_8$. 
-    Isoprene effects NO$_X$ and HO$_Y$ cycling, and in the presence of NO$_X$, forms tropospheric ozone and other SOAs \citep{Wagner2002, Millet2006}.
-    
+    Isoprene effects NO$_X$ and HO$_Y$ cycling, and in the presence of NO$_X$, forms tropospheric ozone and SOAs \citep{Wagner2002, Millet2006}.
+    Bottom up inventories of VOCs remain largely uncertain due to extensive extrapolation over plant functional types, changing land cover, and parameterised environmental stressors (todo: read and \citep{Guenther2000}).
     
 
   \subsection{Sources and Sinks}
@@ -96,7 +99,7 @@ In this thesis I will combine satellite and ground based atmospheric measurement
   \subsection{Isoprene From HCHO}
     
     Isoprene is hard to measure directly due to its short lifetime and weak spectral absorption, instead formaldehyde is often used as a proxy \citep{Millet2006,Marais_2012,bauwens2013satellite,Kefauver2014,Bauwens2016}.
-    Formaldehyde formed in the troposphere is mostly due to VOC (methane, isoprene, others) oxidation. 
+    Formaldehyde formed in the troposphere is mostly due to VOC (roughly one third each: methane, isoprene, others) oxidation. 
     We can model this oxidation process in order to work out how much VOC is present based on the total HCHO.
     This requires among other things an idea of which VOCs are present and their yeilds of HCHO.
     In the remote troposphere HCHO production is dominated by methane oxidation, while in the continental boundary layer (CBL) production is largely due to NMVOCs \citep{Abbot2003,Kefauver2014}.
@@ -106,7 +109,7 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     
     Satellites can be used to measure the seasonal and interannual variability of HCHO over Australia.
     These records can be compared with modeled estimates of HCHO and used as a proxy to estimate isoprene emissions.
-    This has been done in North America \citep{Palmer2003, Millet_2006}, South America, Africa, China, and recently globally \citep{FortemsCheiney2012, Bauwens2016}.
+    This has been done in North America \citep{Palmer2003, Millet2006}, South America, Africa, China, and recently globally \citep{FortemsCheiney2012, Bauwens2016}.
     Often these works use two forms of measurement such as satellite and aircraft data combined for validation \citep{Marais_2014}.
     
     Initially studies assumed a simple linear steady-state relationship between HCHO and it's precursors \citep{Palmer2003,Millet2006}.
@@ -137,6 +140,7 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     
     More recently, full inversions that better account for transport, source attribution, and chemical schemes have been implemented \citep{FortemsCheiney2012}.
     TODO: full description of this better inversion technique going through FortemsCheiney2012.
+    
 
   \subsection{Measurements}
   
@@ -153,7 +157,7 @@ In this thesis I will combine satellite and ground based atmospheric measurement
   \subsection{GEOS-Chem isoprene chemistry}
     Todo: \citep{Mao2013} chemistry mechanism used in GEOS-Chem v9.02
     TODO: isoprene chemistry updated since v9.02?
-    
+       
     
   
   \subsection{Radiative Forcing}
@@ -173,13 +177,14 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     HCHO is used as an adhesive in plywood and carpeting and also used in the creation of paints and wallpapers.
     Emissions in enclosed spaces can build up to dangerous levels, especially if new furnishings are installed \citep{Davenport2015}.
     One common way to detect and measure HCHO is through the DOAS technique, which takes advantage of the optically thin nature of HCHO in order to linearise the differential determined from the Beer-Lambert intensity law.
-    This method works for both in the home HCHO detection and global measurements from in-situ stations and remote sensing satellites \citep{Guenther1995, Abad2015,Davenport2015}.
+    This method works for both in the home HCHO detection and global measurements from in-situ and remote sensing instruments \citep{Guenther1995, Abad2015,Davenport2015}.
     
   \subsection{Sources and sinks}
     In the atmosphere HCHO is primarily produced through the oxidation of methane (CH$_4$) by the hydroxyl radical (OH).
     Within the continental boundary layer, the majour source of HCHO enhancement is VOC emissions reacting with OH radicals in the presence of NO$_X$ \citep{Wagner2002,Millet2006}.
     
-    HCHO undergoes photolysis during the day (two reactions), reacting with the hydroxyl radical (OH), producing hydroperoxyl radicals (HO$_2$), leading to a change in the atmospheric oxidative capacity \citep{Crutzen1999, Wagner2002}.
+    HCHO follows two major reactions with the hydroxyl radical (OH), producing hydroperoxyl radicals (HO$_2$), and leading to a change in the atmospheric oxidative capacity \citep{Crutzen1999, Wagner2002}.
+    The other main sink is photolysis, (todo: levy 1972 read abstract and cite), combined with the OH reactions leads to a daytime lifetime of a few hours (todo: read abstract and cite atkinson 2000) \citep{Millet2006}.
     The other major sinks are wet and dry deposition.
     
     In the past, HCHO levels were underestimated by models, often with large discrepancies, due to the poor understanding of methyl peroxy radical (CH$_3$OO) chemistry \citep{Wagner2002}.
@@ -196,6 +201,9 @@ In this thesis I will combine satellite and ground based atmospheric measurement
 	This is a portion of an image from \citet{Davenport2015}.}
       \label{ch1:fig:HCHOSpectrum}
     \end{figure}
+    
+    Other measurement techniques include chromatographic and fluorimetric methods, both of which differ widely from eachother and the spectroscopic method TODO: read \citep{Hak2005}).
+    This resulted in HCHO not having a consistent network for global measurements like those for GHGs or Ozone \citep{FortemsCheiney2012}.
     
 %----------------------------------------------------------------------------------------
 %	SECTION 5
