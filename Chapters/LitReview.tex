@@ -59,13 +59,48 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     This can be overcome if we know the sources of uncertainty and ensure they are not introducing systematic biases.
     By averaging over several measurements any random error can be reduced by a factor of one over the square root of the number of measurements.
 
-\section{Formaldehyde}
+%----------------------------------------------------------------------------------------
+%	HCHO Section
+%----------------------------------------------------------------------------------------
+\section{Formaldehyde(HCHO)}
 \label{ch1:sec:HCHO}
+  
   \subsection{Basics}
-  TODO: Formaldehyde stuff here
-  
+    HCHO, aka methanal, methyl aldehyde, and methylene oxide is of the aldehyde family.
+    HCHO is an OVOC which is toxic, allergenic, and a potential carcinogen. 
+    It is dangerous at low levels, with WHO guidelines for prolonged exposure at 80ppb.
+    
+    HCHO is used as an adhesive in plywood and carpeting and also used in the creation of paints and wallpapers.
+    Emissions in enclosed spaces can build up to dangerous levels, especially if new furnishings are installed \citep{Davenport2015}.
+    One common way to detect and measure HCHO is through the DOAS technique, which takes advantage of the optically thin nature of HCHO in order to linearise the differential determined from the Beer-Lambert intensity law.
+    This method works for both in the home HCHO detection and global measurements from in-situ and remote sensing instruments \citep{Guenther1995, Abad2015,Davenport2015}.
+    
   \subsection{Sources and sinks}
-  
+    In the atmosphere HCHO is primarily produced through the oxidation of methane (CH$_4$) by the hydroxyl radical (OH).
+    Within the continental boundary layer, the majour source of HCHO enhancement is VOC emissions reacting with OH radicals in the presence of NO$_X$ \citep{Wagner2002,Millet2006}.
+    
+    HCHO follows two major reactions with the hydroxyl radical (OH), producing hydroperoxyl radicals (HO$_2$), and leading to a change in the atmospheric oxidative capacity \citep{Crutzen1999, Wagner2002}.
+    The other main sink is photolysis, (todo: levy 1972 read abstract and cite), combined with the OH reactions leads to a daytime lifetime of a few hours (todo: read abstract and cite atkinson 2000) \citep{Millet2006}.
+    The other major sinks are wet and dry deposition.
+    
+    In the past, HCHO levels were underestimated by models, often with large discrepancies, due to the poor understanding of methyl peroxy radical (CH$_3$OO) chemistry \citep{Wagner2002}.
+    
+  \subsection{Measurements}
+    There are a few ways to measure HCHO, including FTIR and MAX-DOAS. 
+    As a trace gas HCHO interferes with light over a few wavelength bands, which allows instruments to detect concentrations along a path between a sensor and a known light source like a lamp or the sun.
+    Figure \ref{ch1:fig:HCHOSpectrum} shows the interference spectrum of HCHO as well as a typical band used to examine interference in the DOAS technique.
+    One difficulty is that this interference is relatively small (HCHO is optically thin) and other compounds absorb light at similar wavelengths \citep{Davenport2015}.
+    
+    \begin{figure}
+      \includegraphics{Figures/HCHO/HCHOAbsorbanceDavenport.png}
+      \caption{ HCHO spectrum, with a typical band of wavelengths used for DOAS path measurements.
+	This is a portion of an image from \citet{Davenport2015}.}
+      \label{ch1:fig:HCHOSpectrum}
+    \end{figure}
+    
+    Other measurement techniques include chromatographic and fluorimetric methods, both of which differ widely from eachother and the spectroscopic method TODO: read \citep{Hak2005}).
+    This resulted in HCHO not having a consistent network for global measurements like those for GHGs or Ozone \citep{FortemsCheiney2012}.
+    
   \subsection{Relationship with glyoxyl and isoprene}
     Glyoxyl (CHOCHO) is important to us as it shares many properties with HCHO, and may provide additional information in determining isoprene emissions.
     Glyoxyl is another product of VOC oxidation in the atmosphere, with isoprene being the main source globally.
@@ -77,6 +112,11 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     However, glyoxyl also forms in low NO$_X$ environments both slowly (through isoprene epoxydiols), and rapidly (through di-hydroperoxide dicarbonyl compound photolysation (todo: read abstract and cite crounse(Autoxidation of Organic Compounds in the Atmosphere) 2013).
     This process is similar to the proposed mechanisms for hydroperoxyaldehydes by (todo read abstract and cite peeters 2014 (\verb|http://dx.doi.org/10.1021/jp5033146|)) and carbonyl nitrates (todo: read and cite M\:{u}ller 2014).
     
+  \subsection{Satellite measurements}
+    Satellite measurements of HCHO are relatively uncertain, however this can be improved by averaging over larger gridboxes or longer time scales.
+    an example of this can be seen in (TODO: read/cite dufour2009), where monthly averaging is used to decrease the measurements uncertainty.
+    HCHO in Europe is low; near the detection limit of satellite measurements, however taking monthly averages allows enough certainty that useful inversions can be determined to estimate the sources of the HCHO (TODO: read and citep{Dufour2009}).
+
     
 %----------------------------------------------------------------------------------------
 %	Isoprene Section
@@ -132,7 +172,7 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     
     Satellites can be used to measure the seasonal and interannual variability of HCHO over Australia.
     These records can be compared with modeled estimates of HCHO and used as a proxy to estimate isoprene emissions.
-    This has been done in North America \citep{Palmer2003, Millet2006}, South America, Africa, China, and recently globally \citep{FortemsCheiney2012, Bauwens2016}.
+    This has been done in North America \citep{Palmer2003, Millet2006}, South America, Africa, China, Europe, and recently globally \citep{FortemsCheiney2012, Bauwens2016}.
     Often these works use two forms of measurement such as satellite and aircraft data combined for validation \citep{Marais_2014}.
     
     Initially studies assumed a simple linear steady-state relationship between HCHO and it's precursors \citep{Palmer2003,Millet2006}.
@@ -148,7 +188,7 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     \Omega = \frac{1}{k_{HCHO}} \sum_{i} Y_i E_i
     \end{eqnarray*}
     Where i indexes a chemical species, and $E_i$ is emission fluxes ( C atoms $cm^{-2}s^{-1}$).
-    Estimates of the HCHO yield (Y$_i$) can be attained simply as shown in \citet{Millet_2006}.
+    Estimates of the HCHO yield (Y$_i$) can be attained from a model as shown in \citet{Millet_2006}.
     This involves a reduced major axis (RMA) correllation calculation between modelled HCHO and isoprene columns, multiplied by their reaction rates (as a normalising factor).  
     In high NOx environments where HCHO has a lifetime on the order of 30 minutes, it can be used to map isoprene emissions with spatial resolution from 10-100 kms.
     This can be determined using the calculations from (TODO: cite and formula for spatial resolution).
@@ -158,8 +198,16 @@ In this thesis I will combine satellite and ground based atmospheric measurement
     Horizontal transport 'smears' the HCHO signal so that source location would need to be calculated using windspeeds and loss rates.
     For conditions where VOCs have a lifetime of days determining the major HCHO contributors requires a complex inversion to map HCHO columns to VOC emissions.
     
+    Another method of correcting isoprene emissions using observed HCHO total column involves a Bayesian inversion.
+    In \citet{Curci2010}, a regional CTM (CHIMERE) simulates HCHO, which is compared against OMI observed HCHO and shown to be regionally biased.
+    This is expected to be due to errors in MEGAN's natural isoprene emissions.
+    The CHIMERE model is used to derive yields of HCHO from the various local VOCs and these yields are then used in estimating  local emissions.
+    The Bayesian inversion is used to correct regionally biased biogenic isoprene emissions through determination of the emissions which more closely(to the observed HCHO) simulate HCHO.
+    (TODO: summary of this bayesian method from Curci2010).
+    
+    
     TODO: Read through this list of sources on the hcho to isop process : taken from Wolfe2015
-    Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008, 2006; Palmer et al., 2006, \citep{Palmer2003}), South America (\citep{Barkley2013}, 2008), Europe (Curciet al., 2010; Dufour et al., 2009), Africa (Marais et al., 2012), Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; Shim et al., 2005; Stavrakou et al., 2009).
+    Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008, 2006; Palmer et al., 2006, \citep{Palmer2003}), South America (\citep{Barkley2013}, 2008), Europe (\citep{Curci2010}, Dufour et al., 2009), Africa (Marais et al., 2012), Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; Shim et al., 2005; Stavrakou et al., 2009).
     
     More recently, full inversions that better account for transport, source attribution, and chemical schemes have been implemented \citep{FortemsCheiney2012}.
     TODO: full description of this better inversion technique going through FortemsCheiney2012.
@@ -168,6 +216,8 @@ In this thesis I will combine satellite and ground based atmospheric measurement
   
     There are relatively few measurements of isoprene in the southern hemisphere, including MUMBA(TODO CITE), other campaigns?, and very recently that girl from Macquarie University with an instrument in the daintree rainforest(TODO CITE, DESCRIBE?).
     Since 1997, when GOME first measured HCHO over Asia (TODO cite thomas 1998), satellites have been able to provide a total column measurement of one of the primary products of isoprene.
+    
+    
   
   \subsection{Estimates}
     There are two commonly used ways of estimating isoprene emissions, top-down or bottom-up.
@@ -184,48 +234,6 @@ In this thesis I will combine satellite and ground based atmospheric measurement
   
   \subsection{Radiative Forcing}
 
-  
-%----------------------------------------------------------------------------------------
-%	HCHO Section
-%----------------------------------------------------------------------------------------
-\section{Formaldehyde(HCHO)}
-\label{ch1:sec:formaldehyde}
-  
-  \subsection{Basics}
-    HCHO, aka methanal, methyl aldehyde, and methylene oxide is of the aldehyde family.
-    HCHO is an OVOC which is toxic, allergenic, and a potential carcinogen. 
-    It is dangerous at low levels, with WHO guidelines for prolonged exposure at 80ppb.
-    
-    HCHO is used as an adhesive in plywood and carpeting and also used in the creation of paints and wallpapers.
-    Emissions in enclosed spaces can build up to dangerous levels, especially if new furnishings are installed \citep{Davenport2015}.
-    One common way to detect and measure HCHO is through the DOAS technique, which takes advantage of the optically thin nature of HCHO in order to linearise the differential determined from the Beer-Lambert intensity law.
-    This method works for both in the home HCHO detection and global measurements from in-situ and remote sensing instruments \citep{Guenther1995, Abad2015,Davenport2015}.
-    
-  \subsection{Sources and sinks}
-    In the atmosphere HCHO is primarily produced through the oxidation of methane (CH$_4$) by the hydroxyl radical (OH).
-    Within the continental boundary layer, the majour source of HCHO enhancement is VOC emissions reacting with OH radicals in the presence of NO$_X$ \citep{Wagner2002,Millet2006}.
-    
-    HCHO follows two major reactions with the hydroxyl radical (OH), producing hydroperoxyl radicals (HO$_2$), and leading to a change in the atmospheric oxidative capacity \citep{Crutzen1999, Wagner2002}.
-    The other main sink is photolysis, (todo: levy 1972 read abstract and cite), combined with the OH reactions leads to a daytime lifetime of a few hours (todo: read abstract and cite atkinson 2000) \citep{Millet2006}.
-    The other major sinks are wet and dry deposition.
-    
-    In the past, HCHO levels were underestimated by models, often with large discrepancies, due to the poor understanding of methyl peroxy radical (CH$_3$OO) chemistry \citep{Wagner2002}.
-    
-  \subsection{Measurements}
-    There are a few ways to measure HCHO, including FTIR and MAX-DOAS. 
-    As a trace gas HCHO interferes with light over a few wavelength bands, which allows instruments to detect concentrations along a path between a sensor and a known light source like a lamp or the sun.
-    Figure \ref{ch1:fig:HCHOSpectrum} shows the interference spectrum of HCHO as well as a typical band used to examine interference in the DOAS technique.
-    One difficulty is that this interference is relatively small (HCHO is optically thin) and other compounds absorb light at similar wavelengths \citep{Davenport2015}.
-    
-    \begin{figure}
-      \includegraphics{Figures/HCHO/HCHOAbsorbanceDavenport.png}
-      \caption{ HCHO spectrum, with a typical band of wavelengths used for DOAS path measurements.
-	This is a portion of an image from \citet{Davenport2015}.}
-      \label{ch1:fig:HCHOSpectrum}
-    \end{figure}
-    
-    Other measurement techniques include chromatographic and fluorimetric methods, both of which differ widely from eachother and the spectroscopic method TODO: read \citep{Hak2005}).
-    This resulted in HCHO not having a consistent network for global measurements like those for GHGs or Ozone \citep{FortemsCheiney2012}.
     
 %----------------------------------------------------------------------------------------
 %	SECTION 5
