@@ -621,10 +621,22 @@
     where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
     This equation comes from \citet{Palmer2001}, and is unitless since $\Omega_a / \Omega_v$ is molecules of air per molecule of HCHO; the opposite of $C_{HCHO}$.
 
-    TODO: currently I'm assuming the surface pressure from omi measurements is just the bottom pressure level they provide.
-    If I change this to use an inverted geometric midpoint calculation then I need to explain it, otherwise I will need to note the assumption
-    $ \sqrt{ \left( P_1 \times P_{surf} \right)} = P_0 $
-    becomes $ P_{surf} = \frac{P_0^2}{P_1} $ where currently I'm using $P_0$ as the surface.
+    Pressure dimension from OMI are the surface pressures from each gridbox (offline conversation with Dr Christopher Miller).
+    Determining the geometric pressure midpoints (here onwards pressure levels) and interpolating to our increased vertical resolution involves a few steps.
+    The lowest level (with highest pressure) in whichever pressure dimension (ours or OMI's) extends to the lowest altitude (or highest pressure) is interpolated upwards to match the lowest level in the other dimension.
+    Secondly, if the OMI dimension has been changed, the scattering weights are interpolated onto this updated dimension.
+    Figure \ref{ch_isop:fig:AMF_Surface_Relevel} shows how these first two steps are applied using three fake array comparisons and updating the array with the lower surface level.
+    Finally, once our dimensions match at the surface (we are not so worried about the very top of the atmosphere) we interpolate the scattering weights onto our updated GEOS-Chem pressure dimension.
+    
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/HCHO/SurfaceRelevelCheck.png}
+      \caption{Constructed example of the initial interpolation of OMI's $\omega$ onto a pressure dimension with mismatched surface pressure.}
+      \label{ch_isop:fig:AMF_Surface_Relevel}
+    \end{figure}
+    
+    %If I change this to use an inverted geometric midpoint calculation then I need to explain it, otherwise I will need to note the assumption
+    %$ \sqrt{ \left( P_1 \times P_{surf} \right)} = P_0 $
+    %becomes $ P_{surf} = \frac{P_0^2}{P_1} $ where currently I'm using $P_0$ as the surface.
 
     S$_\sigma(\sigma)$ Is determined after running GEOS-Chem, which outputs vertical profiles of air density and HCHO mixing ratio, at 72 vertical levels with associated metadata such as vertical layer height and pressure, grid box location, height, and surface pressure.
     Using these outputs the vertical columns ($\Omega_a, \Omega_v$) are calculated for each horizontal grid point (i, j) as follows:
