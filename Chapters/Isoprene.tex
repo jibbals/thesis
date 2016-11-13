@@ -441,7 +441,7 @@
     Any pixel with a cloud fraction of greater than 40\% is also removed, after the pixel is used in determining the reference sector correction, as is done in \citet{Abad2015, DeSmedt2015}.
     In \citet{Martin2003}, pixels with more than half of the backscattered intesity from the cloudy sky fraction are removed, in effect removing pixels with more than ~40\% cloud fraction before calculating the AMF for NO$_2$ slant columns. 
     
-    \begin{table}[H]
+    \begin{table}
     \begin{tabular}{ | l | l | p{10cm} |}
       \hline
       \textbf{Value} & \textbf{Classification} & \textbf{Rational} 
@@ -452,7 +452,7 @@
         \begin{itemize}
           \item Fit convergence flag is $<$ 300 but $>$ 0: Convergence at noise level
           \item Column $+ 2 \sigma$ uncertainty $<$ 0 $<$ Column $ + 3 \sigma $ uncertainty
-          \item Absolute column value $>$ Maximum column amount (1e19 mol/cm$^{-2}$)
+          \item Absolute column value $>$ Maximum column amount (1e19 molec cm$^{-2}$)
         \end{itemize}
       \\ \hline
       2 & Bad & Avoid using as one of the following conditions are present: 
@@ -691,7 +691,12 @@
     Finally, for each day, the good satellite measurements are averaged into our own latitude longitude resolution bins along with the associated corrected SC, VC, VCC, AMF, and bin entry count.
     The bin entry count is used to create an 8-day average out of the one day averages, as it is the daily mean multiplied by the daily count summed over 8 days divided by the total count for each bin.
     
-  \subsection{}
+  \subsection{Estimation of error or uncertainty}
+    There are three main sources of error in the resulting HCHO columns: a) fitting error from the OMI retrieval, b) uncertainty in AMF calculations, and c) uncertainty of HCHO background.
+    a) is available in the OMI product and reduced through spatial and temporal averaging.
+    b) and c) are determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
+    
+    Compare this error estimate with that of \citet{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
   
   \subsection{Comparison with in-situ measurements}
     TODO: Describe Wollongong FTIR and junk

@@ -32,8 +32,8 @@
     Naturally occurring trace gases in the atmosphere can have a large impact on living conditions.
     They react in complex ways with other elements (anthropogenic and natural), as well as affecting various ecosystems upon which life depends.
     Natural emissions affect surface pollution levels and can alter the radiative and particulate matter distribution of the atmosphere with harmful results.
-    For example, ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh_2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
-    Particulate matter in the atmosphere is also a major problem, causing an estimated 2-3 million deaths annually \citep{Hoek_2013, Krewski_2009, Silva_2013, Lelieveld_2015}.
+    For example, ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
+    Particulate matter in the atmosphere is also a major problem, causing an estimated 2-3 million deaths annually \citep{Hoek2013, Krewski2009, Silva2013, Lelieveld2015}.
 
     The Australian outback includes extremely large and diverse environments.
     Much of the landscape outside of urban areas is undeveloped and sparsely inhabited.
@@ -127,7 +127,7 @@ TODO: Start this section!
     
     Under high NO$_X$ conditions, glyoxyl forms rapidly, similarly to HCHO.
     However, glyoxyl also forms in low NO$_X$ environments both slowly (through isoprene epoxydiols), and rapidly (through di-hydroperoxide dicarbonyl compound photolysation (todo: read abstract and cite crounse(Autoxidation of Organic Compounds in the Atmosphere) 2013).
-    This process is similar to the proposed mechanisms for hydroperoxyaldehydes by (todo read abstract and cite peeters 2014 (\verb|http://dx.doi.org/10.1021/jp5033146|)) and carbonyl nitrates (todo: read and cite M\:{u}ller 2014).
+    This process is similar to the proposed mechanisms for hydroperoxyaldehydes by \citet{Peeters2014} and carbonyl nitrates (todo: read and cite M$\:{u}$ller 2014).
     
   \subsection{Satellite measurements}
     Satellite measurements of HCHO are relatively uncertain, however this can be improved by averaging over larger gridboxes or longer time scales.
@@ -219,6 +219,14 @@ TODO: Start this section!
     The CHIMERE model is used to derive yields of HCHO from the various local VOCs and these yields are then used in estimating  local emissions.
     The Bayesian inversion is used to correct regionally biased biogenic isoprene emissions through determination of the emissions which more closely(to the observed HCHO) simulate HCHO.
     (TODO: summary of this bayesian method from Curci2010).
+    \cite{Curci2010} uses CHIMERE as the forward model to determine the relationship between HCHO (y), isorene and reactive anthropogenic VOCs (\textbf{x}), using 
+    \begin{equation}
+        y=\mathbf{K}x + b + \epsilon
+    \end{equation}$
+    where b is the background HCHO and $\epsilon is errors in measurement.
+    K is the Jacobian matrix determined from CHIMERE, and represents the sensitivity of y to the state variable x.
+    TODO: some more on the bayesian technique from CURCI here..
+    
     
     
     TODO: Read through this list of sources on the hcho to isop process : taken from Wolfe2015
@@ -231,7 +239,7 @@ TODO: Start this section!
   \label{ch1:sec:smearing}
     The distance travelled downwind (L$_{d,i}$ by a precursor (i) before becoming HCHO can be estimated using:
     \begin{equation*}
-      L_{d,i} = \frac{U}{k_i - k_{HCHO}} \ln{\left(\frac{k_i}{k_{HCHO}\right)}
+      L_{d,i} = \frac{U}{k_i - k_{HCHO}} \ln{ \left( \frac{k_i}{k_{HCHO}} \right) }
     \end{equation*}
     where U is windspeed.
     \citet{Palmer2003} further define a smearing length scale: L$_{s,i}$ as the distance downwind where a fraction (1 - $1/e$) of the precursor is completely transformed into HCHO.
