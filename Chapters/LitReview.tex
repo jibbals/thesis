@@ -5,7 +5,7 @@
 
 \section{What are Volatile Organic Compounds (VOCs)?}
 \label{ch1:sec:what_are_vocs}
-  Organic compounds are members of a large class of chemicals whose molecules contain carbon, with the exception of a few compounds such as carbides, carbonates, simple oxides of carbon and cyanides.
+  Organic compounds are members of a large class of chemicals whose molecules contain carbon, with the exception of a few compounds such as carbides, carbonates (CO$_3$), and simple oxides of carbon and cyanides.
   Organic compounds can be categorised based on their vapour pressure, which is the tendency of a liquid or solid to vaporise.
   Compounds with high vapour pressures at standard temperature are classed as volatile, and have a felicity to evaporate at low temperatures.
   
@@ -183,7 +183,9 @@ TODO: Start this section!
     
     The method used to develop top-down isoprene inference using satellites was developed initially by \citet{Palmer2001,Palmer2003}. 
     Isoprene emissions fluxes were derived using the Global Ozone Monitoring Experiment (GOME) satellite instrument.
-
+    Palmer's method improved biogenic isoprene emissions estimates (compared with in-situ measurements) over two available inventories: the U.S. EPA Biogenic Emssions Inventory System (BEIS2) and the Global Emissions Inventory Activity (GEIA).
+    This showed an inversion technique which could be used to improve large scale emissions estimates without further expensive measurement campaigns.
+    
     Satellites recording reflected solar spectra use Differential Optical Absorption Spectroscopy (DOAS) to measure various trace gases in the atmosphere, including formaldehyde. 
     Formaldehyde levels in the continental boundary layer are generally dominated by chemical formation due to VOC (largely isoprene) emissions \citep{Kefauver2014}.
     
@@ -223,11 +225,9 @@ TODO: Start this section!
     \begin{equation}
         y=\mathbf{K}x + b + \epsilon
     \end{equation}$
-    where b is the background HCHO and $\epsilon is errors in measurement.
-    K is the Jacobian matrix determined from CHIMERE, and represents the sensitivity of y to the state variable x.
-    TODO: some more on the bayesian technique from CURCI here..
-    
-    
+    where b is the background HCHO determined from CHIMERE with desired emissions set to zero, and $\epsilon is (assumed independent) errors in measurements.
+    K is the Jacobian matrix determined from CHIMERE representing the sensitivity of y to the state variable x.
+    This K matrix is used in conjunction with error covariance in x to determine the Maxium A Posteriori (MAP) solution to give an optimal estimate of x ($\hat{x}$). 
     
     TODO: Read through this list of sources on the hcho to isop process : taken from Wolfe2015
     Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008, 2006; Palmer et al., 2006, \citep{Palmer2003}), South America (\citep{Barkley2013}, 2008), Europe (\citep{Curci2010}, Dufour et al., 2009), Africa (Marais et al., 2012), Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; Shim et al., 2005; Stavrakou et al., 2009).
