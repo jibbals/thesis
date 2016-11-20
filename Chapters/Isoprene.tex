@@ -54,16 +54,11 @@
     \begin{tabular}{ | c  c  c  c  c | }
       \hline
       \textbf{Species} & \textbf{Emissions$^a$} & \textbf{Lifetime$^b$} & \textbf{HCHO Yield$^c$} & \textbf{HCHO production$^d$\%}
-      \\ & (Tg C per month) & & (per C reacted) &
-      \\ \hline
-      Isoprene & Y & n minutes & 0.x & 10
-      \\
-      $\alpha$-Pinene & Y & n minutes & 0.x & 10
-      \\ %\hline
-      $\beta$-Pinene & Y & n minutes & 0.x & 10
-      \\
-      HCHO & Y & n minutes & 1.0 & 10
-      \\ \hline
+      \\                     & (Tg C per month) &              & (per C reacted) &         \\ \hline
+      Isoprene           & Y                     & n minutes & 0.x                & 10       \\
+      $\alpha$-Pinene & Y                     & n minutes & 0.x                & 10        \\ %\hline
+      $\beta$-Pinene  & Y                     & n minutes  & 0.x               & 10        \\
+      HCHO             & Y                    & n minutes   & 1.0              & 10         \\ \hline
     \end{tabular}
     \caption{HCHO yields from various species averaged over Australia during Summer. \hspace{\textwidth} \\ 
     ${}^a$Calculated using GEOS-Chem emissions over Australia in January 2005. \hspace{\textwidth} \\ 
@@ -90,30 +85,18 @@
     \begin{table}
     \begin{tabular}{ | c | c | c | c |  }
       \hline
-      \textbf{Species} & \textbf{HCHO Yield} & Notes & Source
-      \\ & (molar \% unless specified) & & 
-      \\ \hline
-      Isoprene & 63$\pm$10  & High NO$_X$ & \citep{AtkinsenArey2003}
-      \\
-      & 57$\pm$6  & High NO$_X$ & \citep{AtkinsenArey2003}
-      \\
-      $\alpha$-Pinene & 28$\pm$3 & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2006}$^b$
-      \\ 
-      & X$\pm$3 & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2016}
-      \\ 
-      & 23$\pm$9 & High NO$_X$ & \citep{AtkinsenArey2003}
-      \\ 
-      & 19$\pm$5 & High NO$_X$ & \citep{AtkinsenArey2003}
-      \\ 
-      $\beta$-Pinene & 65$\pm$3 & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2006}
-      \\ 
-      & X$\pm$3 & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2016}
-      \\ 
-      & 54$\pm$5 & High NO$_X$ & \citep{AtkinsenArey2003}
-      \\ 
-      & 45$\pm$8 & High NO$_X$ & \citep{AtkinsenArey2003}
-      \\ 
-      \hline
+      \textbf{Species}  & \textbf{HCHO Yield} & Notes & Source
+      \\                    & (molar \% unless specified) & &       \\ \hline
+      Isoprene          & 63$\pm$10  & High NO$_X$ & \citep{AtkinsenArey2003}      \\
+                           & 57$\pm$6  & High NO$_X$ & \citep{AtkinsenArey2003}      \\
+      $\alpha$-Pinene & 28$\pm$3 & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2006}$^b$      \\ 
+                            & X$\pm$3 & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2016}      \\ 
+                            & 23$\pm$9 & High NO$_X$ & \citep{AtkinsenArey2003}      \\ 
+                            & 19$\pm$5 & High NO$_X$ & \citep{AtkinsenArey2003}      \\ 
+      $\beta$-Pinene & 65$\pm$3 & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2006}      \\ 
+                            & X$\pm$3 & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2016}      \\ 
+                            & 54$\pm$5 & High NO$_X$ & \citep{AtkinsenArey2003}      \\ 
+                            & 45$\pm$8 & High NO$_X$ & \citep{AtkinsenArey2003}      \\ \hline
     \end{tabular}
     \caption{HCHO yields from various species. \hspace{\textwidth} \\ 
       ${}^b$Calculated through change in concentration of parent and product linear least squares regression. \hspace{\textwidth} \\
@@ -173,10 +156,12 @@
     The full method details for slant column retrieval by OMI are outlined in section \ref{ch_isop:sec:OMI_BOAS}.
     
     Uncertainty in a single pixel for OMI is quite high (todo: link to picture with one day average plus omi uncertainty).
-    This can be reduced through temporal or spatial averaging, as the uncertainty decreases by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
-    Taking the eight day gridded average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces the uncertainty from TODO: numbers.
+    There are two methods of calculating this, one of which is used here and compared against the provided uncertainty (TODO) as shown in Section \ref{ch_isop:sec:uncertainty}.
+    If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
+    Random error can be reduced through temporal or spatial averaging, decreasing by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
+    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces the uncertainty from TODO: numbers.
     This can be seen more clearly in figure (TODO: image of OMI day retrieval compared to 8 day retrieval with uncertainties shown underneath).
-    
+    TODO: The figure shows both the provided and recalculated (using BIRA's method) uncertainty before and after averaging.
     
   \subsection{OMI Algorithm BOAS}
     \label{ch_isop:sec:OMI_BOAS}
@@ -374,6 +359,12 @@
     \end{equation}
     Note that this is an approximation based on the OMI satellite HCHO dataset as performed in \citet{Abad2015}.
     
+  \subsection{Uncertainty in OMI total columns}
+  \label{ch_isop:sec:uncertainty}
+      Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by SAO from the backscattered solar radiation fit \citep{Abad2015,Abad2016}.
+      BIRA use another method, and calculate the standard deviation of HCHO over the remote pacific ocean as the uncertainty 
+      (TODO: use this and compare my product uncertainty with provided uncertainty) \citep{DeSmedt2012,DeSmedt2015}.
+      
   \subsection{Reference sector correction for comparison of products to various models}
     HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{Desmedt2008,Barkley2013,OMI_README}.
     Since this oceanic background is used instead of a solar irradiance spectrum, in order to compare the output against different models, the vertical columns need to be corrected by an absolute amount.
