@@ -1,5 +1,5 @@
-% CHAPTER 3 (probably)
-% Isoprene Emissions
+% CHAPTER 2 (probably)
+% HCHO Levels
 
 \chapter{Isoprene Emissions in Australia} % Main chapter title
 \label{ch_HCHO} %better reference name like ch_HCHO
@@ -13,14 +13,14 @@
   \subsection{Isoprene, Monoterpenes}
   
     Globally around 1150 Tg C yr$^{-1}$ of BVOCs are emitted \citep{Guenther1995}.
-    90\% of these emissions come from plants and trees, with the most dominant species being isoprene (C$_5$H$_8$) (about 61\%), monoterpenes (C$_10$H$_16$), and methanol (CH$_3$OH) \citep{Guenther2012,Lathiere2006} (TODO: reread Guenther2012 for this sentence).
+    90\% of these emissions come from plants and trees, with the most dominant species being isoprene (C$_5$H$_8$) (about 61\%), monoterpenes (C$_10$H$_16$), and methanol (CH$_3$OH) \citep{Guenther2012, Lathiere2006} (TODO: reread Guenther2012 for this sentence).
     Isoprene has a large impact on the oxidative properties of the atmosphere, as it reacts quickly with the OH radical to form RO$_2$ and then in the presence of NO$_X$ various OVOCs(largely HCHO) and other SOAs(notably ozone) are formed. 
     The emissions of isoprene have been modelled at around 500~Tga$^{-1}$ using relatively few plant phenotypes to set global emission factors, in \citet{Guenther1995}.
     
     Estimates of emissions of isoprene requires more work in order to generate confidence at a global scale.
     Due to isoprene being optically thin (see section \ref{ch_HCHO:sec:satelliteHCHO:OpticalDepth}) and having a short life time (around an hour) there are relatively few accurate measurements against which a comparison and verification can be made. 
     
-    One problem with current estimates of biogenic VOC emissions in Australia is that the emission rates from various species of eucalypt and other flora are highly complex, depending on current and recent weather, temperature, tree age, tree health, etc \citep{Guenther2012}. 
+    One problem with current estimates of biogenic VOC emissions in Australia is that the emission rates from various species of eucalypt and other flora are highly complex, depending on current and recent weather, temperature, tree age, health, etc. \citep{Guenther2012}. 
     With this complexity added to the diversity of tree species in Australia as well as sparse rural data collections it is hard to model and verify emissions.
     Isoprenoid emissions remain to be verified in Australia and the few monoterpene emission rates we have may be underestimated by a factor of 2-4 \citep{Winters2009}.
 
@@ -40,7 +40,6 @@
     \citet{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
     (TODO:and finish Wolfe2016 discussion paper for yields)
     TODO:go through atkinsenarey2003
-    
     
     Many of the HCHO yeilds from terpenoids are estimated through chamber studies which examine the products through their molecular mass and charge after mixing the compound of choice into a known volume of air.
     These conditions generally don't match those of the real world, where ambient air will have a coctail of these compounds as well as various reactants.
@@ -159,13 +158,10 @@
     There are two methods of calculating this, one of which is used here and compared against the provided uncertainty (TODO) as shown in Section \ref{ch_HCHO:sec:uncertainty}.
     If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
     Random error can be reduced through temporal or spatial averaging, decreasing by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
-    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces the uncertainty from TODO: numbers.
-    This can be seen more clearly in figure (TODO: image of OMI day retrieval compared to 8 day retrieval with uncertainties shown underneath).
-    TODO: The figure shows both the provided and recalculated (using BIRA's method) uncertainty before and after averaging.
     
   \subsection{OMI Algorithm BOAS}
     \label{ch_HCHO:sec:OMI_BOAS}
-    The following information comes from the OMHCHO dataset documentation at \citet{OMI_Readme} and \citet{Chance2002}.
+    The following information comes from the OMHCHO dataset documentation at \citet{Kurosu2014} and \citet{Chance2002}.
     The method of HCHO total column retrieval depends heavily on measured solar radiation.
     Radiance is directional radiant flux, expressed in Watts per square metre per steradian (a unit of angle used in three dimensional geometry).
     Irradiance is radiant flux received by a surface, expressed in watts per square metre.
@@ -361,12 +357,16 @@
     
   \subsection{Uncertainty in OMI total columns}
   \label{ch_HCHO:sec:uncertainty}
-      Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by SAO from the backscattered solar radiation fit \citep{Abad2015,Abad2016}.
-      BIRA use another method, and calculate the standard deviation of HCHO over the remote pacific ocean as the uncertainty 
-      (TODO: use this and compare my product uncertainty with provided uncertainty) \citep{DeSmedt2012,DeSmedt2015}.
+    Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by SAO from the backscattered solar radiation fit \citep{Abad2015,Abad2016}.
+    BIRA use another method, and calculate the standard deviation of HCHO over the remote pacific ocean as the uncertainty 
+    (TODO: use this and compare my product uncertainty with provided uncertainty) \citep{DeSmedt2012,DeSmedt2015}.
+    
+    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces the uncertainty from TODO: numbers.
+    This can be seen more clearly in figure (TODO: image of OMI day retrieval compared to 8 day retrieval with uncertainties shown underneath).
+    TODO: The figure shows both the provided and recalculated (using BIRA's method) uncertainty before and after averaging.
       
   \subsection{Reference sector correction for comparison of products to various models}
-    HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{DeSmedt2008,Barkley2013,OMI_README}.
+    HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{DeSmedt2008,Barkley2013,Kurosu2014}.
     Since this oceanic background is used instead of a solar irradiance spectrum, in order to compare the output against different models, the vertical columns need to be corrected by an absolute amount.
     The corrected vertical column ($\Omega_V$) is calculated as the slant column ($\Omega_S$) minus the reference slant column ($\Omega_{S_0}$) multiplied by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
     \begin{equation*}
@@ -427,7 +427,7 @@
     TODO: Quality flags and cloud cover metric uses, and discussion, along with statistics like how many datapoints are removed.
     
     The OMI dataset has a quality flag which can be used to remove unlikely or poor satellite measurements.
-    The states represented by this quality flag are shown in table \ref{ch_HCHO:tab:OMIQualityFlag} which is taken from \citet{OMI_README}.
+    The states represented by this quality flag are shown in table \ref{ch_HCHO:tab:OMIQualityFlag} which is taken from \citet{Kurosu2014}.
     Filtering bad or missing measurement pixels is preformed prior to any other filtering.
     Any pixel with a cloud fraction of greater than 40\% is also removed, after the pixel is used in determining the reference sector correction, as is done in \citet{Abad2015, DeSmedt2015}.
     In \citet{Martin2003} (TODO: find this paper), pixels with more than half of the backscattered intesity from the cloudy sky fraction are removed, in effect removing pixels with more than ~40\% cloud fraction before calculating the AMF for NO$_2$ slant columns. 
@@ -455,7 +455,7 @@
       $<0$ & Missing & No column values have been computed; entries are missing
       \\ \hline
     \end{tabular}
-    \caption{OMI quality flag values table from \citet{OMI_Readme}}
+    \caption{OMI quality flag values table from \citet{Kurosu2014}}
     \label{ch_HCHO:tab:OMIQualityFlag}
     \end{table}
     
