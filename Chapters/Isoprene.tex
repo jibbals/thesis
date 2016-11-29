@@ -34,15 +34,15 @@
     Emissions and yields for various species including some terpenes can be seen in table \ref{ch_HCHO:tab:VOCAusYields}.
     \citet{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
     (TODO:and finish Wolfe2016 discussion paper for yields)
-    TODO:go through atkinsenarey2003
+    TODO:go through atkinsonarey2003
     
-    Many of the HCHO yeilds from terpenoids are estimated through chamber studies which examine the products through their molecular mass and charge after mixing the compound of choice into a known volume of air.
+    Many of the HCHO yields from terpenoids are estimated through chamber studies which examine the products molecular mass and charge after mixing the compound of choice into a known volume of air.
     These conditions generally don't match those of the real world, where ambient air will have a cocktail of these compounds as well as various reactants.
     
     A proton transfer reaction mass spectrometer (PTR-MS) can be used to determine gas phase evolution of terpene oxidation products.
     This is done through analysis of mass to charge ratios ($m/z$) which can be used identify chemical compounds.
     
-    Looking at Australian emissions from running GEOS-Chem and using using Yields provided by XYZ (another table)
+    Looking at Australian emissions from running GEOS-Chem and using yields provided by XYZ (another table)
     TODO: Fill out this table
     \begin{table}
     \begin{tabular}{ | c  c  c  c  c | }
@@ -75,24 +75,39 @@
     %0.45 0.08 Orlando et al. (2000)
     
     Yields table looking at literature provided yields of HCHO.
-    % syntax err ahead...
+    % molar HCHO yield per unit carbon equal to HCHO molar percent yield(per carbon)? or some conversion?
+    % TODO: ask steve
+    
     \begin{table}
     \begin{tabular}{ | c | c | c | c |  }
       \hline
       \textbf{Species}  & \textbf{HCHO Yield} & Notes & Source
       \\                    & (molar \% unless specified) & &       \\ \hline
-      Isoprene          & 63$\pm$10  & High NO$_X$ & \citep{AtkinsenArey2003}      \\
-                           & 57$\pm$6  & High NO$_X$ & \citep{AtkinsenArey2003}      \\
-      $\alpha$-Pinene & 28$\pm$3 & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2006}$^b$      \\ 
-                            & X$\pm$3 & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2016}      \\ 
-                            & 23$\pm$9 & High NO$_X$ & \citep{AtkinsenArey2003}      \\ 
-                            & 19$\pm$5 & High NO$_X$ & \citep{AtkinsenArey2003}      \\ 
-      $\beta$-Pinene & 65$\pm$3 & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2006}      \\ 
-                            & X$\pm$3 & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2016}      \\ 
-                            & 54$\pm$5 & High NO$_X$ & \citep{AtkinsenArey2003}      \\ 
-                            & 45$\pm$8 & High NO$_X$ & \citep{AtkinsenArey2003}      \\ \hline
+      Isoprene          & 63$\pm$10     & High NO$_X$ & \citep{AtkinsonArey2003}      \\
+                           & 57$\pm$6       & High NO$_X$ & \citep{AtkinsonArey2003}      \\
+                           & .45(per C)       & High NO$_X$ & \citep{Palmer2003}               \\
+                           & .30(per C)       & Low  NO$_X$ & \citep{Palmer2003}               \\
+      $\alpha$-Pinene & 28$\pm$3      & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2006}$^b$      \\ 
+                            & X$\pm$3       & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2016}      \\ 
+                            & 23$\pm$9      & High NO$_X$ & \citep{AtkinsonArey2003}      \\ 
+                            & 19$\pm$5      & High NO$_X$ & \citep{AtkinsonArey2003}      \\ 
+                            & .019(per C)      & 1 hour lifetime & \citep{Palmer2003}               \\
+      $\beta$-Pinene & 65$\pm$3       & 20$^\circ$~C, Low NO$_X$ & \citep{Lee2006}      \\ 
+                            & X$\pm$3       & X$^\circ$~C, X NO$_X$ & \citep{Wolfe2016}      \\ 
+                            & 54$\pm$5      & High NO$_X$ & \citep{AtkinsonArey2003}      \\ 
+                            & 45$\pm$8      & High NO$_X$ & \citep{AtkinsonArey2003}      \\ 
+                            & .045(per C)      & 40 minute lifetime & \citep{Palmer2003}               \\
+       Methane          & 1(per C)      & 1 year lifetime   & \citep{Palmer2003}     \\ 
+       Ethane            & .54(per C)   & 10 day lifetime   & \citep{Palmer2003}     \\ 
+       Propane           & .20(per C)   & 2 day lifetime    & \citep{Palmer2003}     \\ 
+       Methylbutanol    & .13(per C)    & 1 hour lifetime  &  \citep{Palmer2003}     \\ 
+       HCHO             & 1(per C)      & 2 hour lifetime   &   \citep{Palmer2003}     \\ 
+       Acetone          & .67(per C)    & 10 days lifetime  &  \citep{Palmer2003}     \\ 
+       Methanol         & 1(per C)      & 2 days lifetime   &  \citep{Palmer2003}     \\ 
+       \hline             
     \end{tabular}
-    \caption{HCHO yields from various species. \hspace{\textwidth} \\ 
+    \caption{%
+      HCHO yields from various species. \hspace{\textwidth} \\ 
       ${}^b$Calculated through change in concentration of parent and product linear least squares regression. \hspace{\textwidth} \\
       ${}^c$Calculated from satellite detected concentrations of HCHO. \hspace{\textwidth} \\
       ${}^d$Calculated using PTR-MS and iWAS on SENEX campaign data.
@@ -116,8 +131,8 @@
       \hat{S} = \frac{\Delta~\Omega_{HCHO}}{\Delta~E_{ISOP}}
     \end{equation*}
     Consider halving the isoprene emitted globally and rerunning the model, if the local grid HCHO is reduced by much more than half (factoring yield) then you can infer sensitivity to non-local isoprene emissions.
-    This sensitivity may change with local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
-    As such smearing sensitivity is both spatially and temporally diverse, shown in figure TODO: is a picture of the smearing sensitivity at blahpow.
+    This can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
+    As such smearing sensitivity is both spatially and temporally diverse, shown in figure TODO: is a picture of the smearing sensitivity over Australia.
    
     Once the smearing sensitive grid squares are filtered out, application of equation \ref{ch_isop:eqn:isop_yield} gives us an estimate of isoprene emissions across the nation.
     
@@ -127,7 +142,7 @@
     
   \subsection{Calculation of Emissions}
     \label{ch_isop:sec:EmissionCalculation}
-    As is done in \citet{Palmer2003, Millet2006,Bauwens2016}, we assume that HCHO columns are in a steady state, with no horizontal transport.
+    As is done in \citet{Palmer2003, Millet2006, Bauwens2016}, we assume that HCHO columns are in a steady state, with no horizontal transport.
     In these circumstances the emissions of precursors are easy to calculate as long as we know the molar HCHO yields (Y$_i$) and effective chemical loss rates (k$_i$):
     \begin{equation}
       \Omega_{HCHO} = \frac{1}{k_{HCHO}}\Sigma_i k_i Y_i \Omega_i = \frac{1}{k_{HCHO}}\Sigma_i Y_i E_i
@@ -143,6 +158,7 @@
     
   \subsection{Calculation of smearing effect}
     TODO: Smearing scale length, $\hat{S}$ formula, and results of calculations in here.
+    
     
   \subsection{Extrapolating the circadian cycle}
     Isoprene emissions occur with regular daily cycles caused by things like local temperature, sunlight, drought, and other environmental factors (TODO: find/cite eucalypt isoprene paper, daily cycle plot if can find).
