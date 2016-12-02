@@ -16,18 +16,21 @@
     The impact of stratospheric ozone on the troposphere is dependent on weather, season, temperature, and many other factors. 
     For example changing ozone in the tropical tropopause layer by 5\% causes 0.5 K dec$^{-1}$ radiative heating \citep{Forster2007}.
     In Australia, records of ozone profiles provided by the Department of the Environment can be used to determine how often stratospheric ozone descends into the troposphere.
-    
 
     Over the industrial period, tropospheric ozone, which is the third most potent greenhouse gas, has been estimated to exert a radiative forcing equivalent to a quarter of the CO2 forcing. 
     Ozone is present in the troposphere due to a variety of dynamical and photochemical processes, including downward  transport from the ozone-rich stratosphere and anthropogenic pollution.
     The primary sources of tropospheric ozone are chemical creation and stratospheric input, estimated using a model ensemble to be $5100\pm600$ Tg/yr and $550\pm170$ Tg/yr, respectively \citep{Stevenson2006}.
     The primary sinks are chemical destruction and dry deposition, estimated to be $4700\pm700$ Tg/yr and $1000\pm200$ Tg/yr, respectively \citep{Stevenson2006}.
+    
+    
+    ``Further sources of uncertainty in the ozone RF stem from uncertainties in precursor emissions (natural and anthro-pogenic), as well as changes in climate and stratospheric ozone'' \citep{Stevenson2013}.
 
   \subsection{Tropospheric production}
   
     Ozone is a toxic trace gas which increases mortality rates when populations are exposed for extended periods of time.
-    The amount of global premature deaths per year due to atmospheric ozone exposure has recently been estimated at $\sim$150-470 thousand \citep{Silva_2013, Lelieveld_2015}.
-    Long term effects of ozone overexposure increase the risk of respiratory disease and may also increase other cardiopulmonary risks \citep{Jerrett_2009}.
+    The amount of global premature deaths per year due to atmospheric ozone exposure has recently been estimated at $\sim$150-470 thousand \citep{Silva2013, Lelieveld2015}.
+    Long term effects of ozone overexposure increase the risk of respiratory disease and may also increase other cardiopulmonary risks \citep{Jerrett2009}.
+    Further tropospheric ozone enhancements are projected to drive reductions in global crop yields equivalent to losses of up to \$USD$_{2000}$ 35 billion per year by 2030 \citep{Avnery2011}, along with detrimental health outcomes equivalent to $\sim$\$USD$_{2000}$11.8 billion per year by 2050 \citep{Selin2009}.
 
     The Ambient Air Quality (AAQ) National Environment Protection Measure (NEPM), which is the Australian framework for air quality measurement and reporting aiming for ``adequate protection of human health and well-being'' has set national standards and benchmarks for reporting. The NEPM covers six chemical groups including Ozone (O$_3$), and the benchmarks are shown in figure \ref{ch1:fig:nepm}.
 
@@ -44,9 +47,9 @@
     The majority of this chemical formation is due to photochemical oxidation of carbon monoxide (CO), methane (CH$_4$), and other Volatile Organic Chemicals (VOCs) in the presence of nitrogen oxides (NO$_X$ $\equiv$ NO $+$ NO$_2$) \citep{Stevenson2006}.
 
     Photolysis of NO$_2$ forms NO + O(3P), which combines with O$_2$ to form O$_3$, leading to reaction with NO to form NO$_2$ + O$_2$.
-    These reactions reach a steady state where O$_3$ is proportional to the ratio between NO$_2$ and NO \citep{Sillman_2002}.
+    These reactions reach a steady state where O$_3$ is proportional to the ratio between NO$_2$ and NO \citep{Sillman2002}.
     The following formulae show an example of this with CO, however, similar reactions occur for many VOCs:
-    \begin{eqnarray*}
+    \begin{align}
       NO_2 + hv &\overset{k_1}{\rightarrow}& NO + O({}^3 P) \\
       O({}^3 P) + O_2 &\overset{M}{\rightarrow}& O_3 \\
       NO + O_3 &\overset{k_2}{\rightarrow}& NO_2 + O_2 \\
@@ -54,10 +57,10 @@
       OH + CO &{\rightarrow}& HOCO \\
       HOCO + O_2 &{\rightarrow}& HO_2 + CO_2 \\
       HO_2 + NO &{\rightarrow}& OH + NO_2 \\
-    \end{eqnarray*}
+    \end{align}
     where $k_1$ and $k_2$ are reaction rates, and hv represents photons.
     The balance of these reactions is:
-    \begin{eqnarray*} CO + 2O_2 + hv {\rightarrow} CO_2 + O_3 \end{eqnarray*}
+    \begin{equation} CO + 2O_2 + hv {\rightarrow} CO_2 + O_3 \end{equation}
     Note that this reaction pathway only occurs during the day.
 
     Isoprene (C$_5$H$_8$) is a precursor to ozone through radical oxidative chemistry. Isoprene in the atmosphere reacts rapidly with hydroxyl radicals (OH) and then O$_2$ to form peroxy radicals (RO$_2$).
@@ -333,28 +336,28 @@
 
   
 \section{GEOS-Chem ozonesonde comparison}
-  \subsection{Why compare to a model}
-    TODO: put this into ozonepaper OP
+  \subsection{Comparing data to GEOS-Chem}
+    
     Ozone sondes are useful for looking at specific locations with high resolution, and in this work they provide an estimate of both STT occurence rates and STT ozone flux.
     This information can be used in conjunction with global scale information in order to extrapolate ozone transport over a large area.
     GEOS-Chem is used to simulate the global ozone concentrations.
     In order to check that the model is reasonable, some simple validation is performed comparing sonde data to colocated grid boxes in GEOS-Chem, using the tropospheric columns of ozone as the metrics.
     After the model is validated this way, an extrapolation is performed and the stratospherically sourced ozone is estimated over the latitude range from 30$^{\circ}$S to 75$^{\circ}$S (TODO: Update these numbers with final decided ones, and give a reason).
     Examination of the GEOS-Chem output also gives us an insight as to whether the simulation can be used on its own in order to estimate STT event distribution and magnitude.
-    TODO: end OP
     
     A secondary reason to compare ozonesondes to GEOS-Chem is to check that GEOS-Chem chemistry is reasonable and robust. 
     Model validation at any scale increases confidence in the model as well as providing background information to scientists who seek to expand or improve the model.
+
+    GEOS-Chem is a global chemical transport model \citep{Bey2001}, which includes transport, emission, deposition, chemical production and destruction of ozone and 103 other trace gases throughout the troposphere along with stratospheric chemistry, including photolysis. 
+    Stratosphere-troposphere coupling is calculated using the stratospheric unified chemistry extension (UCX) \citep{Eastham2014}, which includes a further 28 trace gases.
+    Transport is driven by assimilated meteorological fields from the Goddard Earth Observing System (GEOS-5) maintained by the Global Modeling and Assimilation Office (GMAO) at NASA.
   
-  \subsection{GEOS-Chem stratospheric unified chemistry extension (UCX)}
-    GEOS-Chem version 10.01 is a global chemical-transport model developed at Harvard \citep{Bey2001}, which includes transport, emission, deposition, chemical creation and destruction of ozone and 103 other trace gases throughout the troposphere.
-    The stratospheric chemistry, including photolysis, is also modeled and stratosphere-troposphere coupling is calculated with the addition of UCX \citep{Eastham2014}, which also includes a further 28 trace gases.
-    Various emissions used by GEOS-Chem as boundary conditions are taken from an extended version of Model of Emissions of Gases and Aerosols from Nature version 2.1 (MEGAN2.1) \citep{Guenther2012}.
-    Atmospheric parameters and boundary conditions are sourced from NASA/GMAO's GEOS-5 operational data products.
-    
-    GEOS-Chem values used within this chapter are based on a simulation using UCX from 2004-2013 exclusive, with 2004 used as a spinup year.
+    GEOS-Chem values used within this chapter are based on a simulation using UCX from 2004-2013, with 2004 used as a spinup year.
+    The simulation uses 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution, with 72 vertical levels from the surface to 0.1~hPa.
+    Biogenic emissions of organic chemicals are determined by the Model of Emissions of Gases and Aerosols from Nature (MEGAN) version 2.1 extended by Guenther et al \citep{Guenther2012}.
+    Anthropogenic emissions are given by the Emissions Database for Global Atmospheric Research (EDGAR) version 4.2.
+    Our simulation was modified from the standard v10-01 to a fix a bug in the treatment of the Total Ozone Mapping Spectrometer (TOMS) satellite data used to calculate photolysis (see TODO:wiki entry for fix or supplementary).
     GEOS-Chem uses measurements from the Total Ozone Mapping Spectrometer (TOMS) satellite instrument with the Fast-JX photolysis rate solver customised for use in the stratosphere in order to simulate stratospheric ozone photolysis.
-    Our GEOS-Chem run included a fix for properly reading the TOMS information, GEOS-Chem 10.01 mishandles the missing values otherwise.
     
   \subsection{Determining tropospheric ozone from GEOS-Chem}
     GEOS-Chem allows certain diagnostics, along with any tracer, to be output at higher temporal resolution for a list of latitude and longitude based boxes.
@@ -459,15 +462,25 @@
       \label{ch_o3:fig:GEOSChemMonthlyProfilesMelbourne}
     \end{figure}
     
-    Generally the vertical resolution of the GEOS-Chem ozone profile is too coarse to capture enough detail to determine whether or not an STT event is likely.
-    Modelled Ozone profiles have roughly 30 levels below the tropopause, while the ozonesondes have upwards of 100.
-    Figure TODO: \ref{ch_o3:fig:GEOSChemEventProfilesSummary} shows the best and worst examples of the ozone profiles simulated and recorded above the three stations during detected STTs.
+    Although GEOS-Chem reasonably matches the ozonesonde tropospheric ozone column, it does not have the resolution required to capture STTs.
+    Figure \ref{ch_o3:fig:event_profile_comparison} shows the best and worst comparisons of ozone profiles up to 14~km between the ozonesondes and GEOS-Chem.
+    The model output is shown in red, and is the average over 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude which contain the respective sonde release site.
+    The vertical resolution from GEOS-Chem is too low to allow detection of STTs, there are roughly 30 vertical levels up to the tropopause, while sondes have upwards of 100.
     These best and worst examples are determined qualitatively, and are shown as examples of the model-measurement differences.
     
     \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{Figures/Ozone/ModelledEventProfilesSummary.png}
-      \caption{Simulated and recorded ozone profiles above Davis, Melbourne, and Macquarie Island respectively from top to bottom.
-      The column on the left shows the best matching profile, while the right shows the worst (determined qualitatively).}
+      \includegraphics[width=\textwidth]{Figures/Ozone/event_profile_comparison.png}
+      \caption{Ozonesonde profiles (black) against GEOS-Chem profiles (red) above Davis, Macquarie Island, and Melbourne respectively from left to right.
+      These columns from show the best matching profiles at each site (determined qualitatively).}
+      \label{ch_o3:fig:event_profile_comparison}
+    \end{figure}
+    
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/Ozone/seasonalprofiles00.png}
+      \caption{Observed and simulated tropospheric ozone profiles over Davis, Macquarie, and Melbourne, averaged seasonally.
+          Model means (2005-2013 average) is shown as red solid lines, with red dashed lines showing the 10th and 90th percentile.
+          Ozonesonde means (over each season, for all years) are shown as black solid lines, with coloured shaded areas showing the 10th and 90th percentile.
+          The horizontal dotted line shows the mean tropopause heights from the model (red) and the observations (black).}
       \label{ch_o3:fig:GEOSChemEventProfilesSummary}
     \end{figure}
     
@@ -522,8 +535,8 @@
       \\ \hline
     \end{tabular}
     \caption{Correlations between GEOS-Chem and ozonesonde tropospheric ozone column.
-    \hspace{\textwidth} \\ 
-    ${}^a$Relative and normalised to monthly mean from GEOS-Chem and ozone sonde for respective data. \hspace{\textwidth} \\ }
+      \hspace{\textwidth} \\ 
+      ${}^a$Relative and normalised to monthly mean from GEOS-Chem and ozone sonde for respective data. \hspace{\textwidth} \\ }
     \label{ch_o3:tab:station_correlations}
     \end{table}
         
@@ -531,21 +544,6 @@
     Recall that the profiles are output every 6 hours, so as well as getting the overall profile average it is easy to determine the daytime and night time average by only looking at particular hours.
     GEOS-Chem uses GMT/UTC time, outputting 4 profiles per day at 0~hrs, 6~hrs, 12~hrs, and 18~hrs.
     The local offset in time at Davis, Macquarie Island, and Melbourne is \+7~hrs, \+11~hrs, \+10~hrs respectively.
-    
-    TODO: Add this to OP
-    Although GEOS-Chem reasonably matches the ozonesonde tropospheric ozone column, it does not have the resolution required to capture STTs.
-    Figure (TODO: add 3 or so profiles) show the best and worst comparisons of ozone profiles up to 14~km between the ozonesondes and GEOS-Chem.
-    The model output is shown in red, and is the average over 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude which contain the respective sonde release site.
-    The vertical resolution from GEOS-Chem is too low to allow detection of STTs, there are roughly 30 vertical levels up to the tropopause, while sondes have upwards of 100.
-    
-    \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{Figures/Ozone/event_profile_comparison.png}
-      \caption{Ozonesonde profiles (black) against GEOS-Chem profiles (red) for three different dates, one over each site.
-      The dates were picked based on subjective visual analysis as follows: left is the best match - , middle is an average case - January 15th, 2007 over Davis, and right is the worst match - .}
-      \label{ch_o3:fig:GEOSChemTroposphereCorrelationAnomalies}
-    \end{figure}
-    
-    TODO: end OP
     
   \subsection{Estimation of southern ocean STT flux}
     A simplistic calculation of how much ozone in the southern high latitudes is due to STT is made through the following method.
