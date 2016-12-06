@@ -15,10 +15,11 @@
     Globally around 1150 Tg C yr$^{-1}$ of BVOCs are emitted \citep{Guenther1995}.
     90\% of these emissions come from plants and trees, with the most dominant species being isoprene (C$_5$H$_8$) (about 61\%), monoterpenes (C$_10$H$_16$), and methanol (CH$_3$OH) \citep{Guenther2012, Lathiere2006} (TODO: reread Guenther2012 for this sentence).
     Isoprene has a large impact on the oxidative properties of the atmosphere, as it reacts quickly with the OH radical to form RO$_2$ and then in the presence of NO$_X$ various OVOCs(largely HCHO) and other SOAs(notably ozone) are formed. 
-    The emissions of isoprene have been modelled at around 500~Tga$^{-1}$ using relatively few plant phenotypes to set global emission factors, in \citet{Guenther1995}.
+    The emissions of isoprene have been modelled at around 500~Tga$^{-1}$ in \citet{Guenther1995}.
+    The global emission factors model used to derive this estimate is based on modelling emissions from different plant species (phenotypes), and very few are used to set the emission factors of Australian forests.
     
-    Estimates of emissions of isoprene requires more work in order to generate confidence at a global scale.
-    Due to isoprene being optically thin (see section \ref{ch_HCHO:sec:satelliteHCHO:OpticalDepth}) and having a short life time (around an hour) there are relatively few accurate measurements against which a comparison and verification can be made. 
+    Estimates of isoprene emissions require more work in order to generate confidence at a global scale.
+    Due to isoprene being optically thin (see section \ref{ch_HCHO:sec:satelliteHCHO:OpticalDepth}) and having a short life time (around an hour) there are relatively few accurate measurements against which a comparison and verification can be made.
     
     One problem with current estimates of biogenic VOC emissions in Australia is that the emission rates from various species of eucalypt and other flora are highly complex, depending on current and recent weather, temperature, tree age, health, etc. \citep{Guenther2012}. 
     With this complexity added to the diversity of tree species in Australia as well as sparse rural data collections it is hard to model and verify emissions.
@@ -55,28 +56,38 @@
 \label{ch_HCHO:sec:satelliteHCHO}
   \subsection{Satellite Retrievals}
     Satellites remotely sense atmospheric trace gases through irradiance measurements of solar light which has reflected off the earth's surface. 
-    These irradiances are affected by gases which exist along the reflected path of the light between the detector, the earth, and the sun. 
-    The irradiance is then used to estimate how much of a particular gas exists along the path of the incoming radiation, this estimate is called a slant column (SC).
+    These irradiances are affected by gases which exist along the reflected path of light between the detector, earth, and sun. 
+    The irradiance is then used to estimate how much of a particular gas exists along this path, which gives us an estimate which is called a slant column (SC).
     The retrieved SC of a particular gas (or species) can be transformed into a vertical column (VC) by scaling the path length in conjunction with accounting for the trace gas' light scattering properties.
     The scaling coefficient created to transform from SC to VC is called the Air Mass Factor (AMF).
 
-    One satellite is NASA's Earth Observing System's (EOS) Aura satellite, which houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
-    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the north and south poles. 
+    One satellite is NASA's Earth Observing System's (EOS) Aura, which houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
+    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles. 
     OMI measurements are used to map several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
     OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \citep{Abad2015}.
-    The swaths cover the planet daily, although half of these are at night time and contain no useful near-UV/Visible information.
+    The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
     From here on the word pixel is used to describe one data point retrieved by OMI, which will be located by latitude and longitude within OMI's data product.
     
     Atmospheric HCHO can be measured using Differential Optical Absorption Spectroscopy (DOAS), as long as trace gases with similar features near the same wavelength are accounted for.
-    TODO: Go through Vigouroux2012, Lee2005 or Volkamer2005 and detail the DOAS Retrieval of HCHO.
+    TODO: Go through Lee2005 or Volkamer2005 and detail the DOAS Retrieval of HCHO.
     A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
     This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
     The full method details for slant column retrieval by OMI are outlined in section \ref{ch_HCHO:sec:OMI_BOAS}.
     
     Uncertainty in a single pixel for OMI is quite high (todo: link to picture with one day average plus omi uncertainty).
-    There are two methods of calculating this, one of which is used here and compared against the provided uncertainty (TODO) as shown in Section \ref{ch_HCHO:sec:uncertainty}.
+    Figure \ref{ch_HCHO:fig:eightDayUncertainty} shows uncertainty over Australia after one and eight days of averaging at 0.25$^{\circ}$ longitude by 0.3125${\circ}$ latitude.
+    There are several methods of calculating this, one of which is used here and compared against the provided uncertainty (TODO) as shown in Section \ref{ch_HCHO:sec:uncertainty}.
     If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
-    Random error can be reduced through temporal or spatial averaging, decreasing by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
+    Random error can be reduced by either temporal or spatial averaging, decreasing uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
+    
+    \begin{figure}[!htbp]
+    		\includegraphics[width=0.7\textwidth]{Figures/uncertainty.png}
+    		\caption{%
+    			OMI uncertainty before and after gridding and averaging 8 days from Jan 1 2005 to Jan 8 2005.
+    			The third panel shows the number of pixels in each grid box after 8 days of averaging, before accounting for fire.
+    		}
+    		\label{ch_HCHO:fig:eightDayUncertainty}
+    \end{center}\end{figure}
     
   \subsection{OMI Algorithm BOAS}
     \label{ch_HCHO:sec:OMI_BOAS}
