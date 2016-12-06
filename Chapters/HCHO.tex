@@ -286,16 +286,15 @@
     Note that this is an approximation based on the OMI satellite HCHO dataset as performed in \citet{Abad2015}.
     
   \subsection{Uncertainty in OMI total columns}
-  \label{ch_HCHO:sec:uncertainty}
+  \label{ch_HCHO:sec:OMIuncertainty}
     Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by SAO from the backscattered solar radiation fit \citep{Abad2015,Abad2016}.
     BIRA use another method, and calculate the standard deviation of HCHO over the remote pacific ocean as the uncertainty 
-    (TODO: use this and compare my product uncertainty with provided uncertainty) \citep{DeSmedt2012, DeSmedt2015}.
+    \citep{DeSmedt2012, DeSmedt2015}.
     In the remote pacific, it can be assumed that HCHO variations are weak.
     The standard deviation over this region is therefor a proxy for determination of the instrument error.
     
-    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces the uncertainty from TODO: numbers.
-    This can be seen more clearly in figure (TODO: image of OMI day retrieval compared to 8 day retrieval with uncertainties shown underneath).
-    TODO: The figure shows both the provided and recalculated (using BIRA's method) uncertainty before and after averaging.
+    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
+    An analysis of the uncertainty within our recalculation of the OMI HCHO columns is performed in section \ref{ch_HCHO:sec:OMI_uncertainty_calculation}.
       
   \subsection{Reference sector correction for comparison of products to various models}
     HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{DeSmedt2008,Barkley2013,Kurosu2014}.
@@ -322,7 +321,7 @@
     A full account of the filters used when reading OMI satellite data is given in section \ref{ch_HCHO:sec:OMIFiltering}.
     
     In order to reduce uncertainty and increase the utility of the satellite data we regrid it from pointwise single time data points to 8-day averages on a latitude longitude grid which matches our model input and output grid spacing. 
-    Using the 8-day average reduces the uncertainty in each datapoint significantly, TODO: citet marais and barkley uncertainty improvements, and point to section with our estimates of the improvements over Australia.
+    Using the 8-day average reduces the uncertainty in each datapoint significantly, TODO: citet marais and barkley uncertainty improvements, details of the uncertainty estimations is shown in section \ref{ch_HCHO:sec:OMI_uncertainty_calculation}.
     Another example is shown in \citet{Vigouroux2012} where uncertainty near a specific location is lowered by averaging daily within a 500km radius and only using the meaned data when there are at least 20 good values.
     
     Once the slant columns are quality filtered and gridded, additional data sources need to be used to account for anthropogenic and pyrogenic sources of HCHO.
@@ -427,7 +426,6 @@
     TODO: Show an example of OMI swaths.
     
   \subsection{Regridding to 0.25 by 0.3125 8-day averaged vertical columns}
-    TODO: how this is done, and how we measure uncertainty, and how much uncertainty improved by this.
     
     Regridded OMI HCHO columns from the are based on 14-15 daily swaths of measurements provided by NASA. 
     Each swath contains roughly $9 \times 10^4$ pixels, each of which contains various data including latitude, longitude vertical column HCHO, etc.
@@ -439,7 +437,7 @@
     TODO: time per regridding and reprocessing:
     This mapping requires some processing time as well as RAM and computer storage space, and has been performed on the National Computing Infrastructure (NCI) supercomputer cluster.
     In order to reprocess one year of swath files, X GB of daily data was downloaded and then transformed into Y GB of 8-day averaged gridded data.
-    This takes around X minutes per day, and is very parallelisable as each 8 day block is completely independent.
+    This takes around 90 minutes per day, and is very parallelisable as each day is completely independent.
     Using N$\times 8$ concurrent processors on NCI's computer cluster running Python allows for very fast reprocessing of our entire timeline.
     As much as possible, processing is done using the HDF-EOS5 format, with GEOS-Chem output being read and processed from bitpunch to HDF-EOS5 prior to reprocessing.
     The scripts to regrid and reprocess the swath data set are available in the supplementary (TODO).
@@ -615,10 +613,21 @@
     The bin entry count is used to create an 8-day average out of the one day averages, as it is the daily mean multiplied by the daily count summed over 8 days divided by the total count for each bin.
     
   \subsection{Estimation of error or uncertainty}
-    There are three main sources of error in the resulting HCHO columns: a) fitting error from the OMI retrieval, b) uncertainty in AMF calculations, and c) uncertainty of HCHO background.
+  \label{ch_HCHO:sec:OMI_uncertainty_calculation}
+    There are three main sources of error in the resulting HCHO columns:
+    \begin{enumerate}[a]
+      \item Fitting error from the OMI retrieval.
+      \item Uncertainty in AMF calculations.
+      \item Uncertainty of HCHO background.
+    \end{enumerate}
+
     a) is available in the OMI product and reduced through spatial and temporal averaging.
-    b) and c) are determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
+    Another method for examining uncertainty of OMI is to analyse the standard deviation of the HCHO columns over the remote pacific.
+    If we assume there is no HCHO variation from background levels over any 8-day period, then this method infers variations in the measuring instrument, and can be used as a metric for uncertainty as done in \citet{DeSmedt2012}.
+    TODO: uncertainty calculation on remote pacific OMI.
     
+    b) and c) are determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
+    TODO: uncertainty calculations.
     Compare this error estimate with that of \citet{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
   
   \subsection{Comparison with in-situ measurements}
