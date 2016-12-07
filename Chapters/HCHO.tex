@@ -196,7 +196,7 @@
     \end{equation}
     where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
 
-    In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the zenith angle. 
+    In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
     The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
     However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see section \ref{ch_HCHO:sec:satelliteHCHO:scattering}) must be accounted for.
     Using equations \ref{ch_HCHO:eqn:beerlambert} and \ref{ch_HCHO:eqn:AMFratio} gives us an expression for the AMF which includes scattering:
@@ -240,7 +240,7 @@
 
     Defining w(z) as the scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
     \begin{equation}
-      w(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
+      \omega(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
     \end{equation}
     and vertical shape factor S$_z$(z) representing a normalized vertical number density profile: 
     \begin{equation} \label{ch_HCHO:eqn:ShapeFactor}
@@ -251,12 +251,14 @@
     \begin{equation} \label{ch_HCHO:eqn:AMFintwSdz}
       AMF = AMF_G \int_0^\infty w(z) S_z(z) \mathrm{d}z
     \end{equation}
+    It's worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and a the calculation in equation \ref{ch_HCHO:eqn:AMFintwSdz} does not use the $AMF_G$ term.
+    This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
     
-    For this equation w is a function of atmospheric scattering which can be calculated using an RTM to determine the absorption cross section and optical thickness along the path.
+    For this equation $\omega$ is a function of atmospheric scattering which can be calculated using an RTM to determine the absorption cross section and optical thickness along the path.
     S$_z$(z) can be calculated using an apriori vertical profile, which may be sourced from any atmospheric chemistry model.
     Note that for level two non-gridded OMI satellite HCHO total column data, the w(z), S$_z$(z), and AMF$_G$ are all provided.
     
-    Mie scattering and clouds can complicate the calculation of w(z), however tables of values for this function at various parameter values can be used with modeled vertical shape factors for local AMF calculations.
+    Mie scattering and clouds can complicate the calculation of $\omega$(z), however tables of values for this function at various parameter inputs can be used with modeled vertical shape factors for local AMF calculations.
     
     Using the vertical coordinate sigma ($\sigma$), which is related to pressure (P) by $P=\sigma \left( P_S - P_T \right) + P_T$, where subscripts S and T represent earth surface and top of the atmosphere respectively.
     The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
@@ -278,12 +280,12 @@
     This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography.
     
     When comparing satellite observations to a chemical model, one needs to recalculate the satellite AMF using their own modelled vertical gas profiles as the a-prior shape factor in order to remove any total column bias which may be due to the satellite's apriori.
-    Another way of removing this bias is through deconvolution (TODO: EQNS) of the averaging kernal of the satellite.
-    The averaging kernal (AK) represents satellite sensitivities to various species at various altitudes through the atmosphere and can be approximated from the w(z) function as follows:
+    Another way of removing this bias is through deconvolution (TODO: EQNS) of the averaging kernal (AK) of the satellite instrument.
+    The AK represents sensitivities to each species at multiple altitudes through the atmosphere and in the case of OMI, can be approximated from the w(z) function as follows:
     \begin{equation} \label{ch_HCHO:eqn:AKfromw}
-      AK(z) = \frac{w(z)}{AMF}
+      AK(z) = \frac{\omega(z)}{AMF}
     \end{equation}
-    Note that this is an approximation based on the OMI satellite HCHO dataset as performed in \citet{Abad2015}.
+    Note that this is an approximation for the OMI product, which does not include the AK but does include the $\omega$ and AMF, as explained in \citet{Abad2015}.
     
   \subsection{Uncertainty in OMI total columns}
   \label{ch_HCHO:sec:OMIuncertainty}
@@ -481,7 +483,9 @@
   \label{ch_HCHO:sec:recalculating_AMF_description}
     OMI's apriori shape factor is based on the GEOS-Chem (v9) model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
     Taking a more recent GEOS-Chem apriori shape factor and integrating along the vertical axis using equation \ref{ch_HCHO:eqn:AMFintwSdz} gives us a new AMF (AMF$_n$).
-    This is done in Python using simple rectangular integration.
+    Since we are using the $\omega$ provided by OMI, we remove the AMF$_G}$ term from this calculation.
+    The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
+    This is identical to calculating the integral and assuming the integrand is linear between each measured point, and introduces no new uncertainty.
     All that remains for recalculating the total vertical column using our new apriori shape factor is to apply the new AMF and remove the old:
     \begin{equation*}
       \Omega_{new} = \Omega \frac{AMF}{AMF_n}
