@@ -81,13 +81,13 @@
     Random error can be reduced by either temporal or spatial averaging, decreasing uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
     
     \begin{figure}[!htbp]
-    		\includegraphics[width=0.7\textwidth]{Figures/uncertainty.png}
-    		\caption{%
-    			OMI uncertainty before and after gridding and averaging 8 days from Jan 1 2005 to Jan 8 2005.
-    			The third panel shows the number of pixels in each grid box after 8 days of averaging, before accounting for fire.
-    		}
-    		\label{ch_HCHO:fig:eightDayUncertainty}
-    \end{center}\end{figure}
+      \includegraphics[width=0.7\textwidth]{Figures/HCHO/Uncertainty.png}
+      \caption{%
+	      OMI uncertainty before and after gridding and averaging 8 days from Jan 1 2005 to Jan 8 2005.
+	      The third panel shows the number of pixels in each grid box after 8 days of averaging, before accounting for fire.
+      }
+      \label{ch_HCHO:fig:eightDayUncertainty}
+    \end{figure}
     
   \subsection{OMI Algorithm BOAS}
     \label{ch_HCHO:sec:OMI_BOAS}
@@ -483,7 +483,7 @@
   \label{ch_HCHO:sec:recalculating_AMF_description}
     OMI's apriori shape factor is based on the GEOS-Chem (v9) model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
     Taking a more recent GEOS-Chem apriori shape factor and integrating along the vertical axis using equation \ref{ch_HCHO:eqn:AMFintwSdz} gives us a new AMF (AMF$_n$).
-    Since we are using the $\omega$ provided by OMI, we remove the AMF$_G}$ term from this calculation.
+    Since we are using the $\omega$ provided by OMI, we remove the AMF$_G$ term from this calculation.
     The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
     This is identical to calculating the integral and assuming the integrand is linear between each measured point, and introduces no new uncertainty.
     All that remains for recalculating the total vertical column using our new apriori shape factor is to apply the new AMF and remove the old:
@@ -619,11 +619,11 @@
   \subsection{Estimation of error or uncertainty}
   \label{ch_HCHO:sec:OMI_uncertainty_calculation}
     There are three main sources of error in the resulting HCHO columns:
-    \begin{enumerate}[a]
-      \item Fitting error from the OMI retrieval.
-      \item Uncertainty in AMF calculations.
-      \item Uncertainty of HCHO background.
-    \end{enumerate}
+    \begin{description}
+      \item[a] Fitting error from the OMI retrieval.
+      \item[b] Uncertainty in AMF calculations.
+      \item[c] Uncertainty of HCHO background.
+    \end{description}
 
     a) is available in the OMI product and reduced through spatial and temporal averaging.
     Another method for examining uncertainty of OMI is to analyse the standard deviation of the HCHO columns over the remote pacific.
