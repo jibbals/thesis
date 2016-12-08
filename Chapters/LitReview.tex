@@ -134,6 +134,7 @@ TODO: Start this section!
     Ozone is formed in the troposphere through oxidation of VOCs in the presence of NO$_X$.
     Net formation or loss of O$_3$ is determined by interactions between VOCs, NO$_X$, and HO$_X$, and is a complicated system of positive and negative feedbacks \citep{Atkinson2000}.
     
+    
     Smoke plumes from biomass burning may carry precursors to ozone production.
     Biomass burning in southern Africa and South America has previously been shown to have a major influence on atmospheric composition in Australia \citep{Oltmans2001, Gloudemans2006, Edwards2006}, particularly from July to December \citep{Pak2003, Liu2016}.
 
@@ -286,22 +287,24 @@ TODO: Start this section!
     \label{ch_LitRev:sec:IsopFromHCHO}
     In the remote troposphere HCHO production is dominated by methane oxidation, while in the continental boundary layer (CBL) production is largely due to NMVOCs \citep{Abbot2003, Kefauver2014}.
     NMVOCs are alkanes, alkenes, aromatic hydrocarbons and isoprene.
-    Isoprene is hard to measure directly due to its short lifetime and weak spectral absorption, instead formaldehyde is often used as a proxy \citep{Millet2006, Marais2012, bauwens2013satellite, Kefauver2014, Bauwens2016}.
+    Isoprene is hard to measure directly due to its short lifetime and weak spectral absorption, instead formaldehyde is often used as a proxy \citep{Millet2006, Dufour2009, Marais2012, bauwens2013satellite, Kefauver2014, Bauwens2016}.
     Formaldehyde formed in the troposphere is mostly due to VOC (roughly one third each: methane, isoprene, others) oxidation. 
     We can model this oxidation process in order to work out how much VOC is present based on the total HCHO.
-    This requires among other things an idea of which VOCs are present and their yeilds of HCHO.
+    This requires among other things an idea of which VOCs are present and their yields of HCHO.
     
     The method used to develop top-down isoprene inference using satellites was developed initially by \citet{Palmer2001, Palmer2003}. 
     Isoprene emissions fluxes were derived using the Global Ozone Monitoring Experiment (GOME) satellite instrument.
     Palmer's method improved biogenic isoprene emissions estimates (compared with in-situ measurements) over two available inventories: the U.S. EPA Biogenic Emssions Inventory System (BEIS2) and the Global Emissions Inventory Activity (GEIA).
     This showed an inversion technique which could be used to improve large scale emissions estimates without further expensive measurement campaigns.
     
+    \citet{Dufour2009} use HCHO from SCIAMACHY, and examine Europe using CHIMERE as the chemical model. 
+    
     Satellites recording reflected solar spectra use Differential Optical Absorption Spectroscopy (DOAS) to measure various trace gases in the atmosphere, including formaldehyde. 
     Formaldehyde levels in the continental boundary layer are generally dominated by chemical formation due to VOC (largely isoprene) emissions \citep{Kefauver2014}.
     
     Satellites can be used to measure the seasonal and interannual variability of HCHO over Australia.
     These records can be compared with modeled estimates of HCHO and used as a proxy to estimate isoprene emissions.
-    This has been done in North America \citep{Palmer2003, Millet2006}, South America, Africa, China, Europe, and recently globally \citep{FortemsCheiney2012, Bauwens2016}.
+    This has been done in North America \citep{Palmer2003, Millet2006}, South America, Africa, China, Europe \citep{Dufour2009}, and recently globally \citep{FortemsCheiney2012, Bauwens2016}.
     Often these works use two forms of measurement such as satellite and aircraft data combined for validation \citep{Marais2014}.
     
     Initially studies assumed a simple linear steady-state relationship between HCHO and it's precursors \citep{Palmer2003, Palmer2006, Millet2006}.
@@ -318,7 +321,6 @@ TODO: Start this section!
     \end{eqnarray*}
     Where i indexes a chemical species, $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the HCHO yield, and $E_i$ is emission fluxes ( C atoms $cm^{-2}s^{-1}$).
     
-    
     Estimates of Y$_i$ can be attained from a model as shown in \citet{Millet2006}.
     This involves a reduced major axis (RMA) correllation calculation between modelled HCHO and isoprene columns, multiplied by their loss rates (to photolysis and oxidation) (as a normalising factor).  
     In high NOx environments where HCHO has a lifetime on the order of 30 minutes, it can be used to map isoprene emissions with spatial resolution from 10-100 kms.
@@ -326,7 +328,9 @@ TODO: Start this section!
     For more details on this see section \ref{ch_LitRev:sec:smearing}.
     
     Another method of correcting isoprene emissions using observed HCHO total column involves a Bayesian inversion.
-    In \citet{Curci2010}, a regional CTM (CHIMERE) simulates HCHO, which is compared against OMI observed HCHO and shown to be regionally biased.
+    \citet{Shim2005} work with GOME HCHO observations and GEOS-Chem, looking at areas with high signal to noise ratio (higher HCHO concentrations).
+    They show that the model underestimates isoprene emissions and HCHO concentrations by 14-46\%, with the corrected VOC emissions reducing the model biases to 3-25\%.
+    The beyesian inversion is similar to that of \citet{Curci2010}, where a regional CTM (CHIMERE) simulates HCHO, which is compared against OMI observed HCHO and shown to be regionally biased.
     This is expected to be due to errors in MEGAN's natural isoprene emissions.
     The CHIMERE model is used to derive yields of HCHO from the various local VOCs and these are then used in estimating local emissions.
     The model is run initially with emissions of BVOCs and reactive anthropogenic VOCs (RAVOCs) turned off in order to work out the background (b) values of these compounds.
@@ -340,7 +344,7 @@ TODO: Start this section!
     This K matrix is used in conjunction with error covariance in x to determine the Maximum A Posteriori (MAP) solution to calculate the optimal estimate of x ($\hat{x}$).
     
     TODO: Read through this list of sources on the hcho to isop process : taken from Wolfe2015
-    Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008, 2006; Palmer et al., 2006, \citep{Palmer2003}), South America (\citep{Barkley2013}, 2008), Europe (\citep{Curci2010}, Dufour et al., 2009), Africa (Marais et al., 2012), Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; Shim et al., 2005; Stavrakou et al., 2009).
+    Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008, 2006; Palmer et al., 2006, \citep{Palmer2003}), South America (\citep{Barkley2013}, 2008), Europe \citep{Curci2010,Dufour2009}, Africa (Marais et al., 2012), Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; Shim et al., 2005; Stavrakou et al., 2009).
     
     More recently, full inversions that better account for transport, source attribution, and chemical schemes have been implemented \citep{FortemsCheiney2012}.
     TODO: full description of this better inversion technique going through FortemsCheiney2012.
