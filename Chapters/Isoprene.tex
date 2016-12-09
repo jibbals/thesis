@@ -147,6 +147,7 @@
     The calculations used to determine isoprene emissions over Australia are fully described in \ref{ch_isop:sec:EmissionCalculation}.
     
     The background HCHO is assumed to be equal to HCHO measured in the remote pacific at the same time.
+    This is determined from GEOS-Chem when calculating yield of HCHO from isoprene, and from the biogenic HCHO product when calculating isoprene emissions. (TODO: update this if that is not the final process)
     
     Isoprene quickly forms HCHO in the atmosphere when in the presence of high levels of NO$_X$.
     However, over Australia NO$_X$ levels are generally not high enough and we must take extra care that we can account for the transport or 'smearing' caused by slower HCHO formation.
@@ -172,13 +173,16 @@
     \begin{equation}
       \Omega_{HCHO} = \frac{1}{k_{HCHO}}\Sigma_i k_i Y_i \Omega_i = \frac{1}{k_{HCHO}}\Sigma_i Y_i E_i
     \end{equation}
-    Here we get the daily average values of everything except $Y_{isop}$ , which is determined monthly as the regression between $k_{HCHO}*\Omega_{HCHO}$, and $k_{isop}*\Omega_{isop}$.
     
     Using our measurements of the biogenic HCHO column ($\Omega_{HCHO}$) we can infer the local (grid space) isoprene emissions (E$_{ISOP}$) using effective formaldehyde yield from isoprene (S).
     \begin{equation} \label{ch_isop:eqn:isop_yield}
       \Omega_{HCHO} = S \times E_{ISOP} + B
     \end{equation}
-    Where \textit{B} is the background HCHO.
+    Where \textit{B} is the background HCHO, and $S = Y_{isop}/k_{HCHO}$ is determined monthly as the regression between $k_{HCHO}*\Omega_{HCHO}$, and $k_{isop}*\Omega_{isop}$.
+    
+    To calculate S we use modelled average (from 1000-1200 LT) values of the loss rates and total columns, and calculate the RMA linear regression slope, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
+    
+    
     This works if there is fast HCHO yield, so that the effect of chemical transport is minimal.
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude.
     Table \ref{ch_isop:tab:VOCAusYields} shows the average yield calculated for Australia. (TODO: this table and some notes)
