@@ -477,6 +477,11 @@
       \label{ch_HCHO:fig:fireexclusionexample}
     \end{center}\end{figure}
     
+    This filtering ends up removing too much information, and the recalculation of HCHO is too negatively influenced.
+    To deal with this a separate product from the same instrument has been downloaded: MYD14A1, which keeps daily fire counts.
+    Less disruptive filtering can be achieved by removing pixels which coincide with fires on the same day, as shown in figure TODO: which compares the 8 and 1 day filtering.
+    TODO: The script to read and regrid these one day fire counts was adapted from X.
+    
   \subsection{Filtering anthropogenic HCHO}
     TODO
   
@@ -486,7 +491,7 @@
     Taking a more recent GEOS-Chem apriori shape factor and integrating along the vertical axis using equation \ref{ch_HCHO:eqn:AMFintwSdz} gives us a new AMF (AMF$_n$).
     Since we are using the $\omega$ provided by OMI, we remove the AMF$_G$ term from this calculation.
     The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
-    This is identical to calculating the integral and assuming the integrand is linear between each measured point, and introduces no new uncertainty.
+    This is identical to calculating the integral if we assume the integrand is linear between each measured point, and introduces no new uncertainty.
     All that remains for recalculating the total vertical column using our new apriori shape factor is to apply the new AMF and remove the old:
     \begin{equation*}
       \Omega_{new} = \Omega \frac{AMF}{AMF_n}
@@ -494,11 +499,14 @@
     
     The vertical column scattering weights and apriori shape factors provided in the OMHCHO dataset are defined on 47 levels.
     In order to reformulate the vertical column using updated GEOS-Chem hcho apriori shape factors I have run GEOS-Chem version 10.01 on the full 72 level vertical grid at 2 by 2.5 (lat by lon) degree monthly resolution. 
-    These monthly vertical profiles are then used to provide the apriori shape factor for the higher horizontally resolved satellite columns, which pick the nearest apriori from the model.
-    The new apriori profiles are monthly averages, which is the same temporal resolution used by the OMI apriori shape factors.
+    The simulated vertical profiles of HCHO are averaged from 1300-1400 local time in order to match the satellite overpass time of roughly 1330.
+    These vertical profiles then provide the apriori shape factor for the higher horizontally resolved satellite columns, which pick the nearest apriori from the model.
+    TODO: determine which of these is correct!
+    a)The new apriori profiles are monthly averages, which is the same temporal resolution used by the OMI apriori shape factors.
+    b)The new apriori profiles are simulated daily and averaged over 8 days along with the recalculated total vertical columns.
     
     A new AMF is determined using equation \ref{ch_HCHO:eqn:AMFintwSdz}) with the apriori shape factor set by our GEOS-Chem model run.
-    In order to reformulate the AMF, the 72 level profile from my GEOS-Chem UCX run is transformed from ppb to a normalized number density profile in order to match equation \ref{ch_HCHO:eqn:ShapeFactor}. 
+    In order to reformulate the AMF, GEOS-Chem's 72 level vertical profile is transformed from ppb to a normalized number density profile in order to match equation \ref{ch_HCHO:eqn:ShapeFactor}. 
     This conversion uses the following equation: 
     \begin{equation} \label{ch_HCHO:eqn:ppbto}
       \eta_{HCHO} = ppb_{HCHO} \times \eta_a \times 10^{-9}
@@ -512,8 +520,8 @@
     In effect this equation sums over the molecules per cm$^2$ in each altitude level.
     
     We have S$_z(z)$ and $\omega(z)$ over the vertical pressure coordinate z at all latitude and longitude points on whatever grid we wish. 
-    We convert to sigma ($\sigma$) vertical coordinate using $ P = \sigma (P_S - P_T) + P_T$, where $P_T$ is the pressure at the top of the atmosphere and $P_S$ is surface pressure.
-    In the sigma coordinate system we calculate a different shape factor:
+    A conversion to the sigma ($\sigma$) vertical coordinate is performed using $ P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
+    In the sigma coordinate system we calculated the shape factor as follows:
     \begin{equation} \label{ch_HCHO:eqn:ShapeFactorSigma}
       S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
     \end{equation}
@@ -547,8 +555,8 @@
     where $N_a$, and $N_{HCHO}$ are the densities of air and HCHO, H is the layer height (for each grid box).
     Note that HCHO density is determined from the outputted mixing ratio: $N_{HCHO} = C_{HCHO} \times N_a$.
 
-    Once S$_\sigma(\sigma)$ is determined it is then stored in HDF-EOS5 format, to be used in conjunction with the satellite measurements to calculate an AMF as shown in equation \ref{ch_HCHO:eqn:AMFintwSdz}.
-    As the GEOS-Chem V10.01 output is in bitpunch format, the code to read the data and create the shape factor is written in IDL, which has many procedures and functions which are alread written to handle reading this format.
+    S$_\sigma(\sigma)$ is then stored in HDF-EOS5 format, to be used in conjunction with the satellite measurements to calculate an AMF as shown in equation \ref{ch_HCHO:eqn:AMFintwSdz}.
+    As the GEOS-Chem V10.01 output is in bitpunch format, the code to read the data and create the shape factor is written in IDL, which has many procedures and functions which are already written to handle reading this format (provided by GAMAP).
     The code is provided in supplementary TODO: put code into supplement section.
     
     For each OMI slant column, a new AMF is calculated using S$_\sigma(\sigma)$ and the provided scattering weights $\omega(\sigma)$ using equation \ref{ch_HCHO:eqn:AMFintwSdz}.
