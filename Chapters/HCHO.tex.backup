@@ -81,13 +81,13 @@
     Random error can be reduced by either temporal or spatial averaging, decreasing uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
     
     \begin{figure}[!htbp]
-    		\includegraphics[width=0.7\textwidth]{Figures/uncertainty.png}
-    		\caption{%
-    			OMI uncertainty before and after gridding and averaging 8 days from Jan 1 2005 to Jan 8 2005.
-    			The third panel shows the number of pixels in each grid box after 8 days of averaging, before accounting for fire.
-    		}
-    		\label{ch_HCHO:fig:eightDayUncertainty}
-    \end{center}\end{figure}
+      \includegraphics[width=0.7\textwidth]{Figures/HCHO/Uncertainty.png}
+      \caption{%
+	      OMI uncertainty before and after gridding and averaging 8 days from Jan 1 2005 to Jan 8 2005.
+	      The third panel shows the number of pixels in each grid box after 8 days of averaging, before accounting for fire.
+      }
+      \label{ch_HCHO:fig:eightDayUncertainty}
+    \end{figure}
     
   \subsection{OMI Algorithm BOAS}
     \label{ch_HCHO:sec:OMI_BOAS}
@@ -175,7 +175,8 @@
     The actual formulation of an AMF is explained in section \ref{ch_HCHO:sec:satelliteHCHO:CalculationOfVC}).
   
   \subsection{OMI HCHO data products}
-    OMI Data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags. To create level 2 data slant column density is determined and then translated into vertical column density using an AMF calculated through radiative transfer models. Level 3 data is a temporally aggregated version of the this, for instance monthly or yearly averages.
+    OMI Data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
+    To create level 2 data slant column density is determined and then translated into vertical column density using an AMF calculated through radiative transfer models. Level 3 data is a temporally aggregated version of the this, for instance monthly or yearly averages.
     
     In order to filter fire or anthropogenic influence on HCHO data one generally requires the level 2 data along with extra data such as MODIS and AATSR fire counts, and national or regional industrial emissions estimates.
     %The lead scientist for level 1B data products is Dr. M. Dobber.
@@ -196,7 +197,7 @@
     \end{equation}
     where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
 
-    In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the zenith angle. 
+    In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
     The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
     However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see section \ref{ch_HCHO:sec:satelliteHCHO:scattering}) must be accounted for.
     Using equations \ref{ch_HCHO:eqn:beerlambert} and \ref{ch_HCHO:eqn:AMFratio} gives us an expression for the AMF which includes scattering:
@@ -240,7 +241,7 @@
 
     Defining w(z) as the scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
     \begin{equation}
-      w(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
+      \omega(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
     \end{equation}
     and vertical shape factor S$_z$(z) representing a normalized vertical number density profile: 
     \begin{equation} \label{ch_HCHO:eqn:ShapeFactor}
@@ -251,12 +252,14 @@
     \begin{equation} \label{ch_HCHO:eqn:AMFintwSdz}
       AMF = AMF_G \int_0^\infty w(z) S_z(z) \mathrm{d}z
     \end{equation}
+    It's worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and a the calculation in equation \ref{ch_HCHO:eqn:AMFintwSdz} does not use the $AMF_G$ term.
+    This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
     
-    For this equation w is a function of atmospheric scattering which can be calculated using an RTM to determine the absorption cross section and optical thickness along the path.
+    For this equation $\omega$ is a function of atmospheric scattering which can be calculated using an RTM to determine the absorption cross section and optical thickness along the path.
     S$_z$(z) can be calculated using an apriori vertical profile, which may be sourced from any atmospheric chemistry model.
     Note that for level two non-gridded OMI satellite HCHO total column data, the w(z), S$_z$(z), and AMF$_G$ are all provided.
     
-    Mie scattering and clouds can complicate the calculation of w(z), however tables of values for this function at various parameter values can be used with modeled vertical shape factors for local AMF calculations.
+    Mie scattering and clouds can complicate the calculation of $\omega$(z), however tables of values for this function at various parameter inputs can be used with modeled vertical shape factors for local AMF calculations.
     
     Using the vertical coordinate sigma ($\sigma$), which is related to pressure (P) by $P=\sigma \left( P_S - P_T \right) + P_T$, where subscripts S and T represent earth surface and top of the atmosphere respectively.
     The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
@@ -278,24 +281,23 @@
     This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography.
     
     When comparing satellite observations to a chemical model, one needs to recalculate the satellite AMF using their own modelled vertical gas profiles as the a-prior shape factor in order to remove any total column bias which may be due to the satellite's apriori.
-    Another way of removing this bias is through deconvolution (TODO: EQNS) of the averaging kernal of the satellite.
-    The averaging kernal (AK) represents satellite sensitivities to various species at various altitudes through the atmosphere and can be approximated from the w(z) function as follows:
+    Another way of removing this bias is through deconvolution (TODO: EQNS) of the averaging kernal (AK) of the satellite instrument.
+    The AK represents sensitivities to each species at multiple altitudes through the atmosphere and in the case of OMI, can be approximated from the w(z) function as follows:
     \begin{equation} \label{ch_HCHO:eqn:AKfromw}
-      AK(z) = \frac{w(z)}{AMF}
+      AK(z) = \frac{\omega(z)}{AMF}
     \end{equation}
-    Note that this is an approximation based on the OMI satellite HCHO dataset as performed in \citet{Abad2015}.
+    Note that this is an approximation for the OMI product, which does not include the AK but does include the $\omega$ and AMF, as explained in \citet{Abad2015}.
     
   \subsection{Uncertainty in OMI total columns}
-  \label{ch_HCHO:sec:uncertainty}
+  \label{ch_HCHO:sec:OMIuncertainty}
     Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by SAO from the backscattered solar radiation fit \citep{Abad2015,Abad2016}.
     BIRA use another method, and calculate the standard deviation of HCHO over the remote pacific ocean as the uncertainty 
-    (TODO: use this and compare my product uncertainty with provided uncertainty) \citep{DeSmedt2012, DeSmedt2015}.
+    \citep{DeSmedt2012, DeSmedt2015}.
     In the remote pacific, it can be assumed that HCHO variations are weak.
     The standard deviation over this region is therefor a proxy for determination of the instrument error.
     
-    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces the uncertainty from TODO: numbers.
-    This can be seen more clearly in figure (TODO: image of OMI day retrieval compared to 8 day retrieval with uncertainties shown underneath).
-    TODO: The figure shows both the provided and recalculated (using BIRA's method) uncertainty before and after averaging.
+    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
+    An analysis of the uncertainty within our recalculation of the OMI HCHO columns is performed in section \ref{ch_HCHO:sec:OMI_uncertainty_calculation}.
       
   \subsection{Reference sector correction for comparison of products to various models}
     HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{DeSmedt2008,Barkley2013,Kurosu2014}.
@@ -322,13 +324,16 @@
     A full account of the filters used when reading OMI satellite data is given in section \ref{ch_HCHO:sec:OMIFiltering}.
     
     In order to reduce uncertainty and increase the utility of the satellite data we regrid it from pointwise single time data points to 8-day averages on a latitude longitude grid which matches our model input and output grid spacing. 
-    Using the 8-day average reduces the uncertainty in each datapoint significantly, TODO: citet marais and barkley uncertainty improvements, and point to section with our estimates of the improvements over Australia.
-    Another example is shown in \citet{Vigouroux2012} where uncertainty near a specific location is lowered by averaging daily within a 500km radius and only using the meaned data when there are at least 20 good values.
+    Using the 8-day average reduces the uncertainty in each datapoint significantly, TODO: citet marais and barkley uncertainty improvements, details of the uncertainty estimations is shown in section \ref{ch_HCHO:sec:OMI_uncertainty_calculation}.
+    %Another example is shown in \citet{Vigouroux2012} where uncertainty near a specific location is lowered by averaging daily within a 500km radius and only using the meaned data when there are at least 20 good values.
+    
     
     Once the slant columns are quality filtered and gridded, additional data sources need to be used to account for anthropogenic and pyrogenic sources of HCHO.
-    MODIS fire counts can be used in conjunction with NO$_2$ enhancements (also measured by satellite) to remove data points which may be affected by fires. 
+    MODIS fire counts are used in conjunction with NO$_2$ enhancements (also measured by satellite) to remove data points which may be affected by fires. 
     TODO:If it is easier to use OMI smoke smoke aaod I'll do it that way instead of using the NO2, write here if that is the case.
     One possible solution to anthropogenic filtering is the national pollution index (TODO:cite:\verb|http://www.npi.gov.au|) which contains industrial HCHO and NO$_X$ emissions from 2003 to 2014.
+    This has a negative affect on uncertainty, as fewer measurements are averaged over the 8-days. 
+    The affect of the fire filtering on uncertainty, and how many points are removed is shown in section \ref{ch_HCHO:sec:filteringfires}.
     
     In order to visualise and analyse satellite column data it is generally transformed into vertical columns. 
     This is done using AMF calculations as shown in section \ref{ch_HCHO:sec:satelliteHCHO:CalculationOfVC}.
@@ -350,9 +355,9 @@
     The full process for this is shown in section (TODO:section here).
     
     When comparing satellite measurements against models it is important to recognise the impact of the apriori shape factor on the total column values.
-    In order to remove the possible bias, the shape factor used by the satellite is often replaced using the profile from the model and then satellite total columns are recalculated (generally using equation \ref{ch_HCHO:eqn:AMFintwSdz}).
+    This is due to the sensitivity of instruments varying vertically through the atmosphere, and how the simulated distribution of HCHO is accounted for.
+    In order to remove a possible bias caused by systematic differences between the old model and the current model, the shape factor used by the satellite is replaced using the profile from the current model before satellite total columns are recalculated (generally using equation \ref{ch_HCHO:eqn:AMFintwSdz}).
     Without performing this step a bias between modeled and measured total column values may be due to an apriori rather than actual chemistry or measurements.
-    In part this is due to the sensitivity of instruments varying vertically through the atmosphere, and 
 
   \subsection{Quality filtering OMI HCHO slant columns}
     \label{ch_HCHO:sec:OMIFiltering}
@@ -427,24 +432,25 @@
     TODO: Show an example of OMI swaths.
     
   \subsection{Regridding to 0.25 by 0.3125 8-day averaged vertical columns}
-    TODO: how this is done, and how we measure uncertainty, and how much uncertainty improved by this.
     
     Regridded OMI HCHO columns from the are based on 14-15 daily swaths of measurements provided by NASA. 
     Each swath contains roughly $9 \times 10^4$ pixels, each of which contains various data including latitude, longitude vertical column HCHO, etc.
     In order to regrid these columns each pixel is mapped into a global grid of 0.25$^{\circ}$x0.3125$^{\circ}$ latitude by longitude (matching GEOS-5 native resolution) which may contain up to 15 entries from a particular day's orbits.
     Total vertical column amounts (both the satellite original and the columns reprocessed as follows) are averaged over each 8 days starting on January 1st 2005.
     
-    TODO: Discuss saving the list of daily entries into a gridded space.
+    The process of regridding is performed by first reading all relevent information at each pixel for a single day into a list in python, which is then processed, with the shape factor read from GEOS-Chem output and AMF recalculated, before being saved as a gridded array of total columns and pixel counts.
+    The total columns are averaged into each grid box for each day, and eventually averaged over eight day time periods.
     
     TODO: time per regridding and reprocessing:
     This mapping requires some processing time as well as RAM and computer storage space, and has been performed on the National Computing Infrastructure (NCI) supercomputer cluster.
     In order to reprocess one year of swath files, X GB of daily data was downloaded and then transformed into Y GB of 8-day averaged gridded data.
-    This takes around X minutes per day, and is very parallelisable as each 8 day block is completely independent.
+    This takes around 90 minutes per day, and is very parallelisable as each day is completely independent.
     Using N$\times 8$ concurrent processors on NCI's computer cluster running Python allows for very fast reprocessing of our entire timeline.
     As much as possible, processing is done using the HDF-EOS5 format, with GEOS-Chem output being read and processed from bitpunch to HDF-EOS5 prior to reprocessing.
     The scripts to regrid and reprocess the swath data set are available in the supplementary (TODO).
     
   \subsection{Filtering pyrogenic HCHO}
+  \label{ch_HCHO:sec:filteringfires}
     TODO: How modis fire counts are used as well as statistics on removed data points.
     
     On board NASA's AQUA satellite, the MODIS instrument is used to detect fire activity.
@@ -476,6 +482,12 @@
       \label{ch_HCHO:fig:fireexclusionexample}
     \end{center}\end{figure}
     
+    This filtering ends up removing too much information, and the recalculation of HCHO is too negatively influenced.
+    To deal with this a separate product from the same instrument has been downloaded: MYD14A1, which keeps daily fire counts.
+    Less disruptive filtering can be achieved by removing pixels which coincide with fires on the same day, as shown in figure TODO: which compares the 8 and 1 day filtering.
+    TODO: The script to read and regrid these one day fire counts was adapted from X.
+    Figure (TODO: effect on uncertainty and time series of fire pixels removed) shows the daily filtering effect on uncertainty and time series of fire pixels removed.
+    
   \subsection{Filtering anthropogenic HCHO}
     TODO
   
@@ -483,7 +495,9 @@
   \label{ch_HCHO:sec:recalculating_AMF_description}
     OMI's apriori shape factor is based on the GEOS-Chem (v9) model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
     Taking a more recent GEOS-Chem apriori shape factor and integrating along the vertical axis using equation \ref{ch_HCHO:eqn:AMFintwSdz} gives us a new AMF (AMF$_n$).
-    This is done in Python using simple rectangular integration.
+    Since we are using the $\omega$ provided by OMI, we remove the AMF$_G$ term from this calculation.
+    The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
+    This is identical to calculating the integral if we assume the integrand is linear between each measured point, and introduces no new uncertainty.
     All that remains for recalculating the total vertical column using our new apriori shape factor is to apply the new AMF and remove the old:
     \begin{equation*}
       \Omega_{new} = \Omega \frac{AMF}{AMF_n}
@@ -491,11 +505,14 @@
     
     The vertical column scattering weights and apriori shape factors provided in the OMHCHO dataset are defined on 47 levels.
     In order to reformulate the vertical column using updated GEOS-Chem hcho apriori shape factors I have run GEOS-Chem version 10.01 on the full 72 level vertical grid at 2 by 2.5 (lat by lon) degree monthly resolution. 
-    These monthly vertical profiles are then used to provide the apriori shape factor for the higher horizontally resolved satellite columns, which pick the nearest apriori from the model.
-    The new apriori profiles are monthly averages, which is the same temporal resolution used by the OMI apriori shape factors.
+    The simulated vertical profiles of HCHO are averaged from 1300-1400 local time in order to match the satellite overpass time of roughly 1330.
+    These vertical profiles then provide the apriori shape factor for the higher horizontally resolved satellite columns, which pick the nearest apriori from the model.
+    TODO: determine which of these is correct!
+    a)The new apriori profiles are monthly averages, which is the same temporal resolution used by the OMI apriori shape factors.
+    b)The new apriori profiles are simulated daily and averaged over 8 days along with the recalculated total vertical columns.
     
     A new AMF is determined using equation \ref{ch_HCHO:eqn:AMFintwSdz}) with the apriori shape factor set by our GEOS-Chem model run.
-    In order to reformulate the AMF, the 72 level profile from my GEOS-Chem UCX run is transformed from ppb to a normalized number density profile in order to match equation \ref{ch_HCHO:eqn:ShapeFactor}. 
+    In order to reformulate the AMF, GEOS-Chem's 72 level vertical profile is transformed from ppb to a normalized number density profile in order to match equation \ref{ch_HCHO:eqn:ShapeFactor}. 
     This conversion uses the following equation: 
     \begin{equation} \label{ch_HCHO:eqn:ppbto}
       \eta_{HCHO} = ppb_{HCHO} \times \eta_a \times 10^{-9}
@@ -509,8 +526,8 @@
     In effect this equation sums over the molecules per cm$^2$ in each altitude level.
     
     We have S$_z(z)$ and $\omega(z)$ over the vertical pressure coordinate z at all latitude and longitude points on whatever grid we wish. 
-    We convert to sigma ($\sigma$) vertical coordinate using $ P = \sigma (P_S - P_T) + P_T$, where $P_T$ is the pressure at the top of the atmosphere and $P_S$ is surface pressure.
-    In the sigma coordinate system we calculate a different shape factor:
+    A conversion to the sigma ($\sigma$) vertical coordinate is performed using $ P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
+    In the sigma coordinate system we calculated the shape factor as follows:
     \begin{equation} \label{ch_HCHO:eqn:ShapeFactorSigma}
       S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
     \end{equation}
@@ -544,8 +561,8 @@
     where $N_a$, and $N_{HCHO}$ are the densities of air and HCHO, H is the layer height (for each grid box).
     Note that HCHO density is determined from the outputted mixing ratio: $N_{HCHO} = C_{HCHO} \times N_a$.
 
-    Once S$_\sigma(\sigma)$ is determined it is then stored in HDF-EOS5 format, to be used in conjunction with the satellite measurements to calculate an AMF as shown in equation \ref{ch_HCHO:eqn:AMFintwSdz}.
-    As the GEOS-Chem V10.01 output is in bitpunch format, the code to read the data and create the shape factor is written in IDL, which has many procedures and functions which are alread written to handle reading this format.
+    S$_\sigma(\sigma)$ is then stored in HDF-EOS5 format, to be used in conjunction with the satellite measurements to calculate an AMF as shown in equation \ref{ch_HCHO:eqn:AMFintwSdz}.
+    As the GEOS-Chem V10.01 output is in bitpunch format, the code to read the data and create the shape factor is written in IDL, which has many procedures and functions which are already written to handle reading this format (provided by GAMAP).
     The code is provided in supplementary TODO: put code into supplement section.
     
     For each OMI slant column, a new AMF is calculated using S$_\sigma(\sigma)$ and the provided scattering weights $\omega(\sigma)$ using equation \ref{ch_HCHO:eqn:AMFintwSdz}.
@@ -615,10 +632,21 @@
     The bin entry count is used to create an 8-day average out of the one day averages, as it is the daily mean multiplied by the daily count summed over 8 days divided by the total count for each bin.
     
   \subsection{Estimation of error or uncertainty}
-    There are three main sources of error in the resulting HCHO columns: a) fitting error from the OMI retrieval, b) uncertainty in AMF calculations, and c) uncertainty of HCHO background.
+  \label{ch_HCHO:sec:OMI_uncertainty_calculation}
+    There are three main sources of error in the resulting HCHO columns:
+    \begin{description}
+      \item[a] Fitting error from the OMI retrieval.
+      \item[b] Uncertainty in AMF calculations.
+      \item[c] Uncertainty of HCHO background.
+    \end{description}
+
     a) is available in the OMI product and reduced through spatial and temporal averaging.
-    b) and c) are determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
+    Another method for examining uncertainty of OMI is to analyse the standard deviation of the HCHO columns over the remote pacific.
+    If we assume there is no HCHO variation from background levels over any 8-day period, then this method infers variations in the measuring instrument, and can be used as a metric for uncertainty as done in \citet{DeSmedt2012}.
+    TODO: uncertainty calculation on remote pacific OMI.
     
+    b) and c) are determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
+    TODO: uncertainty calculations.
     Compare this error estimate with that of \citet{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
   
   \subsection{Comparison with in-situ measurements}
