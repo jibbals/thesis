@@ -33,6 +33,12 @@
 
     The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme} (TODO: check this).
     
+  \subsection{Emissions from MEGAN}
+    MEGAN simulates biogenic emissions of various gases including isoprene, based on various meteorological, land cover, and plant type parameterisations.
+    
+    One of the important parameters in Australia is soil moisture ($\gamma_{SM}$), which has huge affects on the isoprene emissions \citep{Sindelarova2014,Bauwens2016}.
+    Generally if soil moisture is too low, isoprene emissions stop, however in many Australian regions the plants may be more adapted to lower moisture levels. (TODO: Find cites for this - talk from K Emerson at Stanley indicated this)
+    
 
 %----------------------------------------------------------------------------------------
 %	SECTION
@@ -54,6 +60,8 @@
     For monoterpenes the yields are around X, Y\% for low, high NO$_X$ respectively.
     Emissions and yields for various species including some terpenes can be seen in table \ref{ch_isop:tab:VOCAusYields}.
     \citet{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
+    They determine prompt yield as the change in HCHO per change in ISOP$_0$, using $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
+    This effectively relates HCHO abundance with isoprene emission strength.
     (TODO:and finish Wolfe2016 discussion paper for yields)
     TODO:go through atkinsonarey2003
     
@@ -65,24 +73,27 @@
     
     Looking at Australian emissions from running GEOS-Chem and using yields provided by XYZ (another table)
     TODO: Fill out this table
-    \begin{table}
-    \begin{tabular}{ | c  c  c  c  c | }
-      \hline
-      \textbf{Species} & \textbf{Emissions$^a$} & \textbf{Lifetime$^b$} & \textbf{HCHO Yield$^c$} & \textbf{HCHO production$^d$\%}
-      \\               & (Tg C per month)       &                       & (per C reacted)         &         \\ \hline
-      Isoprene           & Y                     & n minutes            & 0.x                & 10       \\
-      $\alpha$-Pinene    & Y                     & n minutes            & 0.x                & 10        \\ %\hline
-      $\beta$-Pinene     & Y                     & n minutes            & 0.x                & 10        \\
-      HCHO               & Y                     & n minutes            & 1.0                & 10         \\ \hline
-    \end{tabular}
-    \caption{HCHO yields from various species averaged over Australia during Summer. \hspace{\textwidth} \\ 
-    ${}^a$Calculated using GEOS-Chem emissions over Australia in January 2005. \hspace{\textwidth} \\ 
-    ${}^b$ \hspace{\textwidth} \\ 
-    ${}^c$ \hspace{\textwidth} \\ 
-    ${}^c$Production determined by dividing emission*yield by the sum of all VOC emissions*yields. \hspace{\textwidth} \\ 
-    }
-    \label{ch_isop:tab:VOCAusYields}
-    \end{table}
+    \begin{table} \begin{threeparttable}
+      \caption{HCHO yields from various species averaged over Australia during Summer.}
+      \begin{tabular}{ | c  c  c  c  c | }
+        \toprule
+	  \textbf{Species}   & \textbf{Emissions$^a$}& \textbf{Lifetime$^b$}& \textbf{HCHO Yield$^c$} & \textbf{HCHO production$^d$\%}
+	  \\                 & (Tg C per month)      &                      & (per C reacted)         &         \\
+	\midrule
+	  Isoprene           & Y                     & n minutes            & 0.x                     & 10       \\
+	  $\alpha$-Pinene    & Y                     & n minutes            & 0.x                     & 10       \\
+	  $\beta$-Pinene     & Y                     & n minutes            & 0.x                     & 10       \\
+	  HCHO               & Y                     & n minutes            & 1.0                     & 10       \\
+	\bottomrule
+      \end{tabular}
+      \begin{tablenotes} 
+	  \item a: Calculated using GEOS-Chem emissions over Australia in January 2005.
+	  \item b:  
+	  \item c: 
+	  \item d: Production determined by dividing emission*yield by the sum of all VOC emissions*yields. 
+      \end{tablenotes}
+      \label{ch_isop:tab:VOCAusYields}
+    \end{threeparttable} \end{table}
     
     % yields from Atkinsen2003
     %isoprene
@@ -97,7 +108,7 @@
     
     Yields table looking at literature provided yields of HCHO.
     % molar HCHO yield per unit carbon equal to HCHO molar percent yield(per carbon)? or some conversion?
-    % TODO: ask steve
+    % TODO: ask steve about ppbv ppbv^-1 ??
     
     \begin{table} \begin{threeparttable}
       \caption{ HCHO yields from various species, and lifetime against oxidation by OH. }
@@ -107,20 +118,22 @@
 	\\                & (molar \% )     &        &              &          \\
 	\midrule 
 	Isoprene          & 315$\pm$50      &        & High NO$_X$  & a        \\ 
-			  & 285$\pm$30      &        & High NO$_X$  & a        \\ 
-			  & 225             & 35 min & High NO$_X$  & b        \\ % Done
-			  & 150             &        & Low  NO$_X$  & b        \\ % Done
+			          & 285$\pm$30      &        & High NO$_X$  & a        \\ 
+			          & 225             & 35 min & High NO$_X$  & b        \\ % Done
+			          & 150             &        & Low  NO$_X$  & b        \\ % Done
+			          & 150             &        & Low  NO$_X$  & d        \\
+			          & 450             &        & High  NO$_X$ & d        \\
 	$\alpha$-Pinene   & 28$\pm$3        &        & Low NO$_X$   & c        \\ 
-			  & X$\pm$3         &        & X NO$_X$     & \citep{Wolfe2016}      \\ 
-			  & 230$\pm$90      &        & High NO$_X$  & a        \\ 
-			  & 190$\pm$50      &        & High NO$_X$  & a        \\ 
-			  & 19              & 1 hour &              & b        \\ % Done
+			          & X$\pm$3         &        & X NO$_X$     & d        \\ 
+			          & 230$\pm$90      &        & High NO$_X$  & a        \\ 
+			          & 190$\pm$50      &        & High NO$_X$  & a        \\ 
+			          & 19              & 1 hour &              & b        \\ % Done
 	$\beta$-Pinene    & 65$\pm$6        &        & Low NO$_X$   & c      \\ 
-			  & X$\pm$3         &        & X NO$_X$     & \citep{Wolfe2016}      \\ 
-			  & 540$\pm$50      &        & High NO$_X$  & a     \\ 
-			  & 450$\pm$80      &        & High NO$_X$  & a      \\ 
-			  & 45              & 40 min &              & b      \\ % Done
-	Methane 	  & 100             & 1 year  &             & b     \\ 
+			          & X$\pm$3         &        & X NO$_X$     & d      \\ 
+			          & 540$\pm$50      &        & High NO$_X$  & a     \\ 
+			          & 450$\pm$80      &        & High NO$_X$  & a      \\ 
+			          & 45              & 40 min &              & b      \\ % Done
+	Methane 	      & 100             & 1 year  &             & b     \\ 
 	Ethane            & 180             & 10 days &             & b     \\ 
 	Propane           & 60              & 2 days  &             & b     \\ 
 	Methylbutanol     & .13(per C)      & 1 hour  &             & b     \\ 
@@ -134,8 +147,11 @@
       \item b \citet{Palmer2003}: lifetimes assume [OH] is 1e15 mol cm$^{-3}$.
       \item c \citep{Lee2006}: Calculated through change in concentration of parent and product linear least squares regression.
 	Estimates assume 20$^\circ$~C conditions.
-      \item d Calculated from satellite detected concentrations of HCHO.
-      \item e Calculated using PTR-MS and iWAS on SENEX campaign data.
+	  \item d \citet{Wolfe2016}: ``prompt yield'': change in HCHO per change in ISOP$_0$.
+	    $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
+	    Effectively relates HCHO abundance with isoprene emission strength
+      \item e Calculated from satellite detected concentrations of HCHO.
+      \item f Calculated using PTR-MS and iWAS on SENEX campaign data.
     \end{tablenotes}
     \label{ch_isop:tab:VOCLiteratureYields}
   \end{threeparttable} \end{table}
@@ -180,7 +196,7 @@
     \end{equation}
     Where \textit{B} is the background HCHO, and $S = Y_{isop}/k_{HCHO}$ is determined monthly as the regression between $k_{HCHO}*\Omega_{HCHO}$, and $k_{isop}*\Omega_{isop}$.
     
-    To calculate S we use modelled average (from 1000-1200 LT) values .
+    To calculate S we use modelled average (from 1000-1200 LT) values of the loss rates and total columns, and calculate the RMA linear regression slope, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
     
     
     This works if there is fast HCHO yield, so that the effect of chemical transport is minimal.

@@ -33,6 +33,19 @@
 
     The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme} (TODO: check this).
     
+  \subsection{Emissions from MEGAN}
+    MEGAN simulates biogenic emissions of various gases including isoprene, based on various meteorological, land cover, and plant type parameterisations.
+    
+    One of the important parameters in Australia is the soil moisture activity factor($\gamma_{SM}$), which can have large regional affects on the isoprene emissions \citep{Sindelarova2014,Bauwens2016}.
+    Generally if soil moisture is too low, isoprene emissions stop, however in many Australian regions the plants may be more adapted to lower moisture levels. (TODO: Find cites for this - talk from K Emerson at Stanley indicated this)
+    GEOS-Chem runs MEGANv2.1, which has three possible states for isoprene emissions based on the soil moisture ($\theta$):
+    \begin{align*}
+      \gamma_\mathrm{SM} & = 1 && \theta > \theta_1 \\
+      \gamma_\mathrm{SM} & = (\theta-\theta_w)/\Delta\theta_1  && \theta_w < \theta < \theta_1 \\
+      \gamma_\mathrm{SM} & = 0 && \theta < \theta_w \\
+    \end{align*}
+    where $\theta_w$ is the wilting point, and $\theta_1$ determines when plants are near the wilting point.
+    The wilting point is set by a land based database from \citet{Chen2001}, while $\theta_1$ is set globally based on \citet{Pegoraro2004}. (TODO: Check both these papers  from Guenther2006)
 
 %----------------------------------------------------------------------------------------
 %	SECTION
