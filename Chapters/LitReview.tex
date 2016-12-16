@@ -28,11 +28,13 @@
     Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \citep{Guenther1999}, and a leaf energy balance model \citep{Guenther2006} in MEGANv2.0.
     This update included a parameter for soil moisture, to account for drought conditions.
     
-    TODO: Move MEGAN model discussion somewhere else?.
-    
     MEGAN has recently been analysed using 30 years of meteorological reanalysis information by \citet{Sindelarova2014}.
     They estimate emissions of Biogenic VOCs (BVOCs) to be 760~Tg(C)yr$^{-1}$, 70\% of which is isoprene.
     This is equivalent to X~Mt (TODO: conversion) of isoprene.
+    
+    MEGAN emissions estimates are termed bottom-up, as opposed to top-down estimates which are derived from satellite measurements of the products of various VOCs.
+    Using GOME satellite HCHO and a Beyesian inversion technique to derive isoprene emissions, \citet{Shim2008} estimated global isoprene emissions to be  $\sim$566 TgC yr$^{-1}$. 
+    This estimate is greater than initially thought and leads to decreased ($\sim10\%$) simulated OH concentrations to 9.5E5 molec cm$^{-3}$.
     
     VOCs are removed by wet and dry deposition, or transformed by reaction with OH, NO$_3$, or O$_3$,
     The process of deposition only accounts for a small fraction of the VOC loss (todo: cite with numbers), with the primary reductions occurring through photochemical drivers.
@@ -193,6 +195,7 @@ TODO: Start this section!
     
     Biomass burning can be a source of HCHO, and various other pollutants, precursors, and aerosols.
     Additionally HCHO is emitted into the atmosphere directly through fossil fuel combustion, natural gas flaring, ethanol refining, and agricultural activity \citep{Wolfe2016}.
+    Background levels of HCHO are provided by methane oxidation, and enhancements to regional and continental HCHO is largely driven by isoprene emissions \citep{Guenther1995, Palmer2003, Shim2005}.
     
     HCHO has two major sinks, one being reactions with OH, the other being photolysis \citep{Crutzen1999, Wagner2002, Levy1972}.
     (todo: levy 1972 read abstract and cite).
@@ -225,12 +228,10 @@ TODO: Start this section!
     \begin{figure}
       \includegraphics{Figures/MAXDoasExample.png}
       \caption{ %
-	Image from \citet{Lee2015}.
+        Image from \citet{Lee2015}.
       }
       \label{ch_LitRev:fig:MAXDOASExample}
     \end{figure}
-
-    
     
     Other measurement techniques include chromatographic and fluorimetric methods, both of which differ widely from eachother and the spectroscopic method TODO: read \citep{Hak2005}).
     This resulted in HCHO not having a consistent network for global measurements like those for GHGs or Ozone \citep{FortemsCheiney2012}.
@@ -312,7 +313,7 @@ TODO: Start this section!
     In the remote troposphere HCHO production is dominated by methane oxidation, while in the continental boundary layer (CBL) production is largely due to NMVOCs \citep{Abbot2003, Kefauver2014}.
     NMVOCs are alkanes, alkenes, aromatic hydrocarbons and isoprene.
     Isoprene is hard to measure directly due to its short lifetime and weak spectral absorption, instead formaldehyde is often used as a proxy \citep{Millet2006, Dufour2009, Marais2012, bauwens2013satellite, Kefauver2014, Bauwens2016}.
-    Formaldehyde formed in the troposphere is mostly due to VOC (roughly one third each: methane, isoprene, others) oxidation. 
+    Formaldehyde formed in the troposphere is mostly due to VOC (roughly one third each: methane, isoprene, others) oxidation.
     We can model this oxidation process in order to work out how much VOC is present based on the total HCHO.
     This requires among other things an idea of which VOCs are present and their yields of HCHO.
     
@@ -354,8 +355,9 @@ TODO: Start this section!
     Another method of correcting isoprene emissions using observed HCHO total column involves a Bayesian inversion.
     \citet{Shim2005} work with GOME HCHO observations and GEOS-Chem, looking at areas with high signal to noise ratio (higher HCHO concentrations).
     They show that the model underestimates isoprene emissions and HCHO concentrations by 14-46\%, with the corrected VOC emissions reducing the model biases to 3-25\%.
-    The beyesian inversion is similar to that of \citet{Curci2010}, where a regional CTM (CHIMERE) simulates HCHO, which is compared against OMI observed HCHO and shown to be regionally biased.
-    This is expected to be due to errors in MEGAN's natural isoprene emissions.
+    
+    The Bayesian inversion is also used in \citet{Curci2010}, where a regional CTM (CHIMERE) simulates HCHO, which is compared against OMI observed HCHO and shown to be regionally biased.
+    This bias is expected to be caused by errors in MEGAN's natural isoprene emissions.
     The CHIMERE model is used to derive yields of HCHO from the various local VOCs and these are then used in estimating local emissions.
     The model is run initially with emissions of BVOCs and reactive anthropogenic VOCs (RAVOCs) turned off in order to work out the background (b) values of these compounds.
     The Bayesian inversion is used to correct regionally biased biogenic isoprene emissions by optimising these parameters in order to simulate HCHO closest to the observed HCHO levels.
