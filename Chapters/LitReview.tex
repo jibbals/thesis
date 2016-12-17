@@ -20,7 +20,7 @@
     These have impacts on climate (through radiative forcing) and air quality, affecting both human health and crop yields \citep{IPCC_Chapter2, Avnery2011, Lelieveld2015}.
     Understanding the drivers of trends in biogenic volatile organic compound emissions (BVOCs) is needed in order to estimate future carbon fluxes, changes in the water cycle, air quality, and other climate responses \citep{Yue2015}.
     
-    In the 1990's, the WMO (TODO: cite?) estimated that we are emitting 360~Mt yr$^{-1}$ of methane (CH$_4$), one of the more abundant and potent VOCs, while biogenic emissions were around 200~Mt yr$^{-1}$ \citep{Atkinson2000}.
+    In the 1990's, the World Meteorological Organisation (WMO) estimated that we are emitting 360~Mt yr$^{-1}$ of methane (CH$_4$), one of the more abundant and potent VOCs, while biogenic emissions were around 200~Mt yr$^{-1}$ \citep{Atkinson2000}.
     At that point in time, emissions of other VOCs (Non Methane VOCs - NMVOCs) were estimated at 1150~Mt yr$^{-1}$ (of carbon) from biogenic sources, and 100~Mt yr$^{-1}$ from anthropogenic sources \citep{Guenther1995,Atkinson2000}.
     These estimates were based on the Model of Emissions of Gases and Aerosols from Nature (MEGAN, \citet{Guenther1995}).
     
@@ -30,7 +30,7 @@
     
     MEGAN has recently been analysed using 30 years of meteorological reanalysis information by \citet{Sindelarova2014}.
     They estimate emissions of Biogenic VOCs (BVOCs) to be 760~Tg(C)yr$^{-1}$, 70\% of which is isoprene.
-    This is equivalent to X~Mt (TODO: conversion) of isoprene.
+    This is equivalent to X~Mt of isoprene (TODO: ask steve for conversion - confirm Atkinson uses non per C units).
     
     MEGAN emissions estimates are termed bottom-up, as opposed to top-down estimates which are derived from satellite measurements of the products of various VOCs.
     Using GOME satellite HCHO and a Beyesian inversion technique to derive isoprene emissions, \citet{Shim2008} estimated global isoprene emissions to be  $\sim$566 TgC yr$^{-1}$. 
@@ -252,7 +252,12 @@ TODO: Start this section!
     an example of this can be seen in (TODO: read/cite dufour2009), where monthly averaging is used to decrease the measurements uncertainty.
     HCHO in Europe is low; near the detection limit of satellite measurements, however taking monthly averages allows enough certainty that useful inversions can be determined to estimate the sources of the HCHO (TODO: read and citep{Dufour2009}).
     
-    For many places the tropospheric column HCHO measured by satellite is biased low, \citet{Zhu2016} examine six available satellite datasets and show a bias of 20 - 51\% over south east USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
+    In satellite HCHO products, concentrations over the remote pacific ocean are sometimes used to analyse faulty instrument readings.
+    This is due to the expected invariance of HCHO over this region.
+    For instance GOME (an instrument which measures trace gases on board the ERS-2) corrects for an instrument artifact using modelled HCHO over the remote pacific \citep{Shim2015}.
+    OMI HCHO products use a similar technique to account for sensor plate drift and changing bromine sensitivity \citep{Abad2015}
+    
+    For many places the tropospheric column HCHO measured by satellite is biased low, \citet{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over south east USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
     \citet{DeSmedt2015} also found a low bias from 20 - 40\% when comparing OMI and GOME2 observations against ground based vertical profiles, and \citet{Barkley2013} determine OMI to be 37\% low compared with aircraft measurements over Guyana.
     These bias can be corrected by improving the assumed apriori HCHO profiles which are used to calculate the AMFs of the satellite columns.
     
@@ -286,7 +291,9 @@ TODO: Start this section!
     
     \citet{Marais2014} examine factors affecting isoprene emissions, showing how emissions are sensitive to various environmental factors.
     Their work used MEGAN \citep{Guenther1995} and GEOS-Chem to look at how these factors affect surface ozone and particulate matter in Africa.
-    
+    One of the important uncertainties seen in MEGAN within this work is the isoprene emissions due to plant type. 
+    Canopy level isoprene measurements are made using relaxed eddy accumulation (REA) at several sites in Africa.
+    One plant type near a measurement site emits more than other species and it's actual distribution on a larger scale is completely unknown - leading to possible overestimations in MEGAN.
   
   \subsection{Estimates}
     Biogenic isoprene emissions are far greater than anthropogenic emissions of VOCs \citep{Guenther2006, Kefauver2014}. 
@@ -491,10 +498,10 @@ TODO: Start this section!
 
     The type of model best suited to modelling the entire earth uses the Eulerian frame of reference, where the atmosphere is broken up into 3-D boxes with densities and transport calculated and stored for arbitrary sequential steps in time at each location.
     The mass balance equation must be satisfied in any realistic long term box model and is as follows: 
-    \begin{eqnarray*}
+    \begin{align*}
 	\frac{dm}{dt} &=& \sum{sources}-\sum{sinks} \\
 	&=& F_{in} + E + P - F_{out} - L - D 
-    \end{eqnarray*}
+    \end{align*}
     where m is mass of a chemical, E and D are emission and deposition, P and L are production and loss, and F is chemical transport in and out, as shown in figure \ref{ch_LitRev:fig:boxmodel}.
     Many chemical species interact with each other through production and loss. 
     Any large chemical model will solve this mass balance equation over highly coupled arrays of partial differential equations which can be complex and time consuming.
