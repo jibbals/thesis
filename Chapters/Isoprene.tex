@@ -166,10 +166,11 @@
   \subsection{Outline}
     Once we have vertical columns of biogenic HCHO we can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (around 2-3, or 1 in low NO$_X$ conditions) \citep{Palmer2003,Marais2013,Bauwens2016}.
     If we assume there is fast HCHO yield, so that the effect of chemical transport is minimal, and that HCHO and isoprene are at steady states, then we can calculate local yield from our CTM.
-    This yield is derived from a simulation both HCHO and isoprene, such as was used by \citet{Millet2006} who produced a molar HCHO yield of 2.3 in north eastern USA.
-    The calculations used to determine isoprene emissions over Australia are fully described in \ref{ch_isop:sec:EmissionCalculation}.
+    This yield is derived from a both HCHO and isoprene, such as was used by \citet{Millet2006} who produced a molar HCHO yield of 2.3 in north eastern USA.
+    The calculations used to determine isoprene emissions over Australia are fully described in \ref{ch_isop:sec:EmissionCalculation} and follow the method of \citet{Palmer2003}.
+    To calculate emissions we use a reduced major axis (RMA) regression between modelled average (from 1000-1200 LT) values of the loss rates and total columns, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
     
-    The background HCHO is assumed to be equal to HCHO measured in the remote pacific at the same time.
+    The background HCHO is assumed to be the HCHO measured in the remote pacific at the same time.
     This is determined from GEOS-Chem when calculating yield of HCHO from isoprene, and from the biogenic HCHO product when calculating isoprene emissions. (TODO: update this if that is not the final process)
     
     Isoprene quickly forms HCHO in the atmosphere when in the presence of high levels of NO$_X$.
@@ -197,14 +198,15 @@
       \Omega_{HCHO} = \frac{1}{k_{HCHO}}\Sigma_i k_i Y_i \Omega_i = \frac{1}{k_{HCHO}}\Sigma_i Y_i E_i
     \end{equation}
     
-    Using our measurements of the biogenic HCHO column ($\Omega_{HCHO}$) we can infer the local (grid space) isoprene emissions (E$_{ISOP}$) using effective formaldehyde yield from isoprene (S).
+    We can infer the local (grid space) isoprene emissions (E$_{isop}$) using effective formaldehyde yield from isoprene ($Y_{isop}$).
     \begin{equation} \label{ch_isop:eqn:isop_yield}
-      \Omega_{HCHO} = S \times E_{ISOP} + B
+      \Omega_{HCHO} = S \times E_{isop} + B
     \end{equation}
     Where \textit{B} is the background HCHO, and $S = Y_{isop}/k_{HCHO}$ is determined monthly as the regression between $k_{HCHO}*\Omega_{HCHO}$, and $k_{isop}*\Omega_{isop}$.
-    
-    To calculate S we use modelled average (from 1000-1200 LT) values of the loss rates and total columns, and calculate the RMA linear regression slope, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
-    
+    For an initial estimate of the effective yield from simulated data: we use $k_{HCHO}$, $k_{i}$, $\Omega_{HCHO}$, and $\Omega_i$ outputs from a standard run of GEOS-Chem - which provides one data point per day.
+    This gives us a value for $Y_i$ resolved to our 2$^{\circ}$ by 2.5$^{\circ}$ horizontal resolution, which is entirely based on the model, and can be compared against the yield calculated using OMI derived $\Omega_{HCHO}$.
+    Using our measurements of the biogenic HCHO column ($\Omega_{OMIHCHO}$) recalculated from the OMI satellite product, we derive yield using the same method and determine our new top-down emissions estimates.
+    Figure ()TODO: figure with RMA of these over whatever time and space I end up using.) shows the modelled isoprene emissions and column concentrations along with the RMA regression line - which leads to an estimated yield of TODO
     
     This works if there is fast HCHO yield, so that the effect of chemical transport is minimal.
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude.
