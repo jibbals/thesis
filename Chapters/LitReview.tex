@@ -280,6 +280,11 @@ TODO: Start this section!
     
     Uncertainty in the OMI satellite instrument is calculated by the Smithsonian Astrophysical Observatory (SAO) group using the uncertainty in backscattered radiation retrievals \citep{Abad2015, Abad2016}.
     Another method of calculating the uncertainty is used by the Belgian Institute for Space Aeronomy (BIRA) group, who determine uncertainty from the standard deviation of HCHO over the remote pacific ocean (TODO: use both these methods for HCHO section)\citep{DeSmedt2012, DeSmedt2015}.
+    
+    GOME suffers from similar uncertainties to OMI, as the same general method of DOAS remote measurements are performed.
+    The uncertainty from slant column fitting has been calculated for GOME to be $4\times10^{15}$ molecules cm$^{-2}$ \citep{Chance2000, Millet2006}. 
+    The conversion factor for slant to vertical columns (AMF) calculation also suffers from errors; primarily from surface albedo, HCHO vertical profile apriori, aerosol, and cloud influence \citep{Millet2006}. 
+    AMF uncertainties for GOME are calculated to be $1$ to $1.3\times10^{15}$ molecules cm$^{-2}$ by \citet{Shim2005}.
 %----------------------------------------------------------------------------------------
 %	Isoprene Section
 %----------------------------------------------------------------------------------------
@@ -383,7 +388,7 @@ TODO: Start this section!
     \begin{eqnarray*}
     \Omega = \frac{1}{k_{HCHO}} \sum_{i} Y_i E_i
     \end{eqnarray*}
-    Where i indexes a chemical species, $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the HCHO yield, and $E_i$ is emission fluxes ( C atoms $cm^{-2}s^{-1}$).
+    Where i indexes a chemical species, $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the molar HCHO yield from oxidation of i, and $E_i$ is emission fluxes ( C atoms $cm^{-2}s^{-1}$).
     
     Estimates of Y$_i$ can be attained from a model as shown in \citet{Millet2006}.
     This involves a reduced major axis (RMA) correllation calculation between modelled HCHO and isoprene columns, multiplied by their loss rates (to photolysis and oxidation) (as a normalising factor).  
@@ -409,7 +414,7 @@ TODO: Start this section!
     This K matrix is used in conjunction with error covariance in x to determine the Maximum A Posteriori (MAP) solution to calculate the optimal estimate of x ($\hat{x}$).
     
     TODO: Read through this list of sources on the hcho to isop process : taken from Wolfe2015
-    Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008, 2006; Palmer et al., 2006, \citep{Palmer2003}), South America (\citep{Barkley2013}, 2008), Europe \citep{Curci2010,Dufour2009}, Africa (Marais et al., 2012), Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; Shim et al., 2005; Stavrakou et al., 2009).
+    Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008 \citep{Palmer2003,Millet2006,Palmer2006}), South America (\citep{Barkley2013}, 2008), Europe \citep{Curci2010,Dufour2009}, Africa \citep{Marais2012}, Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; \citep{Shim2005}; Stavrakou et al., 2009).
     
     More recently, full inversions that better account for transport, source attribution, and chemical schemes have been implemented \citep{FortemsCheiney2012}.
     TODO: full description of this better inversion technique going through FortemsCheiney2012.
@@ -438,7 +443,6 @@ TODO: Start this section!
     Since 1997, when GOME first measured HCHO over Asia (TODO cite thomas 1998), satellites have been able to provide a total column measurement of one of the primary products of isoprene.
     
     
-  
   \subsection{Estimates}
     There are two commonly used ways of estimating isoprene emissions, top-down or bottom-up.
     Bottom-up emission estimates generally model the flora and events which emit isoprene, like Eucalypts, factories, shrubs, leaf areas under sunlight, etc.
