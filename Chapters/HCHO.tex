@@ -322,9 +322,10 @@
 \label{ch_HCHO:sec:creatinginventory}
 
   \subsection{Process Outline}
-    First satellite slant columns of formaldehyde for the years 2004 - 2013 will be retreived from NASA, BIRA, etc (TODO: list satellites + sources or reference section).
-    This data needs to be quality assured and will undergo a basic analysis and filtering criteria as is done in several other studies, for example \citet{Marais2012, Barkley2013, Bauwens2016, Zhu2016} TODO: more cites.
-    This filtering generally removes cloudy and uncertain data points, along with instrument anomalies such as the row anomaly experienced by OMI ( todo: cite row anomaly analysis/details ).
+    First satellite slant columns of formaldehyde for the years January 1st, 2005 - April 1st, 2013 are downloaded from NASA.
+    The data set used is from the Ozone Monitoring Instrument (OMI) on board the Aura satellite, as it has data for the entire time line and sufficiently covers the southern hemisphere.
+    This data is first quality assured and undergoes basic analysis and filtering criteria as is done in several other studies \citep[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
+    This filtering removes cloudy and uncertain data points, along with instrument problems such as the OMI row anomaly (see section \ref{ch_HCHO:sec:OMIFiltering}.
     A full account of the filters used when reading OMI satellite data is given in section \ref{ch_HCHO:sec:OMIFiltering}.
     
     In order to reduce uncertainty and increase the utility of the satellite data we regrid it from pointwise single time data points to 8-day averages on a latitude longitude grid which matches our model input and output grid spacing. 
@@ -369,7 +370,11 @@
     
     The OMI dataset has a quality flag which can be used to remove unlikely or poor satellite measurements.
     The states represented by this quality flag are shown in table \ref{ch_HCHO:tab:OMIQualityFlag} which is taken from \citet{Kurosu2014}.
-    Filtering bad or missing measurement pixels is preformed prior to any other filtering.
+    Filtering bad or missing measurement pixels is preformed prior to any other filtering, this includes the datapoints affected by the row anomaly.
+    This anomaly (\url{http://projects.knmi.nl/omi/research/product/rowanomaly-background.php}) affects radiance data at particular viewing angles, corresponding to a row on the CCD detectors, and is dynamic over time.
+    The slant columns affected are flagged and easy to remove before further processing.
+    
+    Clouds have various detrimental effects on slant column uncertainty and AMF calculation, so the cloudy data needs to be filtered.
     Any pixel with a cloud fraction of greater than 40\% is also removed, after the pixel is used in determining the reference sector correction, as is done in \citet{Abad2015, DeSmedt2015}.
     In \citet{Martin2003} (TODO: find this paper), pixels with more than half of the backscattered intesity from the cloudy sky fraction are removed, in effect removing pixels with more than ~40\% cloud fraction before calculating the AMF for NO$_2$ slant columns.
     
