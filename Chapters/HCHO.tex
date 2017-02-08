@@ -584,7 +584,7 @@
     
     
     
-  \subsection{Determining and applying the pacific ocean reference sector normalisation}
+  \subsection{Determination and application of the pacific ocean reference sector normalisation}
     \label{ch_HCHO:sec:RSC}
 
     As is done in \citet{Abad2015}, a reference sector defined over the Pacific ocean is used to correct OMI instrument degradation.
@@ -664,11 +664,16 @@
   \subsection{Comparison with standard OMI product}
     Figure TODO: shows global and Australian HCHO eight day averaged total column maps for 1-8 January 2005, along with the reduced major axis (RMA) regression corellation and percentage difference.
    This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
-    
   
   \subsection{Comparison with in-situ measurements}
     TODO: Describe Wollongong FTIR and junk
     Analyse comparison of gridbox with instrument!
 
+  \subsection{Summary}
+    First the OMI HCHO level 2 data was downloaded, and read using python creating a list of good pixels for each day.
+    Next the associated AMF and reference sector correction for each good pixel was calculated using GEOS-Chem for the apriori shape factor, and using the provided scattering weights from OMI.
+    Each 8 days the pixel list is averaged onto a 0.25$^{\circ}$ latitude by 0.3125$^{\circ}$ longitude grid.
+    The new HCHO product along with counts and average uncertainty of pixels used in the grid square is also kept.
+    The product includes the 8-day gridded averages of the old and new AMFs, the average correction sector from GEOS-Chem over the pacific ocean, and the old and new HCHO with and without the reference sector correction from \cite{Abad2015} applied.
     
-
+    \subsection{Conclusions}
