@@ -214,6 +214,28 @@
     \label{ch_isop:tab:VOCLiteratureYields}
   \end{threeparttable} \end{table}
     
+  \subsection{Single-box modelled yield}
+  \label{Ch_isop:sec:CAABAMECCA}
+    Using (TODO: description somewhere) CAABA/MECCA to examine isoprene to HCHO yield in specific scenarios allows us to determine what environment may be driving the yield calculated by GEOS-Chem.
+    This software (TODO:cite) runs (TODO: what sort of chemistry is happening?) with emission, deposition, and initial concentrations all set.
+    By running the same simulation twice, and injecting a small amount of extra isoprene into one of the simulations, extra HCHO produced can be used to determine the yield from isoprene to HCHO.
+    Isoprene life time can also be calculated using this process, as the time it takes for the extra isoprene to reach $1/e$ of it's initial value.
+    
+    Initially we have three scenarios, grassland, desert, and forest Australia - with each scenario having initial conditions, emission and deposition set as in table TODO: table.
+    Running each scenario with and without a small isoprene injection gives isoprene lifetimes and isoprene to HCHO yield for those scenarios, shown in table TODO:table .
+    Calculation of the yield follows a calculation of the theoretical maximum carbon production by the amount of injected isoprene:
+    \begin{equation}
+      Y_{100} =10^9 \times \frac{C_{PM} E_{inj} D_{inj}}{(N_A H_{PBL})}
+    \end{equation}
+    Where Y$_{100}$ is the maximum possible carbon yield of isoprene (ppb), $C_{PM}$ is Carbon per molecule (isoprene=5), $E_{inj}$ is the emission rate of injected isoprene (molec cm$^{-2}$ s$^{-1}$), $D_{inj}$ is the duration of injection (s), H$_{PBL}$ is the boundary layer height (cm), and $N_A$ is the Air number density (molec cm$^{-3} \approx 2.5e19$).
+    Finding the accumulated increase in HCHO (ppb) from the difference between the perturbed and non perturbed model runs allows calculation of the accumulated extra HCHO (Example: Figure TODO:), which divided by the $Y_{100}$ gives us the isoprene to HCHO atom C yield:
+    \begin{equation}
+      Y_{HCHO}= \frac{\Delta HCHO_{\text{Accumulated}}}{Y_{100}}
+    \end{equation}
+    with $HCHO_{\text{Accumulated}}$ being the accumulated enhanced ppb mixing ratio of HCHO.
+    
+    Figure TODO: shows the accumulated yield for all three scenarios, which each increase towards a limiting value.
+    
   \subsection{Calculation of Emissions}
     \label{ch_isop:sec:EmissionCalculation}
     As is done in \citet{Palmer2003, Millet2006, Bauwens2016}, we assume that HCHO, and Isoprene columns are in a steady state, with no horizontal transport.
