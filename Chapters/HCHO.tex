@@ -365,6 +365,7 @@
     When comparing satellite measurements against models it is important to recognise the impact of the apriori shape factor on the total column values.
     This is due to the sensitivity of instruments varying vertically through the atmosphere, and how the simulated distribution of HCHO is accounted for.
     In order to remove a possible bias caused by systematic differences between the old model and the current model, the shape factor used by the satellite is replaced using the profile from the current model before satellite total columns are recalculated (generally using equation \ref{ch_HCHO:eqn:AMFintwSdz}).
+    Both the shape factor and scattering weights of the satellite are recalculated using a combination of GEOS-Chem apriori profile information and satellite measurement data using code initially written by dr. Paul Palmer, which calculates the AMF after running the LIDORT radiative transfer calculations to determine apriori scattering, this is explained fully in section TODO: and how it's used is shown in section \ref{ch_HCHO:sec:PPCode}.
     Without performing this step a bias between modeled and measured total column values may be due to an apriori rather than actual chemistry or measurements.
 
   \subsection{Quality filtering OMI HCHO slant columns}
@@ -585,7 +586,15 @@
     In Summer over Australia the global AMF difference was TODO: Difference summers only.
     This changed Australia's HCHO amounts from TODO: X to Y Tg per year plus minus one std.
     
-    
+  \subsection{AMF code from Paul Palmer}
+  \label{ch_HCHO:sec:PPCode}
+    TODO: describe how I use this here
+    I use code originally written by Dr. Paul Palmer with various updates and modifications described in section (TODO:) as another way to recalculate the AMF using information from the satellite swaths and the GEOS-Chem overpass simulation output.
+    These are used to recalculate the instrument sensitivity or scattering weights for each pixel, as well as the shape factor which together are integrated to give the pixel AMF.
+   
+   GEOS-Chem outputs quantities averaged between 1200 and 1400 LT, including optical depths at several wavelengths (TODO: list), dust, and HCHO.
+   I run a script on the satellite swaths which pulls out a subset of the pixel information into a daily csv file, which can be read by the AMF code as modified by Dr. Luke Surl, in conjunction with the GEOS-Chem outputs for each day.
+   The AMF code is then run and produces a csv of recalculated AMFs which get read by my python code and associated with the corresponding pixel.
     
   \subsection{Determination and application of the pacific ocean reference sector normalisation}
     \label{ch_HCHO:sec:RSC}
