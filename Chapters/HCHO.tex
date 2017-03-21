@@ -11,15 +11,19 @@
   \label{ch_HCHO:sec:bvoc}
 
   \subsection{Isoprene, Monoterpenes}
-  
-    Globally around 1150 Tg C yr$^{-1}$ of BVOCs are emitted \citep{Guenther1995}.
-    90\% of these emissions come from plants and trees, with the most dominant species being isoprene (C$_5$H$_8$) (about 61\%), monoterpenes (C$_10$H$_16$), and methanol (CH$_3$OH) \citep{Guenther2012, Lathiere2006} (TODO: reread Guenther2012 for this sentence).
+    
     Isoprene has a large impact on the oxidative properties of the atmosphere, as it reacts quickly with the OH radical to form RO$_2$ and then in the presence of NO$_X$ various OVOCs(largely HCHO) and other SOAs(notably ozone) are formed. 
-    The emissions of isoprene have been modelled at around 500~Tga$^{-1}$ in \citet{Guenther1995}.
-    The global emission factors model used to derive this estimate is based on modelling emissions from different plant species (phenotypes), and very few are used to set the emission factors of Australian forests.
     
     Estimates of isoprene emissions require more work in order to generate confidence at a global scale.
     Due to isoprene being optically thin (see section \ref{ch_HCHO:sec:satelliteHCHO:OpticalDepth}) and having a short life time (around an hour) there are relatively few accurate measurements against which a comparison and verification can be made.
+    
+    The emissions of isoprene have been modelled at around 500~Tg C yr$^{-1}$ in \citet{Guenther1995} using MEGAN, and more recently around 465~Tg C yr$^{-1}$ in \cite{Messina2016} using ORCHIDEE.
+    The global emission factors model used to derive these estimates is based on modelling emissions from different plant species (phenotypes), and very few are used to set the emission factors of Australian forests.
+    
+    Globally around 710 - 1150 Tg C yr$^{-1}$ of BVOCs are emitted \citep{Guenther1995,Lathiere2006,Guenther2012}.
+    90\% of these emissions come from plants and trees, with the most dominant species being isoprene (C$_5$H$_8$) ($\sim50\%$), monoterpenes (C$_10$H$_16$), methanol (CH$_3$OH), ethanol (C$_2$H$_6$O), acetaldehyde (CH$_3$CHO), acetone ((CH$_3$)$_2$CO), ethene (C$_2$H$_4$) and propene (C$_3$H$_6$) (together making up $\sim30\%$) \citep{Guenther2012}.
+    The larger of these estimates come from MEGAN, a bottom-up biogenic emissions model which is highly sensitive to several parameters including soil moisture and plant functional type.
+    Another model (ORCHIDEE, with inputs similar to MEGAN) estimates $752\pm16$ Tg C yr$^{-1}$, sensitive to terrestrial vegetation variations \citep{Lathiere2006}.
     
     One problem with current estimates of biogenic VOC emissions in Australia is that the emission rates from various species of eucalypt and other flora are highly complex, depending on current and recent weather, temperature, tree age, health, etc. \citep{Guenther2012}. 
     With this complexity added to the diversity of tree species in Australia as well as sparse rural data collections it is hard to model and verify emissions.
@@ -74,7 +78,7 @@
     This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
     The full method details for slant column retrieval by OMI are outlined in section \ref{ch_HCHO:sec:OMI_BOAS}.
     
-    Uncertainty in a single pixel for OMI is quite high (todo: link to picture with one day average plus omi uncertainty).
+    Uncertainty in a single pixel for OMI is quite high, roughly the same magnitude as HCHO measurements.
     Figure \ref{ch_HCHO:fig:eightDayUncertainty} shows uncertainty over Australia after one and eight days of averaging at 0.25$^{\circ}$ longitude by 0.3125${\circ}$ latitude.
     There are several methods of calculating this, one of which is used here and compared against the provided uncertainty (TODO) as shown in Section \ref{ch_HCHO:sec:OMIuncertainty}.
     If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
@@ -145,7 +149,13 @@
   
   \subsection{Scattering}
     \label{ch_HCHO:sec:satelliteHCHO:scattering}
-    Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium. Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the light. Mie scattering is more dominant from larger particles, and has less wavelength dependence. These scattering functions are described in detail at (TODO:section? reference?).
+    Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium. 
+    Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the light.
+    Mie scattering is more dominant from larger particles, and has less wavelength dependence. These scattering functions are described in detail at (TODO:section? reference?).
+    
+    The effects of scattering are what gives us the information about substances in the atmosphere.
+    The different particals and gases in the air have various properties which affect remote sensing devices such as a satellite, making them more or less sensitive at certain altitudes for detecting various species \citep[e.g.]{Martin2002b}.
+    
     
   \subsection{Absorption cross section and number density}
     \label{ch_HCHO:sec:satelliteHCHO:crosssection}
@@ -170,13 +180,17 @@
     The GEOS-Chem model has been substantially updated since then, and using the more recent version $V10.01$ to recalculate the AMF is performed within this thesis, details are shown in section \ref{ch_HCHO:sec:satelliteHCHO:CalculationOfVC}.
     
     The vertical distribution of a trace gas determined by CTM is independent of the vertically dependent observation sensitivity provided by RTM, which prevents model contamination of remotely sensed data.
-    Two examples of this are GOME-2 products on the MetOp-A satellite and OMI products which use IMAGESv2 combined with LIDORT and GEOS-Chem with LIDORT for product processing respectively ( TODO: %cite(atmos.caf.dlr.de/gome/product_hcho.html?), and omi cite).
-    \citep{Abad2015}.
-    The actual formulation of an AMF is explained in section \ref{ch_HCHO:sec:satelliteHCHO:CalculationOfVC}).
+    Two examples of this are GOME-2 products on the MetOp-A satellite (\url{http://atmos.caf.dlr.de/gome/product_hcho.html}) and OMI products which use IMAGESv2 combined with LIDORT and GEOS-Chem with LIDORT for product processing respectively \citep{Chance2002, Abad2015}.
+    The recalculation of OMI AMFs is explained in section \ref{ch_HCHO:sec:satelliteHCHO:CalculationOfVC}).
     
     Calculations of the AMF performed by different groups tend to agree fairly well, as long as all the apriori and ancilliary data is similar.
     Large differences can occur depending on the apriori vertical profile, trace gas concentrations, and cloud properties \citep{Lorent2017}.
     Choice of RTM and interpolation operations have a relatively small affect compared to the assumed state of the atmosphere, with high structural uncertainty introduced at this stage of AMF calculation - as shown in \cite{Lorent2017}.
+
+    Code for recalculating AMFs using satellite swaths and modelled aerosol optical depths and gas profiles can be found at \url{http://fizz.phys.dal.ca/~atmos/martin/?page_id=129}. 
+    The original method for HCHO is layed out in \cite{Palmer2001}, with modifications for clouds \citep{Martin2002NO} and use of the LIDORT RTM \citep{Spurr2002} is described by \cite{Martin2003NO}.
+    This code does not work as is when using OMI satellite data, and requires modifications as first performed by Luke Surl at Edinburgh University.
+    Additionally dr. Surl acquired the tropopause heights averaged within satellite overpass times output by GEOS-Chem with modifications to the model diagnostic (ND51).
   
   \subsection{OMI HCHO data products}
     OMI Data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
@@ -295,14 +309,11 @@
   \subsection{Uncertainty in OMI total columns}
   \label{ch_HCHO:sec:OMIuncertainty}
     Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by SAO from the backscattered solar radiation fit \citep{Abad2015,Abad2016}.
-    BIRA use another method, and calculate the standard deviation of HCHO over the remote pacific ocean as the uncertainty 
-    \citep{DeSmedt2012, DeSmedt2015}.
-    In the remote pacific, it can be assumed that HCHO variations are weak.
-    The standard deviation over this region is therefor a proxy for determination of the instrument error.
+    BIRA use another method, and calculate the standard deviation of HCHO over the remote pacific ocean as the uncertainty \citep{DeSmedt2012, DeSmedt2015}.
+    In the remote pacific, it can be assumed that HCHO variations are weak, with concentrations remaining steady in the short term ($\sim 1$ month).
+    This means the standard deviation over this region can be used as a proxy for determination of the instrument error.
+    For an analysis of the uncertainty in the recalculation of the OMI HCHO vertical columns see section \ref{ch_HCHO:sec:OMI_uncertainty_calculation}.
     
-    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
-    An analysis of the uncertainty within our recalculation of the OMI HCHO columns is performed in section \ref{ch_HCHO:sec:OMI_uncertainty_calculation}.
-      
   \subsection{Reference sector correction for comparison of products to various models}
     HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{DeSmedt2008,Barkley2013,Kurosu2014}.
     Since this oceanic background is used instead of a solar irradiance spectrum, in order to compare the output against different models, the vertical columns need to be corrected by an absolute amount.
@@ -322,9 +333,10 @@
 \label{ch_HCHO:sec:creatinginventory}
 
   \subsection{Process Outline}
-    First satellite slant columns of formaldehyde for the years 2004 - 2013 will be retreived from NASA, BIRA, etc (TODO: list satellites + sources or reference section).
-    This data needs to be quality assured and will undergo a basic analysis and filtering criteria as is done in several other studies, for example \citet{Marais2012, Barkley2013, Bauwens2016, Zhu2016} TODO: more cites.
-    This filtering generally removes cloudy and uncertain data points, along with instrument anomalies such as the row anomaly experienced by OMI ( todo: cite row anomaly analysis/details ).
+    First satellite slant columns of formaldehyde for the years January 1st, 2005 - April 1st, 2013 are downloaded from NASA.
+    The data set used is from the Ozone Monitoring Instrument (OMI) on board the Aura satellite, as it has data for the entire time line and sufficiently covers the southern hemisphere.
+    This data is first quality assured and undergoes basic analysis and filtering criteria as is done in several other studies \citep[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
+    This filtering removes cloudy and uncertain data points, along with instrument problems such as the OMI row anomaly (see section \ref{ch_HCHO:sec:OMIFiltering}.
     A full account of the filters used when reading OMI satellite data is given in section \ref{ch_HCHO:sec:OMIFiltering}.
     
     In order to reduce uncertainty and increase the utility of the satellite data we regrid it from pointwise single time data points to 8-day averages on a latitude longitude grid which matches our model input and output grid spacing. 
@@ -361,6 +373,7 @@
     When comparing satellite measurements against models it is important to recognise the impact of the apriori shape factor on the total column values.
     This is due to the sensitivity of instruments varying vertically through the atmosphere, and how the simulated distribution of HCHO is accounted for.
     In order to remove a possible bias caused by systematic differences between the old model and the current model, the shape factor used by the satellite is replaced using the profile from the current model before satellite total columns are recalculated (generally using equation \ref{ch_HCHO:eqn:AMFintwSdz}).
+    Both the shape factor and scattering weights of the satellite are recalculated using a combination of GEOS-Chem apriori profile information and satellite measurement data using code initially written by dr. Paul Palmer, which calculates the AMF after running the LIDORT radiative transfer calculations to determine apriori scattering, this is explained fully in section TODO: and how it's used is shown in section \ref{ch_HCHO:sec:PPCode}.
     Without performing this step a bias between modeled and measured total column values may be due to an apriori rather than actual chemistry or measurements.
 
   \subsection{Quality filtering OMI HCHO slant columns}
@@ -369,34 +382,39 @@
     
     The OMI dataset has a quality flag which can be used to remove unlikely or poor satellite measurements.
     The states represented by this quality flag are shown in table \ref{ch_HCHO:tab:OMIQualityFlag} which is taken from \citet{Kurosu2014}.
-    Filtering bad or missing measurement pixels is preformed prior to any other filtering.
-    Any pixel with a cloud fraction of greater than 40\% is also removed, after the pixel is used in determining the reference sector correction, as is done in \citet{Abad2015, DeSmedt2015}.
-    In \citet{Martin2003} (TODO: find this paper), pixels with more than half of the backscattered intesity from the cloudy sky fraction are removed, in effect removing pixels with more than ~40\% cloud fraction before calculating the AMF for NO$_2$ slant columns. 
+    Filtering bad or missing measurement pixels is preformed prior to any other filtering, this includes the datapoints affected by the row anomaly.
+    This anomaly (\url{http://projects.knmi.nl/omi/research/product/rowanomaly-background.php}) affects radiance data at particular viewing angles, corresponding to a row on the CCD detectors, and is dynamic over time.
+    The slant columns affected are flagged and easy to remove before further processing.
     
+    Clouds have various detrimental effects on slant column uncertainty and AMF calculation, so the cloudy data needs to be filtered.
+    Any pixel with a cloud fraction of greater than 40\% is also removed, after the pixel is used in determining the reference sector correction, as is done in \citet{Abad2015, DeSmedt2015}.
+    %In \citet{???} (TODO: find this paper), pixels with more than half of the backscattered intensity from the cloudy sky fraction are removed, in effect removing pixels with more than ~40\% cloud fraction before calculating the AMF for NO$_2$ slant columns.
+    Another way this has been performed is to remove pixels where the AMF lies outside a certain range: \citet{Martin2002} filter AMFs below 0.5 in order to remove the effects of heavy cloud and optical thickness.
+     
     \begin{table}
-    \begin{tabular}{ | l | l | p{10cm} |}
-      \hline
-      \textbf{Value} & \textbf{Classification} & \textbf{Rational} 
-      \\ \hline
-      0 & Good & Column value present and passes all quality checks; data may be used with confidence. 
-      \\ \hline
-      1 & Suspect & Caution advised because one or more of the following conditions are present: 
-        \begin{itemize}
-          \item Fit convergence flag is $<$ 300 but $>$ 0: Convergence at noise level
-          \item Column $+ 2 \sigma$ uncertainty $<$ 0 $<$ Column $ + 3 \sigma $ uncertainty
-          \item Absolute column value $>$ Maximum column amount (1e19 molec cm$^{-2}$)
-        \end{itemize}
-      \\ \hline
-      2 & Bad & Avoid using as one of the following conditions are present: 
-        \begin{itemize}
-          \item Fit convergence flag is $<$ 0 : No convergence, abnormal termination
-          \item Column $+ 3 \sigma$ uncertainty $<$ 0
-        \end{itemize}
-      \\ \hline
-      $<0$ & Missing & No column values have been computed; entries are missing
-      \\ \hline
-    \end{tabular}
-    \caption{OMI quality flag values table from \citet{Kurosu2014}}
+      \caption{OMI quality flag values table from \citet{Kurosu2014}}
+      \begin{tabular}{  l  l  p{10cm} }
+        \hline
+        \textbf{Value} & \textbf{Classification} & \textbf{Rational} 
+        \\ \hline
+        0 & Good & Column value present and passes all quality checks; data may be used with confidence. 
+        \\ \hline
+        1 & Suspect & Caution advised because one or more of the following conditions are present: 
+          \begin{itemize}
+            \item Fit convergence flag is $<$ 300 but $>$ 0: Convergence at noise level
+            \item Column $+ 2 \sigma$ uncertainty $<$ 0 $<$ Column $ + 3 \sigma $ uncertainty
+            \item Absolute column value $>$ Maximum column amount (1e19 molec cm$^{-2}$)
+          \end{itemize}
+        \\ \hline
+        2 & Bad & Avoid using as one of the following conditions are present: 
+          \begin{itemize}
+            \item Fit convergence flag is $<$ 0 : No convergence, abnormal termination
+            \item Column $+ 3 \sigma$ uncertainty $<$ 0
+          \end{itemize}
+        \\ \hline
+        $<0$ & Missing & No column values have been computed; entries are missing
+        \\ \hline
+      \end{tabular}
     \label{ch_HCHO:tab:OMIQualityFlag}
     \end{table}
     
@@ -419,16 +437,15 @@
     
     One final selection of the data is removed prior to calculation and analysis due to instrument sensitivity issues.
     This removed data is based on the latitude of the satellite measurement, high northern and southern latitudes are removed as the effect of both the high solar zenith angle and (over arctic regions) the high albedo cause anomalous readings which are hard to correct.
-    The latitudes removed from analysis for OMI satellite data are TODO:
-    Option 1: based on the 95th( would need to choose percentile, and implement moving latitude filter) percentile of `high' scattering weight profiles, determined per month (or per 8 day average).
-    Option 2: flat based on lats removed by other publications. eg remove all pixels outside of $0^\circ \pm 60^\circ$.
+    The latitudes removed from analysis for OMI satellite data are those outside of $0^\circ \pm 60^\circ$. 
+    This is where the satellite measurements are less robust, and often publications will remove this same region (TODO: cites where they did this).
   
     
   \subsection{Reading OMHCHO daily slant columns}
-    Each day the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 50~k -- 80~k are classified as good.
-    Each pixel contains several important peices of data which are needed for recalculation of the HCHO vertical column: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weight, vertical altitudes (hPa) used with scattering weights, viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
+    Each $\sim90$ minutes the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 50~k -- 80~k are classified as good.
+    Each pixel contains several important pieces of data which are needed for recalculation of the HCHO vertical column: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weights and their vertical altitudes (hPa), viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
     All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
-    Each pixel and it's relevant data are saved in a long list, around 1.1 million pixels per day.
+    Each pixel and it's relevant data are saved in a long list, around $1.1$ million pixels per day.
     As well as the data directly read from the OMI swath files, further information is added to each pixel.
     This is the new AMF calculated through replacing the apriori vertical profile with the newer GEOS-Chem simulated profile, which is described in section \ref{ch_HCHO:sec:recalculating_AMF_description}.
     The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers and is shown in figure TODO: make figure showing this stuff and an example profile.
@@ -577,9 +594,17 @@
     In Summer over Australia the global AMF difference was TODO: Difference summers only.
     This changed Australia's HCHO amounts from TODO: X to Y Tg per year plus minus one std.
     
+  \subsection{AMF code from Paul Palmer}
+  \label{ch_HCHO:sec:PPCode}
+    TODO: describe how I use this here
+    I use code originally written by Dr. Paul Palmer with various updates and modifications described in section (TODO:) as another way to recalculate the AMF using information from the satellite swaths and the GEOS-Chem overpass simulation output.
+    These are used to recalculate the instrument sensitivity or scattering weights for each pixel, as well as the shape factor which together are integrated to give the pixel AMF.
+   
+   GEOS-Chem outputs quantities averaged between 1200 and 1400 LT, including optical depths at several wavelengths (TODO: list), dust, and HCHO.
+   I run a script on the satellite swaths which pulls out a subset of the pixel information into a daily csv file, which can be read by the AMF code as modified by Dr. Luke Surl, in conjunction with the GEOS-Chem outputs for each day.
+   The AMF code is then run and produces a csv of recalculated AMFs which get read by my python code and associated with the corresponding pixel.
     
-    
-  \subsection{Determining and applying the pacific ocean reference sector normalisation}
+  \subsection{Determination and application of the pacific ocean reference sector normalisation}
     \label{ch_HCHO:sec:RSC}
 
     As is done in \citet{Abad2015}, a reference sector defined over the Pacific ocean is used to correct OMI instrument degradation.
@@ -645,17 +670,39 @@
     \end{description}
 
     a) is available in the OMI product and reduced through spatial and temporal averaging.
+    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
     Another method for examining uncertainty of OMI is to analyse the standard deviation of the HCHO columns over the remote pacific.
     If we assume there is no HCHO variation from background levels over any 8-day period, then this method infers variations in the measuring instrument, and can be used as a metric for uncertainty as done in \citet{DeSmedt2012}.
     TODO: uncertainty calculation on remote pacific OMI.
+    \cite{Millet2006, Palmer2006} both examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
+
+    b) is determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
+    \cite{Palmer2006} calculate the error in AMF through combining estimates of error in the UV albedo database ($\sim 8$\%), model error based on in-situ measurements, cloud error  ($20-30$\%) \citep{Martin2003}, and aerosol errors ($<20$\%), totalling AMF error of around $\sim 30$\%.
+    It is worth noting here that independent error estimates are added in quadrature, which means total error equals the root of the sum of the independent errors each sqaured ($e_{Total}=\sqrt{\Sigma_i e_i^2}$).
+    TODO:Paul palmer calculation and combination for overall Satellite VC uncertainty per pixel and gridded.
+    TODO: Millet2008?
     
-    b) and c) are determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
-    TODO: uncertainty calculations.
+    c) is also determined through a study of GEOS-Chem output, in relation to in-situ measurements.
+    TODO: calculate this uncertainty.
     Compare this error estimate with that of \citet{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
+    \cite{Millet2008} also examine this uncertainty and determine an overall uncertainty ($1\sigma$) of $25-27%$ in HCHO vertical columns with calculated AMFs where cloud fraction $< 0.2$.
+  
+\section{Validation and comparisons}
+  \label{ch_HCHO:sec:Validation}
+  
+  \subsection{Comparison with standard OMI product}
+    Figure TODO: shows global and Australian HCHO eight day averaged total column maps for 1-8 January 2005, along with the reduced major axis (RMA) regression corellation and percentage difference.
+   This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
   
   \subsection{Comparison with in-situ measurements}
     TODO: Describe Wollongong FTIR and junk
     Analyse comparison of gridbox with instrument!
 
+  \subsection{Summary}
+    First the OMI HCHO level 2 data was downloaded, and read using python creating a list of good pixels for each day.
+    Next the associated AMF and reference sector correction for each good pixel was calculated using GEOS-Chem for the apriori shape factor, and using the provided scattering weights from OMI.
+    Each 8 days the pixel list is averaged onto a 0.25$^{\circ}$ latitude by 0.3125$^{\circ}$ longitude grid.
+    The new HCHO product along with counts and average uncertainty of pixels used in the grid square is also kept.
+    The product includes the 8-day gridded averages of the old and new AMFs, the average correction sector from GEOS-Chem over the pacific ocean, and the old and new HCHO with and without the reference sector correction from \cite{Abad2015} applied.
     
-
+    \subsection{Conclusions}

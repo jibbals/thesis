@@ -8,29 +8,44 @@
 \label{ch_isop:sec:GEOSChemMechanisms}
   \subsection{Outline}
     The isoprene reactions simulated by GEOS-Chem were originally based on (TODO: read+citet: Horowitz1998) (TODO: check wiki that this is true also).
-    This involved blahblah(read that paper).
-    The mechanism was subsequently updated by \citet{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in (TODO: read abstract of these and cite: Paulot2009a, Paulot2009b).
-
-    In older models isoprene produced hydroxyperoxides (ISOPOOH) in the absence of NO$_X$, which then titrated OH.
-    However, the loss of OH has not been seen in measurements and the mechanism has been updated to include OH regeneration from oxidation of epoxydiols and slow isomerisation of ISOPO$_2$ \citep{Mao2013}.
+    This involved blahblah(TODO:read that paper).
+    The mechanism was subsequently updated by \citet{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \citet{Paulot2009a,Paulot2009b}.
+    Further mechanistic properties, like isomerisation rates, are based citet{Crounse2011,Crounse2012,Peeters2010,Peeters2011}.
+    (TODO: check abstracts of these papers)
+    \cite{Crounse2011} examines the isomerisations associated with the oxidation of isoprene to six different isomers (ISO$_2$) formed in the presence of oxygen: isoprene $ + OH \rightarrow^{O_2} $ ISO$_2$.
+    They determine rates and uncertainties involved in these reactions.
+    \cite{Crounse2012} examine the fate of methacrolein (MACR), one of the products of isoprene oxidation. 
+    Prior to this work MACR oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s.
+    In most environments this is not the case, and MACR products over various NO concentrations and peroxy radical lifetimes are determined in their work.
+    
+    Formation of isoprene nitrates have an effect on ozone levels through NO$_X$ sequestration, and the yields and destinies of these nitrates is analysed in \citet{Paulot2009a}. 
+    They use anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
+    In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
+    The yields of various positional isomers of isoprene nitrates is estimated, and pathways of their oxidation products is shown and used in the GEOS-Chem isoprene mechanism \citep{Paulot2009a,Mao2013}. 
+    
+    In low NO$_X$ conditions, isoprene oxidises to yield 70\% hydroxyhydroperoxides (ISOPOOH), which then oxidises to create dihydroxyperoxides (IEPOX) with OH recycling maintaining the OH levels in the atmosphere \citep{Paulot2009b}.
+    In older models isoprene produced ISOPOOH which then titrated OH, however, the loss of OH has not been seen in measurements \citep{Paulot2009b,Mao2013}.
+    The isoprene mechanism in GEOS-Chem has been updated to include OH regeneration from oxidation of epoxydiols and slow isomerisation of ISOPO$_2$ \citep{Mao2013}.
     
     Under high NO$_X$ conditions, isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) hydroxyl peroxy radicals (ISOPO$_2$). 
     The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
     The $\delta$-hydroxyl reacts with NO to form $\delta$-hydroxyl nitrates (24\%) (ISOPND), and ISOPNB (6.7\%).
     ISOPNB and ISOPND yield first generation isoprene at 4.7\% and 7\% respectively.
     
-    Under low NO$_X$ conditions, ISOPO$_2$ may react with HO$_2$ to form isoprene hydroxyperoxids (ISOPOOH).
+    Under low NO$_X$ conditions, ISOPO$_2$ may react with HO$_2$ to form ISOPOOH.
     In this case there is also production of HCHO (4.7\%), MVK(7.3\%), and MACR (12\%).
-    Most ISOPOOH will form epoxydiols after reacting with OH and lead to OH regeneration.
+    As stated in earlier; most ISOPOOH will form IEPOX (epoxydiols) after reacting with OH and lead to OH regeneration.
     The other mechanism in low NO$_X$ environments is unimolecular isomerisation of ISOPO$_2$.
     This leads to production of hydroperoxyaldehydes (HPALDS), which generally photolyse and have an OH yield of 100\%.
     \citet{Mao2013} show that a lower (factor of 50) rate constant for ISOPO$_2$ isomerisation leads to better organic nitrate aggreements with ICARTT. 
     
-    This update leads to more accurate modelling of OH concentrations \citep{Mao2012} (todo read abstract and cite).
+    This update leads to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
+    Prior to \citet{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside the instrument.
+    \citet{Mao2012} examine an upgraded method of measurement, and compare these against a regional atmospheric chemistry model (RACM2), with the OH recycling updates from \citet{Paulot2009b} as discussed in prior paragraphs.
     
-    The updates to isoprene chemistry by \citet{Mao2013} are the last before version 11, which was not used in this work.
+    The updates to isoprene chemistry by \citet{Mao2013}, and those shown in \cite{Crounse2011,Crounse2012} are the last before version 11, which was not used in this work.
 
-    The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme} (TODO: check this).
+    The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
     
   \subsection{Emissions from MEGAN}
     MEGAN simulates biogenic emissions of various gases including isoprene, based on various meteorological, land cover, and plant type parameterisations.
@@ -45,12 +60,45 @@
     \end{align*}
     where $\theta_w$ is the wilting point, and $\theta_1$ determines when plants are near the wilting point.
     The wilting point is set by a land based database from \citet{Chen2001}, while $\theta_1$ is set globally based on \citet{Pegoraro2004}. (TODO: Check both these papers  from Guenther2006)
-
+    
+    In GEOS-Chem the emissionscan be globally multiplied by a constant factor, which was performed to determine the smearing and sensitivity.
+    By setting biogenic emissions to zero and one half the general affects of isoprene emissions which the model undergoes can be determined.
+    
 %----------------------------------------------------------------------------------------
 %	SECTION
 %----------------------------------------------------------------------------------------
 \section{Isoprene emissions estimation}
 \label{ch_isop:sec:IsopreneEmissions}
+
+  \subsection{Outline}
+   With the vertical columns of biogenic HCHO we can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (In other continents around 2-3, or 1 in low NO$_X$ conditions) \citep{Palmer2003,Marais2012,Bauwens2016}.
+    If we assume there is fast HCHO yield, so that the effect of chemical transport is minimal, and that HCHO and isoprene are at steady states, then we can calculate local yield from our CTM.
+    %This yield is derived from both HCHO and isoprene, such as was used by \citet{Millet2006} who produced a molar HCHO yield of 2.3 in north eastern USA.
+   Yield is calculated from the modelled slope between isoprene emissions and HCHO total column within each gridbox over Australia, as performed in \cite{Palmer2003}, using modelled values between 1300-1400 LT which is around the overpass time of the OMI.
+   This modelled yield is then used in conjunction with the recalculated OMI measurements in order to estimate isoprene emissions.
+    
+    The calculations used to determine isoprene emissions over Australia are fully described in \ref{ch_isop:sec:EmissionCalculation} and follow the method of \citet{Palmer2003}.
+    To calculate emissions we use a reduced major axis (RMA) regression between modelled average (from 1300-1400 LT) values of the loss rates and total columns, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
+    
+    The measured background HCHO is the average concentration measured in the remote pacific at the same time.
+    The modelled background is determined from a run with isoprene emissions turned off, which allows us to see exactly how much the modelled isoprene emissions alter each vertical column of HCHO.
+    
+    Isoprene quickly forms HCHO in the atmosphere when in the presence of high levels of NO$_X$.
+    However, over Australia NO$_X$ levels are generally not high enough and we must take extra care that we can account for the transport or 'smearing' caused by slower HCHO formation.
+    Smearing sensitive grid boxes within the model can be detected by running the model with two uniformly differing isoprene emission levels, then finding the grid boxes where the changed HCHO column is greater than can be attributed to local emission difference.
+    Using equation \ref{ch_isop:eqn:isop_yield} with two different isoprene emission levels:
+    \begin{equation*}
+      \hat{S} = \frac{\Delta~\Omega_{HCHO}}{\Delta~E_{ISOP}}
+    \end{equation*}
+    Consider halving the isoprene emitted globally and rerunning the model, if the local grid HCHO is reduced by much more than half (factoring yield) then you can infer sensitivity to non-local isoprene emissions.
+    This can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
+    As such smearing sensitivity is both spatially and temporally diverse, shown in figure TODO: is a picture of the smearing sensitivity over Australia.
+   
+    Once the smearing sensitive grid squares are filtered out, application of equation \ref{ch_isop:eqn:isop_yield} gives us an estimate of isoprene emissions across the nation.
+    
+    Most recently a \citet{Bauwens2016} undertook a similar process to what I am doing, although with slightly different focus, using the IMAGESv2 global CTM instead of GEOS-Chem.
+    They calculate emissions which create the closest match between model and satellite vertical columns, and compare these postiori data with the apriori (satellite data) and independent data sets.
+    (TODO: simple outline of what they did and how my focus is different, this paper will also need to be summarised in the LitReview)
 
   \subsection{HCHO Products and yield}
     Australian forests are strong emitters of both isoprene and monoterpenes, which go on to form various products including but not limited to secondary organic aerosols, oxygenated VOCs (OVOCs), ozone, OH, and HO$_2$.
@@ -119,75 +167,76 @@
     \begin{table} \begin{threeparttable}
       \caption{ HCHO yields from various species, and lifetime against oxidation by OH. }
       \begin{tabular}{  l  l  l  l  l  }
-	\toprule
-	Species           & HCHO Yield      & Life vs OH & Notes    & Source
-	\\                & (molar \% )     &        &              &          \\
-	\midrule 
-	Isoprene          & 315$\pm$50      &        & High NO$_X$  & a        \\ 
-			          & 285$\pm$30      &        & High NO$_X$  & a        \\ 
-			          & 225             & 35 min & High NO$_X$  & b        \\ % Done
-			          & 150             &        & Low  NO$_X$  & b        \\ % Done
-			          & 150             &        & Low  NO$_X$  & d        \\
-			          & 450             &        & High  NO$_X$ & d        \\
-	$\alpha$-Pinene   & 28$\pm$3        &        & Low NO$_X$   & c        \\ 
-			          & X$\pm$3         &        & X NO$_X$     & d        \\ 
-			          & 230$\pm$90      &        & High NO$_X$  & a        \\ 
-			          & 190$\pm$50      &        & High NO$_X$  & a        \\ 
-			          & 19              & 1 hour &              & b        \\ % Done
-	$\beta$-Pinene    & 65$\pm$6        &        & Low NO$_X$   & c      \\ 
-			          & X$\pm$3         &        & X NO$_X$     & d      \\ 
-			          & 540$\pm$50      &        & High NO$_X$  & a     \\ 
-			          & 450$\pm$80      &        & High NO$_X$  & a      \\ 
-			          & 45              & 40 min &              & b      \\ % Done
+      	\toprule
+      	Species    & HCHO Yield      & Life vs OH & NO$_X$ background & Source	\\
+                      & (molar \% )        &               &                          &          \\
+      	\midrule 
+      	Isoprene   & 315$\pm$50      &              & High           & a        \\ 
+      			          & 285$\pm$30      &        & High               & a        \\ 
+      			          & 225             & 35 min & High               & b        \\ % Done
+      			          & 150             &            & Low                & b        \\ % Done
+      			          & 150             &            & Low                & d        \\
+      			          & 450             &            & High               & d        \\
+                      & 235             &            & 1~ppbv              & e        \\
+                      & 150             &            & 0.1~ppbv              & e        \\
+	$\alpha$-Pinene   & 28$\pm$3        &        & Low                & c        \\ 
+      			          & X$\pm$3         &        & X                  & d        \\ 
+      			          & 230$\pm$90      &        & High        & a        \\ 
+      			          & 190$\pm$50      &        & High        & a        \\ 
+      			          & 19                & 1 hour &              & b        \\ % Done
+                      & 210               &          & 1~ppbv              & e        \\
+                      & 70                &          & 0.1~ppbv              & e        \\
+	$\beta$-Pinene    & 65$\pm$6        &        & Low                & c      \\ 
+      			          & X$\pm$3         &        & X                  & d      \\ 
+      			          & 540$\pm$50      &        & High               & a     \\ 
+      			          & 450$\pm$80      &        & High               & a      \\ 
+      			          & 45              & 40 min &              & b      \\ % Done
 	Methane 	      & 100             & 1 year  &             & b     \\ 
 	Ethane            & 180             & 10 days &             & b     \\ 
 	Propane           & 60              & 2 days  &             & b     \\ 
-	Methylbutanol     & .13(per C)      & 1 hour  &             & b     \\ 
-	HCHO              & 100             & 2 hour  &             & b     \\ 
+	Methylbutanol    & .13(per C)    & 1 hour  &             & b     \\ 
+	HCHO             & 100             & 2 hour  &             & b     \\ 
 	Acetone           & .67(per C)      & 10 days &             & b     \\ 
 	Methanol          & 100             & 2 days  &             & b     \\ %Done
-	\bottomrule
+    	\bottomrule
     \end{tabular}
     \begin{tablenotes} % \item makes new lines
       \item a \citet{AtkinsonArey2003}: Table 2, Yield from Isoprene reaction with OH, two values are from two referenced papers therein.
       \item b \citet{Palmer2003}: lifetimes assume [OH] is 1e15 mol cm$^{-3}$.
       \item c \citep{Lee2006}: Calculated through change in concentration of parent and product linear least squares regression.
-	Estimates assume 20$^\circ$~C conditions.
-	  \item d \citet{Wolfe2016}: ``prompt yield'': change in HCHO per change in ISOP$_0$.
-	    $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
-	    Effectively relates HCHO abundance with isoprene emission strength
-      \item e Calculated from satellite detected concentrations of HCHO.
+        Estimates assume 20$^\circ$~C conditions.
+  	  \item d \citet{Wolfe2016}: ``prompt yield'': change in HCHO per change in ISOP$_0$.
+  	    $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
+  	    Effectively relates HCHO abundance with isoprene emission strength
+      \item e \citet{Dufour2009}: One-day yields from oxidation modelled by CHIMERE, using MCM reference scheme.
       \item f Calculated using PTR-MS and iWAS on SENEX campaign data.
     \end{tablenotes}
     \label{ch_isop:tab:VOCLiteratureYields}
   \end{threeparttable} \end{table}
-
-  \subsection{Outline}
-    Once we have vertical columns of biogenic HCHO we can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (around 2-3, or 1 in low NO$_X$ conditions) \citep{Palmer2003,Marais2013,Bauwens2016}.
-    If we assume there is fast HCHO yield, so that the effect of chemical transport is minimal, and that HCHO and isoprene are at steady states, then we can calculate local yield from our CTM.
-    This yield is derived from a both HCHO and isoprene, such as was used by \citet{Millet2006} who produced a molar HCHO yield of 2.3 in north eastern USA.
-    The calculations used to determine isoprene emissions over Australia are fully described in \ref{ch_isop:sec:EmissionCalculation} and follow the method of \citet{Palmer2003}.
-    To calculate emissions we use a reduced major axis (RMA) regression between modelled average (from 1000-1200 LT) values of the loss rates and total columns, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
     
-    The background HCHO is assumed to be the HCHO measured in the remote pacific at the same time.
-    This is determined from GEOS-Chem when calculating yield of HCHO from isoprene, and from the biogenic HCHO product when calculating isoprene emissions. (TODO: update this if that is not the final process)
+  \subsection{CAABA/MECCA yield}
+  \label{Ch_isop:sec:CAABAMECCA}
+    CAABA/MECCA is described in \ref{ch_LitRev:sec:CAABAMECCAIntro}.
     
-    Isoprene quickly forms HCHO in the atmosphere when in the presence of high levels of NO$_X$.
-    However, over Australia NO$_X$ levels are generally not high enough and we must take extra care that we can account for the transport or 'smearing' caused by slower HCHO formation.
-    Smearing sensitive grid boxes within the model can be detected by running the model with two uniformly differing isoprene emission levels, then finding the grid boxes where the changed HCHO column is greater than can be attributed to local emission difference.
-    Using equation \ref{ch_isop:eqn:isop_yield} with two different isoprene emission levels:
-    \begin{equation*}
-      \hat{S} = \frac{\Delta~\Omega_{HCHO}}{\Delta~E_{ISOP}}
-    \end{equation*}
-    Consider halving the isoprene emitted globally and rerunning the model, if the local grid HCHO is reduced by much more than half (factoring yield) then you can infer sensitivity to non-local isoprene emissions.
-    This can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
-    As such smearing sensitivity is both spatially and temporally diverse, shown in figure TODO: is a picture of the smearing sensitivity over Australia.
-   
-    Once the smearing sensitive grid squares are filtered out, application of equation \ref{ch_isop:eqn:isop_yield} gives us an estimate of isoprene emissions across the nation.
+    Using CAABA/MECCA to examine isoprene to HCHO yield in specific scenarios allows us to determine what environment may be driving the yield calculated by GEOS-Chem.
+    This software (TODO:cite) runs (TODO: what sort of chemistry is happening?) with emission, deposition, and initial concentrations all set.
+    By running the same simulation twice, and injecting a small amount of extra isoprene into one of the simulations, extra HCHO produced can be used to determine the yield from isoprene to HCHO.
+    Isoprene life time can also be calculated using this process, as the time it takes for the extra isoprene to reach $1/e$ of it's initial value.
     
-    Most recently a \citet{Bauwens2016} undertook a similar process to what I am doing, although with slightly different focus, using the IMAGESv2 global CTM instead of GEOS-Chem.
-    They calculate emissions which create the closest match between model and satellite vertical columns, and compare these postiori data with the apriori (satellite data) and independent data sets.
-    (TODO: simple outline of what they did and how my focus is different, this paper will also need to be summarised in the LitReview)
+    Initially we have three scenarios, grassland, desert, and forest Australia - with each scenario having initial conditions, emission and deposition set as in table TODO: table.
+    Running each scenario with and without a small isoprene injection gives isoprene lifetimes and isoprene to HCHO yield for those scenarios, shown in table TODO:table .
+    Calculation of the yield follows a calculation of the theoretical maximum carbon production by the amount of injected isoprene:
+    \begin{equation}
+      Y_{100} =10^9 \times \frac{C_{PM} E_{inj} D_{inj}}{(N_A H_{PBL})}
+    \end{equation}
+    Where Y$_{100}$ is the maximum possible carbon yield of isoprene (ppb), $C_{PM}$ is Carbon per molecule (isoprene=5), $E_{inj}$ is the emission rate of injected isoprene (molec cm$^{-2}$ s$^{-1}$), $D_{inj}$ is the duration of injection (s), H$_{PBL}$ is the boundary layer height (cm), and $N_A$ is the Air number density (molec cm$^{-3} \approx 2.5e19$).
+    Finding the accumulated increase in HCHO (ppb) from the difference between the perturbed and non perturbed model runs allows calculation of the accumulated extra HCHO (Example: Figure TODO:), which divided by the $Y_{100}$ gives us the isoprene to HCHO atom C yield:
+    \begin{equation}
+      Y_{HCHO}= \frac{\Delta HCHO_{\text{Accumulated}}}{Y_{100}}
+    \end{equation}
+    with $HCHO_{\text{Accumulated}}$ being the accumulated enhanced ppb mixing ratio of HCHO.
+    
+    Figure TODO: shows the accumulated yield for all three scenarios, which each increase towards a limiting value.
     
   \subsection{Calculation of Emissions}
     \label{ch_isop:sec:EmissionCalculation}
@@ -213,8 +262,27 @@
     
   \subsection{Calculation of smearing effect}
     TODO: Smearing scale length, $\hat{S}$ formula, and results of calculations in here.
+    As shown in \cite{Palmer2003}, smearing sensitivity can be calculated through multiple runs of the same model with the only difference being the isoprene emissions.
+    I have run GEOS-Chem with and without E$_{ISOP}$ multiplied uniformly by 0.5, and the grid boxes with the most affected $\Omega_{HCHO}$ are those affected most by smearing.
+    The smearing parameter  ($\hat{S}$) is defined as follows:
+    \begin{equation}
+      \hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{ISOP}}
+    \end{equation}
+    TODO: Plot shows smearing parameter over Australia.
+  
+  \subsection{Calculations of uncertainty}
+    There are several factors which need to be considered when looking at the uncertainty in emissions estimates.
+    Things with their own inherent uncertainty include the modelled apriori, modelled relationship between HCHO and isoprene, and satellite measurements. 
+    Important factors which need to be analysed for confidence in results include the steady state assumptions, filtering techniques for fire and human influences, and the regression model for determining the isoprene to HCHO yield.
+
+    Uncertainty in satellite measurements is generally provided along with the data, although uncertainty introduced through AMF calculation needs to be determined to give a representation of the confidence in vertical column amounts.
+    The measurement uncertainty is shown in section \ref{ch_HCHO:sec:OMI_uncertainty_calculation}, and amounts to $\sim X%$. (TODO this number when calculated)
     
+    Model uncertainty is difficult to accurately assertain, generally an analysis of the model compared to in-situ measurements is performed, however there are few of these measurements over Australia.
+    TODO: find out how this is estimated in other papers, or else point to HCHO uncertainty and used some function of that.
     
+    The uncertainty for HCHO to isoprene mechanisms TODO: how to do this?
+  
   \subsection{Extrapolating the circadian cycle}
     Isoprene emissions occur with regular daily cycles caused by things like local temperature, sunlight, drought, and other environmental factors (TODO: find/cite eucalypt isoprene paper, daily cycle plot if can find).
     

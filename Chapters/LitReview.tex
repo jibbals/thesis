@@ -1,6 +1,7 @@
+
 % Background Chapter
 
-\chapter{Literature review} % Main chapter title
+\chapter{Literature review} % Chapter Title
 \label{ch_LitRev}
 
 \section{What are Volatile Organic Compounds (VOCs)?}
@@ -12,12 +13,12 @@
     Plants contain tens of thousands of organic compounds, it's likely that fewer than 40 are emitted due to the low volatility of most of them \citep{Guenther2000}.
     
     Atmospheric organic compounds are legion and differ by orders of magnitude with respect to their fundamental properties, such as volatility, reactivity, and cloud droplet formation propensity.
-    VOCs have vapour pressure greater than $10^{-5}$~atm, and are mostly generated naturally by plants, which emit around 1000~Tg per year \citep{Guenther1995, Glasius2016}.
+    Volatile organic compounds (VOCs) have vapour pressure greater than $10^{-5}$~atm, and are mostly generated naturally by plants, which emit around 1000~Tg per year \citep{Guenther1995, Glasius2016}.
     Due to their high volatility these compounds are generally seen in the gas phase.
     Organic compounds with a lower volatility are classed as semi-volatile (SVOCs: vapour pressure between $10^{-5}$ and $10^{-11}$~atm) are seen in both gas and particle phase depending on temperature and pressure.
     Organic compounds with even lower vapour pressure are generally found in the particle phase in aerosol particulate matter \citep{Glasius2016}.
 
-    VOC emissions result in radical cycling, acid deposition, and the production of tropospheric ozone, and secondary aerosols \citep{Atkinson2000}.
+    VOC emissions result in radical cycling, acid deposition, and the production of tropospheric ozone, and secondary organic aerosols (SOAs) \citep{Atkinson2000, Kanakidou2005}.
     These have impacts on climate (through radiative forcing) and air quality, affecting both human health and crop yields \citep{IPCC_Chapter2, Avnery2011, Lelieveld2015}.
     Understanding the drivers of trends in biogenic volatile organic compound emissions (BVOCs) is needed in order to estimate future carbon fluxes, changes in the water cycle, air quality, and other climate responses \citep{Yue2015}.
     
@@ -26,28 +27,31 @@
     These estimates were based on the Model of Emissions of Gases and Aerosols from Nature (MEGAN, \citet{Guenther1995}).
     
     MEGAN initially included a simple canopy radiative transfer model, which parameterised sun-lit and shaded conditions through a canopy.
-    Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \citep{Guenther1999}, and a leaf energy balance model \citep{Guenther2006} in MEGANv2.0.
+    Early models didn't account for abiotic stresses, such as drought, prior rainfall and development processes, although these influenced species specific emissions by more than an order of magnitude \citep{Niinemets1999}.
+    Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \citep{Guenther2000}, and a leaf energy balance model \citep{Guenther2006} in MEGANv2.0.
     This update included a parameter for soil moisture, to account for drought conditions.
     
     MEGAN has recently been analysed using 30 years of meteorological reanalysis information by \citet{Sindelarova2014}.
-    They estimate emissions of Biogenic VOCs (BVOCs) to be 760~Tg(C)yr$^{-1}$, 70\% of which is isoprene.
-    This is equivalent to X~Mt of isoprene (TODO: ask steve for conversion - confirm Atkinson uses non per C units).
+    They estimate emissions of Biogenic VOCs (BVOCs) to be 760~Tg(C)yr$^{-1}$, 70\% (532~Tg(C)yr$^{-1}$) of which is isoprene.
+    This is similar to isoprene emission estimates from MEGAN itself, of 400-600~Tg(C)yr$^{-1}$ \citep{Guenther2006}.
     
-    MEGAN emissions estimates are termed bottom-up, as opposed to top-down estimates which are derived from satellite measurements of the products of various VOCs.
+    MEGAN emissions estimates are termed bottom-up, as opposed to top-down which are derived from satellite measurements of the products of various VOCs.
     Using GOME satellite HCHO and a Beyesian inversion technique to derive isoprene emissions, \citet{Shim2005} estimated global isoprene emissions to be $\sim566$~TgC yr$^{-1}$. 
     This estimate is greater than initially thought and leads to decreased ($\sim10\%$) simulated OH concentrations to 9.5e5 molec cm$^{-3}$.
     
+    Photolysis and oxidation of many VOCs initially form alkyl radicals ($\dot{R}$), and reactions with ozone (with alkenes or VOCs containing a double bonded carbon) lead to organic peroxy radicals (R$\dot{O}_2$). 
+    These go on to form many prooducts and lead to (amongst other things) aerosol, formaldehyde, and ozone formation, depending on various other factors such as sunlight and NO pollution \citep{Atkinson2000}.
+    
     VOCs are removed by wet and dry deposition, or transformed by reaction with OH, NO$_3$, or O$_3$,
     The process of deposition only accounts for a small fraction of the VOC loss, with the possible exception of the long lived methane compount \citep{AtkinsonArey2003}.
-    Primary reductions occur through photolysis, OH oxidation, ozonolysis, and at night time in polluted areas, NO$_3$ \citep{AtkinsonArey2003,Brown2009}.
+    Primary reductions occur through photolysis, OH oxidation, ozonolysis, and at night time in polluted areas, NO$_3$ \citep{AtkinsonArey2003, Brown2009}.
     In the presence of NO$_X = $ NO $+$ NO$_2$, non-methane organic compounds (NMOCs) and NMVOCs end up forming tropospheric ozone.
     This is achieved through photolysis of NO$_2$, concentrations of which are increased by NMOC and NO reactions \citep{AtkinsonArey2003}.
   
-  \subsection{Hydroxyl (HO) and other radicals}
+  \subsection{Hydroxyl (OH) and other radicals}
     \label{ch_LitRev:sec:RadicalFormation}
     
-    TODO: hydroxyl introduction and importance
-    
+    The OH radical drives many processes in the atmosphere, especially during the day when photolysis of ozone drives OH concentrations \citep{Atkinson2000}.    
     OH is a key species which reacts with nearly all the organic compounds in the troposphere.
     The exceptions are chlorofluorocarbons (CFCs), and Halons not containing H atoms \citep{Atkinson2000}.
     OH and HO$_2$ concentrations largely determine the oxidative capacity of the atmosphere.
@@ -63,8 +67,9 @@
     This shows how some of the O$({}^1D)$ recycles back to Ozone, while some forms OH.
     NB: The wavelength was updated to 350~nm in \citet{AtkinsonArey2003}.
     
-    In the late 90's it was understoon that OH radicals are formed exclusively from photolysis of O$_3$, HONO, HCHO, and other carbonyls \citet{Atkinson2000}.
-    TODO: Since then what do we know of OH formation?
+    In the late 90's it was understood that OH radicals are formed exclusively from photolysis of O$_3$, HONO, HCHO, and other carbonyls (R$_2$C=O) \citet{Atkinson2000}.
+    Isoprene was thought to be a sink of OH until it was shown by \cite{Paulot2009b} that the radicals are recycled.
+    This process is discussed in more detail in section \ref{Ch_LitRev:sec:IsopNox}.
 
     Nitrate radicals NO$_3$ are also largely formed through ozone reactions.
     They are photolysed very rapidly during they day, with a lifetime of about 5~s \citep{Atkinson2000}.
@@ -76,6 +81,60 @@
       NO_3 + \text{hv} & \to NO_2 + O({}^3P) && (\sim 90\%) \\%
     \end{align*}
     A build up of NO$_3$ radicals can be seen at night, when the quick photolysis is not occurring \citep{Atkinson2000,Brown2009}.
+
+  \subsection{Secondary Organic Aerosols}
+    Fine particulate matter (PM$_{2.5}$) penetrates deep into the lungs and is detrimental to human health.
+    Aerosols are suspended particulates and liquid compounds in the atmosphere, of which PM is an important subset.
+    A substantial amount of PM is due to organic compounds transforming in the troposphere leading to what's known as secondary organic aerosols (SOA) \citep{Kroll2008}.
+    Organic aerosols (OA) emitted directly in particulate phase are referred to as Primary OA (POA).
+    Gas phase emissions with higher vapor pressures can be oxidised into lower vapor pressure products which will partition between gas and aerosol phase, often called semi or non-volatile. The gas phase products of these emissions are called the SOA \citep{Kanakidou2005}.
+    Formation of SOA is generally due to VOC oxidation and subsequent reactions \citep{Kanakidou2005}.
+    
+    In the \cite{Kanakidou2005} review of global SOA science, uncertainty in radiative forcing of aerosols is highlighted, and 20-90~\% of PM mass in the lower troposphere is OA.
+    Less volatile OA also plays a role, although PM production from this source is complicated and makes up only a small fraction ($\sim1 %$) of the resulting PM \citep{Kroll2008,Bei2012}.
+    Modelling OA has many uncertainties due to the complexity of SOA formation and various pathways such as aqueous phase oxidation which can significantly contribute to concentrations.
+    This is further hindered by poor understanding of precursor emissions, and lumping together various compounds, of which only some form SOA (for example ORVOCs in GEIA (back in 2005)).
+    Satellite data requires SOA to be at least modelled as a full profile of aerosols is required in the remote sensing techniques \citep{Kanakidou2005}.
+    
+    One of the large uncertainties with OA is the total effect on radiative forcing, ten years ago it was well understood that most OA cool the atmosphere, with smaller particles having a larger affect due to the size matching the wavelengths of visible light \citep{Kanakidou2005}. 
+    Transport and indirect effects complicate matters further, with cloud creation and modification of cloud properties being quite difficult to accurately predict.
+    In the third IPCC report \citep{IPCC2001}, the uncertainty involved if OA forcing was a factor of 3 times the estimated effect. 
+    This has since been improved however OA and cloud formation still remains a large uncertainty in more recent IPCC reports \citep{IPCC_Chapter2}.
+    Figure \ref{ch_LitRev:fig:IPCC_RF_AR4} shows the radiative forcings (RF) of various atmospheric constituents, it's clear that OA uncertainty dominates.
+    Figure \ref{ch_LitRev:fig:IPCC_RF_AR5} shows the same summary updated in chapter 8 of the fifth report, where the SOA uncertainty remains quite large.
+    It's currently understood that SOA's play an indirect and complex role in cloud properties, with a net cooling effect \citep[Chapter 7,8]{IPCC_AR5_WG1}
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/IPCC_WG1AR4_RFSummary.png}
+      \caption{%
+        The overall radiative forcings and uncertainties of several atmospheric constituents
+	      This is an image taken from \cite{IPCC_Chapter2}, found at \url{https://www.ipcc.ch/publications_and_data/ar4/wg1/en/faq-2-1.html}.}
+      \label{ch_LitRev:fig:IPCC_RF_AR4}
+    \end{figure}
+
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/IPCC_WG1AR5_RFSummary.png}
+      \caption{%
+        The overall radiative forcings and uncertainties of several atmospheric constituents
+	      This is an image taken from \cite{IPCC_AR5_WG1}, chapter 8.}
+      \label{ch_LitRev:fig:IPCC_RF_AR5}
+    \end{figure}    
+    
+    (TODO: read more of Kanakidou2005)
+    The emissions of precursors to SOA was and is quite uncertain, in \cite{Kanakidou2005} they state that these uncertainties range from a factor of 2 to 5.
+    They highlight emissions and flux measurements as well as implementing satellite data in models as a means of improving the emissions inventories.
+    
+    
+  \subsection{Relationship with ozone}
+    There is a complex relationship between NO$_X$, VOCs, and ozone, figure \ref{ch_LitRev:fig:NOXVOCOzone} shows this relationship over Houston, as modelled in \cite{Mazzuca2016}.
+    Recently the relationship has been examined on the intradiel timescale showing that ozone production can be more or less sensitive to VOCs at different hours depending on location various other factors \citep{Mazzuca2016}.
+    
+    \begin{figure}
+      \includegraphics[width=.75\textwidth]{Figures/Mazzuca2016_NOxVOCOzone.png}
+      \caption{Ozone production figure copied from \citet{Mazzuca2016}.}
+      \label{ch_LitRev:fig:NOXVOCOzone}
+    \end{figure}
+    
     
 %----------------------------------------------------------------------------------------
 %	Natural gas and aerosol emission in Australia
@@ -89,13 +148,18 @@
     These regions are natural sources of the trace gases which make up less than 1\% of earth's atmosphere.
     Trace gases in the atmosphere can have a large impact on living conditions.
     They react in complex ways with other elements (anthropogenic and natural), affecting various ecosystems upon which life depends.
-    Natural emissions affect surface pollution levels and can alter the radiative and particulate matter distribution of the atmosphere with harmful results.
+    Biogenic emissions affect surface pollution levels and can alter the radiative and particulate matter distribution of the atmosphere with harmful results.
     For example, ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
     Particulate matter in the atmosphere is also a major problem, causing an estimated 2-3 million deaths annually \citep{Hoek2013, Krewski2009, Silva2013, Lelieveld2015}. 
 
     Much of the landscape outside of urban areas is undeveloped and sparsely inhabited.
     In Australia most long term air quality measurements are performed in or near large cities.
     However, estimates of atmospheric gas and particulate densities, and their distributions over much of the continent are uncertain and lack in-situ measurements.
+    Although we expect the majority of emissions to be from biogenic sources, the possibilty of anthropogenic sources must be managed.
+    \cite{Millet2008} show that HCHO anthropogenic emissions in America mostly negligible, although this is not the case in China \citep{Fu2007}. 
+    \cite{Fu2007} use GOME measurements over Asia and derive biogenic, anthropogenic, and pyrogenic VOC emissions.
+    They also use GEOS-Chem with the changed emissions and show surface ozone is affected, with a seasonal increase of 5-20~ppb.
+    
     
     One important factor, affecting particulate matter and ozone concentration (both detrimental to human health), is a group called VOCs (Volatile Organic Compounds).
     The major source of VOCs in the atmosphere is biogenic, with around 90\% of all global emissions coming from natural sources \citep{Guenther1995,Guenther2006, Millet2006}
@@ -115,8 +179,9 @@
     The existence of satellite data covering remote areas provides an opportunity to develop more robust models of global climate and chemistry.
     Understanding of emissions from these areas is necessary to inform national policy on air pollution levels.
     Satellite data allow us to verify large scale model estimates of natural emissions.
-    These measurements can be used to improve models, which are then able to predict harmful and costly events.
     Satellite measurements can be performed using spectral fitting followed by conversion to vertical column densities.
+    The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \cite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
+    These various measurements can be used to improve models, which are then able to predict harmful and costly events.
     
     While satellite data is effective at covering huge areas (the entire earth) it only exists at a particular time of day, is subject to cloud cover, and generally does not have fine horizontal or vertical resolution.
     Concentrations retrieved from satellite have large uncertainties, which arise due to several factors which arise in the process of transforming spectra to total column measurements, as well as instrument degradation (satellite instruments are hard to tinker with once they are launched).
@@ -129,7 +194,7 @@
     By taking the average of several measurements, any random error can be reduced by a factor of one over the square root of the number of measurements.
     This is done frequently for the relatively highly uncertain satellite measurements of trace gases (which are often near to the detection limit over much of the globe).
     For example: \citet{Vigouroux2009} reduce the measurement uncertainty (in SCIAMACHY HCHO columns) by at least a factor of 4 through averaging daily over roughly 500km around Saint-Denis, and only using days with at least 20 good measurements.
-    The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor (discussed in more detail in Section todo: point to an AMF section) \citep{Millet2006}.
+    The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor (discussed in more detail in Section \ref{ch_HCHO:sec:satelliteHCHO:CalculationOfVC}) \citep{Millet2006}.
     
 
 %----------------------------------------------------------------------------------------
@@ -137,13 +202,22 @@
 %----------------------------------------------------------------------------------------
 \section{Ozone}
 \label{ch_LitRev:sec:Ozone}
-TODO: Start this section!
+  
   \subsection{Basics}
     Ozone (O$_3$) is mostly located in the stratosphere, where it helpfully prevents much of the shorter wave length solar radiation from reaching the earth's surface (ie UV light).
-    However around 10\% is in the troposphere (TODO: cite), where it has several deleterious effects.
+    However around 11\% is in the troposphere (TODO: cite), where it has several deleterious effects.
     Ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
+    In the short term, ozone concentrations of $\sim$50-60~ppbv over eight hours or $\sim$80~ppbv over one hour are agreed to constitude a human health hazard \citep{Ayers2006,Lelieveld2009}. 
+    Long term exposure to lower levels causes problems with crop loss and ecosystem damage \citep{Emberson2003}, and both short and long term concentrations may get worse in the future \citep{Lelieveld2009, Stevenson2013}.
+    Further tropospheric ozone enhancements are projected to drive reductions in global crop yields equivalent to losses of up to \$USD$_{2000}$ 35 billion per year by 2030 \citep{Avnery2011}, along with detrimental health outcomes equivalent to $\sim$\$USD$_{2000}$11.8 billion per year by 2050 \citep{Selin2009}.
     
-    In the late 1990's, ozone transported down from the stratosphere was thought to contribute 10-40~ppb to the tropospheric ozone profile \citep{Atkinson2000}.
+    The tropospheric ozone concentrations rely on climate and ozone precursor emissions; including NO, NO$_2$, CO, and VOCs \citep{Atkinson2000, Young2013}. 
+    The direct affects are simple to model, however predictions are uncertain and difficult due to the vagaries of changing climate which affects both transport, deposition, destruction, and plant based precursor emissions.
+    All of these processes are tightly coupled and difficult to predict with disagreements based on assumed changes of various parameters such as CO$_2$ dependency \citep{Young2013}.
+    Even with all the work done in the prior decades there remains large uncertainties about ozone precursors creation processes in the troposphere \citep{Mazzuca2016}.
+    
+    In the late 1990's, ozone transported down from the stratosphere was thought to contribute 10-40~ppb to the tropospheric ozone,  matching the tropospheric production of ozone (production shown in equation \ref{ch_LitRev:eqn:MethaneBackground}) \citep{Atkinson2000,Stohl2003}.
+    A recent analysis of the Atmospheric Chemistry and Climate Model Inter-comparison Project (ACCMIP) simulations by \citet{Young2013} found STT is responsible for $540\pm140$~Tg yr$^{-1}$, equivalent to $\sim$11\% of the tropospheric ozone column, with the remainder produced photochemically \citep{Monks2015}.
     
     Ozone is a very important substance for formation of radicals in the troposphere (NO$_3$, OH), see Section \ref{ch_LitRev:sec:RadicalFormation} for more details.
     
@@ -153,11 +227,16 @@ TODO: Start this section!
     Ozone is formed in the troposphere through oxidation of VOCs in the presence of NO$_X$.
     Net formation or loss of O$_3$ is determined by interactions between VOCs, NO$_X$, and HO$_X$, and is a complicated system of positive and negative feedbacks \citep{Atkinson2000}.
     
-    
-    Smoke plumes from biomass burning may carry precursors to ozone production.
+    Smoke plumes from biomass burning can carry precursors to ozone production.
     Biomass burning in southern Africa and South America has previously been shown to have a major influence on atmospheric composition in Australia \citep{Oltmans2001, Gloudemans2006, Edwards2006}, particularly from July to December \citep{Pak2003, Liu2016}.
 
+    Tropospheric ozone is lost via chemical destruction and dry deposition, estimated to be $4700\pm700$ Tg yr$^{-1}$ and $1000\pm200$ Tg yr$^{-1}$, respectively \citep{Stevenson2006}. 
+
     TODO: more on ozone.
+    The other large source of ozone in the troposphere is downward transport from the stratosphere (Stratosphere to Troposphere Transport events (STT), or intrusions).
+    While this transport mostly impacts the upper troposphere, some areas are impacted right down to the surface.
+    In the USA recent work by \cite{Lin2015} suggests that intrusions during spring are increasing surface ozone levels higher.
+    Their work also recommends that understanding of frequency and cause of STT needs to be improved to effectively implement air quality standards.
   
   \subsection{Measurements}
     
@@ -167,13 +246,19 @@ TODO: Start this section!
     SHADOZ is the southern hemispheric additional ozone project, which have released sondes from 15 sites at different times \url{http://tropo.gsfc.nasa.gov/shadoz/}.
     
     TODO: Include ozone hole treaty and things put in place for that
-  
+    Since the Montreal Protocol on Substances that Deplete the Ozone Layer was established in August 1987, and ratified in August 1989, several satellites and many measurement stations were set up to monitor ozone and examine the stratospheric ozone levels.
+    TODO: get access to Hegglins (\url{10.1038/ngeo604})
+    
+    Recently \cite{Kuang2017} analysed various measurements in the southeast USA and observed STT influence which can be seen to affect surface ozone levels.
+    In their work they use of high spectral resolution lidar (HSRL), ozonesondes, ozone lidar, and airborn in-situ measurements give the structure and temporal evolution of ozone and the low front weather system.
   \subsection{Estimates}
     
     Recently global chemical transport models (CTMs) have been used to trace how much ozone is being transported to the troposphere from the stratosphere.
     There are a few methods of doing this, such as \citet{Ojha2016}, who use the ECHAM5 CTM with a tracer based on keeping track of ozone formed and transported from the stratosphere.
     The estimates generally require validation against actual measurements, such as those from ozonesondes or satellites.
     
+    %Hegglin, M. I., and T. G. Shepherd (2009), Large climate-induced changes in ultraviolet index and stratosphere-to-troposphere ozone flux, Nature Geosci, 2(10), 687 \selectlanguage{english}691, doi:10.1038/NGEO604.
+  \citet{Hegglin2009} estimate that climate change will lead to increased STT of the order of 30 (121) Tg yr$^{-1}$ relative to 1965 in the Southern (Northern) Hemisphere due to an acceleration in the Brewer Dobson circulation.
 %----------------------------------------------------------------------------------------
 %	HCHO Section
 %----------------------------------------------------------------------------------------
@@ -192,6 +277,7 @@ TODO: Start this section!
     
   \subsection{Sources and sinks}
     In the atmosphere HCHO is primarily produced through the oxidation of methane (CH$_4$) by the hydroxyl radical (OH).
+    CH$_4$ concentrations are thought to be well constrained in models, with the ACCMIP comparison showing only $\sim3$\% IQR \citep{Young2013}.
     Within the continental boundary layer, the major source of HCHO enhancement is VOC emissions reacting with OH radicals in the presence of NO$_X$ \citep{Wagner2002, Millet2006}.
     There is a complex relationship between VOCs, HO$_X$, and NO$_X$, and with higher levels of NO$_X$ the speed that VOCs are converted into HCHO increases, as does the HCHO concentration \citep{Wolfe2016}.
     Isoprene is the main VOC precursor of HCHO in the continental boundary layer, except near fires or anthropogenic sources of HCHO and precursors \citep{Guenther1995, Wolfe2016}.
@@ -199,24 +285,29 @@ TODO: Start this section!
     Biomass burning can be a source of HCHO, and various other pollutants, precursors, and aerosols.
     Additionally HCHO is emitted into the atmosphere directly through fossil fuel combustion, natural gas flaring, ethanol refining, and agricultural activity \citep{Wolfe2016}.
     Background levels of HCHO are provided by methane oxidation, and enhancements to regional and continental HCHO is largely driven by isoprene emissions \citep{Guenther1995, Palmer2003, Shim2005}.
+    \citet{Atkinson2000} summarised the background formation of HCHO with the following reaction:
+    \begin{equation} \label{ch_LitRev:eqn:MethaneBackground}
+      OH + CH_4 (+ h\nu) + 2NO + 2O_2 \rightarrow OH + HCHO + H_2O + 2O_3
+    \end{equation}
+    which shows that photolysis and oxidation of methane forms HCHO and ozone in a process that regenerates the OH radicals.
     
-    HCHO has two major sinks, one being reactions with OH, the other being photolysis \citep{Crutzen1999, Wagner2002, Levy1972}.
-    (todo: levy 1972 read abstract and cite).
+    HCHO has two major sinks, one being reactions with OH (oxidation), the other being photolysis \citep{Crutzen1999, Wagner2002, Levy1972}.
     These reactions lead to a daytime lifetime of a few hours \citep{Atkinson2000, Millet2006}.
-    Both these loss processes form CO and hydroperoxyl radicals (HO$_2$), and have global significance to radiative forcing and oxidative capacity \citep{Franco2015}.
+    Both these loss processes (photolysis, oxidation) form CO and hydroperoxyl radicals (HO$_2$), and have global significance to radiative forcing and oxidative capacity \citep{Franco2015}.
     The other notable sinks are wet and dry deposition, although these are not as significant \citep{Atkinson2000} (todo add more cites here).
     
     In the past, HCHO levels were underestimated by models, often with large discrepancies, due to the poor understanding of methyl peroxy radical (CH$_3$OO) chemistry \citep{Wagner2002}.
     
     
   \subsection{Measurements}
-    There are a few ways to measure HCHO, including Fourier Transform Infra-Red Spectrometry (FTIR).
+    There are a few ways to measure HCHO, including Fourier Transform Infra-Red Spectrometry (FTIR) and Differential Optical Absorption Spectroscopy (DOAS).
     As a trace gas HCHO interferes with light over a few wavelength bands, which allows instruments to detect concentrations along a path between a sensor and a known light source like a lamp or the sun.
     Figure \ref{ch_LitRev:fig:HCHOSpectrum} shows the interference spectrum of HCHO as well as a typical band used to examine interference in the DOAS technique.
     One difficulty is that this interference is relatively small (HCHO is optically thin) and other compounds absorb light at similar wavelengths \citep{Davenport2015}.
     FTIR measurements can have a range of uncertainties, including systematic and random measurement errors and uncertainties in apriori shape factors and water profiles (eg: \citet{Franco2015}).
-    Multiple axis differential optical absorption spectroscopy (MAX-DOAS) also examines the infra-red light interference.
+    Multiple axis DOAS (MAX-DOAS) also examines the infra-red light interference.
     In \citet{Franco2015}, an FTIR spectrometer at Jungfraujoch is compared against both MAX-DOAS and satellite data, with two CTMs; GEOS-Chem and IMAGES v2 used to compare total columns and vertical resolution of each instrument.
+    Generally satellites use a DOAS based technique, and then chemical transport, and radiative tranfer models are used to transform the non-vertical light path interference into vertical column amounts.
     
     \begin{figure}
       \includegraphics{Figures/HCHO/HCHOAbsorbanceDavenport.png}
@@ -225,38 +316,43 @@ TODO: Start this section!
       \label{ch_LitRev:fig:HCHOSpectrum}
     \end{figure}
     
-    
-    In MAX-DOAS retrievals, the measurements of light absorption are performed over several elevations in order to add some vertical resolution to the measurement of trace gas concentrations.
+    MAX-DOAS is a remote sensing technique which requires many DOAS measurements taken simultaneously.
+    In these retrievals, the measurements of light absorption are performed over several elevations in order to add some vertical resolution to the measurement of trace gas concentrations.
     An example of this is shown in figure \ref{ch_LitRev:fig:MAXDOASExample}, which was taken from \citet{Lee2015}.
     Recently MAX-DOAS has been used to examine HCHO profiles in the clean free troposphere \citep{Franco2015, Schreier2016} as well as in polluted city air \citep{Lee2015}.
     Depending on orography and atmospheric composition (ie. the influence of interfering chemicals), MAX-DOAS can be used to split the tropospheric column into two partial columns; giving a small amount of vertical resolution to HCHO measurements \citep[eg.]{Franco2015, Lee2015}.
     
     \begin{figure}
-      \includegraphics{Figures/MAXDoasExample.png}
-      \caption{ %
-        Image from \citet{Lee2015}.
-      }
+      \includegraphics[width=/textwidth]{Figures/MAXDoasExample.png}
+      \caption{ Image from \citet{Lee2015}.}
       \label{ch_LitRev:fig:MAXDOASExample}
     \end{figure}
     
-    Other measurement techniques include chromatographic and fluorimetric methods, both of which differ widely from eachother and the spectroscopic method TODO: read \citep{Hak2005}).
-    This resulted in HCHO not having a consistent network for global measurements like those for GHGs or Ozone \citep{FortemsCheiney2012}.
+    Other measurement techniques include chromatographic and fluorimetric methods, both of which differ widely from eachother and the spectroscopic methods \citep{Hak2005}).
+    \cite{Hak2005} examine a single air mass with 8 instruments using the four techniques (MAX-DOAS, FTIR, chromatographic, and flourimetric), and show that reasonable agreements can be achieved.
+    Generally the measurements were somewhat close, the five Hantzsch instruments agreeing to within 11\% (after removing two perhaps faulty measurements), although different calibration standards were used.
+    Titration for the different calibration solutions could not be resolved, and may account for absolute offsets up to 30\%.
+    These differences and non-uniformities even among identical instruments is part of the reason HCHO does not have a consistent network for global measurements like those for GHGs or Ozone \citep{FortemsCheiney2012}.
     
   \subsection{Relationship with glyoxyl and isoprene}
     Glyoxyl (CHOCHO) is important to us as it shares many properties with HCHO, and may provide additional information in determining isoprene emissions.
     Glyoxyl is another product of VOC oxidation in the atmosphere, with isoprene being the main source globally.
     Isoprene has been used to estimate isoprene emissions (see section \ref{ch_LitRev:sec:IsopFromHCHO}) but many uncertainties exist.
     One of these uncertainties is the yield of HCHO from isoprene, especially in low NO$_X$ environments.
-    Glyoxyl could prove complementary to HCHO in constraining isoprene emissions (TODO: Read and cite Vrekoussis2009,2010, Chan Miller 2014, Alvarado 2014).
+    Glyoxyl could prove complementary to HCHO in constraining isoprene emissions (TODO: Read and cite Vrekoussis2009,2010, Chan Miller 2014, Alvarado 2014) \citep{Miller2017}.
+    Recently \cite{Miller2017} updated GEOS-Chem to include the prompt formation of glyoxyl and compared this with satellite and airplane measurements over the USA.
+    The glyoxyl formed by isoprene oxidation has an prompt yield mechanism in low NO$_X$ conditions which is lacking in HCHO formation.
+    With coming geostationary satellites, which provide greater time resolved measurements of HCHO and CHOCHO, this mechanism could be used to clearly show when low NO$_X$ isoprene chemistry is being undertaken \citep{Miller2017}.
     
     Under high NO$_X$ conditions, glyoxyl forms rapidly, similarly to HCHO.
-    However, glyoxyl also forms in low NO$_X$ environments both slowly (through isoprene epoxydiols), and rapidly (through di-hydroperoxide dicarbonyl compound photolysation (todo: read abstract and cite crounse(Autoxidation of Organic Compounds in the Atmosphere) 2013).
-    This process is similar to the proposed mechanisms for hydroperoxyaldehydes by \citet{Peeters2014} and carbonyl nitrates (todo: read and cite M$\:{u}$ller 2014).
+    However, glyoxyl also forms in low NO$_X$ environments both slowly (through isoprene epoxydiols), and rapidly (through di-hydroperoxide dicarbonyl compound photolysation \citep{Crounse2013}.
+    This process is similar to the proposed mechanisms for hydroperoxyaldehydes by \citet{Peeters2014} and carbonyl nitrates \citep{Muller2014}.
     
   \subsection{Satellite measurements}
     Satellite measurements of HCHO are relatively uncertain, however this can be improved by averaging over larger grid boxes or longer time scales.
-    an example of this can be seen in (TODO: read/cite dufour2009), where monthly averaging is used to decrease the measurements uncertainty.
-    HCHO in Europe is low; near the detection limit of satellite measurements, however taking monthly averages allows enough certainty that useful inversions can be determined to estimate the sources of the HCHO (TODO: read and citep{Dufour2009}).
+    an example of this can be seen in \citet{Dufour2009}, where monthly averaging is used to decrease the measurements uncertainty.
+    They examine HCHO in Europe, which is low; near the detection limit of satellite measurements.
+    Taking monthly averages allows enough certainty that useful inversions can be determined to estimate the source emissions of HCHO.
     
     In satellite HCHO products, concentrations over the remote pacific ocean are sometimes used to analyse faulty instrument readings.
     This is due to the expected invariance of HCHO over this region.
@@ -266,13 +362,21 @@ TODO: Start this section!
     For many places the tropospheric column HCHO measured by satellite is biased low, \citet{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over south east USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
     \citet{DeSmedt2015} also found a low bias from 20 - 40\% when comparing OMI and GOME2 observations against ground based vertical profiles, and \citet{Barkley2013} determine OMI to be 37\% low compared with aircraft measurements over Guyana.
     These bias can be corrected by improving the assumed apriori HCHO profiles which are used to calculate the AMFs of the satellite columns.
+    \cite{Millet2008} shows that there also exists some latitude based bias, as well as a systematic offset between the OMI and GOME instruments.
+    This does not appear to be due to the different overpass times of the two instruments.
     
     The OMI measurements used in this research are recalculated using an updated estimate of HCHO profiles and validated against Wollongong total column measurements. 
-    Similar to validation performed by other studies TODO: cite and exemplify a few studies ie: \citet{Zhu2016, Marais2015, Palmer2003} 
+    This process was initially performed by \cite{Palmer2003}, who used in-situ summertime HCHO measurements over North America as model validation.
+    \cite{Zhu2016} use SEAC$^4$RS aircraft HCHO measurements over the southeastern US as model validation, and show a bias in the assumed OMI shape factor that leads to a bias between satellite and SEAC$^4$RS measurements.
+    \cite{Marais2014} TODO: exemplify
     
   \subsection{Satellite uncertainty}
     Uncertainty in the OMI satellite instrument is calculated by the Smithsonian Astrophysical Observatory (SAO) group using the uncertainty in backscattered radiation retrievals \citep{Abad2015, Abad2016}.
     Another method of calculating the uncertainty is used by the Belgian Institute for Space Aeronomy (BIRA) group, who determine uncertainty from the standard deviation of HCHO over the remote pacific ocean (TODO: use both these methods for HCHO section)\citep{DeSmedt2012, DeSmedt2015}.
+    
+    The finer nadir resolution of OMI (13 x 24~km${^2}$) compared to other satellites reduces cloud influence \citep{Millet2006,Millet2008}. 
+    Although the uncertainty in each pixel is $\sim 2 \times 10^{16}$, which is $5 \times$ higher than GOME, there are $\sim 100-200 \times $ as many measurements due to the smaller footprint and better temporal resolution of OMI, which allows a greater reduction of uncertainty with averaging \citep{Chance2002,Millet2008}.
+    \cite{Millet2006} examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
     
     One important aspect of satellite retrievals of trace gas vertical columns is the Air Mass Factor (AMF), which characterises measurement sensitivity to a trace gas at various altitudes \cite[e.g.]{Palmer2001}.
     These AMFs are measures of how radiance at the top of the atmosphere (TOA) changes with trace gas optical depths at specific altitudes \citep{Lorente2017}.
@@ -282,6 +386,11 @@ TODO: Start this section!
     In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments.
     The importance of apriori and ancilliary data (such as surface albedo and cloud top height) is also shown, as it sharply affects the structural uncertainty.
     \cite{Lorente2017} determine the structural uncertainty using ensemble techniques on seven AMF calculation approaches used by different retrieval groups.
+    
+    GOME suffers from similar uncertainties to OMI, as the same general method of DOAS remote measurements are performed.
+    The uncertainty from slant column fitting has been calculated for GOME to be $4\times10^{15}$ molecules cm$^{-2}$ \citep{Chance2000, Millet2006}. 
+    The conversion factor for slant to vertical columns (AMF) calculation also suffers from errors; primarily from surface albedo, HCHO vertical profile apriori, aerosol, and cloud influence \citep{Millet2006}. 
+    AMF uncertainties for GOME are calculated to be $1$ to $1.3\times10^{15}$ molecules cm$^{-2}$ by \citet{Shim2005}.
     
 %----------------------------------------------------------------------------------------
 %	Isoprene Section
@@ -293,23 +402,39 @@ TODO: Start this section!
     Isoprene, or 2-methylbuta-1,3-diene, is a Volatile Organic Compound (VOC) and has chemical formula of C$_5$H$_8$. 
     Isoprene effects NO$_X$ and HO$_Y$ cycling, and in the presence of NO$_X$, forms tropospheric ozone and SOAs \citep{Wagner2002, Millet2006}.
     Bottom up inventories of VOCs remain largely uncertain due to extensive extrapolation over plant functional types, changing land cover, and parameterised environmental stressors (todo: read and \citep{Guenther2000}).
+    This problem is even more pronounced in Australia due to poorly studied paramaterised PFT and soil moisture.
 
   \subsection{Sources and Sinks}
     Methane and isoprene each comprise around a third of the yearly global total emission of VOCs.
     However, methane is relatively long lived (years) and is well mixed in the atmosphere while isoprene levels are very volatile and spatially diverse due to a life time of around an hour.
     Estimates put global isoprene emission at roughly 600 Tg yr$^{-1}$, emitted mostly during the day.
     Major emitters are tropical broadleafs (notably eucalypts), and scrubs \citep{Guenther2006, Arneth2008, Niinemets2010, Monks2015}.
+
+   The two main categories isoprene emissions are often given are anthropogenic and biogenic. 
+   Most isoprene emissions are from biogenic sources except over very polluted or burning areas \citep{Guenther2006}.
+   Recently \cite{Stavrakou2015} used satellite HCHO measurements to constrain anthropogenic sources of isoprene and found good global agreement with the bottom up estimates, although regions had sources differ by up to 25-40\%. 
+   This study used the RETRO 2000 database for anthropogenic emission aprioris except for Asia in 2008 where REASv2 was used. 
     
-    Isoprene has a short lifetime during the day, roughly an hour due to OH oxidation (todo: abstract and cite Atkinson and Arey 2003\citep{AtkinsonArey2003}).
+    Isoprene has a short lifetime during the day, roughly an hour due to OH oxidation \citep{AtkinsonArey2003}).
     At night when OH concentrations have dropped, isoprene can remain in the atmosphere to be transported. 
     Typically less than half of this night time isoprene is removed through ozonolysis \citep{AtkinsonArey2003}, however, in polluted areas where high levels of NO$_X$ exist, isoprene is consumed by a different radical.
     During the night time, nitrate radicals (NO$_3$) build up, especially in areas with high NO$_X$ levels.
     In areas with high NO$_X$ levels, greater than 20\% of the isoprene emitted late in the day ends up being oxidised by the NO$_3$ radical over night \citep{Brown2009}.
     So while night time isoprene is not as highly concentrated, is does have varying biogenic and anthropogenic sinks.
     At night isoprene has affects on both NO$_X$ concentrations and ozone levels, and can form harmful SOAs \citep{Brown2009, Mao2013}.
+    The nighttime  concentrations of OH and ozone also have a complex effect on NO$_X$ removal in high latitude winters, when photolysis and NO reactions are reduced \citep{Ayers2006}.
     
-    Isoprene oxidation by OH is less well understood in lower concentrations of NO.
-    Initially isoprene was thought to be a sink for atmospheric oxidants \citep{Guenther2000}.
+  \subsection{Affect of NO$_X$ on isoprene chemistry}
+    \label{Ch_LitRev:sec:IsopNox}
+    The oxidation products of isoprene and O$_2$ produce various isomers of isoprene hydroxyperoxy radicals (ISOPO$_2$), along with MACR and MVK. 
+    The ISOPO$_2$ radicals are eventually destroyed by NO, HO$_2$ and other RO$_2$, with most pathways potentially producing HCHO \citep{Wolfe2016}.
+    Oxidation reactions are important and quickly stabilise the ratio of NO to NO$_2$. 
+    NO$_X$ removed primarily by conversion to nitric acid (HNO$_3$) followed by wet or dry deposition \citep{Ayers2006}.
+    There is still large uncertainty around the fate of various RO$_2$ radicals, which limits understanding of the relative importance of some chemical processes \citep{Crounse2013}.
+    
+    
+    Isoprene oxidation by OH is less well understood when lower concentrations of NO are present in the atmosphere.
+    Initially isoprene was thought to be a sink for atmospheric oxidants \citep[eg.]{Guenther2000}.
     It was thought that in low NO environments, like those far from anthropogenic pollution and fires, oxidation of isoprene would create hydroxyhydroperoxides (ISOPOOH) and lead to low concentrations of OH and HO$_2$ (together known as HO$_X$) \citet{Paulot2009b}.
     In \citet{Paulot2009b}, the HO$_X$ levels are shown to be largely unnaffected by isoprene concentrations.
     They show that ISOPOOH is formed in yields $> 70\%$, and MACR and MVK is formed with yields $< 30\%$.
@@ -317,18 +442,34 @@ TODO: Start this section!
     \citet{Paulot2009b} goes on to suggest (and provide experimental evidence) that dihydroxyperoxides (IEPOX) are formed from oxidation of the ISOPOOH, which form precursors for SOAs as well as closing the HO$_X$ concentration gap.
     They then use GEOS-Chem, modified to include IEPOX formation, to estimate that one third of isoprene peroxy radicals react with HO$_2$, and two thirds react with NO. 
     Their work showed another pathway for isoprene based SOA creation, and additionally estimated $95 \pm 45$~TgC yr$^{-1}$ IEPOX being created in the atmosphere without any inclusion in CTMs at that time.
+    In \cite{Crounse2012}, MACR products are examined in various conditions and hydroxy recycling is also observed in low NO conditions. 
     
+    Although understanding of OH production/recycling in these low NO conditions has been improved, many observations of OH are still quite under-predicted in models \citep{Mao2012}.
+    It was shown in \citet{Mao2012}, for a remote forest in California, that the traditional method of OH measurement may be affected by instrument internally generated OH from VOC oxidation.
+    This lends more credence to the current understanding of VOC oxidation as it closed the gap between measurements and model predictions.
   %\subsection{Products from isoprene}
-  \subsection{Factors affecting isoprene emissions}
+  \subsection{Factors affecting isoprene emissions estimates}
     
     \citet{Marais2014} examine factors affecting isoprene emissions, showing how emissions are sensitive to various environmental factors.
     Their work used MEGAN \citep{Guenther1995} and GEOS-Chem to look at how these factors affect surface ozone and particulate matter in Africa.
     One of the important uncertainties seen in MEGAN within this work is the isoprene emissions due to plant type. 
     Canopy level isoprene measurements are made using relaxed eddy accumulation (REA) at several sites in Africa.
     One plant type near a measurement site emits more than other species and it's actual distribution on a larger scale is completely unknown - leading to possible overestimations in MEGAN.
+    Current emissions estimates require more validation against observations, and recently a comparison of two major VOC models (MEGAN and ORCHIDEE) was undertaken by \cite{Messina2016} reiterating this requirement.
+    In their work they examine model sensitivities and show that the important parameters are leaf area index (LAI), emission factors (EF), plant functional type (PFT), and light density fraction (LDF).
+    There is high uncertainty in LAI and EF, which require more or improved measurements at the global scale.
+    LDF paramterisation needs improvement and these models require more PFTs.  
+    
+    \citet{Stavrakou2014} examined modelled Asian emissions and altered model parameters for temperature, plant type emission factors, incoming solar radiation (insolation) intensity, land use changes, and palm tree forest expansion.
+    Changes were constrained by a network of radiation measurements and some experiments with south east Asian forest emissions - and led to reduction in isoprene emissions by a factor of two over the region.
+    The Asian region is also shown to have a strong correlation with the Oceanic Niño Index (ONI), with positive anomalies associated with El Niño.
   
   \subsection{Estimates}
-    Biogenic isoprene emissions are far greater than anthropogenic emissions of VOCs \citep{Guenther2006, Kefauver2014}. 
+  \label{ch_LitRev:sec:BVOCestimates}
+    It used to be thought that emissions of anthropogenic and biogenic VOCs (BVOCs) were roughly similar (TODO abstract of \citep{Mueller1992}, and more cites).
+    It's now clear that biogenic VOC (BVOC) emissions are far greater than anthropogenic emissions of VOCs, making up 87\% of non methane VOC (NMVOC) emissions \citep{Kefauver2014}.
+    non methane BVOC emissions are estimated to be $\sim1150$ TgCyr$^{-1}$, of which isoprene (44\%) and monoterpenes (11\%) are the main single contributors. \citep{Guenther2000, Kefauver2014}. 
+    The estimates are still fairly uncertain, as global measurements are difficult and regional emissions can be very different. 
     The lack of accuracy in BVOC emissions estimates has a large effect on determining with confidence the sources and distribution of pollutants including ozone and organic aerosols.
     Accuracy in VOC measurements is important: it has been shown that even the diurnal pattern of isoprene emissions has an effect on modelling ground level ozone \citep{Hewitt2011,Fan2004}.
     These uncertainties could explain why models of HCHO over Australia are poor at reproducing satellite measurements \citep{Stavrakou2009}.
@@ -336,10 +477,14 @@ TODO: Start this section!
     \citet{Guenther2006} estimates that the Australian outback is among the world's strongest isoprene emitters with forests in SE Australia having emission factors greater than 16 mg m$^{-2}$ h$^{-1}$ (see figure \ref{ch_LitRev:fig:meganisoprene}).
     These emissions factor estimates are not well verified as there is little coverage of isoprene (or other BVOC) emissions measurements over Australia.
     However, comprehensive coverage of one high yield (generally) product in the atmosphere over Australia exists in the form of satellite measurements.
+  
+  TODO: paragraph on Kefauver2014 review  
     
     It is important to note that many estimates of isoprene emission are based on a few algorithms of isoprene emission which can depend greatly on input parameters \citep{Niinemets2010}.
     \citet{Yue2015} has shown that this is still a problem by looking at land carbon fluxes and modelling the sensitivity to VOC emissions estimates using two independent models of VOC emission.
-    One model is photosynthesis based and estimates isoprene emissions based, while the other (MEGAN) uses the light and canopy temperature (Niinemets et al., 1999; Arneth et al., 2007; Unger et al., 2013).
+    One model is photosynthesis based and estimates isoprene emissions using electron transfer energies and leaf physiology \citep{Niinemets1999}, while the other (MEGAN) uses the light and canopy temperature (\citep{Guenther1995} TODO: Arneth et al., 2007; Unger et al., 2013).
+    Both are sensitive to light and temperature parameterisations.
+    
     
     \begin{figure}
       \includegraphics{Figures/MeganIsoprene1.png}
@@ -351,7 +496,7 @@ TODO: Start this section!
     \label{ch_LitRev:sec:IsopFromHCHO}
     In the remote troposphere HCHO production is dominated by methane oxidation, while in the continental boundary layer (CBL) production is largely due to NMVOCs \citep{Abbot2003, Kefauver2014}.
     NMVOCs are alkanes, alkenes, aromatic hydrocarbons and isoprene.
-    Isoprene is hard to measure directly due to its short lifetime and weak spectral absorption, instead formaldehyde is often used as a proxy \citep{Millet2006, Dufour2009, Marais2012, bauwens2013satellite, Kefauver2014, Bauwens2016}.
+    Isoprene is hard to measure directly due to its short lifetime and weak spectral absorption, instead formaldehyde is often used as a proxy \citep{Millet2006, Fu2007, Dufour2009, Marais2012, bauwens2013satellite, Kefauver2014, Bauwens2016}.
     Formaldehyde formed in the troposphere is mostly due to VOC (roughly one third each: methane, isoprene, others) oxidation.
     We can model this oxidation process in order to work out how much VOC is present based on the total HCHO.
     This requires among other things an idea of which VOCs are present and their yields of HCHO.
@@ -362,9 +507,11 @@ TODO: Start this section!
     This showed an inversion technique which could be used to improve large scale emissions estimates without further expensive measurement campaigns.
     
     \citet{Dufour2009} use HCHO from SCIAMACHY, and examine Europe using CHIMERE as the chemical model. 
+    In their work they show that satellite measurements can reduce source emission uncertainty by a factor of two, where emissions are relatively large.
     
     Satellites recording reflected solar spectra use Differential Optical Absorption Spectroscopy (DOAS) to measure various trace gases in the atmosphere, including formaldehyde. 
     Formaldehyde levels in the continental boundary layer are generally dominated by chemical formation due to VOC (largely isoprene) emissions \citep{Kefauver2014}.
+    While satellite measurements can only be used during daytime hours, HCHO lifetimes are sufficiently short that any nighttime will not affect midday observations \citep{Wolfe2016}.
     
     Satellites can be used to measure the seasonal and interannual variability of HCHO over Australia.
     These records can be compared with modeled estimates of HCHO and used as a proxy to estimate isoprene emissions.
@@ -383,7 +530,7 @@ TODO: Start this section!
     \begin{eqnarray*}
     \Omega = \frac{1}{k_{HCHO}} \sum_{i} Y_i E_i
     \end{eqnarray*}
-    Where i indexes a chemical species, $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the HCHO yield, and $E_i$ is emission fluxes ( C atoms $cm^{-2}s^{-1}$).
+    Where i indexes a chemical species, $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the molar HCHO yield from oxidation of i, and $E_i$ is emission fluxes ( C atoms $cm^{-2}s^{-1}$).
     
     Estimates of Y$_i$ can be attained from a model as shown in \citet{Millet2006}.
     This involves a reduced major axis (RMA) correllation calculation between modelled HCHO and isoprene columns, multiplied by their loss rates (to photolysis and oxidation) (as a normalising factor).  
@@ -409,7 +556,7 @@ TODO: Start this section!
     This K matrix is used in conjunction with error covariance in x to determine the Maximum A Posteriori (MAP) solution to calculate the optimal estimate of x ($\hat{x}$).
     
     TODO: Read through this list of sources on the hcho to isop process : taken from Wolfe2015
-    Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008, 2006; Palmer et al., 2006, \citep{Palmer2003}), South America (\citep{Barkley2013}, 2008), Europe \citep{Curci2010,Dufour2009}, Africa (Marais et al., 2012), Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; Shim et al., 2005; Stavrakou et al., 2009).
+    Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008 \citep{Palmer2003,Millet2006,Palmer2006}), South America (\citep{Barkley2013}, 2008), Europe \citep{Curci2010,Dufour2009}, Africa \citep{Marais2012}, Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; \citep{Shim2005}; Stavrakou et al., 2009).
     
     More recently, full inversions that better account for transport, source attribution, and chemical schemes have been implemented \citep{FortemsCheiney2012}.
     TODO: full description of this better inversion technique going through FortemsCheiney2012.
@@ -437,8 +584,10 @@ TODO: Start this section!
     There are relatively few measurements of isoprene in the southern hemisphere, including MUMBA(TODO CITE), other campaigns?, and very recently that girl from Macquarie University with an instrument in the daintree rainforest(TODO CITE, DESCRIBE?).
     Since 1997, when GOME first measured HCHO over Asia (TODO cite thomas 1998), satellites have been able to provide a total column measurement of one of the primary products of isoprene.
     
+    \cite{Kanakidou2005} summarised the difficulty of chamber experiments used to measure isoprene reactions and the possible unsuitability of chamber study yields in the natural atmosphere.
+    This is due to the complex relationship between NO$_X$, NO$_3$, OH, O$_3$, and the formation of aerosols was hard to attribute any single precursor.
     
-  
+    
   \subsection{Estimates}
     There are two commonly used ways of estimating isoprene emissions, top-down or bottom-up.
     Bottom-up emission estimates generally model the flora and events which emit isoprene, like Eucalypts, factories, shrubs, leaf areas under sunlight, etc.
@@ -555,17 +704,35 @@ TODO: Start this section!
     It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide. 
     Several driving meteorological fields exist with different resolutions, the finest at 0.25 by 0.3125$^\circ$ horizontally at 5 minute time steps with 72 vertical levels.
     
-    GEOS-Chem uses fire emissions from the GFED4 product \citep{Giglio2013}.
+   GEOS-Chem has boundary conditions based on several meteorological and emissions inventories, the following are the versions of theses used by GEOS-Chem v 10.01. 
+   Meteorological fields can be driven by NASA's GEOS-5 data (0.5$^{\circ}$ x 0.666$^{\circ}$) (TODO:Chen et al., 2009), which exists up to 2013, or GEOS-FP data (0.25$^{\circ}$ x 0.3125$^{\circ}$).
+   Fire emissions come from the GFED4 product \citep{Giglio2013}. Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are coupled to the MEGAN model TODO:cites.
+   The estimated biogenic VOC emissions are important to the work done in this thesis and are discussed in somewhat more detail in section \ref{ch_LitRev:sec:BVOCestimates}.
 
     Combining satellite data with model outcomes provides a platform for the understanding of natural processes to be tested now and into the future over Australia and anywhere with few in-situ measurements.
     Due to the low availability of in-situ data covering most of the Australian continent, a combination of the models with satellite data may provide improved understanding of emissions from Australian landscapes.
     Improved emissions estimates will in turn improve the accuracy of CTMs, providing better predictions of atmospheric composition and its response to ongoing environmental change.
+  
+  \subsection{CAABA/MECCA box model}
+    \label{ch_LitRev:sec:CAABAMECCAIntro}
+     CAABA (Chemistry As A Boxmodel Application) estimates the chemical concentrations accounting for J-values (JVAL), simplified and parameterised photolysis (SAPPHO) and simplified emission and depositions (SEMIDEP).
+     CAABA runs in a single scenario (or box) with given emissions, depositions, and initial concentrations, allowing the examination of chemistry in a very specific environment to be modelled with high temporal resolution.
+    This has been used with an atmospheric chemistry model MECCA (Module Efficiently Calculating the Chemistry of the Atmosphere) which implements tropospheric and stratospheric chemistry for both the gas and the aqueous phases \citep{Sander2005}.
+    For our purposes it's worth noting that MECCAs chemical mechanism includes basic O$_3$, CH$_4$, NO$_X$, and HO$_X$ chemistry, as well as non methane hydrocarbon (NMHC) chemistry, considering gas phase, aqueus phase, and heterogenous reactions. \citep{Sander2005}
+    For the numerical integration, MECCA uses the KPP software \citep{SanduSander2006}, which takes chemical reactions and their rate coefficients and forms efficient code for integral solutions to the system.
+    The combination of the CAABA box model with MECCA module is called CAABA/MECCA and is currently at version 3.
+    CAABA/MECCA been implemented for various calculations including ozone chemistry throughout the atmosphere in \cite{Zanis2014}.
 
+    MECCA could also be used as the chemistry mechanism for a more complex, 3-dimensional model \citep[eg]{Jockel2006}(TODO).
+    The connection is established via the MESSy interface (\utl{http://www.messy-interface.org}) developed by \cite{Jockel2005}(TODO: add these cites from http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf).
+    
+    TODO: continued description of CAABA MECCA box model
 %----------------------------------------------------------------------------------------
 %	SECTION 7
 %----------------------------------------------------------------------------------------
 \section{Satellites}
 \label{ch_LitRev:sec:satellites}
+
 
   \subsection{Useful satellites}
     Several satellites provide long term trace gas observations with near complete global coverage, including the ERS-2 launched in April 1995 which houses the GOME ultraviolet and visible (UV-Vis) spectrometer, the AURA launched in July 2004 which houses the OMI UV-Vis spectrometer, the MetOp-A and B launched in October 2006 and September 2012 respectively both housing a GOME-2 UV-Vis spectrometer.
@@ -579,6 +746,11 @@ TODO: Start this section!
       \label{ch_LitRev:fig:gomeproducts}
     \end{figure}
 
+    The OMI instruement in particular is used within my work to calculate of HCHO, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
+    This band of wavelengths allows measurments of trace gases including O$_3$, NO$_2$, SO$_2$, HCHO, and various other quantities like surface UV radiation. 
+    Recently \cite{Schenkeveld2017} analysed the performance over time of the instrument and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
+    These changes are measured excluding the row anomaly effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
+    \cite{Schenkeveld2017} concludes that OMI data is still of high quality and will deliver useful information for 5-10 more years.
     
     Formaldehyde (HCHO) is often used as a proxy to estimate isoprene emissions \citep{Marais2012,bauwens2013satellite}.
     Satellites can use DOAS techniques with radiative transfer calculations on solar radiation absorption spectra to measure column HCHO (eg: \citet{Leue2001}).
