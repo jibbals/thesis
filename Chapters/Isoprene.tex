@@ -7,8 +7,8 @@
 \section{GEOS-Chem isoprene mechanisms}
 \label{ch_isop:sec:GEOSChemMechanisms}
   \subsection{Outline}
-    The isoprene reactions simulated by GEOS-Chem were originally based on (TODO: read+citet: Horowitz1998) (TODO: check wiki that this is true also).
-    This involved blahblah(TODO:read that paper).
+    The isoprene reactions simulated by GEOS-Chem were originally based on \cite{Horowitz1998}.
+    This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
     The mechanism was subsequently updated by \citet{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \citet{Paulot2009a,Paulot2009b}.
     Further mechanistic properties, like isomerisation rates, are based citet{Crounse2011,Crounse2012,Peeters2010,Peeters2011}.
     (TODO: check abstracts of these papers)
@@ -51,7 +51,7 @@
     MEGAN simulates biogenic emissions of various gases including isoprene, based on various meteorological, land cover, and plant type parameterisations.
     
     One of the important parameters in Australia is the soil moisture activity factor($\gamma_{SM}$), which can have large regional affects on the isoprene emissions \citep{Sindelarova2014,Bauwens2016}.
-    Generally if soil moisture is too low, isoprene emissions stop, however in many Australian regions the plants may be more adapted to lower moisture levels. (TODO: Find cites for this - talk from K Emerson at Stanley indicated this)
+    Generally if soil moisture is too low, isoprene emissions stop \citep{Pegoraro2004,Niinemets2010}, however in many Australian regions the plants may be more adapted to lower moisture levels. (TODO: Find cites for this - talk from K Emerson at Stanley indicated this)
     GEOS-Chem runs MEGANv2.1, which has three possible states for isoprene emissions based on the soil moisture ($\theta$):
     \begin{align*}
       \gamma_\mathrm{SM} & = 1 && \theta > \theta_1 \\
@@ -59,10 +59,10 @@
       \gamma_\mathrm{SM} & = 0 && \theta < \theta_w \\
     \end{align*}
     where $\theta_w$ is the wilting point, and $\theta_1$ determines when plants are near the wilting point.
-    The wilting point is set by a land based database from \citet{Chen2001}, while $\theta_1$ is set globally based on \citet{Pegoraro2004}. (TODO: Check both these papers  from Guenther2006)
+    The wilting point is set by a land based database from \citet{Chen2001}, while $\theta_1$ is set globally based on \citet{Pegoraro2004}. (TODO: Check Chen2001 from Guenther2006)
     
     In GEOS-Chem the emissionscan be globally multiplied by a constant factor, which was performed to determine the smearing and sensitivity.
-    By setting biogenic emissions to zero and one half the general affects of isoprene emissions which the model undergoes can be determined.
+    By running the model two extra times, with the biogenic emissions set to zero and one half, while other parameters remain unchanged, the general affects of isoprene emissions which the model undergoes can be determined.
     
 %----------------------------------------------------------------------------------------
 %	SECTION
