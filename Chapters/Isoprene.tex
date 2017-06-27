@@ -104,11 +104,12 @@
     (TODO: simple outline of what they did and how my focus is different, this paper will also need to be summarised in the LitReview)
 
   \subsection{HCHO Products and yield}
-    Australian forests are strong emitters of both isoprene and monoterpenes, which go on to form various products including but not limited to secondary organic aerosols, oxygenated VOCs (OVOCs), ozone, OH, and HO$_2$.
+    Australian forests are strong emitters of both isoprene and monoterpenes, which go on to form various products including secondary organic aerosols, oxygenated VOCs (OVOCs), ozone, OH, and HO$_2$.
     This production occurs over several steps, yields are often classed into at least two categories.
     First generation yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (sometimes molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \citep{Wolfe2016}.
     \citet{Wolfe2016} define prompt yield as the change in formaldehyde measurement per unit change in initial isoprene emissions.
     Some argue that isoprene emissions are overestimated, due to the fact that they are based on relatively few measurements of isoprene emission factors \citep{Winters2009, FortemsCheiney2012} TODO: read and cite paper mentioned in Fortems.
+    Recently \cite{Emmersen2017} showed that MEGAN estimates 3-6 times too much isoprene emissions, and 4 times too little monoterpenes when compared against 4 relatively small scale measurement campaigns in southeastern Australia.
     
     Isoprene production of HCHO depends on several factors, importantly NO$_X$ levels have a direct effect on the fate of VOCs in the atmosphere.
     At higher NO mixing ratios (at least a few hundred pptv), organic peroxy radicals (RO$_2$) react mostly with NO. 
@@ -173,9 +174,9 @@
     \begin{table} \begin{threeparttable}
       \caption{ HCHO yields from various species, and lifetime against oxidation by OH. }
       \begin{tabular}{  l  l  l  l  l  }
-      	\toprule
-      	Species    & HCHO Yield      & Life vs OH & NO$_X$ background & Source	\\
-                      & (molar \% )        &               &                          &          \\
+        \toprule
+        Species    & HCHO Yield      & Life vs OH & NO$_X$ background & Source   \\
+                   & (molar \% )     &            &                   &          \\
       	\midrule 
       	Isoprene	& 315$\pm$50      &              & High           & a        \\ 
       			& 285$\pm$30      &        & High               & a        \\ 
@@ -271,7 +272,7 @@
       \Omega_{HCHO} = S \times E_{isop} + B
     \end{equation}
     Where \textit{B} is the background HCHO, and $S = Y_{isop}/k_{HCHO}$ is determined monthly as the regression between $k_{HCHO}*\Omega_{HCHO}$, and $k_{isop}*\Omega_{isop}$.
-    The other equivalent method determines S from the RMA regression between $\Omega_{HCHO}$ and E$_{isop}$.
+    The other equivalent method determines S from the RMA regression between $\Omega_{HCHO}$ and E$_{isop}$ on daily saved outputs from GEOS-Chem over Australia using 2 by 2.5$^{\circ}$ horizontal resolution.
     For an initial estimate of the effective yield from simulated data: we use $k_{HCHO}$, $k_{i}$, $\Omega_{HCHO}$, and $\Omega_i$ outputs from a standard run of GEOS-Chem - which provides one data point per day.
     This gives us a value for $Y_i$ resolved to our 2$^{\circ}$ by 2.5$^{\circ}$ horizontal resolution, which is entirely based on the model, and can be compared against the yield calculated using OMI derived $\Omega_{HCHO}$.
     Using our measurements of the biogenic HCHO column ($\Omega_{OMIHCHO}$) recalculated from the OMI satellite product, we use this derived yield and the same formula to determine our new top-down emissions estimates.
