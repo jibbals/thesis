@@ -422,7 +422,11 @@
     This problem is even more pronounced in Australia due to poorly studied paramaterised PFT and soil moisture.
     \cite{Muller2008} show how isoprene is poorly captured by the MEGAN model and analyse the affect of changing the soil moisture parameter, which can reduce the overall bias for Australia.
     TODO: more on Muller2008
-    K. Emmerson, 2016 TODO: read/cite shows that isoprene emissions modelled by MEGAN in southeastern Australia may be 6 times too high. 
+    \cite{Emmerson2016} TODO: read/cite shows that isoprene emissions modelled by MEGAN in southeastern Australia may be 6 times too high. 
+    There are many uncertainties in estimates of emissions in Australia due to missing or extrapolated data.
+    For instance Emissions in MEGAN are based on plant functional types, which can vary heavily even within species.
+    Many plant emissions have not been published, such as those for any Australian acacias.
+    And soil moisture is not well quantified which has a large effect on emissions.
     TODO: more on K. Emmerson
 
   \subsection{Sources and Sinks}
@@ -430,9 +434,10 @@
     However, methane is relatively long lived (years) and is well mixed in the atmosphere while isoprene levels are very volatile and spatially diverse due to a life time of around an hour.
     Estimates put global isoprene emission at roughly 600 Tg yr$^{-1}$, emitted mostly during the day.
     Major emitters are tropical broadleafs (notably eucalypts), and scrubs \citep{Guenther2006, Arneth2008, Niinemets2010, Monks2015}.
+    Although recent work suggests that some Australian eucalypts may not be as egregious isoprene emitters as once thought \citet{Emmerson2016}.
     The natural or biogenic sources are roughly ten times higher than the anthropogenic VOC sources \citep{Guenther2006, Kanakidou2005}.
 
-    The two main categories isoprene emissions are often given are anthropogenic and biogenic. 
+    Isoprene emissions are often classified as either anthropogenic, biogenic, or pyrogenic. 
     Most isoprene emissions are from biogenic sources except over very polluted or burning areas \citep{Guenther2006}.
     Recently \cite{Stavrakou2015} used satellite HCHO measurements to constrain anthropogenic sources of isoprene and found good global agreement with the bottom up estimates, although regions had sources differ by up to 25-40\%. 
     This study used the RETRO 2000 database for anthropogenic emission aprioris except for Asia in 2008 where REASv2 was used. 
@@ -495,7 +500,10 @@
     Current emissions estimates require more validation against observations, and recently a comparison of two major VOC models (MEGAN and ORCHIDEE) was undertaken by \cite{Messina2016} reiterating this requirement.
     In their work they examine model sensitivities and show that the important parameters are leaf area index (LAI), emission factors (EF), plant functional type (PFT), and light density fraction (LDF).
     There is high uncertainty in LAI and EF, which require more or improved measurements at the global scale.
-    LDF paramterisation needs improvement and these models require more PFTs.  
+    LDF paramterisation needs improvement and these models require more PFTs.
+    \cite{Emmerson2016} analyse EF sensitivity of a high resolution model of atmospheric chemistry over southeast Australia, comparing isoprene and monoterene emissions against 4 seperate campaigns.
+    They show that the effect on total emissions is roughly linear and that no blanket EF changes are appropriate for all regions/seasons.
+    They also mention that Australian eucalypt emissions are based on samples from young trees, which may emit more isoprene than older trees.
     
     \citet{Stavrakou2014} examined modelled Asian emissions and altered model parameters for temperature, plant type emission factors, incoming solar radiation (insolation) intensity, land use changes, and palm tree forest expansion.
     Changes were constrained by a network of radiation measurements and some experiments with south east Asian forest emissions - and led to reduction in isoprene emissions by a factor of two over the region.
@@ -514,6 +522,10 @@
     Most of the tropospheric SOA comes from biogenic precursors, the evidence for this has grown over the last two decades \citep{Guenther1995, Kanikadou2005,Guenther2012}.
     Accuracy in VOC measurements is important: it has been shown that even the diurnal pattern of isoprene emissions has an effect on modelling ground level ozone \citep{Hewitt2011,Fan2004}.
     These uncertainties could explain why models of HCHO over Australia are poor at reproducing satellite measurements \citep{Stavrakou2009}.
+    Over Australia specifically MEGAN has problems involving unpublished plant functional types and their emissions, as well as poorly optimised soil moisture parameterisation \citep{Emmerson2016}.
+    Australia also lacks a clear estimate of emitted monoterpenes.
+    \cite{Emmerson2016} suggest that monoterpenes may be emitted in similar quantites to isoprene, with more measurements required to determine if this is so.
+    Their work suggests that MEGAN estimates of isoprene emissions may be 2-6 times too high, and monoterpene emissions $\sim3$ times too low over southeast Australia.
 
     \citet{Guenther2006} estimates that the Australian outback is among the world's strongest isoprene emitters with forests in SE Australia having emission factors greater than 16 mg m$^{-2}$ h$^{-1}$ (see figure \ref{ch_LitRev:fig:meganisoprene}).
     These emissions factor estimates are not well verified as there is little coverage of isoprene (or other BVOC) emissions measurements over Australia.
@@ -758,12 +770,14 @@
     
    GEOS-Chem has boundary conditions based on several meteorological and emissions inventories, the following are the versions of theses used by GEOS-Chem v 10.01. 
    Meteorological fields can be driven by NASA's GEOS-5 data (0.5$^{\circ}$ x 0.666$^{\circ}$) (TODO:Chen et al., 2009), which exists up to 2013, or GEOS-FP data (0.25$^{\circ}$ x 0.3125$^{\circ}$).
-   Fire emissions come from the GFED4 product \citep{Giglio2013}. Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are coupled to the MEGAN model TODO:cites.
+   Fire emissions come from the GFED4 product \citep{Giglio2013}. 
+   Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are coupled to the MEGAN model TODO:cites.
    The estimated biogenic VOC emissions are important to the work done in this thesis and are discussed in somewhat more detail in section \ref{ch_LitRev:sec:BVOCestimates}.
 
     Combining satellite data with model outcomes provides a platform for the understanding of natural processes to be tested now and into the future over Australia and anywhere with few in-situ measurements.
     Due to the low availability of in-situ data covering most of the Australian continent, a combination of the models with satellite data may provide improved understanding of emissions from Australian landscapes.
     Improved emissions estimates will in turn improve the accuracy of CTMs, providing better predictions of atmospheric composition and its response to ongoing environmental change.
+    
   
   \subsection{CAABA/MECCA box model}
     \label{ch_LitRev:sec:CAABAMECCAIntro}
