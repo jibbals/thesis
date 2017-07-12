@@ -69,10 +69,10 @@
     The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
     
     \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/tropchem_hcho_20050101.png}
+      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_tropchem_surf_hcho_200501.png}
       \caption{ %
 	Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences(bottom left, right respectively).
-	Amounts simulated by GEOS-Chem on the 1st of January, 2005.
+	Amounts simulated by GEOS-Chem for the 1st of January, 2005.
 	}
       \label{ch_HCHO:fig:HCHOsurfUCXcomparison}
     \end{figure}
@@ -80,7 +80,7 @@
     Figure \ref{ch_HCHO:fig:HCHOtropcolUCXcomparison} shows very similar results extended throughout the troposphere, with relative tropospheric column differences not exceeding 5\% over Australia in January of 2005.
     
     \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_tropchem_hcho_20050101.png}
+      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_tropchem_trop_hcho_200501.png}
       \caption{ %
 	As figure \ref{ch_HCHO:fig:HCHOsurfUCXcomparison}, except looking at the tropospheric columns of formaldehyde. 
 	}      
@@ -91,15 +91,47 @@
     Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
     Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and lack of emissions over the oceans.
     Generally isoprene is 0-30\% higher over Australia when the UCX mechanism is turned on.
+    This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{ch_HCHO:fig:isoptropUCXcomparison}.
     
     \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_tropchem_isop_20050101.png}
+      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_tropchem_trop_isop_200501.png}
       \caption{%
-	As figure \ref{ch_HCHO:fig:HCHOsurfUCXcomparison}, except looking at tropospheric columns of isoprene.
+	As figure \ref{ch_HCHO:fig:HCHOsurfUCXcomparison}, except looking at surface ($ < \sim 120$~m) amounts of isoprene.
       }
       \label{ch_HCHO:fig:isopsurfUCXcomparison}
     \end{figure}
     
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_tropchem_trop_isop_200501.png}
+      \caption{%
+	As figure \ref{ch_HCHO:fig:HCHOsurfUCXcomparison}, except looking at tropospheric columns of isoprene.
+      }
+      \label{ch_HCHO:fig:isoptropUCXcomparison}
+    \end{figure}
+    
+    TODO: The difference in isoprene between UCX and tropchem is caused by WHAT?
+  \subsection{UCX mechanisms}
+    TODO: layout reasons why isoprene differs between runs
+    In GeosCore/fast_jx_mod.F:
+      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
+      line 4138: comment says ozone calculated online.
+	TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
+    In GeosCore/calcrate.F:
+      line 1489 comment says rates are limited to prevent solver failure
+	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
+      Line 1724
+        ! SPECIAL TREATMENT FOR O3+hv -> OH+OH (trop-only simulation)
+        !                    or O3+hv -> O+O2  (UCX simulation)
+      line 1752:
+      #if defined( UCX )
+        IF ( NKO3PPHOT(NCS) > 0 ) THEN
+          PHOTVAL_2 = NKO3PPHOT(NCS) - NRATES(NCS)
+          NKN_2     = NKNPHOTRT(PHOTVAL_2,NCS)
+        ENDIF
+      #endif
+      line 1771:
+        comment: change rate of O(1D) + N2 to 3.1
+
     
 %----------------------------------------------------------------------------------------
 %	SECTION
@@ -126,7 +158,7 @@
     This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
     The full method details for slant column retrieval by OMI are outlined in section \ref{ch_HCHO:sec:OMI_BOAS}.
     
-    Uncertainty in a single pixel for OMI is quite high, roughly the same magnitude as HCHO measurements.
+    Uncertainty in a single pixel for OMI is quite high, roughly the same magnitude as HCHO background levels.
     Figure \ref{ch_HCHO:fig:eightDayUncertainty} shows uncertainty over Australia after one and eight days of averaging at 0.25$^{\circ}$ longitude by 0.3125${\circ}$ latitude.
     There are several methods of calculating this, one of which is used here and compared against the provided uncertainty (TODO) as shown in Section \ref{ch_HCHO:sec:OMIuncertainty}.
     If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
@@ -733,7 +765,7 @@
     c) is also determined through a study of GEOS-Chem output, in relation to in-situ measurements.
     TODO: calculate this uncertainty.
     Compare this error estimate with that of \citet{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
-    \cite{Millet2008} also examine this uncertainty and determine an overall uncertainty ($1\sigma$) of $25-27%$ in HCHO vertical columns with calculated AMFs where cloud fraction $< 0.2$.
+    \cite{Millet2008} also examine this uncertainty and determine an overall uncertainty ($1\sigma$) of $25-27\%$ in HCHO vertical columns with calculated AMFs where cloud fraction $< 0.2$.
   
 \section{Validation and comparisons}
   \label{ch_HCHO:sec:Validation}
