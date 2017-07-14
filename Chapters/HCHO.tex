@@ -110,6 +110,30 @@
     \end{figure}
     
     TODO: The difference in isoprene between UCX and tropchem is caused by WHAT?
+  \subsection{UCX mechanisms}
+    TODO: layout reasons why isoprene differs between runs
+    In GeosCore/fast_jx_mod.F:
+      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
+      line 4138: comment says ozone calculated online.
+	TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
+    In GeosCore/calcrate.F:
+      line 1489 comment says rates are limited to prevent solver failure
+	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
+      Line 1724
+        ! SPECIAL TREATMENT FOR O3+hv -> OH+OH (trop-only simulation)
+        !                    or O3+hv -> O+O2  (UCX simulation)
+      line 1752:
+      #if defined( UCX )
+        IF ( NKO3PPHOT(NCS) > 0 ) THEN
+          PHOTVAL_2 = NKO3PPHOT(NCS) - NRATES(NCS)
+          NKN_2     = NKNPHOTRT(PHOTVAL_2,NCS)
+        ENDIF
+      #endif
+      line 1771:
+        comment: change rate of O(1D) + N2 to 3.1e-11 at 298K (from 2.6e-11)...
+        if not defined UCX:
+	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
+
     
 %----------------------------------------------------------------------------------------
 %	SECTION
@@ -124,13 +148,14 @@
     The scaling coefficient created to transform from SC to VC is called the Air Mass Factor (AMF).
 
     One satellite is NASA's Earth Observing System's (EOS) Aura, which houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
-    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles. 
+    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
     OMI measurements are used to map several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
     OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \citep{Abad2015}.
     The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
     From here on the word pixel is used to describe one data point retrieved by OMI, which will be located by latitude and longitude within OMI's data product.
     
     Atmospheric HCHO can be measured using Differential Optical Absorption Spectroscopy (DOAS), as long as trace gases with similar features near the same wavelength are accounted for.
+    OMI fits HCHO slant column densities (SCD) along a solar backscatter path within the spectral window of 327.5-356.5~nm \citep{Chance2000}.
     TODO: Go through Lee2005 or Volkamer2005 and detail the DOAS Retrieval of HCHO.
     A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
     This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
@@ -141,6 +166,9 @@
     There are several methods of calculating this, one of which is used here and compared against the provided uncertainty (TODO) as shown in Section \ref{ch_HCHO:sec:OMIuncertainty}.
     If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
     Random error can be reduced by either temporal or spatial averaging, decreasing uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
+    High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time.
+    A good example can be seen in \cite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
+    
     
     \begin{figure}[!htbp]
       \includegraphics[width=0.7\textwidth]{Figures/HCHO/Uncertainty.png}
