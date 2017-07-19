@@ -173,6 +173,7 @@
     \cite{Millet2008} show that HCHO anthropogenic emissions in America mostly negligible, although this is not the case in China, and improved sensitivity from oversampling allows detection over Houston, Texas \citep{Fu2007, Zhu2014}.
     \cite{Fu2007} use GOME measurements over Asia and derive biogenic, anthropogenic, and pyrogenic VOC emissions, and \cite{Zhu2014} use oversampling of the OMI HCHO measurements to determine anthropogenic HRVOC emissions.
     They also use GEOS-Chem with the changed emissions and show surface ozone is affected, with a seasonal increase of 5-20~ppb.
+    Many models lack in situ measurements with which to verify their disparate chemical mechanisms, which leads to large discrepancies, as seen in \cite{Marvin2017}.
     
     One important factor, affecting particulate matter and ozone concentration (both detrimental to human health), is a group called VOCs (Volatile Organic Compounds).
     The major source of VOCs in the atmosphere is biogenic, with around 90\% of all global emissions coming from natural sources \citep{Guenther1995,Guenther2006, Millet2006}.
@@ -302,6 +303,12 @@
     Emissions in enclosed spaces can build up to dangerous levels, especially if new furnishings are installed \citep{Davenport2015}.
     One common way to detect and measure HCHO is through the DOAS technique, which takes advantage of the optically thin nature of HCHO in order to linearise the differential determined from the Beer-Lambert intensity law.
     This method works for both in the home HCHO detection and global measurements from in-situ and remote sensing instruments \citep{Guenther1995, Abad2015, Davenport2015}.
+    
+    Isoprene oxidation in the atmosphere is the major driver of HCHO changes in the continental lower troposphere.
+    Recently \cite{Marvin2017} compared five global ACMs isoprene mechanisms by evaluating simulated HCHO mixing ratios compared to in situ measurements from the Southeast Nexus (SENEX) aircraft campaign (in southeastern USA).
+    They compared five models (GEOS-Chem, CB05, CB6r2, MCMv3.2, and MCMv3.3.1) and found all of them underestimated the HCHO concentrations (by $15 - 30\%$).
+    There is still much work to be done in models to correctly simulate the various precursors to HCHO.
+    Often HCHO is used as a way of checking if these precursors are correctly modelled since HCHO measurements are more readily available (for instance from satellites).
     
   \subsection{Sources and sinks}
     In the atmosphere HCHO is primarily produced through the oxidation of methane (CH$_4$) by the hydroxyl radical (OH).
@@ -579,7 +586,13 @@
     % HERE IS DESCRIBED THE PATHWAY FROM ISOPRENE TO HCHO AND OTHER CHEMICALS
     Isoprene is emitted and enters the atmosphere in the gas phase, where it reacts with various chemicals, forming many new chemicals and reactions at various time scales.
     The estimated yield of HCHO is but one aspect of the many processes going on in this space.
-    It's generally well established that the primary first step for atmospheric isoprene chemistry is the TODO: summarise isoprene pathways here.
+    The primary first step for atmospheric isoprene is its oxidation by OH radicals leading to isoprene hydroxy peroxy radicals (ISOPOO) \citep{Wolfe2016,Marvin2017}.
+    The fate of ISOPOO depends upon concentrations of NO$_X$, reacting with NO to form HCHO, MVK, MACR, and to a lesser extent organic nitrates (ISOPN).
+    ISOPN can be oxidised (by OH) to form nitrated organic products \citep{Paulot2009a}.
+    In low NO$_X$ ISOPOO reacts with HO$_2$ (producing hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing hydroperoxyenals HPALDs). 
+    ISOPOOH can be oxidised (by OH) to produce epoxydiols (IEPOX), precursors to SOA \citep{Paulot2009b}. 
+    HPALDs can photolyse to regenrate OH and small VOCs \citep{Crounse2011,Wolfe2012, Peeters2014} TODO: Check out crounse2011.
+    % NOTE: this paragraph was copied to HCHO paper
     
     Ozononlysis is the splitting of carbon chains by ozone molecules, and is among the primary oxidation pathway for volatile alkenes \citep{Nguyen2016}.
     Criegee intermediates are formed when isoprene reacts with O$_3$, with C$_1$ and C$_4$ Criegees discussed in detail, with proposed mechanisms, in \cite{Nguyen2016}.
@@ -796,19 +809,23 @@
     It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide. 
     Several driving meteorological fields exist with different resolutions, the finest at 0.25 by 0.3125$^\circ$ horizontally at 5 minute time steps with 72 vertical levels.
   
-  GEOS-Chem simulations are somewhat sensitive to the resolution at which you run.
-  For example: TODO: read abstract/cite Wild and Prather 2006 show that reduced resolution increases OH concentrations and ozone production  rates, however the errors from resolution are less important than those from chemistry, meteorology, and emissions. 
-  \cite{Christian2017} find small changes in OH ($<10$\%) in OH, HO$_2$ and ozone concentrations local to the north american arctic, when changing from 4 by 5 to 2 by 2.5$^{\circ}$ resolution, however they continue at lower resolution to save computational time.
+    GEOS-Chem simulations are somewhat sensitive to the resolution at which you run.
+    For example: TODO: read abstract/cite Wild and Prather 2006 show that reduced resolution increases OH concentrations and ozone production  rates, however the errors from resolution are less important than those from chemistry, meteorology, and emissions. 
+    \cite{Christian2017} find small changes in OH ($<10$\%) in OH, HO$_2$ and ozone concentrations local to the north american arctic, when changing from 4 by 5 to 2 by 2.5$^{\circ}$ resolution, however they continue at lower resolution to save computational time.
     
-   GEOS-Chem has boundary conditions based on several meteorological and emissions inventories, the following are the versions of theses used by GEOS-Chem v 10.01. 
-   Meteorological fields can be driven by NASA's GEOS-5 data (0.5$^{\circ}$ x 0.666$^{\circ}$) (TODO:Chen et al., 2009), which exists up to 2013, or GEOS-FP data (0.25$^{\circ}$ x 0.3125$^{\circ}$).
-   Fire emissions come from the GFED4 product \citep{Giglio2013}. 
-   Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are coupled to the MEGAN model TODO:cites.
-   The estimated biogenic VOC emissions are important to the work done in this thesis and are discussed in somewhat more detail in section \ref{ch_LitRev:sec:BVOCestimates}.
+    GEOS-Chem has boundary conditions based on several meteorological and emissions inventories, the following are the versions of theses used by GEOS-Chem v 10.01. 
+    Meteorological fields can be driven by NASA's GEOS-5 data (0.5$^{\circ}$ x 0.666$^{\circ}$) (TODO:Chen et al., 2009), which exists up to 2013, or GEOS-FP data (0.25$^{\circ}$ x 0.3125$^{\circ}$).
+    Fire emissions come from the GFED4 product \citep{Giglio2013}. 
+    Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are coupled to the MEGAN model TODO:cites.
+    The estimated biogenic VOC emissions are important to the work done in this thesis and are discussed in somewhat more detail in section \ref{ch_LitRev:sec:BVOCestimates}.
 
     Combining satellite data with model outcomes provides a platform for the understanding of natural processes to be tested now and into the future over Australia and anywhere with few in-situ measurements.
     Due to the low availability of in-situ data covering most of the Australian continent, a combination of the models with satellite data may provide improved understanding of emissions from Australian landscapes.
     Improved emissions estimates will in turn improve the accuracy of CTMs, providing better predictions of atmospheric composition and its response to ongoing environmental change.
+    
+    Box models are much smaller scale than global CTMs, examining one uniform environment with many parametrisations such as transport and emissions.
+    Box models can be used to check chemical mechanisms in specific scenarios, such as high or low NO$_X$ environments.
+    \cite{Marvin2017} use a box model matching conditions in southeast USA to evaluate isoprene mechanisms from several models.
     
   
   \subsection{CAABA/MECCA box model}
