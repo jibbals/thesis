@@ -30,11 +30,12 @@
     Yields of SOA from VOCs are often lumped together and based on empirical laboratory chamber data. 
     VOC oxidation was not feasible $\sim 10$ years ago,  as chamber studies did not extend over a large enough parameter range and the importance of heterogeneous aerosol chemistry on SOA formation was unquantified \citep{Kanakidou2005}.
     
+    % TODO: MEGAN to own section?
     MEGAN was developed as a replacement for two earlier canopy-environment emission models (BIES and GEIA), and initially included a simple canopy radiative transfer model, which parameterised sun-lit and shaded conditions through a canopy.
     Early models didn't account for abiotic stresses, such as drought, prior rainfall and development processes, although these influenced species specific emissions by more than an order of magnitude \citep{Niinemets1999}.
     MEGAN includes global measurements of leaf area index, plant functional type, and photosynthetic photon flux density, from remote sensing databases \citep{Kefauver2014}.
     Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \citep{Guenther2000}, and a leaf energy balance model \citep{Guenther2006} in MEGANv2.0.
-    This update included a parameter for soil moisture, to account for drought conditions.
+    This update included a parameter for soil moisture, to account for drought conditions, however this parameter is currently (as of version 2.1) not applied to isoprene \citep{Sindelarova2014}.
     
     MEGAN has recently been analysed using 30 years of meteorological reanalysis information by \citet{Sindelarova2014}.
     They estimate emissions of Biogenic VOCs (BVOCs) to be 760~Tg(C)yr$^{-1}$, 70\% (532~Tg(C)yr$^{-1}$) of which is isoprene.
@@ -185,13 +186,15 @@
     This has an compounding effect on the large uncertainties of biogenic VOC emissions \citep{Guenther2000, Millet2006}.
     
     %For instance the Total Carbon Column Observing Network (TCCON) has sites at Darwin and Wollongong, and the Aerosols Robotic Network (AERONET) 
-    TODO: Chen2001 examine effects from soil moisture
     Australia has a unique climate, along with soil moisture, clay content and other important properties which affect VOC emissions.
     These properties are poorly understood in Australia due to the continents size and the relative sparsity of population centres, which make many areas very difficult or expensive to reach.
     Soil moisture plays an important role in VOC emissions, as trees under stress may stop emitting various chemicals. 
     This is especially true for Australia due to frequent droughts and wildfires.
     The argument for improved understanding of land surface properties, specifically soil moisture, is an old one \citep{Mintz1982, Chen2001} TODO: abstracts and cite for Rowntree \url{http://onlinelibrary.wiley.com/doi/10.1002/qj.49710946105/full}.
     \cite{Chen2001} specifically show how important fine scale soil moisture information is when modelling land surface heat flux, and energy balances is.
+    Modelled emissions are sensitive to soil moisture, especially near the soil moisture threshold, below which trees stop emitting isoprene and other VOCs completely (TODO: find this moisture cite).
+    MEGAN accounts for soil moisture by applying it as an emission factor (EF) which scales the emission rate of various species.
+    \citet{Sindelarova2014} show reductions in modelled Australian isoprene emissions of 50\% by accounting for soil moisture. 
          
   \subsection{Satellite Measurements}
 
@@ -445,7 +448,8 @@
     This problem is even more pronounced in Australia due to poorly studied paramaterised PFT and soil moisture.
     \cite{Muller2008} show how isoprene is poorly captured by the MEGAN model and analyse the affect of changing the soil moisture parameter, which can reduce the overall bias for Australia.
     TODO: more on Muller2008
-    \cite{Emmerson2016} TODO: read/cite shows that isoprene emissions modelled by MEGAN in southeastern Australia may be 6 times too high. 
+    \cite{Emmerson2016} shows that isoprene emissions modelled by MEGAN in southeastern Australia may be 6 times too high. 
+    They compare emissions estimates from MEGAN against data from several field campaigns and see overestimated isoprene emissions, as well as underestimated monoterpene emissions.
     There are many uncertainties in estimates of emissions in Australia due to missing or extrapolated data.
     For instance Emissions in MEGAN are based on plant functional types, which can vary heavily even within species.
     Many plant emissions have not been published, such as those for any Australian acacias.
@@ -715,52 +719,12 @@
     Understanding how much isoprene is emitted, when and by what is more complicated than it sounds, and since little data exists with which to verify these bottom-up emission inventories they are uncertain on a large scale.
     Top-down estimates look at how much of a chemical is in the atmosphere and try to work out how much of it's major precursors were emitted.
     For isoprene this is done by looking at atmospheric HCHO enhancement, which can be largely attributed to isoprene emissions as long NO$_X$ and transport effects are accounted for.
-  
   \subsection{Radiative Forcing}
 
     
 %----------------------------------------------------------------------------------------
-%	SECTION 5
+%	DUST SECTION CUT TO  extras/dustLitRev.tex
 %----------------------------------------------------------------------------------------
-\section{Dust}
-\label{ch_LitRev:sec:dust}
-
-  Australia is the greatest source of dust in the southern hemisphere producing around 120~Tg yr$^{-1}$ \citep{Li2008}, however model validation and analysis over Australia is relatively scarce with more focus applied to the northern hemisphere \citep{Fairlie2007, Ridley2013}.
-  Atmospheric dust has many direct effects including reduced surface insolation, mineral transfer to remote ocean regions, and health degradation in populated areas \citep{Shao2007}.
-  Direct and indirect effects of dust have many implications which are not fully understood, with many models still struggling to explain the atmospheric cycling of dust at larger scales \citep{Rotstayn2011}.
-
-  Australian dust emissions involve various weather conditions, convolving the ENSO cycle with flooding, droughts, and winds.
-  Rivers and rain build up the particulate matter in many areas, these are referred to as fluvial deposits.
-  Fluvial deposits in the Eyre basin increase the dust base load, which will only have mobility during suitable dry weather conditions.
-  These deposits are saltated (loosened from the surface) and transported by strong winds\citep{Zender2003}.
-
-  Synoptic scale measurements of dust concentrations in Australia are made by the Bureau of Meteorology (BOM) and can be used to estimate dust transport caused by large storms. 
-  Single storms have been estimated to move up to 2.5 Tg of dust off shore in a single day.
-  Yearly dust emissions in Australia are somewhere between 10 and 110 Tg yr$^{-1}$.
-  These estimates exemplify the large variability in Australian annual dust transport.
-
-  Dust plays a large role in the oceanic carbon cycle, as dust is a major source of oceanic iron (Fe) deposition.
-  Some regions in the ocean are high in nutrients, but low in chlorophyll (HNLC), due to a lack of Fe.
-  Oceanic carbon cycling is a complex system in which Fe is a limiting factor, required by plankton in order to fix atmospheric nitrogen into a more bioavailable form such as ammonia.
-  Atmospheric deposition into the oceans is a very poorly constrained variable in global models \citep{Grand2015}.
-  Model estimates of trace element oceanic deposition are required to quantify the atmospheric impact due to a dearth of in situ measurements in remote open ocean regions.
-
-  Measurements of dissolved iron (DFe) at very low concentrations like those found in surface ocean waters are very easily contaminated, which has contributed the the fragmentary and scarce nature of DFe ocean data sets \citep{Rijkenberg2014}.
-  Recent analysis of the US Climate Variability and Predictability (CLIVAR)-CO$_{2}$ Repeat Hydrography Program predicted total deposition flux with uncertainty at a factor of 3.5 \citep{Grand2015}.
-  Some headway has been made with the recent GEOTRACES program which has several transects of the major oceans and measures trace elements over multiple depths including Al, Ba, Cu, Cd, Fe, Mn, Ni, Pb, and Zn.
-    
-  Total iron (TFe) emissions from dust and combustion sources are estimated (by average of several global models) at approximately 35~Tg yr$^{-1}$ and 2 Tg yr$^{-1}$ respectively. A two fold increase in Fe dissolution may have occurred since 1850 due to increased anthropogenic emissions and atmospheric acidity.
-  This increase may revert by 2100 due to the affects of emission regulations \citep{Myriokefalitakis2015}.
-  Dust, TFe and DFe have strong temporally and spatial variability, with changes having most impact upon HnLC regions.
-
-  Another environmental impact of dust is its contribution to fine particulate matter in the atmosphere.
-  Several studies have shown that long term exposure to fine particulate matter (PM2.5) increases mortality. 
-  Estimates of yearly premature deaths related to PM2.5 are $\sim$ 2-3 million \citep{Hoek2013, Krewski2009, Silva2013, Lelieveld2015}.   
-  These estimates are made using global atmospheric models or model ensembles to quantify population exposure before applying epidemiological models to estimate the increased death rates.
-  The main source of uncertainty in premature death rates arises from the difference and uncertainties between and within the atmospheric models.
-
-  Dust affects global climate change through direct radiative forcing.
-  Uncertainties in the atmospheric dust concentrations make accurate determination of radiative forcing from other sources more difficult \citep{IPCC_2013_chap8}.
 
 
 %----------------------------------------------------------------------------------------
@@ -809,8 +773,23 @@
       \label{ch_LitRev:fig:boxmodel}
     \end{figure}
 
+  \subsection{Model of Emissions of Gases and Aerosols from Nature (MEGAN)}
+    \label{Ch_LitRev:sec:MEGAN}
+    MEGAN can provide an estimate of biogenic emissions of various chemicals including isoprene and monoterpenes.
+    It ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions.'' \citep{Guenther2012}.
+    It allows parameterisation of various BVOC emissions, with descriptions given in \cite{Guenther2012}.
+    Instructions to run version 2.1 are available at \url{http://lar.wsu.edu/megan/docs/MEGAN2.1_User_GuideWSU.pdf}, and a version using the Community Land Model (CLM) is available at \url{http://www.cesm.ucar.edu}.
+    It uses meteorological fields from the Weather Research and Forecasting (WRF) modelling system.
+    Version 2.1 (updated from 2.0 \citep{Guenther2006}) includes 147 species, in 19 BVOC classes, which can be lumped together to provide appropriate output for mechanisms in various chemical models.
+
+    \cite{Sindelarova2014} give a review of MEGAN modules, TODO: read and notes Sindelarova.
+    Currently MEGAN does not include soil moisture effects on isoprene emissions,  which are very important for Australian estimates.
+    MEGAN generally overpredicts isoprene and underpredicts monoterpene emissions in southeast Australia, with peaks and troughs captured but not at the right magnitude \citep{Emmerson2016}.
+    
+    
+    
   \subsection{GEOS-Chem}
-  
+    \label{Ch_LitRev:sec:GEOSChem}
     GEOS-Chem is a well supported global, Eulerian CTM with a state of the science chemical mechanism, with transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
     GEOS-Chem simulates more than 100 chemical species from the earth's surface up to the edge of space (0.01 hPa) and can be used in combination with remote and in-situ sensing data to give a verifiable estimate of atmospheric gases and aerosols.
     It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide. 
