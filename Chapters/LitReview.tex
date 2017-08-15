@@ -154,17 +154,6 @@
   \subsection{Satellite HCHO detection}
     Satellite based chemical concentrations rely on ground-based measurements and modelled data for validation. 
 \section{Models}
-  
-    TODO: move this para into uncertainty bit
-    Australia has a unique climate, along with soil moisture, clay content and other important properties which affect VOC emissions.
-    These properties are poorly understood in Australia due to the continents size and the relative sparsity of population centres, which make many areas very difficult or expensive to reach.
-    Soil moisture plays an important role in VOC emissions, as trees under stress may stop emitting various chemicals. 
-    This is especially true for Australia due to frequent droughts and wildfires.
-    The argument for improved understanding of land surface properties, specifically soil moisture, is an old one\citep{Mintz1982, Rowntree1983, Chen2001}. 
-    \cite{Rowntree1983} show how quickly soil moisture anomalies affect rainfall and other weather systems, while \cite{Chen2001} specifically show how important fine scale soil moisture information is when modelling land surface heat flux, and energy balances.
-    Modelled emissions are sensitive to soil moisture, especially near the soil moisture threshold (or wilting point), below which trees stop emitting isoprene and other VOCs completely as they can no longer draw water \citep{Bauwens2016}.
-    MEGAN accounts for soil moisture by applying it as an emission factor (EF) which scales the emission rate of various species.
-    \citet{Sindelarova2014} show reductions in modelled Australian isoprene emissions of 50\% by accounting for soil moisture. 
     
   \subsection{How can models help}
     Used to forecast weather, pollution, and fires. ...
@@ -179,11 +168,22 @@
     Here I will attempt to list and partially explain the major uncertainties models have in relation to  VOCs, SOAs, and ozone. 
     
     \subsubsection{Clouds}
+      \label{ch_LR:sec:ModelUncertaintyClouds}
       One of the major uncertainties in chemical, climate, radiation, and weather models is cloud formation and dynamics. 
       Clouds are remarkably complex at a much finer scale than can be accurately modelled by global chemistry models (with current processing power).
       Globally over half (50-60\%) of the world is covered by clouds, with $\sim10\%$ of them being rain-clouds \citep{Kanakidou2005}.
       Wet scavenging performed in clouds not only depends on large scale cloud processes, but also on the microphysics of aerosols being scavenged, differing between aerosol sizes and hygroscopic properties.
-
+    \subsubsection{Soil Moisture}
+      \label{ch_LR:sec:ModelUncertaintySoilMoisture}
+      Australia has a unique climate, along with soil moisture, clay content and other important properties which affect VOC emissions.
+      These properties are poorly understood in Australia due to the continents size and the relative sparsity of population centres, which make many areas very difficult or expensive to reach.
+      Soil moisture plays an important role in VOC emissions, as trees under stress may stop emitting various chemicals. 
+      This is especially true for Australia due to frequent droughts and wildfires.
+      The argument for improved understanding of land surface properties, specifically soil moisture, is an old one\citep{Mintz1982, Rowntree1983, Chen2001}. 
+      \cite{Rowntree1983} show how quickly soil moisture anomalies affect rainfall and other weather systems, while \cite{Chen2001} specifically show how important fine scale soil moisture information is when modelling land surface heat flux, and energy balances.
+      Modelled emissions are sensitive to soil moisture, especially near the soil moisture threshold (or wilting point), below which trees stop emitting isoprene and other VOCs completely as they can no longer draw water \citep{Bauwens2016}.
+      MEGAN accounts for soil moisture by applying it as an emission factor (EF) which scales the emission rate of various species.
+      \citet{Sindelarova2014} show reductions in modelled Australian isoprene emissions of 50\% by accounting for soil moisture. 
 
 %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%
@@ -956,9 +956,9 @@
     The OMI instruement in particular is used within my work to calculate of HCHO, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
     This band of wavelengths allows measurments of trace gases including O$_3$, NO$_2$, SO$_2$, HCHO, and various other quantities like surface UV radiation. 
     Recently \cite{Schenkeveld2017} analysed the performance over time of the instrument and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
-    These changes are measured excluding the row anomaly effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
+    These changes are measured excluding the row anomaly (RA) effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
     An analysis of the row anomaly by \cite{Huang2017} state that OMI ozone columns remain suitable for scientific use, with recommendation for further evaluation.
-    And analysis of OMI output by \cite{Schenkeveld2017} concludes that data is still of high quality and will deliver useful information for 5-10 more years.
+    And analysis of OMI output by \cite{Schenkeveld2017} concludes that data is still of high quality and will deliver useful information for 5-10 more years, with radiances only changing by $1-2\%$ outside of RA impacted areas.
     
     
     Formaldehyde (HCHO) is often used as a proxy to estimate isoprene emissions \citep{Marais2012,bauwens2013satellite}.
