@@ -30,7 +30,35 @@
 
 \section{Tropospheric ozone and air quality}
   \subsection{Air Quality}
+    Australia is largely covered by environments which are not heavily influenced by human activity.
+    These regions are natural sources of the trace gases which make up less than 1\% of earth's atmosphere.
+    Trace gases in the atmosphere can have a large impact on living conditions.
+    They react in complex ways with other elements (anthropogenic and natural), affecting various ecosystems upon which life depends.
+    Biogenic emissions affect surface pollution levels and can alter the radiative and particulate matter distribution of the atmosphere with harmful results.
+    For example, ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
+    Particulate matter in the atmosphere is also a major problem, causing an estimated 2-3 million deaths annually \citep{Hoek2013, Krewski2009, Silva2013, Lelieveld2015}. 
+    
+    One important factor, affecting particulate matter and ozone concentration (both detrimental to human health), is a group called VOCs (Volatile Organic Compounds).
+    The major source of VOCs in the atmosphere is biogenic, with around 90\% of all global emissions coming from natural sources \citep{Guenther1995,Guenther2006, Millet2006}.
+    Non methane VOC (NMVOC) levels are globally estimated at 85~\%, 13~\%, and 3~\% from biogenic, anthropogenic, and pyrogenic sources respectively \citep{Kefauver2014}.  
+    Atmospheric VOCs can form harmful SOAs, and affect radical levels, which drive much of the chemistry in our atmosphere.
+    Due to the lack of in-situ ground based measurements, estimates of VOC emissions are uncertain, with large scale extrapolation required \citet{Millet2006}.
+    VOC emission is based on many factors, including plant type and soil moisture \citep{Guenther1995}, both of which are not well characterised in Australia \citep{Sindelarova2014, Bauwens2016}.
+    Changes in parameterisation of soil moisture in MEGAN lead to massive changes in Australian isoprene emission estimates, and soil moisture in Australia is not very well measured \citep{Sindelarova2014}.
+    This has an compounding effect on the large uncertainties of biogenic VOC emissions \citep{Guenther2000, Millet2006}.
     \subsubsection{How do we determine this?}
+    
+    TODO: Intro on what is measured in Australia and lead into how biogenic emissions and products which are transported into cities are of major significance.
+    
+    Much of the landscape outside of urban areas is undeveloped and sparsely inhabited.
+    In Australia most long term air quality measurements are performed in or near large cities.
+    However, estimates of atmospheric gas and particulate densities, and their distributions over much of the continent are uncertain and lack in-situ measurements.
+    Although we expect the majority of emissions to be from biogenic sources, the possibilty of anthropogenic sources must be managed.
+    \cite{Millet2008} show that HCHO anthropogenic emissions in America mostly negligible, although this is not the case in China, and improved sensitivity from oversampling allows detection over Houston, Texas \citep{Fu2007, Zhu2014}.
+    \cite{Fu2007} use GOME measurements over Asia and derive biogenic, anthropogenic, and pyrogenic VOC emissions, and \cite{Zhu2014} use oversampling of the OMI HCHO measurements to determine anthropogenic HRVOC emissions.
+    They also use GEOS-Chem with the changed emissions and show surface ozone is affected, with a seasonal increase of 5-20~ppb.
+    Many models lack in situ measurements with which to verify their disparate chemical mechanisms, which leads to large discrepancies, as seen in \cite{Marvin2017}.
+    
     \subsubsection{Important AQ factors} 
       \label{ch_LR:sec:AQfactors}      
       %%% OZONE
@@ -50,7 +78,22 @@
   \subsection{Biogenic precursors to ozone}
     What drives ozone production
     ...
-    VOCs have been shown to produce ...
+    
+    %% How VOCs and Ozone interact:
+    There is a complex relationship between NO$_X$, VOCs, and ozone, figure \ref{ch_LR:fig:NOXVOCOzone} shows this relationship over Houston, as modelled in \cite{Mazzuca2016}.
+    Recently the relationship has been examined on the intradiel timescale showing that ozone production can be more or less sensitive to VOCs at different hours depending on location various other factors \citep{Mazzuca2016}.
+    
+    \begin{figure}
+      \includegraphics[width=.75\textwidth]{Figures/Mazzuca2016_NOxVOCOzone.png}
+      \caption{Ozone production figure copied from \citet{Mazzuca2016}.}
+      \label{ch_LR:fig:NOXVOCOzone}
+    \end{figure}
+    
+    % TODO: move to more apt section? model? or here maybe is fine
+    Atmospheric chemistry models (ACMs) require various inputs and can be sensitive to ozone and oxidative parameterisations. 
+    GEOS-Chem (an ACM) has recently been analysed for sensitivity for ozone along with oxidants (OH and HO$_2$) \citep{Christian2017}.
+    \cite{Christian2017} found that GEOS-Chem ozone was most sensitive to NO$_2$ photolysis, the $NO_2 + OH$ reaction rate, and various emissions.
+    TODO: read more Christian 2017 and put some info in model section.
 \section{Isoprene and other VOCs}
   \subsection{Sources}
   \subsection{Where do they go?}
@@ -111,6 +154,18 @@
   \subsection{Satellite HCHO detection}
     Satellite based chemical concentrations rely on ground-based measurements and modelled data for validation. 
 \section{Models}
+  
+    TODO: move this para into uncertainty bit
+    Australia has a unique climate, along with soil moisture, clay content and other important properties which affect VOC emissions.
+    These properties are poorly understood in Australia due to the continents size and the relative sparsity of population centres, which make many areas very difficult or expensive to reach.
+    Soil moisture plays an important role in VOC emissions, as trees under stress may stop emitting various chemicals. 
+    This is especially true for Australia due to frequent droughts and wildfires.
+    The argument for improved understanding of land surface properties, specifically soil moisture, is an old one\citep{Mintz1982, Rowntree1983, Chen2001}. 
+    \cite{Rowntree1983} show how quickly soil moisture anomalies affect rainfall and other weather systems, while \cite{Chen2001} specifically show how important fine scale soil moisture information is when modelling land surface heat flux, and energy balances.
+    Modelled emissions are sensitive to soil moisture, especially near the soil moisture threshold (or wilting point), below which trees stop emitting isoprene and other VOCs completely as they can no longer draw water \citep{Bauwens2016}.
+    MEGAN accounts for soil moisture by applying it as an emission factor (EF) which scales the emission rate of various species.
+    \citet{Sindelarova2014} show reductions in modelled Australian isoprene emissions of 50\% by accounting for soil moisture. 
+    
   \subsection{How can models help}
     Used to forecast weather, pollution, and fires. ...
   \subsection{Model frameworks}
@@ -227,19 +282,7 @@
     
     
   \subsection{Relationship with ozone}
-    There is a complex relationship between NO$_X$, VOCs, and ozone, figure \ref{ch_LitRev:fig:NOXVOCOzone} shows this relationship over Houston, as modelled in \cite{Mazzuca2016}.
-    Recently the relationship has been examined on the intradiel timescale showing that ozone production can be more or less sensitive to VOCs at different hours depending on location various other factors \citep{Mazzuca2016}.
-    
-    \begin{figure}
-      \includegraphics[width=.75\textwidth]{Figures/Mazzuca2016_NOxVOCOzone.png}
-      \caption{Ozone production figure copied from \citet{Mazzuca2016}.}
-      \label{ch_LitRev:fig:NOXVOCOzone}
-    \end{figure}
-    
-    Atmospheric chemistry models (ACMs) require various inputs and can be sensitive to ozone and oxidative parameterisations. 
-    GEOS-Chem (an ACM) has recently been analysed for sensitivity for ozone along with oxidants (OH and HO$_2$) \citep{Christian2017}.
-    \cite{Christian2017} found that GEOS-Chem ozone was most sensitive to NO$_2$ photolysis, the $NO_2 + OH$ reaction rate, and various emissions.
-    TODO: read more Christian 2017 and put some info in model section.
+    % MOVED TO Into Ozone - biogenic precursors
 %----------------------------------------------------------------------------------------
 %	Natural gas and aerosol emission in Australia
 %----------------------------------------------------------------------------------------
@@ -248,42 +291,12 @@
 
   \subsection{Australia}
 
-    Australia is largely covered by environments which are not heavily influenced by human activity.
-    These regions are natural sources of the trace gases which make up less than 1\% of earth's atmosphere.
-    Trace gases in the atmosphere can have a large impact on living conditions.
-    They react in complex ways with other elements (anthropogenic and natural), affecting various ecosystems upon which life depends.
-    Biogenic emissions affect surface pollution levels and can alter the radiative and particulate matter distribution of the atmosphere with harmful results.
-    For example, ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
-    Particulate matter in the atmosphere is also a major problem, causing an estimated 2-3 million deaths annually \citep{Hoek2013, Krewski2009, Silva2013, Lelieveld2015}. 
+    %% Moved to Intro; AQ
 
-    Much of the landscape outside of urban areas is undeveloped and sparsely inhabited.
-    In Australia most long term air quality measurements are performed in or near large cities.
-    However, estimates of atmospheric gas and particulate densities, and their distributions over much of the continent are uncertain and lack in-situ measurements.
-    Although we expect the majority of emissions to be from biogenic sources, the possibilty of anthropogenic sources must be managed.
-    \cite{Millet2008} show that HCHO anthropogenic emissions in America mostly negligible, although this is not the case in China, and improved sensitivity from oversampling allows detection over Houston, Texas \citep{Fu2007, Zhu2014}.
-    \cite{Fu2007} use GOME measurements over Asia and derive biogenic, anthropogenic, and pyrogenic VOC emissions, and \cite{Zhu2014} use oversampling of the OMI HCHO measurements to determine anthropogenic HRVOC emissions.
-    They also use GEOS-Chem with the changed emissions and show surface ozone is affected, with a seasonal increase of 5-20~ppb.
-    Many models lack in situ measurements with which to verify their disparate chemical mechanisms, which leads to large discrepancies, as seen in \cite{Marvin2017}.
-    
-    One important factor, affecting particulate matter and ozone concentration (both detrimental to human health), is a group called VOCs (Volatile Organic Compounds).
-    The major source of VOCs in the atmosphere is biogenic, with around 90\% of all global emissions coming from natural sources \citep{Guenther1995,Guenther2006, Millet2006}.
-    Non methane VOC (NMVOC) levels are globally estimated at 85~\%, 13~\%, and 3~\% from biogenic, anthropogenic, and pyrogenic sources respectively \citep{Kefauver2014}.  
-    Atmospheric VOCs can form harmful SOAs, and affect radical levels, which drive much of the chemistry in our atmosphere.
-    Due to the lack of in-situ ground based measurements, estimates of VOC emissions are uncertain, with large scale extrapolation required \citet{Millet2006}.
-    VOC emission is based on many factors, including plant type and soil moisture \citep{Guenther1995}, both of which are not well characterised in Australia \citep{Sindelarova2014, Bauwens2016}.
-    Changes in parameterisation of soil moisture in MEGAN lead to massive changes in Australian isoprene emission estimates, and soil moisture in Australia is not very well measured \citep{Sindelarova2014}.
-    This has an compounding effect on the large uncertainties of biogenic VOC emissions \citep{Guenther2000, Millet2006}.
+    %% Moved to Intro; AQ and how measured 
     
     %For instance the Total Carbon Column Observing Network (TCCON) has sites at Darwin and Wollongong, and the Aerosols Robotic Network (AERONET) 
-    Australia has a unique climate, along with soil moisture, clay content and other important properties which affect VOC emissions.
-    These properties are poorly understood in Australia due to the continents size and the relative sparsity of population centres, which make many areas very difficult or expensive to reach.
-    Soil moisture plays an important role in VOC emissions, as trees under stress may stop emitting various chemicals. 
-    This is especially true for Australia due to frequent droughts and wildfires.
-    The argument for improved understanding of land surface properties, specifically soil moisture, is an old one\citep{Mintz1982, Rowntree1983, Chen2001}. 
-    \cite{Rowntree1983} show how quickly soil moisture anomalies affect rainfall and other weather systems, while \cite{Chen2001} specifically show how important fine scale soil moisture information is when modelling land surface heat flux, and energy balances.
-    Modelled emissions are sensitive to soil moisture, especially near the soil moisture threshold (or wilting point), below which trees stop emitting isoprene and other VOCs completely as they can no longer draw water \citep{Bauwens2016}.
-    MEGAN accounts for soil moisture by applying it as an emission factor (EF) which scales the emission rate of various species.
-    \citet{Sindelarova2014} show reductions in modelled Australian isoprene emissions of 50\% by accounting for soil moisture. 
+    %% soil moisture in aus discussion moved to intro; 
          
   \subsection{Satellite Measurements}
 
