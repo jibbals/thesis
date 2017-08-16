@@ -182,7 +182,37 @@
   \subsection{Sources}
   \subsection{Determining isoprene from HCHO}
   \subsection{Satellite HCHO detection}
-    Satellite based chemical concentrations rely on ground-based measurements and modelled data for validation. 
+    Satellite based chemical concentrations rely on ground-based measurements and modelled data for validation.
+    They provide various readings with daily global coverage which is not otherwise feasable.
+    
+    Several satellites provide long term trace gas observations with near complete global coverage, including the ERS-2 launched in April 1995 which houses the GOME ultraviolet and visible (UV-Vis) spectrometer, the AURA launched in July 2004 which houses the OMI UV-Vis spectrometer, the MetOp-A and B launched in October 2006 and September 2012 respectively both housing a GOME-2 UV-Vis spectrometer.
+    These satellites are on Low Earth Orbit (LEO) trajectories and overpass any area up to once per day. 
+    They record near nadir (nearly vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO.
+    An example of a spectrum retrieved from the GOME-2 instrument is given in figure \ref{LR:fig:gomeproducts}.
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/GOME_SPECTRUM.jpg}
+      \caption{An example spectrum showing interferences used for species concentration measurements by GOME-2. Image by EUMETSAT and ESA \citep{GOME2Image}.}
+      \label{LR:fig:gomeproducts}
+    \end{figure}
+    
+    The OMI instrument on board AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
+    This band of wavelengths allows measurments of trace gases including O$_3$, NO$_2$, SO$_2$, HCHO, and various other quantities like surface UV radiation.
+    Recently \cite{Schenkeveld2017} analysed the performance over time of the instrument and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
+    They also provide a very nice summary of the OMI instrument with their Fig. 1 and Table 1, which I've copied to Fig. \ref{LR:fig:Shenkeveld_OMI_summary}, as it shows the instruments spectral, temporal, and spatial resolutions.
+    These changes are measured excluding the row anomaly (RA) effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
+    An analysis of the row anomaly by \cite{Huang2017} state that OMI ozone columns remain suitable for scientific use, with recommendation for further evaluation.
+    And analysis of OMI output by \cite{Schenkeveld2017} concludes that data is still of high quality and will deliver useful information for 5-10 more years, with radiances only changing by $1-2\%$ outside of RA impacted areas.
+    The RA began in June 2007, with some cross-track rows seemingly blocked. The most likely cause is some instrument insulation partially obscuring the radiance port \citep{Shenkeveld2017}.
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/Shenkeveld_OMI_summary.png}
+      \caption{ %
+        Figure 1 and Table 1 from \cite{Shenkeveld2017}, with the following caption ``An impression of OMI flying over the Earth. The spectrum of a ground pixel is projected on the wavelength dimension of the charge-coupled device (CCD; the columns). The cross-track ground pixels are projected on the swath dimension of the CCD (the rows). The forward speed of 7kms−1 and an exposure time of 2 s lead to a ground pixel size of 13km in the flight direction. The viewing angle of 114◦ leads to a swath width on the ground of 2600 km.''
+        The table shows the optical properties for OMIs three channels.}
+      \label{LR:fig:Shenkeveld_OMI_summary}
+    \end{figure}
+    
 \section{Models}
     
   \subsection{How can models help}
@@ -951,23 +981,7 @@
 
 
   \subsection{Useful satellites}
-    Several satellites provide long term trace gas observations with near complete global coverage, including the ERS-2 launched in April 1995 which houses the GOME ultraviolet and visible (UV-Vis) spectrometer, the AURA launched in July 2004 which houses the OMI UV-Vis spectrometer, the MetOp-A and B launched in October 2006 and September 2012 respectively both housing a GOME-2 UV-Vis spectrometer.
-    These satellites are on Low Earth Orbit (LEO) trajectories and overpass any area up to once per day. 
-    They record near nadir (nearly vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO.
-    An example of a spectrum retrieved from the GOME-2 instrument is given in figure \ref{ch_LitRev:fig:gomeproducts}.
-
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/GOME_SPECTRUM.jpg}
-      \caption{An example spectrum showing interferences used for species concentration measurements by GOME-2. Image by EUMETSAT and ESA \citep{GOME2Image}.}
-      \label{ch_LitRev:fig:gomeproducts}
-    \end{figure}
-
-    The OMI instruement in particular is used within my work to calculate of HCHO, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
-    This band of wavelengths allows measurments of trace gases including O$_3$, NO$_2$, SO$_2$, HCHO, and various other quantities like surface UV radiation. 
-    Recently \cite{Schenkeveld2017} analysed the performance over time of the instrument and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
-    These changes are measured excluding the row anomaly (RA) effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
-    An analysis of the row anomaly by \cite{Huang2017} state that OMI ozone columns remain suitable for scientific use, with recommendation for further evaluation.
-    And analysis of OMI output by \cite{Schenkeveld2017} concludes that data is still of high quality and will deliver useful information for 5-10 more years, with radiances only changing by $1-2\%$ outside of RA impacted areas.
+    % Some satellite descriptions and OMI utility analysis moved to Intro:Formaldehyde:satelliteHCHO
     
     
     Formaldehyde (HCHO) is often used as a proxy to estimate isoprene emissions \citep{Marais2012,bauwens2013satellite}.
