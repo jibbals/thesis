@@ -111,28 +111,28 @@
     
     TODO: The difference in isoprene between UCX and tropchem is caused by WHAT?
   \subsection{UCX mechanisms}
-    TODO: layout reasons why isoprene differs between runs
-    In GeosCore/fast_jx_mod.F:
-      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
-      line 4138: comment says ozone calculated online.
-	TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
-    In GeosCore/calcrate.F:
-      line 1489 comment says rates are limited to prevent solver failure
-	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
-      Line 1724
-        ! SPECIAL TREATMENT FOR O3+hv -> OH+OH (trop-only simulation)
-        !                    or O3+hv -> O+O2  (UCX simulation)
-      line 1752:
-      #if defined( UCX )
-        IF ( NKO3PPHOT(NCS) > 0 ) THEN
-          PHOTVAL_2 = NKO3PPHOT(NCS) - NRATES(NCS)
-          NKN_2     = NKNPHOTRT(PHOTVAL_2,NCS)
-        ENDIF
-      #endif
-      line 1771:
-        comment: change rate of O(1D) + N2 to 3.1e-11 at 298K (from 2.6e-11)...
-        if not defined UCX:
-	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
+%    TODO: layout reasons why isoprene differs between runs
+%    In GeosCore/fast_jx_mod.F:
+%      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
+%      line 4138: comment says ozone calculated online.
+%	TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
+%    In GeosCore/calcrate.F:
+%      line 1489 comment says rates are limited to prevent solver failure
+%	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
+%      Line 1724
+%        ! SPECIAL TREATMENT FOR O3+hv -> OH+OH (trop-only simulation)
+%        !                    or O3+hv -> O+O2  (UCX simulation)
+%      line 1752:
+%      #if defined( UCX )
+%        IF ( NKO3PPHOT(NCS) > 0 ) THEN
+%          PHOTVAL_2 = NKO3PPHOT(NCS) - NRATES(NCS)
+%          NKN_2     = NKNPHOTRT(PHOTVAL_2,NCS)
+%        ENDIF
+%      #endif
+%      line 1771:
+%        comment: change rate of O(1D) + N2 to 3.1e-11 at 298K (from 2.6e-11)...
+%        if not defined UCX:
+%	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
 
     
 %----------------------------------------------------------------------------------------
@@ -240,7 +240,7 @@
     Mie scattering is more dominant from larger particles, and has less wavelength dependence. These scattering functions are described in detail at (TODO:section? reference?).
     
     The effects of scattering are what gives us the information about substances in the atmosphere.
-    The different particals and gases in the air have various properties which affect remote sensing devices such as a satellite, making them more or less sensitive at certain altitudes for detecting various species \citep[e.g.]{Martin2002b}.
+    The different particals and gases in the air have various properties which affect remote sensing devices such as a satellite, making them more or less sensitive at certain altitudes for detecting various species \citep[e.g.]{Martin2002}.
     
     
   \subsection{Absorption cross section and number density}
@@ -274,7 +274,7 @@
     Choice of RTM and interpolation operations have a relatively small affect compared to the assumed state of the atmosphere, with high structural uncertainty introduced at this stage of AMF calculation - as shown in \cite{Lorent2017}.
 
     Code for recalculating AMFs using satellite swaths and modelled aerosol optical depths and gas profiles can be found at \url{http://fizz.phys.dal.ca/~atmos/martin/?page_id=129}. 
-    The original method for HCHO is layed out in \cite{Palmer2001}, with modifications for clouds \citep{Martin2002NO} and use of the LIDORT RTM \citep{Spurr2002} is described by \cite{Martin2003NO}.
+    The original method for HCHO is layed out in \cite{Palmer2001}, with modifications for clouds \citep{Martin2003} and use of the LIDORT RTM \citep{Spurr2002} is described by \cite{Martin2003}.
     This code does not work as is when using OMI satellite data, and requires modifications as first performed by Luke Surl at Edinburgh University.
     Additionally dr. Surl acquired the tropopause heights averaged within satellite overpass times output by GEOS-Chem with modifications to the model diagnostic (ND51).
   
