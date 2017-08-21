@@ -74,11 +74,11 @@
 \label{ch_isop:sec:IsopreneEmissions}
 
   \subsection{Outline}
-   With the vertical columns of biogenic HCHO we can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (In other continents around 2-3, or 1 in low NO$_X$ conditions) \citep{Palmer2003,Marais2012,Bauwens2016}.
+    With the vertical columns of biogenic HCHO we can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (In other continents around 2-3, or 1 in low NO$_X$ conditions) \citep{Palmer2003,Marais2012,Bauwens2016}.
     If we assume there is fast HCHO yield, so that the effect of chemical transport is minimal, and that HCHO and isoprene are at steady states, then we can calculate local yield from our CTM.
     %This yield is derived from both HCHO and isoprene, such as was used by \citet{Millet2006} who produced a molar HCHO yield of 2.3 in north eastern USA.
-   Yield is calculated from the modelled slope between isoprene emissions and HCHO total column within each gridbox over Australia, as performed in \cite{Palmer2003}, using modelled values between 1300-1400 LT which is around the overpass time of the OMI.
-   This modelled yield is then used in conjunction with the recalculated OMI measurements in order to estimate isoprene emissions.
+    Yield is calculated from the modelled slope between isoprene emissions and HCHO total column within each gridbox over Australia, as performed in \cite{Palmer2003}, using modelled values between 1300-1400 LT which is around the overpass time of the OMI.
+    This modelled yield is then used in conjunction with the recalculated OMI measurements in order to estimate isoprene emissions.
     
     The calculations used to determine isoprene emissions over Australia are fully described in \ref{ch_isop:sec:EmissionCalculation} and follow the method of \citet{Palmer2003}.
     To calculate emissions we use a reduced major axis (RMA) regression between modelled average (from 1300-1400 LT) values of the loss rates and total columns, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
@@ -104,194 +104,14 @@
     (TODO: simple outline of what they did and how my focus is different, this paper will also need to be summarised in the LitReview)
 
   \subsection{HCHO Products and yield}
-    Australian forests are strong emitters of both isoprene and monoterpenes, which go on to form various products including secondary organic aerosols, oxygenated VOCs (OVOCs), ozone, OH, and HO$_2$.
-    This production occurs over several steps, yields are often classed into at least two categories.
-    First generation yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (sometimes molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \citep{Wolfe2016}.
-    \citet{Wolfe2016} define prompt yield as the change in formaldehyde measurement per unit change in initial isoprene emissions.
-    Some argue that isoprene emissions are overestimated, due to the fact that they are based on relatively few measurements of isoprene emission factors \citep{Winters2009, FortemsCheiney2012} TODO: read and cite paper mentioned in Fortems.
-    Recently \cite{Emmerson2017} showed that MEGAN estimates 3-6 times too much isoprene emissions, and 4 times too little monoterpenes when compared against 4 relatively small scale measurement campaigns in southeastern Australia.
-    
-    Isoprene production of HCHO depends on several factors, importantly NO$_X$ levels have a direct effect on the fate of VOCs in the atmosphere.
-    At higher NO mixing ratios (at least a few hundred pptv), organic peroxy radicals (RO$_2$) react mostly with NO. 
-    At low NO (less than 10's of pptv), reaction with HO$_2$, other RO$_2$, and isomerization dominate the fate of RO$_2$.
-    In low NO$_X$ environments, reported HCHO yields from isoprene are from XtoY\%, while in high NO$_X$ environments this value is XtoY\% TODO: these values from table.
-    For monoterpenes the yields are around X, Y\% for low, high NO$_X$ respectively.
-    Emissions and yields for various species including some terpenes can be seen in table \ref{ch_isop:tab:VOCAusYields}.
-    \citet{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
-    They determine prompt yield as the change in HCHO per change in ISOP$_0$, using $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
-    This effectively relates HCHO abundance with isoprene emission strength.
-    (TODO:and finish Wolfe2016 discussion paper for yields)
-    TODO:go through atkinsonarey2003
-    
-    Many of the HCHO yields from terpenoids are estimated through chamber studies which examine the products molecular mass and charge after mixing the compound of choice into a known volume of air.
-    These conditions generally don't match those of the real world, where ambient air will have a cocktail of these compounds as well as various reactants.
-    
-    A proton transfer reaction mass spectrometer (PTR-MS) can be used to determine gas phase evolution of terpene oxidation products.
-    This is done through analysis of mass to charge ratios ($m/z$) which can be used identify chemical compounds.
-    Looking at Australian emissions from running GEOS-Chem and using yields provided by XYZ (TODO other table), we see that Australia may be more or less likely to do something TODO: this comparison sentence would be good to tie up tables and be copied to conclusions.
-    
-    Conversions between HCHO per unit C yield and molar \% yield from species X given by the equation $ Y_{molar \%} = 100 \times C_X \times Y_{HCHO per unit C} $, where $C_X$ is how many Carbon are within species X (5 for isoprene, 10 for monoterpenes, etc...).
-    For instance a 200\% molar yield of HCHO from isoprene implies 1 Mole of C$_5$H$_8$ becomes 2 Mole HCHO which is a 0.4 HCHO per unit C yield.
-    
-    TODO: Fill out this table
-    \begin{table} \begin{threeparttable}
-      \caption{HCHO yields from various species averaged over Australia during Summer.}
-      \begin{tabular}{ | c  c  c  c  c | }
-        \toprule
-	  \textbf{Species}   & \textbf{Emissions$^a$}& \textbf{Lifetime$^b$}& \textbf{HCHO Yield$^c$} & \textbf{HCHO production$^d$\%}
-	  \\                 & (Tg C per month)      &                      & (per C reacted)         &         \\
-	\midrule
-	  Isoprene           & Y                     & n minutes            & 0.x                     & 10       \\
-	  $\alpha$-Pinene    & Y                     & n minutes            & 0.x                     & 10       \\
-	  $\beta$-Pinene     & Y                     & n minutes            & 0.x                     & 10       \\
-	  HCHO               & Y                     & n minutes            & 1.0                     & 10       \\
-	\bottomrule
-      \end{tabular}
-      \begin{tablenotes} 
-	  \item a: Calculated using GEOS-Chem emissions over Australia in January 2005.
-	  \item b:  
-	  \item c: 
-	  \item d: Production determined by dividing emission*yield by the sum of all VOC emissions*yields. 
-      \end{tablenotes}
-      \label{ch_isop:tab:VOCAusYields}
-    \end{threeparttable} \end{table}
-    
-    % yields from Atkinsen2003
-    %isoprene
-    %0.63 0.10 Tuazon and Atkinson (1990a)
-    %0.57 0.06 Miyoshi et al. (1994)
-    % a-pinene
-    %0.23 0.09 Noziere et al. (1999a)
-    %0.19 0.05 Orlando et al. (2000)
-    % b-pinene
-    %0.54 0.05 Hatakeyama et al. (1991)
-    %0.45 0.08 Orlando et al. (2000)
-    
-    Yields table looking at literature provided yields of HCHO.
-    % molar HCHO yield per unit carbon equal to HCHO molar percent yield(per carbon)? or some conversion?
-    % TODO: ask steve about ppbv ppbv^-1 ??
-    
-    \begin{table} \begin{threeparttable}
-      \caption{ HCHO yields from various species, and lifetime against oxidation by OH. }
-      \begin{tabular}{  l  l  l  l  l  }
-        \toprule
-        Species    & HCHO Yield      & Life vs OH & NO$_X$ background & Source   \\
-                   & (molar \% )     &            &                   &          \\
-      	\midrule 
-      	Isoprene	& 315$\pm$50      &              & High           & a        \\ 
-      			& 285$\pm$30      &        & High               & a        \\ 
-      			& 225             & 35 min & High               & b        \\ % Done
-      			& 150             &            & Low                & b        \\ % Done
-      			& 150             &            & Low                & d        \\
-      			& 450             &            & High               & d        \\
-			& 235             &            & 1~ppbv              & e        \\
-			& 150             &            & 0.1~ppbv              & e        \\
-	$\alpha$-Pinene & 28$\pm$3        &        & Low                & c        \\ 
-			& X$\pm$3         &        & X                  & d        \\ 
-      			& 230$\pm$90      &        & High        & a        \\ 
-      			& 190$\pm$50      &        & High        & a        \\ 
-      			& 19                & 1 hour &              & b        \\ % Done
-                      & 210               &          & 1~ppbv              & e        \\
-                      & 70                &          & 0.1~ppbv              & e        \\
-	$\beta$-Pinene    & 65$\pm$6        &        & Low                & c      \\ 
-      			          & X$\pm$3         &        & X                  & d      \\ 
-      			          & 540$\pm$50      &        & High               & a     \\ 
-      			          & 450$\pm$80      &        & High               & a      \\ 
-      			          & 45              & 40 min &              & b      \\ % Done
-	Methane 	      & 100             & 1 year  &             & b     \\ 
-	Ethane            & 180             & 10 days &             & b     \\ 
-	Propane           & 60              & 2 days  &             & b     \\ 
-	Methylbutanol    & .13(per C)    & 1 hour  &             & b     \\ 
-	HCHO             & 100             & 2 hour  &             & b     \\ 
-	Acetone           & .67(per C)      & 10 days &             & b     \\ 
-	Methanol          & 100             & 2 days  &             & b     \\ %Done
-    	\bottomrule
-    \end{tabular}
-    \begin{tablenotes} % \item makes new lines
-      \item a \citet{AtkinsonArey2003}: Table 2, Yield from Isoprene reaction with OH, two values are from two referenced papers therein.
-      \item b \citet{Palmer2003}: lifetimes assume [OH] is 1e15 mol cm$^{-3}$.
-      \item c \citep{Lee2006}: Calculated through change in concentration of parent and product linear least squares regression.
-        Estimates assume 20$^\circ$~C conditions.
-  	  \item d \citet{Wolfe2016}: ``prompt yield'': change in HCHO per change in ISOP$_0$.
-  	    $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
-  	    Effectively relates HCHO abundance with isoprene emission strength
-      \item e \citet{Dufour2009}: One-day yields from oxidation modelled by CHIMERE, using MCM reference scheme.
-      \item f Calculated using PTR-MS and iWAS on SENEX campaign data.
-    \end{tablenotes}
-    \label{ch_isop:tab:VOCLiteratureYields}
-  \end{threeparttable} \end{table}
+    % Yields and Tables moved to BiogenicIsoprene chapter
     
   \subsection{CAABA/MECCA yield}
-  \label{Ch_isop:sec:CAABAMECCA}
-    CAABA/MECCA is described in \ref{ch_LitRev:sec:CAABAMECCAIntro}.
-    
-    Using CAABA/MECCA to examine isoprene to HCHO yield in specific scenarios allows us to determine what environment may be driving the yield calculated by GEOS-Chem.
-    This software runs gas and aqueous phase, and heterogeneous chemistry, including basic HO$_X$, NO$_X$, and NMHC chemistry, with emission, deposition, and initial concentrations all set.
-    By running the same simulation twice, and injecting a small amount of extra isoprene into one of the simulations, extra HCHO produced can be used to determine the yield from isoprene to HCHO.
-    Isoprene life time can also be calculated using this process, as the time it takes for the extra isoprene to reach $1/e$ of it's initial value.
-    
-    Initially we have three scenarios, grassland, desert, and forest Australia - with each scenario having initial conditions, emission and deposition set as in table \ref{ch_isop:tab:CaabaMeccaScenarioYields}.
-    Running each scenario with and without a small isoprene injection gives isoprene lifetimes and isoprene to HCHO yield for those scenarios, shown in table \ref{ch_isop:tab:CaabaMeccaScenarioYields}.
-    Calculation of the yield follows a calculation of the theoretical maximum carbon production by the amount of injected isoprene:
-    \begin{equation}
-      Y_{100} =10^9 \times \frac{C_{PM} E_{inj} D_{inj}}{(N_A H_{PBL})}
-    \end{equation}
-    Where Y$_{100}$ is the maximum possible carbon yield of isoprene (ppb), $C_{PM}$ is Carbon per molecule (isoprene=5), $E_{inj}$ is the emission rate of injected isoprene (molec cm$^{-2}$ s$^{-1}$), $D_{inj}$ is the duration of injection (s), H$_{PBL}$ is the boundary layer height (cm), and $N_A$ is the Air number density (molec cm$^{-3} \approx 2.5e19$).
-    Finding the accumulated increase in HCHO (ppb) from the difference between the perturbed and non perturbed model runs allows calculation of the accumulated extra HCHO (Example: Figure TODO:), which divided by the $Y_{100}$ gives us the isoprene to HCHO atom C yield:
-    \begin{equation}
-      Y_{HCHO}= \frac{\Delta HCHO_{\text{Accumulated}}}{Y_{100}}
-    \end{equation}
-    with $HCHO_{\text{Accumulated}}$ being the accumulated enhanced ppb mixing ratio of HCHO.
-    
-    TODO: Fill in table
-    \begin{table}
-    	\caption{Scenario isoprene yields of HCHO}
-    	\begin{tabular}{ p{6cm} l  l  l  l }
-    		\hline
-    		\textbf{Scenario} & \textbf{Emission} & \textbf{NO$_X$} & \textbf{HO} & Yield \\
-				    		  & (molecules units) & (units)         & (units)     & units \\ \hline
-    		Forest 	& xx 	& xx 	& xx 	& xx  	\\ 
-    		Urban 	& xx 	& xx 	& xx 	& xx 	\\
-    		Shrub 	& xx 	& xx 	& xx 	& xx 	\\ \hline
-    	\end{tabular}
-    	\label{ch_isop:tab:CaabaMeccaScenarioYields}
-    \end{table}
-    
-    Figure TODO: shows the accumulated yield for all three scenarios, which each increase towards a limiting value.
-    
+    % Moved to Biogenic Isoprene Chapter
+  
   \subsection{Calculation of Emissions}
     \label{ch_isop:sec:EmissionCalculation}
-    As is done in \citet{Palmer2003, Millet2006, Bauwens2016}, we assume that HCHO, and Isoprene columns are in a steady state, with no horizontal transport.
-    In these circumstances the emissions of precursors are easy to calculate as long as we know the molar HCHO yields (Y$_i$) and effective chemical loss rates (k$_i$):
-    \begin{equation}
-      \Omega_{HCHO} = \frac{1}{k_{HCHO}}\Sigma_i k_i Y_i \Omega_i = \frac{1}{k_{HCHO}}\Sigma_i Y_i E_i
-    \end{equation}
-    
-    We can infer the local (grid space) isoprene emissions (E$_{isop}$) using effective formaldehyde yield from isoprene ($Y_{isop}$).
-    \begin{equation} \label{ch_isop:eqn:isop_yield}
-      \Omega_{HCHO} = S \times E_{isop} + B
-    \end{equation}
-    Where \textit{B} is the background HCHO, and $S = Y_{isop}/k_{HCHO}$ is determined monthly as the regression between $k_{HCHO}*\Omega_{HCHO}$, and $k_{isop}*\Omega_{isop}$.
-    The other equivalent method determines S from the RMA regression between $\Omega_{HCHO}$ and E$_{isop}$ on daily saved outputs from GEOS-Chem over Australia using 2 by 2.5$^{\circ}$ horizontal resolution.
-    For an initial estimate of the effective yield from simulated data: we use $k_{HCHO}$, $k_{i}$, $\Omega_{HCHO}$, and $\Omega_i$ outputs from a standard run of GEOS-Chem - which provides one data point per day.
-    This gives us a value for $Y_i$ resolved to our 2$^{\circ}$ by 2.5$^{\circ}$ horizontal resolution, which is entirely based on the model, and can be compared against the yield calculated using OMI derived $\Omega_{HCHO}$.
-    Using our measurements of the biogenic HCHO column ($\Omega_{OMIHCHO}$) recalculated from the OMI satellite product, we use this derived yield and the same formula to determine our new top-down emissions estimates.
-    Figure \ref{ch_isop:fig:E_isop_vs_hcho_model_sample} shows the modelled isoprene emissions and column concentrations along with the RMA regression line, sampled from grid boxes over Australia for January 2005. 
-    Some affects from the low emissions in grid boxes which are largely oceanic can be seen and are handled by TODO: handle these and document here.
-    
-    \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/E_isop_vs_hcho_series_200501.png}
-      \caption{%
-	Top panel: isoprene emissions for January, 2005, shown in red, coplotted with tropospheric hcho columns, shown in magenta.
-	Both series are daily averages over Australia.
-	Bottom panel: (RMA) linear regressions from between emissions of isoprene and tropospheric hcho columns, sampled randomly from the 2$^{\circ}$ by 2.5$^{\circ}$ latitude longitude gridboxes over Australia for the month of January (2005).
-      }
-      \label{ch_isop:fig:E_isop_vs_hcho_model_sample}
-    \end{figure}
-    
-    This works if there is fast HCHO yield, so that the effect of chemical transport is minimal.
-    The background HCHO is calculated using measurements in the remote pacific at the same time and latitude.
-    Table \ref{ch_isop:tab:VOCAusYields} shows the average yield calculated for Australia. (TODO: this table and some notes)
+    % Moved to Biogenic Isoprene Chapter
     
   \subsection{Calculation of smearing effect}
     TODO: Smearing scale length, $\hat{S}$ formula, and results of calculations in here.
