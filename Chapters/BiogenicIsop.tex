@@ -15,11 +15,19 @@
 \section{Outline}
   \textbf{Currently this is an outline, TODO: Remove or put into aims.}
   
+  %WHAT we aim to do
   We estimate isoprene emissions in Australia using top-down estimates based on recalculated OMI HCHO measurements and modelled isoprene to HCHO yields.
   These estimates are compared to several campaigns (SPS1, SPS2, MUMBA, Daintree) and used as the new boundary conditions for GEOS-Chem.
   Sensitivity to soil moisture, (maybe) LAI, and satellite AMF calculation is examined and quantified for some scenarios.
   The effect of using these new top down isoprene emissions as the boundary conditions for GEOS-Chem is studied
   Wellness of fit between in-situ (at Wollongong) HCHO, satellite (OMI), and modelled (GEOS-Chem) HCHO is determined with and without updated emissions estimates.
+  
+  % HOW it works
+  With the vertical columns of biogenic HCHO we can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (In other continents around 2-3, or 1 in low NO$_X$ conditions) \citep{Palmer2003,Marais2012,Bauwens2016}.
+  If we assume there is fast HCHO yield, so that the effect of chemical transport is minimal, and that HCHO and isoprene are at steady states, then we can calculate local yield from our CTM.
+  %This yield is derived from both HCHO and isoprene, such as was used by \citet{Millet2006} who produced a molar HCHO yield of 2.3 in north eastern USA.
+  Yield is calculated from the modelled slope between isoprene emissions and HCHO total column within each gridbox over Australia, as performed in \cite{Palmer2003}, using modelled values between 1300-1400 LT which is around the overpass time of the OMI.
+  This modelled yield is then used in conjunction with the recalculated OMI measurements in order to estimate isoprene emissions.
 
 %----------------------------------------------------------------------------------------
 % Section 1 -- INTRO 
@@ -55,9 +63,11 @@
   Here we introduce how uncertain isoprene emissions are over Australia, and discuss literature which shows how the estimates may be too high.
   Section \ref{ch_BioIsop:sec:MethodsAndData} describes the methods, models, and campaign data we use to determine and analyse isoprene emissions.
   
-  
-\section{Methods and data}
-  \label{ch_BioIsop:sec:MethodsAndData}
+\section{Data}
+  \label{ch_BioIsop:sec:Data}  
+
+\section{Modelling}
+  \label{ch_BioIsop:sec:Model}
   
   \subsection{GEOS-Chem simulation}
     \label{ch_BioIsop:sec:GEOSChemSimulation}
@@ -67,6 +77,11 @@
     
     Output for an area averaged over 1200 - 1400 local time is saved for comparison and recalculation with satellite overpass records.
     These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals.
+  
+\section{Methods}
+  \label{ch_BioIsop:sec:Methods}
+  
+  
   
   \subsection{CAABA/MECCA Box model: isoprene source classifications}
     \label{ch_BioIsop:sec:CabbaMecca}
@@ -191,6 +206,7 @@
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude.
     Table \ref{ch_isop:tab:VOCAusYields} shows the average yield calculated for Australia. (TODO: this table and some notes)
     
+    % SLOPE Calculation
     In order to approximate the isoprene to HCHO yields over Australia, GEOS-Chem is run and the slope (S) between modelled tropospheric HCHO columns and emissions of isoprene within each grid box. 
     TODO: example grid box and regression plot.
     We can infer the local (grid space) isoprene emissions (E$_{isop}$) using effective formaldehyde yield from isoprene ($Y_{isop}$).
@@ -198,15 +214,23 @@
     \Omega_{HCHO} = S \times E_{isop} + B
     \end{equation}
     Where \textit{B} is the background HCHO, and $S = Y_{isop}/k_{HCHO}$ is determined monthly as the regression between $\Omega_{HCHO}$ and E$_{isop}$ on daily saved outputs from GEOS-Chem over Australia using 2 by 2.5$^{\circ}$ horizontal resolution. 
-    Modeled background emissions are ignored as they do not affect the calculation of the slope.
-    
+    Modeled background emissions can be ignored here as they do not affect the slope calculation.
     Once we have calculated this slope, we use the same formula (Eqn. \ref{eqn:isop_yield}) to determine the isoprene emissions.
     By replacing $\Omega_{HCHO}$ and $B$ with OMI based values, $E_{isop}$ is the only unknown.
+    
+    % BACKGROUND calculation(s)
+    There are a couple of ways to determine the modelled background HCHO concentration, one of which involves running the model with isoprene emissions turned off, which allows us to see exactly how much the modelled isoprene emissions alter each vertical column of HCHO.
+    This is effective since we have assumed variation in HCHO columns only depends on isoprene emissions, so our background term is theoretically identical to the emission free simulated HCHO.
+    The other way involves looking at HCHO over the remote pacific at matching latitudes and times, which emulates how the background is determined for the measured HCHO.
+    These modelled background HCHO concentrations are mostly used for comparison with other datasets.
+    TODO: show how these two numbers compare! figure with time series of both backgrounds for Aus, SEAus, and remote ocean.
+    
     The $B$ackground from OMI  is determined using the mean column HCHO measured over the remote pacific ocean (180-120$^{\circ}$W).
     TODO: Update the background term to do as follows: For this term we average each month of remote ocean measurements, as well as averaging longitudinally within 180-120$^{\circ}$W, and finally $B$ is estimated at each latitude using $\pm 10^{\circ}$.
     This is gives us a background which is appropriate for any latitude, and is shown in Figure TODO: figure with background region highlighted and a time series of background values.
     When calculating the $E_{isop}$ from our modeled slope with OMI HCHO and background, we end up with negative emissions wherever the OMI HCHO column is less than the OMI background (as $E_{isop} = \frac{\Omega_{HCHO} - B}{S}$).
     These are set to zero, which increases the average by around TODO: X\%.
+    The measured background HCHO is the average concentration measured in the remote pacific at the same time.
     
     Figure \ref{ch_BioIsop:fig:E_isop_vs_hcho_model_sample} shows the modelled isoprene emissions and column HCHO concentrations along with the RMA regression line, sampled from grid boxes over Australia for January 2005.
     Some affects from the low emissions in grid boxes which are largely oceanic can be seen and are handled by TODO: handle these and document here.
