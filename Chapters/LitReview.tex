@@ -83,9 +83,10 @@
       \text{O}_3 + hv(\lambda < 1180 \text{nm}) & \rightarrow & \text{O} + \text{O}_2 \\
       \text{O} + \text{O}_3 & \rightarrow & \text{O}_2 + \text{O}_2 \\
     \end{eqnarray*}
-    Where $hv$ represents photons, M is an inert molecule (such as N$_2$).
+    Where $hv$ represents radiation and M is an inert molecule (such as N$_2$).
     The lifetime of O against loss by O$_2$ is less than a second in the lower atmosphere, and the produced O$_3$ quickly returns to O and O$_2$.
-    Since [O] $<<$ [O$_3$] the defining a chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \citep{BrasseurJacob2017}.
+    Since [O] $<<$ [O$_3$] the defining a chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \citep[][Chapter 3]{BrasseurJacob2017}.
+    This mechanism requires radiation so only takes place during the daytime, during the night there are different processes driving HO$_X$, O$_X$, and other chemical concentrations.
     
   \subsection{Biogenic precursors to ozone}
     What drives ozone production
@@ -125,12 +126,6 @@
       \caption{Ozone production figure copied from \citet{Mazzuca2016}.}
       \label{LR:fig:NOXVOCOzone}
     \end{figure}
-    
-    % TODO: move to more apt section? model? or here maybe is fine
-    Atmospheric chemistry models (ACMs) require various inputs and can be sensitive to ozone and oxidative parameterisations. 
-    GEOS-Chem (an ACM) has recently been analysed for sensitivity for ozone along with oxidants (OH and HO$_2$) \citep{Christian2017}.
-    \cite{Christian2017} found that GEOS-Chem ozone was most sensitive to NO$_2$ photolysis, the $NO_2 + OH$ reaction rate, and various emissions.
-    TODO: read more Christian 2017 and put some info in model section.
     
 \section{Isoprene and other VOCs}
   \subsection{Sources}
@@ -231,10 +226,17 @@
     \end{figure}
     
 \section{Models}
-    
+  
   \subsection{How can models help}
     Used to forecast weather, pollution, and fires. ...
+    
   \subsection{Model frameworks}
+    
+    % ACM outline
+    Atmospheric chemistry models (ACMs) require various inputs and can be sensitive to ozone and oxidative parameterisations. 
+    TODO: read more Christian 2017,
+    TODO: put some more ACM info here.
+    
   \subsection{Relevant classes of models}
     \subsubsection{Single-box} % EG CAABA/MECCA
       
@@ -277,6 +279,20 @@
     
   \subsection{Uncertainties}
     Here I will attempt to list and partially explain the major uncertainties models have in relation to  VOCs, SOAs, and ozone. 
+    
+    % GEOS-Chem Ozone uncertainties 
+    GEOS-Chem (an ACM) has recently been analysed for sensitivity for ozone along with oxidants (OH and HO$_2$) \citep{Christian2017}.
+    \cite{Christian2017} found that GEOS-Chem ozone was most sensitive to NO$_2$ photolysis, the $NO_2 + OH$ reaction rate, and various emissions.
+    They used GEOS-Chem v9-02, with $4^{\circ} \times 5^{\circ}$ resolution, and while the low resolution adds errors in OH concentrations and O$_3$ production rates, the errors from chemistry, meteorology, and emissions are much larger.
+    
+    % Emissions Inventories 
+    Using different emissions inventories in an ACM have can have large impacts on the simulation.
+    Natural (biogenic or pyrogenic) and human driven (anthropogenic) emissions often drive a large fraction of atmospheric oxidation and radical chemistry, especially in the continental boundary layer.
+    \cite{Zeng2015} examine the affects on CO and HCHO when running simulations with two different inventories.
+    TODO: find where I took notes about Zeng2015 and put them here.
+    
+    % GEOS-Chem resolution uncertainties
+    
     
     \subsubsection{Clouds}
       \label{LR:sec:ModelUncertaintyClouds}
