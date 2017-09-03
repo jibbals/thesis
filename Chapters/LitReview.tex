@@ -242,6 +242,13 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     TODO: more on K. Emmerson
     
   \subsection{Emissions estimates}
+
+    %HOW estimates are made
+    There are two commonly used ways of estimating isoprene emissions, top-down or bottom-up.
+    Bottom-up emission estimates generally model the flora and events which emit isoprene, like Eucalypts, factories, shrubs, leaf areas under sunlight, etc.
+    Understanding how much isoprene is emitted, when and by what is more complicated than it sounds, and since little data exists with which to verify these bottom-up emission inventories they are uncertain on a large scale.
+    Top-down estimates look at how much of a chemical is in the atmosphere and try to work out how much of it's major precursors were emitted.
+    For isoprene this is done by looking at atmospheric HCHO enhancement, which can be largely attributed to isoprene emissions as long NO$_X$ and transport effects are accounted for.
     
     % ESTIMATES
     It used to be thought that emissions of anthropogenic and biogenic VOCs (BVOCs) were roughly similar (TODO abstract of \citep{Mueller1992}, and more cites).
@@ -414,6 +421,18 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
       \cite{Kanakidou2005} concluded that it is very likely that organics contribute to particle growth and formation rates.
     
   \subsection{How and where do we measure them?}
+
+    % HOW its measured:
+    
+    \cite{Kanakidou2005} summarised the difficulty of chamber experiments used to measure isoprene reactions and the possible unsuitability of chamber study yields in the natural atmosphere.
+    This is due to the complex relationship between NO$_X$, NO$_3$, OH, O$_3$, and the formation of aerosols being hard to attribute any single precursor.
+    
+    % CHAMBER study examples
+    
+    
+    % Campaigns
+    There are relatively few measurements of isoprene in the southern hemisphere, including MUMBA(TODO CITE), other campaigns?, and very recently that girl from Macquarie University with an instrument in the daintree rainforest(TODO CITE, DESCRIBE?).
+    
   
   \subsection{How do we determine emissions?}
     Emissions inventories such as MEGAN use models of emissions based on tree types, weather, etc... 
@@ -421,6 +440,7 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     Another way infers emissions based on the longer lived products like formaldehyde (HCHO).
     Recently \cite{Stavrakou2015} used satellite HCHO measurements to constrain anthropogenic sources of isoprene and found good global agreement with the bottom up estimates, although regions had sources differ by up to 25-40\%. 
     This study used the RETRO 2000 database for anthropogenic emission aprioris except for Asia in 2008 where REASv2 was used. 
+     Since 1997, when GOME first measured HCHO over Asia \citep{Thomas1998}, satellites have been able to provide a total column measurement of one of the primary products of isoprene.
     
     Using HCHO to determine emissions of isoprene was initially performed by \cite{Palmer2003}, who used in-situ summertime HCHO measurements over North America as model validation.
     Validation is important due to the various uncertainties in the satellite remote sensing process, with apriori assumptions having the greatest effect on structural uncertainty between measurements techniques \citet{Lorente2017}.
@@ -725,6 +745,12 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     
     % GEOS-Chem resolution uncertainties
     
+    % Transport uncertainties
+    Accounting for transport of the precursors is important, especially in low NO$_X$ conditions in which isoprene has a longer lifetime (days).
+    When estimating emissions of isoprene using one of its products, it is often assumed that isoprene has a short lifetime, however when low NO$_X$ environments (which are prevalent in the Australian outback) this assumption can be wrong.
+    Smearing is a measure of how much formaldehyde (the product) was created from isoprene (the precursor) emissions in a different grid box. 
+    TODO: cites and descriptions of the people who've used this measure.
+    
     \subsubsection{Chemistry mechanisms}
       There is still much work to be done in models to correctly simulate the various precursors to HCHO.
       Often HCHO is used as a way of checking if these precursors are correctly modelled since HCHO measurements are more readily available (for instance from satellites).
@@ -954,46 +980,15 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     Even with the recent boom in isoprene analysis, uncertainties remain in the isoprene oxidation mechanisms.
     Examples (taken from \citet{Nguyen2014}) include isoprene nitrate yields, which range from 4-15\% \citep{Paulot2009a}, 90\% disagreements in MAC and MVK yields TODO:\citep{Liu2013}, various possible sources for SOA TODO:\citep{Chan2010, Surratt2010, Lin2013}, unknown HPALD fates, incomplete O$_2$ incorporation TODO:\citep{Peeters2009,Crounse2013}, and under-characterized RO$_2$ lifetime impacts TODO:\citep{Wolfe2012}. TODO: get those citations and read abstracts.
       
-  \subsection{Smearing}
+  \subsection{Smearing(moved)}
   \label{ch_LitRev:sec:smearing}
-    The distance travelled downwind (L$_{d,i}$ by a precursor (i) before becoming HCHO can be estimated using:
-    \begin{equation*}
-      L_{d,i} = \frac{U}{k_i - k_{HCHO}} \ln{ \left( \frac{k_i}{k_{HCHO}} \right) }
-    \end{equation*}
-    where U is windspeed.
-    \citet{Palmer2003} further define a smearing length scale: L$_{s,i}$ as the distance downwind where a fraction (1 - $1/e$) of the precursor is completely transformed into HCHO.
-    This equation uses the initial VOC column concentration ($[VOC]_0$) at the point of emission and mass balance equations, and is as follows:
-    \begin{equation}
-      \frac{1}{k_{HCHO}-k_i} \left( k_{HCHO} \exp{ \left[ \frac{-k_i L_{s,i}}{U} \right]} -k_i \exp{ \left[ \frac{-k_{HCHO} L_{s,i}}{U} \right]} \right) = \frac{1}{e} 
-    \end{equation}
-    with limiting values L$_{s,i} \rightarrow U/k_i$ for $k_i << k_{HCHO}$, and L$_{s,i} \rightarrow U/k_{HCHO}$ for $k_{HCHO} << k_i$.  
+  % MOVED TO MODELLING Chapter
     
-    Accounting for transport of the precursors is important, especially in low NO$_X$ conditions in which isoprene has a longer lifetime (days).
-    This allows horizontal transport to occur and complicates the algorithms, as can be seen by the smearing length scale which increases beyond the 100~km.
-    For conditions where VOCs have a lifetime of days determining the major HCHO contributors requires a complex inversion to map HCHO columns to VOC emissions.
+  \subsection{Measurements(empty)}
     
-  \subsection{Measurements}
-  
-    There are relatively few measurements of isoprene in the southern hemisphere, including MUMBA(TODO CITE), other campaigns?, and very recently that girl from Macquarie University with an instrument in the daintree rainforest(TODO CITE, DESCRIBE?).
-    Since 1997, when GOME first measured HCHO over Asia (TODO cite thomas 1998), satellites have been able to provide a total column measurement of one of the primary products of isoprene.
+  \subsection{Isoprene emissions estimates(moved)}
     
-    \cite{Kanakidou2005} summarised the difficulty of chamber experiments used to measure isoprene reactions and the possible unsuitability of chamber study yields in the natural atmosphere.
-    This is due to the complex relationship between NO$_X$, NO$_3$, OH, O$_3$, and the formation of aerosols was hard to attribute any single precursor.
-    
-    
-  \subsection{Isoprene emissions estimates}
-    There are two commonly used ways of estimating isoprene emissions, top-down or bottom-up.
-    Bottom-up emission estimates generally model the flora and events which emit isoprene, like Eucalypts, factories, shrubs, leaf areas under sunlight, etc.
-    Understanding how much isoprene is emitted, when and by what is more complicated than it sounds, and since little data exists with which to verify these bottom-up emission inventories they are uncertain on a large scale.
-    Top-down estimates look at how much of a chemical is in the atmosphere and try to work out how much of it's major precursors were emitted.
-    For isoprene this is done by looking at atmospheric HCHO enhancement, which can be largely attributed to isoprene emissions as long NO$_X$ and transport effects are accounted for.
-  \subsection{Radiative Forcing}
-
-    
-%----------------------------------------------------------------------------------------
-%	DUST SECTION CUT TO  extras/dustLitRev.tex
-%----------------------------------------------------------------------------------------
-
+  \subsection{Radiative Forcing(This one was empty!)}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 6
