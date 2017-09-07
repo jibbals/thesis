@@ -679,21 +679,33 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     Formaldehyde formed in the troposphere is mostly due to VOC (roughly one third each: methane, isoprene, others) oxidation.
     We can model this oxidation process in order to work out how much VOC is present based on the total HCHO.
     This requires among other things an idea of which VOCs are present and their yields of HCHO.
-  
-  \subsection{Satellite HCHO detection}
+    
+    Formaldehyde (HCHO) is often used as a proxy to estimate isoprene emissions \citep{Marais2012,bauwens2013satellite}.
     Satellite based chemical concentrations rely on ground-based measurements and modelled data for validation.
     They provide various readings with daily global coverage which is not otherwise feasable.
+  
+  \subsection{Satellite HCHO detection}
+    TODO: Refactor this section so it's readable
     
     Several satellites provide long term trace gas observations with near complete global coverage, including the ERS-2 launched in April 1995 which houses the GOME ultraviolet and visible (UV-Vis) spectrometer, the AURA launched in July 2004 which houses the OMI UV-Vis spectrometer, the MetOp-A and B launched in October 2006 and September 2012 respectively both housing a GOME-2 UV-Vis spectrometer.
-    These satellites are on Low Earth Orbit (LEO) trajectories and overpass any area up to once per day. 
-    They record near nadir (nearly vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO.
+    These satellites are on Low Earth Orbit (LEO) trajectories and overpass any area up to once per day.
+    Satellites can use DOAS techniques with radiative transfer calculations on solar radiation absorption spectra to measure column HCHO .
     An example of a spectrum retrieved from the GOME-2 instrument is given in figure \ref{LR:fig:gomeproducts}.
+    Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT in order to determine a trace gas's radiative properties at various altitudes.
+    
+    Satellites record near nadir (nearly vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO (eg: \citet{Leue2001}).
+    Several public data servers are available which include products from the satellites just mentioned, including NASA's Mirador (http://mirador.gsfc.nasa.gov/) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (http://h2co.aeronomie.be/).
     
     \begin{figure}
       \includegraphics[width=\textwidth]{Figures/GOME_SPECTRUM.jpg}
       \caption{An example spectrum showing interferences used for species concentration measurements by GOME-2. Image by EUMETSAT and ESA \citep{GOME2Image}.}
       \label{LR:fig:gomeproducts}
     \end{figure}
+    
+    Instruments including MODIS on board the AQUA and TERRA satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
+    An AOD of under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
+    This is an important atmospheric property allowing us to track dust storms and pollution events as well as determine where measurements from other instruments may be compromised by high interference.
+    Satellite measured AOD requires validation by more accurate ground based instruments like those of AERONET which uses more than 200 sun photometers scattered globally. 
     
     The OMI instrument on board AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
     This band of wavelengths allows measurments of trace gases including O$_3$, NO$_2$, SO$_2$, HCHO, and various other quantities like surface UV radiation.
@@ -712,13 +724,39 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
       \label{LR:fig:Shenkeveld_OMI_summary}
     \end{figure}
     
+    Soon even more HCHO data will be available in the form of geostationary satellite measurements \citep{Kwon2017}.
+    \cite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.
+    Geostationary satellites can provide temporally rich measurements over an area, as they are not sweeping around the earth but fixed relative to one latitude and longitude.
+    
+    \subsubsection{DOAS}
+      TODO: some of this is repeated in isoprene chapter satellite section.
+      
+      
+      The DOAS technique uses solar radiation absorption spectra to measure trace gases through paths of light.
+      The RTM used in DOAS techniques is based on Beer's law relating the attenuation of light to the properties of the medium it travels through.
+      Beer's law states that $ T = I/I_0 = e^{-\tau} $ with T being transmittance, $\tau$ being optical depth, and I, I$_0$ being radiant flux received at instrument and emitted at source respectively.
+      Using 
+      $ \tau_i = \int \rho_i \beta_i ds $ gives us:
+      $$ I = I_0 \exp {\left( \Sigma_i \int \rho_i \beta_i ds \right) } $$
+      Where i represents a chemical species index, $\rho$ is a species density(molecules per cm$^3$), $\beta$ is the scattering and absorption cross section area (cm$^2$), and the integral over ds represents integration over the path from light source to instrument.
+      The forward RTM used for satellite data products also involves functions representing extinction from Mie and Rayleigh scattering, and the efficiency of these on intensities from the trace gas under inspection, as well as accounting for various atmospheric parameters which may or may not be estimated (e.g. albedo).
+      
+      To convert the trace gas profile from a reflected solar radiance column (slanted along the light path) into a purely vertical column requires calculations of an air mass factor (AMF).
+      In satellite data, the AMF is typically a scalar value for each horizontal grid point which will equal the ratio of the total vertical column density to the total slant column density. This value should also account for instrument sensitivities to various wavelengths at various altitudes, and is unique for each trace gas under consideration.
+    
     \subsubsection{AMF}
       One important aspect of satellite retrievals of trace gas vertical columns is the Air Mass Factor (AMF), which characterises measurement sensitivity to a trace gas at various altitudes \cite[e.g.]{Palmer2001}.
       These AMFs are measures of how radiance at the top of the atmosphere (TOA) changes with trace gas optical depths at specific altitudes \citep{Lorente2017}.
       Calculation of the AMF is important as it is multiplied against the estimated slant columns in order to give vertical column amounts.
+
+      Related to the AMF is the averaging kernal (AK), which is used to handle instrument measurements which are more or less sensitive to concentrations at different altitudes in the atmosphere.
+      DOAS methods can be heavily influenced by the initial estimates of a trace gas profile (the apriori) which is often produced by modelling, so when comparing models of these trace gases to satellite measurements extra care needs to be taken to avoid introducing bias from unrealistic apriori assumptions.
+      One way to remove these apriori influences is through the satellite's AK (or by using AMFs), which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas \citep{Eskes2003, Palmer2001}.
+      An measurement should be compared to other measurements or models only when the affects of these influences can be accounted for.
+      
       
       \citet{Lorente2017} show that AMF calculations can still be the largest source of unertainty in satellite measurements.
-      
+    
     \subsubsection{Satellite uncertainties}
       % GRID SIZE AND AVERAGING
       Satellite measurements of HCHO are relatively uncertain, however this can be improved by averaging over larger grid boxes or longer time scales.
@@ -1049,40 +1087,30 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
 %----------------------------------------------------------------------------------------
 \section{(MOVED)Isoprene}
 \label{ch_LitRev:sec:isoprene}
-
   \subsection{Basics(moved)}
     % MOVED to Intro:Isoprene and other VOCs
-
   \subsection{Sources and Sinks(moved)}
     % Methane, isoprene emissions moved to Intro biogenic precursors
     % isoprene emission classification 
-    
   \subsection{NOx and isoprene products(moved)}
     \label{Ch_LitRev:sec:IsopNox}
     % moved to isoprene cascade
   \subsection{Factors affecting isoprene emissions estimates(moved)}
-    % Moved to intro:models:using models to determine isoprene emissions
-    
+    % Moved to intro:models:using models to determine isoprene emissions  
   \subsection{BVOC Estimates(MOVED)}
   \label{ch_LitRev:sec:BVOCestimates}
     % Historical bvoc emissions -> Intro:
-    
   \subsection{Isoprene to HCHO}
     \label{ch_LitRev:sec:IsopFromHCHO}
-    
   \subsection{Satellite based emissions}
     % Moved to intro:isoprene and vocs: how do we estimate
-    
   \subsection{Other isoprene products}
     % Moved to intro:isoprene and vocs: isop cascade  
   \subsection{Smearing(moved)}
   \label{ch_LitRev:sec:smearing}
   % MOVED TO MODELLING Chapter
-    
   \subsection{Measurements(empty)}
-    
   \subsection{Isoprene emissions estimates(moved)}
-    
   \subsection{Radiative Forcing(This one was empty!)}
 
 %----------------------------------------------------------------------------------------
@@ -1104,45 +1132,12 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
 %----------------------------------------------------------------------------------------
 %	SECTION 7
 %----------------------------------------------------------------------------------------
-\section{Satellites}
+\section{(MOVED)Satellites}
 \label{ch_LitRev:sec:satellites}
-
-
   \subsection{Useful satellites}
     % Some satellite descriptions and OMI utility analysis moved to Intro:Formaldehyde:satelliteHCHO
-    
-    
-    Formaldehyde (HCHO) is often used as a proxy to estimate isoprene emissions \citep{Marais2012,bauwens2013satellite}.
-    Satellites can use DOAS techniques with radiative transfer calculations on solar radiation absorption spectra to measure column HCHO (eg: \citet{Leue2001}).
-    Several public data servers are available which include products from the satellites just mentioned, including NASA's Mirador (http://mirador.gsfc.nasa.gov/) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (http://h2co.aeronomie.be/).
-
-    Instruments including MODIS on board the AQUA and TERRA satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
-    An AOD of under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
-    This is an important atmospheric property allowing us to track dust storms and pollution events as well as determine where measurements from other instruments may be compromised by high interference.
-    Satellite measured AOD requires validation by more accurate ground based instruments like those of AERONET which uses more than 200 sun photometers scattered globally. 
-  
-    Soon even more HCHO data will be available in the form of geostationary satellite measurements \citep{Kwon2017}.
-    \cite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.
-    Geostationary satellites can provide temporally rich measurements over an area, as they are not sweeping around the earth but fixed relative to one latitude and longitude.
-    
   \subsection{Comparisons with Models}
-  
-    DOAS methods can be heavily influenced by the initial estimates of a trace gas profile (the apriori) which is often produced by modelling, so when comparing models of these trace gases to satellite measurements extra care needs to be taken to avoid introducing bias from unrealistic a priori assumptions.
-    One way to remove these apriori influences is through the satellite's averaging kernal, which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas \citep{Eskes2003, Palmer2001}.
-    Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT in order to determine a trace gas's radiative properties at various altitudes.
-  
+    % Averaging kernal sensitivity outline moved
   \subsection{DOAS}
-    TODO: some of this is repeated in isoprene chapter satellite section.
-    
-    The DOAS technique uses solar radiation absorption spectra to measure trace gases through paths of light.
-    The RTM used in DOAS techniques is based on Beer's law relating the attenuation of light to the properties of the medium it travels through.
-    Beer's law states that $ T = I/I_0 = e^{-\tau} $ with T being transmittance, $\tau$ being optical depth, and I, I$_0$ being radiant flux received at instrument and emitted at source respectively.
-    Using 
-    $ \tau_i = \int \rho_i \beta_i ds $ gives us:
-    $$ I = I_0 \exp {\left( \Sigma_i \int \rho_i \beta_i ds \right) } $$
-    Where i represents a chemical species index, $\rho$ is a species density(molecules per cm$^3$), $\beta$ is the scattering and absorption cross section area (cm$^2$), and the integral over ds represents integration over the path from light source to instrument.
-    The forward RTM used for satellite data products also involves functions representing extinction from Mie and Rayleigh scattering, and the efficiency of these on intensities from the trace gas under inspection, as well as accounting for various atmospheric parameters which may or may not be estimated (e.g. albedo).
-    
-    To convert the trace gas profile from a reflected solar radiance column (slanted along the light path) into a purely vertical column requires calculations of an air mass factor (AMF).
-    In satellite data, the AMF is typically a scalar value for each horizontal grid point which will equal the ratio of the total vertical column density to the total slant column density. This value should also account for instrument sensitivities to various wavelengths at various altitudes, and is unique for each trace gas under consideration.
+    % Whole subsusection moved to intro:hcho:satellite
   
