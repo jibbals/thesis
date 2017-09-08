@@ -8,9 +8,11 @@
 %	SECTION
 %----------------------------------------------------------------------------------------
 \section{GEOS-Chem framework}
-
+  \label{Model:GC_frame}
+  GEOS-Chem is an atomspheric chemical model (ACM), using a 3-D grid of boxes with transport driven by the GEOS meteorological model and chemistry calculated in each box independently. Many of these terms are described in Section \ref{LR:Models:frames}.
+  
 \section{GEOS-Chem isoprene mechanisms}
-  \label{Model:GCisop}
+  \label{Model:GC_isop}
   \subsection{Outline}
     The isoprene reactions simulated by GEOS-Chem were originally based on \cite{Horowitz1998}.
     This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
@@ -62,7 +64,7 @@
     The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
 
   \subsection{Emissions from MEGAN}
-    \label{Model:GCisop:MEGAN}
+    \label{Model:GC_isop:MEGAN}
     MEGAN simulates biogenic emissions of various gases including isoprene, based on various meteorological, land cover, and plant type parameterisations.
     
     One of the important parameters in Australia is the soil moisture activity factor($\gamma_{SM}$), which can have large regional affects on the isoprene emissions \citep{Sindelarova2014,Bauwens2016}.
@@ -85,11 +87,11 @@
     This allows horizontal transport to occur and complicates the algorithms, as can be seen by the smearing length scale which increases beyond the 100~km.
     For conditions where VOCs have a lifetime of days determining the major HCHO contributors requires a complex inversion to map HCHO columns to VOC emissions.    
       
-     The distance travelled downwind (L$_{d,i}$ by a precursor (i) before becoming HCHO can be estimated using:
+     The distance travelled downwind (L$_{d,i}$) by a precursor (i) before becoming HCHO can be estimated using:
     \begin{equation*}
       L_{d,i} = \frac{U}{k_i - k_{HCHO}} \ln{ \left( \frac{k_i}{k_{HCHO}} \right) }
     \end{equation*}
-    where U is windspeed.
+    where U is wind-speed.
     \citet{Palmer2003} further define a smearing length scale: L$_{s,i}$ as the distance downwind where a fraction (1 - $1/e$) of the precursor is completely transformed into HCHO.
     This equation uses the initial VOC column concentration ($[VOC]_0$) at the point of emission and mass balance equations, and is as follows:
     \begin{equation}
@@ -102,3 +104,116 @@
     TODO: calculation of smearing
     
     TODO: Plots of S hat showing worst smearing affected areas per season.
+    
+\section{Running GEOS-Chem (before isop?)}
+  \label{Model:GC_running}
+  \subsection{Installation and requirements}
+    GEOS-Chem instructions for download, compilation, and running can be found in the user guide provided by Harvard: \url{http://acmg.seas.harvard.edu/geos/doc/man/}.
+    In order to build and run GEOS-Chem a high-speed computing system is optimal, as globally gridded chemical calculations can take a long time to perform.
+    I installed GEOS-Chem onto a suitably configured workspace on the National Computational Infrastructure (NCI, \url{http://nci.org.au/}). 
+    This workspace included access to compilers and libraries which are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
+      
+      After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
+  \subsection{Options}
+    
+  \subsection{Tropchem mechanisms}
+    
+  \subsection{UCX mechanisms}
+    %    TODO: layout reasons why isoprene differs between runs
+    %    In GeosCore/fast_jx_mod.F:
+    %      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
+    %      line 4138: comment says ozone calculated online.
+    %	TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
+    %    In GeosCore/calcrate.F:
+    %      line 1489 comment says rates are limited to prevent solver failure
+    %	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
+    %      Line 1724
+    %        ! SPECIAL TREATMENT FOR O3+hv -> OH+OH (trop-only simulation)
+    %        !                    or O3+hv -> O+O2  (UCX simulation)
+    %      line 1752:
+    %      #if defined( UCX )
+    %        IF ( NKO3PPHOT(NCS) > 0 ) THEN
+    %          PHOTVAL_2 = NKO3PPHOT(NCS) - NRATES(NCS)
+    %          NKN_2     = NKNPHOTRT(PHOTVAL_2,NCS)
+    %        ENDIF
+    %      #endif
+    %      line 1771:
+    %        comment: change rate of O(1D) + N2 to 3.1e-11 at 298K (from 2.6e-11)...
+    %        if not defined UCX:
+    %	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
+    
+  \subsection{Run comparisons}
+    
+    There are many options available when running GEOS-Chem depending on the desired chemistry, resolution, meteorology, and boundary conditions.
+    Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
+    %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
+    Both runs use 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, however the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
+    For both runs the inpup parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
+    
+    At the surface level, GEOS-Chem output of HCHO does not differ much between runs with or without the Unified Chemistry eXchange (UCX).
+    Figure \ref{ch_HCHO:fig:HCHOsurfUCXcomparison} shows an example of the surface level HCHO amounts with and without UCX turned on.
+    The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
+    
+    \begin{figure}%[!htbp]
+      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_tropchem_surf_hcho_200501.png}
+      \caption{ %
+        Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences(bottom left, right respectively).
+        Amounts simulated by GEOS-Chem for the 1st of January, 2005.
+      }
+      \label{ch_HCHO:fig:HCHOsurfUCXcomparison}
+    \end{figure}
+    
+    Figure \ref{ch_HCHO:fig:HCHOtropcolUCXcomparison} shows very similar results extended throughout the troposphere, with relative tropospheric column differences not exceeding 5\% over Australia in January of 2005.
+    
+    \begin{figure}%[!htbp]
+      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_tropchem_trop_hcho_200501.png}
+      \caption{ %
+        As figure \ref{ch_HCHO:fig:HCHOsurfUCXcomparison}, except looking at the tropospheric columns of formaldehyde. 
+      }      
+      \label{ch_HCHO:fig:HCHOtropcolUCXcomparison}
+    \end{figure}
+    
+    Figure \ref{ch_HCHO:fig:isopsurfUCXcomparison} shows the differences in isoprene tropospheric columns over Australia.
+    Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
+    Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and lack of emissions over the oceans.
+    Generally isoprene is 0-30\% higher over Australia when the UCX mechanism is turned on.
+    This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{ch_HCHO:fig:isoptropUCXcomparison}.
+    
+    \begin{figure}%[!htbp]
+      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_tropchem_trop_isop_200501.png}
+      \caption{%
+        As figure \ref{ch_HCHO:fig:HCHOsurfUCXcomparison}, except looking at surface ($ < \sim 120$~m) amounts of isoprene.
+      }
+      \label{ch_HCHO:fig:isopsurfUCXcomparison}
+    \end{figure}
+    
+    \begin{figure}%[!htbp]
+      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_tropchem_trop_isop_200501.png}
+      \caption{%
+        As figure \ref{ch_HCHO:fig:HCHOsurfUCXcomparison}, except looking at tropospheric columns of isoprene.
+      }
+      \label{ch_HCHO:fig:isoptropUCXcomparison}
+    \end{figure}
+    
+    TODO: The difference in isoprene between UCX and tropchem is caused by WHAT?
+    Comparing biogenic emissions of isoprene between runs should be very similar, as they are both estimated by MEGAN using the same input files and emission factor maps.
+    Figure \ref{ch_HCHO:fig:UCX_trp_biogenic_isoprene_diffs} shows these emissions and the differences between runs, which is unexpectedly high.
+    The differences are most prominent over Australia and North America, with emissions averaging TODO over Australia for UCX and non UCX runs respectively.
+    One possible explanation is the radiative affects of different ozone concentrations in the stratosphere calculated by the UCX mechanism. 
+    With higher ozone levels, less radiation would reach the surface leading to lower isoprene emissions (TODO: is this correct?).
+    Figure TODO: shows the total column ozone between UCX and non-UCX runs, we can see that UCX has TODO: less or more ozone over Australia/USA in January.
+    TODO: determine if that's the cause
+    
+    \begin{figure}%[!htbp]
+      \includegraphics[width=\textwidth]{Figures/HCHO/GClink/UCX_vs_trp_glob_E_isop_bio.png}
+      \caption{%
+        Top left, right: Modelled isoprene emissions with and without the UCX mechanism respectively, averaged over January 2005.
+        Bottom left, right: absolute, relative differences respectively.
+      }
+      \label{ch_HCHO:fig:UCX_trp_biogenic_isoprene_diffs}
+    \end{figure}
+
+\section{Analysing output}
+
+      
+      

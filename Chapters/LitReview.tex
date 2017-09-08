@@ -40,7 +40,7 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     For example, ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
     Particulate matter in the atmosphere is also a major problem, causing an estimated 2-3 million deaths annually \citep{Hoek2013, Krewski2009, Silva2013, Lelieveld2015}. 
     
-    One important factor, affecting particulate matter and ozone concentration (both detrimental to human health), is a group called VOCs (Volatile Organic Compounds).
+    One important factor, affecting particulate matter and ozone concentration (both detrimental to human health), is a group called Volatile Organic Compounds (VOCs).
     The major source of VOCs in the atmosphere is biogenic, with around 90\% of all global emissions coming from natural sources \citep{Guenther1995,Guenther2006, Millet2006}.
     Non methane VOC (NMVOC) levels are globally estimated at 85~\%, 13~\%, and 3~\% from biogenic, anthropogenic, and pyrogenic sources respectively \citep{Kefauver2014}.  
     Atmospheric VOCs can form harmful SOAs, and affect radical levels, which drive much of the chemistry in our atmosphere.
@@ -48,6 +48,9 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     VOC emission is based on many factors, including plant type and soil moisture \citep{Guenther1995}, both of which are not well characterised in Australia \citep{Sindelarova2014, Bauwens2016}.
     Changes in parameterisation of soil moisture in MEGAN lead to massive changes in Australian isoprene emission estimates, and soil moisture in Australia is not very well measured \citep{Sindelarova2014}.
     This has an compounding effect on the large uncertainties of biogenic VOC emissions \citep{Guenther2000, Millet2006}.
+    
+    Another important factor is NO$_X$ (NO, NO$_2$) which has a complex non-linear relationship with both ozone and VOCs. TODO: talk about NOx chemistry?
+    Since many Australian cities are on the edge of regions with rich VOC emissions, it is very important to try to get a clear picture of both how much VOCs are being emitted, and where these emissions are coming from.
     
     \subsubsection{How do we determine this?}
     
@@ -211,7 +214,7 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     Plants contain tens of thousands of organic compounds, it's likely that fewer than 40 are emitted due to the low volatility of most of them \citep{Guenther2000}.
     
     Atmospheric organic compounds are legion and differ by orders of magnitude with respect to their fundamental properties, such as volatility, reactivity, and cloud droplet formation propensity.
-    Volatile organic compounds (VOCs) have vapour pressure greater than $10^{-5}$~atm, and are mostly generated naturally by plants, which emit around 1000~Tg per year \citep{Guenther1995, Glasius2016}.
+    Volatile organic compounds have vapour pressure greater than $10^{-5}$~atm, and are mostly generated naturally by plants, which emit around 1000~Tg per year \citep{Guenther1995, Glasius2016}.
     Due to their high volatility these compounds are generally seen in the gas phase.
     Organic compounds with a lower volatility are classed as semi-volatile (SVOCs: vapour pressure between $10^{-5}$ and $10^{-11}$~atm) are seen in both gas and particle phase depending on temperature and pressure.
     Organic compounds with even lower vapour pressure are generally found in the particle phase in aerosol particulate matter \citep{Glasius2016}.
@@ -220,6 +223,10 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     It is of major importance to the atmosphere, as it is involved in various processes which alter the oxidative capacity of the atmosphere.
     NMVOCs are alkanes, alkenes, aromatic hydrocarbons and isoprene, with isoprene being the most prominent.
     Estimates put global isoprene emission at roughly 600 Tg yr$^{-1}$, emitted mostly during the day.
+    \cite{Guenther1995}, and subsequent updates \citep{Guenther2000,Guenther2006}, have been used ubiquitously by the atmospheric community as a global estimate of isoprene emissions, at roughly 500-600 Tg yr$^{-1}$, emitted mostly during the day.
+    More recently an estimate of global isoprene emissions of around 465~Tg C yr$^{-1}$ has been made by \cite{Messina2016} using ORCHIDEE.
+    The global emission factors model used to derive these estimates is based on modelling emissions from different plant species (phenotypes), and relatively few Australian species are used when forming in these estimates.
+    
     Major emitters are tropical broadleafs (notably eucalypts), and scrubs \citep{Guenther2006, Arneth2008, Niinemets2010, Monks2015}.
     Although recent work suggests that some Australian eucalypts may not be as egregious isoprene emitters as once thought \citet{Emmerson2016}.
     Isoprene emissions are often classified as either anthropogenic, biogenic, or pyrogenic.
@@ -657,7 +664,7 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     There is a complex relationship between VOCs, HO$_X$, and NO$_X$, and with higher levels of NO$_X$ the speed that VOCs are converted into HCHO increases, as does the HCHO concentration \citep{Wolfe2016}.
     Isoprene is the main VOC precursor of HCHO in the continental boundary layer, except near fires or anthropogenic sources of HCHO and precursors \citep{Guenther1995, Kefauver2014, Wolfe2016}.
     
-    Biomass burning can be a source of HCHO, and various other pollutants, precursors, and aerosols.
+    Biomass burning (BB) can be a source of HCHO, and various other pollutants, precursors, and aerosols TODO: best early cites for this? \citep{Guenther1995}.
     Additionally HCHO is emitted into the atmosphere directly through fossil fuel combustion, natural gas flaring, ethanol refining, and agricultural activity \citep{Wolfe2016}.
     Background levels of HCHO are due to methane oxidation, while enhancements to regional and continental HCHO are largely driven by isoprene emissions \citep{Guenther1995, Palmer2003, Shim2005, Kefauver2014}.
     \citet{Atkinson2000} summarised the background formation of HCHO with the following reaction:
@@ -666,6 +673,7 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     \end{equation}
     which shows that photolysis and oxidation of methane forms HCHO and ozone in a process that regenerates the OH radicals.
     
+    %HCHO SINKS
     HCHO has two major sinks, one being reactions with OH (oxidation), the other being photolysis \citep{Crutzen1999, Wagner2002, Levy1972, Kefauver2014}.
     These reactions lead to a daytime lifetime of a few hours \citep{Atkinson2000, Millet2006}.
     Both these loss processes (photolysis, oxidation) form CO and hydroperoxyl radicals (HO$_2$), and have global significance to radiative forcing and oxidative capacity \citep{Franco2015}.
@@ -814,7 +822,7 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     This process is similar to the proposed mechanisms for hydroperoxyaldehydes by \citet{Peeters2014} and carbonyl nitrates \citep{Muller2014}.
     
 \section{Models}
-  
+  \label{LR:Models}
   \subsection{How can models help}
     Used to forecast weather, pollution, and fires. ...
     
@@ -857,6 +865,7 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
     \end{figure}
     
   \subsection{Model frameworks}
+    \label{LR:Models:frames}
     
     % ACM outline
     Atmospheric chemistry models (ACMs) require various inputs and can be sensitive to ozone and oxidative parameterisations. 
@@ -1007,137 +1016,3 @@ TODO: Go through and find first instance of (VOC), (NMVOC), (AVOC) and organise 
       MEGAN accounts for soil moisture by applying it as an emission factor (EF) which scales the emission rate of various species.
       \citet{Sindelarova2014} show reductions in modelled Australian isoprene emissions of 50\% by accounting for soil moisture. 
 
-%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%
-%%%%% OLD FORMAT %%%
-%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%
-
-\chapter{Old Literature Review: TODO: cut from this and put into new structure}
-\section{What are Volatile Organic Compounds (VOCs)?(MOVED)}
-\label{ch_LitRev:sec:what_are_vocs}
-  \subsection{VOCs (moved)}
-    %% What they are and their emissions moved to intro: Trop ozone: biogenic precursors
-    %% MEGAN notes to Intro:Models:Land-Emission
-    %% VOC reactions/removal moved to Intro:Isoprene:Where do they go
-  \subsection{Hydroxyl (OH) and other radicals (MOVED)}
-    \label{ch_LitRev:sec:RadicalFormation}
-    %MOVED to intro:Hydroxyl OH and other rads
-  \subsection{Secondary Organic Aerosols(MOVED)}
-    % MOVED INTO Air Quality (intro basics) and Isopre and other VOCs where do they go
-  \subsection{Relationship with ozone(MOVED)}
-    % MOVED TO Into Ozone - biogenic precursors
-%----------------------------------------------------------------------------------------
-%	Natural gas and aerosol emission in Australia
-%----------------------------------------------------------------------------------------
-\section{Natural gas and aerosol emissions in Australia(MOVED)}
-\label{ch_LitRev:sec:emissions}
-  \subsection{Australia (moved)}
-    %% Moved to Intro; AQ
-    %% Moved to Intro; AQ and how measured 
-    %For instance the Total Carbon Column Observing Network (TCCON) has sites at Darwin and Wollongong, and the Aerosols Robotic Network (AERONET) 
-    %% soil moisture in aus discussion moved to intro; 
-  \subsection{Satellite Measurements(moved)}
-    % AUS characteristics to Intro:AQ:How do we determine.
-    % Utility of satellites moved to same spot
-    % Satellite uncertainty intro moved to same
-    
-%----------------------------------------------------------------------------------------
-%	Ozone Section
-%----------------------------------------------------------------------------------------
-\section{Ozone (moved)}
-\label{ch_LitRev:sec:Ozone}
-  \subsection{Basics (moved)}
-    % Ozone and its deleterious effects moved to Intro - AQ factors
-    % ozone sources also
-    % Fire stuff also
-  \subsection{Sources and sinks (moved)}
-    % Biogenic stuff moved to Intro:Air Quality:biogenic precursors
-    % STT stuff moved to Intro:AQ:strat ozone
-  \subsection{Measurements (Moved)}
-    % Moved to Intro:AQ: how do we determine ...
-  \subsection{Estimates(MOVED)}
-    %Model estimates example moved to AQ: strat ozone    
-%----------------------------------------------------------------------------------------
-%	HCHO Section
-%----------------------------------------------------------------------------------------
-\section{Formaldehyde(HCHO)(MOVED)}
-\label{ch_LitRev:sec:HCHO}
-  \subsection{Basics (MOVED)}
-    % WHAT is it moved to Intro: HCHO
-    % SOURCES moved there also
-    % ACM mechanism problems... moved to Intro: models: uncertainties
-  \subsection{Sources and sinks(moved)}
-    % Sources and OH regeneration moved to Intro: HCHO: sources
-    % Sinks moved to HCHO: sources and sinks
-  \subsection{Measurements (moved)}
-    % moved to Intro: HCHO: how we measure
-  \subsection{Relationship with glyoxyl and isoprene(moved)}
-    % moved to Intro: HCHO:glyoxal
-    
-  \subsection{Satellite measurements(moved)}
-    % move to intro:hcho:satellite hcho 
-    %uncertainty to end of section
-    % Example of palmer/seacars to intro:
-  \subsection{Satellite uncertainty(moved)}
-    % moved to intro:hcho:satellite uncertainty
-    
-%----------------------------------------------------------------------------------------
-%	Isoprene Section
-%----------------------------------------------------------------------------------------
-\section{(MOVED)Isoprene}
-\label{ch_LitRev:sec:isoprene}
-  \subsection{Basics(moved)}
-    % MOVED to Intro:Isoprene and other VOCs
-  \subsection{Sources and Sinks(moved)}
-    % Methane, isoprene emissions moved to Intro biogenic precursors
-    % isoprene emission classification 
-  \subsection{NOx and isoprene products(moved)}
-    \label{Ch_LitRev:sec:IsopNox}
-    % moved to isoprene cascade
-  \subsection{Factors affecting isoprene emissions estimates(moved)}
-    % Moved to intro:models:using models to determine isoprene emissions  
-  \subsection{BVOC Estimates(MOVED)}
-  \label{ch_LitRev:sec:BVOCestimates}
-    % Historical bvoc emissions -> Intro:
-  \subsection{Isoprene to HCHO}
-    \label{ch_LitRev:sec:IsopFromHCHO}
-  \subsection{Satellite based emissions}
-    % Moved to intro:isoprene and vocs: how do we estimate
-  \subsection{Other isoprene products}
-    % Moved to intro:isoprene and vocs: isop cascade  
-  \subsection{Smearing(moved)}
-  \label{ch_LitRev:sec:smearing}
-  % MOVED TO MODELLING Chapter
-  \subsection{Measurements(empty)}
-  \subsection{Isoprene emissions estimates(moved)}
-  \subsection{Radiative Forcing(This one was empty!)}
-
-%----------------------------------------------------------------------------------------
-%	SECTION 6
-%----------------------------------------------------------------------------------------
-\section{Models(MOVED)}
-\label{ch_LitRev:sec:models}
-  \subsection{Chemical Transport Models(MOVED)}
-    % Box model CTMs moved to Intro: models: how can models help
-  \subsection{(MOVED)Model of Emissions of Gases and Aerosols from Nature (MEGAN)}
-    % MEGAN stuff moved to intro:models:
-    \label{Ch_LitRev:sec:MEGAN}
-  \subsection{(MOVED)GEOS-Chem}
-    \label{Ch_LitRev:sec:GEOSChem}
-    % MOVED TO intro:models:CTMs
-  \subsection{(MOVED)CAABA/MECCA box model}
-    \label{ch_LitRev:sec:CAABAMECCAIntro}
-    %% MOVED to Intro:models:single-box
-%----------------------------------------------------------------------------------------
-%	SECTION 7
-%----------------------------------------------------------------------------------------
-\section{(MOVED)Satellites}
-\label{ch_LitRev:sec:satellites}
-  \subsection{Useful satellites}
-    % Some satellite descriptions and OMI utility analysis moved to Intro:Formaldehyde:satelliteHCHO
-  \subsection{Comparisons with Models}
-    % Averaging kernal sensitivity outline moved
-  \subsection{DOAS}
-    % Whole subsusection moved to intro:hcho:satellite
-  
