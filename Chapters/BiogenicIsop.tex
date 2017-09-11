@@ -9,7 +9,7 @@
 \newcommand{\tgpyr}{~Tg yr$^{-1}$}
 
 \chapter{Biogenic Isoprene emissions in Australia} % Chapter title
-\label{ch_BioIsop}
+\label{BioIsop}
 
 
 \section{Outline TODO: move into intro?}
@@ -34,7 +34,7 @@
 % Section 1 -- INTRO 
 %----------------------------------------------------------------------------------------
 \section{Introduction}  
-\label{ch_BioIsop:sec:intro}  
+\label{BioIsop:intro}  
   
   One of the most popular emissions inventories for biogenic isoprene, the Model of Emissions of Gases and Aerosols from Nature (MEGAN).
   Global atmospheric studies often use MEGAN along with a chemical transport model (CTM) to examine transport, deposition, and various chemical processes in the atmosphere.
@@ -62,17 +62,17 @@
   
   % AIMs paragraph
   Here we introduce how uncertain isoprene emissions are over Australia, and discuss literature which shows how the estimates may be too high.
-  Section \ref{ch_BioIsop:sec:MethodsAndData} describes the methods, models, and campaign data we use to determine and analyse isoprene emissions.
+  Section \ref{BioIsop:MethodsAndData} describes the methods, models, and campaign data we use to determine and analyse isoprene emissions.
   The OMI measurements used in this research are recalculated using an updated estimate of HCHO profiles and validated against Wollongong total column measurements. 
   
 \section{Data}
-  \label{ch_BioIsop:sec:Data}  
+  \label{BioIsop:Data}  
 
 \section{Modelling}
-  \label{ch_BioIsop:sec:Model}
+  \label{BioIsop:Model}
   
   \subsection{GEOS-Chem simulation}
-    \label{ch_BioIsop:sec:GEOSChemSimulation}
+    \label{BioIsop:GEOSChemSimulation}
     The GEOS-Chem global atmospheric chemistry model (V10.01) simulates and records up to 66 chemical species (tracers) in the standard run, at 2 by 2.5$^{\circ}$ horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
     GEOS-5 meteorological fields from NASA's ...(TODO: ref and note) are used to drive transport and coupled with the chemical module of GEOS-Chem.
     MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation, with subsequent modifications based on top-down estimates made herein.
@@ -81,12 +81,12 @@
     These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals.
   
 \section{Methods}
-  \label{ch_BioIsop:sec:Methods}
+  \label{BioIsop:Methods}
   
   
   
   \subsection{CAABA/MECCA Box model: isoprene source classifications}
-    \label{ch_BioIsop:sec:CabbaMecca}
+    \label{BioIsop:Methods:CabbaMecca}
     
     % HOW WE WILL USE CAABA/MECCA
     Using CAABA/MECCA to examine isoprene to HCHO yield in specific scenarios allows us to determine what environment may be driving the yield calculated by GEOS-Chem.
@@ -108,7 +108,7 @@
     
     TODO: Description of how scenario yields can be calculated.
     We perscribe parameters values approximating three seperate (and relatively broad) scenarios: forest, urban, and scrubland.
-    These parameters are shown in Table \ref{ch_BioIsop:table:CAABAMECCA_Scenarios}!
+    These parameters are shown in Table \ref{BioIsop:table:CAABAMECCA_Scenarios}!
     The initial concentrations, the influx, (TODO: check this) and the deposition rates of various chemical species or families is perscribed, chemical creation, destruction and deposition rates are determined every X minutes.
     This is done by altering a scenarios file which does not change over the lifetime (TODO: 40 days?) of the model runs.
     For each scenario, two nearly identical model runs are performed, one with an injection of isoprene occuring on (TODO: when/howmuch is this injection).
@@ -151,11 +151,11 @@
         Deposition rates? & & & \\
         \hline
       \end{tabular}
-      \label{ch_BioIsop:table:CAABAMECCA_Scenarios}
+      \label{BioIsop:table:CAABAMECCA_Scenarios}
     \end{table}
   
   \subsection{Campaigns and datasets}
-    \label{ch_BioIsop:sec:Campaigns}
+    \label{BioIsop:Campaigns}
     TODO: these summaries.
     OMI summary
     
@@ -166,7 +166,7 @@
     SPS1,2 summary
   
   \subsection{Recalculation of OMI HCHO}
-    \label{ch_BioIsop:sec:omiRecalc}
+    \label{BioIsop:omiRecalc}
     The AMFs for OMI are recalculated using shape factors based on GEOS-Chem HCHO profiles, averaged between 1200 and 1400 local time (LT).
     The method used here largely follows that of \citet{Palmer2001}.
     When comparing satellite observations to a chemical model, recalculation of the satellite AMF using modelled vertical gas profiles removes any bias introduced by differences from the a-priori shape factor to the model.
@@ -196,7 +196,7 @@
     Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating $\omega_z$.
     
   \subsection{Calculation of Emissions}
-    \label{ch_BioIsop:sec:EmissionCalculation}
+    \label{BioIsop:EmissionCalculation}
    
     % FIRST: outline of what we do
     As is done in \citet{Palmer2003, Millet2006, Bauwens2016}, we assume that HCHO, and Isoprene columns are in a steady state, with no horizontal transport.
@@ -234,7 +234,7 @@
     These are set to zero, which increases the average by around TODO: X\%.
     The measured background HCHO is the average concentration measured in the remote pacific at the same time.
     
-    Figure \ref{ch_BioIsop:fig:E_isop_vs_hcho_model_sample} shows the modelled isoprene emissions and column HCHO concentrations along with the RMA regression line, sampled from grid boxes over Australia for January 2005.
+    Figure \ref{BioIsop:fig:E_isop_vs_hcho_model_sample} shows the modelled isoprene emissions and column HCHO concentrations along with the RMA regression line, sampled from grid boxes over Australia for January 2005.
     Some affects from the low emissions in grid boxes which are largely oceanic can be seen and are handled by TODO: handle these and document here.
     Due to the low horizontal resolution of GEOS-Chem (2 by 2.5$^{\circ}$, latitude by longitude), calculations from grid boxes on the coast which are largely oceanic need to be discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for Eqn \ref{eqn:isop_yield}.
     A nested version of GEOS-Chem allows a much better analysis of coastal regions, at 0.25 by 0.3125$^{\circ}$ resolution.
@@ -246,12 +246,12 @@
         Both series are daily averages over Australia.
         Bottom panel: (RMA) linear regressions from between emissions of isoprene and tropospheric hcho columns, sampled randomly from the 2$^{\circ}$ by 2.5$^{\circ}$ latitude longitude gridboxes over Australia for the month of January (2005).
       }
-      \label{ch_BioIsop:fig:E_isop_vs_hcho_model_sample}
+      \label{BioIsop:fig:E_isop_vs_hcho_model_sample}
     \end{figure}
     
     TODO: put this into results
     Using this modelled slope at 2$^{\circ}$ by 2.5$^{\circ}$ and applying it to equation \ref{eqn:isop_yield} with B and $\Omega_{HCHO}$ calculated using OMI satellite measurements provides a new estimate of isoprene emissions.
-    Figure \ref{ch_BioIsop:fig:E_isop_200501} shows the emissions calculated this way along with the Emissions output by GEOS-Chem averaged over January, 2005.
+    Figure \ref{BioIsop:fig:E_isop_200501} shows the emissions calculated this way along with the Emissions output by GEOS-Chem averaged over January, 2005.
     \begin{figure}[!htbp]
       % Figure from Inversion.py -> check_against_MEGAN()
       \includegraphics[width=\textwidth]{Figures/Isoprene/E_Comparison.png}
@@ -259,13 +259,13 @@
         Top row is isoprene emissions for the month of January, in 2005, from GEOS-Chem and estimated from OMI respectively.
         Bottom row shows the absolute and relative differences between the two.
       }
-      \label{ch_BioIsop:fig:E_isop_200501}
+      \label{BioIsop:fig:E_isop_200501}
     \end{figure}
   
   \subsection{Emisions drivers}
-    Calculated yields of HCHO can be classified using a box model which approximates specific environments, as described in Section \ref{ch_BioIsop:sec:CabbaMecca}.
+    Calculated yields of HCHO can be classified using a box model which approximates specific environments, as described in Section \ref{BioIsop:CabbaMecca}.
     TODO: A table of different factors affecting emissions for three scenarios; urban, forest, shrublands is given in Table XX.
-    The calculated yields for these scenarios is based on the CAABA/MECCA box model (described in Section \ref{ch_BioIsop:sec:CabbaMecca}) TODO: compare scenarios yields and show map of Australia with mapped closest scenario(one colour for each scenario, contourf).
+    The calculated yields for these scenarios is based on the CAABA/MECCA box model (described in Section \ref{BioIsop:CabbaMecca}) TODO: compare scenarios yields and show map of Australia with mapped closest scenario(one colour for each scenario, contourf).
     
   \subsection{HCHO Products and yield}
     \label{TODO:key}
@@ -385,6 +385,30 @@
       \end{tablenotes}
       \label{ch_isop:tab:VOCLiteratureYields}
     \end{threeparttable} \end{table}
+    
+  \subsection{Accounting for smearing}
+    \label{BioIsop:Methods:Smearing}
+    Accounting for transport of the precursors is important, especially in low NO$_X$ conditions in which isoprene has a longer lifetime (days).
+    This allows horizontal transport to occur and complicates the algorithms, as can be seen by the smearing length scale which increases beyond the 100~km.
+    The smearing length scale; the distance travelled downwind (L$_{d,i}$) by a precursor (i) before becoming HCHO can be estimated using:
+    \begin{equation*}
+      L_{d,i} = \frac{U}{k_i - k_{HCHO}} \ln{ \left( \frac{k_i}{k_{HCHO}} \right) }
+    \end{equation*}
+    where U is wind-speed.
+    \citet{Palmer2003} further define a smearing length scale: L$_{s,i}$ as the distance downwind where a fraction (1 - $1/e$) of the precursor is completely transformed into HCHO.
+    This equation uses the initial VOC column concentration ($[VOC]_0$) at the point of emission and mass balance equations as follows:
+    \begin{equation}
+    \frac{1}{k_{HCHO}-k_i} \left( k_{HCHO} \exp{ \left[ \frac{-k_i L_{s,i}}{U} \right]} -k_i \exp{ \left[ \frac{-k_{HCHO} L_{s,i}}{U} \right]} \right) = \frac{1}{e} 
+    \end{equation}
+    with limiting values L$_{s,i} \rightarrow U/k_i$ for $k_i << k_{HCHO}$, and L$_{s,i} \rightarrow U/k_{HCHO}$ for $k_{HCHO} << k_i$.  
+    
+    TODO: outline of smearing reasoning (find where I wrote this, put it here)
+    
+    TODO: calculation of smearing
+    Similarly to smearing sensitivity calculations in \cite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{Isop}} $, where $\Delta$ represents the monthly mean departure over 1300-1400LT from default run values.
+    
+    TODO: Plots of S hat showing worst smearing affected areas per season.
+    
     
 \section{Results}
   

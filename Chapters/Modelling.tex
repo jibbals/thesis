@@ -78,32 +78,11 @@
     where $\theta_w$ is the wilting point, and $\theta_1$ determines when plants are near the wilting point.
     The wilting point is set by a land based database from \citet{Chen2001}, while $\theta_1$ is set globally based on \citet{Pegoraro2004}.
     
-    In GEOS-Chem the emissionscan be globally multiplied by a constant factor, which was performed to determine the smearing and sensitivity.
-    By running the model two extra times, with the biogenic emissions set to zero and one half, while other parameters remain unchanged, the general affects of isoprene emissions which the model undergoes can be determined.
+    In GEOS-Chem the isoprene emissions can be globally multiplied by a constant factor.
+    By running the model two extra times, with the biogenic isoprene emissions turned off in one run and halved in another, while other parameters remain unchanged. 
+    These modified runs allow an estimate of model sensitivity to isoprene emissions and smearing impact as described in Section \ref{BioIsop:Methods:Smearing}.
     
-  \subsection{Accounting for smearing}
-    
-    Accounting for transport of the precursors is important, especially in low NO$_X$ conditions in which isoprene has a longer lifetime (days).
-    This allows horizontal transport to occur and complicates the algorithms, as can be seen by the smearing length scale which increases beyond the 100~km.
-    For conditions where VOCs have a lifetime of days determining the major HCHO contributors requires a complex inversion to map HCHO columns to VOC emissions.    
-      
-     The distance travelled downwind (L$_{d,i}$) by a precursor (i) before becoming HCHO can be estimated using:
-    \begin{equation*}
-      L_{d,i} = \frac{U}{k_i - k_{HCHO}} \ln{ \left( \frac{k_i}{k_{HCHO}} \right) }
-    \end{equation*}
-    where U is wind-speed.
-    \citet{Palmer2003} further define a smearing length scale: L$_{s,i}$ as the distance downwind where a fraction (1 - $1/e$) of the precursor is completely transformed into HCHO.
-    This equation uses the initial VOC column concentration ($[VOC]_0$) at the point of emission and mass balance equations, and is as follows:
-    \begin{equation}
-      \frac{1}{k_{HCHO}-k_i} \left( k_{HCHO} \exp{ \left[ \frac{-k_i L_{s,i}}{U} \right]} -k_i \exp{ \left[ \frac{-k_{HCHO} L_{s,i}}{U} \right]} \right) = \frac{1}{e} 
-    \end{equation}
-    with limiting values L$_{s,i} \rightarrow U/k_i$ for $k_i << k_{HCHO}$, and L$_{s,i} \rightarrow U/k_{HCHO}$ for $k_{HCHO} << k_i$.  
-    
-    TODO: outline of smearing reasoning (find where I wrote this, put it here)
-    
-    TODO: calculation of smearing
-    
-    TODO: Plots of S hat showing worst smearing affected areas per season.
+  
     
 \section{Running GEOS-Chem (before isop?)}
   \label{Model:GC_running}
