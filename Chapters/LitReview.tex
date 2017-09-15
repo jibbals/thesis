@@ -31,68 +31,72 @@
   \subsection{Air Quality}
     \label{LR:O3andAQ:AQ}
     Australia is largely covered by environments which are not heavily influenced by human activity.
-    These regions are natural sources of the trace gases which make up less than 1\% of earth's atmosphere.
+    These regions are natural (biogenic) sources of the trace gases (those which make up less than 1\% of the earth's atmosphere).
     Trace gases in the atmosphere can have a large impact on living conditions.
     They react in complex ways with other elements (anthropogenic and natural), affecting various ecosystems upon which life depends.
-    Biogenic emissions affect surface pollution levels and can alter the radiative and particulate matter distribution of the atmosphere with harmful results.
+    Biogenic emissions affect surface pollution levels and can alter the radiative processes in the atmosphere with harmful results.
     For example, ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
-    Particulate matter in the atmosphere is also a major problem, causing an estimated 2-3 million deaths annually \citep{Hoek2013, Krewski2009, Silva2013, Lelieveld2015}. 
+    Particulate matter (PM) in the atmosphere is also a major problem, causing an estimated 2-3 million deaths annually \citep{Hoek2013, Krewski2009, Silva2013, Lelieveld2015}. 
     
-    One important factor, affecting particulate matter and ozone concentration (both detrimental to human health), is a group called Volatile Organic Compounds (VOCs).
-    The major source of VOCs in the atmosphere is biogenic, with around 90\% of all global emissions coming from natural sources \citep{Guenther1995,Guenther2006, Millet2006}.
-    Non methane VOC (NMVOC) levels are globally estimated at 85~\%, 13~\%, and 3~\% from biogenic, anthropogenic, and pyrogenic sources respectively \citep{Kefauver2014}.  
-    Atmospheric VOCs can form harmful SOAs, and affect radical levels, which drive much of the chemistry in our atmosphere.
+    One important factor, affecting PM and ozone concentration (both detrimental to human health), is a group called Volatile Organic Compounds (VOCs).
+    The major source of VOCs in the atmosphere is biogenic, with around 90\% of emissions (globally) coming from natural sources \citep{Guenther1995,Guenther2006, Millet2006}.
+    Global non-methane VOC (NMVOC) levels are estimated at 85~\%, 13~\%, and 3~\% from biogenic, anthropogenic, and pyrogenic sources respectively \citep{Kefauver2014}.  
+    Atmospheric VOCs can form secondary organic aerosols (SOA) which are detrimental to human health.
+    They also and affect radical levels, which drive much of the chemistry in our atmosphere.
     Due to the lack of in-situ ground based measurements, estimates of VOC emissions are uncertain, with large scale extrapolation required \citet{Millet2006}.
-    VOC emission is based on many factors, including plant type and soil moisture \citep{Guenther1995}, both of which are not well characterised in Australia \citep{Sindelarova2014, Bauwens2016}.
-    Changes in parameterisation of soil moisture in MEGAN lead to massive changes in Australian isoprene emission estimates, and soil moisture in Australia is not very well measured \citep{Sindelarova2014}.
+    VOC emission estimates are based on many factors, including plant type and soil moisture \citep{Guenther1995}, neither of which are well characterised in Australia \citep{Sindelarova2014, Bauwens2016}.
+    Not only are these factors poorly characterised, the estimates are highly sensitive to them.
+    Changes in parameterisation of soil moisture in MEGAN (one emissions model, described later) lead to massive changes in Australian isoprene emission estimates \citep{Sindelarova2014}.
     This has an compounding effect on the large uncertainties of biogenic VOC emissions \citep{Guenther2000, Millet2006}.
     
     Another important factor is NO$_X$ (NO, NO$_2$) which has a complex non-linear relationship with both ozone and VOCs. TODO: talk about NOx chemistry?
-    Since many Australian cities are on the edge of regions with rich VOC emissions, it is very important to try to get a clear picture of both how much VOCs are being emitted, and where these emissions are coming from.
+    Since many Australian cities are on the edge of regions with rich VOC emissions, it is very important to clarify the quantity, type, and cause of VOC emissions.
+    The existence of satellite data covering remote areas provides an opportunity to develop more robust models of global climate and chemistry.
+    Understanding of emissions from these areas is necessary to inform national policy on air pollution levels.
     
-    \subsubsection{How do we determine this?}
+    \subsubsection{How do we measure air quality?}
     
       % AIR Quality metric example
-      Australian air quality is monitored independently within each state, using various metrics measured by varying numbers of monitoring stations.
+      Australian air quality is monitored independently within each state, using various metrics. These metrics are measured by varying numbers of monitoring stations in each state.
       In New South Wales (NSW) the metrics used to determine air quality are: particulate matter (PM), O$_3$, CO, NO$_2$, SO$_2$, and visibility.
       PM is separated into size bins: with radius $< 2.5 $~$\mu$m and $<10$~$\mu$m being PM$_{2.5}$, and PM$_{10}$ respectively.
       An air quality index equal to the worst of these metrics is used for NSW as shown at \url{http://www.environment.nsw.gov.au/aqms/aqitable.htm}.
       Similar methods are used in other states to get an idea of air quality.
-      Measurement stations are generally located in population centres, and don't regularly measure precursor emisisons. 
+      Measurement stations are generally located in population centres, and don't regularly measure precursor emissions. 
       This is an important omission as naturally emitted precursor gases often get transported into cities where they affect air quality.
       
-      Natural emissions from areas with little anthropogenic influence and no ground based measurements characterise the majority of Australian land mass \citep{VanDerA2008}.
-      One source of information which covers the entirety of Australia is remote sensing performed by instruments on satellites which overpass daily recording reflected solar (and emitted terrestrial) radiation.
-      These can be used to quantify the abundance of several chemical species as well as estimate their distribution in vertical columns over the land.
-      These measurements can be used to determine emissions of precursor gases which affect air quality and that we don't measure directly.
-      
-      The existence of satellite data covering remote areas provides an opportunity to develop more robust models of global climate and chemistry.
-      Understanding of emissions from these areas is necessary to inform national policy on air pollution levels.
+      Australia is dominated by areas with little anthropogenic influence and no ground based measurements of the natural emissions taking place \citep{VanDerA2008}.
+      One source of information which covers the entirety of Australia is remote sensing data.
+      This comes from instruments on satellites which overpass daily recording reflected solar (and emitted terrestrial) radiation.
+      In conjunction with atmospheric chemistry and radiative models, these measurements can be used to quantify the abundance of several chemical species in the atmosphere.
+      These measurements can then be used to determine the unmeasured emissions of precursor gases which affect air quality.
       Satellite data allow us to verify large scale model estimates of natural emissions.
       Satellite measurements can be performed using spectral fitting followed by conversion to vertical column densities.
       The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \cite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
-      These various measurements can be used to improve models, which are then able to predict harmful and costly events.
+      These various measurements can be used to improve models, which can be used to predict harmful and costly events, as well as prevent scenarios in which pollution events are likely.
       
-      Much of the landscape outside of urban areas is undeveloped and sparsely inhabited.
       In Australia most long term air quality measurements are performed in or near large cities.
-      However, estimates of atmospheric gas and particulate densities, and their distributions over much of the continent are uncertain and lack in-situ measurements.
-      Although we expect the majority of emissions to be from biogenic sources, the possibilty of anthropogenic sources must be managed.
-      \cite{Millet2008} show that HCHO anthropogenic emissions in America mostly negligible, although this is not the case in China, and improved sensitivity from oversampling allows detection over Houston, Texas \citep{Fu2007, Zhu2014}.
-      \cite{Fu2007} use GOME measurements over Asia and derive biogenic, anthropogenic, and pyrogenic VOC emissions, and \cite{Zhu2014} use oversampling of the OMI HCHO measurements to determine anthropogenic HRVOC emissions.
-      They also use GEOS-Chem with the changed emissions and show surface ozone is affected, with a seasonal increase of 5-20~ppb.
-      Many models lack in situ measurements with which to verify their disparate chemical mechanisms, which leads to large discrepancies, as seen in \cite{Marvin2017a}.
+      Estimates of atmospheric gas and particulate densities, and their distributions over much of the continent are uncertain, lacking long term in-situ measurements.
+      Although the majority of VOC emissions globally are from biogenic sources, anthropogenic emissions in populated areas must be managed.
+      \cite{Millet2008} show that anthropogenic emissions of HCHO in America are mostly negligible, although improved sensitivity from oversampling allowed satellite detection of enhanced HCHO concentrations over Houston and Texas \citep{Zhu2014}.
+      This is not the case in China, since massive population centres and industrial districts are emitting huge amounts of VOCs into the atmosphere \citep{Fu2007}.
+      \cite{Fu2007} use GOME measurements over Asia and derive biogenic, anthropogenic, and pyrogenic VOC emissions, and \cite{Zhu2014} use oversampling of the OMI HCHO measurements to determine anthropogenic highly-reactive VOC emissions.
+      They then use GEOS-Chem with their updated emissions and show how surface ozone is affected, with a seasonal increase of 5-20~ppb.
       
+      Many models lack in-situ measurements with which to verify their chemical mechanisms, which leads to large discrepancies, as seen in \cite{Marvin2017a}.
+      TODO: briefly talk about Marvin2017a takeaways.
       Recently \cite{Kuang2017} analysed various measurements in the southeast USA and observed STT influence which can be seen to affect surface ozone levels.
       In their work they use of high spectral resolution lidar (HSRL), ozonesondes, ozone lidar, and airborn in-situ measurements give the structure and temporal evolution of ozone and the low front weather system.
       
       % Ozone sondes
-      Since the Montreal Protocol on Substances that Deplete the Ozone Layer was established in August 1987, and ratified in August 1989, several satellites and many measurement stations were set up to monitor ozone and examine the stratospheric ozone levels.
-      In the southern hemisphere there are relatively few records of ozone \citep{Huang2017}.
-      One method of measuring ozone in the troposphere and stratosphere is by releasing weather balloons which can measure ozone as they rise up to around 30~km, giving a vertical profile of concentrations.
+      Since the Montreal Protocol on Substances that Deplete the Ozone Layer was established in August 1987, and ratified in August 1989, several satellites and many measurement stations were set up to monitor ozone in the stratosphere.
+      However, in the southern hemisphere there are relatively few records of ozone \citep{Huang2017}.
+      One method of measuring ozone in the troposphere and stratosphere is by releasing weather balloons (with attached ozone detectors) which take readings as they rise up to around 30~km, giving a vertical profile of concentrations.
       Since 1986, Lauder, New Zealand (45$^{\circ}$S, 170$^{\circ}$E) has released ozonesondes allowing a multi-decadal analysis of ozone concentrations over the city \citep{Brinksma2002}.
       Kerguelan Island (49.2$^{\circ}$S, 70.1$^{\circ}$E), also has a record of ozonesonde profiles, which are directly in the path of biomass burning smoke plumes transported off shore from Africa \citep{Baray2012}.
       SHADOZ is the southern hemispheric additional ozone project, which have released sondes from 15 sites at different times \url{http://tropo.gsfc.nasa.gov/shadoz/}.
       
+      % UP TO HERE READING OUT LOUD TODO: CONTINUE
     %\subsubsection{Satellite measurements}
       % Satellite measurements
       TODO: get access to Hegglin (\url{10.1038/ngeo604}) \citep{Hegglin2009}
