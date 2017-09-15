@@ -3,14 +3,28 @@
 
 \chapter{Modelling with GEOS-Chem} % Main chapter title
 \label{Model} %better reference name?
-
+  \subsection{List of runs and outputs used in my work TODO: good place for this?}
+  TODO: Go through work process and clarify these items
+    \begin{list}
+      \item UCX Satellite output (1300-1400LT): 
+        \subitem Create shape factors for AMF recalculation in OMI
+        \subitem TODO: should I use this one for yields also?
+      \item Tropchem satellite output, modified to include tropopause height:
+        \subitem recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
+        \subitem in conjunction with an identical run where isoprene emissions are halved in order to determine smearing.
+      \item Tropchem(isoprene emissions halved) satellite output:
+        \subitem used to determine smearing.
+      \item Tropchem daily tracer averages
+        \subitem Currently used to determine yield and new emissions estimates (may switch to UCX satellite or trac avg in future?)
+    \end{list}
+    
 %----------------------------------------------------------------------------------------
 %	SECTION
 %----------------------------------------------------------------------------------------
 \section{GEOS-Chem framework}
   \label{Model:GC_frame}
   GEOS-Chem is an atomspheric chemical model (ACM), using a 3-D grid of boxes with transport driven by the GEOS meteorological model and chemistry calculated in each box independently. Many of these terms are described in Section \ref{LR:Models:frames}.
-  
+    
 \section{GEOS-Chem isoprene mechanisms}
   \label{Model:GC_isop}
   \subsection{Outline}
