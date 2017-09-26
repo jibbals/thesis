@@ -5,22 +5,9 @@
 %
 % Introduction and Literature Review
 %   Tropospheric ozone and air quality . . . . .
-%     Air Quality . . . . . . . . . . . . . .
-%     Stratospheric ozone . . . . . . . . . .
-%     Biogenic precursors to ozone . . . . .
 %   Isoprene and other VOCs . . . . . . . . . . .
-%     Sources . . . . . . . . . . . . . . . .
-%     Where do they go? . . . . . . . . . .
-%     How and where do we measure them?
-%     How do we determine emissions? . .
 %   Formaldehyde (HCHO) . . . . . . . . . . . .
-%     Sources . . . . . . . . . . . . . . . .
-%     Determining isoprene from HCHO . .
-%     Satellite HCHO detection . . . . . .
 %   Models . . . . . . . . . . . . . . . . . . . . .
-%     How can models help . . . . . . . . .
-%     Model frameworks . . . . . . . . . .
-%     Relevant classes of models
 %   Aims?
 %%%%%%
 \chapter{Introduction and Literature Review} % Chapter Title
@@ -30,29 +17,63 @@
   \label{LR:O3andAQ}
   \subsection{Air Quality}
     \label{LR:O3andAQ:AQ}
+    %%% AUSTRALIA
     Australia is largely covered by environments which are not heavily influenced by human activity.
     These regions are natural (biogenic) sources of the trace gases (those which make up less than 1\% of the earth's atmosphere).
     Trace gases in the atmosphere can have a large impact on living conditions.
     They react in complex ways with other elements (anthropogenic and natural), affecting various ecosystems upon which life depends.
-    Biogenic emissions affect surface pollution levels and can alter the radiative processes in the atmosphere with harmful results.
-    For example, ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
-    Particulate matter (PM) in the atmosphere is also a major problem, causing an estimated 2-3 million deaths annually \citep{Hoek2013, Krewski2009, Silva2013, Lelieveld2015}. 
+    Biogenic emissions affect surface pollution levels, potentially enhancing particulate matter (PM) and ozone levels.
     
-    One important factor, affecting PM and ozone concentration (both detrimental to human health), is a group called Volatile Organic Compounds (VOCs).
-    The major source of VOCs in the atmosphere is biogenic, with around 90\% of emissions (globally) coming from natural sources \citep{Guenther1995,Guenther2006, Millet2006}.
-    Global non-methane VOC (NMVOC) levels are estimated at 85~\%, 13~\%, and 3~\% from biogenic, anthropogenic, and pyrogenic sources respectively \citep{Kefauver2014}.  
-    Atmospheric VOCs can form secondary organic aerosols (SOA) which are detrimental to human health.
-    They also and affect radical levels, which drive much of the chemistry in our atmosphere.
-    Due to the lack of in-situ ground based measurements, estimates of VOC emissions are uncertain, with large scale extrapolation required \citet{Millet2006}.
-    VOC emission estimates are based on many factors, including plant type and soil moisture \citep{Guenther1995}, neither of which are well characterised in Australia \citep{Sindelarova2014, Bauwens2016}.
-    Not only are these factors poorly characterised, the estimates are highly sensitive to them.
-    Changes in parameterisation of soil moisture in MEGAN (one emissions model, described later) lead to massive changes in Australian isoprene emission estimates \citep{Sindelarova2014}.
-    This has an compounding effect on the large uncertainties of biogenic VOC emissions \citep{Guenther2000, Millet2006}.
+    \subsubsection{Ozone}
+      %%% OZONE
+      Ozone (O$_3$) is mostly located in the stratosphere, where it helpfully prevents much of the shorter wave length solar radiation from reaching the earth's surface (ie UV light).
+      However around 11\% of the total column of ozone is located in the troposphere (TODO: cite), where it has several deleterious effects.
+      Ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011,Yue2017}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
+      In the short term, ozone concentrations of $\sim$50-60~ppbv over eight hours or $\sim$80~ppbv over one hour are agreed to constitude a human health hazard \citep{Ayers2006,Lelieveld2009}. 
+      Long term exposure to lower levels cause problems with crop loss and ecosystem damage \citep{Emberson2003}, and both short and long term concentrations may get worse in the future \citep{Lelieveld2009, Stevenson2013}.
+      Further tropospheric ozone enhancements are projected to drive reductions in global crop yields equivalent to losses of up to \$USD$_{2000}$ 35 billion per year by 2030 \citep{Avnery2011}, along with detrimental health outcomes equivalent to $\sim$\$USD$_{2000}$11.8 billion per year by 2050 \citep{Selin2009}.
+      Recently \cite{Yue2017} showed that the net effect of near-surface ozone on is a $\sim 14\%$ decrease in net primary productivity (NPP) in China, which could be reduced with drastic measures required to reduce this by $70\%$ by 2030.
+      
+      The tropospheric ozone concentrations rely on climate and ozone precursor emissions; including NO, NO$_2$, CO, VOCs, and HCHO \citep{Atkinson2000, Young2013, Marvin2017}. 
+      Ozone predictions are uncertain and difficult due to the vagaries of changing climate which affects both transport, deposition, destruction, and plant based precursor emissions.
+      All of these processes are tightly coupled and difficult to accurately model, as they depend on uncertain assumptions such as CO$_2$ dependency \citep{Young2013}.
+      Even with all the work done in the prior decades there remains large uncertainties about ozone precursors in the troposphere \citep{Mazzuca2016}.
+      Ozone is also a very important substance for formation of radicals (NO$_3$, OH) in the troposphere through photolysis in the presence of water, see Section \ref{ch_LitRev:sec:RadicalFormation} for more details.
     
-    Another important factor is NO$_X$ (NO, NO$_2$) which has a complex non-linear relationship with both ozone and VOCs. TODO: talk about NOx chemistry?
-    Since many Australian cities are on the edge of regions with rich VOC emissions, it is very important to clarify the quantity, type, and cause of VOC emissions.
-    The existence of satellite data covering remote areas provides an opportunity to develop more robust models of global climate and chemistry.
-    Understanding of emissions from these areas is necessary to inform national policy on air pollution levels.
+    \subsubsection{Particulate matter and SOA}
+      %%% PM and SOA
+      PM in the atmosphere is also a major problem, causing an estimated 2-3 million deaths annually \citep{Hoek2013, Krewski2009, Silva2013, Lelieveld2015}. 
+      Aerosols are suspended particulates and liquid compounds in the atmosphere, of which particulate matter (PM) is an important subset.
+      Fine particulate matter (PM$_{2.5}$) penetrates deep into the lungs and is detrimental to human health.
+      Some PM comes from small organic aerosols (OA) emitted in the particulate phase and referred to as primary OA (POA).
+      A substantial amount of PM is due to gaseous organic compounds transforming in the troposphere leading to what's known as secondary OA (SOA) \citep{Kroll2008}.
+      Formation of SOA is generally due to VOC oxidation and subsequent reactions, while removal from the atmosphere is largely due to wet or dry deposition, and cloud scavenging \citep{Kanakidou2005}.
+      TODO: POA vs SOA summary, how exactly are these two terms/metrics quantified?
+    
+    
+    \subsubsection{Factors influencing ozone and PM}
+      %\label{LR:sec:AQfactors}
+      
+      %%% Important factors affecting PM and Ozone
+      One important factor, affecting both PM and ozone concentration, is a group called Volatile Organic Compounds (VOCs).
+      The major source of VOCs in the atmosphere is biogenic, with around 90\% of emissions (globally) coming from natural sources \citep{Guenther1995,Guenther2006, Millet2006}.
+      Global non-methane VOC (NMVOC) levels are estimated at 85~\%, 13~\%, and 3~\% from biogenic, anthropogenic, and pyrogenic sources respectively \citep{Kefauver2014}.  
+      They also and affect radical levels, which drive much of the chemistry in our atmosphere.
+      Due to the lack of in-situ ground based measurements, estimates of VOC emissions are uncertain, with large scale extrapolation required \citet{Millet2006}.
+      VOC emission estimates are based on many factors, including plant type and soil moisture \citep{Guenther1995}, neither of which are well characterised in Australia \citep{Sindelarova2014, Bauwens2016}.
+      In addition the estimates are highly sensitive to them.
+      Changes in parameterisation of soil moisture in MEGAN (one emissions model, described later) lead to massive changes in Australian isoprene emission estimates \citep{Sindelarova2014}.
+      This has an compounding effect on the large uncertainties of biogenic VOC emissions \citep{Guenther2000, Millet2006}.
+      
+      Another important factor is NO$_X$ (NO, NO$_2$) which has a complex non-linear relationship with both ozone and VOCs. TODO: talk about NOx chemistry?
+      Since many Australian cities are on the edge of regions with rich VOC emissions, it is very important to clarify the quantity, type, and cause of VOC emissions.
+      The existence of satellite data covering remote areas provides an opportunity to improve VOC emissions estimates leading to more robust models of global climate and chemistry.
+      Understanding of emissions from these areas is necessary to inform national policy on air pollution levels.
+      
+      %%% FIRE smoke plumes
+      Smoke plumes from biomass burning can carry ozone precursors, creating higher ozone concentrations downwind of the plume's source.
+      Fire emissions include a range of chemicals and each year the affects of fire or burning seasons blanket the northern and southern hemispheres independently.
+      Biomass burning in southern Africa and South America has previously been shown to have a major influence on atmospheric composition in Australia \citep{Oltmans2001, Gloudemans2006, Edwards2006}, particularly from July to December \citep{Pak2003, Liu2016}.
     
     \subsubsection{How do we measure air quality?}
     
@@ -73,7 +94,7 @@
       Satellite data allow us to verify large scale model estimates of natural emissions.
       Satellite measurements can be performed using spectral fitting followed by conversion to vertical column densities.
       The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \cite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
-      These various measurements can be used to improve models, which can be used to predict harmful and costly events, as well as prevent scenarios in which pollution events are likely.
+      These various measurements can be used to improve models, which allows prediction of harmful and costly events, and prevention of scenarios in which pollution events are likely.
       
       In Australia most long term air quality measurements are performed in or near large cities.
       Estimates of atmospheric gas and particulate densities, and their distributions over much of the continent are uncertain, lacking long term in-situ measurements.
@@ -81,12 +102,11 @@
       \cite{Millet2008} show that anthropogenic emissions of HCHO in America are mostly negligible, although improved sensitivity from oversampling allowed satellite detection of enhanced HCHO concentrations over Houston and Texas \citep{Zhu2014}.
       This is not the case in China, since massive population centres and industrial districts are emitting huge amounts of VOCs into the atmosphere \citep{Fu2007}.
       \cite{Fu2007} use GOME measurements over Asia and derive biogenic, anthropogenic, and pyrogenic VOC emissions, and \cite{Zhu2014} use oversampling of the OMI HCHO measurements to determine anthropogenic highly-reactive VOC emissions.
-      They then use GEOS-Chem with their updated emissions and show how surface ozone is affected, with a seasonal increase of 5-20~ppb.
+      Then with their updated emissions they show how surface ozone is affected, with a seasonal increase of 5-20~ppb simulated by GEOS-Chem.
       
-      Many models lack in-situ measurements with which to verify their chemical mechanisms, which leads to large discrepancies, as seen in \cite{Marvin2017a}.
+      Many models lack in-situ measurements with which to verify their chemical mechanisms, leading to large discrepancies, as seen in \cite{Marvin2017a}.
       TODO: briefly talk about Marvin2017a takeaways.
-      Recently \cite{Kuang2017} analysed various measurements in the southeast USA and observed STT influence which can be seen to affect surface ozone levels.
-      In their work they use of high spectral resolution lidar (HSRL), ozonesondes, ozone lidar, and airborn in-situ measurements give the structure and temporal evolution of ozone and the low front weather system.
+      
       
       % Ozone sondes
       Since the Montreal Protocol on Substances that Deplete the Ozone Layer was established in August 1987, and ratified in August 1989, several satellites and many measurement stations were set up to monitor ozone in the stratosphere.
@@ -102,7 +122,7 @@
       TODO: get access to Hegglin (\url{10.1038/ngeo604}) \citep{Hegglin2009}
       TODO: Include ozone hole treaty and things put in place for that
       
-      Combining satellite data with model outcomes provides a platform for the understanding of natural processes to be tested now and into the future over Australia and anywhere with few in-situ measurements.
+      Combining satellite data with model outcomes provides a platform for the understanding of natural processes which is especially useful over Australia.
       Due to the low availability of in-situ data covering most of the Australian continent, a combination of the models with satellite data may provide improved understanding of emissions from Australian landscapes.
       Improved emissions estimates will in turn improve the accuracy of CTMs, providing better predictions of atmospheric composition and its response to ongoing environmental change.
       
@@ -112,7 +132,7 @@
       
       %SATELLITE ERRORs 
       While satellite data is effective at covering huge areas (the entire earth) it only exists at a particular time of day, is subject to cloud cover, and generally does not have fine horizontal or vertical resolution.
-      Concentrations retrieved from satellite have large uncertainties, which arise due to several factors which arise in the process of transforming spectra to total column measurements, as well as instrument degradation (satellite instruments are hard to tinker with once they are launched).
+      Concentrations retrieved by satellites have large uncertainties, which arise in the process of transforming spectra to total column measurements, as well as instrument degradation (satellite instruments are hard to tinker with once they are launched).
       Uncertainty in satellite measurements comes from a range of things, including measurement difficulties introduced by clouds, and instrument sensitivity to particular aerosols \citep{Millet2006}.
       Many products require analysis of cloud and aerosol properties in order to estimate concentration or total column amounts \citep{Palmer2001,Palmer2003, Marais2012, Vasilkov2017}.
       There are two types of error, arguably the worst of these is systematic error (or bias) which normally indicates a problem in calculation or instrumentation.
@@ -120,51 +140,25 @@
       A proper fix can only be performed if the sources of error are known and there is a way of correcting or bypassing it.
       Random error is the other type (often reported as some function of a dataset's variance or else uncertainty), and this can be reduced through averaging either spatially or temporally. 
       By taking the average of several measurements, any random error can be reduced by a factor of one over the square root of the number of measurements.
-      This is done frequently for the relatively highly uncertain satellite measurements of trace gases (which are often near to the detection limit over much of the globe).
+      This is done frequently for satellite measurements of trace gases (which are often near to the detection limit over much of the globe).
       For example: \citet{Vigouroux2009} reduce the measurement uncertainty (in SCIAMACHY HCHO columns) by at least a factor of 4 through averaging daily over roughly 500km around Saint-Denis, and only using days with at least 20 good measurements.
       The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor (discussed in more detail in Section \ref{ch_HCHO:sec:satelliteHCHO:CalculationOfVC}) \citep{Millet2006}.
       
-    \subsubsection{Important AQ factors} 
-      \label{LR:sec:AQfactors}
-      %%% OZONE
-      Ozone (O$_3$) is mostly located in the stratosphere, where it helpfully prevents much of the shorter wave length solar radiation from reaching the earth's surface (ie UV light).
-      However around 11\% of the total column of ozone is located in the troposphere (TODO: cite), where it has several deleterious effects.
-      Ozone in the lower atmosphere is a serious hazard that causes health problems \citep{Hsieh2013}, damages agricultural crops worth billions of dollars \citep{Avnery2011,Yue2017}, and increases the rate of climate warming \citep{IPCC_2013_chap8}.
-      In the short term, ozone concentrations of $\sim$50-60~ppbv over eight hours or $\sim$80~ppbv over one hour are agreed to constitude a human health hazard \citep{Ayers2006,Lelieveld2009}. 
-      Long term exposure to lower levels causes problems with crop loss and ecosystem damage \citep{Emberson2003}, and both short and long term concentrations may get worse in the future \citep{Lelieveld2009, Stevenson2013}.
-      Further tropospheric ozone enhancements are projected to drive reductions in global crop yields equivalent to losses of up to \$USD$_{2000}$ 35 billion per year by 2030 \citep{Avnery2011}, along with detrimental health outcomes equivalent to $\sim$\$USD$_{2000}$11.8 billion per year by 2050 \citep{Selin2009}.
-      Recently \cite{Yue2017} showed that the net effect of near-surface ozone on is a $\sim 14\%$ decrease in net primary productivity (NPP) in China, which could be reduced with drastic measures required to reduce this by $70\%$ by 2030.
       
-      The tropospheric ozone concentrations rely on climate and ozone precursor emissions; including NO, NO$_2$, CO, VOCs, and HCHO \citep{Atkinson2000, Young2013, Marvin2017}. 
-      The direct radiative affects are simple to model, however predictions are uncertain and difficult due to the vagaries of changing climate which affects both transport, deposition, destruction, and plant based precursor emissions.
-      All of these processes are tightly coupled and difficult to predict with disagreements based on assumed changes of various parameters such as CO$_2$ dependency \citep{Young2013}.
-      Even with all the work done in the prior decades there remains large uncertainties about ozone precursors creation processes in the troposphere \citep{Mazzuca2016}.
-      Ozone is also a very important substance for formation of radicals (NO$_3$, OH) in the troposphere through photolysis in the presence of water, see Section \ref{ch_LitRev:sec:RadicalFormation} for more details.
-      
-	    %%% PM and SOA
-	    Aerosols are suspended particulates and liquid compounds in the atmosphere, of which particulate matter (PM) is an important subset.
-	    Fine particulate matter (PM$_{2.5}$) penetrates deep into the lungs and is detrimental to human health.
-	    Some PM comes from small organic aerosols (OA) emitted in the particulate phase and referred to as primary OA (POA).
-	    A substantial amount of PM is due to gaseous organic compounds transforming in the troposphere leading to what's known as secondary OA (SOA) \citep{Kroll2008}.
-	    TODO: POA vs SOA summary
-	    Formation of SOA is generally due to VOC oxidation and subsequent reactions, while removal from the atmosphere is largely due to wet or dry deposition, and cloud scavenging \citep{Kanakidou2005}.
-	    Section \ref{LR:sec:VOCproducts} discusses in depth SOA formation, sources, and destinations.
-	    
-      %%% FIRE smoke plumes
-      Smoke plumes from biomass burning can carry ozone precursors, creating higher ozone concentrations downwind of the plume's source.
-      Fire emissions include a range of chemicals and each year the affects of fire or burning seasons blanket the northern and southern hemispheres independently.
-      Biomass burning in southern Africa and South America has previously been shown to have a major influence on atmospheric composition in Australia \citep{Oltmans2001, Gloudemans2006, Edwards2006}, particularly from July to December \citep{Pak2003, Liu2016}.
-      
-      What drives ozone in the troposphere? Two main contributors are transport from the stratosphere and creation due to biogenic emissions of precursors. 
-      At smaller (regional) scales anthropogenic emissions are also important, especially in large cities such as Sydney due to NO$_X$ emissions from traffic and power production.
-  \subsection{Stratospheric ozone}
+  \subsection{Ozone trasported from the stratosphere}
+    
+    What drives ozone in the troposphere? Two main contributors are transport from the stratosphere and creation due to biogenic emissions of precursors. 
+    At smaller (regional) scales anthropogenic emissions are also important, especially in large cities such as Sydney due to NO$_X$ emissions from traffic and power production.
     
     % subsub section??
     TODO: Intro to strat ozone transport first, then mechanism, then other stuff (maybe use subsubsections?)
     
-    Historically (in the late 1990's), ozone transported down from the stratosphere was thought to contribute 10-40~ppb to the tropospheric ozone,  matching the tropospheric production of ozone (production shown in equation \ref{ch_LitRev:eqn:MethaneBackground}) \citep{Atkinson2000,Stohl2003}.
+    %% STT
+    Historically (in the late 1990's), ozone transported down from the stratosphere was thought to contribute 10-40~ppb to tropospheric ozone levels, matching tropospheric production (shown in equation \ref{ch_LitRev:eqn:MethaneBackground}) \citep{Atkinson2000,Stohl2003}.
     This number was revised down over the years as measurement and modelling campaigns improved our understanding of global scale transport, mixing, and chemistry. (TODO: cites showing when these estimates were revised)
-    A recent analysis of the Atmospheric Chemistry and Climate Model Inter-comparison Project (ACCMIP) simulations by \citet{Young2013} found STT is responsible for $540\pm140$~Tg yr$^{-1}$, equivalent to $\sim$11\% of the tropospheric ozone column, with the remainder produced photochemically \citep{Monks2015}.
+    Recently \cite{Kuang2017} analysed various measurements in the southeast USA and observed STT influence which can be seen to affect surface ozone levels.
+    In their work they use of high spectral resolution lidar (HSRL), ozonesondes, ozone lidar, and airborn in-situ measurements give the structure and temporal evolution of ozone and the low front weather system.
+    An analysis of the Atmospheric Chemistry and Climate Model Inter-comparison Project (ACCMIP) simulations by \citet{Young2013} found STT is responsible for $540\pm140$~Tg yr$^{-1}$, equivalent to $\sim$11\% of the tropospheric ozone column, with the remainder produced photochemically \citep{Monks2015}.
     
     In the stratosphere ozone production is generally driven by the Chapman mechanism, as high energy light (with wavelengths $\lambda<242$~nm) photolyses the molecular oxygen (O$_2$) in the atmosphere \citep[][Chapter 3, section 2]{BrasseurJacob2017}.
     The Chapman mechanism involves several equations which lead to rough equilibrium of O, O$_2$, O$_3$ and pressure, as follows:
@@ -176,8 +170,8 @@
     \end{eqnarray*}
     Where $hv$ represents radiation and M is an inert molecule (such as N$_2$).
     The lifetime of O against loss by O$_2$ is less than a second in the lower atmosphere, and the produced O$_3$ quickly returns to O and O$_2$.
-    Since [O] $<<$ [O$_3$] the defining a chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \citep[][Chapter 3]{BrasseurJacob2017}.
-    This mechanism requires radiation so only takes place during the daytime, during the night there are different processes driving HO$_X$, O$_X$, and other chemical concentrations.
+    Since [O] $<<$ [O$_3$] the chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \citep[][Chapter 3]{BrasseurJacob2017}.
+    This mechanism requires radiation so only takes place during the daytime, during the night there are different processes driving ozone chemistry.
     TODO: Tie strat and trop ozone to this concept
     
     Ozone transported to the troposphere from the stratosphere can occur through diffusion (slow process (TODO: Cite)) or through mixing, often called Stratosphere to Troposphere Transport events (STT), or intrusions.
@@ -186,7 +180,8 @@
     There are a few methods of doing this, such as \citet{Ojha2016}, who use the ECHAM5 CTM with a tracer based on keeping track of ozone formed and transported from the stratosphere.
     The estimates generally require validation against actual measurements, such as those from ozonesondes or satellites.
     %Hegglin, M. I., and T. G. Shepherd (2009), Large climate-induced changes in ultraviolet index and stratosphere-to-troposphere ozone flux, Nature Geosci, 2(10), 687 \selectlanguage{english}691, doi:10.1038/NGEO604.
-    \citet{Hegglin2009} estimate that climate change will lead to increased STT of the order of 30 (121) Tg yr$^{-1}$ relative to 1965 in the Southern (Northern) Hemisphere due to an acceleration in the Brewer Dobson circulation.
+    \citet{Hegglin2009} estimate that climate change will lead to increased STT due to an acceleration in the Brewer Dobson circulation.
+    They estimate $\sim 30$, and $\sim 121$ Tg yr$^{-1}$ increases (relative to 1965) in the southern and northern hemispheres respectively
     
     \cite{Liu2017} examine southern hemispheric ozone and the processes which control its interannual variability (IAV).
     IAV is the standard deviation of ozone anomalies (difference from the monthly mean).
@@ -195,13 +190,12 @@
     \citet{Liu2017} look at modelled tropospheric ozone sensitivity to changes in stratospheric ozone, ozone precursor emissions, and lightning over the southern hemisphere from 1992--2011. 
     Their work suggest ozone at 430~hPa is mostly stratospheric in September over 20$^{\circ}$S to 60$^{\circ}$S at all longitudes.
     They also see tropospheric ozone sensitivity to emissions from South America (0--20$^{\circ}$S, 72.5--37.5$^{\circ}$W), southern Africa (5--10$^{\circ}$S, 12-38$^{\circ}$E), and South and South-east Asia (70-125$^{\circ}$E, 10$^{\circ}$S--40$^{\circ}$N).
-    In the USA recent work by \cite{Lin2015} suggests that intrusions during spring are increasing surface ozone levels higher.
+    In the USA recent work by \cite{Lin2015} suggests that intrusions during spring are increasing surface ozone levels.
     Their work also recommends that understanding of frequency and cause of STT needs to be improved to effectively implement air quality standards.
     
   \subsection{Biogenic precursors to ozone}
-    \label{LR:sec:BiogenicOzonePrecursors}
-    What drives ozone production
-    ...
+    \label{LR:O3andAQ:BiogenicOzonePrecursors}
+    
     Ozone is formed in the troposphere through oxidation of VOCs in the presence of NO$_X$.
     Net formation or loss of O$_3$ is determined by interactions between VOCs, NO$_X$, and HO$_X$, and is a complicated system of positive and negative feedbacks \citep{Atkinson2000}.
     Tropospheric ozone is lost via chemical destruction and dry deposition, estimated to be $4700\pm700$ Tg yr$^{-1}$ and $1000\pm200$ Tg yr$^{-1}$, respectively \citep{Stevenson2006}.
