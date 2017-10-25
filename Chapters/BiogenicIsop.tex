@@ -79,6 +79,7 @@
     
     Output for an area averaged over 1200 - 1400 local time is saved for comparison and recalculation with satellite overpass records.
     These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals.
+    They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
   
 \section{Methods}
   \label{BioIsop:Methods}
@@ -199,7 +200,7 @@
     
     % SLOPE Calculation
     In order to approximate the isoprene to HCHO yields over Australia, GEOS-Chem is run and the slope (S) between modelled tropospheric HCHO columns and emissions of isoprene within each grid box. 
-    TODO: example grid box and regression plot.
+    Figure (TODO: example grid box and regression plot.) shows the regression between emitted isoprene and tropospheric column HCHO, averaged between 1200-1300~LT each day.
     We can infer the local (grid space) isoprene emissions (E$_{isop}$) using effective formaldehyde yield from isoprene ($Y_{isop}$).
     \begin{equation} \label{eqn:isop_yield}
     \Omega_{HCHO} = S \times E_{isop} + B
