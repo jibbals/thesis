@@ -4,27 +4,48 @@
 \chapter{Modelling with GEOS-Chem} % Main chapter title
 \label{Model} %better reference name?
   \subsection{List of runs and outputs used in my work TODO: good place for this?}
-  TODO: Go through work process and clarify these items
+    TODO: Go through work process and clarify these items
+    
     \begin{enumerate}
-      \item UCX Satellite output (1300-1400LT): 
+      \item UCX 
       \begin{enumerate}
+        \item Satellite output (1300-1400LT)
         \item Create shape factors for AMF recalculation in OMI
       \end{enumerate}
-      \item Tropchem satellite output, modified to include tropopause height:
+      
+      \item Tropchem (standard)
       \begin{enumerate}
+        \item satellite output, daily tracer averages
         \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
         \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
+        \item TODO: Compare total yearly isoprene emissions before and after new estimate.
       \end{enumerate}
-      \item Tropchem(isoprene emissions halved) satellite output:
+    
+      \item Tropchem(isoprene emissions halved)
       \begin{enumerate}
-        \item Used to determine smearing.
+        \item Satellite output used to determine smearing.
       \end{enumerate}
-      \item Tropchem daily tracer averages
+    
+      \item Tropchem(biogenic emissions only, all other inventories turned off)
       \begin{enumerate}
-        \item Used to determine yield and new emissions estimates (TODO:May switch to using satellite output)
-        \item Compared total yearly isoprene emissions before and after new estimate.
+        \item Satellite output, hourly biogenic emissions from MEGAN
+        \item Used to determine yield for new emissions estimates
+        \item TODO: compared to run with updated emissions
       \end{enumerate}
     \end{enumerate}
+    NB: for non-UCX runs, satellite output was modified to include tropopause height
+  
+  \subsection{Reading GEOS-Chem output}
+    
+    \subsubsection{HEMCO diagnostics}
+      
+      % Local time offsets
+      In order to get hourly MEGAN modelled isoprene emissions, HEMCO (the module of GEOS-Chem dealing with emissions inventories) diagnostic output was created.
+      When working with globally gridded data, handling local time offsets becomes more important.
+      The hourly output emissions of isoprene is saved using GMT, which needs to be offset based on longitude in order to retrieve local time.
+      I do this by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with it's local time offset.
+      This offset is determined as one hour per 15 degrees (since 360 degrees is 24 hours), and then used to retrieve global data at any specific local time.
+      The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
     
 %----------------------------------------------------------------------------------------
 %	SECTION
@@ -200,13 +221,13 @@
 \section{Analysing output}
 
   \subsection{Campaigns and datasets}
-  \label{BioIsop:Campaigns}
-  TODO: these summaries.
-  OMI summary
-  
-  Daintree summary (P. Nelson)
-  
-  MUMBA summary
+    \label{BioIsop:Campaigns}
+    TODO: these summaries.
+    OMI summary
+    
+    Daintree summary (P. Nelson)
+    
+    MUMBA summary
   
     \subsubsection{Sydney Particle Studies (SPS1, SPS2)}
       Two VOC and other trace gas measurement campaigns took place at the Westmead Air Quality Station scientists from CSIRO, OEH, and ANSTO. 
