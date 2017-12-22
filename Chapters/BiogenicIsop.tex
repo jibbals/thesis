@@ -7,6 +7,7 @@
 % ------------------------
 
 \newcommand{\tgpyr}{~Tg yr$^{-1}$}
+\newcommand{\degr}{~$^{\circ}$}
 
 \chapter{Biogenic Isoprene emissions in Australia} % Chapter title
 \label{BioIsop}
@@ -70,7 +71,8 @@
   
   \subsection{OMI NO2}
     NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem. 
-    OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^\{\circ}$ horizontally resolved bins.
+    OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
+    See section \ref{BioIsop:Methods:NOx} for how this product was used to check GEOS-Chem calculations.
   
   \subsection{Drought Index}
     The S Precipitation Evapotranspiration Index (SPEI) is a measure of drought using various parameters such as TODO. (\cite{Wang2017}).
@@ -79,20 +81,34 @@
     It is downloaded from TODO and holds monthly averaged values at 0.5$^{\circ}$ horizontal resolution.
     When comparing against the emissions estimates this is interpolated linearly onto the same grid as that of GEOS-Chem output at 2x2.5$^{\circ}$.
   
+  \subsection{GEOS-Chem output}
+    There are various outputs available when running GEOS-Chem, which require understanding in order to compare with observations.
+    \begin{description}
+      \item[Satellite overpass] is output from averaging over a window of local time for each gridbox. 
+        This output allows comparison with satellite measurements, which overpass at the same local time every day.
+        The output is in bitpunch.
+      \item[HEMCO diagnostics] are the emissions TODO: averaged or instantaneous? in each gridbox, which I've stored for each 3 hours.
+        This output is netcdf.
+      \item[Tracer averages] are daily or monthly averaged gridbox concentrations.
+        This output is bitpunch.
+        
+    \end{description}
+  
 \section{Modelling}
   \label{BioIsop:Model}
   
   \subsection{GEOS-Chem simulation}
-    \label{BioIsop:GEOSChemSimulation}
+    \label{BioIsop:Model:GC}
     The GEOS-Chem global atmospheric chemistry model (V10.01) simulates and records up to 66 chemical species (tracers) in the standard run, at 2 by 2.5$^{\circ}$ horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
     GEOS-5 meteorological fields from NASA's ...(TODO: ref and note) are used to drive transport and coupled with the chemical module of GEOS-Chem.
     MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation, with subsequent modifications based on top-down estimates made herein.
     
-    Output for an area averaged over 1200 - 1400 local time is saved for comparison and recalculation with satellite overpass records.
+    Output for an area averaged over 1300 - 1400 local time is saved for comparison and recalculation with satellite overpass records.
     These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals.
     They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
   
   \subsection{CAABA/MECCA simulations}
+    \label{BioIsop:Model:CM}
     % Description of CAABA/MECCA
     % TODO: Description of CAABA/MECCA and how it's used.
     
@@ -100,14 +116,14 @@
     
     CAABA/MECCA has been implemented for various calculations including ozone chemistry throughout the atmosphere in \cite{Zanis2014}.
     The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
-    
+  
 \section{Methods}
   \label{BioIsop:Methods}
   
   
   
   \subsection{CAABA/MECCA Box model: isoprene source classifications}
-    \label{BioIsop:Methods:CabbaMecca}
+    \label{BioIsop:Methods:CM}
     
     % HOW WE WILL USE CAABA/MECCA
     Using CAABA/MECCA to examine isoprene to HCHO yield in specific scenarios allows us to determine what environment may be driving the yield calculated by GEOS-Chem.
@@ -273,7 +289,7 @@
     The calculated yields for these scenarios is based on the CAABA/MECCA box model (described in Section \ref{BioIsop:CabbaMecca}) TODO: compare scenarios yields and show map of Australia with mapped closest scenario(one colour for each scenario, contourf).
     
   \subsection{HCHO Products and yield}
-    \label{TODO:key}
+    \label{BioIsop:Methods:HCHOYield}
     Australian forests are strong emitters of both isoprene and monoterpenes, which go on to form various products including secondary organic aerosols, oxygenated VOCs (OVOCs), ozone, OH, and HO$_2$.
     This production occurs over several steps, yields are often classed into at least two categories.
     First generation yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (sometimes molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \citep{Wolfe2016}.
@@ -389,7 +405,30 @@
       \end{tablenotes}
       \label{ch_isop:tab:VOCLiteratureYields}
     \end{threeparttable} \end{table}
+  
+  \subsection{Accounting for NOx}
+    \label{BioIsop:Methods:NOx}
     
+    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
+    This means that if the model is poorly simulating NO$_X$, the yield (and transport, see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
+    
+    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{BioIsop:Data:OMNO2d}). 
+    Figure \ref{BioIsop:fig:GC_vs_OMNO2d_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
+    It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
+    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
+    
+    \begin{figure}[!htbp]
+      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
+      \includegraphics[width=\textwidth]{Figures/GEOSChem/GC_vs_OMNO2_bires_200501.png}
+      \caption{%
+        Row 1 shows the tropospheric columns in molec cm$^{-2}$.
+        Row 2 shows the absolute and relative differences with GEOS-Chem mapped onto the higher resolution of OMNO2d.
+        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
+      }
+      \label{BioIsop:fig:GC_vs_OMNO2d_2005}
+    \end{figure}
+    
+  
   \subsection{Accounting for smearing}
     \label{BioIsop:Methods:Smearing}
     
