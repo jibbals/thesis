@@ -159,7 +159,7 @@
     TODO: Intro to strat ozone transport first, then mechanism, then other stuff (maybe use subsubsections?)
     
     %% STT
-    Historically (in the late 1990's), ozone transported down from the stratosphere was thought to contribute 10-40~ppb to tropospheric ozone levels, matching tropospheric production (shown in equation \ref{ch_LitRev:eqn:MethaneBackground}) \citep{Atkinson2000,Stohl2003}.
+    Historically (in the late 1990's), ozone transported down from the stratosphere was thought to contribute 10-40~ppb to tropospheric ozone levels, matching tropospheric production (shown in equation \ref{LR:eqn:MethaneBackground}) \citep{Atkinson2000,Stohl2003}.
     This number was revised down over the years as measurement and modelling campaigns improved our understanding of global scale transport, mixing, and chemistry. (TODO: cites showing when these estimates were revised)
     Recently \cite{Kuang2017} analysed various measurements in the southeast USA and observed STT influence which can be seen to affect surface ozone levels.
     In their work they use of high spectral resolution lidar (HSRL), ozonesondes, ozone lidar, and airborn in-situ measurements give the structure and temporal evolution of ozone and the low front weather system.
@@ -212,7 +212,43 @@
     TODO: more on ozone formation
     Ozone precursor concentrations are largely driven by emissions of VOCs and NO$_X$.
     
-    
+\section{Hydroxyl (OH) and other radicals}
+  \label{LR:Radicals}
+  The OH radical drives many processes in the atmosphere, especially during the day when photolysis of ozone drives OH concentrations \citep{Atkinson2000}.    
+  OH is a key species which reacts with nearly all the organic compounds in the troposphere.
+  The exceptions are chlorofluorocarbons (CFCs), and Halons not containing H atoms \citep{Atkinson2000}.
+  OH and HO$_2$ concentrations largely determine the oxidative capacity of the atmosphere.
+  Oxidation and photolysis are the two main processes through which VOCs are broken down into HCHO, O$_3$, CO$_2$ and various other species.
+  Over land, isoprene and monoterpenes (comprised of two isoprene units) account for 50\% and 30\% of the OH reactivity respectively \citep{Fuentes2000}.
+  
+  Ozone is an important precursor to HO, as excited oxygen atoms (O(${}^1$D) are created through photolysis, which then go on to mix with water and form OH, as shown in this equation taken from \citet{Atkinson2000}:
+  \begin{align*}
+    O_3 + \text{hv}         & \to  O_2 + O({}^1D)   && (\lambda \le 335 \text{nm}) \\%
+    O({}^1D) + M            & \to  O({}^3P) + M     && (M=N_2, O_2)               \\%
+    O({}^3P) + O_2 + M      & \to  O_3 + M          && (M=\text{air})             \\%
+    O({}^1D) + H_2O         & \to  2OH              &&                            \\%
+  \end{align*}
+  This shows how some of the O$({}^1D)$ recycles back to Ozone, while some forms OH.
+  NB: The wavelength was updated to 350~nm in \citet{AtkinsonArey2003}.
+  
+  In the late 90's it was understood that OH radicals are formed exclusively from photolysis of O$_3$, HONO, HCHO, and other carbonyls (R$_2$C=O) \citet{Atkinson2000}.
+  Isoprene was thought to be a sink of OH until it was shown by \cite{Paulot2009b} that the radicals are recycled.
+  This recycling process is discussed in more detail in section \ref{LR:IsopAndVOCs:IsopCascade}.
+  Monoterpene oxidation by O$_3$, OH and NO$_3$ radicals may also form aerosols, with ozone forming the most particles \citep{Kanakidou2005}.
+  
+  Nitrate radicals NO$_3$ are also largely formed through ozone reactions.
+  They are photolysed very rapidly during they day, with a lifetime of about 5~s \citep{Atkinson2000}.
+  If NO and O$_3$ are both in the atmosphere, the following reactions \citep{Atkinson2000} occur:
+  \begin{align*}
+    NO + O_3         & \to NO_2 + O_2      && \\%
+    NO_2 + O_3       & \to NO_3 + O_2      && \\%
+    NO_3 + \text{hv} & \to NO + O_2        && (\sim 10\%) \\%
+    NO_3 + \text{hv} & \to NO_2 + O({}^3P) && (\sim 90\%) \\%
+  \end{align*}
+  A build up of NO$_3$ radicals can be seen at night, when the quick photolysis is not occurring \citep{Atkinson2000,Brown2009}.
+  
+  Since radicals play such a big role in regulating many chemical reactions in the atmosphere it's important for models to accurately represent them (eg. \cite{Travis2014}). 
+  This is difficult as they are coupled with so many other species and measurements of OH are not readily available on a global scale.
 
 \section{Isoprene and other VOCs}
   \label{LR:O3andAQ:VOCs}
@@ -583,50 +619,16 @@
    These satellites have slightly different spectral and spatial resolutions, as well as using varied processes to estimate HCHO from detected radiances.
    This can lead to different estimates between instruments or methodologies as described in \cite{Lorent2017}, which means validation and comparison is more important when using these remotely sensed data.
   
-  
-\section{Hydroxyl (OH) and other radicals (maybe relocate this bit?)}
-    The OH radical drives many processes in the atmosphere, especially during the day when photolysis of ozone drives OH concentrations \citep{Atkinson2000}.    
-    OH is a key species which reacts with nearly all the organic compounds in the troposphere.
-    The exceptions are chlorofluorocarbons (CFCs), and Halons not containing H atoms \citep{Atkinson2000}.
-    OH and HO$_2$ concentrations largely determine the oxidative capacity of the atmosphere.
-    Oxidation and photolysis are the two main processes through which VOCs are broken down into HCHO, O$_3$, CO$_2$ and various other species.
-    Over land, isoprene and monoterpenes (comprised of two isoprene units) account for 50\% and 30\% of the OH reactivity respectively \citep{Fuentes2000}.
-    
-    Ozone is an important precursor to HO, as excited oxygen atoms (O(${}^1$D) are created through photolysis, which then go on to mix with water and form OH, as shown in this equation taken from \citet{Atkinson2000}:
-    \begin{align*}
-      O_3 + \text{hv}         & \to  O_2 + O({}^1D)   && (\lambda \le 335 \text{nm}) \\%
-      O({}^1D) + M            & \to  O({}^3P) + M     && (M=N_2, O_2)               \\%
-      O({}^3P) + O_2 + M      & \to  O_3 + M          && (M=\text{air})             \\%
-      O({}^1D) + H_2O         & \to  2OH              &&                            \\%
-    \end{align*}
-    This shows how some of the O$({}^1D)$ recycles back to Ozone, while some forms OH.
-    NB: The wavelength was updated to 350~nm in \citet{AtkinsonArey2003}.
-    
-    In the late 90's it was understood that OH radicals are formed exclusively from photolysis of O$_3$, HONO, HCHO, and other carbonyls (R$_2$C=O) \citet{Atkinson2000}.
-    Isoprene was thought to be a sink of OH until it was shown by \cite{Paulot2009b} that the radicals are recycled.
-    This recycling process is discussed in more detail in section \ref{Ch_LitRev:sec:IsopNox}.
-    Monoterpene oxidation by O$_3$, OH and NO$_3$ radicals may also form aerosols, with ozone forming the most particles \citep{Kanakidou2005}.
-
-    Nitrate radicals NO$_3$ are also largely formed through ozone reactions.
-    They are photolysed very rapidly during they day, with a lifetime of about 5~s \citep{Atkinson2000}.
-    If NO and O$_3$ are both in the atmosphere, the following reactions \citep{Atkinson2000} occur:
-    \begin{align*}
-      NO + O_3         & \to NO_2 + O_2      && \\%
-      NO_2 + O_3       & \to NO_3 + O_2      && \\%
-      NO_3 + \text{hv} & \to NO + O_2        && (\sim 10\%) \\%
-      NO_3 + \text{hv} & \to NO_2 + O({}^3P) && (\sim 90\%) \\%
-    \end{align*}
-    A build up of NO$_3$ radicals can be seen at night, when the quick photolysis is not occurring \citep{Atkinson2000,Brown2009}.
-
 \section{Formaldehyde (HCHO)}
-  \label{LR:O3andAQ:HCHO}
+  \label{LR:HCHO}
   
   In the remote troposphere HCHO production is dominated by methane oxidation, while in the continental boundary layer (CBL) production is largely due to NMVOCs \citep{Abbot2003, Kefauver2014}.
+  This suggests that HCHO enhancement over continents can be used to determine NMVOC emissions.
   
   HCHO, aka methanal, methyl aldehyde, or methylene oxide, is of the aldehyde family.
   HCHO is an OVOC which is toxic, allergenic, and a potential carcinogen. 
-  It is dangerous at low levels, with WHO guidelines for prolonged exposure at 80ppb.
-  In the continental boundary layer, HCHO enhancement is generally driven by short lived ($<1$~hr) precursors driven by isoprene and other VOC emissions, with a lifetime of a few hours \citep{Kefauver2014}.
+  It is dangerous at low levels, with WHO guidelines for prolonged exposure at 80~ppb.
+  In the continental boundary layer, HCHO enhancement is generally driven by short lived ($<1$~hr) precursors (such as isoprene and other VOCs), with a lifetime of a few hours \citep{Kefauver2014}.
   HCHO is used as an adhesive in plywood, carpeting, and in the creation of paints and wallpapers.
   Emissions in enclosed spaces can build up to dangerous levels, especially if new furnishings are installed \citep{Davenport2015}.
   At global scales HCHO in furniture is less important, as concentrations are driven by photochemical reactions with methane and other VOCs.
@@ -636,31 +638,31 @@
     There are a few ways to measure HCHO, including Fourier Transform Infra-Red Spectrometry (FTIR) and Differential Optical Absorption Spectroscopy (DOAS).
     The DOAS technique takes advantage of the optically thin nature of HCHO in order to linearise the radiance differential through air masses with and without HCHO, using the Beer-Lambert intensity law.
     This method works for both in the home HCHO detection and global measurements from in-situ and remote sensing instruments \citep{Guenther1995, Abad2015, Davenport2015}.
-    As a trace gas HCHO interferes with light over a few wavelength bands, which allows instruments to detect concentrations along the path the light has travelled.
-    Figure \ref{ch_LitRev:fig:HCHOSpectrum} shows the interference spectrum of HCHO as well as a typical band used to examine interference in the DOAS technique.
+    As a trace gas HCHO interferes with light over a few wavelength bands, which allows instruments to detect concentrations between a known light source and a detector.
+    Figure \ref{LR:fig:HCHOSpectrum} shows the interference spectrum of HCHO as well as a typical band used to examine interference in the DOAS technique.
     One difficulty is that this interference is relatively small (HCHO is optically thin) and other compounds absorb light at similar wavelengths \citep{Davenport2015}.
     FTIR measurements can have a range of uncertainties, including systematic and random measurement errors and uncertainties in apriori shape factors and water profiles (eg: \citet{Franco2015}).
     Multiple axis DOAS (MAX-DOAS) also examines the infra-red light interference.
     In \citet{Franco2015}, an FTIR spectrometer at Jungfraujoch is compared against both MAX-DOAS and satellite data, with two CTMs; GEOS-Chem and IMAGES v2 used to compare total columns and vertical resolution of each instrument.
-    Generally satellites use a DOAS based technique, and then chemical transport, and radiative tranfer models are used to transform the non-vertical light path interference into vertical column amounts.
+    Generally satellites use a DOAS based technique, with chemical transport and radiative transfer models used to transform the non-vertical light path interference into vertical column amounts.
     
     \begin{figure}
       \includegraphics{Figures/HCHO/HCHOAbsorbanceDavenport.png}
       \caption{ HCHO spectrum, with a typical band of wavelengths used for DOAS path measurements.
         This is a portion of an image from \citet{Davenport2015}.}
-      \label{ch_LitRev:fig:HCHOSpectrum}
+      \label{LR:fig:HCHOSpectrum}
     \end{figure}
     
     MAX-DOAS is a remote sensing technique which requires many DOAS measurements taken simultaneously.
     In these retrievals, the measurements of light absorption are performed over several elevations in order to add some vertical resolution to the measurement of trace gas concentrations.
-    An example of this is shown in figure \ref{ch_LitRev:fig:MAXDOASExample}, which was taken from \citet{Lee2015}.
+    An example of this is shown in figure \ref{LR:fig:MAXDOASExample}, which was taken from \citet{Lee2015}.
     Recently MAX-DOAS has been used to examine HCHO profiles in the clean free troposphere \citep{Franco2015, Schreier2016} as well as in polluted city air \citep{Lee2015}.
     Depending on orography and atmospheric composition (ie. the influence of interfering chemicals), MAX-DOAS can be used to split the tropospheric column into two partial columns; giving a small amount of vertical resolution to HCHO measurements \citep[eg.]{Franco2015, Lee2015}.
     
     \begin{figure}
       \includegraphics[width=\textwidth]{Figures/MAXDoasExample.png}
       \caption{ Image from \citet{Lee2015}.}
-      \label{ch_LitRev:fig:MAXDOASExample}
+      \label{LR:fig:MAXDOASExample}
     \end{figure}
     
     Other measurement techniques include chromatographic and fluorimetric methods, both of which differ widely from eachother and the spectroscopic methods \citep{Hak2005}).
@@ -677,11 +679,11 @@
     There is a complex relationship between VOCs, HO$_X$, and NO$_X$, and with higher levels of NO$_X$ the speed that VOCs are converted into HCHO increases, as does the HCHO concentration \citep{Wolfe2016}.
     Isoprene is the main VOC precursor of HCHO in the continental boundary layer, except near fires or anthropogenic sources of HCHO and precursors \citep{Guenther1995, Kefauver2014, Wolfe2016}.
     
-    Biomass burning (BB) can be a source of HCHO, and various other pollutants, precursors, and aerosols TODO: best early cites for this? \citep{Guenther1995}.
+    Biomass burning (BB) can be a source of HCHO, and various other pollutants, precursors, and aerosols \citep{Guenther1995, Andreae2001}.
     Additionally HCHO is emitted into the atmosphere directly through fossil fuel combustion, natural gas flaring, ethanol refining, and agricultural activity \citep{Wolfe2016}.
     Background levels of HCHO are due to methane oxidation, while enhancements to regional and continental HCHO are largely driven by isoprene emissions \citep{Guenther1995, Palmer2003, Shim2005, Kefauver2014}.
     \citet{Atkinson2000} summarised the background formation of HCHO with the following reaction:
-    \begin{equation} \label{ch_LitRev:eqn:MethaneBackground}
+    \begin{equation} \label{LR:eqn:MethaneBackground}
     OH + CH_4 (+ h\nu) + 2NO + 2O_2 \rightarrow OH + HCHO + H_2O + 2O_3
     \end{equation}
     which shows that photolysis and oxidation of methane forms HCHO and ozone in a process that regenerates the OH radicals.
@@ -836,7 +838,7 @@
   \subsection{Glyoxal TODO: move somewhere fitting?}
     Glyoxyl (CHOCHO) is important to us as it shares many properties with HCHO, and may provide additional information in determining isoprene emissions.
     Glyoxyl is another product of VOC oxidation in the atmosphere, with isoprene being the main source globally.
-    Isoprene has been used to estimate isoprene emissions (see section \ref{ch_LitRev:sec:IsopFromHCHO}) but many uncertainties exist.
+    Isoprene has been used to estimate isoprene emissions (see section \ref{LR:sec:IsopFromHCHO}) but many uncertainties exist.
     One of these uncertainties is the yield of HCHO from isoprene, especially in low NO$_X$ environments.
     Glyoxyl could prove complementary to HCHO in constraining isoprene emissions (TODO: Read and cite Vrekoussis2009,2010, Chan Miller 2014, Alvarado 2014) \citep{Miller2017}.
     Recently \cite{Miller2017} updated GEOS-Chem to include the prompt formation of glyoxyl and compared this with satellite and airplane measurements over the USA.
@@ -876,7 +878,7 @@
       \frac{dm}{dt} &=& \sum{sources}-\sum{sinks} \\
       &=& F_{in} + E + P - F_{out} - L - D 
     \end{align*}
-    where m is mass of a chemical, E and D are emission and deposition, P and L are production and loss, and F is chemical transport in and out, as shown in figure \ref{ch_LitRev:fig:boxmodel}.
+    where m is mass of a chemical, E and D are emission and deposition, P and L are production and loss, and F is chemical transport in and out, as shown in figure \ref{LR:fig:boxmodel}.
     Many chemical species interact with each other through production and loss. 
     Any large chemical model will solve this mass balance equation over highly coupled arrays of partial differential equations which can be complex and time consuming.
     
@@ -889,7 +891,7 @@
     \begin{figure}
       \includegraphics{Figures/boxmodel.png}
       \caption{ Standard box model parameters, image taken from \citet{Jacob_1999_book}. }
-      \label{ch_LitRev:fig:boxmodel}
+      \label{LR:fig:boxmodel}
     \end{figure}
     
   \subsection{Relevant model frameworks}
@@ -931,7 +933,7 @@
       Meteorological fields can be driven by NASA's GEOS-5 data (0.5$^{\circ}$ x 0.666$^{\circ}$) \citep{Chen2009}, which exists up to 2013, or GEOS-FP data (0.25$^{\circ}$ x 0.3125$^{\circ}$).
       Fire emissions come from the GFED4 product \citep{Giglio2013}. 
       Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are coupled to the MEGAN model TODO:cites.
-      The estimated biogenic VOC emissions are important to the work done in this thesis and are discussed in somewhat more detail in section \ref{ch_LitRev:sec:BVOCestimates}.
+      The estimated biogenic VOC emissions are important to the work done in this thesis and are discussed in somewhat more detail in section \ref{LR:sec:BVOCestimates}.
       
       The Model of Emissions of Gases and Aerosols in Nature (MEGAN) is one of the more commonly used natural emission models \citep{Monks2015}. (TODO: more cites which say this/use MEGAN)
       
