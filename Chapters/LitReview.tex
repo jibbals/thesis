@@ -58,8 +58,12 @@
       %%% Important factors affecting PM and Ozone
       One important factor, affecting both PM and ozone concentration, is a group called Volatile Organic Compounds (VOCs).
       The major source of VOCs in the atmosphere is biogenic, with around 90\% of emissions (globally) coming from natural sources \citep{Guenther1995,Guenther2006, Millet2006}.
-      Global non-methane VOC (NMVOC) levels are estimated at 85~\%, 13~\%, and 3~\% from biogenic, anthropogenic, and pyrogenic sources respectively \citep{Kefauver2014}.  
+      Global non-methane VOC (NMVOC) levels are estimated at 85~\%, 13~\%, and 3~\% from biogenic, anthropogenic, and pyrogenic sources respectively \citep{Kefauver2014}.
       They also and affect radical levels, which drive much of the chemistry in our atmosphere.
+      Methane and isoprene each comprise around a third of the global total emissions of VOCs (\cite{Guenther2006}).
+      However, methane is relatively long lived (years) and is well mixed in the atmosphere while isoprene levels are very volatile and spatially diverse due to a life time of around an hour.
+      This means that methane measurements and concentrations are relatively well understood, while NMVOCs are less so.
+      
       Due to the lack of in-situ ground based measurements, estimates of VOC emissions are uncertain, with large scale extrapolation required \citet{Millet2006}.
       VOC emission estimates are based on (and highly sensitive to) many factors, including plant type and soil moisture \citep{Guenther1995}, neither of which are well characterised in Australia \citep{Sindelarova2014, Bauwens2016}.
       Changes in parameterisation of soil moisture in MEGAN (one emissions model, described later) lead to massive changes in Australian isoprene emission estimates \citep{Sindelarova2014}.
@@ -149,65 +153,59 @@
       For example: \citet{Vigouroux2009} reduce the measurement uncertainty (in SCIAMACHY HCHO columns) by at least a factor of 4 through averaging daily over roughly 500km around Saint-Denis, and only using days with at least 20 good measurements.
       The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor (discussed in more detail in Section (TODO: fix ref)\ref{ch_HCHO:sec:satelliteHCHO:CalculationOfVC}) \citep{Millet2006}.
       
-  % UP TO HERE READING OUT LOUD TODO: CONTINUE
-  \subsection{Ozone trasported from the stratosphere}
+  \subsection{Ozone transported from the stratosphere}
     
     What drives ozone in the troposphere? Two main contributors are transport from the stratosphere and creation due to biogenic emissions of precursors. 
     At smaller (regional) scales anthropogenic emissions are also important, especially in large cities such as Sydney due to NO$_X$ emissions from traffic and power production.
     
-    % subsub section??
-    TODO: Intro to strat ozone transport first, then mechanism, then other stuff (maybe use subsubsections?)
-    
-    %% STT
-    Historically (in the late 1990's), ozone transported down from the stratosphere was thought to contribute 10-40~ppb to tropospheric ozone levels, matching tropospheric production (shown in equation \ref{LR:eqn:MethaneBackground}) \citep{Atkinson2000,Stohl2003}.
-    This number was revised down over the years as measurement and modelling campaigns improved our understanding of global scale transport, mixing, and chemistry. (TODO: cites showing when these estimates were revised)
-    Recently \cite{Kuang2017} analysed various measurements in the southeast USA and observed STT influence which can be seen to affect surface ozone levels.
-    In their work they use of high spectral resolution lidar (HSRL), ozonesondes, ozone lidar, and airborn in-situ measurements give the structure and temporal evolution of ozone and the low front weather system.
-    An analysis of the Atmospheric Chemistry and Climate Model Inter-comparison Project (ACCMIP) simulations by \citet{Young2013} found STT is responsible for $540\pm140$~Tg yr$^{-1}$, equivalent to $\sim$11\% of the tropospheric ozone column, with the remainder produced photochemically \citep{Monks2015}.
-    
     In the stratosphere ozone production is generally driven by the Chapman mechanism, as high energy light (with wavelengths $\lambda<242$~nm) photolyses the molecular oxygen (O$_2$) in the atmosphere \citep[][Chapter 3, section 2]{BrasseurJacob2017}.
     The Chapman mechanism involves several equations which lead to rough equilibrium of O, O$_2$, O$_3$ and pressure, as follows:
     \begin{eqnarray*}
-      \textrm{O}_2 + hv(\lambda < 242 \text{nm}) & \rightarrow & \text{O} + \text{O} \\
-      \text{O} + \text{O}_2 + \text{M} & \rightarrow & \text{O}_3 + \text{M} \\
-      \text{O}_3 + hv(\lambda < 1180 \text{nm}) & \rightarrow & \text{O} + \text{O}_2 \\
-      \text{O} + \text{O}_3 & \rightarrow & \text{O}_2 + \text{O}_2 \\
+    	\label{LF:eqn:Chapman}
+    	\textrm{O}_2 + hv(\lambda < 242 \text{nm}) & \rightarrow & \text{O} + \text{O} \\
+    	\text{O} + \text{O}_2 + \text{M} & \rightarrow & \text{O}_3 + \text{M} \\
+    	\text{O}_3 + hv(\lambda < 1180 \text{nm}) & \rightarrow & \text{O} + \text{O}_2 \\
+    	\text{O} + \text{O}_3 & \rightarrow & \text{O}_2 + \text{O}_2 \\
     \end{eqnarray*}
     Where $hv$ represents radiation and M is an inert molecule (such as N$_2$).
-    The lifetime of O against loss by O$_2$ is less than a second in the lower atmosphere, and the produced O$_3$ quickly returns to O and O$_2$.
-    Since [O] $<<$ [O$_3$] the chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \citep[][Chapter 3]{BrasseurJacob2017}.
+    The high energy photons ($\lambda < 242$~nm) are present from the top of the atmosphere but are mostly removed before reaching the troposphere.
+    The lifetime of O against loss by O$_2$ is less than a second in the troposphere, and produced O$_3$ quickly returns to O and O$_2$, as low energy ($\lambda < 1180$~nm) light and M are abundant.
+    The gradient of light penetration in addition to the logarithmic decrease in atmospheric pressure (which affects M abundance) drives (using the Chapman equation) the vertical profile of ozone into what is called the ozone layer, where most of the ozone is in the stratosphere.
     This mechanism requires radiation so only takes place during the daytime, during the night there are different processes driving ozone chemistry.
-    TODO: Tie strat and trop ozone to this concept
+    
+    %% STT
+    Historically (in the late 1990's), ozone transported down from the stratosphere was thought to contribute 10-40~ppb to tropospheric ozone levels, matching tropospheric production \citep{Atkinson2000, Stohl2003}.
+    This number was revised down over the years as measurement and modelling campaigns improved our understanding of global scale transport, mixing, and chemistry \citep{Monks2015}.
+    Recently \cite{Kuang2017} analysed various measurements in south-east USA and observed STT influence which can be seen to affect surface ozone levels.
+    In their work they use high spectral resolution lidar (HSRL), ozonesondes, ozone lidar, and airborn in-situ measurements give the structure and temporal evolution of ozone and the low front weather system.
+    An analysis of the Atmospheric Chemistry and Climate Model Inter-comparison Project (ACCMIP) simulations by \citet{Young2013} found STT is responsible for $540\pm140$~Tg yr$^{-1}$, equivalent to $\sim$11\% of the tropospheric ozone column, with the remainder produced photochemically \citep{Monks2015}.
     
     Ozone transported to the troposphere from the stratosphere can occur through diffusion (slow process (TODO: Cite)) or through mixing, often called Stratosphere to Troposphere Transport events (STT), or intrusions.
     TODO: compare these two processes and their impacts briefly.
     Recently global chemical transport models (CTMs) have been used to trace how much ozone is being transported to the troposphere from the stratosphere.
-    There are a few methods of doing this, such as \citet{Ojha2016}, who use the ECHAM5 CTM with a tracer based on keeping track of ozone formed and transported from the stratosphere.
-    The estimates generally require validation against actual measurements, such as those from ozonesondes or satellites.
+    There are a few methods of doing this, such as \citet{Ojha2016}, who use the ECHAM5 CTM with a tracer that keeps track of ozone formed and transported from the stratosphere.
+    Model based estimates generally require validation against actual measurements, such as those from ozonesondes or satellites.
     %Hegglin, M. I., and T. G. Shepherd (2009), Large climate-induced changes in ultraviolet index and stratosphere-to-troposphere ozone flux, Nature Geosci, 2(10), 687 \selectlanguage{english}691, doi:10.1038/NGEO604.
     \citet{Hegglin2009} estimate that climate change will lead to increased STT due to an acceleration in the Brewer Dobson circulation.
-    They estimate $\sim 30$, and $\sim 121$ Tg yr$^{-1}$ increases (relative to 1965) in the southern and northern hemispheres respectively
+    They estimate $\sim 30$, and $\sim 121$~Tg yr$^{-1}$ increases (relative to 1965) in the southern and northern hemispheres respectively
     
-    \cite{Liu2017} examine southern hemispheric ozone and the processes which control its interannual variability (IAV).
+    \cite{Liu2017} examine southern hemispheric ozone and the processes which control its inter-annual variability (IAV).
     IAV is the standard deviation of ozone anomalies (difference from the monthly mean).
-    They show that ozone transported from the stratosphere plays a major role in the upper troposphere, especially over the southern indian ocean during austral winter.
+    They show that ozone transported from the stratosphere plays a major role in the upper troposphere, especially over the southern Indian ocean during austral winter.
     While stratospheric transport mostly impacts the upper troposphere, some areas are impacted right down to the surface.
     \citet{Liu2017} look at modelled tropospheric ozone sensitivity to changes in stratospheric ozone, ozone precursor emissions, and lightning over the southern hemisphere from 1992--2011. 
     Their work suggest ozone at 430~hPa is mostly stratospheric in September over 20$^{\circ}$S to 60$^{\circ}$S at all longitudes.
-    They also see tropospheric ozone sensitivity to emissions from South America (0--20$^{\circ}$S, 72.5--37.5$^{\circ}$W), southern Africa (5--10$^{\circ}$S, 12-38$^{\circ}$E), and South and South-east Asia (70-125$^{\circ}$E, 10$^{\circ}$S--40$^{\circ}$N).
+    They also see tropospheric ozone sensitivity to emissions from South America (0--20$^{\circ}$S, 72.5--37.5$^{\circ}$W), southern Africa (5--10$^{\circ}$S, 12-38$^{\circ}$E), and South to South-east Asia (70-125$^{\circ}$E, 10$^{\circ}$S--40$^{\circ}$N).
     In the USA recent work by \cite{Lin2015} suggests that intrusions during spring are increasing surface ozone levels.
     Their work also recommends that understanding of frequency and cause of STT needs to be improved to effectively implement air quality standards.
-    
+  
+  % UP TO HERE READING OUT LOUD TODO: CONTINUE  
   \subsection{Ozone formed in the troposphere}
     \label{LR:O3andAQ:BiogenicOzonePrecursors}
     
     Ozone is formed in the troposphere through oxidation of VOCs in the presence of NO$_X$.
     Net formation or loss of O$_3$ is determined by interactions between VOCs, NO$_X$, and HO$_X$, and is a complicated system of positive and negative feedbacks \citep{Atkinson2000}.
     Tropospheric ozone is lost via chemical destruction and dry deposition, estimated to be $4700\pm700$ Tg yr$^{-1}$ and $1000\pm200$ Tg yr$^{-1}$, respectively \citep{Stevenson2006}.
-    
-    Methane and isoprene each comprise around a third of the global total VOC emissions of VOCs (\cite{Guenther2006}).
-    However, methane is relatively long lived (years) and is well mixed in the atmosphere while isoprene levels are very volatile and spatially diverse due to a life time of around an hour.
-    This means that methane measurements and concentrations are relatively well understood, while NMVOCs are less so.
     
     TODO: more on ozone formation
     Ozone precursor concentrations are largely driven by emissions of VOCs and NO$_X$.
@@ -888,6 +886,7 @@
     Trace gases with short lifetimes and complex chemistry such as isoprene are often hard to measure which makes verifying model estimates difficult.
     Contemporary models generally use mathematical differential solving tools of various complexity to solve chemical equations and reaction rates (often called chemical mechanisms) in order to predict an environments evolution over time.
     Different solvers may be slower or faster and more suited to particular situations based on the stability of the equations and systems involved, and chemical mechanisms may vary in how many reactions and chemicals are listed and grouped together.
+    For example: Since [O] $<<$ [O$_3$] the chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \citep[][Chapter 3]{BrasseurJacob2017}.
     \cite{Zhang2012} examine the outputs from a regional model (WRF/Chem) using three different chemical mechanisms, and they show that particulate matter prediction is sensitive to the choice of chemical mechanism.
     
     \begin{figure}
