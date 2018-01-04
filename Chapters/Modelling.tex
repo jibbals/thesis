@@ -1,7 +1,7 @@
 %% CHAPTER 2 (probably)
-%% MODELLING
+%% MODELLING and DATA
 
-\chapter{Modelling with GEOS-Chem} % Main chapter title
+\chapter{Modelling and Data} %with GEOS-Chem} % Main chapter title
 \label{Model} %better reference name?
   \subsection{List of runs and outputs used in my work TODO: good place for this?}
     TODO: Go through work process and clarify these items
@@ -47,9 +47,9 @@
       This offset is determined as one hour per 15 degrees (since 360 degrees is 24 hours), and then used to retrieve global data at any specific local time.
       The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
     
-%----------------------------------------------------------------------------------------
-%	SECTION
-%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+%%	SECTION
+%%----------------------------------------------------------------------------------------
 \section{GEOS-Chem framework}
   \label{Model:GC_frame}
   GEOS-Chem is an atomspheric chemical model (ACM), using a 3-D grid of boxes with transport driven by the GEOS meteorological model and chemistry calculated in each box independently. 
@@ -144,11 +144,11 @@
   \subsection{Tropchem mechanisms}
     
   \subsection{UCX mechanisms}
-    %    TODO: layout reasons why isoprene differs between runs
+    % TODO: layout reasons why isoprene differs between runs
     %    In GeosCore/fast_jx_mod.F:
     %      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
     %      line 4138: comment says ozone calculated online.
-    %	TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
+    %	  TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
     %    In GeosCore/calcrate.F:
     %      line 1489 comment says rates are limited to prevent solver failure
     %	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
@@ -294,6 +294,7 @@
     TODO: look at yearly corellation, compare to exponential curve and look for fire outliers
     As seen in TODO: citation, HCHO concentrations scale exponentially with temperature.
     This allows another method for detecting the influence of non-biogenic HCHO emission/creation by looking for outliers above the curve at low temperature.
+    \cite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15*{T}−9.07)$.
     
     \subsection{Accounting for NOx}
     \label{Model:Analysis:NOx}
@@ -302,7 +303,7 @@
     This means that if the model is poorly simulating NO$_X$, the yield (and transport, see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
     
     Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
-    Figure \ref{BioIsop:fig:GC_vs_OMNO2d_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
+    Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
     It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
     Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
     
@@ -314,5 +315,5 @@
         Row 2 shows the absolute and relative differences with GEOS-Chem mapped onto the higher resolution of OMNO2d.
         Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
       }
-      \label{BioIsop:fig:GC_vs_OMNO2d_2005}
+      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_2005}
     \end{figure}
