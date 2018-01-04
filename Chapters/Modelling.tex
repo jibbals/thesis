@@ -220,6 +220,41 @@
       \label{Model:GC_Running:UCXvsTrop_O3}
     \end{figure}
 
+\section{Campaigns and datasets}
+  \label{Model:Datasets}
+  Here I will describe the various datasets I've used to analyse GEOS-Chem output.
+  These datasets are also used to determine how suitable GEOS-Chem is in calculation of isoprene emissions estimations in chapter \ref{BioIsop} and ozone transport extrapolations in chapter \ref{Ozone}.
+  
+  TODO: these summaries.
+  
+  %Omi summary
+  \subsection{OMI Satellite measurements}
+  \label{Model:Datasets:OMI}
+  
+    \subsubsection{OMI HCHO}
+    Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}
+  
+    \subsubsection{OMI NO2}
+    \label{Model:Datasets:OMNO2d}
+
+  Daintree summary (P. Nelson)
+  
+  MUMBA summary
+  
+  \subsubsection{Sydney Particle Studies (SPS1, SPS2)}
+  Two VOC and other trace gas measurement campaigns took place at the Westmead Air Quality Station scientists from CSIRO, OEH, and ANSTO. 
+  Stage 1 (SPS1) was from 5 February to 7 March in 2011, while stage 2 (SPS2) ranged from 16 April to 14 May 2012.
+  
+  Two instruments measured VOC concentrations: one was a Proton transfer reaction mass spectrometer (PTR-MS), the other a gas chromatographer (GC) with an equipped flame ionisation detector (FID).
+  The PTR-MS uses chemical ionisation mass spectrometry and can quantify VOCs at high temporal resolution ($< 1$~s).
+  It was calibrated several times per day against hcho, isoprene, $\alpha$-pinene, and several more VOCs. Further details can be found in \cite{Dunne2012,Dunne2017} (TODO: Check papers).
+  The output lists hourly averaged ppbv concentrations of trace gases based on the mass to charge ratio (m/z), which for isoprene is 69.
+  It's possible that other chemicals (such as Furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires usage starts to become frequent (TODO cite something).
+  The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interferences. GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT. Further details for this method can be found in TODO: cite Min et al 2016.
+  
+  Figure TODO: shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. In order to compare with GEOS-Chem output a daily average and an overpass time (1200-1300 LT) average are both created from these data.
+  In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in (TODO: doi:10.5194/acp-15-223-2015, 2015) which should minimise any introduced bias.
+
 \section{Analysing output}
 \label{Model:Analysis}
 
@@ -256,27 +291,28 @@
       \label{Model:Analysis:HCHO:fig_hcho_vs_temp_SWA_200501}
     \end{figure}
     
+    TODO: look at yearly corellation, compare to exponential curve and look for fire outliers
+    As seen in TODO: citation, HCHO concentrations scale exponentially with temperature.
+    This allows another method for detecting the influence of non-biogenic HCHO emission/creation by looking for outliers above the curve at low temperature.
     
-  
-  \subsection{Campaigns and datasets}
-    \label{BioIsop:Campaigns}
-    TODO: these summaries.
-    OMI summary
+    \subsection{Accounting for NOx}
+    \label{Model:Analysis:NOx}
     
-    Daintree summary (P. Nelson)
+    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
+    This means that if the model is poorly simulating NO$_X$, the yield (and transport, see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
     
-    MUMBA summary
-  
-    \subsubsection{Sydney Particle Studies (SPS1, SPS2)}
-      Two VOC and other trace gas measurement campaigns took place at the Westmead Air Quality Station scientists from CSIRO, OEH, and ANSTO. 
-      Stage 1 (SPS1) was from 5 February to 7 March in 2011, while stage 2 (SPS2) ranged from 16 April to 14 May 2012.
-      
-      Two instruments measured VOC concentrations: one was a Proton transfer reaction mass spectrometer (PTR-MS), the other a gas chromatographer (GC) with an equipped flame ionisation detector (FID).
-      The PTR-MS uses chemical ionisation mass spectrometry and can quantify VOCs at high temporal resolution ($< 1$~s).
-      It was calibrated several times per day against hcho, isoprene, $\alpha$-pinene, and several more VOCs. Further details can be found in \cite{Dunne2012,Dunne2017} (TODO: Check papers).
-      The output lists hourly averaged ppbv concentrations of trace gases based on the mass to charge ratio (m/z), which for isoprene is 69.
-      It's possible that other chemicals (such as Furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires usage starts to become frequent (TODO cite something).
-      The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interferences. GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT. Further details for this method can be found in TODO: cite Min et al 2016.
-      
-      Figure TODO: shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. In order to compare with GEOS-Chem output a daily average and an overpass time (1200-1300 LT) average are both created from these data.
-      In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in (TODO: doi:10.5194/acp-15-223-2015, 2015) which should minimise any introduced bias.
+    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
+    Figure \ref{BioIsop:fig:GC_vs_OMNO2d_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
+    It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
+    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
+    
+    \begin{figure}[!htbp]
+      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
+      \includegraphics[width=\textwidth]{Figures/GEOSChem/GC_vs_OMNO2_bires_200501.png}
+      \caption{%
+        Row 1 shows the tropospheric columns in molec cm$^{-2}$.
+        Row 2 shows the absolute and relative differences with GEOS-Chem mapped onto the higher resolution of OMNO2d.
+        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
+      }
+      \label{BioIsop:fig:GC_vs_OMNO2d_2005}
+    \end{figure}

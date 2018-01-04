@@ -73,6 +73,8 @@
     OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
     See section \ref{BioIsop:Methods:NOx} for how this product was used to check GEOS-Chem calculations.
   
+  \subsection{OMI HCHO}
+  
   \subsection{Drought Index}
     The S Precipitation Evapotranspiration Index (SPEI) is a measure of drought using various parameters such as TODO. (\cite{Wang2017}).
     SPEI will be compared against the difference between top-down estimated emissions and MEGAN bottom up estimated emissions. 
@@ -405,28 +407,6 @@
       \label{ch_isop:tab:VOCLiteratureYields}
     \end{threeparttable} \end{table}
   
-  \subsection{Accounting for NOx}
-    \label{BioIsop:Methods:NOx}
-    
-    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
-    This means that if the model is poorly simulating NO$_X$, the yield (and transport, see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
-    
-    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{BioIsop:Data:OMNO2d}). 
-    Figure \ref{BioIsop:fig:GC_vs_OMNO2d_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
-    It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
-    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
-    
-    \begin{figure}[!htbp]
-      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
-      \includegraphics[width=\textwidth]{Figures/GEOSChem/GC_vs_OMNO2_bires_200501.png}
-      \caption{%
-        Row 1 shows the tropospheric columns in molec cm$^{-2}$.
-        Row 2 shows the absolute and relative differences with GEOS-Chem mapped onto the higher resolution of OMNO2d.
-        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
-      }
-      \label{BioIsop:fig:GC_vs_OMNO2d_2005}
-    \end{figure}
-    
   
   \subsection{Accounting for smearing}
     \label{BioIsop:Methods:Smearing}
