@@ -71,7 +71,9 @@
   \subsection{OMI NO2}
     NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem. 
     OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
-    See section \ref{BioIsop:Methods:NOx} for how this product was used to check GEOS-Chem calculations.
+    See section \ref{BioIsop:Methods:NOx} for how this product was used to check GEOS-Chem calculations. TODO: move this subsection or point to the right area.
+  
+  \subsection{OMI HCHO}
   
   \subsection{Drought Index}
     The S Precipitation Evapotranspiration Index (SPEI) is a measure of drought using various parameters such as TODO. (\cite{Wang2017}).
@@ -215,7 +217,7 @@
     Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating $\omega_z$.
     
   \subsection{Calculation of Emissions}
-    \label{BioIsop:EmissionCalculation}
+    \label{BioIsop:Calculation}
    
     % FIRST: outline of what we do
     As is done in \citet{Palmer2003, Millet2006, Bauwens2016}, we assume that HCHO, and Isoprene columns are in a steady state, with no horizontal transport.
@@ -226,21 +228,26 @@
     \end{equation}
     This works if there is fast HCHO yield, so that the effect of chemical transport is minimal.
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude.
-    Table \ref{ch_isop:tab:VOCAusYields} shows the average yield calculated for Australia. (TODO: this table and some notes)
+    Table \ref{BioIsop:Methods:tab_VOCAusYields} shows the average yield calculated for Australia. (TODO: this table and some notes)
     
-    % SLOPE Calculation
+    %% SLOPE Calculation
     In order to approximate the isoprene to HCHO yields over Australia, GEOS-Chem is run and the slope (S) between modelled tropospheric HCHO columns and emissions of isoprene within each grid box. 
     Figure (TODO: example grid box and regression plot.) shows the regression between emitted isoprene and tropospheric column HCHO, averaged between 1200-1300~LT each day.
     We can infer the local (grid space) isoprene emissions (E$_{isop}$) using effective formaldehyde yield from isoprene ($Y_{isop}$).
-    \begin{equation} \label{eqn:isop_yield}
+    \begin{equation} \label{BioIsop:Calculation:eqn_isop_yield}
     \Omega_{HCHO} = S \times E_{isop} + B
     \end{equation}
     Where \textit{B} is the background HCHO, and $S = Y_{isop}/k_{HCHO}$ is determined monthly as the regression between $\Omega_{HCHO}$ and E$_{isop}$ on daily saved outputs from GEOS-Chem over Australia using 2 by 2.5$^{\circ}$ horizontal resolution. 
     Modeled background emissions can be ignored here as they do not affect the slope calculation.
-    Once we have calculated this slope, we use the same formula (Eqn. \ref{eqn:isop_yield}) to determine the isoprene emissions.
+    Once we have calculated this slope, we use the same formula (Eqn. \ref{BioIsop:Calculation:eqn_isop_yield}) to determine the isoprene emissions.
     By replacing $\Omega_{HCHO}$ and $B$ with OMI based values, $E_{isop}$ is the only unknown.
     
-    % BACKGROUND calculation(s)
+    %% NOTE: Satellite uncertainty bounds for slope calculation
+    In several studies OMI satellite HCHO columns are scaled up by up to 40\% to match in-situ measurements TODO:citations.
+    Since we don't have enough in-situ data to reasonably scale the satellite columns we instead re-run the calculation with them scaled up by 40\% and consider this as a possible bound on satellite uncertainty.
+    Yield and estimated top-down emissions are therefore given an upper and lower bound on satellite based uncertainty through this method.
+    
+    %% BACKGROUND calculation(s)
     There are a couple of ways to determine the modelled background HCHO concentration, one of which involves running the model with isoprene emissions turned off, which allows us to see exactly how much the modelled isoprene emissions alter each vertical column of HCHO.
     This is effective since we have assumed variation in HCHO columns only depends on isoprene emissions, so our background term is theoretically identical to the emission free simulated HCHO.
     The other way involves looking at HCHO over the remote pacific at matching latitudes and times, which emulates how the background is determined for the measured HCHO.
@@ -254,9 +261,9 @@
     These are set to zero, which increases the average by around TODO: X\%.
     The measured background HCHO is the average concentration measured in the remote pacific at the same time.
     
-    Figure \ref{BioIsop:fig:E_isop_vs_hcho_model_sample} shows the modelled isoprene emissions and column HCHO concentrations along with the RMA regression line, sampled from grid boxes over Australia for January 2005.
+    Figure \ref{BioIsop:Calculation:fig_E_isop_vs_hcho_model_sample} shows the modelled isoprene emissions and column HCHO concentrations along with the RMA regression line, sampled from grid boxes over Australia for January 2005.
     Some affects from the low emissions in grid boxes which are largely oceanic can be seen and are handled by TODO: handle these and document here.
-    Due to the low horizontal resolution of GEOS-Chem (2 by 2.5$^{\circ}$, latitude by longitude), calculations from grid boxes on the coast which are largely oceanic need to be discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for Eqn \ref{eqn:isop_yield}.
+    Due to the low horizontal resolution of GEOS-Chem (2 by 2.5$^{\circ}$, latitude by longitude), calculations from grid boxes on the coast which are largely oceanic need to be discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for Eqn \ref{BioIsop:Calculation:eqn_isop_yield}.
     A nested version of GEOS-Chem allows a much better analysis of coastal regions, at 0.25 by 0.3125$^{\circ}$ resolution.
     \begin{figure}[!htbp]
       % Figure from GC_tests.py -> isop_hcho_RMA
@@ -266,12 +273,12 @@
         Both series are daily averages over Australia.
         Bottom panel: (RMA) linear regressions from between emissions of isoprene and tropospheric hcho columns, sampled randomly from the 2$^{\circ}$ by 2.5$^{\circ}$ latitude longitude gridboxes over Australia for the month of January (2005).
       }
-      \label{BioIsop:fig:E_isop_vs_hcho_model_sample}
+      \label{BioIsop:Calculation:fig_E_isop_vs_hcho_model_sample}
     \end{figure}
     
     %TODO: put this into results
-    Using this modelled slope at 2$^{\circ}$ by 2.5$^{\circ}$ and applying it to equation \ref{eqn:isop_yield} with B and $\Omega_{HCHO}$ calculated using OMI satellite measurements provides a new estimate of isoprene emissions.
-    Figure \ref{BioIsop:fig:E_isop_200501} shows the emissions calculated this way along with the Emissions output by GEOS-Chem averaged over January, 2005.
+    Using this modelled slope at 2$^{\circ}$ by 2.5$^{\circ}$ and applying it to equation \ref{BioIsop:Calculation:eqn_isop_yield} with B and $\Omega_{HCHO}$ calculated using OMI satellite measurements provides a new estimate of isoprene emissions.
+    Figure \ref{BioIsop:Calculation:fig_E_isop_200501} shows the emissions calculated this way along with the Emissions output by GEOS-Chem averaged over January, 2005.
     \begin{figure}[!htbp]
       % Figure from Inversion.py -> check_against_MEGAN()
       \includegraphics[width=\textwidth]{Figures/Isoprene/E_Comparison.png}
@@ -279,7 +286,7 @@
         Top row is isoprene emissions for the month of January, in 2005, from GEOS-Chem and estimated from OMI respectively.
         Bottom row shows the absolute and relative differences between the two.
       }
-      \label{BioIsop:fig:E_isop_200501}
+      \label{BioIsop:Calculation:fig_E_isop_200501}
     \end{figure}
   
   \subsection{Emisions drivers}
@@ -301,7 +308,7 @@
     At low NO (less than 10's of pptv), reaction with HO$_2$, other RO$_2$, and isomerization dominate the fate of RO$_2$.
     In low NO$_X$ environments, reported HCHO yields from isoprene are from XtoY\%, while in high NO$_X$ environments this value is XtoY\% TODO: these values from table.
     For monoterpenes the yields are around X, Y\% for low, high NO$_X$ respectively.
-    Emissions and yields for various species including some terpenes can be seen in table \ref{ch_isop:tab:VOCAusYields}.
+    Emissions and yields for various species including some terpenes can be seen in table \ref{BioIsop:Methods:tab_VOCAusYields}.
     \citet{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
     They determine prompt yield as the change in HCHO per change in ISOP$_0$, using $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
     This effectively relates HCHO abundance with isoprene emission strength.
@@ -337,7 +344,7 @@
         \item c: 
         \item d: Production determined by dividing emission*yield by the sum of all VOC emissions*yields. 
       \end{tablenotes}
-      \label{ch_isop:tab:VOCAusYields}
+      \label{BioIsop:Methods:tab_VOCAusYields}
     \end{threeparttable} \end{table}
     
     % yields from Atkinsen2003
@@ -402,31 +409,9 @@
         \item e \citet{Dufour2009}: One-day yields from oxidation modelled by CHIMERE, using MCM reference scheme.
         \item f Calculated using PTR-MS and iWAS on SENEX campaign data.
       \end{tablenotes}
-      \label{ch_isop:tab:VOCLiteratureYields}
+      \label{BioIsop:Methods:tab_VOCLiteratureYields}
     \end{threeparttable} \end{table}
   
-  \subsection{Accounting for NOx}
-    \label{BioIsop:Methods:NOx}
-    
-    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
-    This means that if the model is poorly simulating NO$_X$, the yield (and transport, see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
-    
-    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{BioIsop:Data:OMNO2d}). 
-    Figure \ref{BioIsop:fig:GC_vs_OMNO2d_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
-    It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
-    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
-    
-    \begin{figure}[!htbp]
-      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
-      \includegraphics[width=\textwidth]{Figures/GEOSChem/GC_vs_OMNO2_bires_200501.png}
-      \caption{%
-        Row 1 shows the tropospheric columns in molec cm$^{-2}$.
-        Row 2 shows the absolute and relative differences with GEOS-Chem mapped onto the higher resolution of OMNO2d.
-        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
-      }
-      \label{BioIsop:fig:GC_vs_OMNO2d_2005}
-    \end{figure}
-    
   
   \subsection{Accounting for smearing}
     \label{BioIsop:Methods:Smearing}
@@ -460,8 +445,6 @@
     
 \section{Results}
   
-  
-  
   \subsection{Emissions affect on GEOS-Chem}
     We interpolated or something (TODO) the emissions over Australia into the inventories used by GEOS-Chem which reduced the emissions by X\% per year (over Australia).
     The resulting simulation output shows that HCHO was reduced by X\%, although if we boost monoterpenes by X\% where the isoprene emissions were lowered then 
@@ -476,6 +459,8 @@
     
     When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease over TODO: locations and seasons.
     TODO: table or figure showing summary of isoprene emissions changes over the whole of our time domain.
+    The 'Scaled Satellite' column refers to the calculations when using the 40\% scaled up OMI HCHO columns. %TODO: make table, add that column
+    This can be considered as a boundary on satellite based HCHO column uncertainty.
     
     One set of data from the Daintree rainforest in Queensland exists (TODO: summary from P. Nelson).
     Although the data set lies outside our run times, as it was measured in TODO(runtime), we compare against the seasonal average of our GEOS-Chem output for the matching months (TODO: name the months).
@@ -488,7 +473,8 @@
     %As is done in \cite{Emmerson2016}, 
     We examine the affect of decreased isoprene emissions on the correlation between modelled and satellite based HCHO columns.
     Figure TODO: shows the regressions between GEOS-Chem tropospheric column amounts of HCHO and satellite columns for two runs of GEOS-Chem: a) using standard MEGAN emissions, b) using our updated emissions.
-  
+    
+    
   
 % Extras for potential paper output 
 %  
