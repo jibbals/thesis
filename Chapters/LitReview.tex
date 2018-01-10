@@ -871,7 +871,12 @@
       The conversion factor for slant to vertical columns (AMF) calculation also suffers from errors; primarily from surface albedo, HCHO vertical profile apriori, aerosol, and cloud influence \citep{Millet2006}. 
       AMF uncertainties for GOME are calculated to be $1$ to $1.3\times10^{15}$ molecules cm$^{-2}$ by \cite{Shim2005}.
     
+    
   \subsection{Glyoxal TODO: move somewhere fitting?}
+  
+    Another chemical retrievable from satellite observation is Glyoxal, which can be used to further determine what sort of precursors to HCHO are being emitted \citep{Miller2014, Miller2017}.
+    TODO: go through 2014 paper and see if it's easy to retrieve, then email Dr. Chris Miller.
+   
     Glyoxyl (CHOCHO) is important to us as it shares many properties with HCHO, and may provide additional information in determining isoprene emissions.
     Glyoxyl is another product of VOC oxidation in the atmosphere, with isoprene being the main source globally.
     Under high NO$_X$ conditions, glyoxyl forms rapidly, similarly to HCHO.
@@ -885,14 +890,12 @@
     Glyoxyl is formed by isoprene oxidation rapidly in low NO$_X$ conditions, unlike HCHO.
     With coming geostationary satellites, which provide greater time resolved measurements of HCHO and CHOCHO, this mechanism could be used to clearly show when low NO$_X$ isoprene chemistry is being undertaken \citep{Miller2017}.
     
-% TODO: Reading up to here
 \section{Models}
   \label{LR:Models}
   \subsection{How can models help}
-    Used to forecast weather, pollution, and fires. ...
     
     Models can fill the gaps (both spatial and temporal) in measurement records, and are used to predict/avoid/mitigate hazardous scenarios.
-    They are used ideally to steer us away from unsustainable pollution and help complete our understanding from small to large scales.
+    They are used ideally to steer us away from unsustainable pollution and help complete our understanding of the world from small to large scales.
     They can be used to increase measurement accuracy (for instance in satellite measurements) and determine where we lack information, while also checking the performance of new instruments.
     Precisely representing various chemicals and reactions in the atmosphere allows efficient mitigation of pollution, since we can compare scenarios against one another.
     Currently, improved isoprene understanding is critical for effective air quality measuring \citep{Marvin2017}.
@@ -900,37 +903,39 @@
     Chemical Transport Models (CTMs) simulate production, loss, and transport of chemical species.
     This is generally calculated using one or both of the Eulerian (box) or Lagrangian (puff) frames of reference.
     CTMs normally solve the continuity equations simultaneously with chemical production and loss for chemicals under inspection. 
-    The continuity equations describe transport of a conserved quantity such as mass, which, solved together with production and loss of a chemical forms the basis for a CTM.
-    This basis enables a record of the chemical densities and transport over time as a model runs.
+    The continuity equations describe transport of a conserved quantity such as mass, which, solved together with production and loss of a chemical can provide detailed simulations of natural processes.
+    Models provide a simulation of chemical densities and transport over time as a model runs.
     The general continuity equation links a quantity of a substance (q) to the field in which it flows and can be described by the formula:
     \begin{eqnarray*}
       \frac{\partial \rho}{\partial t} + \nabla \cdot j &=& \sigma 
     \end{eqnarray*}
-    where $\rho$ is density of q in the field, t is time, $\nabla$ is divergence, j is the flux (the amount of q per unit area per unit time entering or leaving the field), and $\sigma$ is the generation or loss of q per unit volume per unit time.
+    where $\rho$ is density of q in the field, t is time, $\nabla$ is divergence, j is the flux (q per unit area per unit time entering or leaving the field), and $\sigma$ is the generation or loss of q per unit volume per unit time.
     
     
-    The type of model best suited to modelling the entire earth uses the Eulerian frame of reference, where the atmosphere is broken up into 3-D boxes with densities and transport calculated and stored for arbitrary sequential steps in time at each location.
+    The type of model best suited to modelling the entire earth uses the Eulerian frame of reference, where the atmosphere is broken up into 3-D boxes with densities and transport calculated and stored for sequential steps in time at each location.
     The mass balance equation must be satisfied in any realistic long term box model and is as follows: 
     \begin{align*}
       \frac{dm}{dt} &=& \sum{sources}-\sum{sinks} \\
       &=& F_{in} + E + P - F_{out} - L - D 
     \end{align*}
-    where m is mass of a chemical, E and D are emission and deposition, P and L are production and loss, and F is chemical transport in and out, as shown in figure \ref{LR:fig:boxmodel}.
+    where m is mass of a chemical, E and D are emission and deposition, P and L are production and loss, and F is chemical transport in and out, as shown in figure \ref{LR:Models:fig_boxmodel}.
     Many chemical species interact with each other through production and loss. 
     Any large chemical model will solve this mass balance equation over highly coupled arrays of partial differential equations which can be complex and time consuming.
     
-    In many CTMs the isoprene emissions are calculated seperately using MEGAN, and then used as boundary conditions (EG: \cite{Guenther2006}).
+    \begin{figure}
+      \includegraphics{Figures/boxmodel.png}
+      \caption{ %
+        Standard box model parameters, image taken from \cite{Jacob_1999_book}. }
+      \label{LR:Models:fig_boxmodel}
+    \end{figure}
+    
+    In many CTMs the isoprene emissions are calculated seperately using MEGAN, and then used as boundary conditions (EG: \cite{Guenther2006}). 
+    This can speed up calculations as the transport and concentrations can be simulated in various conditions without recalculating the emissions.
     Trace gases with short lifetimes and complex chemistry such as isoprene are often hard to measure which makes verifying model estimates difficult.
     Contemporary models generally use mathematical differential solving tools of various complexity to solve chemical equations and reaction rates (often called chemical mechanisms) in order to predict an environments evolution over time.
     Different solvers may be slower or faster and more suited to particular situations based on the stability of the equations and systems involved, and chemical mechanisms may vary in how many reactions and chemicals are listed and grouped together.
     For example: Since [O] $<<$ [O$_3$] the chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \citep[][Chapter 3]{BrasseurJacob2017}.
-    \cite{Zhang2012} examine the outputs from a regional model (WRF/Chem) using three different chemical mechanisms, and they show that particulate matter prediction is sensitive to the choice of chemical mechanism.
-    
-    \begin{figure}
-      \includegraphics{Figures/boxmodel.png}
-      \caption{ Standard box model parameters, image taken from \cite{Jacob_1999_book}. }
-      \label{LR:fig:boxmodel}
-    \end{figure}
+    \cite{Zhang2012} examine the outputs from a regional model (WRF/Chem) using three different chemical mechanisms, and they show that particulate matter prediction is sensitive to the choice of chemical mechanism. 
     
   \subsection{Relevant model frameworks}
   \label{LR:Models:frames}
@@ -940,42 +945,50 @@
     TODO: read more Christian 2017,
     TODO: put some more generic ACM info here.
     
-    \subsubsection{Box models} % EG CAABA/MECCA
+    \subsubsection{Box models} 
+    \label{LR:Models:frames:box}
+    % for example CAABA/MECCA
+      A box model involves modelling chemistry in a singular set of conditions without transport or any spatial gradients.
+      One box model used in this thesis is called CAABA/MECCA, and is described here as an example.
       
       CAABA (Chemistry As A Boxmodel Application) estimates the chemical concentrations accounting for J-values (JVAL), simplified and parameterised photolysis (SAPPHO) and simplified emission and depositions (SEMIDEP).
       CAABA runs in a single scenario (or box) with given emissions, depositions, and initial concentrations, allowing the examination of chemistry in a very specific environment to be modelled with high temporal resolution.
       This has been used with an atmospheric chemistry model MECCA (Module Efficiently Calculating the Chemistry of the Atmosphere) which implements tropospheric and stratospheric chemistry for both the gas and the aqueous phases \citep{Sander2005}.
-      For our purposes it's worth noting that MECCAs chemical mechanism includes basic O$_3$, CH$_4$, NO$_X$, and HO$_X$ chemistry, as well as non methane hydrocarbon (NMHC) chemistry, considering gas phase, aqueus phase, and heterogenous reactions. \citep{Sander2005}
-      For the numerical integration, MECCA uses the KPP software \citep{SanduSander2006}, which takes chemical reactions and their rate coefficients and forms efficient code for integral solutions to the system.
+      MECCA chemical mechanisms include basic O$_3$, CH$_4$, NO$_X$, and HO$_X$ chemistry, as well as non methane hydrocarbon (NMHC) chemistry, considering gas phase, aqueus phase, and heterogenous reactions. \citep{Sander2005}
+      For the numerical integration, MECCA uses the KPP software (\cite{SanduSander2006}), which takes chemical reactions and their rate coefficients and codes integral solutions to the system.
       The combination of the CAABA box model with MECCA module is called CAABA/MECCA and is currently at version 3.
       CAABA/MECCA been implemented for various calculations including ozone chemistry throughout the atmosphere in \cite{Zanis2014}.
   
-      MECCA could also be used as the chemistry mechanism for a more complex, 3-dimensional model \citep[e.g.][]{Jockel2006}.
+      MECCA could also be used as the chemistry mechanism for a more complex, 3-dimensional model (\cite[e.g.][]{Jockel2006}).
       The connection is established via the MESSy interface (\url{http://www.messy-interface.org}) developed by \cite{Jockel2005} as part of an effort to simplify the framework for modelling the atmospheres at various scales.
       The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
   
-      TODO: continued description of CAABA MECCA box model
-    
       By allowing for interactions between boxes this concept can be extended to multiple-box models.
       These are simply multiple instances of single boxes with the addition of transport between them, which generally requires a meteorological model to provide winds, and other transport mechanisms.
       
-    \subsubsection{Chemical transport} % EG GEOS-Chem
-      GEOS-Chem has a meteorological model coupled to a chemical model, which splits the world into a three dimensional grid (connected boxes).
+    \subsubsection{Chemical transport} %% eg. GEOS-Chem
+      GEOS-Chem is an example of this, with many boxes covering the globe, each with chemistry and dynamic meteorological conditions.
+      The transport between boxes also needs to be taken into account when simulating concentrations.
+      Additionally the different meteorological conditions such as wind and air pressure need to be handled within each box.      
+      GEOS-Chem has a meteorological model coupled to a chemical model, which simulates the world in a three dimensional grid of connected boxes.
+      
       GEOS-Chem is a well supported global, Eulerian CTM with a state of the science chemical mechanism, with transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
-      GEOS-Chem simulates more than 100 chemical species from the earth's surface up to the edge of space (0.01 hPa) and can be used in combination with remote and in-situ sensing data to give a verifiable estimate of atmospheric gases and aerosols.
-      It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide. 
+      GEOS-Chem simulates more than 100 chemical species from the earth's surface up to the edge of space (0.01~hPa) and can be used in combination with remote and in-situ sensing data to give a verifiable estimate of atmospheric gases and aerosols.
+      It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide.
       Several driving meteorological fields exist with different resolutions, the finest at 0.25 by 0.3125$^\circ$ horizontally at 5 minute time steps with 72 vertical levels.
       
-      Global CTMs are often run using one or several emission models (or the output from them) to determine their boundary conditions.
+      Global CTMs are often run using one or several emission models (or the output from them) to determine boundary conditions for many gridboxes.
+      TODO: is this the case? Doesn't GEOS-Chem have coupled chemistry and meteorology? Check the wiki.
       GEOS-Chem has boundary conditions based on several meteorological and emissions inventories, the following are the versions of theses used by GEOS-Chem v 10.01. 
       Meteorological fields can be driven by NASA's GEOS-5 data (0.5$^{\circ}$ x 0.666$^{\circ}$) \citep{Chen2009}, which exists up to 2013, or GEOS-FP data (0.25$^{\circ}$ x 0.3125$^{\circ}$).
       Fire emissions come from the GFED4 product \citep{Giglio2013}. 
       Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are coupled to the MEGAN model TODO:cites.
-      The estimated biogenic VOC emissions are important to the work done in this thesis and are discussed in somewhat more detail in section \ref{LR:sec:BVOCestimates}.
+      The estimated biogenic VOC emissions are important for accurately simulating chemistry within models, as discussed in Sections \ref{LR:O3andAQ:BiogenicOzonePrecursors} and \ref{LR:Models:Unc}.
       
       The Model of Emissions of Gases and Aerosols in Nature (MEGAN) is one of the more commonly used natural emission models \citep{Monks2015}. (TODO: more cites which say this/use MEGAN)
       
-    \subsubsection{Land based emissions} % EG MEGAN
+    
+    \subsubsection{Land based emissions} %% EG MEGAN
       % TODO: Overview of land based emissions modelling?
       
       MEGAN can provide an estimate of biogenic emissions of various chemicals including isoprene and monoterpenes.
@@ -992,24 +1005,23 @@
       This update included a parameter for soil moisture, to account for drought conditions, however this parameter is currently (as of version 2.1) not applied to isoprene \citep{Sindelarova2014}.
       Soil moisture effects on isoprene emission are very important, and can drastically affect estimates.
       
-      MEGAN generally overpredicts isoprene and underpredicts monoterpene emissions in southeast Australia, with peaks and troughs captured but not at the right magnitude \citep{Emmerson2016}.
-      
       MEGAN has recently been analysed using 30 years of meteorological reanalysis information by \cite{Sindelarova2014}.
       They estimate emissions of Biogenic VOCs (BVOCs) to be 760~Tg(C)yr$^{-1}$, 70\% (532~Tg(C)yr$^{-1}$) of which is isoprene.
       This is similar to isoprene emission estimates from MEGAN itself, of 400-600~Tg(C)yr$^{-1}$ \citep{Guenther2006}.
-      
       MEGAN emissions estimates are termed bottom-up, as opposed to top-down which are derived from satellite measurements of the products of various VOCs.
       Using GOME satellite HCHO and a Beyesian inversion technique to derive isoprene emissions, \cite{Shim2005} estimated global isoprene emissions to be $\sim566$~TgC yr$^{-1}$. 
       This estimate is greater than initially thought and leads to decreased ($\sim10\%$) simulated OH concentrations to 9.5e5 molec cm$^{-3}$.
+      
+      Improvements to emissions models require improved understanding of regions and their behaviour.
+      Inaccuracies can arise due to lack of data, such as the large and sparsely measured Australian outback.
+      MEGAN has been shown to overpredict isoprene and underpredict monoterpene emissions in southeast Australia, with peaks and troughs captured but not at the right magnitude (\cite{Emmerson2016}).
 
-    \subsubsection{Radiative transfer} % EG LIDORT
+    \subsubsection{Radiative transfer} %% EG LIDORT
+      %TODO: Lidort example?
+      TODO: Lidort example?
     
-  \subsection{Using models to determine Isoprene emissions}
-    TODO: Move stuff to here?
-    Another chemical retrievable from satellite observation is Glyoxal, which can be used to further determine what sort of precursors to HCHO are being emitted \citep{Miller2014, Miller2017}.
-    TODO: go through 2014 paper and see if it's easy to retrieve, then email Dr. Chris Miller.
-  
-    \subsubsection{Factors affecting isoprene emissions estimates}
+  \subsection{Factors affecting isoprene emissions estimates}
+
       \cite{Marais2014} examine factors affecting isoprene emissions, showing how emissions are sensitive to various environmental factors.
       Their work used MEGAN \citep{Guenther1995} and GEOS-Chem to look at how these factors affect surface ozone and particulate matter in Africa.
       One of the important uncertainties seen in MEGAN within this work is the isoprene emissions due to plant type. 
@@ -1019,7 +1031,7 @@
       In their work they examine model sensitivities and show that the important parameters are leaf area index (LAI), emission factors (EF), plant functional type (PFT), and light density fraction (LDF).
       There is high uncertainty in LAI and EF, which require more or improved measurements at the global scale.
       LDF paramterisation needs improvement and these models require more PFTs.
-      \cite{Emmerson2016} analyse EF sensitivity of a high resolution model of atmospheric chemistry over southeast Australia, comparing isoprene and monoterene emissions against 4 seperate campaigns.
+      \cite{Emmerson2016} analyse EF sensitivity of a high resolution model of atmospheric chemistry over southeast Australia, comparing isoprene and monoterpene emissions against 4 separate campaigns.
       They show that the effect on total emissions is roughly linear and that no blanket EF changes are appropriate for all regions/seasons.
       They also mention that Australian eucalypt emissions are based on samples from young trees, which may emit more isoprene than older trees.
       
@@ -1027,10 +1039,14 @@
       Changes were constrained by a network of radiation measurements and some experiments with south east Asian forest emissions - and led to reduction in isoprene emissions by a factor of two over the region.
       The Asian region is also shown to have a strong correlation with the Oceanic Niño Index (ONI), with positive anomalies associated with El Niño.
       In the last 20 years anthropogenic emissions of VOCs have been increasing while biogenic VOC emissions have decreased due to rapid economic growth and lower annual temperatures \citep{Stavrakou2014, Kwon2017}.
+      
+      %Temperature has a strong exponential relationship with isoprene emissions, and can be readily seen in comparisons to a major isoprene product HCHO. 
   
+  % TODO: Reading up to here
   \subsection{Uncertainties}
     \label{LR:Models:Unc}
     Here I will attempt to list and partially explain the major uncertainties models have in relation to  VOCs, SOAs, and ozone. 
+    TODO: Is this a good idea or should I put any pertinent uncertainties with the associated work/descriptions?
     
     \subsubsection{Emissions Inventories}
       % Emissions Inventories 
@@ -1043,25 +1059,24 @@
     \subsubsection{Resolution}
       \label{LR:Models:Unc:Resolution}
       GEOS-Chem simulations are somewhat sensitive to the resolution at which you run.
-      For example: TODO: read abstract/cite Wild and Prather 2006 show that reduced resolution increases OH concentrations and ozone production rates, \citep{Wild2006}.
-      \cite{Christian2017} find small changes in OH ($<10$\%) in OH, HO$_2$ and ozone concentrations local to the north american arctic, when changing from 4 by 5 to 2 by 2.5$^{\circ}$ resolution, however they continue at lower resolution to save computational time.
+      For example: \cite{Wild2006} show that reduced resolution increases OH concentrations and ozone production rates.
+      \cite{Christian2017} find small changes in OH ($<10$\%) in OH, HO$_2$ and ozone concentrations local to the north american arctic, when changing from 4 by 5 to 2 by 2.5\degr resolution, however they continue at lower resolution to save computational time.
       
-      For many global scale analyses, errors from resolution are less important than those from chemistry, meteorology, and emissions \citep{Christian2017}.
+      For many global scale analyses, errors from resolution are less important than those from chemistry, meteorology, and emissions (\cite{Christian2017}).
       
+    
     % Transport uncertainties?
-    %\subsubsection{Transport}
-    %  \label{LR:Models:Unc:Transport}
-      % Transport uncertainties
-      
-      
+    \subsubsection{Transport}
+      \label{LR:Models:Unc:Transport}
+      TODO: Literature showing transport uncertainties or lack thereof     
       %TODO: examples of transport uncertainties
     
     \subsubsection{Chemistry mechanisms}
       \label{LR:Models:Unc:Chemistry}
-      % GEOS-Chem Ozone uncertainties 
+      %% GEOS-Chem Ozone uncertainties 
       There is still much work to be done in models to correctly simulate the various precursors to HCHO.
       Often HCHO is used as a way of checking if these precursors are correctly modelled since HCHO measurements are more readily available (for instance from satellites).
-      GEOS-Chem (an ACM) has recently been analysed for sensitivity for ozone along with oxidants (OH and HO$_2$) \citep{Christian2017}.
+      GEOS-Chem has recently been analysed for sensitivity for ozone along with oxidants (OH and HO$_2$) \citep{Christian2017}.
       \cite{Christian2017} found that GEOS-Chem ozone was most sensitive to NO$_2$ photolysis, the $NO_2 + OH$ reaction rate, and various emissions.
       They used GEOS-Chem v9-02, with $4^{\circ} \times 5^{\circ}$ resolution, and while the low resolution adds errors in OH concentrations and O$_3$ production rates, the errors from chemistry, meteorology, and emissions are much larger.
 
@@ -1072,7 +1087,7 @@
     
     \subsubsection{Clouds}
       \label{LR:Models:Unc:Clouds}
-      One of the major uncertainties in chemical, climate, radiation, and weather models is cloud formation and dynamics. 
+      One of the major uncertainties in chemical, climate, radiation, and weather models is cloud formation and dynamics.
       Clouds are remarkably complex at a much finer scale than can be accurately modelled by global chemistry models (with current processing power).
       Globally over half (50-60\%) of the world is covered by clouds, with $\sim10\%$ of them being rain-clouds \citep{Kanakidou2005}.
       Wet scavenging performed in clouds not only depends on large scale cloud processes, but also on the microphysics of aerosols being scavenged, differing between aerosol sizes and hygroscopic properties.
@@ -1087,7 +1102,7 @@
       \cite{Rowntree1983} show how quickly soil moisture anomalies affect rainfall and other weather systems, while \cite{Chen2001} specifically show how important fine scale soil moisture information is when modelling land surface heat flux, and energy balances.
       Modelled emissions are sensitive to soil moisture, especially near the soil moisture threshold (or wilting point), below which trees stop emitting isoprene and other VOCs completely as they can no longer draw water \citep{Bauwens2016}.
       MEGAN accounts for soil moisture by applying it as an emission factor (EF) which scales the emission rate of various species.
-      \cite{Sindelarova2014} show reductions in modelled Australian isoprene emissions of 50\% by accounting for soil moisture. 
+      \cite{Sindelarova2014} show reductions in modelled Australian isoprene emissions of 50\% when incorporating soil moisture in MEGAN estimates. 
       
       Droughts affects can be difficult to measure, as it is a multi-scale problem which affects various aspects of the land-air interface including plant emissions and dry deposition (\cite{Wang2017}).
       The Standardised Precipitation Evapotranspiration Index (SPEI) is a measure of drought using TODO \cite{SPEI_website}.
@@ -1095,12 +1110,16 @@
       
 \section{Aims}
   \label{LR:Aims}
+  TODO: outline of aims here (FIND THESE THEY ARE SOMEWHERE)
 
 \section{Data Access}
+  TODO: ADD MORE HERE
   \label{LR:DataAccess}
   \begin{description}
     \item[OMNO2d] Daily satellite NO$_2$ product downloaded from \url{https://search.earthdata.nasa.gov/search}, DOI:10.5067/Aura/OMI/DATA3007
+    
     \item[SPEI] Monthly standardised precipitation evapotranspiration index (metric to determine drought stress) downloaded from \url{http://hdl.handle.net/10261/153475} with DOI:10.20350/digitalCSIC/8508
+    
     \item[OMHCHO] Satellite swaths of HCHO slant columns downloaded from TODO, with DOI TODO
+  
   \end{description}
-  OMNO2d:
