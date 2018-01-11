@@ -1,0 +1,88 @@
+% CHAPTER 3 (probably)
+% Isoprene Emissions
+
+\chapter{TODO: move to biogenic isop chapter: Isoprene Emissions in Australia} % Main chapter title
+\label{ch_isop}
+
+\section{GEOS-Chem isoprene mechanisms(moved to Modelling chapter)}
+  \label{ch_isop:sec:GEOSChemMechanisms}
+  \subsection{Outline(moved)}
+  \subsection{Emissions from MEGAN(moved)}
+
+%----------------------------------------------------------------------------------------
+%	SECTION
+%----------------------------------------------------------------------------------------
+\section{Isoprene emissions estimation}
+\label{ch_isop:sec:IsopreneEmissions}
+
+  \subsection{Outline}
+    % What I do moved to biogenic isoprene outline
+    
+    % background comparison note sent to ???
+    
+    % Smearing outline to Biogenic isoprene 
+    
+    Isoprene quickly forms HCHO in the atmosphere when in the presence of high levels of NO$_X$.
+    However, over Australia NO$_X$ levels are generally not high enough and we must take extra care that we can account for the transport or 'smearing' caused by slower HCHO formation.
+    Smearing sensitive grid boxes within the model can be detected by running the model with two uniformly differing isoprene emission levels, then finding the grid boxes where the changed HCHO column is greater than can be attributed to local emission difference.
+    Using equation \ref{ch_isop:eqn:isop_yield} with two different isoprene emission levels:
+    \begin{equation*}
+      \hat{S} = \frac{\Delta~\Omega_{HCHO}}{\Delta~E_{ISOP}}
+    \end{equation*}
+    Consider halving the isoprene emitted globally and rerunning the model, if the local grid HCHO is reduced by much more than half (factoring yield) then you can infer sensitivity to non-local isoprene emissions.
+    This can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
+    As such smearing sensitivity is both spatially and temporally diverse, shown in figure TODO: is a picture of the smearing sensitivity over Australia.
+   
+    Once the smearing sensitive grid squares are filtered out, application of equation \ref{ch_isop:eqn:isop_yield} gives us an estimate of isoprene emissions across the nation.
+    
+    Most recently a \citet{Bauwens2016} undertook a similar process to what I am doing, although with slightly different focus, using the IMAGESv2 global CTM instead of GEOS-Chem.
+    They calculate emissions which create the closest match between model and satellite vertical columns, and compare these postiori data with the apriori (satellite data) and independent data sets.
+    (TODO: simple outline of what they did and how my focus is different, this paper will also need to be summarised in the LitReview)
+
+  \subsection{HCHO Products and yield}
+    % Yields and Tables moved to BiogenicIsoprene chapter
+    
+  \subsection{CAABA/MECCA yield}
+    % Moved to Biogenic Isoprene Chapter
+  
+  \subsection{Calculation of Emissions}
+    \label{ch_isop:sec:EmissionCalculation}
+    % Moved to Biogenic Isoprene Chapter
+    
+  \subsection{Calculation of smearing effect}
+    TODO: Smearing scale length, $\hat{S}$ formula, and results of calculations in here.
+    As shown in \cite{Palmer2003}, smearing sensitivity can be calculated through multiple runs of the same model with the only difference being the isoprene emissions.
+    I have run GEOS-Chem with and without E$_{ISOP}$ multiplied uniformly by 0.5, and the grid boxes with the most affected $\Omega_{HCHO}$ are those affected most by smearing.
+    The smearing parameter  ($\hat{S}$) is defined as follows:
+    \begin{equation}
+      \hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{ISOP}}
+    \end{equation}
+    TODO: Plot shows smearing parameter over Australia.
+  
+  \subsection{Calculations of uncertainty}
+    There are several factors which need to be considered when looking at the uncertainty in emissions estimates.
+    Things with their own inherent uncertainty include the modelled apriori, modelled relationship between HCHO and isoprene, and satellite measurements. 
+    Important factors which need to be analysed for confidence in results include the steady state assumptions, filtering techniques for fire and human influences, and the regression model for determining the isoprene to HCHO yield.
+
+    Uncertainty in satellite measurements is generally provided along with the data, although uncertainty introduced through AMF calculation needs to be determined to give a representation of the confidence in vertical column amounts.
+    The measurement uncertainty is shown in section \ref{ch_HCHO:sec:OMI_uncertainty_calculation}, and amounts to $\sim X\%$. (TODO this number when calculated)
+    
+    Model uncertainty is difficult to accurately assertain, generally an analysis of the model compared to in-situ measurements is performed, however there are few of these measurements over Australia.
+    TODO: find out how this is estimated in other papers, or else point to HCHO uncertainty and used some function of that.
+    
+    The uncertainty for HCHO to isoprene mechanisms TODO: how to do this?
+  
+  \subsection{Extrapolating the circadian cycle}
+    Isoprene emissions occur with regular daily cycles caused by things like local temperature, sunlight, drought, and other environmental factors (TODO: find/cite eucalypt isoprene paper, daily cycle plot if can find).
+    
+    (TODO: following stuff, add some basic plots and error analysis eventually also)
+    Using a model of the daily isoprene emissions fit to the offset determined by satellite HCHO based estimates, we produce a high temporal resolution isoprene emissions inventory.
+    During days with more than one HCHO column measurement we can more confidently fit the cycle. 
+    For example EOS AURA's OMI measurements from 2004 can be combined with MetOp-A's GOME2 after October 2006, with daily overpasses by OMI and GOME2 at 1345 and 0930 respectively.
+    This allows a better retrieval of the daily amplitude of isoprene emissions.
+    
+  \subsection{Comparison with MEGAN}
+    TODO: Direct comparison here, maps of differences for some metrics(monthly average,?). comparison of model run results using different inventory shown in section (reference here)
+
+\section{New estimates affects on the Australian atmosphere}
+

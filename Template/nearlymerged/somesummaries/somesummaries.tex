@@ -1,0 +1,232 @@
+
+\documentclass[11pt]{article} % The class file specifying the document structure
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{palatino} % Use the Palatino font by default
+\usepackage{graphicx} % graphicx package for images
+\usepackage{url} % package for URL displaying
+\usepackage{amsmath} % for equations
+\usepackage[backend=bibtex,bibencoding=ascii,style=authoryear,sorting=none,natbib=true]{biblatex}
+%\usepackage[backend=biber,bibencoding=ascii,style=authoryear,sorting=none,natbib=true]{biblatex} 
+
+\bibliography{references_somesummaries}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+Summary paragraphs of papers + some quotes
+
+\end{center}
+\end{titlepage}
+
+\tableofcontents % Prints the main table of contents
+\listoffigures % Prints the list of figures
+\listoftables % Prints the list of tables
+
+%----------------------------------------------------------------------------------------
+%	PAPERS AND THEIR SUMMARIES
+%----------------------------------------------------------------------------------------
+
+\section{Currently Reading}
+  \subsection{Wagner 2002: }
+  \citet{Wagner2002}
+    {\small 
+    Methane is the major precursor to HCHO in the marine boundary layer, and the remote atmosphere.
+    In the past, HCHO levels were underestimated by models, often with large discrepancies, due to the poor understanding of methyl peroxy radical (CH$_3$OO) chemistry \citep{Wagner2002}.
+    }
+  
+  \subsection{Vigouroux 2009:Ground-based FTIR and MAX-DOAS observations of formaldehyde at Reunion Island and comparisons with satellite and model data}
+  \url{http://www.atmos-chem-phys.net/9/9523/2009/acp-9-9523-2009.pdf}
+  \citet{Vigouroux2009}
+    \subsubsection{Formaldehyde from SCIAMACHY (section 5)}
+      Slant columns fitted using WINDOAS software.
+      Vertical columns created using an AMF calculated using DISORT code, with apriori columns from IMAGES v2, and a cloud correction based on Martin 2002.
+      {\small
+      ``For  a  single  pixel,  the  random  error  reaches  10$^{16}$~mol cm$^{-2}$.
+      However, when considering regionally and temporally averaged columns, this error is reduced by the square root of the number of observations included in the mean.''
+      The uncertainty is reduced by more than a factor of 4 as they only examine grids with at least 20 observations.
+      }
+      
+  \subsection{DeSmedt 2008: Twelve years of global observations of formaldehyde in the troposphere using GOME and SCIAMACHY sensors}
+  \url{http://www.atmos-chem-phys.net/8/4947/2008/acp-8-4947-2008.pdf}
+  \citet{DeSmedt2008}
+  
+  Global tropospheric HCHO columns from near-UV radiance measurements.
+  GOME on ERS-2 since 1995, SCIAMACHY on EN-VISAT since 2002.
+  
+  Apriori shape factors from IMAGESv2, scattering weights from DISORT.
+  
+  The error is determined as the variance of the vertical column calculations, derived as in Boersma et al 2004.
+  Random error can be reduced by the root of the number of measurements averaged.
+  
+  Since this I$_0$ is the daily radiance reference spectrum, SCs are actually the difference wrt. the SC in that region.
+  
+  HCHO lifetime is short ($\sim$1.5~hr), over continents it is therefor a good indicator of the NMVOCs like isoprene.
+  
+  Few studies use SCIAMACHY HCHO product due to strong ploarisation anomaly around 350~nm. 
+  This problem can be sidestepped by fitting HCHO at shorter UV wavelengths.
+  
+  This paper proposes a new fitting window: 328.5 to 346~nm, which maximises the HCHO absorption bands and minimises the fitting errors, while also avoiding the SCIAMACHY polarisation peak.
+  This band also improved GOME slant columns compared to the previous 337.5 to 359~nm fitting region.
+  The new fitting band has improved residuals, except for polewards of 50$^{\circ}$ due to O$_3$ interference.
+  
+  HCHO is difficult to measure due to it's low optical density relative to other absorbers
+
+\section{Important}
+  \subsection{Barkley 2013: Top-down isoprene emissions over tropical South America inferred from SCIAMACHY and OMI formaldehyde columns}
+    \citet{Barkley2013} use HCHO from SCIAMACHY and OMI, with a nested grid version of GEOS-Chem CTM to infer top-down isoprene emissions estimates over South America in 2006.
+    
+    \subsubsection{Reference sector correction}
+      Both retrievals use daily radiance reference spectrum instead of a solar irradiance spectrum: so the slant columns ($\Omega_S$) represent the difference from the radiance reference slant column.
+      An absolute normalisation is applied to $\Omega_S$ daily, using the median remote Pacific Ocean (110$^{circ}$-140$^{circ}$W, 15$^{circ}$N-15$^{circ}$S) slant column ($\Omega_{S_0}$), and the modelled daily background ($\Omega_{V_B}$) over the same region.
+      \begin{equation*}
+        \Omega_V = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
+      \end{equation*}
+      
+    
+    \subsubsection{Removing biomass burning (section 4)}
+      Scenes affected are removed using a gridded fire count from AATSR, and also the MODIS instruments on EOS-Aqua and EOS-Terra.
+      This filter is observed using three temporal resolutions: daily, eight-day, and monthly, with the effect on top-down emissions quantified.
+      If a fire occurs in a grid cell or one adjacent of both the concurrent and preceding day, it is removed.
+      This removed up to 25\% of land pixels for OMI over the Amazon.
+    
+    \subsubsection{Nested Grid}
+    
+    \subsubsection{Inferred emissions}
+    
+    \subsubsection{Accounting for Smearing}
+      
+  \subsection{Abad 2015: }
+    \citet{Abad2015}
+    \subsubsection{Reference sector correction (section 2.2.3)}
+      Each slant column is corrected by subtracting the difference between the OMI pacific slant column (at matching latitude) and the GEOS_Chem reference sector slant column from it before applying the AMF to determine the corrected vertical column.
+      
+  
+  \subsection{De Smedt 2015: Diurnal, seasonal and long-term variations of global formaldehyde columns inferred from combined OMI and GOME-2 observations.}
+    \citet{DeSmedt2015}
+    \subsubsection{Reference Sector correction (Section 3)}
+      Corrected vertical column is the same as that used by \citet{Barkley2013}:
+      \begin{equation*}
+        \Omega_V = \frac{ \Nabla \Omega_{S} }{ AMF } + \Omega_{V_B}
+      \end{equation*}
+      The slant columns are determined using QDOAS software, using the daily radiance spectra over the remote pacific (15S to 15N, 180 to 240E) as a reference for the DOAS retrieval. 
+      ``This means retrieved slant columns are differential columns relative to the mean reference spectra.''
+      
+      
+%----------------------------------------------------------------------------------------
+%	VOCs Papers
+%----------------------------------------------------------------------------------------
+\section{VOCs}
+  
+  \subsection{Crutzen 1999}
+    \citet{Crutzen1999}
+    Photolysis of ozone drive excited O($^1$D) production, which react with water and produce OH radicals.
+    In background atmosphere OH mostly reacts with CO and CH$_4$ and some of it's oxidation products, which in turn are oxidised by OH.
+    If NO$_X$ is present, ozone may be produced or destroyed in large quantities (greater than the stratospheric source).
+    
+    OH is mostly present in the tropics, and the difference in OH and O$_3$ production between ocean and continental regions is much greater than the difference between hemispheres.
+    Ozone in the lower troposphere is only weakly dependent on stratospheric ozone levels, mostly driven by in-situ production.
+    This is shown through simulating a lower stratospheric ozone level (10\%) and seeing 70-90\% ozone in the lower troposphere.
+  
+  {\small
+  \subsection{Davenport 2015: In house HCHO measurements}
+    \citet{Davenport2015}
+    HCHO is an OVOC which is toxic, allergenic, and a potential carcinogen. 
+    It is dangerous at low levels, with WHO guidelines for prolonged exposure at 80ppb.
+    HCHO is used as an adhesive in plywood and carpeting and also used in the creation of paints and wallpapers.
+    Emissions in enclosed spaces can build up to dangerous levels, especially if new furnishings are installed.
+  } % small means this is in the lit review or thesis somewhere
+  
+  \subsection{Gloudemans 2006: Validation of OMI, GOME-2A and GOME-2B tropospheric NO$_2$, SO$_2$ and HCHO products using MAX-DOAS observations from 2011 to 2014 in Wuxi, China}
+    \citet{Gloudemans2006}
+    
+    This paper describes MAX-DOAS observations in Wuxi, China, and compares them NO$_2$, SO$_2$, and HCHO satellite products.
+    An analysis of factors affecting the tropospheric vertical column density (VCD) for satellites is also given.
+    
+    Recalculating the AMFs using the MAX-DOAS apriori improves the correlation between MAX-DOAS VCDs and the satellite VCDs (by 35\% for HCHO). 
+    OMI VCDs are underestimated by $\sim20$\% at Wuxi, China (a few hours north west from Shanghai).
+    
+    AMFs are mainly affected by relative vertical distributions of aerosols and trace gases (TGs).
+    This can be directly influenced by biomass burning or anthropogenic pollution (for instance the smog around several large Chinese cities).
+    
+    Meaningful TG profiles can be retrieved during cloudy conditions, except for heavy fog or optically thick clouds).
+    
+  \subsection{Sitch 2015: }
+  
+  \subsection{Wang 2016: Validation of OMI tropospheric HCHO using MAX-DOAS observations from 2011-2014 in Wuxi, China}
+    \citet{Wang2016}
+    Systematic underestimation of HCHO by $\sim$20\% by OMI.
+    Discrepancies with MAX-DOAS increase with increasing cloud fractions, and AOD.
+    
+    VCDs recalculated using AMFs based on shape factors created with the MAX-DOAS observations were 35\% better (closer to MAX-DOAS VCDs) wrt. HCHO.
+    These improvements where strongest on days with large trace gas VCDs, and smog/pollution over Wuxi is common.
+    
+    Except for HCHO, correlation of satellite and MAX-DOAS column is sensitive to distance of pixels averaged away from the Wuxi site.
+    This is probably due to HCHO being more homogeneous spatially.
+    
+  \subsection{Yue 2015: Distinguishing the drivers of trends in land carbon fluxes and plant
+volatile emissions over the past 3 decades}
+    \citet{Yue2015}
+    Yale Interactive terrestrial Biosphere (YIBs) model driven by ECMWF used to study global trends of land carbon fluxes and BVOC emissions from 1982-2011.
+    MODIS and NDVI-GIMMS are used to determine LAI, with isoprene emissions driven by two seperate datasets in order to test isoprene driving sensitivity.
+    One isoprene scheme is MEGAN, the other is a photosynthesis dependent model.
+    
+    Drivers of trends in GPP, NPP, NEP, BVOC emissions, etc.. are determined through running the model with various parameters set to repeat the 1980 data.
+    Differences from the control run show how sensitive the changes are to changes in the parameters.
+    trends WERE sensitive to the use of MEGAN vs the use of the photosynthesis driven model.
+    
+    Understanding the drivers of trends in biogenic volatile organic compound emissions is needed in order to estimate future carbon fluxes, changes in the water cycle, air quality, and other climate responses.
+    Changes in growing and dying season for plants drives some of the isoprene emissions trends.
+    
+    Global increases of carbon uptake from 1982-2011, especially for tropical areas, largely due to CO$_2$ fertilisation.
+    
+    ``The terrestrial biosphere interacts with the atmosphere through photosynthesis and biogenic volatile organic compound (BVOC) emissions. Annually, terrestrial ecosystems assimilate $\sim$120 petagrams of carbon (Pg C) from the atmosphere (Beer et al., 2010), most of which reenters atmosphere through respiration and decomposition, resulting in a net global land carbon sink of 2.6 $\pm$ 0.7 Pg C a -1 (Le Quèrè et al., 2009; Sitch et al., 2015)''
+    
+  \subsection{Zhu 2016: }
+    \citet{Zhu2016}
+    Current satellite HCHO can provide a reliable proxy for isoprene emission variability, with a low mean bias due to column corrections and scattering weights.
+    
+
+%----------------------------------------------------------------------------------------
+%	Modelling Papers
+%----------------------------------------------------------------------------------------
+\section{Modelling}
+  \subsection{Zheng 2016}
+    \citet{Zheng2016}
+    ``We conclude that proxy-based inventories are of sufficient quality to support regional and global models (larger than 0.25 degrees in this case study);
+    however, to support urban-scale models with accurate emission inputs, bottom-up inventories incorporating exact locations of emitting facilities have to be developed instead.''
+%----------------------------------------------------------------------------------------
+%	Ozone Papers
+%----------------------------------------------------------------------------------------
+\section{Ozone}
+  \subsection{Borchi 2007:}
+
+
+  \subsection{Liu 2015: Origins of tropospheric ozone interannual variation over Réunion: A model investigation}
+    \citet{Liu2015}:
+    Ozonesondes released at reunion island as part of SHADOZ(\url{http://croc.gsfc.nasa.gov/shadoz/}) are analysed against GMI-CTM grid box profiles matching sonde release dates.
+    50\% increase in tropospheric ozone from 1992 - 2011 in JJA months based on ozonesonde measurements.
+    ``Far fewer studies have focused on the long-term behaviour of ozone in the Southern Hemisphere owing to a lack of suitable observations.''
+    Sparse sampling does not fully capture Interannual Variability (IAV) in the upper troposphere shown by the model.
+    
+    Stratospheric influence over Reunion of the tropospheric ozone is important, although model resolution and sonde sparcity make analysis more difficult.
+    ``Increasing emission over southern Africa appear to affect only the lower troposphere'', with an increasing trend in the middle and upper troposphere during austral winter left unexplained.
+    The widening tropical belt may also be increasing the stratospheric influence over Reunion.
+
+  \subsection{Mze 2010:}
+    \citet{Mze2010}
+    ``The tropical stratosphere is, however, a zone where it is difficult to measure ozone by satellite experiments, due to increased Rayleigh atmospheric attenuation, high altitude clouds, low temperature, high humidity and dense aerosols (Borchi et al., 2007)''.
+
+  \subsection{Thompson 2015: }
+  
+% bibliography
+\printbibliography[heading=bibintoc]
+
+\end{document}  
+
+
