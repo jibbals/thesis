@@ -15,14 +15,14 @@
 \section{Outline TODO: move into intro?}
   \textbf{Currently this is an outline, TODO: Remove or put into aims.}
   
-  %% WHAT we aim to do
+  %WHAT we aim to do
   We estimate isoprene emissions in Australia using top-down estimates based on recalculated OMI HCHO measurements and modelled isoprene to HCHO yields.
   These estimates are compared to several campaigns (SPS1, SPS2, MUMBA, Daintree) and used as the new boundary conditions for GEOS-Chem.
   Sensitivity to soil moisture, (maybe) LAI, and satellite AMF calculation is examined and quantified for some scenarios.
   The effect of using these new top down isoprene emissions as the boundary conditions for GEOS-Chem is studied
   Wellness of fit between in-situ (at Wollongong) HCHO, satellite (OMI), and modelled (GEOS-Chem) HCHO is determined with and without updated emissions estimates.
   
-  %% HOW it works
+  % HOW it works
   With the vertical columns of biogenic HCHO we can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (In other continents around 2-3, or 1 in low NO$_X$ conditions) \citep{Palmer2003,Marais2012,Bauwens2016}.
   If we assume there is fast HCHO yield, so that the effect of chemical transport is minimal, and that HCHO and isoprene are at steady states, then we can calculate local yield from our CTM.
   %This yield is derived from both HCHO and isoprene, such as was used by \citet{Millet2006} who produced a molar HCHO yield of 2.3 in north eastern USA.
@@ -49,11 +49,16 @@
   Satellite based emissions estimates may allow us to improve the models without requiring lots of hard work on calibrating MEGAN to the large data sparse continent of Australia.
   Emissions of monoterpenes (C$_10$H$_16$, two units of isoprene) may also be underestimated in southeastern Australia, which could lead to the unique scenario of neither type of emission dominating VOC chemistry over the forests \citep{Emmerson2016}.
   
-  %% Isoprene to HCHO link
-  Isoprene has a large impact on the oxidative properties of the atmosphere, as it reacts quickly with the OH radical to form RO$_2$ and then in the presence of NO$_X$ various OVOCs (largely HCHO), SOAs and ozone are formed.
+  %% HERE IS DESCRIBED THE PATHWAY FROM ISOPRENE TO HCHO AND OTHER CHEMICALS
   Isoprene is emitted and enters the atmosphere in the gas phase, where it reacts with various chemicals, forming many new chemicals and reactions at various time scales.
-  For more on the pathways and reactions of isoprene in the atmosphere see Section \ref{LR:VOCs:IsopCascade}.
-  Formaldehyde is produced with high yields in many of the isoprene reactions, and is often used as a check on how well these reactions are simulated by comparison against in-situ measurements \citep{Marvin2017}.
+  The primary first step for atmospheric isoprene is its oxidation by OH radicals leading to isoprene hydroxy peroxy radicals (ISOPOO) \citep{Wolfe2016,Marvin2017}.
+  The fate of ISOPOO depends upon concentrations of NO$_X$, reacting with NO to form HCHO, MVK, MACR, and to a lesser extent organic nitrates (ISOPN).
+  ISOPN can be oxidised (by OH) to form nitrated organic products \citep{Paulot2009a}.
+  In low NO$_X$ ISOPOO reacts with HO$_2$ (producing hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing hydroperoxyenals HPALDs). 
+  ISOPOOH can be oxidised (by OH) to produce epoxydiols (IEPOX), precursors to SOA \citep{Paulot2009b}. 
+  HPALDs can photolyse to regenrate OH and small VOCs \citep{Crounse2011, Wolfe2012, Peeters2014} TODO: Check out crounse2011.
+  Formaldehyde is produced with high yields in many of the isoprene reactions, and is often used as a check on how well these reactions are simulated by comparison against in situ measurements \citep{Marvin2017}.
+  TODO: less details about isoprene cascade? Image showing pathway and all the HCHO yields?
   
   %% AIMs paragraph
   Here we introduce how uncertain isoprene emissions are over Australia, and discuss literature which shows how the estimates may be too high.

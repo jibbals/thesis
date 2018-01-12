@@ -1,0 +1,92 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Masters/Doctoral Thesis 
+%% LaTeX Template
+%% Version 2.5 (27/8/17)
+%%
+%% This template was downloaded from:
+%% http://www.LaTeXTemplates.com
+%%
+%% Version 2.x major modifications by:
+%% Vel (vel@latextemplates.com)
+%%
+%% This template is based on a template by:
+%% Steve Gunn (http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/)
+%% Sunil Patel (http://www.sunilpatel.co.uk/thesis-template/)
+%%
+%% Template license:
+%% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+\input{thesispreamble}
+
+%%	THESIS INFORMATION (layout etc.)
+\input{thesisinfo}
+
+\AtBeginDocument{
+  \hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
+  \hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
+  \hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
+}
+
+\begin{document}
+  
+  \frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+  
+  \pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
+  
+  %% Title, declaration pages  
+  \input{thesistitlepage}
+  
+  %%	Abstract and Acknowledgements
+  \include{extras/abstract}
+  \include{extras/acknowledgements}
+  
+  %% TOCs
+  \tableofcontents % Prints the main table of contents
+  
+  \listoffigures % Prints the list of figures
+  
+  \listoftables % Prints the list of tables
+  
+  %% Abbreviations, constants, and symbols
+  \include{extras/abbreviations}
+  %\dedicatory{For/Dedicated to/To my\ldots} 
+  
+  %%----------------------------------------------------------------------------------------
+  %%	THESIS CONTENT - CHAPTERS
+  %%----------------------------------------------------------------------------------------
+  
+  \mainmatter % Begin numeric (1,2,3...) page numbering
+  
+  \pagestyle{thesis} % Return the page headers back to the "thesis" style
+  
+  % Include the chapters of the thesis as separate files from the Chapters folder
+  \include{Chapters/LitReview}
+  \include{Chapters/Modelling} % Modelling with GEOS-Chem
+  \include{Chapters/StratOzone} % Ozone from the stratosphere (roughly = paper in ACP)
+  \include{Chapters/BiogenicIsop} % Omi top down 
+  %% TODO: Put these chapters into BiogenicIsop or Model sections
+  \include{Chapters/HCHO}
+  \include{Chapters/Isoprene}
+  
+  %%----------------------------------------------------------------------------------------
+  %%	THESIS CONTENT - APPENDICES
+  %%----------------------------------------------------------------------------------------
+  
+  \appendix % Cue to tell LaTeX that the following "chapters" are Appendices
+  
+  % Include the appendices of the thesis as separate files from the Appendices folder
+  % Uncomment the lines as you write the Appendices
+  
+  \include{Appendices/Code}
+  \include{Appendices/AppendixA}
+  
+  %%----------------------------------------------------------------------------------------
+  %%	BIBLIOGRAPHY
+  %%----------------------------------------------------------------------------------------
+  \printbibliography[heading=bibintoc]
+
+
+\end{document}  
