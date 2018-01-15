@@ -484,6 +484,51 @@
     Figure TODO: shows the regressions between GEOS-Chem tropospheric column amounts of HCHO and satellite columns for two runs of GEOS-Chem: a) using standard MEGAN emissions, b) using our updated emissions.
     
     
+\section{Uncertainty}
+\label{BioIsop:Uncertainty}
+
+  There are several factors which need to be considered when looking at the uncertainty in emissions estimates.
+  Things with their own inherent uncertainty include the modelled a-priori, modelled relationship between HCHO and isoprene, and satellite measurements. 
+  Important factors which need to be analysed for confidence in results include the steady state assumptions, filtering techniques for fire and human influences, and the regression model for determining the isoprene to HCHO yield.
+  
+  Uncertainty in satellite measurements is generally provided along with the data, although uncertainty introduced through AMF calculation needs to be determined to give a representation of the confidence in vertical column amounts.
+  
+  % Subsection?
+  \subsection{Satellite Uncertainty}
+    \label{BioIsop:Uncertianty:Satellite}
+    
+    Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by SAO from the backscattered solar radiation fit \citep{Abad2015,Abad2016}.
+    BIRA use another method, and calculate the standard deviation of HCHO over the remote pacific ocean as the uncertainty \citep{DeSmedt2012, DeSmedt2015}.
+    In the remote pacific, it can be assumed that HCHO variations are weak, with concentrations remaining steady in the short term ($\sim 1$ month).
+    This means the standard deviation over this region can be used as a proxy for determination of the instrument error.
+    
+    There are three main sources of error in the resulting HCHO columns:
+    \begin{description}
+      \item[a] Fitting error from the OMI retrieval.
+      \item[b] Uncertainty in AMF calculations.
+      \item[c] Uncertainty of HCHO background.
+    \end{description}
+    
+    a) is available in the OMI product and reduced through spatial and temporal averaging.
+    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
+    Another method for examining uncertainty of OMI is to analyse the standard deviation of the HCHO columns over the remote pacific.
+    If we assume there is no HCHO variation from background levels over any 8-day period, then this method infers variations in the measuring instrument, and can be used as a metric for uncertainty as done in \citet{DeSmedt2012}.
+    TODO: uncertainty calculation on remote pacific OMI.
+    \cite{Millet2006, Palmer2006} both examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
+    
+    b) is determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
+    \cite{Palmer2006} calculate the error in AMF through combining estimates of error in the UV albedo database ($\sim 8$\%), model error based on in-situ measurements, cloud error  ($20-30$\%) \citep{Martin2003}, and aerosol errors ($<20$\%), totalling AMF error of around $\sim 30$\%.
+    It is worth noting here that independent error estimates are added in quadrature, which means total error equals the root of the sum of the independent errors each sqaured ($e_{Total}=\sqrt{\Sigma_i e_i^2}$).
+    TODO:Paul palmer calculation and combination for overall Satellite VC uncertainty per pixel and gridded.
+    TODO: Millet2008?
+    
+    c) is also determined through a study of GEOS-Chem output, in relation to in-situ measurements.
+    TODO: calculate this uncertainty.
+    Compare this error estimate with that of \citet{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
+    \cite{Millet2008} also examine this uncertainty and determine an overall uncertainty ($1\sigma$) of $25-27\%$ in HCHO vertical columns with calculated AMFs where cloud fraction $< 0.2$.
+    
+    
+  
   
 % Extras for potential paper output 
 %  
