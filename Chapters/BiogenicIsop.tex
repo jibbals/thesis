@@ -62,8 +62,9 @@
   
   %% AIMs paragraph
   Here we introduce how uncertain isoprene emissions are over Australia, and discuss literature which shows how the estimates may be too high.
-  Section \ref{BioIsop:MethodsAndData} describes the methods, models, and campaign data we use to determine and analyse isoprene emissions.
-  The OMI measurements used in this research are recalculated using an updated estimate of HCHO profiles and validated against Wollongong total column measurements. 
+  Section \ref{BioIsop:Data} describes the model, satellite, and campaign data we use to determine and analyse isoprene emissions.
+  The OMI measurements used in this research are recalculated using an updated estimate of HCHO profiles and validated against Wollongong total column measurements.
+  Section \ref{BioIsop:Methods} lays out how the isoprene emissions are estimated, and the results are examined in Section \ref{BioIsop:Results}
   
 \section{Data}
   \label{BioIsop:Data}  
@@ -71,7 +72,7 @@
   \subsection{OMI NO2}
     NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem. 
     OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
-    See section \ref{BioIsop:Methods:NOx} for how this product was used to check GEOS-Chem calculations. TODO: move this subsection or point to the right area.
+    See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations.
   
   \subsection{OMI HCHO}
   
@@ -122,11 +123,10 @@
   \label{BioIsop:Methods}
   
   
-  
   \subsection{CAABA/MECCA Box model: isoprene source classifications}
     \label{BioIsop:Methods:CM}
     
-    % HOW WE WILL USE CAABA/MECCA
+    %% HOW WE WILL USE CAABA/MECCA
     Using CAABA/MECCA to examine isoprene to HCHO yield in specific scenarios allows us to determine what environment may be driving the yield calculated by GEOS-Chem.
     Initially we have three scenarios, grassland, desert, and forest Australia - with each scenario having initial conditions, emission and deposition set as in table TODO:\ref{}.
     Running each scenario with and without a small isoprene injection allows calculation of isoprene lifetimes and HCHO yield for those scenarios.
@@ -141,14 +141,15 @@
     %TODO: Description of how scenario yields can be calculated.
     We perscribe parameters values approximating three seperate (and relatively broad) scenarios: forest, urban, and scrubland.
     These parameters are shown in Table \ref{BioIsop:table:CAABAMECCA_Scenarios}!
-    The initial concentrations, the influx, (TODO: check this) and the deposition rates of various chemical species or families is perscribed, chemical creation, destruction and deposition rates are determined every X minutes.
+    The initial concentrations, the influx, (TODO: check this) and the deposition rates of various chemical species or families is perscribed.
+    Chemical creation, destruction and deposition rates are determined every X minutes.
     This is done by altering a scenarios file which does not change over the lifetime (TODO: 40 days?) of the model runs.
     For each scenario, two nearly identical model runs are performed, one with an injection of isoprene occuring on (TODO: when/howmuch is this injection).
     The concentrations of isoprene and HCHO for our three scenarios, with and without the isoprene injection, is plotted over time in figure TODO: CAABA/MECCA scenario figures.
     The yield of HCHO from isoprene is then calculated by looking at the difference between each parallel run to determine how much of the injected isoprene transformed into HCHO.
     Isoprene life time can also be calculated using this process, as the time it takes for the extra isoprene to reach $1/e$ of it's initial value.
     
-    % CALCULATION OF YIELD
+    %% CALCULATION OF YIELD
     TODO: Calculations for this (from Luke, double check these and enter them here).
     Calculation of the yield follows a calculation of the theoretical maximum carbon production by the amount of injected isoprene:
     \begin{equation}
@@ -197,7 +198,7 @@
     \end{equation}
     where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
     
-    % HERE I SUMMARISE THE AMF CALCULATION
+    %% HERE I SUMMARISE THE AMF CALCULATION
     The vertical shape factor S$_z$(z) is defined as a normalized vertical number density profile $S_z(z) = \frac{\eta(z)}{\Omega_v}$ where $\eta(z)$ is the number density in molecules m$^{-3}$. 
     The AMF can be expressed as
     \begin{equation} \label{eqn:AMFintwSdz}
@@ -453,6 +454,9 @@
     
     
 \section{Results}
+  \label{BioIsop:Results}
+  
+  %TODO: Preliminary results shown at AGU - leading into other stuff
   
   \subsection{Emissions affect on GEOS-Chem}
     We interpolated or something (TODO) the emissions over Australia into the inventories used by GEOS-Chem which reduced the emissions by X\% per year (over Australia).

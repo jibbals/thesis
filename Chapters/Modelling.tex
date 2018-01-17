@@ -3,37 +3,37 @@
 
 \chapter{Modelling and Data} %with GEOS-Chem} % Main chapter title
 \label{Model} %better reference name?
-  \subsection{List of runs and outputs used in my work TODO: good place for this?}
-    TODO: Go through work process and clarify these items
-    
+\section{List of runs and outputs used in my work TODO: good place for this?}
+  TODO: Go through work process and clarify these items
+  
+  \begin{enumerate}
+    \item UCX 
     \begin{enumerate}
-      \item UCX 
-      \begin{enumerate}
-        \item Satellite output (1300-1400LT)
-        \item Create shape factors for AMF recalculation in OMI
-      \end{enumerate}
-      
-      \item Tropchem (standard)
-      \begin{enumerate}
-        \item satellite output, daily tracer averages
-        \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
-        \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
-        \item TODO: Compare total yearly isoprene emissions before and after new estimate.
-      \end{enumerate}
-    
-      \item Tropchem(isoprene emissions halved)
-      \begin{enumerate}
-        \item Satellite output used to determine smearing.
-      \end{enumerate}
-    
-      \item Tropchem(biogenic emissions only, all other inventories turned off)
-      \begin{enumerate}
-        \item Satellite output, hourly biogenic emissions from MEGAN
-        \item Used to determine yield for new emissions estimates
-        \item TODO: compared to run with updated emissions
-      \end{enumerate}
+      \item Satellite output (1300-1400LT)
+      \item Create shape factors for AMF recalculation in OMI
     \end{enumerate}
-    NB: for non-UCX runs, satellite output was modified to include tropopause height
+    
+    \item Tropchem (standard)
+    \begin{enumerate}
+      \item satellite output, daily tracer averages
+      \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
+      \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
+      \item TODO: Compare total yearly isoprene emissions before and after new estimate.
+    \end{enumerate}
+  
+    \item Tropchem(isoprene emissions halved)
+    \begin{enumerate}
+      \item Satellite output used to determine smearing.
+    \end{enumerate}
+  
+    \item Tropchem(biogenic emissions only, all other inventories turned off)
+    \begin{enumerate}
+      \item Satellite output, hourly biogenic emissions from MEGAN
+      \item Used to determine yield for new emissions estimates
+      \item TODO: compared to run with updated emissions
+    \end{enumerate}
+  \end{enumerate}
+  NB: for non-UCX runs, satellite output was modified to include tropopause height
   
   \subsection{Reading GEOS-Chem output}
     
@@ -48,7 +48,7 @@
       The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
     
 %%----------------------------------------------------------------------------------------
-%%	SECTION
+%%	GEOS-Chem framework
 %%----------------------------------------------------------------------------------------
 \section{GEOS-Chem framework}
   \label{Model:GC_frame}
@@ -320,10 +320,10 @@
     
     \begin{figure}[!htbp]
       % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
-      \includegraphics[width=\textwidth]{Figures/GEOSChem/GC_vs_OMNO2_bires_200501.png}
+      \includegraphics[width=\textwidth]{Figures/GEOSChem/GC_vs_OMNO2_sat_20050101-20051231.png}
       \caption{%
-        Row 1 shows the tropospheric columns in molec cm$^{-2}$.
-        Row 2 shows the absolute and relative differences with GEOS-Chem mapped onto the higher resolution of OMNO2d.
+        Row 1 shows the tropospheric columns in molec cm$^{-2}$, GEOS-Chem, OMNO2d, and OMNO2d averaged onto the lower resolution of GEOS-Chem from left to right.
+        Row 2 shows the corellations of GEOS-Chem (X axes) between daily anthropogenic emissions, and mid-day OMNO2d columns.
         Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
       }
       \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_2005}
