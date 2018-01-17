@@ -5,37 +5,45 @@
 \label{Model} %better reference name?
 \section{List of runs and outputs used in my work TODO: good place for this?}
   TODO: Go through work process and clarify these items
-  
-  \begin{enumerate}
-    \item UCX 
+  \subsection{GEOS-Chem}
     \begin{enumerate}
-      \item Satellite output (1300-1400LT)
-      \item Create shape factors for AMF recalculation in OMI
-    \end{enumerate}
+      \item UCX 
+      \begin{enumerate}
+        \item Satellite output (1300-1400LT)
+        \item Create shape factors for AMF recalculation in OMI
+      \end{enumerate}
+      
+      \item Tropchem (standard)
+      \begin{enumerate}
+        \item satellite output, daily tracer averages
+        \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
+        \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
+        \item TODO: Compare total yearly isoprene emissions before and after new estimate.
+      \end{enumerate}
     
-    \item Tropchem (standard)
-    \begin{enumerate}
-      \item satellite output, daily tracer averages
-      \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
-      \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
-      \item TODO: Compare total yearly isoprene emissions before and after new estimate.
+      \item Tropchem(isoprene emissions halved)
+      \begin{enumerate}
+        \item Satellite output used to determine smearing.
+      \end{enumerate}
+    
+      \item Tropchem(biogenic emissions only, all other inventories turned off)
+      \begin{enumerate}
+        \item Satellite output, hourly biogenic emissions from MEGAN
+        \item Used to determine yield for new emissions estimates
+        \item TODO: compared to run with updated emissions
+      \end{enumerate}
     \end{enumerate}
+    NB: for non-UCX runs, satellite output was modified to include tropopause height
+  \subsection{CAABA/MECCA}
+    %TODO: details for caaba/mecca runs here:
   
-    \item Tropchem(isoprene emissions halved)
-    \begin{enumerate}
-      \item Satellite output used to determine smearing.
-    \end{enumerate}
-  
-    \item Tropchem(biogenic emissions only, all other inventories turned off)
-    \begin{enumerate}
-      \item Satellite output, hourly biogenic emissions from MEGAN
-      \item Used to determine yield for new emissions estimates
-      \item TODO: compared to run with updated emissions
-    \end{enumerate}
-  \end{enumerate}
-  NB: for non-UCX runs, satellite output was modified to include tropopause height
-  
-  \subsection{Reading GEOS-Chem output}
+  \subsection{Reading Data}
+    \subsubsection{CAABA/MECCA outputs}
+      The box model can output in netcdf or text format, TODO: which way am I better off ? 
+      Text output from CAABA/MECCA was read using tailored python scripts modified from code written by dr. Luke Surl.
+      Dr. Luke Surl also wrote the code which implements calculations of yield from runs using isoprene injections as described in Section \ref{Model:CM} TODO: update to more specific reference.
+      
+    \subsubsection{GEOS-Chem Satellite output}
     
     \subsubsection{HEMCO diagnostics}
       
