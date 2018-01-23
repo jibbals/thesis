@@ -523,7 +523,7 @@
     In the 1990's it became clear that biogenic emissions of VOCs were in fact dominant, although methane emissions are still largely anthropogenic. 
     The World Meteorological Organisation (WMO) estimated that we are emitting 360~Mt yr$^{-1}$ of methane, compared to biogenic emissions of around 200~Mt yr$^{-1}$ \citep{Atkinson2000}.
     In 1995 emissions of other VOCs were estimated at 1150~Mt yr$^{-1}$ (of carbon) from biogenic sources, and 100~Mt yr$^{-1}$ from anthropogenic sources \citep{Guenther1995, Atkinson2000}.
-    These estimates were based on the MEGAN.
+    These estimates were based on MEGAN.
     It's remains clear that biogenic VOC (BVOC) emissions are far greater than anthropogenic emissions of VOCs, making up 87\% of NMVOC emissions \citep{Kanakidou2005, Kefauver2014}.
     Non methane BVOC emissions are estimated to be $\sim1150$\tgcpyr, of which isoprene (44\%) and monoterpenes (11\%) are the main single contributors (\cite{Guenther2000, Kefauver2014}). 
     
@@ -988,13 +988,24 @@
       The estimated biogenic VOC emissions are important for accurately simulating chemistry within models, as discussed in Sections \ref{LR:O3andAQ:BiogenicOzonePrecursors} and \ref{LR:Models:Unc}.
       
       The Model of Emissions of Gases and Aerosols in Nature (MEGAN) is one of the more commonly used natural emission models \citep{Monks2015}. (TODO: more cites which say this/use MEGAN)
-      
     
     \subsubsection{Land based emissions} %% EG MEGAN
       % TODO: Overview of land based emissions modelling?
       
-      MEGAN can provide an estimate of biogenic emissions of various chemicals including isoprene and monoterpenes.
-      It ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions.'' \citep{Guenther2012}.
+      MEGAN is a global model with resolution of around 1~km, and is used to generate the BVOC emissions used in various global chemistry models such as GEOS-Chem.
+      MEGAN uses leaf area index, global meteorological data, and plant functional types (PFTs) to simulate terrestrial isoprene emissions.
+      The model includes global measurements of leaf area index, plant functional type, and photosynthetic photon flux density, from remote sensing databases \citep{Kefauver2014}.
+      The various PFTs are used to generate emission factors which represent quantities of a compound released to the atmosphere through an associated activity.
+      For example, an emission factor for isoprene within a forest would include the requirement of sunshine and suitable temperature.
+      The schematic for MEGAN, taken from \citet{Megan_Website}, is shown in figure \ref{LR:models:frames:fig_megan_schematic}
+      
+      \begin{figure}[!htbp]
+        \includegraphics[width=\textwidth]{Figures/MEGANmodel_img.jpg}
+        \caption{MEGAN schematic, copied from \citet{Megan_Website}}
+        \label{LR:models:frames:fig_megan_schematic}
+      \end{figure}
+      
+      MEGAN ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions.'' \citep{Guenther2012}.
       It allows parameterisation of various BVOC emissions, with descriptions given in \cite{Guenther2012}.
       Instructions to run version 2.1 are available at \url{http://lar.wsu.edu/megan/docs/MEGAN2.1_User_GuideWSU.pdf}, and a version using the Community Land Model (CLM) is available at \url{http://www.cesm.ucar.edu}.
       It uses meteorological fields from the Weather Research and Forecasting (WRF) modelling system.
@@ -1002,7 +1013,6 @@
       
       MEGAN was developed as a replacement for two earlier canopy-environment emission models (BIES and GEIA), and initially included a simple canopy radiative transfer model, which parameterised sun-lit and shaded conditions through a canopy.
       Early models didn't account for abiotic stresses, such as drought, prior rainfall and development processes, although these influenced species specific emissions by more than an order of magnitude \citep{Niinemets1999}.
-      MEGAN includes global measurements of leaf area index, plant functional type, and photosynthetic photon flux density, from remote sensing databases \citep{Kefauver2014}.
       Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \citep{Guenther2000}, and a leaf energy balance model \citep{Guenther2006} in MEGANv2.0.
       This update included a parameter for soil moisture, to account for drought conditions, however this parameter is currently (as of version 2.1) not applied to isoprene \citep{Sindelarova2014}.
       Soil moisture effects on isoprene emission are very important, and can drastically affect estimates.
@@ -1017,6 +1027,10 @@
       Improvements to emissions models require improved understanding of regions and their behaviour.
       Inaccuracies can arise due to lack of data, such as the large and sparsely measured Australian outback.
       MEGAN has been shown to overpredict isoprene and underpredict monoterpene emissions in southeast Australia, with peaks and troughs captured but not at the right magnitude (\cite{Emmerson2016}).
+      MEGAN output in Australia is adversely affected by poor emission factor estimation. 
+      An example can be seen in \citet{Muller2008} where MEGAN overestimates isoprene in northern Australia.
+      Underestimates of monoterpenes may be due simply to underestimated emission rates for many Eucalypt species \citep{Winters2009}.
+      
 
     \subsubsection{Radiative transfer} %% EG LIDORT
       %TODO: Lidort example?
