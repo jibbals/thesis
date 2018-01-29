@@ -458,34 +458,185 @@
   At global scales HCHO in furniture is less important, as concentrations are driven by photochemical reactions with methane and other VOCs.
   
   %Sources
-  
   \cite{Millet2008} show that anthropogenic emissions of HCHO in America are mostly negligible, although improved sensitivity from oversampling allowed satellite detection of enhanced HCHO concentrations over Houston and Texas \citep{Zhu2014}.
   This is not the case in China, since massive population centres and industrial districts are emitting huge amounts of VOCs into the atmosphere \citep{Fu2007}.
   \cite{Fu2007} use GOME measurements over Asia and derive biogenic, anthropogenic, and pyrogenic VOC emissions, and \cite{Zhu2014} use oversampling of the OMI HCHO measurements to determine anthropogenic highly-reactive VOC emissions.
   Then with their updated emissions they show how surface ozone is affected, with a seasonal increase of 5-20~ppb simulated by GEOS-Chem.
   
-  %TODO How measured (in-situ, satellite)
-  
-  % Measurement difficulties
-  In-situ measurements also contain errors, depending on the device used and chemical being measured this error can be significant.
-  \cite{Dunne2017} analyse the uncertainty of VOC measurements (including isoprene) using three different techniques during a campaign in Sydney in 2012.
-  The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting.
-  Overall isoprene uncertainty in their measurements was a factor of 1.5 to 2.
-  This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
-  
-  
-  \subsection{Satellite measurements}
-  \label{LR:HCHO:Sat}
-  
-    Satellite measurements can be performed using spectral fitting followed by conversion to vertical column densities.
-    The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \cite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
-    These various measurements can be used to improve models, which allows prediction of harmful and costly events, and prevention of scenarios in which pollution events are likely.
+  \subsection{Sources and sinks}
+    \label{LR:HCHO:Sources}
+     
+    %Background hcho
+    In the atmosphere HCHO is primarily produced through the oxidation of methane (CH$_4$) by the hydroxyl radical (OH).
+    \cite{Atkinson2000} summarised the background formation of HCHO with the following reaction:
+    \begin{equation*} \label{LR:HCHO:Sources:eqn_MethaneBackground}
+      OH + CH_4 (+ h\nu) + 2NO + 2O_2 \rightarrow OH + HCHO + H_2O + 2O_3
+    \end{equation*}
+    which shows that photolysis and oxidation of methane forms HCHO and ozone in a process that regenerates the OH radicals.
+    CH$_4$ concentrations are thought to be well constrained in models, with the ACCMIP comparison showing only $\sim3$\% inter-quartile range (\cite{Young2013}).
+    There is a complex relationship between VOCs, HO$_X$, and NO$_X$, and with higher levels of NO$_X$ the speed that VOCs are converted into HCHO increases, as does the HCHO concentration (\cite{Wolfe2016}).
     
+    %cbl hcho
+    Within the continental boundary layer, the major source of HCHO enhancement is VOC emissions reacting with OH radicals in the presence of NO$_X$ (\cite{Wagner2002, Millet2006, Kefauver2014}).
+    Enhancements to regional and continental HCHO are largely driven by isoprene emissions (\cite{Guenther1995, Palmer2003, Shim2005, Kefauver2014}).
+    This is true except near fires or anthropogenic sources of HCHO and precursors (\cite{Guenther1995, Kefauver2014, Wolfe2016}).
+    Biomass burning (BB) can be a source of HCHO, and various other pollutants, precursors, and aerosols (\cite{Guenther1995, Andreae2001}).
+    Additionally HCHO is emitted into the atmosphere directly through fossil fuel combustion, natural gas flaring, ethanol refining, and agricultural activity (\cite{Wolfe2016}).
+    
+    Other terpenoids (monoterpenes, sesquiterpenes, etc.) can also produce HCHO, although generally to a lesser extent than isoprene, methane and biomass burning (\cite{Guenther2012}).
+    Many of the HCHO yields from terpenoids are estimated through chamber studies which examine the products molecular mass and charge after mixing the compound of choice into a known volume of air (\cite[eg.]{Nguyen2014}).
+    These conditions generally don't match those of the real world, where ambient air will have a cocktail of these compounds as well as various reactants.
+    \cite{Nguyen2014} state that one of their goals is to recreate ambient atmosphere in their chamber studies with more accuracy, in order to improve interpretations and allow more accurate model parameters.
+    
+    In the past, HCHO levels were underestimated by models, often with large discrepancies, due to the poor understanding of methyl peroxy radical (CH$_3$OO) chemistry (\cite{Wagner2002}).
+    Nowadays HCHO concentrations are better understood, however precursor emissions are one of the main unknowns (\cite[eg.]{Emmerson2016,Marvin2017}).
+    \cite{Marvin2017} found that discrepancies in modelled HCHO concentrations are primarily due to second and later generation isoprene oxidation chemistry.
+    
+    %% HCHO SINKS
+    HCHO has two major sinks, one being reactions with OH (oxidation), the other being photolysis: the process of being broken apart by photons (\cite{Crutzen1999, Wagner2002, Levy1972, Kefauver2014}).
+    These reactions lead to a daytime lifetime of a few hours (\cite{Atkinson2000, Millet2006}).
+    Both these loss processes (photolysis, oxidation) form CO and hydroperoxyl radicals (HO$_2$), and have global significance to radiative forcing and oxidative capacity (\cite{Franco2015}).
+    The other notable sinks are wet and dry deposition, although these are not as significant (\cite{Atkinson2000}) (TODO: add more cites here).
+    
+  % How measured (in-situ, satellite)
+  \subsection{Measurement techniques}
+    
+    % how to measure HCHO
+    There are a few ways to measure HCHO, including Fourier Transform Infra-Red Spectrometry (FTIR) and Differential Optical Absorption Spectroscopy (DOAS).
+    The DOAS technique takes advantage of the optically thin nature of HCHO in order to linearise the radiance differential through air masses with and without HCHO, using the Beer-Lambert intensity law.
+    This method works for both in the home HCHO detection and global measurements from in-situ and remote sensing instruments (\cite{Guenther1995, Abad2015, Davenport2015}).
+    As a trace gas HCHO interferes with light over a few wavelength bands, which allows instruments to detect concentrations between a known light source and a detector.
+    Figure \ref{LR:fig:HCHOSpectrum} shows the interference spectrum of HCHO as well as a typical band used to examine interference in the DOAS technique.
+    One difficulty is that this interference is relatively small (HCHO is optically thin) and other compounds absorb light at similar wavelengths (\cite{Davenport2015}).
+    FTIR measurements can have a range of uncertainties, including systematic and random measurement errors and uncertain apriori shape factors and water profiles (eg: \cite{Franco2015}).
+    
+    \subsubsection{DOAS}
+    TODO: some of this is repeated in isoprene chapter satellite section.
+    The DOAS technique uses solar radiation absorption spectra to measure trace gases through paths of light.
+    Beer's law states that $ T = I/I_0 = e^{-\tau} $ with T being transmittance, $\tau$ being optical depth, and I, I$_0$ being radiant flux received at instrument and emitted at source respectively.
+    From $ \tau_i = \int \rho_i \beta_i ds $ we get:
+    $$ I = I_0 \exp {\left( \Sigma_i \int \rho_i \beta_i ds \right) } $$
+    Where i represents a chemical species index, $\rho$ is a species density(molecules per cm$^3$), $\beta$ is the scattering and absorption cross section area (cm$^2$), and the integral over ds represents integration over the path from light source to instrument.
+    
+    Multiple axis DOAS (MAX-DOAS) uses DOAS over several open path directions and also examines the infra-red light interference.
+    In \cite{Franco2015}, an FTIR spectrometer at Jungfraujoch is compared against both MAX-DOAS and satellite data, with two CTMs; GEOS-Chem and IMAGES v2 used to compare total columns and vertical resolution of each instrument.
+    Generally satellites use a DOAS based technique, with chemical transport and radiative transfer models used to transform the non-vertical light path interference into vertical column amounts.
+    
+    \begin{figure}
+      \includegraphics{Figures/HCHO/HCHOAbsorbanceDavenport.png}
+      \caption{ %
+        HCHO spectrum, with a typical band of wavelengths used for DOAS path measurements.
+        This is a portion of an image from \cite{Davenport2015}.}
+        \label{LR:fig:HCHOSpectrum}
+    \end{figure}
+      
+    MAX-DOAS is a remote sensing technique which uses several DOAS measurements over different viewing paths.
+    In these retrievals, the measurements of light absorption are performed over several elevations in order to add some vertical resolution to the measurement of trace gas concentrations.
+    An example of this is shown in figure \ref{LR:HCHO:fig_MAXDOASExample}, which was taken from \cite{Lee2015}.
+    Recently MAX-DOAS has been used to examine HCHO profiles in the clean free troposphere (\cite{Franco2015, Schreier2016}) as well as in polluted city air (\cite{Lee2015}).
+    Depending on orography and atmospheric composition (ie. the influence of interfering chemicals), MAX-DOAS can be used to split the tropospheric column into two partial columns; giving a small amount of vertical resolution to HCHO measurements \citep[eg.]{Franco2015, Lee2015}.
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/MAXDoasExample.png}
+      \caption{ Image from \cite{Lee2015}.}
+      \label{LR:HCHO:fig_MAXDOASExample}
+    \end{figure}
+        
+    DOAS methods are based on light interference and absorption through air masses.
+    Other types of measurement involve directly measuring the air, and determining chemical compounds through their physical properties.
+    A proton transfer reaction mass spectrometer (PTR-MS) can be used to determine gas phase evolution of terpene oxidation products (\cite[eg.]{Lee2006a,Nguyen2014,Wolfe2016}).
+    This is done through analysis of mass to charge ratios ($m/z$) of ionised air masses which are then identified as chemical compounds.
+    \cite{Nguyen2014} use and compare several instruments (including one which is PTR-MS based) in the analysis of isoprene and monoterpene products.
+    A Gas Chromatography mass spectrometer (GC-MS) is also able to identify isoprene, monoterpenes, and their products \cite[eg.]{Nguyen2014}.
+    % TODO: Explain and find a couple of chamber studies to cite (should already be in my thing)
+    
+    Other measurement techniques include chromatographic and fluorimetric methods, both of which differ widely from each other and the spectroscopic methods (\cite{Hak2005}).
+    \cite{Hak2005} examine a single air mass with 8 instruments using the four techniques (MAX-DOAS, FTIR, chromatographic, and flourimetric), and show that reasonable agreements can be achieved.
+    Generally the measurements were somewhat close, the five Hantzsch instruments agreeing to within 11\% (after removing two potentially faulty measurements), although different calibration standards were used.
+    Titration for the different calibration solutions could not be resolved, which may account for absolute offsets up to 30\%.
+    These differences and non-uniformities between measurements (even among identical instruments) are part of the reason HCHO does not have a consistent network for global measurements like those for GHGs or Ozone (\cite{FortemsCheiney2012}).
+  
+    % Measurement difficulties
+    In-situ measurements also contain errors, depending on the device used and chemical being measured this error can be significant.
+    \cite{Dunne2017} analyse the uncertainty of VOC measurements (including isoprene) using three different techniques during a campaign in Sydney in 2012.
+    The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting.
+    Overall isoprene uncertainty in their measurements was a factor of 1.5 to 2.
+    This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
+  
+  \subsubsection{Satellite measurements}
+  \label{LR:HCHO:Sat}
+    
+    Several satellites provide long term trace gas observations with near complete global coverage, including the ERS-2 launched in April 1995 which houses the GOME ultraviolet and visible (UV-Vis) spectrometer, the AURA launched in July 2004 which houses the OMI UV-Vis spectrometer, the MetOp-A and B launched in October 2006 and September 2012 respectively both housing a GOME-2 UV-Vis spectrometer.
+    These satellites are on Low Earth Orbit (LEO) trajectories and overpass any area up to once per day.
+    Satellites can use DOAS techniques with radiative transfer calculations on solar radiation absorption spectra to measure column HCHO .
+    An example of a spectrum retrieved from the GOME-2 instrument is given in figure \ref{LR:HCHO:Sat:fig_GOME_products}.
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/GOME_SPECTRUM.jpg}
+      \caption{An example spectrum showing interferences used for species concentration measurements by GOME-2. Image by EUMETSAT and ESA (\cite{GOME2Image}.})
+      \label{LR:HCHO:Sat:fig_GOME_products}
+    \end{figure}
+    
+    Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT in order to determine a trace gas's radiative properties at various altitudes.
+    The forward RTM used for satellite data products also involves functions representing extinction from Mie and Rayleigh scattering, and the efficiency of these on intensities from the trace gas under inspection, as well as accounting for various atmospheric parameters which may or may not be estimated (e.g. albedo).
+    
+    Satellites record near nadir (vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO (eg: \cite{Leue2001}).
+    Several public data servers are available which include products from satellites, including NASAs Earthdata portal (\url{https://earthdata.nasa.gov/}) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (\url{http://h2co.aeronomie.be/}).
+    
+    Satellite measurements are generally performed using spectral fitting followed by conversion to vertical column densities.
+    The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \cite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
+    Instruments including MODIS on board the AQUA and TERRA satellites are also able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
+    An AOD of under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
+    This is important in order to determine where measurements from other instruments may be compromised by high interference.
+    Satellite measured AOD requires validation by more accurate ground based instruments like those of AERONET which uses more than 200 sun photometers scattered globally.
+    
+    Soon even more HCHO data will be available in the form of geostationary satellite measurements (\cite{Kwon2017}).
+    \cite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.
+    Geostationary satellites can provide temporally rich measurements over an area, as they are not sweeping around the earth but fixed relative to one latitude and longitude.
+    
+    \subsubsection{OMI}
+    
+    The OMI instrument on board AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
+    This band of wavelengths allows measurments of trace gases including O$_3$, NO$_2$, SO$_2$, HCHO, and various other quantities like surface UV radiation.
+    Recently \cite{Schenkeveld2017} analysed the performance over time of the instrument and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
+    They also provide a very nice summary of the OMI instrument copied here in Fig. \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}, as it shows the instruments spectral, temporal, and spatial resolutions.
+    These changes are measured excluding the row anomaly (RA) effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
+    An analysis of the row anomaly by \cite{Huang2017} state that OMI ozone columns remain suitable for scientific use, with recommendation for further evaluation.
+    And analysis of OMI output by \cite{Schenkeveld2017} concludes that data is still of high quality and will deliver useful information for 5-10 more years, with radiances only changing by $1-2\%$ outside of RA impacted areas.
+    The RA began in June 2007, with some cross-track rows seemingly blocked. The most likely cause is some instrument insulation partially obscuring the radiance port (\cite{Schenkeveld2017}).
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/Shenkeveld_OMI_summary.png}
+      %        \caption{ %
+      %          Figure 1 and Table 1 from \cite{Schenkeveld2017}, with the following caption ``An impression of OMI flying over the Earth. The spectrum of a ground pixel is projected on the wavelength dimension of the charge-coupled device (CCD; the columns). The cross-track ground pixels are projected on the swath dimension of the CCD (the rows). The forward speed of 7~kms$^{-1}$ and an exposure time of 2~s lead to a ground pixel size of 13~km in the flight direction. The viewing angle of 114\degr leads to a swath width on the ground of 2600~km.''
+      %          The table shows the optical properties for OMIs three channels.}
+      \label{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}
+    \end{figure}
+    
+    \subsubsection{AMF}
+    To convert the trace gas profile from a reflected solar radiance column (slanted along the light path) into a purely vertical column requires calculations of an air mass factor (AMF).
+    In satellite data, the AMF is typically a scalar value for each horizontal grid point which will equal the ratio of the total vertical column density to the total slant column density.
+    This value requires calculations to account for instrument sensitivities to various wavelengths over resolved altitudes, and is unique for each trace gas under consideration.
+    
+    An AMF characterises measurement sensitivity to a trace gas at various altitudes \cite[e.g.]{Palmer2001}.
+    \cite{Lorente2017} show that AMF calculations can be the largest source of unertainty in satellite measurements.
+    Another way of describing AMFs are as measures of how radiance at the top of the atmosphere (TOA) changes with trace gas optical depths at specific altitudes (\cite{Lorente2017}).
+    Calculation of the AMF is important as it is multiplied against the estimated slant columns in order to give vertical column amounts.
+    
+    Related to the AMF is the averaging kernal (AK), which is used to handle instrument measurements which are sensitive to concentrations at different altitudes in the atmosphere.
+    DOAS methods can be heavily influenced by the initial estimates of a trace gas profile (the apriori) which is often produced by modelling, so when comparing models of these trace gases to satellite measurements extra care needs to be taken to avoid introducing bias from differing apriori assumptions.
+    One way to remove these apriori influences is through the satellites AK (or by using AMFs), which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas (\cite{Eskes2003, Palmer2001}).
+    % TODO read and note this paper:
+    \cite{Lamsal2014} recommends that when comparing satellite data to models, the AMF should first be recalculated using the model as an apriori.
+    This is in order to remove any apriori bias between model and satellite columns.
+    
+    \subsubsection{Uncertainties}
     %Satellite Errors
     While satellite data is effective at covering huge areas (the entire earth) it only exists at a particular time of day, is subject to cloud cover, and generally does not have fine horizontal or vertical resolution.
     Concentrations retrieved by satellites have large uncertainties, which arise in the process of transforming spectra to total column measurements, as well as instrument degradation (satellite instruments are hard to tinker with once they are launched).
     Uncertainty in transforming satellite spectra comes from a range of things, including measurement difficulties introduced by clouds, and instrument sensitivity to particular aerosols \citep{Millet2006}.
     Many products require analysis of cloud and aerosol properties in order to estimate concentration or total column amounts \citep{Palmer2001,Palmer2003, Marais2012, Vasilkov2017}.
+    The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor (discussed in more detail in Section \ref{BioIsop:Uncertianty:Satellite}) \citep{Millet2006}.
     
     There are two types of measurement error, arguably the worst of these is systematic error (or bias) which normally indicates a problem in calculation or instrumentation.
     If the systematic error is known, it can be corrected for by either offsetting data in the opposite direction, or else fixing the cause.
@@ -494,7 +645,48 @@
     By taking the average of several measurements, any random error can be reduced by a factor of one over the square root of the number of measurements.
     This is done frequently for satellite measurements of trace gases (which are often near to the detection limit over much of the globe).
     For example: \cite{Vigouroux2009} reduce the measurement uncertainty (in SCIAMACHY HCHO columns) by at least a factor of 4 through averaging daily over roughly 500km around Saint-Denis, and only using days with at least 20 good measurements.
-    The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor (discussed in more detail in Section \ref{BioIsop:Uncertianty:Satellite}) \citep{Millet2006}.
+    
+    %% grid size and averaging
+    Satellite measurements of HCHO are relatively uncertain, however this can be improved by averaging over larger grid boxes or longer time scales.
+    An example of this can be seen in \cite{Dufour2009}, where monthly averaging is used to decrease the measurements uncertainty.
+    They examine HCHO in Europe, which is low; near the detection limit of satellite measurements.
+    Taking monthly averages allows enough certainty that useful inversions can be determined to estimate the source emissions of HCHO.
+    The finer nadir resolution of OMI (13 by 24~km${^2}$) compared to other satellites reduces cloud influence (\cite{Millet2006, Millet2008}). 
+    Although the uncertainty in each pixel is $\sim 2 \times 10^{16}$, which is $5 \times$ higher than GOME, there are $\sim 100-200 \times $ as many measurements due to the smaller footprint and better temporal resolution of OMI, which allows a greater reduction of uncertainty with averaging (\cite{Chance2002,Millet2008}).
+    
+    %% SURFACE CONDITIONS AND CLOUDS
+    In cloudy, hazy or polluted areas measurements are more difficult to analyse (\cite[e.g.][]{Palmer2003,Marais2014}).
+    Recent work by \cite{Vasilkov2017} showed that updating how the surface reflectivity is incorporated into satellite measurements can change the retrievals by 50~\% in polluted areas.
+    
+    %% BACKGROUND MEASUREMENTS
+    In satellite HCHO products, concentrations over the remote pacific ocean are sometimes used to analyse faulty instrument readings.
+    This is due to the expected invariance of HCHO over this region.
+    For instance GOME (an instrument which measures trace gases on board the ERS-2) corrects for an instrument artifact using modelled HCHO over the remote pacific (\cite{Shim2015}).
+    OMI HCHO products use a similar technique to account for sensor plate drift and changing bromine sensitivity (\cite{Abad2015})
+    
+    
+    %% EXAMPLES OF BIAS
+    For many places the tropospheric column HCHO measured by satellite is biased low, \cite{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over south east USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
+    \cite{DeSmedt2015} also found a low bias from 20 - 40\% when comparing OMI and GOME2 observations against ground based vertical profiles, and \cite{Barkley2013} determine OMI to be 37\% low compared with aircraft measurements over Guyana.
+    These bias can be corrected by improving the assumed apriori HCHO profiles which are used to calculate the AMFs of the satellite columns.
+    \cite{Millet2006} examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
+    \cite{Millet2008} shows that there also exists some latitude based bias, as well as a systematic offset between the OMI and GOME instruments.
+    This does not appear to be due to the different overpass times of the two instruments.
+    
+    %% UNCERTAINTY CALCULATIONS
+    Uncertainty in the OMI satellite instrument is calculated by the Smithsonian Astrophysical Observatory (SAO) group using the uncertainty in backscattered radiation retrievals (\cite{Abad2015, Abad2016}).
+    Another method of calculating the uncertainty is used by the Belgian Institute for Space Aeronomy (BIRA) group, who determine uncertainty from the standard deviation of HCHO over the remote pacific ocean \citep{DeSmedt2012, DeSmedt2015}.
+    
+    A full analysis of the AMF uncertainty in OMI measurements, as well as the structural uncertainty (between different systems of calculations applied to the same data) is performed by \cite{Lorente2017}.
+    They determine the structural uncertainty using ensemble techniques on seven AMF calculation approaches used by different retrieval groups.
+    They show that in scenarios where the gas is enhanced in the lower troposphere, AMF calculation is the largest uncertainty in satellite measurements.
+    In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments.
+    The importance of apriori and ancilliary data (such as surface albedo and cloud top height) is also shown, as it sharply affects the structural uncertainty.
+    
+    GOME suffers from similar uncertainties to OMI, as the same general method of DOAS remote measurements are performed.
+    The uncertainty from slant column fitting has been calculated for GOME to be $4\times10^{15}$ molecules cm$^{-2}$ \citep{Chance2000, Millet2006}. 
+    The conversion factor for slant to vertical columns (AMF) calculation also suffers from errors; primarily from surface albedo, HCHO vertical profile apriori, aerosol, and cloud influence \citep{Millet2006}. 
+    AMF uncertainties for GOME are calculated to be $1$ to $1.3\times10^{15}$ molecules cm$^{-2}$ by \cite{Shim2005}.
     
     % Lead in to modelling
     In conjunction with atmospheric chemistry and radiative models, satellite measurements can be used to quantify the abundance of several chemical species in the atmosphere.
@@ -505,7 +697,19 @@
   
 \section{Modelling}
 \label{LR:Models}
+
+  % Lead into chem
+  Models of emissions are often used as drivers for atmospheric chemistry models, which examine what happens to the various compounds emitted once they are mixed into the air.
   
+  \subsection{Chemistry}
+  
+  Many models lack in-situ measurements with which to verify their chemical mechanisms, leading to large discrepancies, as seen in \cite{Marvin2017a}.
+  TODO: briefly talk about Marvin2017a takeaways.
+  
+  
+  Box models are much smaller scale than global CTMs, examining one uniform environment with many parametrisations such as transport and emissions.
+  Box models can be used to check chemical mechanisms in specific scenarios, such as high or low NO$_X$ environments.
+  \cite{Marvin2017} use a box model matching conditions in southeast USA to evaluate isoprene mechanisms from several models.  
   
   \subsection{Emissions}
   
@@ -518,6 +722,7 @@
   Since little data exists with which to verify many of these bottom-up emission inventories, they can be uncertain on a large scale.
   Emissions inventories such as MEGAN are bottom-up and use models of emissions based on tree types, weather, and other parameters.
   
+  % Lead in to satellite inversion
   Top-down estimates look at how much of a chemical is in the atmosphere and try to work out how much of its major precursors were emitted.
   This generally takes advantage of longer lived products which may reach a measurable equilibrium in the atmosphere.
   For isoprene this is done by looking at atmospheric HCHO enhancement, which can be largely attributed to isoprene emissions once transport and other factors are accounted for.
@@ -525,20 +730,94 @@
   Their study used the RETRO 2000 database for anthropogenic emission aprioris except for Asia in 2008 where REASv2 was used. 
   Since 1997, when GOME first measured HCHO over Asia \citep{Thomas1998}, satellites have been able to provide a total column measurement of HCHO, one of the primary products of isoprene.
   
-  % Lead into chem
-  Models of emissions are often used as drivers for atmospheric chemistry models, which examine what happens to the various compounds emitted once they are mixed into the air.
+  \subsection{Satellite inversion}
+  \label{LR:HCHO:SatelliteInversion}
   
-  \subsection{Chemistry}
+  Satellites recording reflected solar spectra use DOAS to measure various trace gases in the atmosphere, including formaldehyde. 
+  While satellite measurements can only be used during daytime hours, HCHO lifetimes are sufficiently short that any night-time chemistry will not affect midday observations \citep{Wolfe2016}.
+  Satellites can be used to measure the seasonal and interannual variability of HCHO over the globe.
+  These records can be compared with modeled estimates of HCHO and used as a proxy to estimate isoprene emissions.
+  This has been done in North America \citep{Palmer2003, Millet2006}, South America, Africa, China, Europe \citep{Dufour2009}, and recently globally \citep{FortemsCheiney2012, Bauwens2016}.
+  Often these works use two forms of measurement such as satellite and aircraft data combined for validation (\cite{Marais2014}).
+  There is less information available from satellite measurements at higher latitudes due to increased errors (\cite{DeSmedt2015}).
   
-  Many models lack in-situ measurements with which to verify their chemical mechanisms, leading to large discrepancies, as seen in \cite{Marvin2017a}.
-  TODO: briefly talk about Marvin2017a takeaways.
+  Using HCHO to determine emissions of isoprene was initially performed by \cite{Palmer2001, Palmer2003}, who used in-situ summertime HCHO measurements over North America as model validation.
+  Isoprene emissions fluxes were derived using the Global Ozone Monitoring Experiment (GOME) satellite instrument.
+  Palmer's method improved biogenic isoprene emissions estimates (compared with in-situ measurements) over two available inventories: the U.S. EPA Biogenic Emissions Inventory System (BEIS2) and the Global Emissions Inventory Activity (GEIA).
+  This showed an inversion technique which could be used to improve large scale emissions estimates without further expensive measurement campaigns.
   
-  Box models are much smaller scale than global CTMs, examining one uniform environment with many parametrisations such as transport and emissions.
-  Box models can be used to check chemical mechanisms in specific scenarios, such as high or low NO$_X$ environments.
-  \cite{Marvin2017} use a box model matching conditions in southeast USA to evaluate isoprene mechanisms from several models.
+  %TODO
+  TODO: Read through this list of sources on the hcho to isop process : taken from Wolfe2015
+  Such techniques have informed isoprene emission inventories in North America (Abbot et al., 2003; Millet et al., 2008 (\cite{Palmer2003,Millet2006,Palmer2006})), South America ((\cite{Barkley2013}), 2008), Europe (\cite{Curci2010,Dufour2009}), Africa (\cite{Marais2012}), Asia (Fu et al., 2007; Stavrakou et al., 2014), and globally (Fortems-Cheiney et al., 2012; (\cite{Shim2005}); Stavrakou et al., 2009).
+  
+  Initially studies assumed a simple linear steady-state relationship between HCHO and it's precursors (\cite{Palmer2003, Palmer2006, Millet2006}).
+  This allowed a simple calculation of isoprene using the measured HCHO, with estimated reaction rates and yields.
+  The methodology for calculating VOCs from HCHO is laid out in \cite{Palmer2003}, and takes into account the expected lifetime and reaction rates of the precursor VOCs and HCHO.
+  Assuming HCHO is produced quickly from short-lived intermediates, and the column is at steady state:
+  \begin{eqnarray*}
+    VOC_i \overset{k_i}{\rightarrow} Y_i HCHO
+  \end{eqnarray*}
+  Where $Y_i$ is HCHO yield per C atom (a measure of how much HCHO will form per gram of C from a VOC within a system), and $k_i$ is the reaction rate.
+  Then assuming a steady state of atmospheric HCHO ($\Omega$ molecules $cm^{-2}$) produced by oxidation of VOCs (VOC$_i$) and no horizontal transport:
+  \begin{eqnarray*}
+    \Omega = \frac{1}{k_{HCHO}} \sum_{i} Y_i E_i
+  \end{eqnarray*}
+  Where i indexes a chemical species, $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the molar HCHO yield from oxidation of i, and $E_i$ is emission fluxes ( C atoms $cm^{-2}s^{-1}$).
+  
+  Estimates of Y$_i$ can be attained from a model as shown in \cite{Millet2006}.
+  This involves a reduced major axis (RMA) correlation calculation between modelled HCHO and isoprene columns, multiplied by their loss rates (to photolysis and oxidation) (as a normalising factor).  
+  In high NOx environments where HCHO has a lifetime on the order of 30 minutes, it can be used to map isoprene emissions with spatial resolution from 10-100 kms.
+  Horizontal transport 'smears' the HCHO signal so that source location would need to be calculated using windspeeds and loss rates (\cite{Palmer2001,Palmer2003}).
+  Smearing is explicitly handled in these studies due to the importance of transport and NO$_X$ on forming robust and accurate estimates.
+  Over Australia NO$_X$ levels are generally not high enough to ensure quick HCHO formation and we must take extra care that we can account for the transport or 'smearing' caused by slower HCHO formation, details on this process can be found in Section \ref{BioIsop:Methods:Smearing}.
+  
+  Another method of correcting isoprene emissions using observed HCHO total column involves a Bayesian inversion.
+  \cite{Shim2005} work with GOME HCHO observations and GEOS-Chem, looking at areas with high signal to noise ratio (higher HCHO concentrations).
+  They show that the model underestimates isoprene emissions and HCHO concentrations by 14-46\%, with the corrected VOC emissions reducing the model biases to 3-25\%.
+  
+  The Bayesian inversion is also used in \cite{Curci2010}, where a regional CTM (CHIMERE) simulates HCHO, which is compared against OMI observed HCHO and shown to be regionally biased.
+  This bias is expected to be caused by errors in MEGANs isoprene emissions estimations.
+  The CHIMERE model is used to derive yields of HCHO from the various local VOCs and these are then used in estimating local emissions.
+  The model is run initially with emissions of BVOCs and reactive anthropogenic VOCs (RAVOCs) turned off in order to work out the background (b) values of these compounds.
+  The Bayesian inversion is used to correct regionally biased biogenic isoprene emissions by optimising these parameters in order to simulate HCHO closest to the observed HCHO levels.
+  \cite{Curci2010} uses CHIMERE as the forward model to determine the relationship between HCHO (y), isorene and reactive anthropogenic VOCs (\textbf{x}), using 
+  \begin{equation}
+  y=\mathbf{K}x + b + \epsilon
+  \end{equation}
+  where $\epsilon$ are the (assumed) independent errors in measurements.
+  K is the Jacobian matrix determined from CHIMERE representing the sensitivity of y to the state variable x.
+  This K matrix is used in conjunction with error covariance in x to determine the Maximum A Posteriori (MAP) solution to calculate the optimal estimate of x ($\hat{x}$).
+  
+  
+  More recently, full inversions that better account for transport, source attribution, and chemical schemes have been implemented (\cite{FortemsCheiney2012}).
+  TODO: full description of this better inversion technique going through FortemsCheiney2012.
+  
+  
+  \cite{Kefauver2014} reviews remote sensing of BVOCs, which are on the rise, examining the last 20 years of data and analysis of the satellite products.
+  Their review encompasses the latest reports up to 2014
+  The modelled isoprene and BVOC emissions from MEGAN \citep{Guenther2000} of 500 and 1150~Tga$^{-1}$ respectively are still the global go to estimates.
+  Their review reinforces the message that NMVOCs affect the oxidative capacity of the atmosphere and are largely driven by and sensitive to vegetation.
+  The tropospheric affects from NMVOCs on the hydroxyl radical (OH), ozone (O$_3$), SOAs, and methane longevity, all interconnect to form a very complex system which still suffers from relatively large uncertainties in both measurement and chemistry mechanisms.
+  One focus of \cite{Kefauver2014} is HCHO, which is the dominant product of most BVOCs which is measurable by remote sensing.
+  The main datasets of HCHO are from four satellite instruments: GOME on ERS-2, SCIAMACHY on ENVI-SAT, OMI on EOS AURA, and GOME2 on MetOp-A.
+  These satellites have slightly different spectral and spatial resolutions, as well as using varied processes to estimate HCHO from detected radiances.
+  This can lead to different estimates between instruments or methodologies as described in \cite{Lorent2017}, which means validation and comparison is more important when using these remotely sensed data.
+  
+  Total HCHO is measured by satellite over the entire world, however the technique is not perfect and suffers from uncertainties and interferences.
+  Satellite based chemical concentrations rely on ground-based measurements and modelled data for validation.
+  They provide various readings with daily global coverage which is not otherwise feasable.
+  
+  
   
   \subsection{Uncertainties?}
   \label{LR:Models:Uncertainties}
+    
+    
+    Validation is important due to the various uncertainties in the satellite remote sensing process, with apriori assumptions having the greatest effect on structural uncertainty between measurements techniques \cite{Lorente2017}.
+    \cite{Zhu2016} use SEAC$^4$RS aircraft HCHO measurements over the southeastern US as model validation, and show a bias in the assumed OMI shape factor that leads to a bias between satellite and SEAC$^4$RS measurements.
+    \cite{Marais2014} compare OMI based isoprene emission estimates against relaxed eddy accumulation measurements from African field campaigns, as well as MEGAN and GEOS-5 inventories.
+    \cite{Dufour2009} use HCHO from SCIAMACHY, and examine Europe using CHIMERE as the chemical model. 
+    In their work they show that satellite measurements can reduce source emission uncertainty by a factor of two, where emissions are relatively large.
     
     % Uncertainties in estimates
     Isoprene emissions estimates are still fairly uncertain, as global measurements are difficult and regional emissions can be very different. 
@@ -554,6 +833,10 @@
     \cite{Yue2015} has shown that this is still a problem by looking at land carbon fluxes and modelling the sensitivity to VOC emissions estimates using two independent models of VOC emission.
     One model is photosynthesis based and estimates isoprene emissions using electron transfer energies and leaf physiology \citep{Niinemets1999}, while the other (MEGAN) uses the light and canopy temperature (\citep{Guenther1995,Arneth2007} TODO: Read Arneth et al., 2007; Unger et al., 2013).
     Both are sensitive to light and temperature parameterisations.
+    
+    %TODO find good place for this baby sentence
+    An important factor in determining the yield of HCHO and other products from BVOCs is the local concentration of NO$_X$.
+    \cite{Travis2016} show how modelled surface ozone is overestimated due to high estimates of  NO$_X$ emissions, which affect oxidative capacity and VOC reactions.
   
 \section{Australia}
 \label{LR:Aus}
@@ -637,6 +920,10 @@ TODO: outline of aims here (FIND THESE THEY ARE SOMEWHERE)
   Due to the low availability of in-situ data over most of the Australian continent, a combination of the models with satellite can fill the gap of understanding of emissions from Australian landscapes.
   Improved emissions estimates will in turn improve the accuracy of CTMs, providing better predictions of atmospheric composition and its response to ongoing environmental change.
   
+  Calculation of isoprene to HCHO yields over Australia is required to create top-down estimates.
+  This requires among other things an idea of which VOCs are present and their yields of HCHO.
+  The technique of determining isoprene emissions from satellite detected HCHO is called satellite inversion.
+  \textbf{Another aim to this end is to run and become familiar with GEOS-Chem in order to determine Australian emissions and yields.}
   
 \section{Data Access}
 TODO: ADD MORE HERE
