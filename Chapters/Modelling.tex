@@ -369,19 +369,33 @@
     This means that if the model is poorly simulating NO$_X$, the yield (and transport, see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
     
     Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
-    Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
+    Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Summer_2005} shows the direct comparison between these datasets averaged over January and February, 2005.
     It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
     Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
+    The third row shows how the bias (GEOS-Chem - OMNO2d) correlates with simulated NO emissions from anthropogenic (left) and soil (right) sources.
     
-    \begin{figure}[!htbp]
-      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
+    The figure is repeated for winter months (JJA) in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Winter_2005}.
+    Here we can see that both soil and anthropogenic sources correlate with the bias between model and satellite data.
+    %TODO: How do we handle this problem?
+    
+    \begin{figure}
+      % Figure from GC_tests.py GC_vs_OMNO2d
       \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
       \caption{%
         Row 1 shows the tropospheric columns in molec cm$^{-2}$, GEOS-Chem, OMNO2d, and OMNO2d averaged onto the lower resolution of GEOS-Chem from left to right.
-        Row 2 shows the corellations of GEOS-Chem (X axes) between daily anthropogenic emissions, and mid-day OMNO2d columns.
-        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
+        Row 2 shows the absolute, relative differences, and correlation between GEOS-Chem and OMNO2d mid-day columns.
+        Row 3 shows the correlations between GEOS-Chem bias (Y-axes) and anthropogenic NO emissions on the left, and soil NO emissions on the right.
       }
-      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_2005}
+      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Summer_2005}
+    \end{figure}
+    
+    \begin{figure}
+      % Figure from GC_tests.py GC_vs_OMNO2d
+      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
+      \caption{%
+        As Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Summer_2005}, over winter (JJA).
+      }
+      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Winter_2005}
     \end{figure}
     
   \subsection{HCHO Comparisons}
