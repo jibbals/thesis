@@ -20,12 +20,31 @@
   % TODO: Pressure
   Most of the atmosphere ($\sim 85\%$) is within 10~km of the earths surface.
   This is due to air pressure, which decreases logarithmically with altitude.
-  
+  Imagine you are lying at the bottom of the ocean, except that ocean is made up of air.
 
   % TODO: Structure lead in
   
   \subsection{Structure}
   \label{LR:Atmos:Struct}
+    
+    The atmosphere extends above us to the edges of space. 
+    This is split into various layers, defined by the \textit{lapse rate}: the decrease in temperature as we ascend.
+    Figure \ref{LR:Atmos:Struct:Fig_atmos_layers}: shows the pressure and temperature profiles as we head upwards through the atmosphere.
+    First we have the troposphere, which extends to roughly 10~km and is characterised by increasing positive lapse rate (or decreasing temperature with altitude).
+    At the top of the troposphere (the tropopause) the temperature stops decreasing, and then the stratosphere is defined by a negative lapse rate.
+    This is due to UV light being absorbed by ozone, and leads to a very vertically stable environment.
+    
+    \begin{figure}
+      \includegraphics[width=0.5\textwidth]{Figures/Atmos_Temp_Press.gif}
+      \caption{%
+        Pressure (red) logarithmically decreasing, shown with percentage of atmosphere below at several points.
+        Temperature (green) changes throughout the atmosphere.
+        Figure edited from \url{https://climate.ncsu.edu/edu/Structure}.
+      }
+      \label{LR:Atmos:Struct:Fig_atmos_layers}
+    \end{figure}
+    
+    
     
     % TODO: Boundary layer
     
@@ -87,7 +106,7 @@
 \label{LR:O3}
   %TODO What is ozone
   
-   %Structure of ozone layer chapman eqn etc.
+  %Structure of ozone layer chapman eqn etc.
   Ozone (O$_3$) is mostly located in the stratosphere, where it helpfully prevents much of the shorter wave length solar radiation from reaching the earth's surface (ie UV light).
   In the stratosphere ozone production is generally driven by the Chapman mechanism, as high energy light (with wavelengths $\lambda<242$~nm) photolyses the molecular oxygen (O$_2$) in the atmosphere \citep[][Chapter 3, section 2]{BrasseurJacob2017}.
   
@@ -125,16 +144,25 @@
   \cite{Young2018} summarise current global ozone modelling standards and the metrics and processes used to evaluate these models.
   They show how models can be used to improve measurements, estimate concentrations in regions not sampled, and allow analysis of other processes which involve ozone (such as radiation).
   
-  % TODO things that affect ozone concentrations 
   %What drives ozone in the troposphere? 
   Generally there are two main drivers of tropospheric ozone concentrations; transport from the stratosphere and production due to emissions of precursors. 
   Globally, most tropospheric ozone is produced by naturally emitted (biogenic) precursors.
-  At smaller scales, near cities or downwind of fires, pyrogenic (fire) and anthropogenic (man-made) emissions become more important.
-  For example, in large cities such as Sydney, NO$_X$ emissions from traffic and power production can impact ozone concentrations.
+  At small to medium scales, pyrogenic (fire) and anthropogenic (man-made) emissions can be important.
   Smoke plumes from biomass burning can carry ozone precursors, creating higher ozone concentrations downwind of the plume's source.
+  Emissions of precursors from large cities (such as NO$_X$ emissions from traffic and power production) can impact ozone concentrations.
+  
+  A good summary of processes affecting tropospheric ozone, copied from \cite{Young2018}, is shown in Figure \ref{LR:O3:YoungOzoneSummary}.
+  This picture shows the major processes used by global chemistry models when simulating tropospheric ozone.
   
   
-  TODO: get access to Hegglin (\url{10.1038/ngeo604}) \citep{Hegglin2009}
+  \begin{figure}
+    \includegraphics[width=\textwidth]{Figures/Young2018_Figure1.png}
+    \caption{%
+      Tropospheric ozone processes, Figure 1 in \cite{Young2018}.
+      DOI: https://doi.org/10.1525/elementa.265.f1
+      }
+    \label{LR:O3:YoungOzoneSummary}
+  \end{figure}
   
   \subsection{Stratosphere to troposphere transport}
     \label{LR:O3:STT}
@@ -142,7 +170,7 @@
     Historically (in the late 1990's), ozone transported down from the stratosphere was thought to contribute 10-40~ppb to tropospheric ozone levels, matching tropospheric production \citep{Atkinson2000, Stohl2003}.
     This number was revised down over the years as measurement and modelling campaigns improved our understanding of global scale transport, mixing, and chemistry \citep{Monks2015}.
     Recently \cite{Kuang2017} analysed various measurements in south-east USA and observed STT influence which can be seen to affect surface ozone levels.
-    In their work they use high spectral resolution lidar (HSRL), ozonesondes, ozone lidar, and airborn in-situ measurements give the structure and temporal evolution of ozone and the low front weather system.
+    In their work they use various measurements from different instruments to give the structure and temporal evolution of ozone and the local weather system.
     
     Ozone transported to the troposphere from the stratosphere can occur through diffusion (slow process (TODO: Cite)) or through mixing, often called Stratosphere to Troposphere Transport events (STT), or intrusions.
     TODO: compare these two processes and their impacts briefly.
@@ -167,6 +195,8 @@
   
   \subsection{Chemical production}
     An analysis of the Atmospheric Chemistry and Climate Model Inter-comparison Project (ACCMIP) simulations by \cite{Young2013} found STT is responsible for $540\pm140$~Tg yr$^{-1}$, equivalent to $\sim$11\% of the tropospheric ozone column, with the remainder produced photochemically \citep{Monks2015}.
+    A recent summary by \cite{Young2018} estimates ozone production and loss in the troposphere to be $\sim$4900\tgpyr, and $\sim$4500\tgpyr respectively, while STT sources are $\sim$500\tgpyr. 
+    They also show how all these figures are still relatively uncertain.
     
     tropospheric ozone concentrations rely on climate and ozone precursor emissions; including NO, NO$_2$, CO, VOCs, and HCHO \citep{Atkinson2000, Young2013, Marvin2017}. 
     Ozone predictions are uncertain due to the vagaries of changing climate which affects both transport, deposition, destruction, and plant based precursor emissions.
@@ -469,7 +499,7 @@
     \label{LR:HCHO:Sources}
      
     %Background hcho
-    In the atmosphere HCHO is primarily produced through the oxidation of methane (CH$_4$) by the hydroxyl radical (OH).
+    In the atmosphere HCHO is primarily produced through the oxidation of methane (CH$_4$) by the hydroxyl radical (OH$^{-1}$).
     \cite{Atkinson2000} summarised the background formation of HCHO with the following reaction:
     \begin{equation*} \label{LR:HCHO:Sources:eqn_MethaneBackground}
       OH + CH_4 (+ h\nu) + 2NO + 2O_2 \rightarrow OH + HCHO + H_2O + 2O_3
