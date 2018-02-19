@@ -3,6 +3,23 @@
 
 \chapter{Modelling and Data} %with GEOS-Chem} % Main chapter title
 \label{Model} %better reference name?
+
+\section{Data Access}
+TODO: ADD MORE HERE
+\label{Model:DataAccess}
+\begin{description}
+  \item[OMNO2d] Daily satellite NO$_2$ product downloaded from \url{https://search.earthdata.nasa.gov/search}, DOI:10.5067/Aura/OMI/DATA3007. 
+  See more information in section %TODO:
+  
+  \item[SPEI] Monthly standardised precipitation evapotranspiration index (metric to determine drought stress) downloaded from \url{http://hdl.handle.net/10261/153475} with DOI:10.20350/digitalCSIC/8508.
+  See more information in section %TODO:
+  
+  \item[OMHCHO] Satellite swaths of HCHO slant columns downloaded from TODO, with DOI TODO
+  
+\end{description}
+
+
+
 \section{List of runs and outputs used in my work TODO: good place for this?}
   TODO: Go through work process and clarify these items
   \subsection{GEOS-Chem}
@@ -136,7 +153,38 @@
     
     \subsubsection{Emissions from MEGAN}
       \label{Model:GC:Isop:MEGAN}
-      MEGAN simulates biogenic emissions of various gases including isoprene, based on various meteorological, land cover, and plant type parameterisations.
+
+      MEGAN is a global model with resolution of around 1~km, and is used to generate the BVOC emissions used in various global chemistry models such as GEOS-Chem.
+      MEGAN uses leaf area index, global meteorological data, and plant functional types (PFTs) to simulate terrestrial isoprene emissions.
+      The model includes global measurements of leaf area index, plant functional type, and photosynthetic photon flux density, from remote sensing databases \citep{Kefauver2014}.
+      The various PFTs are used to generate emission factors which represent quantities of a compound released to the atmosphere through an associated activity.
+      For example, an emission factor for isoprene within a forest would include the requirement of sunshine and suitable temperature.
+      The schematic for MEGAN, taken from \citet{Megan_Website}, is shown in figure \ref{Models:GC:Isop:MEGAN:fig_megan_schematic}
+      
+      \begin{figure}[!htbp]
+        \includegraphics[width=\textwidth]{Figures/MEGANmodel_img.jpg}
+        \caption{MEGAN schematic, copied from \citet{Megan_Website}}
+        \label{Models:GC:Isop:MEGAN:fig_megan_schematic}
+      \end{figure}
+      
+      MEGAN ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions.'' \citep{Guenther2012}.
+      It allows parameterisation of various BVOC emissions, with descriptions given in \cite{Guenther2012}.
+      Instructions to run version 2.1 are available at \url{http://lar.wsu.edu/megan/docs/MEGAN2.1_User_GuideWSU.pdf}, and a version using the Community Land Model (CLM) is available at \url{http://www.cesm.ucar.edu}.
+      It uses meteorological fields from the Weather Research and Forecasting (WRF) modelling system.
+      Version 2.1 (updated from 2.0 \citep{Guenther2006}) includes 147 species, in 19 BVOC classes, which can be lumped together to provide appropriate output for mechanisms in various chemical models.
+      
+      MEGAN was developed as a replacement for two earlier canopy-environment emission models (BIES and GEIA), and initially included a simple canopy radiative transfer model, which parameterised sun-lit and shaded conditions through a canopy.
+      Early models didn't account for abiotic stresses, such as drought, prior rainfall and development processes, although these influenced species specific emissions by more than an order of magnitude \citep{Niinemets1999}.
+      Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \citep{Guenther2000}, and a leaf energy balance model \citep{Guenther2006} in MEGANv2.0.
+      This update included a parameter for soil moisture, to account for drought conditions, however this parameter is currently (as of version 2.1) not applied to isoprene \citep{Sindelarova2014}.
+      Soil moisture effects on isoprene emission are very important, and can drastically affect estimates.
+      
+      MEGAN has recently been analysed using 30 years of meteorological reanalysis information by \cite{Sindelarova2014}.
+      They estimate emissions of Biogenic VOCs (BVOCs) to be 760~Tg(C)yr$^{-1}$, 70\% (532~Tg(C)yr$^{-1}$) of which is isoprene.
+      This is similar to isoprene emission estimates from MEGAN itself, of 400-600~Tg(C)yr$^{-1}$ \citep{Guenther2006}.
+      MEGAN emissions estimates are termed bottom-up, as opposed to top-down which are derived from satellite measurements of the products of various VOCs.
+      Using GOME satellite HCHO and a Beyesian inversion technique to derive isoprene emissions, \cite{Shim2005} estimated global isoprene emissions to be $\sim566$~TgC yr$^{-1}$. 
+      This estimate is greater than initially thought and leads to decreased ($\sim10\%$) simulated OH concentrations to 9.5e5 molec cm$^{-3}$.
       
       One of the important parameters in Australia is the soil moisture activity factor($\gamma_{SM}$), which can have large regional affects on the isoprene emissions \citep{Sindelarova2014,Bauwens2016}.
       Generally if soil moisture is too low, isoprene emissions stop \citep{Pegoraro2004,Niinemets2010}, however in many Australian regions the plants may be more adapted to lower moisture levels. (TODO: Find cites for this - talk from K Emerson at Stanley indicated this)
