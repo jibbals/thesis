@@ -21,6 +21,7 @@
   Most of the atmosphere ($\sim 85\%$) is within 10~km of the earths surface.
   This is due to air pressure, which decreases logarithmically with altitude.
   Imagine you are lying at the bottom of the ocean, except that ocean is made up of air.
+  The pressure we are subjected to is from the weight of all the air above us.
 
   % TODO: Structure lead in
   
@@ -29,13 +30,13 @@
     
     The atmosphere extends above us to the edges of space. 
     This is split into various layers, defined by the \textit{lapse rate}: the decrease in temperature as we ascend.
-    Figure \ref{LR:Atmos:Struct:Fig_atmos_layers}: shows the pressure and temperature profiles as we head upwards through the atmosphere.
+    Figure \ref{LR:Atmos:Struct:Fig_atmos_layers} shows the pressure and temperature profiles as we head upwards through the atmosphere.
     First we have the troposphere, which extends to roughly 10~km and is characterised by increasing positive lapse rate (or decreasing temperature with altitude).
     At the top of the troposphere (the tropopause) the temperature stops decreasing, and then the stratosphere is defined by a negative lapse rate.
     This is due to UV light being absorbed by ozone, and leads to a very vertically stable environment.
     
     \begin{figure}
-      \includegraphics[width=0.5\textwidth]{Figures/Atmos_Temp_Press.gif}
+      \includegraphics[width=\textwidth]{Figures/Atmos_Temp_Press.jpg}
       \caption{%
         Pressure (red) logarithmically decreasing, shown with percentage of atmosphere below at several points.
         Temperature (green) changes throughout the atmosphere.
@@ -46,11 +47,12 @@
     
     
     
-    % TODO: Boundary layer
+    % Boundary layer
+    In addition to these atmospheric layers, it is helpful to split the troposphere further: into a \textit{boundary layer}, and the \textit{free troposphere}.
+    The \textit{boundary layer} is the lowest layer and involves increased atmospheric mixing due to ground heating and friction effects.
+    It generally extends anywhere from 200 - 1000~m, above which the ground affects have less direct impacts.
+    The \textit{free troposphere} is the remainder of the troposphere and is more affected by transport, both horizontally and from the stratosphere.
     
-    % TODO: Troposphere
-    
-    % TODO: Stratosphere
     
   % Chemistry
   \subsection{Chemistry}
@@ -63,13 +65,13 @@
       The exceptions are chlorofluorocarbons (CFCs), and Halons not containing H atoms \citep{Atkinson2000}.
       OH and HO$_2$ concentrations largely determine the oxidative capacity of the atmosphere.
       Oxidation and photolysis (splitting by photons) are the two main processes whereby compounds are broken down in the atmosphere.
-      Over land, isoprene (C$_5$H$_8$) and monoterpenes (C$_10$H$_16$) account for 50\% and 30\% of the OH reactivity respectively \citep{Fuentes2000}.
+      Over land, isoprene (C$_5$H$_8$) and monoterpenes (C$_{10}$H$_{16}$) account for 50\% and 30\% of the OH reactivity respectively \citep{Fuentes2000}.
       
       In the late 90's it was thought that OH radicals are formed exclusively from photolysis of O$_3$, HONO, HCHO, and other carbonyls (R$_2$C=O) \cite{Atkinson2000}.
       Isoprene (C$_5$H$_8$) was thought to be a sink of OH until it was shown by \cite{Paulot2009b} that the radicals are recycled.
       This recycling process is discussed in more detail in section \ref{LR:VOCs:IsopCascade}.
       
-      Ozone is an important precursor to OH, as excited oxygen atoms (O(${}^1$D) are created through photolysis, which then go on to mix with water and form OH, as shown in this equation taken from \cite{Atkinson2000}:
+      Ozone is an important precursor to OH, as excited oxygen atoms (O(${}^1$D) are created through its photolysis, which then go on to mix with water and form OH, as shown in this equation taken from \cite{Atkinson2000}:
       \begin{equation}
       \begin{aligned}
       O_3 + \text{hv}         & \to  O_2 + O({}^1D)   && (\lambda \le 335 \text{nm}) \\%
@@ -83,7 +85,7 @@
       NB: The wavelength was updated to 350~nm in \cite{AtkinsonArey2003}.
       
     \subsubsection{NOx}
-      NO$_X$($\equiv $ NO$_2$, NO) is another important group in the atmosphere due to the various reactions it initiates.
+      NO$_X$ ($\equiv $ NO$_2$ and NO) is another important group in the atmosphere due to the various reactions it initiates.
       Power generation and combustion transport emissions are the main source of NO$_X$ .%TODO cite
       If NO and O$_3$ are both in the atmosphere, the following reactions \citep{Atkinson2000} occur:
       \begin{equation}
@@ -153,7 +155,7 @@
   
   A good summary of processes affecting tropospheric ozone, copied from \cite{Young2018}, is shown in Figure \ref{LR:O3:YoungOzoneSummary}.
   This picture shows the major processes used by global chemistry models when simulating tropospheric ozone.
-  
+  In each gridbox both physical and chemical processes need to be accounted for.
   
   \begin{figure}
     \includegraphics[width=\textwidth]{Figures/Young2018_Figure1.png}
@@ -172,8 +174,9 @@
     Recently \cite{Kuang2017} analysed various measurements in south-east USA and observed STT influence which can be seen to affect surface ozone levels.
     In their work they use various measurements from different instruments to give the structure and temporal evolution of ozone and the local weather system.
     
-    Ozone transported to the troposphere from the stratosphere can occur through diffusion (slow process (TODO: Cite)) or through mixing, often called Stratosphere to Troposphere Transport events (STT), or intrusions.
-    TODO: compare these two processes and their impacts briefly.
+    Ozone transported to the troposphere from the stratosphere can occur through diffusion (relatively slowly), or direct mixing.
+    Intrusions of stratospheric air into the troposphere are often called Stratosphere to Troposphere Transport events (STT).
+    STT often occur as tongues of stratospheric air descend and get disconnected from the stratosphere, potentially due to low pressure systems and jet streams \cite{Sprenger2003}.
     Recently global chemical transport models (CTMs) have been used to trace how much ozone is being transported to the troposphere from the stratosphere.
     There are a few methods of doing this, such as \cite{Ojha2016}, who use the ECHAM5 CTM with a tracer that keeps track of ozone formed and transported from the stratosphere.
     Model based estimates generally require validation against actual measurements, such as those from ozonesondes or satellites.
@@ -221,7 +224,7 @@
     Equation \ref{LR:Atmos:Chem:eqn_O3toNO2} shows how NO and O$_3$ lead to NO$_2$ and the very short lived NO$_3$ radical.
     
     % Loss pathways
-    Tropospheric ozone is lost via chemical destruction and dry deposition, estimated to be $4700\pm700$ Tg yr$^{-1}$ and $1000\pm200$ Tg yr$^{-1}$, respectively \citep{Stevenson2006}.
+    Tropospheric ozone is lost via chemical destruction and dry deposition, estimated to be $4700\pm700$ Tg yr$^{-1}$ and $1000\pm200$ Tg yr$^{-1}$, respectively \citep{Stevenson2006,Young2018}.
     The main loss channel is through equation \ref{LR:Atmos:Chem:eqn_O3toOH}, where photolysis and pressure create OH from the O$_3$.
     
 
@@ -233,7 +236,7 @@
   Compounds with high vapour pressures at standard temperature are classed as volatile, and have a felicity to evaporate at low temperatures.
   Plants contain tens of thousands of organic compounds, it's likely that fewer than 40 are emitted due to the low volatility of most of them \citep{Guenther2000}.
   
-  Atmospheric organic compounds are legion and differ by orders of magnitude with respect to their fundamental properties, such as volatility, reactivity, and cloud droplet formation propensity.
+  Atmospheric organic compounds are legion and differ by orders of magnitude with respect to their fundamental properties, such as volatility, reactivity, and cloud droplet formation propensity, etc.
   Volatile organic compounds (VOCs) have vapour pressure greater than $10^{-5}$~atm, and are mostly generated naturally by plants, which emit around 1000\tgpyr \citep{Guenther1995, Glasius2016}.
   Due to their high volatility these compounds are generally seen in the gas phase.
   Organic compounds with a lower volatility are classed as semi-volatile (SVOCs: vapour pressure between $10^{-5}$ and $10^{-11}$~atm) are seen in both gas and particle phase depending on temperature and pressure.
@@ -267,11 +270,10 @@
   Fine particulate matter (PM$_{2.5}$) penetrates deep into the lungs and is detrimental to human health.
   Some PM comes from small organic aerosols (OA) emitted in the particulate phase and referred to as primary OA (POA).
   A substantial amount of PM is due to gaseous organic compounds transforming in the troposphere leading to what's known as secondary OA (SOA) \citep{Kroll2008}.
-  Improved concentration estimates of these organic compounds requires a better understanding of their emissions, which is one of the foci in this thesis.
   
   Formation of SOA is generally due to VOC oxidation and subsequent reactions, while removal from the atmosphere is largely due to wet or dry deposition, and cloud scavenging \citep{Kanakidou2005}.
   It can be difficult to attribute PM formation, in part due to the complex relationship between NO$_X$, OH, O$_3$, and the uncertainty surrounding precursor emissions.
-  
+  Improved concentration estimates of these organic compounds requires a better understanding of their emissions, which is one of the foci in this thesis.
   
   \subsection{Isoprene}
   \label{LR:VOCs:Isop}
@@ -428,11 +430,7 @@
     \label{LR:VOCs:IsopCascade:SOA}
     %% SOA production and overview?
     Gas phase emissions with higher vapour pressures can be oxidised into lower vapour pressure products which will partition between gas and particle phase, often called semi or non-volatile. 
-    The aerosol products from these gas phase emissions (or the children thereof) are called SOA \citep{Kanakidou2005}.
-    
-    SOA formation from VOCs in atmospheric CTMs is generally imperfect due to the complicated chemistry and diverse nature of atmospheric conditions.
-    Yields of SOA from VOCs are often lumped together and based on empirical laboratory chamber data. 
-    VOC oxidation was not feasible $\sim 13$ years ago (2005), as chamber studies did not extend over a large enough parameter range and the importance of heterogeneous aerosol chemistry on SOA formation was unquantified \citep{Kanakidou2005}.
+    The aerosol products from these gas phase emissions (or the children thereof) are SOA \citep{Kanakidou2005}.
     
     One of the large uncertainties with OA is the total effect on radiative forcing, 12 years ago it was well understood that most OA cool the atmosphere, with smaller particles having a larger affect due to the size matching the wavelengths of visible light \citep{Kanakidou2005}. 
     Transport and indirect effects complicate matters further, with cloud creation and modification of cloud properties being quite difficult to accurately predict.
