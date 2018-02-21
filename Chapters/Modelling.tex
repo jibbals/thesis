@@ -583,10 +583,11 @@ TODO: ADD MORE HERE
     
     NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
     This means that if the model is poorly simulating NO$_X$, the yield (and transport, see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
+    In order to determine if rescaling the NO emissions over Australia is necessary in GEOS-Chem, I looked at modelled NO$_2$ amounts compared to satellite data for most of 2005.
     
     
     Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
-    Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Summer_2005} shows the direct comparison between these datasets averaged over January to February, 2005.
+    Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Sum_2005} shows the direct comparison between these datasets averaged over January to February, 2005.
     It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem (potentially due to averaging over the 2x2.5\degr horizontal resolution).
     Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
     
@@ -595,24 +596,60 @@ TODO: ADD MORE HERE
       % Figure from GC_tests.py GC_vs_OMNO2d
       \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
       \caption{%
-        
+        GEOS-Chem mid-day tropospheric column NO$_2$ vs OMNO2d columns (averaged to match GEOS-Chems lower resolution).
+        Absolute and relative differences, along with corellation shown on bottom row.
       }
-      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Summer_2005}
+      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Sum_2005}
     \end{figure}
     
-    Figure X shows an analysis of GEOS-Chem NO emissions and their corellations with the bias between GEOS-Chem NO$_2$ mid-day columns and the OMNO2d product, averaged over January to February 2005.
+    This comparison is expanded, including a comparison against modelled emissions, and repeated for autumn (MAM), winter (JJA), and spring (SON) in figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}.
+    These show an analysis of GEOS-Chem NO emissions and their corellations with the bias between GEOS-Chem NO$_2$ mid-day columns and the OMNO2d product, averaged over each season in 2005.
     The scatter plots have one datapoint for each land square over Australia.
-    Figures X-Y show the same analysis for different portions of the year, for both soil and anthropogenic NO emissions.
-    TODO: add the plots
     
-    \begin{figure}
-      % Figure from GC_tests.py GC_vs_OMNO2d
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
-      \caption{%
-        As Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Summer_2005}, over winter (JJA).
+    The corellation between model and satellite NO$_2$ columns is OK throughout the year over Australia, with some overestimation in the north during non-summer months.
+    There is also slight underestimation over Sydney and Melbourne throughout the year.
+    Figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr} show that the visible biases are not over Australia are not driven by modelled emissions of NO.
+    While the corellation between column NO$_2$ and emitted NO is clear, emissions do not appear to bias the model in either direction away from the satellite data.
+    
+    % Figures from GC_tests.py GCe_vs_OMNO2d
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050101-20050228.png}
+      {
+        Top row (left to right): GEOS-Chem NO$_2$ mid-day tropospheric columns, OMNO2d NO$_2$ columns, modelled anthropogenic NO emissions. 
+        Second row: absolute and relative difference between GEOS-Chem and OMI NO$_2$ data, and the corellation.
+        Third row: corellation between GEOS-Chem tropospheric column NO$_2$ and emitted NO, then between the model-satellite bias and the emissions.
+        All corellation plots are coloured by emission rates.
       }
-      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Winter_2005}
-    \end{figure}
+      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}}
+    
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050301-20050531.png}
+      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005.}
+      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Aut}}
+      
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
+      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005.}
+      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Win}}
+    
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
+      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005.}
+      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Spr}}
+    
+    % Soil pictures
+    \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050101-20050228.png}
+      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, except anthropogenic NO emissions are replaced by soil NO emissions.}
+      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Sum}}
+    
+    \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050301-20050531.png}
+      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Aut}}
+      
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
+      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Win}}
+      
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
+      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}}
+    
     
   \subsection{HCHO Comparisons}
     TODO: GOME2 HCHO stuff?
