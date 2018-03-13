@@ -1,7 +1,7 @@
 %% CHAPTER 2 (probably)
 %% MODELLING and DATA
 
-\chapter{Modelling and Data} %with GEOS-Chem} % Main chapter title
+\chapter{Data and Modelling} %with GEOS-Chem} % Main chapter title
 \label{Model} %better reference name?
   
 \section{Introduction}
@@ -223,8 +223,20 @@
       This workspace included access to compilers and libraries which are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
         
       After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
-    \subsubsection{Options}
+
+    \subsubsection{Outputs}
     
+      There are several outputs or diagnostics available from GEOS-Chem.
+      GEOS-Chem models concentrations using a 15 minute time-step, however to save space one would generally only output the daily or monthly averages for many species.
+      In my work when estimating model yields of isoprene to HCHO, I use daily averaged HCHO columns and compare them to colocated isoprene emissions from MEGAN.
+      
+      Optionally one can save high temporally resolved data for a single (or list of) column(s).
+      I've used this diagnostic to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
+            
+      One of the more frequently used outputs in my work are the satellite overpass diagnostics, which look at averages within a window of time (for instance 1200-1300) using local time (LT) for each gridbox, each day.
+      This diagnostic allows easier analysis of model data against a satellite as one can match the output with the satellite's overpass time.
+      
+      
     \subsubsection{Tropospheric chemistry run}
     
     \subsubsection{UCX run}
@@ -304,21 +316,7 @@
         \label{Model:GC:running:fig_UCXvsTrop_O3}
       \end{figure}
 
-\section{CAABA/MECCA}
-\label{Model:CM}
-  
-  CAABA (Chemistry As A Boxmodel Application) estimates the chemical concentrations accounting for J-values (JVAL), simplified and parameterised photolysis (SAPPHO) and simplified emission and depositions (SEMIDEP).
-  CAABA runs in a single scenario (or box) with given emissions, depositions, and initial concentrations, allowing the examination of chemistry in a very specific environment to be modelled with high temporal resolution.
-  
-  This has been used with an atmospheric chemistry model MECCA (Module Efficiently Calculating the Chemistry of the Atmosphere) which implements tropospheric and stratospheric chemistry for both the gas and the aqueous phases \citep{Sander2005}.
-  MECCA chemical mechanisms include basic O$_3$, CH$_4$, NO$_X$, and HO$_X$ chemistry, as well as non methane hydrocarbon (NMHC) chemistry, considering gas phase, aqueus phase, and heterogenous reactions. \citep{Sander2005}
-  For the numerical integration, MECCA uses the KPP software (\cite{SanduSander2006}), which takes chemical reactions and their rate coefficients and codes integral solutions to the system.
-  The combination of the CAABA box model with MECCA module is called CAABA/MECCA and is currently at version 3.
-  CAABA/MECCA been implemented for various calculations including ozone chemistry throughout the atmosphere in \cite{Zanis2014}.
-  
-  MECCA could also be used as the chemistry mechanism for a more complex, 3-dimensional model (\cite[e.g.][]{Jockel2006}).
-  The connection is established via the MESSy interface (\url{http://www.messy-interface.org}) developed by \cite{Jockel2005} as part of an effort to simplify the framework for modelling the atmospheres at various scales.
-  The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
+
 
 
 \section{Measurement Techniques}
@@ -473,34 +471,33 @@
       The conversion factor for slant to vertical columns (AMF) calculation also suffers from errors; primarily from surface albedo, HCHO vertical profile apriori, aerosol, and cloud influence \citep{Millet2006}. 
       AMF uncertainties for GOME are calculated to be $1$ to $1.3\times10^{15}$ molecules cm$^{-2}$ by \cite{Shim2005}.
   
-
-\section{Campaigns and datasets}
-  \label{Model:Datasets}
-  Here I will describe the various datasets I've used to analyse GEOS-Chem output.
-  These datasets are also used to determine how suitable GEOS-Chem is in calculation of isoprene emissions estimations in chapter \ref{BioIsop} and ozone transport extrapolations in chapter \ref{Ozone}.
-  
-  TODO: these summaries.
-  
   %Omi summary
   \subsection{OMI Satellite measurements}
-  \label{Model:Datasets:OMI}
-  
+    \label{Model:Campaigns:OMI}
+    
     \subsubsection{OMI HCHO}
     Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}
     
     HCHO has been found to be biased low in several studies \cite[eg.][]{Zhu2016,DeSmedt2015,Barkley2013}
-  
+    
     \subsubsection{OMI NO2}
-    \label{Model:Datasets:OMNO2d}
+    \label{Model:Campaigns:OMNO2d}
+
+\section{Campaigns}
+  \label{Model:Campaigns}
+  Here I will describe the various datasets I've used to analyse GEOS-Chem output.
+  These datasets are also used to determine how suitable GEOS-Chem is in calculation of isoprene emissions estimations in chapter \ref{BioIsop} and ozone transport extrapolations in chapter \ref{Ozone}.
+  
+  TODO: these summaries.
 
   Daintree summary (P. Nelson)
   
   % TODO: MUMBA summary
-  \subsubsection{Marine and Urban MBA ? (MUMBA)}
-    \label{Model:Datasets:MUMBA}
+  \subsection{Marine and Urban MBA ? (MUMBA)}
+    \label{Model:Campaigns:MUMBA}
   
-  \subsubsection{Sydney Particle Studies (SPS1, SPS2)}
-    \label{Model:Datasets:SPS}
+  \subsection{Sydney Particle Studies (SPS1, SPS2)}
+    \label{Model:Campaigns:SPS}
     Two VOC and other trace gas measurement campaigns took place at the Westmead Air Quality Station scientists from CSIRO, OEH, and ANSTO. 
     Stage 1 (SPS1) was from 5 February to 7 March in 2011, while stage 2 (SPS2) ranged from 16 April to 14 May 2012.
     
@@ -580,7 +577,7 @@
     In order to determine if rescaling the NO emissions over Australia is necessary in GEOS-Chem, I looked at modelled NO$_2$ amounts compared to satellite data for most of 2005.
     
     
-    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
+    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Campaigns:OMNO2d}). 
     Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_AUS_Sum_2005} shows the direct comparison between these datasets averaged over January to February, 2005.
     It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem (potentially due to averaging over the 2x2.5\degr horizontal resolution).
     Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
