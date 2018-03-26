@@ -488,6 +488,12 @@
   Here I will describe the various datasets I've used to analyse GEOS-Chem output.
   These datasets are also used to determine how suitable GEOS-Chem is in calculation of isoprene emissions estimations in chapter \ref{BioIsop} and ozone transport extrapolations in chapter \ref{Ozone}.
   
+  %TODO: Add all campaigns to the plot of locations
+  Figure \ref{Model:Campaigns:fig_locations} shows the locations of each of the campaigns I mention in this text.
+  These took place over disparate times, and are in-situ datapoints which may not nicely compare with GEOS-Chem output which is averaged over a large horizontal space.
+  
+  \mypic{Figures/Campaigns/campaign_locations.png}{Locations of Australian campaigns which are analysed within this thesis}{\label{Model:Campaigns:fig_locations}}
+  
   TODO: these summaries.
 
   Daintree summary (P. Nelson)
@@ -503,17 +509,39 @@
     
     Two instruments measured VOC concentrations: one was a Proton transfer reaction mass spectrometer (PTR-MS), the other a gas chromatographer (GC) with an equipped flame ionisation detector (FID).
     The PTR-MS uses chemical ionisation mass spectrometry and can quantify VOCs at high temporal resolution ($< 1$~s).
-    It was calibrated several times per day against hcho, isoprene, $\alpha$-pinene, and several more VOCs. Further details can be found in \cite{Dunne2012,Dunne2017} (TODO: Check papers).
+    It was calibrated several times per day against hcho, isoprene, $\alpha$-pinene, and several more VOCs. Further details can be found in \cite{Dunne2012, Dunne2017} (TODO: Check papers).
     The output lists hourly averaged ppbv concentrations of trace gases based on the mass to charge ratio (m/z), which for isoprene is 69.
     It's possible that other chemicals (such as Furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires usage starts to become frequent (TODO cite something).
     The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interferences. GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT. Further details for this method can be found in TODO: cite Min et al 2016.
     
-    Figure TODO: shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. In order to compare with GEOS-Chem output a daily average and an overpass time (1200-1300 LT) average are both created from these data.
+    Figure \ref{Model:Campaigns:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. In order to compare with GEOS-Chem output a daily average and an overpass time (1200-1300 LT) average are both created from these data.
     In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in (TODO: doi:10.5194/acp-15-223-2015, 2015) which should minimise any introduced bias.
+    
+    \mypic{Figures/campaigns/SPS_Series.png}{SPS 1 and 2 HCHO (yellow) and isoprene (green) time series, along with detection limits (dashed).}{\label{Model:Campaigns:SPS:fig_series}}
+    
+    Figure \ref{Model:Campaigns:SPS:fig_GC_comparison} shows GEOS-Chem output in the gridsquare containing Sydney overlaid on SPS measurement data.
+    Superficially the comparison is not too bad between these two datasets, however GEOS-Chem output is daily averaged over 2x2.5\degr (latitude by longitude)
+    The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high.
+    
+    \mypic{Figures/GC_vs_Campaigns_20050131-20050601.png}{Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:Campaigns:SPS:fig_GC_comparison}}
 
 \section{Analysing output}
 \label{Model:Analysis}
   
+  \subsection{Satellite HCHO recalculations}
+    %\label{satellite:recalc}
+    %TODO: ref omhcho section
+    The HCHO columns provided in OMHCHO are described in TODO: ref other section.
+    After recalculating the AMFs for each satellite pixel using GEOS-Chem v10.01, we are left with the new vertical columns which are essentially what the satellite would show given that the modelled column was known and correct.
+    Comparing these new vertical columns to model output removes any bias caused by the apriori vertical column in the satellite product, since now biases in the modelled column affect both data sets equally.
+    
+    %TODO figure comparing satellite hcho recalculations
+    Figure (TODO: figure) shows vertical columns of HCHO for: column 1) the original satellite swaths, column 2) recalculated without changing the provided scattering weights, and column 3) fully recalculated vertical columns. 
+    Each grid square (at 0.25 by 0.3125 lat lon resolution) has been created by binning the recalculated satellite pixels within the month.
+    The average pixels per land square is overlaid and changes due to how a fire filter is applied.
+    Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
+    
+    
   \subsection{Circadian emissions cycle}
     HEMCO diagnostics provide the simulated MEGAN isoprene emissions at high temporal resolution.
     TODO: Figure X shows the daily emissions cycles for a few regions over each season. 
