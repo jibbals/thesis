@@ -483,6 +483,43 @@
     \subsubsection{OMI NO2}
     \label{Model:Campaigns:OMNO2d}
 
+\section{Recalculation of OMI HCHO}
+  \label{Model:omiRecalc}
+  
+  The method used here largely follows that of \citet{Palmer2001}.
+  The AMFs for OMI are recalculated using shape factors based on GEOS-Chem HCHO profiles, averaged between 1200 and 1300 local time (LT).
+  Using this one hour average should match the overpass time of OMI, and is similarly performed in \cite{Jin2017}.
+  When comparing satellite observations to a chemical model, recalculation of the satellite AMF using modelled vertical gas profiles removes any bias introduced by differences from the a-priori shape factor to the model.
+  The AMF is needed to transform the slant column, as viewed by the satellite, into a vertical column:
+  \begin{equation}
+    \label{eqn:AMFratio}
+    AMF = \frac{\Omega_s}{\Omega_v} %= \frac{\tau_s}{\tau_v}
+  \end{equation}
+  where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
+  
+  %% HERE I SUMMARISE THE AMF CALCULATION
+  The vertical shape factor S$_z$(z) is defined as a normalized vertical number density profile $S_z(z) = \frac{\eta(z)}{\Omega_v}$ where $\eta(z)$ is the number density in molecules m$^{-3}$. 
+  The AMF can be expressed as
+  \begin{equation} 
+    \label{eqn:AMFintwSdz}
+    AMF = AMF_G \int_0^\infty w(z) S_z(z) \mathrm{d}z
+  \end{equation}
+  Where w(z) is the scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z.
+  It's worth noting that in the OMI satellite product, the provided $\omega(z)$ incorporates the $AMF_G$ term and the equation \ref{eqn:AMFintwSdz} should be implemented without this term if using the satellite $\omega$.
+  This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
+  
+  Two HCHO products are created, both using GEOS-Chem output at global 2 by 2.5\degr horizontal resolution.
+  One uses the OMI product's $\omega_z$ and equation \ref{eqn:AMFintwSdz} in order to calculate an AMF.
+  While the other uses code provided by Dr. Paul Palmer, with alterations by Dr. Randal Martin, and Dr. Luke Surl to run LIDORT on the satellite slant columns and the GEOS-Chem output in order to calculate an AMF.
+  These two calculations are compared over Australia in figure(s) TODO: Map comparison, regression, and time series once AMFpp is working properly.
+  %TODO: point at figure showing columns with/without amf_pp
+  The effect of not recalculating the $\omega_z$ is can be seen in figure TODO which looks at the altered satellite vertical columns using each method.
+  %TODO: figure analysing amf vs amf_gc vs amf_pp
+  Figure TODO shows an analysis of the differences between running the recalculation with and without updating the $\omega_z$.
+  
+  The AMF calculated using Dr. Palmer's code uses a more strict series of filters, leading to fewer satellite based HCHO columns and reduced coverage over Australia.
+  Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating $\omega_z$.
+  
 \section{Campaigns}
   \label{Model:Campaigns}
   Here I will describe the various datasets I've used to analyse GEOS-Chem output.
