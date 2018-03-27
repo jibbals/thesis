@@ -508,6 +508,12 @@
   It's worth noting that in the OMI satellite product, the provided $\omega(z)$ incorporates the $AMF_G$ term and the equation \ref{eqn:AMFintwSdz} should be implemented without this term if using the satellite $\omega$.
   This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
   
+  Figure \ref{Model:omiRecalc:fig_omhchorp_flow} shows an overview of how this process is performed in my work.
+  Output from GEOS-Chem is combined with both OMHCHO swath data and MOD14A1 gridded fire data in order to produce a gridded HCHO file which contains HCHO vertical columns and fire counts. 
+  The output keeps the original AMF as well as those recalculated using GEOS-Chem, and optionally those recalculated using GEOS-Chem and LIDORT.
+  
+  \mypic{Figures/omhchorp_flow.png}{Depiction of processes and datasets used to recalculate OMI AMFs.}{\label{Model:omiRecalc:fig_omhchorp_flow}}
+  
   Two HCHO products are created, both using GEOS-Chem output at global 2 by 2.5\degr horizontal resolution.
   One uses the OMI product's $\omega_z$ and equation \ref{eqn:AMFintwSdz} in order to calculate an AMF.
   While the other uses code provided by Dr. Paul Palmer, with alterations by Dr. Randal Martin, and Dr. Luke Surl to run LIDORT on the satellite slant columns and the GEOS-Chem output in order to calculate an AMF.
