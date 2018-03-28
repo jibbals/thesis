@@ -30,6 +30,19 @@
   This modelled yield is then used in conjunction with the recalculated OMI measurements in order to estimate isoprene emissions.
   To calculate emissions we use a reduced major axis (RMA) regression between modelled average values of the loss rates and total columns, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
   
+  % Method outlined here
+  %TODO Method outline to Jenny
+  \begin{enumerate}
+    \item Download Aqua/Terra MODIS gridded fire counts (MOD14A1), and Aura HCHO columns (OMHCHO).
+    \item Run GEOS-Chem with satellite overpass output averaged over 1200-1300~LT (matching Aura overpass time)
+    \item Recalculate OMHCHO vertical columns using GEOS-Chem to recreate the shape factors for each slant column. Also done with code from Paul Palmers group which includes recalculation of the scattering weights.
+    \item Mask HCHO columns which occur on days with non-zero (MODIS) fire counts over the prior 8 days, as is done in \cite{Marais2012} (I do not yet mask smoke aaod to account for transported plumes!).
+    \item Filter gridsquares where OMI aaod is over some threshhold 
+    \item yield stuff
+    \item isoprene stuff
+    
+  \end{enumerate}
+  
 %----------------------------------------------------------------------------------------
 % Section 1 -- INTRO 
 %----------------------------------------------------------------------------------------
