@@ -518,10 +518,18 @@
   One uses the OMI product's $\omega_z$ and equation \ref{eqn:AMFintwSdz} in order to calculate an AMF.
   While the other uses code provided by Dr. Paul Palmer, with alterations by Dr. Randal Martin, and Dr. Luke Surl to run LIDORT on the satellite slant columns and the GEOS-Chem output in order to calculate an AMF.
   These two calculations are compared over Australia in figure(s) TODO: Map comparison, regression, and time series once AMFpp is working properly.
-  %TODO: point at figure showing columns with/without amf_pp
-  The effect of not recalculating the $\omega_z$ is can be seen in figure TODO which looks at the altered satellite vertical columns using each method.
+  The effect of not recalculating the $\omega_z$ is can be seen in figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which looks at the altered satellite vertical columns using each method.
+  This figure looks at March 2005 averaged into a 0.25x0.3125\degr resolution grid, with biomass burning filtered differently in each row.
+  Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
   %TODO: figure analysing amf vs amf_gc vs amf_pp
   Figure TODO shows an analysis of the differences between running the recalculation with and without updating the $\omega_z$.
+  
+  \mypic{Figures/OMI_link/VCC_fires_20050301-20050331.png}{% 
+    Column 1: Reference sector corrected HCHO vertical columns $\Omega$ from OMHCHOv003.
+    Column 2: $\Omega$ with recalculated apriori shape factors using GEOS-Chem v10.01.
+    Column 3: $\Omega$ with recalculated apriori shape factors and scattering weights using GEOS-Chem v10.01 and LIDORT.
+    Row 1-5: increasing number of prior days which have active fires are included when masking fire influence.
+    }{\label{Model:omiRecalc:fig_VCC_pp_fires}}
   
   The AMF calculated using Dr. Palmer's code uses a more strict series of filters, leading to fewer satellite based HCHO columns and reduced coverage over Australia.
   Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating $\omega_z$.
@@ -535,7 +543,7 @@
   Figure \ref{Model:Campaigns:fig_locations} shows the locations of each of the campaigns I mention in this text.
   These took place over disparate times, and are in-situ datapoints which may not nicely compare with GEOS-Chem output which is averaged over a large horizontal space.
   
-  \mypic{Figures/Campaigns/campaign_locations.png}{Locations of Australian campaigns which are analysed within this thesis}{\label{Model:Campaigns:fig_locations}}
+  \mypic{Figures/campaigns/campaign_locations.png}{Locations of Australian campaigns which are analysed within this thesis}{\label{Model:Campaigns:fig_locations}}
   
   TODO: these summaries.
 
@@ -566,7 +574,7 @@
     Superficially the comparison is not too bad between these two datasets, however GEOS-Chem output is daily averaged over 2x2.5\degr (latitude by longitude)
     The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high.
     
-    \mypic{Figures/GC_vs_Campaigns_20050131-20050601.png}{Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:Campaigns:SPS:fig_GC_comparison}}
+    \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:Campaigns:SPS:fig_GC_comparison}}
 
 \section{Analysing output}
 \label{Model:Analysis}
@@ -637,7 +645,26 @@
     This allows another method for detecting the influence of non-biogenic HCHO emission/creation by looking for outliers above the curve at low temperature.
     \cite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15*{T}-9.07)$.
     
-    In GEOS-Chem we can simply turn off pyrogenic emissions, however in satellite datasets we need to mask the fires using MODIS fire counts.
+    In GEOS-Chem we can simply turn off pyrogenic emissions, however in satellite datasets we need to mask pixels affected by biomass burning.
+    This can be done using the MODIS fire counts, detected from space using the combined product from Terra and Aqua (Terra at 10:30, 22:30 LT; Aqua at 13:30, 01:30 LT).
+    \cite{Marais2012} remove pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1 x 1\degr resolution.
+    \cite{Barkley2013} use fires from the preceding and concurrent day, within local or adjacent grid squares, with grid resolution of 0.25 x 0.3125\degr.
+    
+    Filtering active fires does not account for transported smoke plumes, which can carry HCHO precursors.
+    Smoke plumes can be filtered using the aerosol absorption optical depth (AAOD) seen by OMI (product OMAERUVd), although care needs to be taken when deciding the threshhold for smoke detection \citep{Marais2012}.
+    
+    % My method for fire filtering:
+    When analysing satellite OMHCHO vertical columns ($\Omega$), the following steps are performed in order to mask influence from biomass burning:
+    \begin{enumerate}
+      \item MOD14A1 daily gridded Aqua/Terra combined fire counts are read at 1x1~km$^2$ resolution, and binned into 0.25x0.3125\degr bins, matching the resolution of binned $\Omega$.
+      \item A rolling mask is formed which removes $\Omega$ if one or more fires are detected in a grid square, or in the adjacent grid square, up to 8 days previously.
+        This includes the 'current' day, making 9 days of fires in total being filtered out on each day.
+      % TODO AAOD filtering description
+      \item AAOD at 500~nm is mapped from OMAERUVd 1x1\degr resolution onto the 0.25x0.3125\degr resolution.
+      \item An AAOD threshold is determined using some technique (TODO).
+      \item Grid squares with AAOD over this threshhold (TODO) are additionally masked.
+    \end{enumerate}
+
     
     
   \subsection{Accounting for NOx}
