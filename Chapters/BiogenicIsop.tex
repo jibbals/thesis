@@ -36,12 +36,13 @@
     \item Download Aqua/Terra MODIS gridded fire counts (MOD14A1), and Aura HCHO columns (OMHCHO).
     \item Run GEOS-Chem with satellite overpass output averaged over 1200-1300~LT (matching Aura overpass time)
     \item Recalculate OMHCHO vertical columns using GEOS-Chem to recreate the shape factors for each slant column. Also done with code from Paul Palmers group which includes recalculation of the scattering weights.
-    \item Mask HCHO columns which occur on days with non-zero (MODIS) fire counts over the prior 8 days, as is done in \cite{Marais2012} (I do not yet mask smoke aaod to account for transported plumes!).
-    \item Filter gridsquares where OMI aaod is over some threshhold 
-    \item yield stuff
-    \item isoprene stuff
-    
-  \end{enumerate}
+    \item Mask HCHO columns which occur on days with non-zero (MODIS) fire counts over the prior 8 days, as is done in \cite{Marais2012}.
+    \item TODO: Filter gridsquares where OMI AAOD (OMAERUVd) is over some threshhold to be determined (ALSO TODO)
+    \item Biogenic Yield calculated in each 2x2.5\degr grid square using daily averaged HCHO from biogenic only run of GEOS-Chem, linearly corellated with MEGAN isoprene emissions within those squares
+    \item TODO: Biogenic yield masked when smearing term is above a threshhold (TODO: determine)
+    \item Yield (actually regression slope between hcho and emissions) multiplied against recalculated OMI HCHO to provide top down isop emissions estimate
+    \item compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane(?) measurements
+    \end{enumerate}
   
 %----------------------------------------------------------------------------------------
 % Section 1 -- INTRO 
@@ -64,20 +65,15 @@
   Emissions of monoterpenes (C$_10$H$_16$, two units of isoprene) may also be underestimated in southeastern Australia, which could lead to the unique scenario of neither type of emission dominating VOC chemistry over the forests \citep{Emmerson2016}.
   
   %% HERE IS DESCRIBED THE PATHWAY FROM ISOPRENE TO HCHO AND OTHER CHEMICALS
-  %TODO: less details about isoprene cascade? Image showing pathway and all the HCHO yields?
-  Isoprene is emitted and enters the atmosphere in the gas phase, where it reacts with various chemicals, forming many new chemicals and reactions at various time scales.
-  The primary first step for atmospheric isoprene is its oxidation by OH radicals leading to isoprene hydroxy peroxy radicals (ISOPOO) \citep{Wolfe2016,Marvin2017}.
-  The fate of ISOPOO depends upon concentrations of NO$_X$, reacting with NO to form HCHO, MVK, MACR, and to a lesser extent organic nitrates (ISOPN).
-  ISOPN can be oxidised (by OH) to form nitrated organic products \citep{Paulot2009a}.
-  In low NO$_X$ ISOPOO reacts with HO$_2$ (producing hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing hydroperoxyenals HPALDs). 
-  ISOPOOH can be oxidised (by OH) to produce epoxydiols (IEPOX), precursors to SOA \citep{Paulot2009b}. 
-  HPALDs can photolyse to regenrate OH and small VOCs \citep{Crounse2011, Wolfe2012, Peeters2014} TODO: Check out crounse2011.
-  
-  Formaldehyde is produced with high yields in many of the isoprene reactions, and is often used as a check on how well these reactions are simulated by comparison against in situ measurements \citep{Marvin2017}.
   In the remote troposphere HCHO production is dominated by methane oxidation, while in the continental boundary layer (CBL) production is largely due to NMVOCs (\cite{Abbot2003, Kefauver2014}).
   This suggests that HCHO enhancement over continents can be used to determine NMVOC emissions.
-  In the CBL, HCHO enhancement is generally driven by short lived ($<1$~hr) precursors (such as isoprene and other VOCs).
+  In the CBL, HCHO enhancement is generally driven by short lived ($<1$~hr) precursors (most importantly isoprene).
   HCHO itself has a lifetime of a few hours (\cite{Kefauver2014}).
+  Isoprene is emitted and enters the atmosphere in the gas phase, where it begins a complex series of reactions.
+  Formaldehyde is produced with high yields in many of the isoprene reactions, which are discussed in more detail in Section \ref{LR:VOCs:IsopCascade}.
+  HCHO measurements are often used as a check on how well isoprene reactions are simulated, as model output can then be compared against them \citep{Marvin2017}.
+  
+  
   
   % TODO: monoterpenes outline, here or elsewhere?
   Isoprene and monoterpene emissions are both very uncertain in Australia.
