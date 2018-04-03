@@ -10,24 +10,6 @@
 
 \chapter{Biogenic Isoprene emissions in Australia} % Chapter title
 \label{BioIsop}
-
-
-\section{Outline TODO Full outline}
-  \textbf{Currently this is an outline, TODO: Remove or put into aims.}
-  
-  % Method outlined here
-  %TODO Method outline to Jenny
-  \begin{enumerate}
-    \item Download Aqua/Terra MODIS gridded fire counts (MOD14A1), and Aura HCHO columns (OMHCHO).
-    \item Run GEOS-Chem with satellite overpass output averaged over 1200-1300~LT (matching Aura overpass time)
-    \item Recalculate OMHCHO vertical columns using GEOS-Chem to recreate the shape factors for each slant column. Also done with code from Paul Palmers group which includes recalculation of the scattering weights.
-    \item Mask HCHO columns which occur on days with non-zero (MODIS) fire counts over the prior 8 days, as is done in \cite{Marais2012}.
-    \item TODO: Filter gridsquares where OMI AAOD (OMAERUVd) is over some threshhold to be determined (ALSO TODO)
-    \item Biogenic Yield calculated in each 2x2.5\degr grid square using daily averaged HCHO from biogenic only run of GEOS-Chem, linearly corellated with MEGAN isoprene emissions within those squares
-    \item TODO: Biogenic yield masked when smearing term is above a threshhold (TODO: determine)
-    \item Yield (actually regression slope between hcho and emissions) multiplied against recalculated OMI HCHO to provide top down isop emissions estimate
-    \item compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane(?) measurements
-    \end{enumerate}
   
 %----------------------------------------------------------------------------------------
 % Section 1 -- INTRO 
@@ -118,128 +100,30 @@
     Section \ref{BioIsop:Methods} lays out how the isoprene emissions are estimated, and the results are examined in Section \ref{BioIsop:Results}
     
   
-\section{Data}
-  \label{BioIsop:Data}  
-  
-  \subsection{OMI NO2}
-    NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem. 
-    OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
-    See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations.
-  
-  \subsection{OMI HCHO}
-    
-    
-  \subsection{Drought Index}
-    The S Precipitation Evapotranspiration Index (SPEI) is a measure of drought using various parameters such as TODO. (\cite{Wang2017}).
-    SPEI will be compared against the difference between top-down estimated emissions and MEGAN bottom up estimated emissions. 
-    This is used to determine whether there are biases in the MEGAN calculations due to the GEOS-Chem implementation ignoring soil moisture.
-    It is downloaded from TODO and holds monthly averaged values at 0.5$^{\circ}$ horizontal resolution.
-    When comparing against the emissions estimates this is interpolated linearly onto the same grid as that of GEOS-Chem output at 2x2.5$^{\circ}$.
-  
-  \subsection{GEOS-Chem output}
-    There are various outputs available when running GEOS-Chem, which require understanding in order to compare with observations.
-    \begin{description}
-      \item[Satellite overpass] is output from averaging over a window of local time for each gridbox. 
-        This output allows comparison with satellite measurements, which overpass at the same local time every day.
-        The output is in bitpunch.
-      \item[HEMCO diagnostics] are the emissions TODO: averaged or instantaneous? in each gridbox, which I've stored for each 3 hours.
-        This output is netcdf.
-      \item[Tracer averages] are daily or monthly averaged gridbox concentrations.
-        This output is bitpunch.
-        
-    \end{description}
-  
-\section{Modelling}
-  \label{BioIsop:Model}
-  
-  \subsection{GEOS-Chem simulation}
-    \label{BioIsop:Model:GC}
-    The GEOS-Chem global atmospheric chemistry model (V10.01) simulates and records up to 66 chemical species (tracers) in the standard run, at 2 by 2.5$^{\circ}$ horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
-    GEOS-5 meteorological fields from NASA's ...(TODO: ref and note) are used to drive transport and coupled with the chemical module of GEOS-Chem.
-    MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation, with subsequent modifications based on top-down estimates made herein.
-    
-    Output for an area averaged over 1300 - 1400 local time is saved for comparison and recalculation with satellite overpass records.
-    These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals.
-    They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
-  
-  \subsection{CAABA/MECCA simulations}
-    \label{BioIsop:Model:CM}
-    % Description of CAABA/MECCA
-    % TODO: Description of CAABA/MECCA and how it's used.
-    
-    CAABA (Chemistry As A Boxmodel Application) estimates the chemical concentrations accounting for J-values (JVAL), simplified and parameterised photolysis (SAPPHO) and simplified emission and depositions (SEMIDEP).
-    
-    CAABA/MECCA has been implemented for various calculations including ozone chemistry throughout the atmosphere in \cite{Zanis2014}.
-    The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
   
 \section{Methods}
   \label{BioIsop:Methods}
   
+  % Method Briefly outlined here
+  Here is an overview of the steps involved in my Thesis, which take satellite data and model output to estimate isoprene emissions.
+  \begin{enumerate}
+    \item Download Aqua/Terra MODIS gridded fire counts (MOD14A1), smoke measurements (OMAERUVd), and Aura HCHO columns (OMHCHO).
+    \item Run GEOS-Chem with satellite overpass output averaged over 1200-1300~LT (matching Aura overpass time)
+    \item Recalculate OMHCHO vertical columns using GEOS-Chem to recreate the shape factors for each slant column. Also done with code from Paul Palmers group which includes recalculation of the scattering weights.
+    \item 
+      Mask HCHO columns which occur on days with non-zero (MODIS) fire counts over the prior 8 days, as is done in \cite{Marais2012}.
+      More detail on this step can be found in \ref{Model:Filter:fire}
+    \item TODO: Filter gridsquares where OMI AAOD (OMAERUVd) is over some threshhold to be determined (ALSO TODO)
+    \item TODO: Filter NOx influenced grid squares.
+    \item Biogenic Yield calculated in each 2x2.5\degr grid square using daily averaged HCHO from biogenic only run of GEOS-Chem, linearly corellated with MEGAN isoprene emissions within those squares
+    \item TODO: Biogenic yield masked when smearing term is above a threshhold (TODO: determine)
+    \item Yield (actually regression slope between hcho and emissions) multiplied against recalculated OMI HCHO to provide top down isop emissions estimate
+    \item compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane(?) measurements
+  \end{enumerate}
   
-  \subsection{CAABA/MECCA Box model: isoprene source classifications}
-    \label{BioIsop:Methods:CM}
-    
-    %% HOW WE WILL USE CAABA/MECCA
-    Using CAABA/MECCA to examine isoprene to HCHO yield in specific scenarios allows us to determine what environment may be driving the yield calculated by GEOS-Chem.
-    Initially we have three scenarios, grassland, desert, and forest Australia - with each scenario having initial conditions, emission and deposition set as in table TODO:\ref{}.
-    Running each scenario with and without a small isoprene injection allows calculation of isoprene lifetimes and HCHO yield for those scenarios.
-    
-    CAABA runs in a single scenario (or box) with given emissions, depositions, and initial concentrations, allowing the examination of chemistry in a very specific environment to be modelled with high temporal resolution.
-    This has been used with an atmospheric chemistry model MECCA (Module Efficiently Calculating the Chemistry of the Atmosphere) which implements tropospheric and stratospheric chemistry for both the gas and the aqueous phases \citep{Sander2005}.
-    For our purposes it's worth noting that MECCAs chemical mechanism includes basic O$_3$, CH$_4$, NO$_X$, and HO$_X$ chemistry, as well as non methane hydrocarbon (NMHC) chemistry, considering gas phase, aqueus phase, and heterogenous reactions. \citep{Sander2005}
-    For the numerical integration, MECCA uses the KPP software \citep{SanduSander2006}, which takes chemical reactions and their rate coefficients and forms efficient code for integral solutions to the system.
-    The combination of the CAABA box model with MECCA module is called CAABA/MECCA and is currently at version 3.
-    
-    
-    %TODO: Description of how scenario yields can be calculated.
-    We perscribe parameters values approximating three seperate (and relatively broad) scenarios: forest, urban, and scrubland.
-    These parameters are shown in Table \ref{BioIsop:table:CAABAMECCA_Scenarios}!
-    The initial concentrations, the influx, (TODO: check this) and the deposition rates of various chemical species or families is perscribed.
-    Chemical creation, destruction and deposition rates are determined every X minutes.
-    This is done by altering a scenarios file which does not change over the lifetime (TODO: 40 days?) of the model runs.
-    For each scenario, two nearly identical model runs are performed, one with an injection of isoprene occuring on (TODO: when/howmuch is this injection).
-    The concentrations of isoprene and HCHO for our three scenarios, with and without the isoprene injection, is plotted over time in figure TODO: CAABA/MECCA scenario figures.
-    The yield of HCHO from isoprene is then calculated by looking at the difference between each parallel run to determine how much of the injected isoprene transformed into HCHO.
-    Isoprene life time can also be calculated using this process, as the time it takes for the extra isoprene to reach $1/e$ of it's initial value.
-    
-    %% CALCULATION OF YIELD
-    TODO: Calculations for this (from Luke, double check these and enter them here).
-    Calculation of the yield follows a calculation of the theoretical maximum carbon production by the amount of injected isoprene:
-    \begin{equation}
-    Y_{100} =10^9 \times \frac{C_{PM} E_{inj} D_{inj}}{(N_A H_{PBL})}
-    \end{equation}
-    Where Y$_{100}$ is the maximum possible carbon yield of isoprene (ppb), $C_{PM}$ is Carbon per molecule (isoprene=5), $E_{inj}$ is the emission rate of injected isoprene (molec cm$^{-2}$ s$^{-1}$), $D_{inj}$ is the duration of injection (s), H$_{PBL}$ is the boundary layer height (cm), and $N_A$ is the Air number density (molec cm$^{-3} \approx 2.5e19$).
-    Finding the accumulated increase in HCHO (ppb) from the difference between the perturbed and non perturbed model runs allows calculation of the accumulated extra HCHO (Example: Figure TODO:), which divided by the $Y_{100}$ gives us the isoprene to HCHO atom C yield:
-    \begin{equation}
-    Y_{HCHO}= \frac{\Delta HCHO_{\text{Accumulated}}}{Y_{100}}
-    \end{equation}
-    with $HCHO_{\text{Accumulated}}$ being the accumulated enhanced ppb mixing ratio of HCHO.
-    
-    Figure TODO: shows the accumulated yield for all three scenarios, which each increase towards a limiting value.
-    
-    \begin{table}[t]
-      \caption{Parameters for each scenario used in CAABA/MECCA model runs. TODO: fill these values in}
-      %    Parameter | S1, S2, S3
-      \begin{tabular}{ c |  c   c   c  } 
-        \hline
-        Parameter(units) 		 & Forest & Scrublands & Urban\\
-        \hline
-        Initial concentrations & & & \\
-        NO$_X$(molec cm$^{-3}$)		 & low  & low  & high \\
-        O$_3$(molec cm$^{-3}$)  & mid & mid & low \\
-        HO$_X$(molec cm$^{-3}$) & & & \\
-        \hline 
-        Influx & & & \\
-        NO$_X$(molec cm$^{-3}$ s$^{-1}$)		 & low  & low  & high \\
-        O$_3$(molec cm$^{-3}$ s$^{-1}$)  & mid & mid & low \\
-        HO$_X$(molec cm$^{-3}$ s$^{-1}$) & & & \\
-        \hline
-        Deposition rates? & & & \\
-        \hline
-      \end{tabular}
-      \label{BioIsop:table:CAABAMECCA_Scenarios}
-    \end{table}
-    
+  %TODO Full method outline to Jenny
+  \subsection{}
+  
   \subsection{Satellite inversion}
   \label{BioIsop:SatInv}
   

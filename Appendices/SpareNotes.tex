@@ -92,8 +92,11 @@
   \section{CAABA/MECCA}
     \label{Model:CM}
     
+    
     CAABA (Chemistry As A Boxmodel Application) estimates the chemical concentrations accounting for J-values (JVAL), simplified and parameterised photolysis (SAPPHO) and simplified emission and depositions (SEMIDEP).
     CAABA runs in a single scenario (or box) with given emissions, depositions, and initial concentrations, allowing the examination of chemistry in a very specific environment to be modelled with high temporal resolution.
+    CAABA/MECCA has been implemented for various calculations including ozone chemistry throughout the atmosphere in \cite{Zanis2014}.
+    The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
     
     This has been used with an atmospheric chemistry model MECCA (Module Efficiently Calculating the Chemistry of the Atmosphere) which implements tropospheric and stratospheric chemistry for both the gas and the aqueous phases \citep{Sander2005}.
     MECCA chemical mechanisms include basic O$_3$, CH$_4$, NO$_X$, and HO$_X$ chemistry, as well as non methane hydrocarbon (NMHC) chemistry, considering gas phase, aqueus phase, and heterogenous reactions. \citep{Sander2005}
@@ -104,3 +107,68 @@
     MECCA could also be used as the chemistry mechanism for a more complex, 3-dimensional model (\cite[e.g.][]{Jockel2006}).
     The connection is established via the MESSy interface (\url{http://www.messy-interface.org}) developed by \cite{Jockel2005} as part of an effort to simplify the framework for modelling the atmospheres at various scales.
     The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
+    
+  % Method for using caaba/mecca
+  \subsection{CAABA/MECCA Box model: isoprene source classifications}
+    \label{BioIsop:Methods:CM}
+    
+    %% HOW WE WILL USE CAABA/MECCA
+    Using CAABA/MECCA to examine isoprene to HCHO yield in specific scenarios allows us to determine what environment may be driving the yield calculated by GEOS-Chem.
+    Initially we have three scenarios, grassland, desert, and forest Australia - with each scenario having initial conditions, emission and deposition set as in table TODO:\ref{}.
+    Running each scenario with and without a small isoprene injection allows calculation of isoprene lifetimes and HCHO yield for those scenarios.
+    
+    CAABA runs in a single scenario (or box) with given emissions, depositions, and initial concentrations, allowing the examination of chemistry in a very specific environment to be modelled with high temporal resolution.
+    This has been used with an atmospheric chemistry model MECCA (Module Efficiently Calculating the Chemistry of the Atmosphere) which implements tropospheric and stratospheric chemistry for both the gas and the aqueous phases \citep{Sander2005}.
+    For our purposes it's worth noting that MECCAs chemical mechanism includes basic O$_3$, CH$_4$, NO$_X$, and HO$_X$ chemistry, as well as non methane hydrocarbon (NMHC) chemistry, considering gas phase, aqueus phase, and heterogenous reactions. \citep{Sander2005}
+    For the numerical integration, MECCA uses the KPP software \citep{SanduSander2006}, which takes chemical reactions and their rate coefficients and forms efficient code for integral solutions to the system.
+    The combination of the CAABA box model with MECCA module is called CAABA/MECCA and is currently at version 3.
+    
+    
+    %TODO: Description of how scenario yields can be calculated.
+    We perscribe parameters values approximating three seperate (and relatively broad) scenarios: forest, urban, and scrubland.
+    These parameters are shown in Table \ref{BioIsop:table:CAABAMECCA_Scenarios}!
+    The initial concentrations, the influx, (TODO: check this) and the deposition rates of various chemical species or families is perscribed.
+    Chemical creation, destruction and deposition rates are determined every X minutes.
+    This is done by altering a scenarios file which does not change over the lifetime (TODO: 40 days?) of the model runs.
+    For each scenario, two nearly identical model runs are performed, one with an injection of isoprene occuring on (TODO: when/howmuch is this injection).
+    The concentrations of isoprene and HCHO for our three scenarios, with and without the isoprene injection, is plotted over time in figure TODO: CAABA/MECCA scenario figures.
+    The yield of HCHO from isoprene is then calculated by looking at the difference between each parallel run to determine how much of the injected isoprene transformed into HCHO.
+    Isoprene life time can also be calculated using this process, as the time it takes for the extra isoprene to reach $1/e$ of it's initial value.
+    
+    %% CALCULATION OF YIELD
+    TODO: Calculations for this (from Luke, double check these and enter them here).
+    Calculation of the yield follows a calculation of the theoretical maximum carbon production by the amount of injected isoprene:
+    \begin{equation}
+    Y_{100} =10^9 \times \frac{C_{PM} E_{inj} D_{inj}}{(N_A H_{PBL})}
+    \end{equation}
+    Where Y$_{100}$ is the maximum possible carbon yield of isoprene (ppb), $C_{PM}$ is Carbon per molecule (isoprene=5), $E_{inj}$ is the emission rate of injected isoprene (molec cm$^{-2}$ s$^{-1}$), $D_{inj}$ is the duration of injection (s), H$_{PBL}$ is the boundary layer height (cm), and $N_A$ is the Air number density (molec cm$^{-3} \approx 2.5e19$).
+    Finding the accumulated increase in HCHO (ppb) from the difference between the perturbed and non perturbed model runs allows calculation of the accumulated extra HCHO (Example: Figure TODO:), which divided by the $Y_{100}$ gives us the isoprene to HCHO atom C yield:
+    \begin{equation}
+    Y_{HCHO}= \frac{\Delta HCHO_{\text{Accumulated}}}{Y_{100}}
+    \end{equation}
+    with $HCHO_{\text{Accumulated}}$ being the accumulated enhanced ppb mixing ratio of HCHO.
+    
+    Figure TODO: shows the accumulated yield for all three scenarios, which each increase towards a limiting value.
+    
+    \begin{table}[t]
+      \caption{Parameters for each scenario used in CAABA/MECCA model runs. TODO: fill these values in}
+      %    Parameter | S1, S2, S3
+      \begin{tabular}{ c |  c   c   c  } 
+        \hline
+        Parameter(units) 		 & Forest & Scrublands & Urban\\
+        \hline
+        Initial concentrations & & & \\
+        NO$_X$(molec cm$^{-3}$)		 & low  & low  & high \\
+        O$_3$(molec cm$^{-3}$)  & mid & mid & low \\
+        HO$_X$(molec cm$^{-3}$) & & & \\
+        \hline 
+        Influx & & & \\
+        NO$_X$(molec cm$^{-3}$ s$^{-1}$)		 & low  & low  & high \\
+        O$_3$(molec cm$^{-3}$ s$^{-1}$)  & mid & mid & low \\
+        HO$_X$(molec cm$^{-3}$ s$^{-1}$) & & & \\
+        \hline
+        Deposition rates? & & & \\
+        \hline
+      \end{tabular}
+      \label{BioIsop:table:CAABAMECCA_Scenarios}
+    \end{table}
