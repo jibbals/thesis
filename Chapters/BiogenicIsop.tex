@@ -104,22 +104,34 @@
 \section{Methods}
   \label{BioIsop:Methods}
   
-  % Method Briefly outlined here
-  Here is an overview of the steps involved in my Thesis, which take satellite data and model output to estimate isoprene emissions.
-  \begin{enumerate}
-    \item Download Aqua/Terra MODIS gridded fire counts (MOD14A1), smoke measurements (OMAERUVd), and Aura HCHO columns (OMHCHO).
-    \item Run GEOS-Chem with satellite overpass output averaged over 1200-1300~LT (matching Aura overpass time)
-    \item Recalculate OMHCHO vertical columns using GEOS-Chem to recreate the shape factors for each slant column. Also done with code from Paul Palmers group which includes recalculation of the scattering weights.
-    \item 
-      Mask HCHO columns which occur on days with non-zero (MODIS) fire counts over the prior 8 days, as is done in \cite{Marais2012}.
-      More detail on this step can be found in \ref{Model:Filter:fire}
-    \item TODO: Filter gridsquares where OMI AAOD (OMAERUVd) is over some threshhold to be determined (ALSO TODO)
-    \item TODO: Filter NOx influenced grid squares.
-    \item Biogenic Yield calculated in each 2x2.5\degr grid square using daily averaged HCHO from biogenic only run of GEOS-Chem, linearly corellated with MEGAN isoprene emissions within those squares
-    \item TODO: Biogenic yield masked when smearing term is above a threshhold (TODO: determine)
-    \item Yield (actually regression slope between hcho and emissions) multiplied against recalculated OMI HCHO to provide top down isop emissions estimate
-    \item compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane(?) measurements
-  \end{enumerate}
+  \subsection{Outline}
+    % Method Briefly outlined here
+    Here is an overview of the steps involved in my Thesis, which take satellite data and model output to estimate isoprene emissions.
+    \begin{enumerate}
+      \item 
+        Download Aqua/Terra MODIS gridded fire counts (MOD14A1), smoke measurements (OMAERUVd), and Aura HCHO columns (OMHCHO).
+        These products are discussed in more detail in Section \ref{Model:Datasets}.
+      \item 
+        Run GEOS-Chem with satellite overpass output averaged over 1200-1300~LT (matching Aura overpass time).
+      \item 
+        Recalculate OMHCHO vertical columns using GEOS-Chem to recreate the shape factors for each slant column. Also done with code from Paul Palmers group which includes recalculation of the scattering weights.
+        The method to read the satellite data is given in Section \ref{Model:Datasets:OMHCHO}, while reprocessing the column AMFs is detailed in Section \ref{Model:omiRecalc}.
+      \item 
+        Mask HCHO columns which occur on days with non-zero (MODIS) fire counts over the prior 8 days, as is done in \cite{Marais2012}.
+        More detail on this step can be found in \ref{Model:Filter:fire}
+      \item 
+        TODO: Filter gridsquares where OMI AAOD (OMAERUVd) is over some threshhold to be determined (ALSO TODO)
+      \item 
+        TODO: Filter NOx influenced grid squares.
+      \item 
+        Biogenic Yield calculated in each 2x2.5\degr grid square using daily averaged HCHO from biogenic only run of GEOS-Chem, linearly corellated with MEGAN isoprene emissions within those squares
+      \item 
+        TODO: Biogenic yield masked when smearing term is above a threshhold (TODO: determine)
+      \item 
+        Yield (actually regression slope between hcho and emissions) multiplied against recalculated OMI HCHO to provide top down isop emissions estimate
+      \item 
+        Compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane(?) measurements
+    \end{enumerate}
   
   %TODO Full method outline to Jenny
   \subsection{}
@@ -172,9 +184,6 @@
     Horizontal transport 'smears' the HCHO signal so that source location would need to be calculated using windspeeds and loss rates (\cite{Palmer2001,Palmer2003}).
     Smearing is explicitly handled in these studies due to the importance of transport and NO$_X$ on forming robust and accurate estimates.
     Over Australia NO$_X$ levels are generally not high enough to ensure quick HCHO formation and we must take extra care that we can account for the transport or 'smearing' caused by slower HCHO formation, details on this process can be found in Section \ref{BioIsop:Methods:Smearing}.
-    
-    
-    
     
     More recently, full inversions that better account for transport, source attribution, and chemical schemes have been implemented (\cite{FortemsCheiney2012}).
     TODO: full description of this better inversion technique going through FortemsCheiney2012.
@@ -449,6 +458,11 @@
     
     When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease over TODO: locations and seasons.
     TODO: table or figure showing summary of isoprene emissions changes over the whole of our time domain.
+    
+    Satellite measured HCHO has been found to be biased low in several studies \cite[eg.][]{Zhu2016,DeSmedt2015,Barkley2013}.
+    These papers use in-situ data to scale up the satellite HCHO columns for their areas of interest, however Australia lacks sufficient HCHO measurements to do this.
+    In these papers bias is seen as high as 40\%, which we use as our upper bound.
+    Scaling up the satellite columns by 40\% gives us an upper bound on the uncertainty due to satellite bias.
     The 'Scaled Satellite' column refers to the calculations when using the 40\% scaled up OMI HCHO columns. %TODO: make table, add that column
     This can be considered as a boundary on satellite based HCHO column uncertainty.
     
