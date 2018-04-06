@@ -639,20 +639,26 @@
 \section{Filtering Data}
   \label{Model:Filter}
   
+  
   \subsection{Fires}
     \label{Model:Filter:fire}
+    
+    As biomass burning can be a large local or transported source of HCHO, CHOCHO, glyoxal, and other compounds we would like to use to determine BVOC emissions, it is advantageous to filter out this source.
+    Just filtering active fires does not account for transported smoke plumes, which can carry HCHO precursors.
+    One complication when computing HCHO yield from VOC emissions is biomass burning interference, as smoke plumes can contribute to column HCHO.
+    Influence from biomass burning can be removed through measurements of acetonitrile and CO (eg: \citep{Wolfe2016, Miller2017}, or else removal of scenes coincident with satellite detected fire counts and aerosol absorption optical depth as done in \cite{Marais2014}.
+    \citet{Wolfe2016} disregard HCHO measurements when acetonitrile > 210~pptv and CO > 300~ppbv, while acetonitrile > 200~pptv is used to determine fire influence in \cite{Miller2017}.
     TODO: look at yearly corellation, compare to exponential curve and look for fire outliers
     As seen in TODO: citation, HCHO concentrations scale exponentially with temperature.
     This allows another method for detecting the influence of non-biogenic HCHO emission/creation by looking for outliers above the curve at low temperature.
     \cite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15*{T}-9.07)$.
     
     In GEOS-Chem we can simply turn off pyrogenic emissions, however in satellite datasets we need to mask pixels affected by biomass burning.
-    This can be done using the MODIS fire counts, detected from space using the combined product from Terra and Aqua (Terra at 10:30, 22:30 LT; Aqua at 13:30, 01:30 LT).
+    The method used in this thesis follows that of \cite{Marais2012}, and \cite{Barkley2013}, with active fires filtered using fire counts, and smoke filtered out using smoke aerosol absorption optical depth (AAOD).
     \cite{Marais2012} remove pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1 x 1\degr resolution.
     \cite{Barkley2013} use fires from the preceding and concurrent day, within local or adjacent grid squares, with grid resolution of 0.25 x 0.3125\degr.
-    
-    Filtering active fires does not account for transported smoke plumes, which can carry HCHO precursors.
-    Smoke plumes can be filtered using the aerosol absorption optical depth (AAOD) seen by OMI (product OMAERUVd), although care needs to be taken when deciding the threshhold for smoke detection \citep{Marais2012}.
+    We use the MODIS fire counts, detected from space using the combined product from Terra and Aqua (Terra at 10:30, 22:30 LT; Aqua at 13:30, 01:30 LT).
+    Smoke plumes can be filtered using product OMAERUVd, although care needs to be taken when deciding the threshhold for smoke detection \citep{Marais2012}.
     
     % My method for fire filtering:
     When analysing satellite OMHCHO vertical columns ($\Omega$), the following steps are performed in order to mask influence from biomass burning:
