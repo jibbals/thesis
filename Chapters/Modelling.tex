@@ -12,7 +12,7 @@
   They show how models can be used to improve measurements, estimate concentrations in regions not sampled, and allow analysis of other processes which involve ozone (such as radiation).
 
 
-\section{Data}
+\section{Datasets}
 \label{Model:Datasets}
 
   %TODO: Combine these sections
@@ -60,26 +60,69 @@
     
     \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:Datasets:SPS:fig_GC_comparison}}
   
-  
-  \subsection{OMI NO2}
-    NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem. 
-    OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
-    See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations.
-  
-  \subsection{OMI HCHO}
-    \label{Model:Datasets:OMHCHO}
-    TODO Description of OMI dataset.
+  \subsection{Aura}
+    \label{Model:Datasets:Aura}
     
-    When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
-    The process is outlined in figure  \ref{Model:Datasets:OMHCHO:fig_read_omhcho} for a single day.
-    First all the pixels for are read, filtered by the QA flag, solar zenith angle (SZA) and latitude (\cite{Palmer2001}).
-    Next a subset covering Australia and most of the zonal band has its AMF recalculated with by fortran code written by Paul Palmer, Randal Martin, and Luke Surl (AMF$_{PP}$).
-    Then a reference sector correction (RSC) is made (following \cite{Abad2016}), and a new AMF using a recalculated shape factor is calculated (AMF$_{GC}$).
-    Finally the pixels are binned into a dataset I've called OMHCHORP. 
+    One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets, often called products.
+    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
+    OMI measurements are used to map several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
+    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \citep{Abad2015}.
+    The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
     
-    \mypic{Figures/Flow_Reading_OMHCHO.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:Datasets:OMHCHO:fig_read_omhcho}}
+    Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
+    From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
+    OMI spectra are used in several products used in this thesis, including OMNO2d, OMHCHO, and OMAERUVd.
     
-    Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}.
+    \subsubsection{OMNO2}
+      \label{Model:Datasets:Aura:omno2d}
+      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem. 
+      OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
+      See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations.
+    
+    \subsubsection{OMI HCHO}
+      \label{Model:Datasets:OMHCHO}
+      
+      % How omhcho is produced
+      Atmospheric HCHO can be measured using Differential Optical Absorption Spectroscopy (DOAS), as long as trace gases with similar features near the same wavelength are accounted for.
+      A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
+      This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
+      In version 3.0 of the OMI satellite data retrievals, HCHO is determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
+      The algorithm used is based on direct fitting of radiances and irradiances.
+      An OMI radiance measurement over the remote Pacific ocean is used instead of an irradiance measurement.
+      This means that the slant columns ($\Omega_S$) are actually the difference with respect to the radiance reference column ($\Omega_{S_0}$).
+      The full method details for slant column retrieval by OMI are outlined in section \ref{SuppNotes:Satellite:OMI_BOAS}.
+      
+      % Filters applied when reading
+      When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
+      The process is outlined in figure  \ref{Model:Datasets:OMHCHO:fig_read_omhcho} for a single day.
+      First all the pixels for are read, filtered by the QA flag, solar zenith angle (SZA) and latitude (\cite{Palmer2001}).
+      Next a subset covering Australia and most of the zonal band has its AMF recalculated with by fortran code written by Paul Palmer, Randal Martin, and Luke Surl (AMF$_{PP}$).
+      Then a reference sector correction (RSC) is made (following \cite{Abad2016}), and a new AMF using a recalculated shape factor is calculated (AMF$_{GC}$).
+      Finally the pixels are binned into a dataset I've called OMHCHORP. 
+      
+      \mypic{Figures/Flow_Reading_OMHCHO.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:Datasets:OMHCHO:fig_read_omhcho}}
+      
+      Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}.
+    
+    \subsubsection{OMAERUVd}
+      
+      % Optical depth description
+      Optical Depth, also called optical thickness, is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material.
+      In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
+      The difference between solar radiation at the top of the atmosphere and the Earth's surface defines the atmospheric optical depth along the path of observation.
+      \begin{equation*}
+        \tau = \ln{\frac{\phi_e^i}{\phi_e^t}}
+      \end{equation*}
+      where $\phi_e^i$ is radiant flux seen at the earth surface, $\phi_e^t$ is the solar radiant flux which arrives at the top of the atmosphere.
+      In the atmosphere, optical depth can be due to several factors including scattering, chemical absorbance, and aerosols.
+      
+      %TODO: OMAERUVd brief description
+      
+      % How I read the AAOD
+      Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to higher resolution using the nearest value for each gridsquare, before being saved along with the MOD14A1d fire product as seen in Figure \ref{Model:Datasets:OMHCHO:fig_read_omhcho}.
+      I use the AAOD at 500~nm wavelength, which should be sufficiently blocked by fire smoke plumes.
+      This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with higher than TODO AAOD values.
+      
   
   \subsection{Drought Index}
     The S Precipitation Evapotranspiration Index (SPEI) is a measure of drought using various parameters such as TODO. (\cite{Wang2017}).
@@ -440,8 +483,11 @@
     From $ \tau_i = \int \rho_i \beta_i ds $ we get:
     $$ I = I_0 \exp {\left( \Sigma_i \int \rho_i \beta_i ds \right) } $$
     Where i represents a chemical species index, $\rho$ is a species density(molecules per cm$^3$), $\beta$ is the scattering and absorption cross section area (cm$^2$), and the integral over ds represents integration over the path from light source to instrument.
-    
-    Generally satellites use a DOAS based technique, with chemical transport and radiative transfer models used to transform the non-vertical light path interference into vertical column amounts.
+    $\tau$ can be described using the attenuation cross section (the attenuation coefficient divided by its number density), with the following relation:
+    \begin{equation*}
+      \tau = \int_0^l \alpha(z)\eta(z)\mathrm{d}z
+    \end{equation*}
+    where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively, and l represents the length of the medium (in this case the path through which the light travels). 
     
     Multiple axis DOAS (MAX-DOAS) is a remote sensing technique which uses several DOAS measurements over different viewing paths.
     In these retrievals, the measurements of light absorption are performed over several elevations in order to add some vertical resolution to the measurement of trace gas concentrations.
@@ -458,6 +504,7 @@
     
   \subsection{Satellites}
   \label{Model:Meas:sat}
+    Generally satellites use a DOAS based technique, with chemical transport and radiative transfer models used to transform the non-vertical light path interference into vertical column amounts.
     Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT in order to determine a trace gas's radiative properties at various altitudes.
     The forward RTM used for satellite data products also involves functions representing extinction from Mie and Rayleigh scattering, and the efficiency of these on intensities from the trace gas under inspection, as well as accounting for various atmospheric parameters which may or may not be estimated (e.g. albedo).
     
@@ -470,6 +517,13 @@
     An AOD of under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
     This is important in order to determine where measurements from other instruments may be compromised by high interference.
     Satellite measured AOD requires validation by more accurate ground based instruments like those of AERONET which uses more than 200 sun photometers scattered globally.
+    
+    Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium. 
+    Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the light.
+    Mie scattering is more dominant from larger particles, and has less wavelength dependence.
+    These scattering functions are described in detail at (TODO:section? reference?).
+    The effects of scattering are what gives us the information about substances in the atmosphere.
+    The different particles and gases in the air have various properties which affect remote sensing devices such as a satellite, making them more or less sensitive at certain altitudes for detecting various species \citep[e.g.]{Martin2002}.
     
     Soon even more HCHO data will be available in the form of geostationary satellite measurements (\cite{Kwon2017}).
     \cite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.

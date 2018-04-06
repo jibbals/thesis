@@ -11,25 +11,7 @@
 \section{Satellite HCHO measurements}
 \label{ch_HCHO:sec:satelliteHCHO}
   \subsection{Satellite Retrievals}
-    Satellites remotely sense atmospheric trace gases through irradiance measurements of solar light which has reflected off the earth's surface. 
-    These irradiances are affected by gases which exist along the reflected path of light between the detector, earth, and sun. 
-    The irradiance is then used to estimate how much of a particular gas exists along this path, which gives us an estimate which is called a slant column (SC).
-    The retrieved SC of a particular gas (or species) can be transformed into a vertical column (VC) by scaling the path length in conjunction with accounting for the trace gas' light scattering properties.
-    The scaling coefficient created to transform from SC to VC is called the Air Mass Factor (AMF).
-
-    One satellite is NASA's Earth Observing System's (EOS) Aura, which houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
-    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
-    OMI measurements are used to map several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
-    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \citep{Abad2015}.
-    The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
-    From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
     
-    Atmospheric HCHO can be measured using Differential Optical Absorption Spectroscopy (DOAS), as long as trace gases with similar features near the same wavelength are accounted for.
-    OMI fits HCHO slant column densities (SCD) along a solar backscatter path within the spectral window of 327.5-356.5~nm \citep{Chance2000}.
-    TODO: Go through Lee2005 or Volkamer2005 and detail the DOAS Retrieval of HCHO.
-    A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
-    This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
-    The full method details for slant column retrieval by OMI are outlined in section \ref{ch_HCHO:sec:OMI_BOAS}.
     
     Uncertainty in a single pixel for OMI is quite high, roughly the same magnitude as HCHO background levels.
     Figure \ref{ch_HCHO:fig:eightDayUncertainty} shows uncertainty over Australia after one and eight days of averaging at 0.25$^{\circ}$ longitude by 0.3125${\circ}$ latitude.
@@ -48,81 +30,6 @@
       }
       \label{ch_HCHO:fig:eightDayUncertainty}
     \end{figure}
-    
-  \subsection{OMI Algorithm BOAS}
-    \label{ch_HCHO:sec:OMI_BOAS}
-    The following information comes from the OMHCHO dataset documentation at \citet{Kurosu2014} and \citet{Chance2002}.
-    The method of HCHO total column retrieval depends heavily on measured solar radiation.
-    Radiance is directional radiant flux, expressed in Watts per square metre per steradian (a unit of angle used in three dimensional geometry).
-    Irradiance is radiant flux received by a surface, expressed in watts per square metre.
-    An OMI granule is the sunlit portion of an orbit (one day).
-    
-    The BOAS algorithm used by OMI is as follows.
-    Slant column abundance can be determined by fitting measured radiance (I) at particular wavelengths ($\lambda$), using modelled absorption cross sections ($\sigma$), effective albedo (A) including Rayleigh scattering, a correction for the Ring effect (c$_R\sigma_R$), and a closing polynomial (coefficents c$_0$-c$_3$).
-    \begin{equation}
-      \label{ch_HCHO:eqn:BOAS_HCHO}
-      I(\lambda)  = A I_0 \exp {\left( - \Sigma_i S_i \sigma_i \right) } + c_R\sigma_R + c_0 + c_1(\sigma-\bar{\sigma}) + c_2(\sigma - \bar{\sigma})^2 + c_3(\sigma - \bar{\sigma})^3 
-    \end{equation}
-    
-    For HCHO, absorption cross sections and number densities for interfering gases are determined beforehand.
-    This is due to HCHO being so optically thin and interferences must be accounted for precisely \citep{Chance2002}.
-    
-    In version 3.0 of the OMI satellite data retrievals, HCHO is determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
-    The algorithm used is based on direct fitting of radiances and irradiances.
-    An OMI radiance measurement over the remote Pacific ocean is used instead of an irradiance measurement.
-    This means that the slant columns ($\Omega_S$) are actually the difference with respect to the radiance reference column ($\Omega_{S_0}$).
-    
-    The model that is fitted to the measurements is made up of the radiance reference attenuated by HCHO contributions, inelastic (rotational Raman) scattering, and interferences from ozone, NO$_2$, BrO, and the O$_2$-O$_2$ collision complex.
-    It includes additive and multiplicative closure polynomials and parameters for spectral shift and squeeze, and an undersampling correction and ``common mode'' spectrum.
-    The spectral fitting results in HCHO slant columns, which are converted to vertical columns through a look-up table of AMFs (see section \ref{ch_HCHO:sec:satelliteHCHO:AMFs})
-    Undersampling is a problem caused by the wavelength resolution of the instrument.
-    Nyquist theorem requires that the sampling rate be at least twice the highest frequency of the signal in order to uniquely reconstruct it, otherwise the signal is undersampled (contains errors).
-    
-    There are three main stages in the algorithm:
-    \begin{enumerate}
-     \item Radiance wavelength calibration, finding the optimum wavelength registration for a representative swath of radiance measurements, and determination of a common wavelength grid for auxiliary data (molectular reference cross sections, etc.).
-     \item On-line common mode spectrum calculation from residual fits of the central portion of the orbit. 
-     This accounts for systematic features not considered in the semi-empirical model.
-     \item Nonlinear least-squres fitting of all swath lines in the OMI granule. 
-     Fitting is performed individually for the 60 cross-track pixels in each swath line.
-    \end{enumerate}
-    
-    Cross-track striping is systematically higher or lower column values along a whole track.
-    Several methods are used to reduce cross-track striping of the HCHO columns.
-    These include soft calibration, which is the use of a daily radiance reference, and outlier screening in the fitting residuals.
-    
-  \subsection{Optical Depth (\texorpdfstring{$\tau$)}{t}}
-    \label{ch_HCHO:sec:satelliteHCHO:OpticalDepth}
-    
-    Optical Depth, also called optical thickness, is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material.
-    In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
-    The difference between solar radiation at the top of the atmosphere and the Earth's surface defines the atmospheric optical depth along the path of observation.
-    \begin{equation*}
-      \tau = \ln{\frac{\phi_e^i}{\phi_e^t}}
-    \end{equation*}
-    where $\phi_e^i$ is radiant flux seen at the earth surface, $\phi_e^t$ is the solar radiant flux which arrives at the top of the atmosphere.
-    In the atmosphere, optical depth can be due to several factors including scattering, chemical absorbance, and aerosols.
-  
-  \subsection{Scattering}
-    \label{ch_HCHO:sec:satelliteHCHO:scattering}
-    Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium. 
-    Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the light.
-    Mie scattering is more dominant from larger particles, and has less wavelength dependence. These scattering functions are described in detail at (TODO:section? reference?).
-    
-    The effects of scattering are what gives us the information about substances in the atmosphere.
-    The different particals and gases in the air have various properties which affect remote sensing devices such as a satellite, making them more or less sensitive at certain altitudes for detecting various species \citep[e.g.]{Martin2002}.
-    
-    
-  \subsection{Absorption cross section and number density}
-    \label{ch_HCHO:sec:satelliteHCHO:crosssection}
-    TODO: Fill in this section, describe cross sections.
-    
-    
-    $\tau$ can be described using the attenuation cross section (the attenuation coefficient divided by its number density), with the following relation:
-    \begin{equation*}
-      \tau = \int_0^l \alpha(z)\eta(z)\mathrm{d}z
-    \end{equation*}
-    where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively, and l represents the length of the path the light is travelling through. 
   
   
   \subsection{Air Mass Factors}

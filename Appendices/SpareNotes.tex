@@ -1,5 +1,6 @@
 
 \chapter{Supplementary Notes}
+  \label{SuppNotes}
   
   \section{Chemistry}
     
@@ -172,3 +173,47 @@
       \end{tabular}
       \label{BioIsop:table:CAABAMECCA_Scenarios}
     \end{table}
+    
+\section{Satellite Stuff}
+  \label{SuppNotes:Satellite}
+  \subsection{OMI Algorithm BOAS}
+    \label{SuppNotes:Satellite:OMI_BOAS}
+    The following information comes from the OMHCHO dataset documentation at \citet{Kurosu2014} and \citet{Chance2002}.
+    The method of HCHO total column retrieval depends heavily on measured solar radiation.
+    Radiance is directional radiant flux, expressed in Watts per square metre per steradian (a unit of angle used in three dimensional geometry).
+    Irradiance is radiant flux received by a surface, expressed in watts per square metre.
+    An OMI granule is the sunlit portion of an orbit (one day).
+    
+    The BOAS algorithm used by OMI is as follows.
+    Slant column abundance can be determined by fitting measured radiance (I) at particular wavelengths ($\lambda$), using modelled absorption cross sections ($\sigma$), effective albedo (A) including Rayleigh scattering, a correction for the Ring effect (c$_R\sigma_R$), and a closing polynomial (coefficents c$_0$-c$_3$).
+    \begin{equation}
+    \label{ch_HCHO:eqn:BOAS_HCHO}
+    I(\lambda)  = A I_0 \exp {\left( - \Sigma_i S_i \sigma_i \right) } + c_R\sigma_R + c_0 + c_1(\sigma-\bar{\sigma}) + c_2(\sigma - \bar{\sigma})^2 + c_3(\sigma - \bar{\sigma})^3 
+    \end{equation}
+    
+    For HCHO, absorption cross sections and number densities for interfering gases are determined beforehand.
+    This is due to HCHO being so optically thin and interferences must be accounted for precisely \citep{Chance2002}.
+    
+    In version 3.0 of the OMI satellite data retrievals, HCHO is determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
+    The algorithm used is based on direct fitting of radiances and irradiances.
+    An OMI radiance measurement over the remote Pacific ocean is used instead of an irradiance measurement.
+    This means that the slant columns ($\Omega_S$) are actually the difference with respect to the radiance reference column ($\Omega_{S_0}$).
+    
+    The model that is fitted to the measurements is made up of the radiance reference attenuated by HCHO contributions, inelastic (rotational Raman) scattering, and interferences from ozone, NO$_2$, BrO, and the O$_2$-O$_2$ collision complex.
+    It includes additive and multiplicative closure polynomials and parameters for spectral shift and squeeze, and an undersampling correction and ``common mode'' spectrum.
+    The spectral fitting results in HCHO slant columns, which are converted to vertical columns through a look-up table of AMFs (see section \ref{ch_HCHO:sec:satelliteHCHO:AMFs})
+    Undersampling is a problem caused by the wavelength resolution of the instrument.
+    Nyquist theorem requires that the sampling rate be at least twice the highest frequency of the signal in order to uniquely reconstruct it, otherwise the signal is undersampled (contains errors).
+    
+    There are three main stages in the algorithm:
+    \begin{enumerate}
+      \item Radiance wavelength calibration, finding the optimum wavelength registration for a representative swath of radiance measurements, and determination of a common wavelength grid for auxiliary data (molectular reference cross sections, etc.).
+      \item On-line common mode spectrum calculation from residual fits of the central portion of the orbit. 
+      This accounts for systematic features not considered in the semi-empirical model.
+      \item Nonlinear least-squres fitting of all swath lines in the OMI granule. 
+      Fitting is performed individually for the 60 cross-track pixels in each swath line.
+    \end{enumerate}
+    
+    Cross-track striping is systematically higher or lower column values along a whole track.
+    Several methods are used to reduce cross-track striping of the HCHO columns.
+    These include soft calibration, which is the use of a daily radiance reference, and outlier screening in the fitting residuals.
