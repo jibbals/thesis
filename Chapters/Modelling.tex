@@ -10,7 +10,15 @@
   Models of ozone in the atmosphere are used broadly for international assessments of ozone related emissions \citep{Young2018}.
   \cite{Young2018} summarise current global ozone modelling standards and the metrics and processes used to evaluate these models.
   They show how models can be used to improve measurements, estimate concentrations in regions not sampled, and allow analysis of other processes which involve ozone (such as radiation).
-
+  
+  %Satellite usage and reduction of uncertainty
+  Satellite datasets give us access to lots of datapoints.
+  When looking at trace gases such as HCHO, satellite measurements can have high amounts of uncertainty.
+  Many datapoints can be averaged in order to reduce uncertainty.
+  Once the satellite data are quality filtered and gridded, I use additional data to account for anthropogenic and pyrogenic influences, which provides us an estimate of biogenic HCHO.
+  MODIS fire counts are used in conjunction with smoke AAOD enhancements (also measured by satellite) to remove data points which may be affected by fires. 
+  This has a negative affect on uncertainty, as fewer measurements are available to be averaged. 
+  The affect of the filtering on uncertainty, and how many points are removed is shown in section \ref{Model:Filter}.
 
 \section{Datasets}
 \label{Model:Datasets}
@@ -60,26 +68,36 @@
     
     \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:Datasets:SPS:fig_GC_comparison}}
   
-  \subsection{Aura}
+  \subsection{Satellite}
     \label{Model:Datasets:Aura}
     
+    % Satellite data product levels
+    Satellite data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. 
+    Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
+    To create level 2 data slant column density is determined and then translated into vertical column density using an AMF calculated through radiative transfer models. 
+    Level 3 data is a temporally aggregated version of the this, for instance monthly or yearly averages.
+    
+    % Aura satellite trace gas measurements
     One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets, often called products.
     Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
     OMI measurements are used to map several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
     OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \citep{Abad2015}.
     The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
     
+    % omi instrument on board aura
     Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
     From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
     OMI spectra are used in several products used in this thesis, including OMNO2d, OMHCHO, and OMAERUVd.
     
+    % Terra/Aqua satellite
+    
     \subsubsection{OMNO2}
-      \label{Model:Datasets:Aura:omno2d}
+      \label{Model:Datasets:omno2d}
       NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem. 
       OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
       See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations.
     
-    \subsubsection{OMI HCHO}
+    \subsubsection{OMHCHO}
       \label{Model:Datasets:OMHCHO}
       
       % How omhcho is produced
@@ -92,19 +110,59 @@
       This means that the slant columns ($\Omega_S$) are actually the difference with respect to the radiance reference column ($\Omega_{S_0}$).
       The full method details for slant column retrieval by OMI are outlined in section \ref{SuppNotes:Satellite:OMI_BOAS}.
       
+      % What the swathes look like
+      OMHCHO level two data includes 14-15 daily swaths of measurements provided by NASA.
+      Each swath contains roughly $9 \times 10^4$ pixels, each of which contains various data including latitude, longitude vertical column HCHO, etc.
+      The OMHCHO dataset has a quality flag which can be used to remove unlikely or poor satellite measurements.
+      The states represented by this quality flag are shown in table \ref{Model:Datasets:OMHCHO:tab_qflag} which is taken from \citet{Kurosu2014}.
+      Filtering bad or missing measurement pixels is preformed prior to any other filtering, this includes the datapoints affected by the row anomaly.
+      This anomaly (\url{http://projects.knmi.nl/omi/research/product/rowanomaly-background.php}) affects radiance data at particular viewing angles, corresponding to a row on the CCD detectors, and is dynamic over time.
+      The slant columns affected are flagged and easy to remove before further processing.
+      
+      \begin{table}
+        \caption{OMI quality flag values table from \citet{Kurosu2014}}
+        \begin{tabular}{  l  l  p{10cm} }
+          \hline
+          \textbf{Value} & \textbf{Classification} & \textbf{Rational} 
+          \\ \hline
+          0 & Good & Column value present and passes all quality checks; data may be used with confidence. 
+          \\ \hline
+          1 & Suspect & Caution advised because one or more of the following conditions are present: 
+          \begin{itemize}
+            \item Fit convergence flag is $<$ 300 but $>$ 0: Convergence at noise level
+            \item Column $+ 2 \sigma$ uncertainty $<$ 0 $<$ Column $ + 3 \sigma $ uncertainty
+            \item Absolute column value $>$ Maximum column amount (1e19 molec cm$^{-2}$)
+          \end{itemize}
+          \\ \hline
+          2 & Bad & Avoid using as one of the following conditions are present: 
+          \begin{itemize}
+            \item Fit convergence flag is $<$ 0 : No convergence, abnormal termination
+            \item Column $+ 3 \sigma$ uncertainty $<$ 0
+          \end{itemize}
+          \\ \hline
+          $<0$ & Missing & No column values have been computed; entries are missing
+          \\ \hline
+        \end{tabular}
+        \label{Model:Datasets:OMHCHO:tab_qflag}
+      \end{table}
+      
+      % Where does cloud product come from? it removes around 30% of non-qa filtered data
+      The cloud fraction with each pixel is provided with the OMHCHO dataset, however its source is the OMI cloud product, OMCLDO2.
+      To give an idea of how much data is filtered out, around 30\% of the pixels which remain after filtering out the bad or missing data are subsequently removed due to cloudiness.
+      
+      Each $\sim90$ minutes the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 50~k -- 80~k are classified as good.
+      Each pixel contains several important pieces of data which are needed for recalculation of the HCHO vertical column: the total column of HCHO (molecules cm$^{-2}$), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weights and their vertical altitudes (hPa), viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
+      All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
+      
       Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}.
     
     \subsubsection{OMAERUVd}
+      \label{Model:Datasets:OMAERUVd}
       
-      % Optical depth description
-      Optical Depth, also called optical thickness, is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material.
-      In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
-      The difference between solar radiation at the top of the atmosphere and the Earth's surface defines the atmospheric optical depth along the path of observation.
-      \begin{equation*}
-        \tau = \ln{\frac{\phi_e^i}{\phi_e^t}}
-      \end{equation*}
-      where $\phi_e^i$ is radiant flux seen at the earth surface, $\phi_e^t$ is the solar radiant flux which arrives at the top of the atmosphere.
-      In the atmosphere, optical depth can be due to several factors including scattering, chemical absorbance, and aerosols.
+      % smoke aaod outline
+      Aerosols in the atmosphere can be seen through their affects on light. 
+      Smoke can be seen as an increase in AAOD (see section \ref{Model:Meas:DOAS}).
+      The satellite product OMAERUVd contains AAOD measurements at three wavelengths, gridded to 1x1\degr horizontal resolution.
       
       %TODO: OMAERUVd brief description
       
@@ -112,7 +170,10 @@
       Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to higher resolution using the nearest value for each gridsquare, before being saved along with the MOD14A1d fire product as seen in Figure \ref{Model:Datasets:OMHCHO:fig_read_omhcho}.
       I use the AAOD at 500~nm wavelength, which should be sufficiently blocked by fire smoke plumes.
       This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with higher than TODO AAOD values.
-      
+    
+    \subsubsection{MOD14A1}
+      \label{Model:Datasets:MOD14A1}
+      Daily gridded fire counts compiled from Terra and Aqua satellite into 1x1~km$^2$ resolution.
   
   \subsection{Drought Index}
     The S Precipitation Evapotranspiration Index (SPEI) is a measure of drought using various parameters such as TODO. (\cite{Wang2017}).
@@ -120,6 +181,10 @@
     This is used to determine whether there are biases in the MEGAN calculations due to the GEOS-Chem implementation ignoring soil moisture.
     It is downloaded from TODO and holds monthly averaged values at 0.5$^{\circ}$ horizontal resolution.
     When comparing against the emissions estimates this is interpolated linearly onto the same grid as that of GEOS-Chem output at 2x2.5$^{\circ}$.
+    
+  \subsection{NPI}
+    
+    One possible solution to anthropogenic filtering is the national pollution index (TODO:cite:\verb|http://www.npi.gov.au|) which contains industrial HCHO and NO$_X$ emissions from 2003 to 2014.
   
   \subsection{GEOS-Chem output}
     There are various outputs available when running GEOS-Chem, which require understanding in order to compare with observations.
@@ -149,37 +214,37 @@
 
   
 
-\section{List of runs and outputs used in my work TODO: good place for this?}
-  TODO: Go through work process and clarify these items
-  \subsection{GEOS-Chem}
-    \begin{enumerate}
-      \item UCX 
+  \subsection{List of runs and outputs used in my work TODO: good place for this?}
+    TODO: Go through work process and clarify these items
+    \subsection{GEOS-Chem}
       \begin{enumerate}
-        \item Satellite output (1300-1400LT)
-        \item Create shape factors for AMF recalculation in OMI
-      \end{enumerate}
+        \item UCX 
+        \begin{enumerate}
+          \item Satellite output (1300-1400LT)
+          \item Create shape factors for AMF recalculation in OMI
+        \end{enumerate}
+        
+        \item Tropchem (standard)
+        \begin{enumerate}
+          \item satellite output, daily tracer averages
+          \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
+          \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
+          \item TODO: Compare total yearly isoprene emissions before and after new estimate.
+        \end{enumerate}
       
-      \item Tropchem (standard)
-      \begin{enumerate}
-        \item satellite output, daily tracer averages
-        \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
-        \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
-        \item TODO: Compare total yearly isoprene emissions before and after new estimate.
+        \item Tropchem(isoprene emissions halved)
+        \begin{enumerate}
+          \item Satellite output used to determine smearing.
+        \end{enumerate}
+      
+        \item Tropchem(biogenic emissions only, all other inventories turned off)
+        \begin{enumerate}
+          \item Satellite output, hourly biogenic emissions from MEGAN
+          \item Used to determine yield for new emissions estimates
+          \item TODO: compared to run with updated emissions
+        \end{enumerate}
       \end{enumerate}
-    
-      \item Tropchem(isoprene emissions halved)
-      \begin{enumerate}
-        \item Satellite output used to determine smearing.
-      \end{enumerate}
-    
-      \item Tropchem(biogenic emissions only, all other inventories turned off)
-      \begin{enumerate}
-        \item Satellite output, hourly biogenic emissions from MEGAN
-        \item Used to determine yield for new emissions estimates
-        \item TODO: compared to run with updated emissions
-      \end{enumerate}
-    \end{enumerate}
-    NB: for non-UCX runs, satellite output was modified to include tropopause height
+      NB: for non-UCX runs, satellite output was modified to include tropopause height
   \subsection{CAABA/MECCA}
     %TODO: details for caaba/mecca runs here:
   
@@ -474,6 +539,7 @@
   This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
   
   \subsection{DOAS}
+    \label{Model:Meas:DOAS}
   
     %TODO: is some of this is repeated in isoprene chapter satellite section.
     The DOAS technique uses solar radiation absorption spectra to measure trace gases through paths of light.
@@ -486,6 +552,16 @@
       \tau = \int_0^l \alpha(z)\eta(z)\mathrm{d}z
     \end{equation*}
     where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively, and l represents the length of the medium (in this case the path through which the light travels). 
+    
+    % Optical depth through the atmosphere
+    Another way of describing optical depth, also called optical thickness, is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material.
+    In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
+    The difference between solar radiation at the top of the atmosphere and the Earth's surface defines the atmospheric optical depth along the path of observation.
+    \begin{equation*}
+      \tau = \ln{\frac{\phi_e^i}{\phi_e^t}}
+    \end{equation*}
+    where $\phi_e^i$ is radiant flux seen at the earth surface, $\phi_e^t$ is the solar radiant flux which arrives at the top of the atmosphere.
+    In the atmosphere, optical depth can be due to several factors including scattering, chemical absorbance, and aerosols.
     
     Multiple axis DOAS (MAX-DOAS) is a remote sensing technique which uses several DOAS measurements over different viewing paths.
     In these retrievals, the measurements of light absorption are performed over several elevations in order to add some vertical resolution to the measurement of trace gas concentrations.
@@ -575,26 +651,40 @@
       \end{figure}
         
     \subsubsection{AMF}
-      DOAS retrieval columns are an integration of a trace gas over the instruments viewing path, in order to convert this total to a vertically distributed column a few assumptions and estimates are required. 
-      The vertical profile of a trace gas is assumed or estimated via a CTM, while its' scattering and radiative properties are calculated at all altitudes using an RTM. 
-      These properties are combined into a single array called the AMF.
-      AMFs are unique to each trace gas and due to their complexity and the influence of cloud cover they remain one of the larger error sources in remote sensing of BVOCs \citep{Palmer2001,Millet2006}).
       
-      To convert the trace gas profile from a reflected solar radiance column (slanted along the light path) into a purely vertical column requires calculations of an air mass factor (AMF).
-      In satellite data, the AMF is typically a scalar value for each horizontal grid point which will equal the ratio of the total vertical column density to the total slant column density.
-      This value requires calculations to account for instrument sensitivities to various wavelengths over resolved altitudes, and is unique for each trace gas under consideration.
-      
+      % what satellite amfs are, and what they do
       An AMF characterises measurement sensitivity to a trace gas at various altitudes \cite[e.g.]{Palmer2001}.
       \cite{Lorente2017} show that AMF calculations can be the largest source of unertainty in satellite measurements.
       Another way of describing AMFs are as measures of how radiance at the top of the atmosphere (TOA) changes with trace gas optical depths at specific altitudes (\cite{Lorente2017}).
       Calculation of the AMF is important as it is multiplied against the estimated slant columns in order to give vertical column amounts.
+      To convert the trace gas profile from a reflected solar radiance column (slanted along the light path) into a purely vertical column requires calculations of an air mass factor (AMF).
+      In satellite data, the AMF is typically a scalar value for each horizontal grid point which will equal the ratio of the total vertical column density to the total slant column density.
+      This value requires calculations to account for instrument sensitivities to various wavelengths over resolved altitudes, and is unique for each trace gas under consideration.
       
+      %how do we get an AMF?
+      DOAS retrieval columns are an integration of a trace gas over the instruments viewing path, in order to convert this total to a vertically distributed column a few assumptions and estimates are required. 
+      The vertical profile of a trace gas is assumed or estimated via a CTM, while its' scattering and radiative properties are calculated at all altitudes using an RTM. 
+      These properties are combined into a single array called the AMF.
+      Two examples of this are GOME-2 products on the MetOp-A satellite (\url{http://atmos.caf.dlr.de/gome/product_hcho.html}) and OMI products which use IMAGESv2 combined with LIDORT and GEOS-Chem with LIDORT for product processing respectively \citep{Chance2002, Abad2015}.
+      AMFs are unique to each trace gas and due to their complexity and the influence of cloud cover they remain one of the larger error sources in remote sensing of BVOCs \citep{Palmer2001,Millet2006}).
+      
+      % averaging kernal relation to amf, why amfs are important when comparing data
       Related to the AMF is the averaging kernal (AK), which is used to handle instrument measurements which are sensitive to concentrations at different altitudes in the atmosphere.
       DOAS methods can be heavily influenced by the initial estimates of a trace gas profile (the apriori) which is often produced by modelling, so when comparing models of these trace gases to satellite measurements extra care needs to be taken to avoid introducing bias from differing apriori assumptions.
       One way to remove these apriori influences is through the satellites AK (or by using AMFs), which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas (\cite{Eskes2003, Palmer2001}).
       % TODO read and note this paper:
       \cite{Lamsal2014} recommends that when comparing satellite data to models, the AMF should first be recalculated using the model as an apriori.
       This is in order to remove any apriori bias between model and satellite columns.
+      Another way of removing this bias is through deconvolution ($\Omega = AK \times VC_{satellite} + \times (I - AK) VC_{apriori}$) of the averaging kernal (AK) of the satellite instrument.
+      The AK represents sensitivities to each species at multiple altitudes through the atmosphere and in the case of OMI, can be approximated from the scattering weights ($\omega(z)$) function as follows:
+      \begin{equation} \label{ch_HCHO:eqn:AKfromw}
+      AK(z) = \frac{\omega(z)}{AMF}
+      \end{equation}
+      Note that this is an approximation for the OMI product, which does not include the AK but does include the $\omega$ and AMF, as explained in \citet{Abad2015}.
+      
+      % How omi gets its AMF
+      The latest OMI algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \citep{Abad2015}.
+      The GEOS-Chem model has been substantially updated since then, and using the more recent version $V10.01$ to recalculate the AMF is performed within this thesis, details are shown in section \ref{Model:omiRecalc}.
       
     \subsubsection{Uncertainties}
       %Satellite Errors
@@ -602,7 +692,11 @@
       Concentrations retrieved by satellites have large uncertainties, which arise in the process of transforming spectra to total column measurements, as well as instrument degradation (satellite instruments are hard to tinker with once they are launched).
       Uncertainty in transforming satellite spectra comes from a range of things, including measurement difficulties introduced by clouds, and instrument sensitivity to particular aerosols \citep{Millet2006}.
       Many products require analysis of cloud and aerosol properties in order to estimate concentration or total column amounts \citep{Palmer2001,Palmer2003, Marais2012, Vasilkov2017}.
-      The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor (discussed in more detail in Section \ref{BioIsop:Uncertianty:Satellite}) \citep{Millet2006}.
+      The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor \citep{Millet2006}.
+      % amf agreements between groups, but sensitive to apriori
+      Calculations of the AMF performed by different groups tend to agree fairly well, as long as all the apriori and ancilliary data is similar.
+      Large differences can occur depending on the apriori vertical profile, trace gas concentrations, and cloud properties \citep{Lorent2017}.
+      Choice of RTM and interpolation operations have a relatively small affect compared to the assumed state of the atmosphere, with high structural uncertainty introduced at this stage of AMF calculation - as shown in \cite{Lorent2017}.
       
       There are two types of measurement error, arguably the worst of these is systematic error (or bias) which normally indicates a problem in calculation or instrumentation.
       If the systematic error is known, it can be corrected for by either offsetting data in the opposite direction, or else fixing the cause.
@@ -658,6 +752,7 @@
   \label{Model:omiRecalc}
   
   % Reiteration of why we recalculate AMFs
+  When comparing satellite observations to a chemical model, one needs to recalculate the satellite AMF using their own modelled vertical gas profiles as the a-prior shape factor in order to remove any total column bias which may be due to the satellite's apriori.
   The method used here largely follows that of \citet{Palmer2001}.
   When comparing satellite observations to a chemical model, recalculation of the satellite AMF using modelled vertical gas profiles removes any bias introduced by differences from the a-priori shape factor to the model.
   
@@ -672,6 +767,22 @@
   \mypic{Figures/Flow_Reading_OMHCHO.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:Datasets:OMHCHO:fig_read_omhcho}}
   
   % Method outline
+  In order to visualise and analyse satellite column data it is generally transformed into vertical columns. 
+  This is done using AMF calculations as shown in the following subsections.
+  Taking the biogenic slant columns, scattering weights, and apriori estimates of HCHO vertical profiles we determine vertical HCHO column amounts.
+  This is an in depth process involving radiative transfer modelling in order to work out satellite sensitivities at various altitudes, as well as the effect from the local HCHO profile on those sensitivities.
+  Several of these required data are available from the satellite data products, including the scattering weights and the zenith angles required to determine an AMF at any particular measured point.
+  In this work the shape factor is recalculated from GOES-Chem, with the associated OMI per-pixel scattering weights unchanged. 
+  The satellite shape factor is replaced by GEOS-Chem's overpass time simulated HCHO profile, normalised and saved daily along with air density.
+  
+  When comparing satellite measurements against models it is important to recognise the impact of the apriori shape factor on the total column values.
+  This is due to the sensitivity of instruments varying vertically through the atmosphere, and how the simulated distribution of HCHO is accounted for.
+  In order to remove a possible bias caused by systematic differences between the old model and the current model, the shape factor used by the satellite is replaced using the profile from the current model before satellite total columns are recalculated (for example using equation \ref{Model:omiRecalc:eqn_AMFintwSdz}).
+  Both the shape factor and scattering weights of the satellite are recalculated using a combination of GEOS-Chem apriori profile information and satellite measurement data using code initially written by dr. Paul Palmer, which calculates the AMF after running the LIDORT radiative transfer calculations to determine apriori scattering, see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details.
+  Without performing this step a bias between modeled and measured total column values may be due to an apriori rather than actual chemistry or measurements.
+  
+  
+  
   \subsection{Reading satellite data}
     
     % Downloading the data
@@ -680,28 +791,157 @@
     
     % Built in QA
     The satellite data comes with quality assurance flags which are used as filtering criteria as is done in several other studies \citep[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
-    This filtering removes cloudy and uncertain data points, along with instrument problems such as the OMI row anomaly (see section \ref{ch_HCHO:sec:OMIFiltering}.
-    A full account of the filters used when reading OMI satellite data is given in section \ref{ch_HCHO:sec:OMIFiltering}.
+    This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see section \ref{Model:Datasets:OMHCHO}) may have affected.
+    Clouds also have various detrimental effects on slant column uncertainty and AMF calculation, so cloud fraction is saved in the OMHCHO product.
+    
+    % reading pixels into a long list
+    Each pixel and it's relevant data are saved in a long list, around $1.1$ million pixels per day.
+    Additional information is added to each pixel, such as the new AMF calculated through replacing the apriori vertical profile with the newer GEOS-Chem simulated profile.
+    The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers.
     
     % Filters applied when reading
     When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
     The process is outlined in figure  \ref{Model:Datasets:OMHCHO:fig_read_omhcho} for a single day.
     First all the pixels for are read, filtered by the QA flag, solar zenith angle (SZA) and latitude (\cite{Palmer2001}).
     Satellite measurements polewards of 60\degr north or south are removed as well as measurements with SZA greater than 60\degr.
+    Further filtering is performed to remove the measurements which are most likely to be unrealistic: those with column density outside the range $-0.5 \times 10^{16}$ to $10^{17} $~molecules cm$^{-2}$.
+    These are similar filters to those applied in \cite{Zhu2016}, (TODO: add similar justification if succinct).
+    This final filter is required due to currently unexplained large negative values which occur in the OMI HCHO product increasingly over time.
+    Figure \ref{Model:omiRecalc:fig_OMI_negative_hist} shows how unfiltered HCHO columns are affected by a small set of highly negative values which heavily affect the mean column amount over any region.
+    The histograms here show the negative (left) and positive (right) total column HCHO measurements from a subset of swaths over Australia, on the 18th of March 2013.
+    The highly negative values can be seen around the $-10^{19}$~molecules cm$^{-2}$ region.
+    
+    \mypicw{0.7\textwidth}{Figures/AusOMHCHO_Hist_20130318.png}
+      {Column density histograms for a subset of OMI swaths over Australia on the 18th of March 2013.
+       Negative entries are shown in the left panel, positive in the right, note the different scale between negative and positive panels.}
+      {\label{Model:omiRecalc:fig_OMI_negative_hist}}
+    
+    Finally the pixels which may be too cloudy are dealt with after the pixel has been used in determining the reference sector correction (see section \ref{Model:omiRecalc:RSC}), as is done in \citet{Abad2015, DeSmedt2015}.
+    Any pixel with a cloud fraction of greater than 40\% is removed, 
   
   % How we get the apriori 
-  \subsection{Calculating the GEOS-Chem apriori shape factor}
-    
+  \subsection{Calculating the apriori shape factor}
+    \label{Model:omiRecalc:ShapeFactor}
     % per pixel amf calculation
-    For each pixel 
+    For each pixel the shape factor used in the AMF is recalculated using GEOS-Chem by following the method layed out initially in \cite{Palmer2001}.
     
-    % 
-    Next a subset covering Australia and most of the zonal band has its AMF recalculated with by fortran code written by Paul Palmer, Randal Martin, and Luke Surl (AMF$_{PP}$).
+    % Beer lambert
+    The Beer-Lambert law of extinction allows spectroscopic measurement of absorbing chemical species (absorbers) in the atmosphere:
+    \begin{equation} \label{ch_HCHO:eqn:beerlambert}
+    I_B = I_{B_0} e^{-\tau_s}
+    \end{equation}
+    where I$_B$, I$_{B_0}$ is backscattered intensity with and without the absorber respectively, and $\tau_s$ is the optical thickness of the slant column absorber (see section \ref{Model:Meas:DOAS}).
+    
+    The AMF is needed to transform the slant column, as viewed by the satellite, into a vertical column:
+    \begin{equation} \label{ch_HCHO:eqn:AMFratio}
+    AMF = \frac{\Omega_s}{\Omega_v} = \frac{\tau_s}{\tau_v}
+    \end{equation}
+    where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
+    
+    In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
+    The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
+    However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see section \ref{ch_HCHO:sec:satelliteHCHO:scattering}) must be accounted for.
+    Using equations \ref{ch_HCHO:eqn:beerlambert} and \ref{ch_HCHO:eqn:AMFratio} gives us an expression for the AMF which includes scattering:
+    \begin{equation} \label{Model:omiRecalc:eqn_amfscattering}
+    AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
+    \end{equation}
+    
+    \begin{figure}[!htbp]\begin{center}
+      \includegraphics[width=0.6\textwidth]{Figures/ZenithAngles.png}
+      \caption{Solar and viewing zenith angles, image copied from \citet{SZA_Image}, originally from a NASA website.}
+      \label{ch_HCHO:fig:zenithangle}
+    \end{center}\end{figure}
+    
+    We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. Note that for optically thin absorption, $\nabla I / I_B << 1$, and we can use:
+    \begin{equation} \label{Model:omiRecalc:eqn_AMFthin}
+    AMF = \frac{\ln{ \left( 1 - \frac{\nabla I}{I_B} \right)} }{\tau_v} \approx \frac{ - \frac{\nabla I}{I_B} }{\tau_v}
+    \end{equation}
+    $\nabla I$ can also be expressed as the integral of the absorption slices over optical depth increments: 
+    \begin{equation*}
+      \nabla I = \int_0^{\tau_v}{\frac{\partial I_B}{\partial \tau} \mathrm{d}\tau}
+    \end{equation*}
+    which can be placed into equation \ref{Model:omiRecalc:eqn_AMFthin}:
+    \begin{equation*}
+      AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
+    \end{equation*}
+    and rewritten as:
+    \begin{equation} \label{Model:omiRecalc:eqn_AMFcross}
+    AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
+    \end{equation}
+    where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. 
+    This uses the attenuation cross section relationship to optical depth (see section \ref{Model:Meas:DOAS}).
+    
+    To represent an average cross section weighted by the absorbing species' vertical distribution, intended to account for temperature and pressure dependence of $\alpha(z)$, $\alpha_e$ is defined as:
+    \begin{equation*}
+      \alpha_e = \frac{1}{\Omega_v} \int_0^\infty \alpha(z) \eta(z) \mathrm{d}z
+    \end{equation*}
+    
+    This is the same as $ \tau_v = \Omega_v \alpha_e $, which we can place into equation \ref{Model:omiRecalc:eqn_AMFcross} to obtain:
+    \begin{equation*}
+      AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
+    \end{equation*}
+    
+    Defining w(z) as the scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
+    \begin{equation}
+    \omega(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
+    \end{equation}
+    and vertical shape factor S$_z$(z) representing a normalized vertical number density profile: 
+    \begin{equation} \label{Model:omiRecalc:eqn_ShapeFactor}
+    S_z(z) = \frac{\eta(z)}{\Omega_v}
+    \end{equation}
+    
+    Now the AMF can be expressed as
+    \begin{equation} \label{Model:omiRecalc:eqn_AMFintwSdz}
+    AMF = \int_0^\infty w(z) S_z(z) \mathrm{d}z
+    \end{equation}
+    It's worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and a the calculation in equation \ref{Model:omiRecalc:eqn_AMFintwSdz} does not use the $AMF_G$ term.
+    This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
+    
+    Mie scattering and clouds can complicate the calculation of $\omega$(z), however tables of values for this function at various parameter inputs can be used with modeled vertical shape factors for local AMF calculations.
+    Using the vertical coordinate sigma ($\sigma$), which is related to pressure (P) by $P=\sigma \left( P_S - P_T \right) + P_T$, where subscripts S and T represent earth surface and top of the atmosphere respectively.
+    The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
+    \begin{align*}
+      \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
+      \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
+    \end{align*}
+    
+    Substitution into \ref{Model:omiRecalc:eqn_AMFintwSdz} gives AMF using the sigma coordinates:
+    \begin{equation} \label{Model:omiRecalc:eqn_AMFintwSdsigma}
+    AMF = \int_0^1 w(\sigma) S_\sigma(\sigma) \mathrm{d}\sigma
+    \end{equation}
+    Where S$_\sigma$ is defined as a vertical shape factor representing a normalised mixing ratio:
+    \begin{equation}
+    S_\sigma (\sigma) = \frac{\Omega_a}{\Omega_v}C(\sigma)
+    \end{equation}
+    where $\Omega_a$ is the vertical column of air and C($\sigma$) is the mixing ratio of the absorber.
+    This normalised shape factor is dimensionless.
+    This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography.
+    
+    Recalculation of the $\omega$ is done in seperately in section \ref{Model:omiRecalc:ppcode}.
+    S$_z$(z) can be calculated using an apriori vertical profile, which may be sourced from any atmospheric chemistry model.
+    I recalculate S$_z$(z) using satellite output from GEOS-Chem, keeping the provided OMI $\omega$(z).
+    As a sanity check I also recalculate S$_\sigma$ and confirm that these shape factors are equivalent.
+    %TODO: Shape factor plot sigma vs z
+    For example see figure TODO: sigma vs z shape factor plot.
+    
+  \subsection{Recalculating the AMF using PP code}
+    \label{Model:omiRecalc:ppcode}
+    % pp code for AMF recalculation referred to as pp code
+    Next a subset covering Australia and most of the zonal band has its AMF recalculated with by fortran code written by Paul Palmer, Randal Martin, and updated by Luke Surl.
+    I will refer to this as the PP code, and subscripting the vertical column and AMF with PP when it is calculated through this method.
+    This code is computationally expensive, and is only run on pixels within a specific range including Australia (50-10\degr~S, 160\degr~W-160\degr~E).
+    
+    Code for recalculating AMFs using satellite swaths and modelled aerosol optical depths and gas profiles can be found at \url{http://fizz.phys.dal.ca/~atmos/martin/?page_id=129}. 
+    The original method for HCHO is layed out in \cite{Palmer2001}, with modifications for clouds and use of the LIDORT RTM \citep{Spurr2002} as described by \cite{Martin2003}.
+    This code does not work as is when using OMI satellite data, and requires modifications performed by Luke Surl at Edinburgh University.
+    Additionally the tropopause heights averaged within satellite overpass times output by GEOS-Chem is required, which is achieved by modifying the ND51 diagnostic.
+    
     
   \subsection{Reference sector correction}
     \label{Model:omiRecalc:RSC}
     % where we apply the RSC
     Each satellite slant column measurement is corrected by some amount, based on the divergence from a modeled reference sector.
+    HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \citep{DeSmedt2008,Barkley2013,Kurosu2014}.
     This reference sector correction (RSC) is calculated following \cite{Abad2016}, and applied to the satellite AMF, the AMF recalculated by GEOS-Chem, and the AMF calculated using Paul Palmers code.
     
     % What RSC does
@@ -710,14 +950,21 @@
     Another is the possible influence of varying dead/hot pixel masks across 2-D detector arrays such as OMI \citep{DeSmedt2015}.
     This method also corrects for the errors introduced through correlations between BrO and HCHO absorption cross sections, which are especially significant at high latitudes \citep{Abad2015}.
     
-    % How RSC is defined
-    The reference sector we use is defined over the pacific ocean at 140 to 160$^{\circ}$W and 90$^{\circ}$N to 90$^{\circ}$S, as in \citet{Abad2015}.
-    HCHO concentrations are assumed to be at background levels over the pacific ocean, with their only source being CH$_4$ oxidation.
+    % How Vertical columns use reference sector corrections
+    Vertical columns in OMI use this oceanic background instead of a solar irradiance spectrum
+    In order to recalculate the vertical columns using modelled data, a RSC needs to be applied.
+    The corrected vertical column ($\Omega_{VC}$) is calculated as the slant column ($\Omega_S$) minus the reference slant column ($\Omega_{S_0}$) multiplied by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
+    \begin{equation*}
+      \Omega_{VC} = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
+    \end{equation*}
+    This method is used in various papers, including \citet{DeSmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013, Bauwens2016}.
+    Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \citet{Abad2015}.
+    
+    % How my RSC is defined
     A correction for each instrument pixel is created based on the difference between the background HCHO measurements from OMI and the GEOS-Chem modelled HCHO columns within the reference sector.
     This correction is calculated daily and applied to all good pixels based on their latitude.
     
     % Then RSC Longitudinally averaged, binned into 500 lats
-    % 
     The longitudinal average is taken within the apriori reference sector, as corrections are assumed to be longitudinally invariant.
     The modeled reference sector is interpolated latitudinally in for use in the OMI measurement correction array creation.
     Figure \ref{Model:omiRecalc:RSC:fig_RSCeg} the simulated reference sector VCs as an example, calculated on January 1st 2005.
@@ -746,7 +993,7 @@
     \end{equation}
     where j represents a latitude index and $VC_{GEOS-Chem}(lat)$ represents the apriori reference sector vertical column HCHO at the latitude corresponding to j.
     Note that the correction is in molecules cm$^{-2}$.
-    
+    % Correction applied over each of the 60 tracks
     The reference sector correction is independently calculated for each of the 60 tracks, at each latitude where a good satellite measurement exists which used that track.
     The Correction$(i,lat(j))$ function is determined by binning corrections for each track into 500 equidistant latitude bands. 
     
@@ -757,8 +1004,10 @@
       {Example of track correction interpolations for January 1st 2005, points represent satellite slant column measurements, with lines interpolating and extrapolating along the latitudinal direction.}
       {\label{Model:omiRecalc:RSC:fig_track_correction_interpolations}}
     
+    % Visualisation of RSC refering to plot and 8-day averaged corrections
     Another way to look at this correction is given in the OMI corrections panel of figure \ref{Model:omiRecalc:RSC:fig_RSCeg}, which has the sensors along the x axis, and latitude on the y axis, and shows how for this example 8-day period, the corrections are distributed with more negative values towards the left or right sensors, especially in the tropics.
     
+    % One correction per pixel, based on latitude and omi track
     One correction is associated with every good satellite measurement which is used to create a reference sector corrected measurement (Vertical Column Corrected or VCC) through the following equation:
     \begin{equation}
     VCC(i,j) = \frac{SC_{HCHO}(i,j) - Correction(i,lat(j))}{AMF(i,j)}
