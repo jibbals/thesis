@@ -92,7 +92,7 @@
     % Terra/Aqua satellite
     
     \subsubsection{OMNO2}
-      \label{Model:Datasets:omno2d}
+      \label{Model:Datasets:OMNO2d}
       NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem. 
       OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
       See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations.
@@ -781,7 +781,23 @@
   Both the shape factor and scattering weights of the satellite are recalculated using a combination of GEOS-Chem apriori profile information and satellite measurement data using code initially written by dr. Paul Palmer, which calculates the AMF after running the LIDORT radiative transfer calculations to determine apriori scattering, see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details.
   Without performing this step a bias between modeled and measured total column values may be due to an apriori rather than actual chemistry or measurements.
   
+  % Geos chem profiles for apriori
+  Apriori GEOS-Chem HCHO profiles are created using output averaged between 1200 and 1300 local time (LT).
+  Using this one hour average matches the overpass time of OMI, and is similarly performed in \cite{Jin2017}.
   
+  
+
+  
+  Figure \ref{Model:omiRecalc:fig_omhchorp_flow} shows an overview of how this process is performed in my work.
+  Output from GEOS-Chem is combined with both OMHCHO swath data and MOD14A1 gridded fire data in order to produce a gridded HCHO file which contains HCHO vertical columns and fire counts. 
+  The output keeps the original AMF as well as those recalculated using GEOS-Chem, and optionally those recalculated using GEOS-Chem and LIDORT.
+  
+  
+  \mypic{Figures/omhchorp_flow.png}{Depiction of processes and datasets used to recalculate OMI AMFs.}{\label{Model:omiRecalc:fig_omhchorp_flow}}
+  
+  
+  After recalculating the AMFs for each satellite pixel using GEOS-Chem v10.01, we are left with the new vertical columns which are essentially what the satellite would show given that the modelled column was known and correct.
+  Comparing these new vertical columns to model output removes any bias caused by the apriori vertical column in the satellite product, since now biases in the modelled column affect both data sets equally.
   
   \subsection{Reading satellite data}
     
@@ -881,7 +897,7 @@
       AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
     \end{equation*}
     
-    Defining w(z) as the scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
+    Defining $\omega$(z) as the scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
     \begin{equation}
     \omega(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
     \end{equation}
@@ -890,12 +906,16 @@
     S_z(z) = \frac{\eta(z)}{\Omega_v}
     \end{equation}
     
+    The vertical shape factor S$_z$(z) is defined as a normalized vertical number density profile $S_z(z) = \frac{\eta(z)}{\Omega_v}$ where $\eta(z)$ is the number density in molecules m$^{-3}$. 
     Now the AMF can be expressed as
     \begin{equation} \label{Model:omiRecalc:eqn_AMFintwSdz}
-    AMF = \int_0^\infty w(z) S_z(z) \mathrm{d}z
+    AMF = \int_0^\infty \omega(z) S_z(z) \mathrm{d}z
     \end{equation}
     It's worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and a the calculation in equation \ref{Model:omiRecalc:eqn_AMFintwSdz} does not use the $AMF_G$ term.
     This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
+    It's worth noting that in the OMI satellite product, the provided $\omega(z)$ incorporates the $AMF_G$ term and the equation \ref{eqn:AMFintwSdz} should be implemented without this term if using the satellite $\omega$.
+    This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
+    
     
     Mie scattering and clouds can complicate the calculation of $\omega$(z), however tables of values for this function at various parameter inputs can be used with modeled vertical shape factors for local AMF calculations.
     Using the vertical coordinate sigma ($\sigma$), which is related to pressure (P) by $P=\sigma \left( P_S - P_T \right) + P_T$, where subscripts S and T represent earth surface and top of the atmosphere respectively.
@@ -1018,7 +1038,7 @@
   \subsection{Binning the results daily}
     
     Finally the pixels are binned into a gridded dataset I've called OMHCHORP, as shown in figure \ref{Model:Datasets:OMHCHO:fig_read_omhcho}.
-    The resolution is chosen to match the native resolution of GEOS-Chem and the GEOS met data fields.
+    The resolution is chosen to match the native resolution of GEOS-Chem (0.25x0.3125\degres) and the GEOS met data fields.
     %TODO: list of things stored in the daily omhchorp outputs
     Data averaged into this dataset are as follows:
     \begin{enumerate}
@@ -1036,61 +1056,43 @@
       \item fire counts (summed into bins)
     \end{enumerate}
     
+    TODO: time per regridding and reprocessing:
+    This whole process requires some processing time as well as RAM and computer storage space, and has been performed on the National Computing Infrastructure (NCI) supercomputer cluster.
+    In order to reprocess one year of swath files, X GB of daily data was downloaded and then transformed into Y GB of daily gridded data.
+    This takes around 90 minutes per day, and is very parallelisable as each day is completely independent once the model has run in each required configuration.
+    Initially paralellism was built into the python code, however simply running sending seperate 'jobs' to NCI's process queue was simpler and more scalable.
+    As much as possible, processing is done using the HDF-5 format, with some GEOS-Chem output being read and processed from bitpunch to HDF-EOS5 prior to reprocessing.
+    The scripts to regrid and reprocess the swath data set are available in the supplementary (TODO).
+  
+  \subsection{Difference between new and old OMI HCHO columns}
+  
     
-  
-  
-  % Geos chem profiles for apriori
-  Apriori GEOS-Chem HCHO profiles are created using output averaged between 1200 and 1300 local time (LT).
-  Using this one hour average should match the overpass time of OMI, and is similarly performed in \cite{Jin2017}.
-  
-  
-  %% HERE I SUMMARISE THE AMF CALCULATION
-  The vertical shape factor S$_z$(z) is defined as a normalized vertical number density profile $S_z(z) = \frac{\eta(z)}{\Omega_v}$ where $\eta(z)$ is the number density in molecules m$^{-3}$. 
-  The AMF can be expressed as
-  \begin{equation} 
-    \label{eqn:AMFintwSdz}
-    AMF = AMF_G \int_0^\infty w(z) S_z(z) \mathrm{d}z
-  \end{equation}
-  Where w(z) is the scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z.
-  It's worth noting that in the OMI satellite product, the provided $\omega(z)$ incorporates the $AMF_G$ term and the equation \ref{eqn:AMFintwSdz} should be implemented without this term if using the satellite $\omega$.
-  This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
-  
-  Figure \ref{Model:omiRecalc:fig_omhchorp_flow} shows an overview of how this process is performed in my work.
-  Output from GEOS-Chem is combined with both OMHCHO swath data and MOD14A1 gridded fire data in order to produce a gridded HCHO file which contains HCHO vertical columns and fire counts. 
-  The output keeps the original AMF as well as those recalculated using GEOS-Chem, and optionally those recalculated using GEOS-Chem and LIDORT.
-  
-  
-  \mypic{Figures/omhchorp_flow.png}{Depiction of processes and datasets used to recalculate OMI AMFs.}{\label{Model:omiRecalc:fig_omhchorp_flow}}
-  
-  
-  After recalculating the AMFs for each satellite pixel using GEOS-Chem v10.01, we are left with the new vertical columns which are essentially what the satellite would show given that the modelled column was known and correct.
-  Comparing these new vertical columns to model output removes any bias caused by the apriori vertical column in the satellite product, since now biases in the modelled column affect both data sets equally.
-  
-  Two HCHO products are created, both using GEOS-Chem output at global 2 by 2.5\degr horizontal resolution.
-  One uses the OMI product's $\omega_z$ and equation \ref{eqn:AMFintwSdz} in order to calculate an AMF.
-  While the other uses code provided by Dr. Paul Palmer, with alterations by Dr. Randal Martin, and Dr. Luke Surl to run LIDORT on the satellite slant columns and the GEOS-Chem output in order to calculate an AMF.
-  These two calculations are compared over Australia in figure(s) TODO: Map comparison, regression, and time series once AMFpp is working properly.
-  The effect of not recalculating the $\omega_z$ is can be seen in figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which looks at the altered satellite vertical columns using each method.
-  
-  Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows vertical columns of HCHO for: column 1) the original satellite swaths, column 2) recalculated without changing the provided scattering weights, and column 3) fully recalculated vertical columns. 
-  Each grid square (at 0.25 by 0.3125\degr lat lon resolution) has been created by binning the recalculated satellite pixels within the month.
-  The average pixels per land square is overlaid and changes due to how a fire filter is applied.
-  Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
-  This figure looks at March 2005 with biomass burning filtered differently in each row.
-  Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
-  
-  %TODO: figure analysing amf vs amf_gc vs amf_pp
-  Figure TODO shows an analysis of the differences between running the recalculation with and without updating the $\omega_z$.
-  
-  \mypic{Figures/OMI_link/VCC_fires_20050301-20050331.png}{% 
-    Column 1: Reference sector corrected HCHO vertical columns $\Omega$ from OMHCHOv003.
-    Column 2: $\Omega$ with recalculated apriori shape factors using GEOS-Chem v10.01.
-    Column 3: $\Omega$ with recalculated apriori shape factors and scattering weights using GEOS-Chem v10.01 and LIDORT.
-    Row 1-5: increasing number of prior days which have active fires are included when masking fire influence.
-    }{\label{Model:omiRecalc:fig_VCC_pp_fires}}
-  
-  The AMF calculated using Dr. Palmer's code uses a more strict series of filters, leading to fewer satellite based HCHO columns and reduced coverage over Australia.
-  Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating $\omega_z$.
+    Two HCHO products are created, both using GEOS-Chem output at global 2 by 2.5\degr horizontal resolution.
+    One uses the OMI product's $\omega_z$ and equation \ref{eqn:AMFintwSdz} in order to calculate an AMF.
+    While the other uses code provided by Dr. Paul Palmer, with alterations by Dr. Randal Martin, and Dr. Luke Surl to run LIDORT on the satellite slant columns and the GEOS-Chem output in order to calculate an AMF.
+    These two calculations are compared over Australia in figure(s) TODO: Map comparison, regression, and time series once AMFpp is working properly.
+    The effect of not recalculating the $\omega_z$ is can be seen in figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which looks at the altered satellite vertical columns using each method.
+    
+    Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows vertical columns of HCHO for: column 1) the original satellite swaths, column 2) recalculated without changing the provided scattering weights, and column 3) fully recalculated vertical columns. 
+    Each grid square (at 0.25 by 0.3125\degr lat lon resolution) has been created by binning the recalculated satellite pixels within the month.
+    The average pixels per land square is overlaid and changes due to how a fire filter is applied.
+    Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
+    This figure looks at March 2005 with biomass burning filtered differently in each row.
+    Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
+    
+    %TODO: figure analysing amf vs amf_gc vs amf_pp
+    Figure TODO shows an analysis of the differences between running the recalculation with and without updating the $\omega_z$.
+    
+    \mypic{Figures/OMI_link/VCC_fires_20050301-20050331.png}{% 
+      Column 1: Reference sector corrected HCHO vertical columns $\Omega$ from OMHCHOv003.
+      Column 2: $\Omega$ with recalculated apriori shape factors using GEOS-Chem v10.01.
+      Column 3: $\Omega$ with recalculated apriori shape factors and scattering weights using GEOS-Chem v10.01 and LIDORT.
+      Row 1-5: increasing number of prior days which have active fires are included when masking fire influence.
+      }{\label{Model:omiRecalc:fig_VCC_pp_fires}}
+    
+    TODO: Ask luke if this is true:
+    The AMF calculated using Dr. Palmer's code uses a more strict series of filters, leading to fewer satellite based HCHO columns and reduced coverage over Australia.
+    Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating $\omega_z$.
   
 
 \section{Filtering Data}

@@ -2,16 +2,16 @@
 \chapter{Supplementary Notes}
   \label{SuppNotes}
   
-  \section{Chemistry}
-    
-    \cite{Patchen2007} examine the branching step where isoprene either forms ROO or RONO$_2$, and for specific conditions they determine the reaction rates for each branch.
-    They find the most frequent pathway is the formation of ROO (99.3\%).
-    Although the nitrates formation is relatively infrequent, this pathway can lead to NO$_X$ transport into clean environments (\cite{Horowitz1998}).
-    This transport can be exacerbated by fast winds and low OH concentrations, making nitrates an important factor in modelling atmospheric chemistry.
-    
-    PAN has a relatively long lifetime (against OH, order of 1 day) and is able to transport and release the NO$_X$ in environments which are quite far from any emissions.
-    
-    \subsubsection{SOA}
+\section{Chemistry}
+  
+  \cite{Patchen2007} examine the branching step where isoprene either forms ROO or RONO$_2$, and for specific conditions they determine the reaction rates for each branch.
+  They find the most frequent pathway is the formation of ROO (99.3\%).
+  Although the nitrates formation is relatively infrequent, this pathway can lead to NO$_X$ transport into clean environments (\cite{Horowitz1998}).
+  This transport can be exacerbated by fast winds and low OH concentrations, making nitrates an important factor in modelling atmospheric chemistry.
+  
+  PAN has a relatively long lifetime (against OH, order of 1 day) and is able to transport and release the NO$_X$ in environments which are quite far from any emissions.
+  
+  \subsubsection{SOA}
     \label{LR:VOCs:IsopCascade:SOA}
     
     SOA formation from VOCs in atmospheric CTMs is generally imperfect due to the complicated chemistry and diverse nature of atmospheric conditions.
@@ -90,24 +90,24 @@
     With coming geostationary satellites, which provide greater time resolved measurements of HCHO and CHOCHO, this mechanism could be used to clearly show when low NO$_X$ isoprene chemistry is being undertaken \citep{Miller2017}.
     
   
-  \section{CAABA/MECCA}
-    \label{Model:CM}
-    
-    
-    CAABA (Chemistry As A Boxmodel Application) estimates the chemical concentrations accounting for J-values (JVAL), simplified and parameterised photolysis (SAPPHO) and simplified emission and depositions (SEMIDEP).
-    CAABA runs in a single scenario (or box) with given emissions, depositions, and initial concentrations, allowing the examination of chemistry in a very specific environment to be modelled with high temporal resolution.
-    CAABA/MECCA has been implemented for various calculations including ozone chemistry throughout the atmosphere in \cite{Zanis2014}.
-    The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
-    
-    This has been used with an atmospheric chemistry model MECCA (Module Efficiently Calculating the Chemistry of the Atmosphere) which implements tropospheric and stratospheric chemistry for both the gas and the aqueous phases \citep{Sander2005}.
-    MECCA chemical mechanisms include basic O$_3$, CH$_4$, NO$_X$, and HO$_X$ chemistry, as well as non methane hydrocarbon (NMHC) chemistry, considering gas phase, aqueus phase, and heterogenous reactions. \citep{Sander2005}
-    For the numerical integration, MECCA uses the KPP software (\cite{SanduSander2006}), which takes chemical reactions and their rate coefficients and codes integral solutions to the system.
-    The combination of the CAABA box model with MECCA module is called CAABA/MECCA and is currently at version 3.
-    CAABA/MECCA been implemented for various calculations including ozone chemistry throughout the atmosphere in \cite{Zanis2014}.
-    
-    MECCA could also be used as the chemistry mechanism for a more complex, 3-dimensional model (\cite[e.g.][]{Jockel2006}).
-    The connection is established via the MESSy interface (\url{http://www.messy-interface.org}) developed by \cite{Jockel2005} as part of an effort to simplify the framework for modelling the atmospheres at various scales.
-    The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
+\section{CAABA/MECCA}
+  \label{Model:CM}
+  
+  
+  CAABA (Chemistry As A Boxmodel Application) estimates the chemical concentrations accounting for J-values (JVAL), simplified and parameterised photolysis (SAPPHO) and simplified emission and depositions (SEMIDEP).
+  CAABA runs in a single scenario (or box) with given emissions, depositions, and initial concentrations, allowing the examination of chemistry in a very specific environment to be modelled with high temporal resolution.
+  CAABA/MECCA has been implemented for various calculations including ozone chemistry throughout the atmosphere in \cite{Zanis2014}.
+  The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
+  
+  This has been used with an atmospheric chemistry model MECCA (Module Efficiently Calculating the Chemistry of the Atmosphere) which implements tropospheric and stratospheric chemistry for both the gas and the aqueous phases \citep{Sander2005}.
+  MECCA chemical mechanisms include basic O$_3$, CH$_4$, NO$_X$, and HO$_X$ chemistry, as well as non methane hydrocarbon (NMHC) chemistry, considering gas phase, aqueus phase, and heterogenous reactions. \citep{Sander2005}
+  For the numerical integration, MECCA uses the KPP software (\cite{SanduSander2006}), which takes chemical reactions and their rate coefficients and codes integral solutions to the system.
+  The combination of the CAABA box model with MECCA module is called CAABA/MECCA and is currently at version 3.
+  CAABA/MECCA been implemented for various calculations including ozone chemistry throughout the atmosphere in \cite{Zanis2014}.
+  
+  MECCA could also be used as the chemistry mechanism for a more complex, 3-dimensional model (\cite[e.g.][]{Jockel2006}).
+  The connection is established via the MESSy interface (\url{http://www.messy-interface.org}) developed by \cite{Jockel2005} as part of an effort to simplify the framework for modelling the atmospheres at various scales.
+  The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
     
   % Method for using caaba/mecca
   \subsection{CAABA/MECCA Box model: isoprene source classifications}
@@ -217,3 +217,26 @@
     Cross-track striping is systematically higher or lower column values along a whole track.
     Several methods are used to reduce cross-track striping of the HCHO columns.
     These include soft calibration, which is the use of a daily radiance reference, and outlier screening in the fitting residuals.
+    
+  \subsection{Old Fire Product MYD14C8H}
+    % This stuff is no longe used - now using MOD14A1 gridded
+    
+    On board NASA's AQUA satellite, the MODIS instrument is used to detect fire activity.
+    The product used here is called MYD14C8H (\citep{Giglio2006}), which looks at fire activity over eight days on a 0.5$^{\circ}$ square grid globally.
+    Regridding the product to the native meteorological grid of GEOS5 at 0.25$^{\circ}$ latitude by 0.3125$^{\circ}$ longitude is done in python with an interpolator which maps the values of the new grid rectangles to the value of the nearest grid square.
+    
+    Figure \ref{ch_HCHO:fig:fireexclusionexample} shows an example of the total column HCHO calculated using GEOS-Chem aprioris ($\Omega_{GEOS}$) before and after using the MYD14C8H product to exclude fire influenced pixels.
+    (TODO: show time series of how many pixels are removed and discuss if this causes any issues down the line)
+    % January 1, 2005 : 113384 / 130295 nan entries before and after fire exclusion within 60 degrees of equator
+    
+    \begin{figure}[!htbp]\begin{center}
+      \includegraphics[width=\textwidth]{Figures/HCHO/fire_exclusion_aus_8d.png}
+      \caption{Vertical column HCHO calculated using OMI satellite swaths with GEOS-Chem aprioris, averaged over 1-8 January 2005 with and without fire affected squares removed.}
+      \label{ch_HCHO:fig:fireexclusionexample}
+    \end{center}\end{figure}
+      
+    This filtering ends up removing too much information, and the recalculation of HCHO is too negatively influenced.
+    To deal with this a separate product from the same instrument has been downloaded: MYD14A1, which keeps daily fire counts.
+    Less disruptive filtering can be achieved by removing pixels which coincide with fires on the same day, as shown in figure TODO: which compares the 8 and 1 day filtering.
+    TODO: The script to read and regrid these one day fire counts was adapted from X.
+    Figure (TODO: effect on uncertainty and time series of fire pixels removed) shows the daily filtering effect on uncertainty and time series of fire pixels removed.

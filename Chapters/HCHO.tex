@@ -58,26 +58,11 @@
   \subsection{Regridding to 0.25 by 0.3125 8-day averaged vertical columns}
     
 
-    
-    
-    The process of regridding is performed by first reading all relevent information at each pixel for a single day into a list in python, which is then processed, with the shape factor read from GEOS-Chem output and AMF recalculated, before being saved as a gridded array of total columns and pixel counts.
-    The total columns are averaged into each grid box for each day, and eventually averaged over eight day time periods.
-    
-    TODO: time per regridding and reprocessing:
-    This mapping requires some processing time as well as RAM and computer storage space, and has been performed on the National Computing Infrastructure (NCI) supercomputer cluster.
-    In order to reprocess one year of swath files, X GB of daily data was downloaded and then transformed into Y GB of 8-day averaged gridded data.
-    This takes around 90 minutes per day, and is very parallelisable as each day is completely independent.
-    Using N$\times 8$ concurrent processors on NCI's computer cluster running Python allows for very fast reprocessing of our entire timeline.
-    As much as possible, processing is done using the HDF-EOS5 format, with GEOS-Chem output being read and processed from bitpunch to HDF-EOS5 prior to reprocessing.
-    The scripts to regrid and reprocess the swath data set are available in the supplementary (TODO).
-    
   \subsection{Filtering pyrogenic HCHO}
   \label{ch_HCHO:sec:filteringfires}
     TODO: How modis fire counts are used as well as statistics on removed data points.
     
-    On board NASA's AQUA satellite, the MODIS instrument is used to detect fire activity.
-    The product used here is called MYD14C8H (\citep{Giglio2006}), which looks at fire activity over eight days on a 0.5$^{\circ}$ square grid globally.
-    Regridding the product to the native meteorological grid of GEOS5 at 0.25$^{\circ}$ latitude by 0.3125$^{\circ}$ longitude is done in python with an interpolator which maps the values of the new grid rectangles to the value of the nearest grid square.
+    
     An example of the change in resolution is provided in figure \ref{ch_HCHO:fig:modisgridspace}, where the grids are shown over a basic map of Tasmania.
     The direct affect of this interpolation is shown as an example in figure \ref{ch_HCHO:fig:modisinterpolation}, which is showing the regridded MODIS fire count over Australia from January 2005 (avg of first 8 days) in two subplots.
     
@@ -94,21 +79,7 @@
       \label{ch_HCHO:fig:modisinterpolation}
     \end{center}\end{figure}
     
-    Figure \ref{ch_HCHO:fig:fireexclusionexample} shows an example of the total column HCHO calculated using GEOS-Chem aprioris ($\Omega_{GEOS}$) before and after using the MYD14C8H product to exclude fire influenced pixels.
-    (TODO: show time series of how many pixels are removed and discuss if this causes any issues down the line)
-    % January 1, 2005 : 113384 / 130295 nan entries before and after fire exclusion within 60 degrees of equator
     
-    \begin{figure}[!htbp]\begin{center}
-      \includegraphics[width=\textwidth]{Figures/HCHO/fire_exclusion_aus_8d.png}
-      \caption{Vertical column HCHO calculated using OMI satellite swaths with GEOS-Chem aprioris, averaged over 1-8 January 2005 with and without fire affected squares removed.}
-      \label{ch_HCHO:fig:fireexclusionexample}
-    \end{center}\end{figure}
-    
-    This filtering ends up removing too much information, and the recalculation of HCHO is too negatively influenced.
-    To deal with this a separate product from the same instrument has been downloaded: MYD14A1, which keeps daily fire counts.
-    Less disruptive filtering can be achieved by removing pixels which coincide with fires on the same day, as shown in figure TODO: which compares the 8 and 1 day filtering.
-    TODO: The script to read and regrid these one day fire counts was adapted from X.
-    Figure (TODO: effect on uncertainty and time series of fire pixels removed) shows the daily filtering effect on uncertainty and time series of fire pixels removed.
     
   \subsection{Filtering anthropogenic HCHO}
     TODO
