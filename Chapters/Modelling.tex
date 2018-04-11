@@ -104,11 +104,13 @@
       Atmospheric HCHO can be measured using Differential Optical Absorption Spectroscopy (DOAS), as long as trace gases with similar features near the same wavelength are accounted for.
       A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
       This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
-      In version 3.0 of the OMI satellite data retrievals, HCHO is determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
-      The algorithm used is based on direct fitting of radiances and irradiances.
+      I use the NASA OMHCHOv003 data product \citep{Abad2015}, with HCHO determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
+      The algorithm used is based on direct fitting of radiances, and accounts for competing absorbers, under-sampling, and Ring effects.
       An OMI radiance measurement over the remote Pacific ocean is used instead of an irradiance measurement.
       This means that the slant columns ($\Omega_S$) are actually the difference with respect to the radiance reference column ($\Omega_{S_0}$).
       The full method details for slant column retrieval by OMI are outlined in section \ref{SuppNotes:Satellite:OMI_BOAS}.
+      Slant columns range from $\sim 4\times 10^{15} $ to $\sim 6 \times 10^{16}$\moleccm, with uncertainties from 30\% (larger columns) to over 100\% (smaller columns) \citep{Abad2015}.
+      
       
       % What the swathes look like
       OMHCHO level two data includes 14-15 daily swaths of measurements provided by NASA.
@@ -717,12 +719,15 @@
       %% SURFACE CONDITIONS AND CLOUDS
       In cloudy, hazy or polluted areas measurements are more difficult to analyse (\cite[e.g.][]{Palmer2003,Marais2014}).
       Recent work by \cite{Vasilkov2017} showed that updating how the surface reflectivity is incorporated into satellite measurements can change the retrievals by 50~\% in polluted areas.
+      With the satellite HCHO columns, we filter cloud fractions over 40\%, which introduces a clear-sky bias.
+      This bias has been measured as a 13\% positive monthly mean bias by \cite{Palmer2001, Surl2018}.
       
       %% BACKGROUND MEASUREMENTS
       In satellite HCHO products, concentrations over the remote pacific ocean are sometimes used to analyse faulty instrument readings.
       This is due to the expected invariance of HCHO over this region.
       For instance GOME (an instrument which measures trace gases on board the ERS-2) corrects for an instrument artifact using modelled HCHO over the remote pacific (\cite{Shim2005}).
-      OMI HCHO products use a similar technique to account for sensor plate drift and changing bromine sensitivity (\cite{Abad2015})
+      OMI HCHO products use a similar technique to account for sensor plate drift and changing bromine sensitivity (\cite{Abad2015}).
+      
       
       
       %% EXAMPLES OF BIAS
