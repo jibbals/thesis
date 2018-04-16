@@ -111,6 +111,7 @@
 \section{Methods}
   \label{BioIsop:Methods}
   
+  %TODO Full method outline to Jenny
   \subsection{Outline}
     % Method Briefly outlined here
     Here is an overview of the steps involved in my Thesis, which take satellite data and model output to estimate isoprene emissions.
@@ -119,10 +120,11 @@
         Download Aqua/Terra MODIS gridded fire counts (MOD14A1), smoke measurements (OMAERUVd), and Aura HCHO columns (OMHCHO).
         These products are discussed in more detail in Section \ref{Model:Datasets}.
       \item 
-        Run GEOS-Chem with satellite overpass output averaged over 1200-1300~LT (matching Aura overpass time).
+        Run GEOS-Chem with satellite overpass output averaged over 1200-1300~LT (matching Aura overpass time). 
+        This step is described in more detail in section \ref{Model:GC:running}, which includes set-up details for running GEOS_Chem V10.01
       \item 
         Recalculate OMHCHO vertical columns using GEOS-Chem to recreate the shape factors for each slant column. Also done with code from Paul Palmers group which includes recalculation of the scattering weights.
-        The method to read the satellite data is given in Section \ref{Model:Datasets:OMHCHO}, while reprocessing the column AMFs is detailed in Section \ref{Model:omiRecalc}.
+        The method to read the satellite data is given in Section \ref{Model:Datasets:OMHCHO}, while reprocessing the column AMFs is detailed in Section \ref{Model:omiRecalc}
       \item 
         Mask HCHO columns which occur on days with non-zero (MODIS) fire counts over the prior 8 days, as is done in \cite{Marais2012}.
         More detail on this step can be found in \ref{Model:Filter:fire}
@@ -140,8 +142,7 @@
         Compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane(?) measurements
     \end{enumerate}
   
-  %TODO Full method outline to Jenny
-  \subsection{}
+  
   
   \subsection{Satellite inversion}
   \label{BioIsop:SatInv}
@@ -544,7 +545,18 @@
     Compare this error estimate with that of \citet{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
     \cite{Millet2008} also examine this uncertainty and determine an overall uncertainty ($1\sigma$) of $25-27\%$ in HCHO vertical columns with calculated AMFs where cloud fraction $< 0.2$.
     
+  \subsection{Fire Filtering}
     
+    %Look at emissions estimates with and without the fire filter applied
+    Figure \ref{BioIsop:Uncertainty:Fire:fig_emiss_without_fire_filter} shows emissions estimates for January 2005, using three different HCHO columns as the basis: the original OMI satellite HCHO columns ($\Omega$}), those with AMF recalculated using a new apriori ($\Omega_{GC}$), and those with AMFs recalculated using PP code ($\Omega_{PP}$).
+    The first row shows emissions estimates calculated as shown in \ref{BioIsop:Methods}, while the second row runs the same calculations without applying any fire or smoke filter.
+    The Third row is the absolute difference between them: fire filtered minus standard emissions.
+    
+    \mypic{Figures/OMI_link/Emiss/FireFilter200501.png}
+    {Emissions estimates using OMI satellite columns (column 1) recalculated with updated shape factor (column 2) and scattering weights (column 3). Turning off the fire and smoke filters gives emissions in row 2, while the difference between row 1 and row 2 is shown in row 3.}
+    {\label{BioIsop:Uncertainty:Fire:fig_emiss_without_fire_filter}}
+    
+    % TODO: Emissions Averages and differences over the year with and without a fire filter 
   
   
 % Extras for potential paper output 

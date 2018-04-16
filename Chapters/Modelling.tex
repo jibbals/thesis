@@ -163,13 +163,18 @@
       
       % smoke aaod outline
       Aerosols in the atmosphere can be seen through their affects on light. 
-      Smoke can be seen as an increase in AAOD (see section \ref{Model:Meas:DOAS}).
-      The satellite product OMAERUVd contains AAOD measurements at three wavelengths, gridded to 1x1\degr horizontal resolution.
+      Smoke and dust can be seen as an increase in AAOD (see section \ref{Model:Meas:DOAS}).
+      This is due these particles scattering and absorbing UV radiation \citep{Ahn2008}.
+      
       
       %TODO: OMAERUVd brief description
+      OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) provides a useful dataset allowing us to filter gridsquares which may be smoke affected.
+      OMI aerosol extinction and absorption optical depths (AOD, AAOD respectively) at three wavelengths (354, 388, and 500~nm), along with UV aerosol index (UVAI), are available publicly from Earthdata: \url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}.
+      The OMAERUVd product is level three, gridded daily data, based on quality filtered level two swath pixels which are then gridded by averaging.
+      The product is most sensitive to error in the form of subpixel scale cloud interference, so I select AAOD as the basis for my smoke filter as it is least affected by clouds \citep{Ahn2008}.
       
       % How I read the AAOD
-      Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to higher resolution using the nearest value for each gridsquare, before being saved along with the MOD14A1d fire product as seen in Figure \ref{Model:Datasets:OMHCHO:fig_read_omhcho}.
+      Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to finer resolution using the nearest value for each gridsquare, before being saved along with the MOD14A1d fire product as seen in Figure \ref{Model:Datasets:OMHCHO:fig_read_omhcho}.
       I use the AAOD at 500~nm wavelength, which should be sufficiently blocked by fire smoke plumes.
       This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with higher than TODO AAOD values.
     
@@ -1160,21 +1165,25 @@
 \section{Filtering Data}
   \label{Model:Filter}
   
+  % Why filter data
+  In order to examine only biogenic processes, pyrogenic and anthropogenic influences need to be removed from modelled and measured data.
+  As biomass burning can be a large local or transported source of HCHO, CHOCHO, glyoxal, and other compounds we would like to use to determine BVOC emissions, it is advantageous to filter out this source.
+  Just filtering active fires does not account for transported smoke plumes, which can carry HCHO precursors.
+  One complication when computing HCHO yield from VOC emissions is biomass burning interference, as smoke plumes can contribute to column HCHO.
+  In GEOS-Chem we can simply turn off pyrogenic and anthropogenic emissions, however in satellite datasets we need to mask pixels affected by biomass burning.
   
-  \subsection{Fires}
+  % How other people have filtered fires
+  Influence from biomass burning can be removed through measurements of acetonitrile and CO (eg: \citep{Wolfe2016, Miller2017}, or else removal of scenes coincident with satellite detected fire counts and aerosol absorption optical depth as done in \cite{Marais2014}.
+  \citet{Wolfe2016} disregard HCHO measurements when acetonitrile > 210~pptv and CO > 300~ppbv, while acetonitrile > 200~pptv is used to determine fire influence in \cite{Miller2017}.
+  TODO: look at yearly corellation, compare to exponential curve and look for fire outliers
+  As seen in TODO: citation, HCHO concentrations scale exponentially with temperature.
+  This allows another method for detecting the influence of non-biogenic HCHO emission/creation by looking for outliers above the curve at low temperature.
+  \cite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15*{T}-9.07)$.
+  
+  
+  \subsection{Fires and Smoke}
     \label{Model:Filter:fire}
     
-    As biomass burning can be a large local or transported source of HCHO, CHOCHO, glyoxal, and other compounds we would like to use to determine BVOC emissions, it is advantageous to filter out this source.
-    Just filtering active fires does not account for transported smoke plumes, which can carry HCHO precursors.
-    One complication when computing HCHO yield from VOC emissions is biomass burning interference, as smoke plumes can contribute to column HCHO.
-    Influence from biomass burning can be removed through measurements of acetonitrile and CO (eg: \citep{Wolfe2016, Miller2017}, or else removal of scenes coincident with satellite detected fire counts and aerosol absorption optical depth as done in \cite{Marais2014}.
-    \citet{Wolfe2016} disregard HCHO measurements when acetonitrile > 210~pptv and CO > 300~ppbv, while acetonitrile > 200~pptv is used to determine fire influence in \cite{Miller2017}.
-    TODO: look at yearly corellation, compare to exponential curve and look for fire outliers
-    As seen in TODO: citation, HCHO concentrations scale exponentially with temperature.
-    This allows another method for detecting the influence of non-biogenic HCHO emission/creation by looking for outliers above the curve at low temperature.
-    \cite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15*{T}-9.07)$.
-    
-    In GEOS-Chem we can simply turn off pyrogenic emissions, however in satellite datasets we need to mask pixels affected by biomass burning.
     The method used in this thesis follows that of \cite{Marais2012}, and \cite{Barkley2013}, with active fires filtered using fire counts, and smoke filtered out using smoke aerosol absorption optical depth (AAOD).
     \cite{Marais2012} remove pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1 x 1\degr resolution.
     \cite{Barkley2013} use fires from the preceding and concurrent day, within local or adjacent grid squares, with grid resolution of 0.25 x 0.3125\degr.
@@ -1192,7 +1201,10 @@
       \item An AAOD threshold is determined using some technique (TODO).
       \item Grid squares with AAOD over this threshhold (TODO) are additionally masked.
     \end{enumerate}
-    
+  
+  % Smoke AAOD determination:
+  Determining the AAOD due to smoke can be difficult since both smoke and dust absorb UV radiation \citep{Ahn2008,Marais2012}.
+  AAOD is less sensitive to cloud contamination than AOD, 
   
   
   \subsection{NOx}
