@@ -1209,7 +1209,16 @@
   
   % Smoke AAOD determination:
   Determining the AAOD due to smoke can be difficult since both smoke and dust absorb UV radiation \citep{Ahn2008,Marais2012}.
-  AAOD is less sensitive to cloud contamination than AOD, 
+  AAOD is should be less sensitive to cloud contamination than AOD, and I use AAOD from the daily gridded level 3 satellite product OMAERUVd \citep{Ahn2008} described in section \ref{Model:Datasets:OMAERUVd} to provide a filter for smoke plumes.
+  
+  Filtering fire smoke using AAOD is done by removing OMHCHO gridsquares where the AAOD is above a threshhold, after the AAOD is mapped from 1x1\degr to the same 0.25x0.3125\degr resolution as our OMHCHO gridded product.
+  The threshhold is determined through analysing AAOD over Australia in 4 scenarios: normal conditions, active local fires, during influence from transported fire smoke, and large scale dust storms.
+  Figure \ref{Model:Filter:fire:eqn_typicalAAOD} shows AAOD (columns 1 and 2), with AAOD distribution in column 3, along with satellite imagery on the same day in column 4 (from \url{https://worldview.earthdata.nasa.gov/}).
+  The scenarios listed are shown from row 1 to 4, and AAOD greater than 0.03 is demarked by diagonal lines in column 1.
+  
+  \mypic{'Figures/OMI_link/typical_AAODs.png'}
+    {AAOD from OMAERUVd (columns 1, 2, 3) over Australia for four different scenarios (rows 1-4).}
+    {\label{Model:Filter:fire:eqn_typicalAAOD}}
   
   
   \subsection{NOx}
