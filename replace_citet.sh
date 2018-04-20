@@ -9,20 +9,32 @@ if [ $# -lt 1 ]; then
     exit 0
 fi
 
+# back up the file before changing it
+echo "copy of input file at backup_${1}"
+
 
 # sed syntax: sed 's/regex/replacement/flags'
-# replace \citep{...} with (\cite{...})
-#
+
+#######################
+# A) I want to go from \citep{...} to (\cite{...})
+#######################
+
 # For testing:
 #echo '\citep{Young,blah203} blah, \citep{Juger}' | sed 's/\\citep{\([^}]*\)}/(\\cite{\1})/g'
+#
 #sed -i 's/\\citep{\([^}]*\)}/(\\cite{\1})/g' $1
+#
 
-# Now I want to go back from (\citet{...}) to \citep{...}
+######################
+# B) Now I want to go from (\citet{...}) to \citep{...}
+######################
 
 # For testing:
-
 echo 'blah blah (\citet{Young,blah203}) blah, (\citet{Juger})'
 echo 'becomes'
 echo 'blah blah (\citet{Young,blah203}) blah, (\citet{Juger})' | sed 's/(\\citet{\([^}]*\)})/\\citep{\1}/g'
-echo 'making copy of input file at check_me.txt'
-sed 's/(\\citet{\([^}]*\)})/\\citep{\1}/g' $1 > check_me.txt
+
+# replace inline all the (citet{}) with citep{}
+sed -i 's/(\\citet{\([^}]*\)})/\\citep{\1}/g' $1
+
+# Can try diff or colordiff to check the changes between backup and new file
