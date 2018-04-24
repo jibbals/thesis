@@ -536,7 +536,27 @@
         \label{Model:GC:running:fig_UCXvsTrop_O3}
       \end{figure}
 
-
+  \subsection{Rescaling NOx}
+    
+    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
+    This means that if the model is poorly simulating NO$_X$, the yield (and transport, see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
+    In order to determine if rescaling the NO emissions over Australia is necessary in GEOS-Chem, I looked at modelled NO$_2$ amounts compared to satellite data for most of 2005.
+    
+    
+    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
+    Figure \ref{Model:Filter:NOx:fig_GC_vs_OMNO2d_AUS_Sum_2005} shows the direct comparison between these datasets averaged over January to February, 2005.
+    It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem (potentially due to averaging over the 2x2.5\degr horizontal resolution).
+    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
+    
+    \begin{figure}
+      % Figure from GC_tests.py GC_vs_OMNO2d
+      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
+      \caption{%
+        GEOS-Chem mid-day tropospheric column NO$_2$ vs OMNO2d columns (averaged to match GEOS-Chems lower resolution).
+        Absolute and relative differences, along with corellation shown on bottom row.
+        }
+      \label{Model:Filter:NOx:fig_GC_vs_OMNO2d_AUS_Sum_2005}
+    \end{figure}
 
 
 \section{Measurement Techniques}
@@ -1224,35 +1244,94 @@
   
   \subsection{NOx}
     \label{Model:Filter:NOx}
-
-    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
-    This means that if the model is poorly simulating NO$_X$, the yield (and transport, see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
-    In order to determine if rescaling the NO emissions over Australia is necessary in GEOS-Chem, I looked at modelled NO$_2$ amounts compared to satellite data for most of 2005.
     
-    
-    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
-    Figure \ref{Model:Filter:NOx:fig_GC_vs_OMNO2d_AUS_Sum_2005} shows the direct comparison between these datasets averaged over January to February, 2005.
-    It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem (potentially due to averaging over the 2x2.5\degr horizontal resolution).
-    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
-    
-    \begin{figure}
-      % Figure from GC_tests.py GC_vs_OMNO2d
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
-      \caption{%
-        GEOS-Chem mid-day tropospheric column NO$_2$ vs OMNO2d columns (averaged to match GEOS-Chems lower resolution).
-        Absolute and relative differences, along with corellation shown on bottom row.
-      }
-      \label{Model:Filter:NOx:fig_GC_vs_OMNO2d_AUS_Sum_2005}
-    \end{figure}
+    % Why filter high NO? Anthro influence
+    Enhanced NO$_2$ concentrations can indicate anthropogenic influence over Australia.
+    In order to filter out these influences on satellite HCHO measurements, a filter is designed using the OMNO2d product which includes tropospheric NO$_2$ columns.
     
     % Nox analysis from OMNO2d
-    OMNO2d in 2005 is used to determine a suitable threshhold for anthropogenic influence by looking at NO$_2$ columns near several major cities in the south eastern sector of Australia.
+    OMNO2d from 2005 is used to determine a suitable threshhold for anthropogenic influence by looking at NO$_2$ columns near several major cities in the south eastern sector of Australia.
     The mean, standard deviation, and time series over Australia of tropospheric NO$_2$ seen by Aura is shown in figure TODO.
+    The average tropospheric NO$_2$ column for averaged within all of Australia and then each region shown in this figure is listed in table TODO.
+    
+    % Filters and Threshhold determination and reasoning
+    Anthropogenic influences on the NO$_2$ columns are clearly visible near major cities in Australia.
+    A filter is created each year from the OMNO2d product in two steps:
+    \begin{enumerate}
+      \item Daily gridsquares with NO$_2$ greater than 10$^{15}$\moleccm2  are flagged as anthropogenic.
+      \item After taking the yearly average over Australia, any gridsquares greater than $1.5 \times 10^{15}$\moleccm2 are flagged for the whole year.
+    \end{enumerate}
+    This removes both the gridsquares close enough to cities to be affected by their emissions year round, as well as effects from transported pollution plumes.
     
     % Threshhold analysis
-    The same regions as in figure TODO are shown again in figure TODO, with NO$_2$ pixels densities for each region shown, along with the determined threshold of TODO.
-    This led to a reduction of TODO pixels, which removes TODO gridsquare days from the total available measurement space.
+    The same regions as in figure TODO are shown again in figure TODO, with NO$_2$ pixels densities for each region shown, along with the threshold of TODO.
+    This led to a reduction of TODO gridsquares from the total available measurement space over Australia.
+    The removal of gridsquares which went above the yearly averaged limit of 1.5e15\moleccm2 further reduced the available data by TODO gridsquares.
     
+    
+    % Affects of filtering
+    % TODO: tabulate or summarise no2 filtering
+    \verb|Stats for  0 [-45, 108.75, -7, 156.25] k
+    yearly mean:  5.832e+14
+    std:  4.788e+14
+    entries:  2429149
+    gridsquares:  10541200
+    
+    Stats for  1 [-36, 148, -32, 153] red
+    yearly mean:  1.128e+15
+    std:  1.139e+15
+    entries:  22829
+    gridsquares:  116800
+    
+    Stats for  2 [-36, 134, -33, 140] green
+    yearly mean:  5.866e+14
+    std:  4.865e+14
+    entries:  13385
+    gridsquares:  105120
+    
+    Stats for  3 [-30, 125, -25, 135] cyan
+    yearly mean:  4.808e+14
+    std:  3.536e+14
+    entries:  161271
+    gridsquares:  292000
+    
+    Stats for  4 [-39, 142, -36, 148] darkred
+    yearly mean:  1.216e+15
+    std:  1.298e+15
+    entries:  37463
+    gridsquares:  105120
+    
+    Stats for  0 [-45, 108.75, -7, 156.25] k
+    yearly mean:  4.602e+14
+    std:  2.454e+14
+    entries:  1925823
+    gridsquares:  10541200
+    
+    Stats for  1 [-36, 148, -32, 153] red
+    yearly mean:  5.441e+14
+    std:  2.642e+14
+    entries:  8809
+    gridsquares:  116800
+    
+    a[a <= 0.0] = 1e-300
+    Stats for  2 [-36, 134, -33, 140] green
+    yearly mean:  4.450e+14
+    std:  2.453e+14
+    entries:  9777
+    gridsquares:  105120
+    
+    Stats for  3 [-30, 125, -25, 135] cyan
+    yearly mean:  4.194e+14
+    std:  2.385e+14
+    entries:  138701
+    gridsquares:  292000
+    
+    Stats for  4 [-39, 142, -36, 148] darkred
+    yearly mean:  5.216e+14
+    std:  2.660e+14
+    entries:  14421
+    gridsquares:  105120
+    |
 \section{Analysing output}
 \label{Model:Analysis}
   
