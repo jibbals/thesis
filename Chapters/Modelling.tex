@@ -121,13 +121,13 @@
       OMHCHO level two data includes 14-15 daily swaths of measurements provided by NASA.
       Each swath contains roughly $9 \times 10^4$ pixels, each of which contains various data including latitude, longitude vertical column HCHO, etc.
       The OMHCHO dataset has a quality flag which can be used to remove unlikely or poor satellite measurements.
-      The states represented by this quality flag are shown in table \ref{Model:Datasets:OMHCHO:tab_qflag} which is taken from \citet{Kurosu2014}.
+      The states represented by this quality flag are shown in table \ref{Model:Datasets:OMHCHO:tab_qflag} which is taken from \textcite{Kurosu2014}.
       Filtering bad or missing measurement pixels is preformed prior to any other filtering, this includes the datapoints affected by the row anomaly.
       This anomaly (\url{http://projects.knmi.nl/omi/research/product/rowanomaly-background.php}) affects radiance data at particular viewing angles, corresponding to a row on the CCD detectors, and is dynamic over time.
       The slant columns affected are flagged and easy to remove before further processing.
       
       \begin{table}
-        \caption{OMI quality flag values table from \citet{Kurosu2014}}
+        \caption{OMI quality flag values table from \textcite{Kurosu2014}}
         \begin{tabular}{  l  l  p{10cm} }
           \hline
           \textbf{Value} & \textbf{Classification} & \textbf{Rational} 
@@ -316,7 +316,7 @@
     \subsubsection{Outline}
       The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
       This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
-      The mechanism was subsequently updated by \citet{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \citet{Paulot2009a,Paulot2009b}.
+      The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \textcite{Paulot2009a,Paulot2009b}.
       Further mechanistic properties, like isomerisation rates, are based on results from four publications: cite{Crounse2011,Crounse2012,Peeters2010,Peeters2011}.
       (TODO: check abstracts Peeters papers).
       \textcite{Crounse2011} examines the isomerisations associated with the oxidation of isoprene to six different isomers (ISO$_2$) formed in the presence of oxygen: isoprene $ + OH \rightarrow^{O_2} $ ISO$_2$.
@@ -329,7 +329,7 @@
       The OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and a sink of OH TODO: citation.
       %TODO: cite and DL;\url{http://www.nature.com/ngeo/journal/v5/n3/full/ngeo1405.html}.
       
-      Formation of isoprene nitrates have an effect on ozone levels through NO$_X$ sequestration, and the yields and destinies of these nitrates is analysed in \citet{Paulot2009a}. 
+      Formation of isoprene nitrates have an effect on ozone levels through NO$_X$ sequestration, and the yields and destinies of these nitrates is analysed in \textcite{Paulot2009a}. 
       They use anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
       In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
       The yields of various positional isomers of isoprene nitrates is estimated, and pathways of their oxidation products is shown and used in the GEOS-Chem isoprene mechanism \parencite{Paulot2009a,Mao2013}. 
@@ -354,13 +354,13 @@
       As stated in earlier; most ISOPOOH will form IEPOX (epoxydiols) after reacting with OH and lead to OH regeneration.
       The other mechanism in low NO$_X$ environments is unimolecular isomerisation of ISOPO$_2$.
       This leads to production of hydroperoxyaldehydes (HPALDS), which generally photolyse and have an OH yield of 100\%.
-      \citet{Mao2013} show that a lower (factor of 50) rate constant for ISOPO$_2$ isomerisation leads to better organic nitrate aggreements with ICARTT. 
+      \textcite{Mao2013} show that a lower (factor of 50) rate constant for ISOPO$_2$ isomerisation leads to better organic nitrate aggreements with ICARTT. 
       
       This update leads to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
-      Prior to \citet{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside the instrument.
-      \citet{Mao2012} examine an upgraded method of measurement, and compare these against a regional atmospheric chemistry model (RACM2), with the OH recycling updates from \citet{Paulot2009b} as discussed in prior paragraphs.
+      Prior to \textcite{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside the instrument.
+      \textcite{Mao2012} examine an upgraded method of measurement, and compare these against a regional atmospheric chemistry model (RACM2), with the OH recycling updates from \textcite{Paulot2009b} as discussed in prior paragraphs.
       
-      The updates to isoprene chemistry by \citet{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last before version 11, which was not used in this work.
+      The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last before version 11, which was not used in this work.
       
       The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
     
@@ -373,11 +373,11 @@
       The model includes global measurements of leaf area index, plant functional type, and photosynthetic photon flux density, from remote sensing databases \parencite{Kefauver2014}.
       The various PFTs are used to generate emission factors which represent quantities of a compound released to the atmosphere through an associated activity.
       For example, an emission factor for isoprene within a forest would include the requirement of sunshine and suitable temperature.
-      The schematic for MEGAN, taken from \citet{Megan_Website}, is shown in figure \ref{Models:GC:Isop:MEGAN:fig_megan_schematic}
+      The schematic for MEGAN, taken from \textcite{Megan_Website}, is shown in figure \ref{Models:GC:Isop:MEGAN:fig_megan_schematic}
       
       \begin{figure}[!htbp]
         \includegraphics[width=\textwidth]{Figures/MEGANmodel_img.jpg}
-        \caption{MEGAN schematic, copied from \citet{Megan_Website}}
+        \caption{MEGAN schematic, copied from \textcite{Megan_Website}}
         \label{Models:GC:Isop:MEGAN:fig_megan_schematic}
       \end{figure}
       
@@ -409,7 +409,7 @@
         \gamma_\mathrm{SM} & = 0 && \theta < \theta_w \\
       \end{align*}
       where $\theta_w$ is the wilting point, and $\theta_1$ determines when plants are near the wilting point.
-      The wilting point is set by a land based database from \citet{Chen2001}, while $\theta_1$ is set globally based on \citet{Pegoraro2004}.
+      The wilting point is set by a land based database from \textcite{Chen2001}, while $\theta_1$ is set globally based on \textcite{Pegoraro2004}.
       
       In GEOS-Chem the isoprene emissions can be globally multiplied by a constant factor.
       By running the model two extra times, with the biogenic isoprene emissions turned off in one run and halved in another, while other parameters remain unchanged. 
@@ -599,7 +599,7 @@
     In these retrievals, the measurements of light absorption are performed over several elevations in order to add some vertical resolution to the measurement of trace gas concentrations.
     An example of this is shown in figure \ref{LR:HCHO:fig_MAXDOASExample}, which was taken from \textcite{Lee2015}.
     Recently MAX-DOAS has been used to examine HCHO profiles in the clean free troposphere (\textcite{Franco2015, Schreier2016}) as well as in polluted city air (\textcite{Lee2015}).
-    Depending on orography and atmospheric composition (ie. the influence of interfering chemicals), MAX-DOAS can be used to split the tropospheric column into two partial columns; giving a small amount of vertical resolution to HCHO measurements \citep[eg.]{Franco2015, Lee2015}.
+    Depending on orography and atmospheric composition (ie. the influence of interfering chemicals), MAX-DOAS can be used to split the tropospheric column into two partial columns; giving a small amount of vertical resolution to HCHO measurements \parencite[eg.]{Franco2015, Lee2015}.
     In \textcite{Franco2015}, an FTIR spectrometer at Jungfraujoch is compared against both MAX-DOAS and satellite data, with two CTMs; GEOS-Chem and IMAGES v2 used to compare total columns and vertical resolution of each instrument.
     
     \begin{figure}
@@ -623,7 +623,7 @@
     Mie scattering is more dominant from larger particles, and has less wavelength dependence.
     %These scattering functions are described in detail at (maybe TODO:section? reference?).
     The effects of scattering are what gives us the information about substances in the atmosphere.
-    The different particles and gases in the air have various properties which affect remote sensing devices such as a satellite, making them more or less sensitive at certain altitudes for detecting various species \citep[e.g.]{Martin2002}.
+    The different particles and gases in the air have various properties which affect remote sensing devices such as a satellite, making them more or less sensitive at certain altitudes for detecting various species \parencite[e.g.]{Martin2002}.
     
     Satellites record near nadir (vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO (eg: \textcite{Leue2001}).
     Several public data servers are available which include products from satellites, including NASAs Earthdata portal (\url{https://earthdata.nasa.gov/}) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (\url{http://h2co.aeronomie.be/}).
@@ -712,7 +712,7 @@
       \begin{equation} \label{ch_HCHO:eqn:AKfromw}
       AK(z) = \frac{\omega(z)}{AMF}
       \end{equation}
-      Note that this is an approximation for the OMI product, which does not include the AK but does include the $\omega$ and AMF, as explained in \citet{Abad2015}.
+      Note that this is an approximation for the OMI product, which does not include the AK but does include the $\omega$ and AMF, as explained in \textcite{Abad2015}.
       
       % How omi gets its AMF
       The latest OMI algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \parencite{Abad2015}.
@@ -788,7 +788,7 @@
   
   % Reiteration of why we recalculate AMFs
   When comparing satellite observations to a chemical model, one needs to recalculate the satellite AMF using their own modelled vertical gas profiles as the a-prior shape factor in order to remove any total column bias which may be due to the satellite's apriori.
-  The method used here largely follows that of \citet{Palmer2001}.
+  The method used here largely follows that of \textcite{Palmer2001}.
   When comparing satellite observations to a chemical model, recalculation of the satellite AMF using modelled vertical gas profiles removes any bias introduced by differences from the a-priori shape factor to the model.
   
   % what is AMF, Omega_V and Omega_S
@@ -841,7 +841,7 @@
     The data set used is from the Ozone Monitoring Instrument (OMI) on board the Aura satellite, as it has data for the entire time line and sufficiently covers the southern hemisphere.
     
     % Built in QA
-    The satellite data comes with quality assurance flags which are used as filtering criteria as is done in several other studies \citep[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
+    The satellite data comes with quality assurance flags which are used as filtering criteria as is done in several other studies \parencite[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
     This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see section \ref{Model:Datasets:OMHCHO}) may have affected.
     Clouds also have various detrimental effects on slant column uncertainty and AMF calculation, so cloud fraction is saved in the OMHCHO product.
     
@@ -867,7 +867,7 @@
        Negative entries are shown in the left panel, positive in the right, note the different scale between negative and positive panels.}
       {\label{Model:omiRecalc:fig_OMI_negative_hist}}
     
-    Finally the pixels which may be too cloudy are dealt with after the pixel has been used in determining the reference sector correction (see section \ref{Model:omiRecalc:RSC}), as is done in \citet{Abad2015, DeSmedt2015}.
+    Finally the pixels which may be too cloudy are dealt with after the pixel has been used in determining the reference sector correction (see section \ref{Model:omiRecalc:RSC}), as is done in \textcite{Abad2015, DeSmedt2015}.
     Any pixel with a cloud fraction of greater than 40\% is removed, 
   
   % How we get the apriori 
@@ -901,7 +901,7 @@
     
     \begin{figure}[!htbp]\begin{center}
       \includegraphics[width=0.6\textwidth]{Figures/ZenithAngles.png}
-      \caption{Solar and viewing zenith angles, image copied from \citet{SZA_Image}, originally from a NASA website.}
+      \caption{Solar and viewing zenith angles, image copied from \textcite{SZA_Image}, originally from a NASA website.}
       \label{ch_HCHO:fig:zenithangle}
     \end{center}\end{figure}
     
@@ -1002,7 +1002,7 @@
       S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
       \end{equation}
       where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
-      This equation comes from \citet{Palmer2001}, and is unitless since $\Omega_a / \Omega_v$ is molecules of air per molecule of HCHO; the opposite of $C_{HCHO}$.
+      This equation comes from \textcite{Palmer2001}, and is unitless since $\Omega_a / \Omega_v$ is molecules of air per molecule of HCHO; the opposite of $C_{HCHO}$.
     
     \subsubsection{Sigma coordinate conversion}
       \label{Model:omiRecalc:sigmacoord}
@@ -1069,8 +1069,8 @@
     \begin{equation*}
       \Omega_{VC} = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
     \end{equation*}
-    This method is used in various papers, including \citet{DeSmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013, Bauwens2016}.
-    Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \citet{Abad2015}.
+    This method is used in various papers, including \textcite{DeSmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013, Bauwens2016}.
+    Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \textcite{Abad2015}.
     
     % How my RSC is defined
     A correction for each instrument pixel is created based on the difference between the background HCHO measurements from OMI and the GEOS-Chem modelled HCHO columns within the reference sector.
@@ -1199,7 +1199,7 @@
   
   % How other people have filtered fires
   Influence from biomass burning can be removed through measurements of acetonitrile and CO (eg: \parencite{Wolfe2016, Miller2017}, or else removal of scenes coincident with satellite detected fire counts and aerosol absorption optical depth as done in \textcite{Marais2014}.
-  \citet{Wolfe2016} disregard HCHO measurements when acetonitrile > 210~pptv and CO > 300~ppbv, while acetonitrile > 200~pptv is used to determine fire influence in \textcite{Miller2017}.
+  \textcite{Wolfe2016} disregard HCHO measurements when acetonitrile > 210~pptv and CO > 300~ppbv, while acetonitrile > 200~pptv is used to determine fire influence in \textcite{Miller2017}.
   TODO: look at yearly corellation, compare to exponential curve and look for fire outliers
   As seen in TODO: citation, HCHO concentrations scale exponentially with temperature.
   This allows another method for detecting the influence of non-biogenic HCHO emission/creation by looking for outliers above the curve at low temperature.
@@ -1210,8 +1210,8 @@
     \label{Model:Filter:fire}
     
     The method used in this thesis follows that of \textcite{Marais2012}, and \textcite{Barkley2013}, with active fires filtered using fire counts, and smoke filtered out using smoke aerosol absorption optical depth (AAOD).
-    \citet{Marais2012} remove pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1 x 1\degr resolution.
-    \citet{Barkley2013} use fires from the preceding and concurrent day, within local or adjacent grid squares, with grid resolution of 0.25 x 0.3125\degr.
+    \textcite{Marais2012} remove pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1 x 1\degr resolution.
+    \textcite{Barkley2013} use fires from the preceding and concurrent day, within local or adjacent grid squares, with grid resolution of 0.25 x 0.3125\degr.
     We use the MODIS fire counts, detected from space using the combined product from Terra and Aqua (Terra at 10:30, 22:30 LT; Aqua at 13:30, 01:30 LT).
     Smoke plumes can be filtered using product OMAERUVd, although care needs to be taken when deciding the threshhold for smoke detection \parencite{Marais2012}.
     

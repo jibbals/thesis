@@ -11,6 +11,8 @@ fi
 
 # back up the file before changing it
 echo "copy of input file at backup_${1}"
+# use filename string FROM LAST (##*) / 
+cp ${1} backup_${1##*/}
 
 
 # sed syntax: sed 's/regex/replacement/flags'
@@ -26,15 +28,15 @@ echo "copy of input file at backup_${1}"
 #
 
 ######################
-# B) Now I want to go from (\citet{...}) to \citep{...}
+# B) Now I want to go from (\textcite{...}) to \parencite{...}
 ######################
 
 # For testing:
-echo 'blah blah (\citet{Young,blah203}) blah, (\citet{Juger})'
+echo 'blah blah (\textcite{Young,blah203}) blah, (\textcite{Juger})'
 echo 'becomes'
-echo 'blah blah (\citet{Young,blah203}) blah, (\citet{Juger})' | sed 's/(\\citet{\([^}]*\)})/\\citep{\1}/g'
+echo 'blah blah (\textcite{Young,blah203}) blah, (\textcite{Juger})' | sed 's/(\\textcite{\([^}]*\)})/\\parencite{\1}/g'
 
 # replace inline all the (citet{}) with citep{}
-sed -i 's/(\\citet{\([^}]*\)})/\\citep{\1}/g' $1
+sed -i 's/(\\textcite{\([^}]*\)})/\\parencite{\1}/g' $1
 
 # Can try diff or colordiff to check the changes between backup and new file
