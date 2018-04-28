@@ -20,8 +20,13 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{mathpazo} % Use the Palatino font by default
 
 % TODO: use author year after edits are done.
-\usepackage[backend=bibtex,style=numeric,natbib=true]{biblatex}
-%\usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
+%\usepackage[sorting=none,backend=bibtex,style=numeric,natbib=true]{biblatex}
+% Use the bibtex backend with the authoryear citation style (which resembles APA)
+\usepackage[sorting=none,backend=bibtex,style=authoryear,natbib=true]{biblatex}
+% Try to get author, (year) with parenthesis
+% \citet{} or \textcite{} gives author, (year)
+% \citep{} or \parencite{} gives (author, year)
+% don't need natbib=True if using second option... may be better?
 
 \addbibresource{references.bib} % The filename of the bibliography
 
@@ -76,10 +81,33 @@ headsepline, % Uncomment to get a line under the header
 % Package for chemical equation typesetting: \ce{...}
 \usepackage[version=4]{mhchem}
 
-%% --- my commands for easy units
+%% --------------------------------------
+%% --- my commands for easy units -------
+%% --------------------------------------
 \newcommand{\tgpyr}{~Tg yr$^{-1}$}
 \newcommand{\tgcpyr}{~Tg C yr$^{-1}$}
 \newcommand{\degr}{~$^{\circ}$}
+\newcommand{\roo}{RO$\dot{O}$ } %% hydroxyperoxyl radical (isopoo, roo, ro2,...)
+% Molecules per cm2 (per s)
+\newcommand{\moleccm2}{~molec cm$^{-2}$}
+\newcommand{\moleccm2s}{~molec cm$^{-2}$ s$^{-1}$}
+
+\newcommand{\mypic}[3]{% Command for quick picture adding
+\begin{figure}
+  \includegraphics[width=\textwidth]{#1}
+  \caption{#2}
+  #3
+\end{figure}
+}
+
+% Same but with width as an input
+\newcommand{\mypicw}[4]{
+  \begin{figure}
+    \includegraphics[width=#1]{#2}
+    \caption{#3}
+    #4
+  \end{figure}
+}
 
 %%-----------------------------------------------
 %%----------End of Added by Jesse ---------------
