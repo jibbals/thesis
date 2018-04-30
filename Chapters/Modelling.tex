@@ -198,23 +198,11 @@
     
     One possible solution to anthropogenic filtering is the national pollution index (TODO:cite:\verb|http://www.npi.gov.au|) which contains industrial HCHO and NO$_X$ emissions from 2003 to 2014.
   
-  \subsection{GEOS-Chem output}
-    There are various outputs available when running GEOS-Chem, which require understanding in order to compare with observations.
-    \begin{description}
-      \item[Satellite overpass] is output from averaging over a window of local time for each gridbox. 
-      This output allows comparison with satellite measurements, which overpass at the same local time every day.
-      The output is in bitpunch.
-      \item[HEMCO diagnostics] are the emissions TODO: averaged or instantaneous? in each gridbox, which I've stored for each 3 hours.
-      This output is netcdf.
-      \item[Tracer averages] are daily or monthly averaged gridbox concentrations.
-      This output is bitpunch.
-    
-  \end{description}
-
-\section{Modelling}
+  % TODO: Move this section INTO GEOS-Chem section!!!
+  \section{Modelling}
   \label{BioIsop:Model}
 
-  \subsection{GEOS-Chem simulation}
+  \subsection{GEOS-Chem simulations}
     \label{BioIsop:Model:GC}
     The GEOS-Chem global atmospheric chemistry model (V10.01) simulates and records up to 66 chemical species (tracers) in the standard run, at 2 by 2.5$^{\circ}$ horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
     GEOS-5 meteorological fields from NASA's ...(TODO: ref and note) are used to drive transport and coupled with the chemical module of GEOS-Chem.
@@ -224,39 +212,52 @@
     These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals.
     They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
 
-  
-
-  \subsection{List of runs and outputs used in my work TODO: good place for this?}
     TODO: Go through work process and clarify these items
-    \subsection{GEOS-Chem}
+    Run descriptions and their outputs are listed here, with outputs described in more detail in section :
+    \begin{enumerate}
+      \item UCX 
       \begin{enumerate}
-        \item UCX 
-        \begin{enumerate}
-          \item Satellite output (1300-1400LT)
-          \item Create shape factors for AMF recalculation in OMI
-        \end{enumerate}
-        
-        \item Tropchem (standard)
-        \begin{enumerate}
-          \item satellite output, daily tracer averages
-          \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
-          \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
-          \item TODO: Compare total yearly isoprene emissions before and after new estimate.
-        \end{enumerate}
-      
-        \item Tropchem(isoprene emissions halved)
-        \begin{enumerate}
-          \item Satellite output used to determine smearing.
-        \end{enumerate}
-      
-        \item Tropchem(biogenic emissions only, all other inventories turned off)
-        \begin{enumerate}
-          \item Satellite output, hourly biogenic emissions from MEGAN
-          \item Used to determine yield for new emissions estimates
-          \item TODO: compared to run with updated emissions
-        \end{enumerate}
+        \item Satellite output (1300-1400LT)
+        \item Create shape factors for AMF recalculation in OMI
       \end{enumerate}
-      NB: for non-UCX runs, satellite output was modified to include tropopause height
+      
+      \item Tropchem (standard)
+      \begin{enumerate}
+        \item satellite output, daily tracer averages
+        \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
+        \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
+        \item TODO: Compare total yearly isoprene emissions before and after new estimate.
+      \end{enumerate}
+      
+      \item Tropchem(isoprene emissions halved)
+      \begin{enumerate}
+        \item Satellite output used to determine smearing.
+      \end{enumerate}
+      
+      \item Tropchem(biogenic emissions only, all other inventories turned off)
+      \begin{enumerate}
+        \item Satellite output, hourly biogenic emissions from MEGAN
+        \item Used to determine yield for new emissions estimates
+        \item TODO: compared to run with updated emissions
+      \end{enumerate}
+    \end{enumerate}
+    NB: for non-UCX runs, satellite output was modified to include tropopause height
+  
+  \subsection{GEOS-Chem outputs}
+    \label{Model:}
+  There are various outputs available when running GEOS-Chem, which require understanding in order to compare with observations.
+  \begin{description}
+    \item[Satellite overpass] is output from averaging over a window of local time for each gridbox. 
+    This output allows comparison with satellite measurements, which overpass at the same local time every day.
+    The output is in bitpunch.
+    \item[HEMCO diagnostics] are the emissions TODO: averaged or instantaneous? in each gridbox, which I've stored for each 3 hours.
+    This output is netcdf.
+    \item[Tracer averages] are daily or monthly averaged gridbox concentrations.
+    This output is bitpunch.
+    
+  \end{description}
+  
+    
   \subsection{CAABA/MECCA}
     %TODO: details for caaba/mecca runs here:
   
@@ -1264,8 +1265,8 @@
     Anthropogenic influences on the NO$_2$ columns are clearly visible near major cities in Australia.
     A filter is created each year from the OMNO2d product in two steps:
     \begin{enumerate}
-      \item Daily gridsquares with NO$_2$ greater than 10$^{15}$\moleccm2  are flagged as anthropogenic.
-      \item After taking the yearly average over Australia, any gridsquares greater than $1.5 \times 10^{15}$\moleccm2 are flagged for the whole year.
+      \item Daily gridsquares with NO$_2$ greater than 10$^{15}$\moleccm  are flagged as anthropogenic.
+      \item After taking the yearly average over Australia, any gridsquares greater than $1.5 \times 10^{15}$\moleccm are flagged for the whole year.
     \end{enumerate}
     This removes both the gridsquares close enough to cities to be affected by their emissions year round, as well as effects from transported pollution plumes.
     The affects of applying this filter to the OMNO2d product itself can be seen in figure \ref{Model:Filter:NOx:fig_omno2_threshaffect}
@@ -1275,9 +1276,9 @@
     {\label{Model:Filter:NOx:fig_omno2_threshaffect}}
     
     % Threshhold analysis
-    The same regions as in figure \ref{Model:Filter:NOx:fig_omno2_timeseries} are shown again in figure \ref{Model:Filter:NOx:fig_omno2_densities}, with NO$_2$ pixels densities for each region shown, along with the threshold of $1 \times 10^{15}$\moleccm2.
+    The same regions as in figure \ref{Model:Filter:NOx:fig_omno2_timeseries} are shown again in figure \ref{Model:Filter:NOx:fig_omno2_densities}, with NO$_2$ pixels densities for each region shown, along with the threshold of $1 \times 10^{15}$\moleccm.
     This led to a reduction of TODO gridsquares from the total available measurement space over Australia.
-    The removal of gridsquares which went above the yearly averaged limit of 1.5e15\moleccm2 further reduced the available data by TODO gridsquares.
+    The removal of gridsquares which went above the yearly averaged limit of 1.5e15\moleccm further reduced the available data by TODO gridsquares.
     
     \mypic{Figures/OMI_link/OMNO2_densities_2005.png}
     {2005 OMNO2d NO$_2$ column means (top left), along with column amount distributions for Australia (top right) and each region shown in the area map (by colour)}
@@ -1301,67 +1302,7 @@
     
     % Affects of filtering
     % TODO: tabulate or summarise no2 filtering
-    \verb|Stats for  0 [-45, 108.75, -7, 156.25] k
-    yearly mean:  5.832e+14
-    std:  4.788e+14
-    entries:  2429149
-    gridsquares:  10541200
     
-    Stats for  1 [-36, 148, -32, 153] red
-    yearly mean:  1.128e+15
-    std:  1.139e+15
-    entries:  22829
-    gridsquares:  116800
-    
-    Stats for  2 [-36, 134, -33, 140] green
-    yearly mean:  5.866e+14
-    std:  4.865e+14
-    entries:  13385
-    gridsquares:  105120
-    
-    Stats for  3 [-30, 125, -25, 135] cyan
-    yearly mean:  4.808e+14
-    std:  3.536e+14
-    entries:  161271
-    gridsquares:  292000
-    
-    Stats for  4 [-39, 142, -36, 148] darkred
-    yearly mean:  1.216e+15
-    std:  1.298e+15
-    entries:  37463
-    gridsquares:  105120
-    
-    Stats for  0 [-45, 108.75, -7, 156.25] k
-    yearly mean:  4.602e+14
-    std:  2.454e+14
-    entries:  1925823
-    gridsquares:  10541200
-    
-    Stats for  1 [-36, 148, -32, 153] red
-    yearly mean:  5.441e+14
-    std:  2.642e+14
-    entries:  8809
-    gridsquares:  116800
-    
-    a[a <= 0.0] = 1e-300
-    Stats for  2 [-36, 134, -33, 140] green
-    yearly mean:  4.450e+14
-    std:  2.453e+14
-    entries:  9777
-    gridsquares:  105120
-    
-    Stats for  3 [-30, 125, -25, 135] cyan
-    yearly mean:  4.194e+14
-    std:  2.385e+14
-    entries:  138701
-    gridsquares:  292000
-    
-    Stats for  4 [-39, 142, -36, 148] darkred
-    yearly mean:  5.216e+14
-    std:  2.660e+14
-    entries:  14421
-    gridsquares:  105120
-    |
 \section{Analysing output}
 \label{Model:Analysis}
   
@@ -1444,6 +1385,7 @@
         Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
       }
       \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}
+    \end{figure}
     
     
     This comparison is expanded, including a comparison against modelled emissions, and repeated for autumn (MAM), winter (JJA), and spring (SON) in figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}.
