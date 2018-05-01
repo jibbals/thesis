@@ -199,121 +199,45 @@
     One possible solution to anthropogenic filtering is the national pollution index (TODO:cite:\verb|http://www.npi.gov.au|) which contains industrial HCHO and NO$_X$ emissions from 2003 to 2014.
   
   % TODO: Move this section INTO GEOS-Chem section!!!
-  \section{Modelling}
-  \label{BioIsop:Model}
-
-  \subsection{GEOS-Chem simulations}
-    \label{BioIsop:Model:GC}
-    The GEOS-Chem global atmospheric chemistry model (V10.01) simulates and records up to 66 chemical species (tracers) in the standard run, at 2 by 2.5$^{\circ}$ horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
-    GEOS-5 meteorological fields from NASA's ...(TODO: ref and note) are used to drive transport and coupled with the chemical module of GEOS-Chem.
-    MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation, with subsequent modifications based on top-down estimates made herein.
-    
-    Output for an area averaged over 1300 - 1400 local time is saved for comparison and recalculation with satellite overpass records.
-    These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals.
-    They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
-
-    TODO: Go through work process and clarify these items
-    Run descriptions and their outputs are listed here, with outputs described in more detail in section :
-    \begin{enumerate}
-      \item UCX 
-      \begin{enumerate}
-        \item Satellite output (1300-1400LT)
-        \item Create shape factors for AMF recalculation in OMI
-      \end{enumerate}
-      
-      \item Tropchem (standard)
-      \begin{enumerate}
-        \item satellite output, daily tracer averages
-        \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
-        \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
-        \item TODO: Compare total yearly isoprene emissions before and after new estimate.
-      \end{enumerate}
-      
-      \item Tropchem(isoprene emissions halved)
-      \begin{enumerate}
-        \item Satellite output used to determine smearing.
-      \end{enumerate}
-      
-      \item Tropchem(biogenic emissions only, all other inventories turned off)
-      \begin{enumerate}
-        \item Satellite output, hourly biogenic emissions from MEGAN
-        \item Used to determine yield for new emissions estimates
-        \item TODO: compared to run with updated emissions
-      \end{enumerate}
-    \end{enumerate}
-    NB: for non-UCX runs, satellite output was modified to include tropopause height
-  
-  \subsection{GEOS-Chem outputs}
-    \label{Model:}
-  There are various outputs available when running GEOS-Chem, which require understanding in order to compare with observations.
-  \begin{description}
-    \item[Satellite overpass] is output from averaging over a window of local time for each gridbox. 
-    This output allows comparison with satellite measurements, which overpass at the same local time every day.
-    The output is in bitpunch.
-    \item[HEMCO diagnostics] are the emissions TODO: averaged or instantaneous? in each gridbox, which I've stored for each 3 hours.
-    This output is netcdf.
-    \item[Tracer averages] are daily or monthly averaged gridbox concentrations.
-    This output is bitpunch.
-    
-  \end{description}
-  
-    
-  \subsection{CAABA/MECCA}
-    %TODO: details for caaba/mecca runs here:
-  
-  \subsection{Reading Data}
-    \subsubsection{CAABA/MECCA outputs}
-      The box model can output in netcdf or text format, TODO: which way am I better off ? 
-      Text output from CAABA/MECCA was read using tailored python scripts modified from code written by dr. Luke Surl.
-      Dr. Luke Surl also wrote the code which implements calculations of yield from runs using isoprene injections as described in Section \ref{Model:CM} TODO: update to more specific reference.
-      
-    \subsubsection{GEOS-Chem Satellite output}
-    
-    \subsubsection{HEMCO diagnostics}
-      
-      % Local time offsets
-      In order to get hourly MEGAN modelled isoprene emissions, HEMCO (the module of GEOS-Chem dealing with emissions inventories) diagnostic output was created.
-      When working with globally gridded data, handling local time offsets becomes more important.
-      The hourly output emissions of isoprene is saved using GMT, which needs to be offset based on longitude in order to retrieve local time.
-      I do this by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with it's local time offset.
-      This offset is determined as one hour per 15 degrees (since 360 degrees is 24 hours), and then used to retrieve global data at any specific local time.
-      The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
-    
-%%----------------------------------------------------------------------------------------
-%%	GEOS-Chem framework
-%%----------------------------------------------------------------------------------------
 \section{GEOS-Chem}
   \label{Model:GC}
-  GEOS-Chem is an atomspheric chemical model (ACM), using a 3-D grid of boxes with transport driven by the GEOS meteorological model and chemistry calculated in each box independently. 
-  Many of these terms are described in Section \ref{LR:Models:frames}.
-  
-  % Geos chem is a box model with chemistry and meteorology
-  GEOS-Chem uses many boxes covering the globe, each with chemistry and dynamic meteorological conditions.
-  Different meteorological conditions such as wind and air pressure need to be handled within each box.      
-  GEOS-Chem has a meteorological model coupled to a chemical model, which simulates the world in a three dimensional grid of connected boxes.
-  
-  % It uses GEOS, from GMAO
-  GEOS-Chem is a well supported global, Eulerian CTM with a state of the science chemical mechanism, with transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
-  GEOS-Chem simulates more than 100 chemical species from the earth's surface up to the edge of space (0.01~hPa) and can be used in combination with remote and in-situ sensing data to give a verifiable estimate of atmospheric gases and aerosols.
-  It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide.
-  Several driving meteorological fields exist with different resolutions, the finest at 0.25 by 0.3125$^\circ$ horizontally at 5 minute time steps with 72 vertical levels.
-  
-  % Default time step and resolution of GC outputs
-  GEOS-Chem in this work runs with a 15 minute time step for both chemistry and transport, at 2x2.5\degr horizontal resolution over 47 vertical levels.
-  Generally output is the average of these time steps either over an entire month, or else per day.
-  Additionally output averaged between 1300-1400 LT is saved to allow comparisons with Aura satellite measurements, as Aura overpasses at $\sim$1330 LT each day.
-  
-  % Emissions models used for boundary conditions
-  Global CTMs are often run using one or several emission models (or the output from them) to determine boundary conditions for many gridboxes.
-  TODO: is this the case? Doesn't GEOS-Chem have coupled chemistry and meteorology? Check the wiki.
-  GEOS-Chem has boundary conditions based on several meteorological and emissions inventories, the following are the versions of theses used by GEOS-Chem v 10.01. 
-  Meteorological fields can be driven by NASA's GEOS-5 data (0.5$^{\circ}$ x 0.666$^{\circ}$) \parencite{Chen2009}, which exists up to 2013, or GEOS-FP data (0.25$^{\circ}$ x 0.3125$^{\circ}$).
-  Fire emissions come from the GFED4 product \parencite{Giglio2013}. 
-  Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are coupled to the MEGAN model TODO:cites.
-  The estimated biogenic VOC emissions are important for accurately simulating chemistry within models, as discussed in Sections \ref{LR:O3andAQ:BiogenicOzonePrecursors} and \ref{LR:Models:Uncert}.
 
+  \subsection{Outline}
+    % Geos chem is a box model with chemistry and meteorology
+    GEOS-Chem is an atomspheric chemical model (ACM), using a 3-D grid of boxes with transport driven by the GEOS meteorological model and chemistry calculated in each box independently. 
+    Within each box chemistry, transport, and meteorology are simulated at 15 minute time steps.
+    GEOS-Chem has a meteorological model coupled to a chemical model, which simulates the world in a three dimensional grid of connected boxes.
+    
+    % It uses GEOS, from GMAO
+    GEOS-Chem is a well supported global, Eulerian CTM with a state of the science chemical mechanism, with transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
+    GEOS-Chem simulates more than 100 chemical species from the earth's surface up to the edge of space (0.01~hPa) and can be used in combination with remote and in-situ sensing data to give a verifiable estimate of atmospheric gases and aerosols.
+    It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide.
+    Several driving meteorological fields exist with different resolutions, the finest at 0.25 by 0.3125$^\circ$ horizontally at 5 minute time steps with 72 vertical levels.
+    
+    % This thesis uses 10.01, geos5, megan
+    Global CTMs are often run using one or several emission models (or the output from them) to determine boundary conditions for many gridboxes.
+    In this thesis I use version 10.01 of GEOS-Chem, which simulates and records up to 66 chemical species (tracers) in the standard run, at 2 by 2.5$^{\circ}$ horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
+    Meteorological fields are driven by NASA's GEOS-5 data (0.5$^{\circ}$ x 0.666$^{\circ}$) \parencite{Chen2009}, which exists up to 2013. %, or GEOS-FP data (0.25$^{\circ}$ x 0.3125$^{\circ}$).
+    GEOS-5 meteorological fields are used as the boundary conditions driving transport.
+    MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation.
+    % Emissions models used for boundary conditions
+    Fire emissions come from the GFED4 product \parencite{Giglio2013}. 
+    Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are coupled to the MEGAN model TODO:cites.
+    The estimated biogenic VOC emissions are important for accurately simulating chemistry within models, as discussed in Section \ref{LR:Atmos:Chem}.
+  
+  \subsection{Running GEOS-Chem (before isop?)}
+    \label{Model:GC:running}
+    \subsubsection{Installation and requirements}
+      GEOS-Chem instructions for download, compilation, and running can be found in the user guide provided by Harvard: \url{http://acmg.seas.harvard.edu/geos/doc/man/}.
+      In order to build and run GEOS-Chem a high-speed computing system is optimal, as globally gridded chemical calculations can take a long time to perform.
+      I installed GEOS-Chem onto a suitably configured workspace on the National Computational Infrastructure (NCI, \url{http://nci.org.au/}). 
+      This workspace included access to compilers and libraries which are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
+      
+      After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
+  
   \subsection{GEOS-Chem isoprene modelling}
-  \label{Model:GC:Isop}
+    \label{Model:GC:Isop}
+
     \subsubsection{Outline}
       The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
       This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
@@ -364,11 +288,11 @@
       The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last before version 11, which was not used in this work.
       
       The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
-    
-    
+  
+  
     \subsubsection{Emissions from MEGAN}
       \label{Model:GC:Isop:MEGAN}
-
+  
       MEGAN is a global model with resolution of around 1~km, and is used to generate the BVOC emissions used in various global chemistry models such as GEOS-Chem.
       MEGAN uses leaf area index, global meteorological data, and plant functional types (PFTs) to simulate terrestrial isoprene emissions.
       The model includes global measurements of leaf area index, plant functional type, and photosynthetic photon flux density, from remote sensing databases \parencite{Kefauver2014}.
@@ -417,45 +341,116 @@
       These modified runs allow an estimate of model sensitivity to isoprene emissions and smearing impact as described in Section \ref{BioIsop:Methods:Smearing}.
   
   \subsection{Chemical Mechanisms}
-  \label{Model:GC:Mechanisms}
+    \label{Model:GC:Mechanisms}
     Chemical reactions are turned into systems of differential equations (DEs) to be solved by the CPU for each gridbox in GEOS-Chem.
     Some of the important ones involving isoprene are copied here, including reaction rates in the form $ k = A \exp{-ER/T} $.
-    
-    \begin{align} \begin{split}
-      \label{Model:GC:Mechanisms:eqn_mechanisms}
-      \ce{
-        RIO2 + NO ->[2.7*10^{-12} \exp{350/T}] & .883NO2 + .783HO2 + .66CH2O \\
-         & + .4MVK + .26MACR + .07ISOPND \\
-         & + .123HC5 + .1DIBOO \\
-        RIO2 ->[4.07*10^{8} \exp{-7694/T}] & 2HO2 + CH2O + .5MGLY + .5GLYC \\
-         & + .5GLYX + .5HAC + OH
-      }
-%     % k1=2.7*10^{-12} \exp{350/T}
-%     % k2=4.07*10^{8} \exp{-7694/T}
-%      
-    \end{split} \end{align}
   
-  \subsection{Running GEOS-Chem (before isop?)}
-  \label{Model:GC:running}
-    \subsubsection{Installation and requirements}
-      GEOS-Chem instructions for download, compilation, and running can be found in the user guide provided by Harvard: \url{http://acmg.seas.harvard.edu/geos/doc/man/}.
-      In order to build and run GEOS-Chem a high-speed computing system is optimal, as globally gridded chemical calculations can take a long time to perform.
-      I installed GEOS-Chem onto a suitably configured workspace on the National Computational Infrastructure (NCI, \url{http://nci.org.au/}). 
-      This workspace included access to compilers and libraries which are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
-        
-      After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
-
-    \subsubsection{Outputs}
+  \begin{align} \begin{split}
+    \label{Model:GC:Mechanisms:eqn_mechanisms}
+    \ce{
+      RIO2 + NO ->[2.7*10^{-12} \exp{350/T}] & .883NO2 + .783HO2 + .66CH2O \\
+      & + .4MVK + .26MACR + .07ISOPND \\
+      & + .123HC5 + .1DIBOO \\
+      RIO2 ->[4.07*10^{8} \exp{-7694/T}] & 2HO2 + CH2O + .5MGLY + .5GLYC \\
+      & + .5GLYX + .5HAC + OH
+    }
+    %     % k1=2.7*10^{-12} \exp{350/T}
+    %     % k2=4.07*10^{8} \exp{-7694/T}
+    %      
+  \end{split} \end{align}
+  
+  \subsection{GEOS-Chem simulations}
+    \label{Model:GC:runs}
     
-      There are several outputs or diagnostics available from GEOS-Chem.
-      GEOS-Chem models concentrations using a 15 minute time-step, however to save space one would generally only output the daily or monthly averages for many species.
-      In my work when estimating model yields of isoprene to HCHO, I use daily averaged HCHO columns and compare them to colocated isoprene emissions from MEGAN.
+    GEOS-Chem is run four independent times in this thesis, with different outputs from each simulation used to determine specific information. 
+    
+    Output for an area averaged over 1300 - 1400 local time is saved for comparison and recalculation with satellite overpass records.
+    These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals.
+    They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
+
+    TODO: Go through work process and clarify these items
+    Run descriptions and their outputs are listed here, with outputs described in more detail in section :
+    \begin{enumerate}
+      \item UCX 
+      \begin{enumerate}
+        \item Satellite output (1300-1400LT)
+        \item Create shape factors for AMF recalculation in OMI
+      \end{enumerate}
       
-      Optionally one can save high temporally resolved data for a single (or list of) column(s).
-      I've used this diagnostic to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
-            
-      One of the more frequently used outputs in my work are the satellite overpass diagnostics, which look at averages within a window of time (for instance 1200-1300) using local time (LT) for each gridbox, each day.
-      This diagnostic allows easier analysis of model data against a satellite as one can match the output with the satellite's overpass time.
+      \item Tropchem (standard)
+      \begin{enumerate}
+        \item satellite output, daily tracer averages
+        \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
+        \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
+        \item TODO: Compare total yearly isoprene emissions before and after new estimate.
+      \end{enumerate}
+      
+      \item Tropchem(isoprene emissions halved)
+      \begin{enumerate}
+        \item Satellite output used to determine smearing.
+      \end{enumerate}
+      
+      \item Tropchem(biogenic emissions only, all other inventories turned off)
+      \begin{enumerate}
+        \item Satellite output, hourly biogenic emissions from MEGAN
+        \item Used to determine yield for new emissions estimates
+        \item TODO: compared to run with updated emissions
+      \end{enumerate}
+    \end{enumerate}
+    NB: for non-UCX runs, satellite output was modified to include tropopause height
+  
+  \subsection{GEOS-Chem outputs}
+    \label{Model:GC:outputs}
+    There are various outputs available when running GEOS-Chem, which require understanding in order to compare with observations.
+    % Default time step and resolution of GC outputs
+    GEOS-Chem in this thesis is run with a 15 minute time step for both chemistry and transport, at 2x2.5\degr horizontal resolution over 47 vertical levels.
+    Generally output is the average of these time steps either over an entire month, or else per day.
+    
+    In my work when estimating model yields of isoprene to HCHO, I use daily averaged HCHO columns and compare them to colocated isoprene emissions from MEGAN.
+    Optionally one can save high temporally resolved data for a single (or list of) column(s).
+    I've used this diagnostic to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
+    
+    
+    \begin{description}
+      \item[Satellite overpass]%
+        is output from averaging over a window of local time for each gridbox. 
+        This output allows comparison with satellite measurements, which overpass at the same local time every day.
+        This diagnostic allows easier analysis of model data against a satellite as one can match the output with the satellite's overpass time.
+        Output averaged between 1300-1400 LT is saved to allow comparisons with Aura satellite measurements, as Aura overpasses at $\sim$1330 LT each day.
+      \item[HEMCO diagnostics]%
+        are the emissions TODO: averaged or instantaneous? in each gridbox, which I've stored for each 3 hours.
+      \item[Tracer averages]%
+        are daily or monthly averaged gridbox concentrations.
+      
+    \end{description}
+  
+   
+  \subsection{Reading Data}
+    \subsubsection{CAABA/MECCA outputs}
+      The box model can output in netcdf or text format, TODO: which way am I better off ? 
+      Text output from CAABA/MECCA was read using tailored python scripts modified from code written by dr. Luke Surl.
+      Dr. Luke Surl also wrote the code which implements calculations of yield from runs using isoprene injections as described in Section \ref{Model:CM} TODO: update to more specific reference.
+      
+    \subsubsection{GEOS-Chem Satellite output}
+    
+    \subsubsection{HEMCO diagnostics}
+      
+      % Local time offsets
+      In order to get hourly MEGAN modelled isoprene emissions, HEMCO (the module of GEOS-Chem dealing with emissions inventories) diagnostic output was created.
+      When working with globally gridded data, handling local time offsets becomes more important.
+      The hourly output emissions of isoprene is saved using GMT, which needs to be offset based on longitude in order to retrieve local time.
+      I do this by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with it's local time offset.
+      This offset is determined as one hour per 15 degrees (since 360 degrees is 24 hours), and then used to retrieve global data at any specific local time.
+      The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
+    
+
+% TODO Move stuff from here upwards into GEOS-Chem section
+  
+  \section{TODO: MOVE}
+
+  
+
+      
       
       
     \subsubsection{Tropospheric chemistry run}
