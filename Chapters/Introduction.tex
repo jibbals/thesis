@@ -76,33 +76,69 @@
     % Oxidation and Radicals
     %\subsubsection{Hydroxyl radicals}
     %\label{LR:Atmos:Chem:radicals}
-      OH and HO$_2$ concentrations largely determine the oxidative capacity of the atmosphere.
-      The OH radical drives many processes in the atmosphere, especially during the day when photolysis of ozone maintains relatively high OH concentrations \parencite{Atkinson2000}.
-      OH is a key species which reacts with nearly all the organic compounds in the troposphere, with only a few exceptions \parencite{Atkinson2000}.
-      %The exceptions are chlorofluorocarbons (CFCs), and Halons not containing H atoms \parencite{Atkinson2000}.
-      Over land, isoprene (C$_5$H$_8$) and monoterpenes (C$_{10}$H$_{16}$) account for 50\% and 30\% of the OH reactivity (defined in section TODO) respectively \parencite{Fuentes2000}. %TODO add OH reactivity definition to modelling chapter
+    OH and HO$_2$ concentrations largely determine the oxidative capacity of the atmosphere.
+    The OH radical drives many processes in the atmosphere, especially during the day when photolysis of ozone maintains relatively high OH concentrations \parencite{Atkinson2000}.
+    OH is a key species which reacts with nearly all the organic compounds in the troposphere, with only a few exceptions \parencite{Atkinson2000}.
+    %The exceptions are chlorofluorocarbons (CFCs), and Halons not containing H atoms \parencite{Atkinson2000}.
+    Over land, isoprene (C$_5$H$_8$) and monoterpenes (C$_{10}$H$_{16}$) account for 50\% and 30\% of the OH reactivity (defined in section TODO) respectively \parencite{Fuentes2000}. %TODO add OH reactivity definition to modelling chapter
+    
+    Since radicals are involved in all oxidative chemistry in the atmosphere it is important for models to accurately represent them (eg. \textcite{Travis2014}).
+    This is difficult as they are coupled with so many other species and measurements of OH are not readily available on a global scale.
+    In the late 90's it was thought that OH radicals were formed exclusively from photolysis of O$_3$, HONO, HCHO, and other carbonyls (R$_2$C=O) \parencite{Atkinson2000}.
+    It has been shown since that TODO. %TODO more on OH sources
+    Isoprene (C$_5$H$_8$) was thought to be a sink of OH until it was shown by \textcite{Paulot2009b} that the radicals are recycled.
+    This recycling process is discussed in more detail in section \ref{LR:VOCs:IsopCascade}.
+    
+    Ozone is an important precursor to OH, as excited oxygen atoms (O(${}^1$D) are created through its photolysis, which then go on to react with water to form OH, as shown in this reaction sequence \parencite{Atkinson2000, AtkinsonArey2003}:
+    \begin{equation}
+      \begin{aligned}
+        O_3+\text{hv}     & \to  O_2 + O({}^1D)   && (\lambda \le 350 \text{nm}) \\%
+        O({}^1D)+M        & \to  O({}^3P) + M     && (M=N_2, O_2)               \\%
+        O({}^3P)+O_2 + M  & \to  O_3 + M          &&                           \\%
+        O({}^1D)+H_2O     & \to  2OH              &&                            \\%
+      \end{aligned}
+      \label{LR:Atmos:Chem:eqn_O3toOH}
+    \end{equation}
+    Where $hv$ represents radiation and M is an inert molecule.
+    This shows that some of the O$({}^1D)$ recycles back to ozone, while some forms OH.
+    %\textcite{AtkinsonArey2003} discuss the relative rates of these reactions.
       
-      Since radicals are involved in all oxidative chemistry in the atmosphere it is important for models to accurately represent them (eg. \textcite{Travis2014}).
-      This is difficult as they are coupled with so many other species and measurements of OH are not readily available on a global scale.
-      In the late 90's it was thought that OH radicals were formed exclusively from photolysis of O$_3$, HONO, HCHO, and other carbonyls (R$_2$C=O) \parencite{Atkinson2000}.
-      It has been shown since that TODO. %TODO more on OH sources
-      Isoprene (C$_5$H$_8$) was thought to be a sink of OH until it was shown by \textcite{Paulot2009b} that the radicals are recycled.
-      This recycling process is discussed in more detail in section \ref{LR:VOCs:IsopCascade}.
+  \subsection{Radiative Forcing}
+    \label{LR:VOCs:IsopCascade:RF}
+       
+    One of the larger uncertainties in atmospheric modelling is how particles in the atmosphere affect radiative forcing.
+    For 12 years it has been understood that aerosols overall cool the atmosphere, with smaller particles having a larger effect as they matching the wavelengths of visible light \parencite{Kanakidou2005}.
+    Gas phase emissions with higher vapour pressures can be oxidised into lower vapour pressure products which will partition between gas and particle phase, often called semi or non-volatile. 
+    The aerosol products from these gas phase emissions (or the children thereof) are SOA \parencite{Kanakidou2005}.
+    SOA plays an indirect and complex role in cloud properties, with a net cooling effect \parencite[Chapter 7,8]{IPCC_AR5_WG1}
+    
+    Transport and indirect effects complicate matters further, with cloud creation and modification of cloud properties being quite difficult to accurately predict.
+    In the third IPCC report \parencite{IPCC2001}, the uncertainty involved if OA forcing was a factor of 3 times the estimated effect. 
+    This has since been improved however OA and cloud formation still remains a large uncertainty in more recent IPCC reports \parencite{IPCC_Chapter2}.
+    Figure \ref{LR:VOCs:IsopCascade:RF:fig_IPCC_RF_AR4} shows the radiative forcing (RF) of various atmospheric constituents, it is clear that OA uncertainty dominates.
+    Figure \ref{LR:VOCs:IsopCascade:RF:fig_IPCC_RF_AR5} shows the same summary updated in chapter 8 of the fifth report, where the SOA uncertainty remains quite large.
+    
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/IPCC_WG1AR4_RFSummary.png}
+      \caption{%
+        The overall radiative forcings and uncertainties of several atmospheric constituents
+        This is an image taken from \textcite{IPCC_Chapter2}, found at \url{https://www.ipcc.ch/publications_and_data/ar4/wg1/en/faq-2-1.html}.}
+     \label{LR:VOCs:IsopCascade:RF:fig_IPCC_RF_AR4}
+    \end{figure}
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/IPCC_WG1AR5_RFSummary.png}
+      \caption{%
+        The overall radiative forcings and uncertainties of several atmospheric constituents
+        This is an image taken from \textcite{IPCC_AR5_WG1}, chapter 8.}
+      \label{LR:VOCs:IsopCascade:RF:fig_IPCC_RF_AR5}
+    \end{figure}    
       
-      Ozone is an important precursor to OH, as excited oxygen atoms (O(${}^1$D) are created through its photolysis, which then go on to react with water to form OH, as shown in this reaction sequence \parencite{Atkinson2000, AtkinsonArey2003}:
-      \begin{equation}
-        \begin{aligned}
-          O_3+\text{hv}     & \to  O_2 + O({}^1D)   && (\lambda \le 350 \text{nm}) \\%
-          O({}^1D)+M        & \to  O({}^3P) + M     && (M=N_2, O_2)               \\%
-          O({}^3P)+O_2 + M  & \to  O_3 + M          &&                           \\%
-          O({}^1D)+H_2O     & \to  2OH              &&                            \\%
-        \end{aligned}
-        \label{LR:Atmos:Chem:eqn_O3toOH}
-      \end{equation}
-      Where $hv$ represents radiation and M is an inert molecule.
-      This shows that some of the O$({}^1D)$ recycles back to ozone, while some forms OH.
-      %\textcite{AtkinsonArey2003} discuss the relative rates of these reactions.
-      
+    In order to improve understanding of processes involved in radiative forcing, \textcite{Kanakidou2005} highlight the need for improving VOC emissions and flux measurements.
+    They also advocate utilising satellite data in models as a means of improving the emissions inventories.
+    VOCs can lead to changes in cloud formation, as nucleation can arise from the subsequent SOA.
+    \textcite{Kanakidou2005} concluded that it is very likely that organics contribute to particle growth and formation rates.
       
 
 \section{Ozone}
@@ -478,42 +514,7 @@
       The night-time concentrations of OH and ozone also have a complex effect on NO$_X$ removal in high latitude winters, when photolysis and NO reactions are reduced \parencite{Ayers2006}.
       
       % UP TO HERE JENNY's COMMENTS
-  \subsection{Radiative Forcing}
-    \label{LR:VOCs:IsopCascade:RF}
-    
-    One of the larger uncertainties in atmospheric modelling is how particles in the atmosphere affect radiative forcing.
-    For 12 years it has been understood that most OA cool the atmosphere, with smaller particles having a larger effect as they matching the wavelengths of visible light \parencite{Kanakidou2005}.
-    Gas phase emissions with higher vapour pressures can be oxidised into lower vapour pressure products which will partition between gas and particle phase, often called semi or non-volatile. 
-    The aerosol products from these gas phase emissions (or the children thereof) are SOA \parencite{Kanakidou2005}.
-    SOA plays an indirect and complex role in cloud properties, with a net cooling effect \parencite[Chapter 7,8]{IPCC_AR5_WG1}
-    
-    Transport and indirect effects complicate matters further, with cloud creation and modification of cloud properties being quite difficult to accurately predict.
-    In the third IPCC report \parencite{IPCC2001}, the uncertainty involved if OA forcing was a factor of 3 times the estimated effect. 
-    This has since been improved however OA and cloud formation still remains a large uncertainty in more recent IPCC reports \parencite{IPCC_Chapter2}.
-    Figure \ref{LR:VOCs:IsopCascade:RF:fig_IPCC_RF_AR4} shows the radiative forcing (RF) of various atmospheric constituents, it is clear that OA uncertainty dominates.
-    Figure \ref{LR:VOCs:IsopCascade:RF:fig_IPCC_RF_AR5} shows the same summary updated in chapter 8 of the fifth report, where the SOA uncertainty remains quite large.
-    
-    
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/IPCC_WG1AR4_RFSummary.png}
-      \caption{%
-        The overall radiative forcings and uncertainties of several atmospheric constituents
-        This is an image taken from \textcite{IPCC_Chapter2}, found at \url{https://www.ipcc.ch/publications_and_data/ar4/wg1/en/faq-2-1.html}.}
-      \label{LR:VOCs:IsopCascade:RF:fig_IPCC_RF_AR4}
-    \end{figure}
-    
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/IPCC_WG1AR5_RFSummary.png}
-      \caption{%
-        The overall radiative forcings and uncertainties of several atmospheric constituents
-        This is an image taken from \textcite{IPCC_AR5_WG1}, chapter 8.}
-      \label{LR:VOCs:IsopCascade:RF:fig_IPCC_RF_AR5}
-    \end{figure}    
-    
-    In order to improve understanding of processes involved in radiative forcing, \textcite{Kanakidou2005} highlight the need for improving VOC emissions and flux measurements.
-    They also advocate utilising satellite data in models as a means of improving the emissions inventories.
-    VOCs can lead to changes in cloud formation, as nucleation can arise from the subsequent SOA.
-    \textcite{Kanakidou2005} concluded that it is very likely that organics contribute to particle growth and formation rates.
+
     
 \section{HCHO}
 \label{LR:HCHO}
