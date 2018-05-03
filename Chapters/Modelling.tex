@@ -402,6 +402,85 @@
     \end{enumerate}
     NB: for non-UCX runs, satellite output was modified to include tropopause height
   
+    \subsubsection{Tropospheric chemistry run}
+  
+    \subsubsection{UCX run}
+      % TODO: layout reasons why isoprene differs between runs
+      %    In GeosCore/fast_jx_mod.F:
+      %      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
+      %      line 4138: comment says ozone calculated online.
+      %	  TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
+      %    In GeosCore/calcrate.F:
+      %      line 1489 comment says rates are limited to prevent solver failure
+      %	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
+      %      Line 1724
+      %        ! SPECIAL TREATMENT FOR O3+hv -> OH+OH (trop-only simulation)
+      %        !                    or O3+hv -> O+O2  (UCX simulation)
+      %      line 1752:
+      %      #if defined( UCX )
+      %        IF ( NKO3PPHOT(NCS) > 0 ) THEN
+      %          PHOTVAL_2 = NKO3PPHOT(NCS) - NRATES(NCS)
+      %          NKN_2     = NKNPHOTRT(PHOTVAL_2,NCS)
+      %        ENDIF
+      %      #endif
+      %      line 1771:
+      %        comment: change rate of O(1D) + N2 to 3.1e-11 at 298K (from 2.6e-11)...
+      %        if not defined UCX:
+      %	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
+  
+    \subsubsection{Run comparisons}
+  
+      There are many options available when running GEOS-Chem depending on the desired chemistry, resolution, meteorology, and boundary conditions.
+      Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
+      %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
+      Both runs use 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, however the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
+      The extra vertical levels are added in the stratosphere, providing finer vertical resolution from around 70~hPa to the top of the atmosphere.
+      For both runs the inpup parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
+      
+      GEOS-Chem output of HCHO does not differ much between runs with or without the Unified Chemistry eXchange (UCX).
+      Figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO} shows an example of surface HCHO amounts with and without UCX turned on.
+      The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
+      
+      \begin{figure}%[!htbp] % TODO: remove 'rerun' plot, use normal and delete rerun thingy so it's not confusing later.
+        % These figures created in GC_test.py -> TODO:
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_hcho_rerun.png}
+        \caption{ %
+          Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences(bottom left, right respectively).
+          Amounts simulated by GEOS-Chem for the 1st of January, 2005.
+        }
+        \label{Model:GC:running:fig_UCXvsTrop_HCHO}
+      \end{figure}
+      
+      Figure \ref{Model:GC:running:fig_UCXvsTrop_Isop} shows the differences in surface isoprene amounts over Australia.
+      Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
+      Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and lack of emissions over the oceans.
+      Generally isoprene is 0-30\% higher over Australia when the UCX mechanism is turned on.
+      This enhancement can be seen throughout the entire tropospheric column as shown by Figure TODO fix ref \ref{ch_HCHO:fig:isoptropUCXcomparison}. %TODO: fix ref
+      \begin{figure}%[!htbp]
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_isop_rerun.png}
+        \caption{ %
+          As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at isoprene. 
+        }      
+        \label{Model:GC:running:fig_UCXvsTrop_Isop}
+      \end{figure}
+      
+      
+      Figure TODO: shows the columns for isoprene and HCHO simulated by our two mechanisms over Australia in January of 2005.
+      The differences are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
+      
+      
+      TODO: The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
+      With higher stratospheric ozone levels, less radiation would reach the troposphere, changing the photochemistry.
+      Figure \ref{Model:GC:running:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, we can see that UCX has TODO: less or more ozone over Australia/USA in January.
+      
+      \begin{figure}%[!htbp]
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_O3_rerun.png}
+        \caption{%
+          As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at ozone. 
+        }
+        \label{Model:GC:running:fig_UCXvsTrop_O3}
+      \end{figure}
+  
   \subsection{GEOS-Chem outputs}
     \label{Model:GC:outputs}
     There are various outputs available when running GEOS-Chem, which require understanding in order to compare with observations.
@@ -446,117 +525,9 @@
       This offset is determined as one hour per 15 degrees (since 360 degrees is 24 hours), and then used to retrieve global data at any specific local time.
       The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
     
-
-% TODO Move stuff from here upwards into GEOS-Chem section
   
-  \section{TODO: MOVE}
-
-  
-
-      
-      
-      
-    \subsubsection{Tropospheric chemistry run}
-    
-    \subsubsection{UCX run}
-    % TODO: layout reasons why isoprene differs between runs
-    %    In GeosCore/fast_jx_mod.F:
-    %      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
-    %      line 4138: comment says ozone calculated online.
-    %	  TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
-    %    In GeosCore/calcrate.F:
-    %      line 1489 comment says rates are limited to prevent solver failure
-    %	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
-    %      Line 1724
-    %        ! SPECIAL TREATMENT FOR O3+hv -> OH+OH (trop-only simulation)
-    %        !                    or O3+hv -> O+O2  (UCX simulation)
-    %      line 1752:
-    %      #if defined( UCX )
-    %        IF ( NKO3PPHOT(NCS) > 0 ) THEN
-    %          PHOTVAL_2 = NKO3PPHOT(NCS) - NRATES(NCS)
-    %          NKN_2     = NKNPHOTRT(PHOTVAL_2,NCS)
-    %        ENDIF
-    %      #endif
-    %      line 1771:
-    %        comment: change rate of O(1D) + N2 to 3.1e-11 at 298K (from 2.6e-11)...
-    %        if not defined UCX:
-    %	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
-    
-    \subsection{Run comparisons}
-    
-      There are many options available when running GEOS-Chem depending on the desired chemistry, resolution, meteorology, and boundary conditions.
-      Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
-      %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
-      Both runs use 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, however the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
-      The extra vertical levels are added in the stratosphere, providing finer vertical resolution from around 70~hPa to the top of the atmosphere.
-      For both runs the inpup parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
-      
-      GEOS-Chem output of HCHO does not differ much between runs with or without the Unified Chemistry eXchange (UCX).
-      Figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO} shows an example of surface HCHO amounts with and without UCX turned on.
-      The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
-      
-      \begin{figure}%[!htbp] % TODO: remove 'rerun' plot, use normal and delete rerun thingy so it's not confusing later.
-        % These figures created in GC_test.py -> TODO:
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_hcho_rerun.png}
-        \caption{ %
-          Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences(bottom left, right respectively).
-          Amounts simulated by GEOS-Chem for the 1st of January, 2005.
-        }
-        \label{Model:GC:running:fig_UCXvsTrop_HCHO}
-      \end{figure}
-      
-      Figure \ref{Model:GC:running:fig_UCXvsTrop_Isop} shows the differences in surface isoprene amounts over Australia.
-      Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
-      Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and lack of emissions over the oceans.
-      Generally isoprene is 0-30\% higher over Australia when the UCX mechanism is turned on.
-      This enhancement can be seen throughout the entire tropospheric column as shown by Figure TODO fix ref \ref{ch_HCHO:fig:isoptropUCXcomparison}. %TODO: fix ref
-      \begin{figure}%[!htbp]
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_isop_rerun.png}
-        \caption{ %
-          As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at isoprene. 
-        }      
-        \label{Model:GC:running:fig_UCXvsTrop_Isop}
-      \end{figure}
-      
-      
-      Figure TODO: shows the columns for isoprene and HCHO simulated by our two mechanisms over Australia in January of 2005.
-      The differences are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
-      
-      
-      TODO: The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
-      With higher stratospheric ozone levels, less radiation would reach the troposphere, changing the photochemistry.
-      Figure \ref{Model:GC:running:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, we can see that UCX has TODO: less or more ozone over Australia/USA in January.
-          
-      \begin{figure}%[!htbp]
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_O3_rerun.png}
-        \caption{%
-          As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at ozone. 
-        }
-        \label{Model:GC:running:fig_UCXvsTrop_O3}
-      \end{figure}
-
-  \subsection{Rescaling NOx}
-    
-    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
-    This means that if the model is poorly simulating NO$_X$, the yield (and transport, see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
-    In order to determine if rescaling the NO emissions over Australia is necessary in GEOS-Chem, I looked at modelled NO$_2$ amounts compared to satellite data for most of 2005.
     
     
-    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
-    Figure \ref{Model:Filter:NOx:fig_GC_vs_OMNO2d_AUS_Sum_2005} shows the direct comparison between these datasets averaged over January to February, 2005.
-    It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem (potentially due to averaging over the 2x2.5\degr horizontal resolution).
-    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
-    
-    \begin{figure}
-      % Figure from GC_tests.py GC_vs_OMNO2d
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
-      \caption{%
-        GEOS-Chem mid-day tropospheric column NO$_2$ vs OMNO2d columns (averaged to match GEOS-Chems lower resolution).
-        Absolute and relative differences, along with correlation shown on bottom row.
-        }
-      \label{Model:Filter:NOx:fig_GC_vs_OMNO2d_AUS_Sum_2005}
-    \end{figure}
-
 
 \section{Measurement Techniques}
   \label{Model:Meas}
@@ -1312,7 +1283,7 @@
     The regions are labelled in the top panel, and seasonally averaged emissions from grid-boxes in each region are shown below.
     TODO: Figure XX shows the emissions from SPS1 and 2 compared against GEOS-Chem estimates in the same grid square.
     
-  \subsection{HCHO: Simulated vs Measured}
+  \subsection{Temperature vs HCHO}
   \label{Model:Analysis:HCHO}
     
     HCHO precursors are heavily tied to temperature (TODO:cite), and model output shows how higher temperature leads to an increase in HCHO levels.
@@ -1352,6 +1323,29 @@
     \end{figure}
     
     
+    
+
+    
+  \subsection{HCHO Comparisons}
+    TODO: GOME2 HCHO stuff?
+    During days with more than one HCHO column measurement we can more confidently fit the cycle. 
+    For example EOS AURA's OMI measurements from 2004 can be combined with MetOp-A's GOME2 after October 2006, with daily overpasses by OMI and GOME2 at 1345 and 0930 respectively.
+    
+    
+  \subsection{Comparison with standard OMI product}
+    Figure TODO: shows global and Australian HCHO eight day averaged total column maps for 1-8 January 2005, along with the reduced major axis (RMA) regression correlation and percentage difference.
+    This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
+    
+  \subsection{Comparison with in-situ measurements}
+    TODO: Describe Wollongong FTIR and junk
+    Analyse comparison of gridbox with instrument!
+    
+  \subsection{Rescaling NOx}
+  
+    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
+    This means that if the model is poorly simulating NO$_X$, isoprene to HCHO yield and transport (see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
+    In order to determine if rescaling the NO emissions over Australia is necessary in GEOS-Chem, I looked at modelled NO$_2$ amounts compared to satellite data for most of 2005.
+    
     % Geos chem vs tropno2 from omno2d
     Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
     Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
@@ -1385,7 +1379,6 @@
       \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}
     \end{figure}
     
-    
     This comparison is expanded, including a comparison against modelled emissions, and repeated for autumn (MAM), winter (JJA), and spring (SON) in figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}.
     These show an analysis of GEOS-Chem NO emissions and their correlations with the bias between GEOS-Chem NO$_2$ mid-day columns and the OMNO2d product, averaged over each season in 2005.
     The scatter plots have one datapoint for each land square over Australia.
@@ -1397,60 +1390,45 @@
     
     % Figures from GC_tests.py GCe_vs_OMNO2d
     \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050101-20050228.png}
-      {
-        Top row (left to right): GEOS-Chem NO$_2$ mid-day tropospheric columns, OMNO2d NO$_2$ columns, modelled anthropogenic NO emissions. 
-        Second row: absolute and relative difference between GEOS-Chem and OMI NO$_2$ data, and the correlation.
-        Third row: correlation between GEOS-Chem tropospheric column NO$_2$ and emitted NO, then between the model-satellite bias and the emissions.
-        All correlation plots are coloured by emission rates.
-      }
-      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}}
+    {
+      Top row (left to right): GEOS-Chem NO$_2$ mid-day tropospheric columns, OMNO2d NO$_2$ columns, modelled anthropogenic NO emissions. 
+      Second row: absolute and relative difference between GEOS-Chem and OMI NO$_2$ data, and the correlation.
+      Third row: correlation between GEOS-Chem tropospheric column NO$_2$ and emitted NO, then between the model-satellite bias and the emissions.
+      All correlation plots are coloured by emission rates.
+    }
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}}
     
     \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050301-20050531.png}
-      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005.}
-      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Aut}}
-      
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Aut}}
+    
     \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
-      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005.}
-      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Win}}
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Win}}
     
     \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
-      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005.}
-      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Spr}}
-
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Spr}}
+    
     % Soil pictures
     \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050101-20050228.png}
-      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, except anthropogenic NO emissions are replaced by soil NO emissions.}
-      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Sum}}
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, except anthropogenic NO emissions are replaced by soil NO emissions.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Sum}}
     
     \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050301-20050531.png}
-      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005, with soil NO emissions replacing anthropogenic NO emissions.}
-      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Aut}}
-      
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Aut}}
+    
     \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
-      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005, with soil NO emissions replacing anthropogenic NO emissions.}
-      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Win}}
-      
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Win}}
+    
     \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
-      {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005, with soil NO emissions replacing anthropogenic NO emissions.}
-      {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}}
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}}
     
     The conclusion drawn is that modelled anthropogenic and soil NO emissions do not show sufficient evidence of biasing GEOS-Chem NO$_2$ columns away from satellite measurements over Australia.
     For this reason modelled NO emissions are not scaled in model runs in this thesis.
-
-    
-  \subsection{HCHO Comparisons}
-    TODO: GOME2 HCHO stuff?
-    During days with more than one HCHO column measurement we can more confidently fit the cycle. 
-    For example EOS AURA's OMI measurements from 2004 can be combined with MetOp-A's GOME2 after October 2006, with daily overpasses by OMI and GOME2 at 1345 and 0930 respectively.
-    
-    
-  \subsection{Comparison with standard OMI product}
-    Figure TODO: shows global and Australian HCHO eight day averaged total column maps for 1-8 January 2005, along with the reduced major axis (RMA) regression correlation and percentage difference.
-    This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
-    
-  \subsection{Comparison with in-situ measurements}
-    TODO: Describe Wollongong FTIR and junk
-    Analyse comparison of gridbox with instrument!
      
 \section{Data Access}
 TODO: ADD MORE HERE
