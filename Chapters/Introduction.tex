@@ -578,7 +578,7 @@
     Both these loss processes (photolysis, oxidation) form CO and hydroperoxyl radicals (HO$_2$), and have global significance to radiative forcing and oxidative capacity \parencite{Franco2015}.
     The other major sinks are wet and dry deposition, although these are not as significant ($\sim 32$\tgpyr) \parencite{Atkinson2000,FortemsCheiney2012}.
     
-    % UP TO HERE JENNY's COMMENTS
+    
   % How measured (in-situ, satellite)
   \subsection{Measurement techniques}
     \label{LR:HCHO:Measurements}
@@ -656,52 +656,10 @@
   Models can always be expanded to include new compounds or processes, however validation is always necessary.
   Currently they require improved isoprene emissions and subsequent chemistry understanding for effective air quality determination \parencite{Marvin2017}.
   
-  Chemical transport models (CTMs) provide a simulation of chemical densities and transport over time, through the atmosphere.
-  They require many inputs (such as wind velocities) in order to accurately represent scenarios or regions on earth.
-  Models of emissions are often used as drivers for atmospheric chemistry models, which require initial and boundary conditions in order to run.
-  Chemistry in the atmosphere is a complex system of coupled reactions and dynamics, which can be solved using numerical partial differential equation solvers.
-  
-  CTMs simulate production, loss, and transport of chemical species.
-  This is generally calculated using one or both of the Eulerian (box) or Lagrangian (puff) frames of reference.
-  CTMs normally solve continuity equations simultaneously for many coupled species.
-  The continuity equations describe transport of a conserved quantity such as mass or energy, which, solved together with production and loss of a chemical can provide detailed simulations of natural processes.
-  
-  The general continuity equation links a quantity of a substance (q) to the field in which it flows and can be described by the formula:
-  \begin{align*}
-    \frac{\partial \rho}{\partial t} + \nabla \cdot j = \sigma 
-  \end{align*}
-  where $\rho$ is density of q in the field, t is time, $\nabla$ is divergence, j is the flux (q per unit area per unit time entering or leaving the field), and $\sigma$ is the generation or loss of q per unit volume per unit time.
-  
-  
-  The type of model best suited to modelling the entire earth uses the Eulerian frame of reference, where the atmosphere is broken up into 3-D boxes with densities and transport calculated and stored for sequential steps in time at each location.
-  The mass balance equation must be satisfied in any realistic long term model and is as follows: 
-  \begin{align*}
-    \frac{dm}{dt} & = \sum{sources}-\sum{sinks} \\
-                  & = F_{in} + E + P - F_{out} - L - D 
-  \end{align*}
-  where m is mass of a chemical, E and D are emission and deposition, P and L are production and loss, and F is chemical transport in and out, as shown in figure \ref{LR:Models:fig_boxmodel}.
-  Many chemical species interact with each other through production and loss. 
-  Any large chemical model will solve this mass balance equation over highly coupled arrays of partial differential equations, which becomes computation time expensive as complexity increases.
-  
-  \begin{figure}
-    \includegraphics{Figures/boxmodel.png}
-    \caption{ %
-      Standard box model parameters, image taken from \textcite{Jacob_1999_book}. }
-    \label{LR:Models:fig_boxmodel}
-  \end{figure}
-  
-  % UP TO HERE JENNY COMMENTS
-  Contemporary models generally use mathematical differential solving tools of various complexity (often called chemical mechanisms) to solve chemical equations in order to predict chemical species evolutions over time.
-  Different solvers may be slower or faster and more suited to particular situations based on the stability of the equations and systems involved, and chemical mechanisms may vary in how many reactions and chemicals are listed and grouped together.
-  For example: Since [O] $<<$ [O$_3$] the chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \parencite[][Chapter 3]{BrasseurJacob2017}.
-  \textcite{Zhang2012} examine the outputs from a regional model (WRF/Chem) using three different chemical mechanisms, and they show some model output sensitivity to the choice of mechanism.
-  %particulate matter prediction is sensitive to the choice of chemical mechanism. 
-  
-  
   \subsection{Box models}
     Box models are much smaller scale than global CTMs, examining one uniform environment with many parametrisations such as transport and emissions.
     Box models can be used to check chemical mechanisms in specific scenarios, such as high or low NO$_X$ environments.
-    \textcite{Marvin2017} use a box model matching conditions in southeast USA to evaluate isoprene mechanisms from several models.  
+    For example: \textcite{Marvin2017} use a box model matching conditions in southeast USA to evaluate isoprene mechanisms from several models.  
     A box model involves modelling chemistry in a singular set of conditions without transport or any spatial gradients.
     %One box model used in this thesis is called CAABA/MECCA, and is described in Section \ref{Model:CM}.
     
@@ -710,21 +668,66 @@
     The meteorology fields can be modelled, and/or input as parameters.
   
   
+  \subsection{Chemical transport models}
+    Chemical transport models (CTMs) provide a simulation of chemical densities and transport over time, through the atmosphere.
+    They require many inputs (such as wind velocities) in order to accurately represent scenarios or regions on earth.
+    Models of emissions are often used as drivers for atmospheric chemistry models, which require initial and boundary conditions in order to run.
+    Chemistry in the atmosphere is a complex system of coupled reactions and dynamics, which can be solved using numerical partial differential equation solvers.
+    
+    CTMs simulate production, loss, and transport of chemical species.
+    This is generally calculated using one or both of the Eulerian (box) or Lagrangian (puff) frames of reference.
+    CTMs normally solve continuity equations simultaneously for many coupled species.
+    The continuity equations describe transport of a conserved quantity such as mass or energy, which, solved together with production and loss of a chemical can provide detailed simulations of natural processes.
+    
+    The general continuity equation links a quantity of a substance (q) to the field in which it flows and can be described by the formula:
+    \begin{align*}
+      \frac{\partial \rho}{\partial t} + \nabla \cdot j = \sigma 
+    \end{align*}
+    where $\rho$ is density of q in the field, t is time, $\nabla$ is divergence, j is the flux (q per unit area per unit time entering or leaving the field), and $\sigma$ is the generation or loss of q per unit volume per unit time.
+    
+    
+    The type of model best suited to modelling the entire earth uses the Eulerian frame of reference, where the atmosphere is broken up into 3-D boxes with densities and transport calculated and stored for sequential steps in time at each location.
+    The mass balance equation must be satisfied in any realistic long term model and is as follows: 
+    \begin{align*}
+      \frac{dm}{dt} & = \sum{sources}-\sum{sinks} \\
+                    & = F_{in} + E + P - F_{out} - L - D 
+    \end{align*}
+    where m is mass of a chemical, E and D are emission and deposition, P and L are production and loss, and F is chemical transport in and out, as shown in figure \ref{LR:Models:fig_boxmodel}.
+    Many chemical species interact with each other through production and loss. 
+    Any large chemical model will solve this mass balance equation over highly coupled arrays of partial differential equations, which becomes computation time expensive as complexity increases.
+    
+    \begin{figure}
+      \includegraphics{Figures/boxmodel.png}
+      \caption{ %
+        Standard box model parameters, image taken from \textcite{Jacob_1999_book}. }
+      \label{LR:Models:fig_boxmodel}
+    \end{figure}
+    
+    Contemporary models generally use mathematical differential solving tools of various complexity (often called chemical mechanisms) to solve chemical equations in order to predict chemical species evolutions over time.
+    Different solvers may be slower or faster and more suited to particular situations based on the stability of the equations and systems involved, and chemical mechanisms may vary in how many reactions and chemicals are listed and grouped together.
+    For example: Since [O] $<<$ [O$_3$] the chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \parencite[][Chapter 3]{BrasseurJacob2017}.
+    Different chemical mechanisms may find different solutions to the same problems, due to how the numerical solvers are implemented, which can affect model output \parencite{Zhang2012}.
+    %\textcite{Zhang2012} examine the outputs from a regional model (WRF/Chem) using three different chemical mechanisms, and they show some model output sensitivity to the choice of mechanism.
+    %particulate matter prediction is sensitive to the choice of chemical mechanism. 
+    
+  
   \subsection{Emissions}
   
     %% HOW estimates are made
     There are two commonly used ways of estimating isoprene emissions, top-down or bottom-up.
-    Bottom-up emission estimates generally model the flora and events which emit isoprene, like Eucalypts, factories, shrubs, etc.
-    They use various properties of the emitters in order to estimate how much isoprene is being produced.
+    Bottom-up emission estimates generally model the flora which emit isoprene, along with the rates of emissions and things which affect these rates.
+    Isoprene is emitted by trees or shrubs, depending on the type of plant and other environmental factors like sunshine and moisture.
+    Models use various properties of the emitters in order to estimate how much isoprene is being produced.
     Some of these properties include leaf areas, speciated responses to sunlight and temperature, moisture stress, etc \parencite{Guenther1995,Guenther2006}.
     Understanding how much isoprene is emitted, when and by what, is complicated.
     One frequently used bottom up emissions model is the Model of Emissions of Gases and Aerosols from Nature (MEGAN, \textcite{Guenther1995}).
     Since little data exists with which to verify many of these bottom-up emission inventories, they can be uncertain on a large scale.
     
-    In many CTMs the isoprene emissions are calculated seperately (for example by running MEGAN), and then used as boundary conditions (EG: \textcite{Guenther2006}). 
-    This can speed up calculations as the transport and concentrations can be simulated in various conditions without recalculating the emissions.
-    Trace gases with short lifetimes and complex chemistry such as isoprene are often hard to measure which makes verifying model estimates difficult.
+    %In many CTMs the isoprene emissions are calculated seperately (for example by running MEGAN), and then used as boundary conditions \parencite[eg.][]{Guenther2006}. 
+    %This can speed up calculations as the transport and concentrations can be simulated in various conditions without recalculating the emissions.
+    %Trace gases with short lifetimes and complex chemistry such as isoprene are often hard to measure which makes verifying model estimates difficult.
     
+    %UP TO HERE JENNY COMMENTS
     Bottom up models of VOC emissions are sensitive to parameters.
     For example \textcite{Stavrakou2014} examined modelled Asian emissions and altered model parameters for temperature, plant type emission factors, incoming solar radiation (insolation) intensity, land use changes, and palm tree forest expansion.
     Changes were constrained by a network of radiation measurements and some experiments with south east Asian forest emissions - and led to reduction in isoprene emissions by a factor of two over the region.

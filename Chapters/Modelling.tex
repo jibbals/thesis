@@ -793,8 +793,12 @@
 
   
   Figure \ref{Model:omiRecalc:fig_omhchorp_flow} shows an overview of how this process is performed in my work.
-  Output from GEOS-Chem is combined with both OMHCHO swath data and MOD14A1 gridded fire data in order to produce a gridded HCHO file which contains HCHO vertical columns and fire counts. 
+  Output from GEOS-Chem is combined with both OMHCHO swath data and MOD14A1 gridded fire data in order to produce a gridded HCHO file which contains HCHO vertical columns and fire counts.
   The output keeps the original AMF as well as those recalculated using GEOS-Chem, and optionally those recalculated using GEOS-Chem and LIDORT.
+  Additionally, OMAERUVd and OMNO2d data are used to create smoke and anthropogenic influence masks which are also stored in the OMHCHORP dataset.
+  The creation of fire, smoke, and anthropogenic influence masks is described in section \ref{Model:Filter}.
+  
+  
   
   
   \mypic{Figures/omhchorp_flow.png}{Depiction of processes and datasets used to recalculate OMI AMFs.}{\label{Model:omiRecalc:fig_omhchorp_flow}}
@@ -808,17 +812,6 @@
     % Downloading the data
     First satellite slant columns of formaldehyde for the years January 1st, 2005 - April 1st, 2013 are downloaded (see section \ref{Model:Datasets:OMHCHO}).
     The data set used is from the Ozone Monitoring Instrument (OMI) on board the Aura satellite, as it has data for the entire time line and sufficiently covers the southern hemisphere.
-    
-    % Built in QA
-    The satellite data comes with quality assurance flags which are used as filtering criteria as is done in several other studies \parencite[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
-    This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see section \ref{Model:Datasets:OMHCHO}) may have affected.
-    Clouds also have various detrimental effects on slant column uncertainty and AMF calculation, so cloud fraction is saved in the OMHCHO product.
-    
-    % reading pixels into a long list
-    Each pixel and it's relevant data are saved in a long list, around $1.1$ million pixels per day.
-    Additional information is added to each pixel, such as the new AMF calculated through replacing the apriori vertical profile with the newer GEOS-Chem simulated profile.
-    The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers.
-    
     % Filters applied when reading
     When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
     The process is outlined in figure  \ref{Model:Datasets:OMHCHO:fig_read_omhcho} for a single day.
@@ -832,15 +825,26 @@
     The highly negative values can be seen around the $-10^{19}$~molecules cm$^{-2}$ region.
     
     \mypicw{0.7\textwidth}{Figures/AusOMHCHO_Hist_20130318.png}
-      {Column density histograms for a subset of OMI swaths over Australia on the 18th of March 2013.
-       Negative entries are shown in the left panel, positive in the right, note the different scale between negative and positive panels.}
-      {\label{Model:omiRecalc:fig_OMI_negative_hist}}
+    {Column density histograms for a subset of OMI swaths over Australia on the 18th of March 2013.
+      Negative entries are shown in the left panel, positive in the right, note the different scale between negative and positive panels.}
+    {\label{Model:omiRecalc:fig_OMI_negative_hist}}
+    
+    % Built in QA
+    The satellite data comes with quality assurance flags which are used as filtering criteria as is done in several other studies \parencite[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
+    This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see section \ref{Model:Datasets:OMHCHO}) may have affected.
+    Clouds also have various detrimental effects on slant column uncertainty and AMF calculation, so cloud fraction is saved in the OMHCHO product.
+    
+    % reading pixels into a long list
+    Each pixel and it's relevant data are saved in a long list, around $1.1$ million pixels per day.
+    Additional information is added to each pixel, such as the new AMF calculated through replacing the apriori vertical profile with the newer GEOS-Chem simulated profile.
+    The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers.
+    
     
     Finally the pixels which may be too cloudy are dealt with after the pixel has been used in determining the reference sector correction (see section \ref{Model:omiRecalc:RSC}), as is done in \textcite{Abad2015, DeSmedt2015}.
     Any pixel with a cloud fraction of greater than 40\% is removed, 
   
   % How we get the apriori 
-  \subsection{Calculating the apriori shape factor}
+  \subsection{Scattering weight and the shape factor}
     \label{Model:omiRecalc:ShapeFactor}
     % per pixel amf calculation
     OMI's apriori shape factor is based on the GEOS-Chem (v9) model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
@@ -914,25 +918,21 @@
     \begin{equation}
       AMF = -\int_0^\infty{ \omega(z) \frac{\eta(z)}{\Omega_v} \mathrm{d}z}
     \end{equation}
-    which is best described as the scattering weights ($\omega$) multiplied by the shape factor ($\eta$, normalised by its total column $\Omega_v$) integrated over altitude z.
+    which is best described as the scattering weights ($\omega$) multiplied by the shape factor ($S_z(z) = \frac{\eta(z)}{\Omega_v}$) integrated over altitude z.
     Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation when compared against \textcite{Palmer2001}.
     
     The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
-    This is identical to calculating the integral if we assume the integrand is linear between each measured point, which is true as the provided omega is linear between the 47 resolved values, and introduces no new uncertainty.
-    
-    
+    This assumes that the provided scattering weights and shape factors are is linear between the 47 resolved values.
+    I recalculate S$_z$(z) using vertical columns of HCHO averaged over 1300-1400~LT from GEOS-Chem.
+    As a sanity check I also recalculate S$_\sigma$ and confirm that these shape factors are equivalent, for details see section \ref{Model:omiRecalc:normalising_shapefactor}.
     
     All that remains for recalculating the total vertical column using our new apriori shape factor is to apply the new AMF to the slant columns and grid them onto our chosen resolution.
+    Recalculation of the $\omega$ is done seperately, as explained in section \ref{Model:omiRecalc:ppcode}.
     
-    
-    Recalculation of the $\omega$ is done seperately, and explained in section \ref{Model:omiRecalc:ppcode}.
-    
-    S$_z$(z) can be calculated using an apriori vertical profile, which may be sourced from any atmospheric chemistry model.
-    I recalculate S$_z$(z) using satellite output from GEOS-Chem, keeping the provided OMI $\omega$(z).
-    As a sanity check I also recalculate S$_\sigma$ and confirm that these shape factors are equivalent, for details see section \ref{Model:omiRecalc:normalising_shapefactor}.
     
     %TODO: Shape factor plot sigma vs z
     For example see figure TODO: sigma vs z shape factor plot.
+    TODO add plot and describe here.
     
     \subsubsection{Normalised vertical shape factor}
       \label{Model:omiRecalc:normalising_shapefactor}
@@ -993,8 +993,7 @@
       \end{equation}
       where $\Omega_a$ is the vertical column of air and C($\sigma$) is the mixing ratio of the absorber.
       This normalised shape factor is dimensionless.
-      This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography.
-      When 
+      This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
     
     
   \subsection{Recalculating the AMF using PP code}
