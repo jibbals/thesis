@@ -368,7 +368,7 @@
     GEOS-Chem is run four independent times in this thesis, with different outputs from each simulation used to determine specific information. 
     
     Output for an area averaged over 1300 - 1400 local time is saved for comparison and recalculation with satellite overpass records.
-    These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals.
+    These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (see section \ref{Model:omiRecalc:RSC}).
     They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
 
     TODO: Go through work process and clarify these items
@@ -1025,7 +1025,7 @@
     This reference sector correction (RSC) is calculated following \textcite{Abad2016}, and applied to the satellite AMF, the AMF recalculated by GEOS-Chem, and the AMF calculated using Paul Palmers code.
     
     % What RSC does
-    The reference sector correction method corrects for several problems, however it introduces some apriori model influence.
+    The RSC method corrects for several problems, however it introduces some apriori model influence.
     One of the problems removed through this correction method is instrument degradation, which can introduce bias over time.
     Another is the possible influence of varying dead/hot pixel masks across 2-D detector arrays such as OMI \parencite{DeSmedt2015}.
     This method also corrects for the errors introduced through correlations between BrO and HCHO absorption cross sections, which are especially significant at high latitudes \parencite{Abad2015}.
@@ -1045,8 +1045,8 @@
     % Then RSC Longitudinally averaged, binned into 500 lats
     The longitudinal average is taken within the apriori reference sector, as corrections are assumed to be longitudinally invariant.
     The modeled reference sector is interpolated latitudinally to 500 equidistant bins.
-    Figure \ref{Model:omiRecalc:RSC:fig_RSCeg} the simulated reference sector VCs as an example, calculated on January 1st 2005.
-    In this figure the vertical resolution is increased from 2$^{\circ}$ to 0.36$^{\circ}$, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
+    Figure \ref{Model:omiRecalc:RSC:fig_RSCeg} the simulated reference sector VCs as an example, calculated for January 1st 2005.
+    In this figure the vertical resolution is increased from 2$^{\circ}$ to 0.36\degr, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
     Each day, good satellite measurements taken over the reference sector are used to determine a correction array.
     The correction is based on the difference between measured slant column and the modeled slant column within the reference sector.
     The model does not produce slant columns associated with each measurement, however one is created by multiplying the VC with the associated slant column's AMF.
@@ -1055,7 +1055,7 @@
     \mypicw{0.7\textwidth}
     {Figures/HCHO/Summary_RSC_Effect8d_20050101.png}
     {%
-      Example of remote pacific reference sector correction (RSC) using 8-day average measurements and one month modelled data.
+      Example of remote pacific RSC using 8-day average measurements and one month modelled data.
       $\Omega_{VC}$ shows the uncorrected vertical columns, while $\Omega_{VCC}$ shows the corrected vertical columns.
       OMI corrections shows the correction applied globally based on latitude and OMI track number(sensor).
       $\Omega_{GC}$ shows the GEOS-Chem modelled HCHO VC over the RSC, with $\Omega_{VCC}$ showing the corrected VC over the same area.
@@ -1067,12 +1067,13 @@
     The track index (i) relates a the measurement to one of the 60 columns of data.
     Corrections for each measurement are calculated by taking the difference between the measured slant column and the apriori slant column as follows:
     \begin{equation} \label{Model:omiRecalc:eqn_RSC}
-      Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF_{OMI}}(i,j)
+      Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF}(i,j)
     \end{equation}
     where j represents a latitude index and $VC_{GEOS-Chem}(lat)$ represents the apriori reference sector vertical column HCHO at the latitude corresponding to j.
     Note that the correction is in molecules cm$^{-2}$.
     % Correction applied over each of the 60 tracks
-    The reference sector correction is independently calculated for each of the 60 tracks, at each latitude in the 500 bins described above.
+    The RSC is independently calculated for each of the 60 tracks, at each latitude in the 500 0.36\degr bins.
+    This provides a different RSC 
     
     % Interpolated daily RSC to cover missing latitudes
     Due incomplete latitudinal coverage, the correction for each track is interpolated linearly between measurements, with corrections outside of the highest measured latitudes being equal to the corrections at the highest measured latitudes.
