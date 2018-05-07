@@ -1033,7 +1033,7 @@
     % How Vertical columns use reference sector corrections
     Vertical columns in OMI use this oceanic background instead of a solar irradiance spectrum
     In order to recalculate the vertical columns using modelled data, a RSC needs to be applied.
-    The corrected vertical column ($\Omega_{VC}$) is calculated as the slant column ($\Omega_S$) minus the reference slant column ($\Omega_{S_0}$) multiplied by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
+    The correction uses the difference between the slant column ($\Omega_S$) and the reference slant column ($\Omega_{S_0}$) divided by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
     \begin{equation*}
       \Omega_{VC} = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
     \end{equation*}
@@ -1041,12 +1041,10 @@
     Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \textcite{Abad2015}.
     
     % How my RSC is defined
-    A correction for each instrument pixel is created based on the difference between the background HCHO measurements from OMI and the GEOS-Chem modelled HCHO columns within the reference sector.
-    This correction is calculated daily and applied to all good pixels based on their latitude.
-    
+    The correction used in this thesis is created based on the difference between the background HCHO measurements from OMI and the GEOS-Chem modelled HCHO columns within the reference sector.
     % Then RSC Longitudinally averaged, binned into 500 lats
     The longitudinal average is taken within the apriori reference sector, as corrections are assumed to be longitudinally invariant.
-    The modeled reference sector is interpolated latitudinally in for use in the OMI measurement correction array creation.
+    The modeled reference sector is interpolated latitudinally to 500 equidistant bins.
     Figure \ref{Model:omiRecalc:RSC:fig_RSCeg} the simulated reference sector VCs as an example, calculated on January 1st 2005.
     In this figure the vertical resolution is increased from 2$^{\circ}$ to 0.36$^{\circ}$, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
     Each day, good satellite measurements taken over the reference sector are used to determine a correction array.
@@ -1074,8 +1072,7 @@
     where j represents a latitude index and $VC_{GEOS-Chem}(lat)$ represents the apriori reference sector vertical column HCHO at the latitude corresponding to j.
     Note that the correction is in molecules cm$^{-2}$.
     % Correction applied over each of the 60 tracks
-    The reference sector correction is independently calculated for each of the 60 tracks, at each latitude where a good satellite measurement exists which used that track.
-    The Correction$(i,lat(j))$ function is determined by binning corrections for each track into 500 equidistant latitude bands. 
+    The reference sector correction is independently calculated for each of the 60 tracks, at each latitude in the 500 bins described above.
     
     % Interpolated daily RSC to cover missing latitudes
     Due incomplete latitudinal coverage, the correction for each track is interpolated linearly between measurements, with corrections outside of the highest measured latitudes being equal to the corrections at the highest measured latitudes.
@@ -1093,7 +1090,7 @@
     VCC(i,j) = \frac{SC_{HCHO}(i,j) - Correction(i,lat(j))}{AMF(i,j)}
     \end{equation}
     Finally, for each day, the good satellite measurements are averaged into our own latitude longitude resolution bins along with the associated corrected SC, VC, VCC, AMF, and bin entry count.
-    The bin entry count is used to create an 8-day average out of the one day averages, as it is the daily mean multiplied by the daily count summed over 8 days divided by the total count for each bin.
+    The bin entry count is used to create weighted averages from the daily binned data, which accounts for sparse entries due to filtering.
   
   \subsection{Binning the results daily}
     
@@ -1321,19 +1318,14 @@
     \end{figure}
     
     
-  \subsection{HCHO Comparisons}
-    TODO: GOME2 HCHO stuff?
-    During days with more than one HCHO column measurement we can more confidently fit the cycle. 
-    For example EOS AURA's OMI measurements from 2004 can be combined with MetOp-A's GOME2 after October 2006, with daily overpasses by OMI and GOME2 at 1345 and 0930 respectively.
-    
-    
   \subsection{Comparison with standard OMI product}
     Figure TODO: shows global and Australian HCHO eight day averaged total column maps for 1-8 January 2005, along with the reduced major axis (RMA) regression correlation and percentage difference.
     This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
     
   \subsection{Comparison with in-situ measurements}
-    TODO: Describe Wollongong FTIR and junk
-    Analyse comparison of gridbox with instrument!
+
+    TODO: % TODO: campaign analysis compared to GEOS-Chem
+    Analyse comparison of gridbox with campaigns of measurements
     
   \subsection{Rescaling NOx}
   
