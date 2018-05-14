@@ -2,6 +2,21 @@
 \chapter{Supplementary Notes}
   \label{SuppNotes}
 
+\section{Measurement Techniques}
+  \subsection{MAX-DOAS}
+    Multiple axis DOAS (MAX-DOAS) is a remote sensing technique which uses several DOAS measurements over different viewing paths.
+    In these retrievals, the measurements of light absorption are performed over several elevations in order to add some vertical resolution to the measurement of trace gas concentrations.
+    An example of this is shown in figure \ref{LR:HCHO:fig_MAXDOASExample}, which was taken from \textcite{Lee2015}.
+    Recently MAX-DOAS has been used to examine HCHO profiles in the clean free troposphere (\textcite{Franco2015, Schreier2016}) as well as in polluted city air (\textcite{Lee2015}).
+    Depending on orography and atmospheric composition (ie. the influence of interfering chemicals), MAX-DOAS can be used to split the tropospheric column into two partial columns; giving a small amount of vertical resolution to HCHO measurements \parencite[eg.]{Franco2015, Lee2015}.
+    In \textcite{Franco2015}, an FTIR spectrometer at Jungfraujoch is compared against both MAX-DOAS and satellite data, with two CTMs; GEOS-Chem and IMAGES v2 used to compare total columns and vertical resolution of each instrument.
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/MAXDoasExample.png}
+      \caption{ Image from \textcite{Lee2015}.}
+      \label{LR:HCHO:fig_MAXDOASExample}
+    \end{figure}
+
 \section{Data sets}
   \subsection{SPEI}
     
@@ -114,7 +129,12 @@
   MECCA could also be used as the chemistry mechanism for a more complex, 3-dimensional model (\cite[e.g.][]{Jockel2006}).
   The connection is established via the MESSy interface (\url{http://www.messy-interface.org}) developed by \cite{Jockel2005} as part of an effort to simplify the framework for modelling the atmospheres at various scales.
   The user manual is available online at \url{http://www.rolf-sander.net/messy/mecca/caaba_mecca_manual.pdf}.
-    
+  
+  \subsubsection{CAABA/MECCA outputs}
+  The box model can output in netcdf or text format, TODO: which way am I better off ? 
+  Text output from CAABA/MECCA was read using tailored python scripts modified from code written by dr. Luke Surl.
+  Dr. Luke Surl also wrote the code which implements calculations of yield from runs using isoprene injections as described in Section \ref{Model:CM} TODO: update to more specific reference.
+  
   % Method for using caaba/mecca
   \subsection{CAABA/MECCA Box model: isoprene source classifications}
     \label{BioIsop:Methods:CM}

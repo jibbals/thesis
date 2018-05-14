@@ -11,9 +11,13 @@
   \textcite{Young2018} summarise current global ozone modelling standards and the metrics and processes used to evaluate these models.
   They show how models can be used to improve measurements, estimate concentrations in regions not sampled, and allow analysis of other processes which involve ozone (such as radiation).
   
+  In-situ measurements from campaigns or measurement stations can be used to examine what is happening at a particular (or several) location(s).
+  These data are useful to determine how accurate models or estimates are - however the utility is limited to where the measurements have been made.
+  In this thesis several campaigns are compared against model outputs.
+  
   %Satellite usage and reduction of uncertainty
-  Satellite datasets give us access to lots of datapoints.
-  When looking at trace gases such as HCHO, satellite measurements can have high amounts of uncertainty.
+  Satellite datasets give us access to lots of data over large areas.
+  However, satellite measurements can have high amounts of uncertainty due to instrument limitations.
   Many datapoints can be averaged in order to reduce uncertainty.
   Once the satellite data are quality filtered and gridded, I use additional data to account for anthropogenic and pyrogenic influences, which provides us an estimate of biogenic HCHO.
   MODIS fire counts are used in conjunction with smoke AAOD enhancements (also measured by satellite) to remove data points which may be affected by fires. 
@@ -181,7 +185,7 @@
       The product is most sensitive to error in the form of subpixel scale cloud interference, so I select AAOD as the basis for my smoke filter as it is least affected by clouds \parencite{Ahn2008}.
       
       % How I read the AAOD
-      Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to finer resolution using the nearest value for each gridsquare, before being saved along with the MOD14A1d fire product as seen in Figure \ref{Model:Datasets:OMHCHO:fig_read_omhcho}.
+      Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to finer resolution using the nearest value for each gridsquare, before being saved along with the MOD14A1d fire product as seen in Figure \ref{Model:Datasets:OMHCHO:fig_flow_omhchorp}.
       I use the AAOD at 500~nm wavelength, which should be sufficiently blocked by fire smoke plumes.
       This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with higher than TODO AAOD values.
     
@@ -291,64 +295,12 @@
       The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last before version 11.
       The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
   
-  
-    \subsubsection{Emissions from MEGAN}
-      \label{Model:GC:Isop:MEGAN}
-  
-      MEGAN is a global model with resolution of around 1~km, and is used to generate the BVOC emissions used in various global chemistry models such as GEOS-Chem.
-      MEGAN uses leaf area index, global meteorological data, and plant functional types (PFTs) to simulate terrestrial isoprene emissions.
-      The model includes global measurements of leaf area index, plant functional type, and photosynthetic photon flux density, from remote sensing databases \parencite{Kefauver2014}.
-      The various PFTs are used to generate emission factors which represent quantities of a compound released to the atmosphere through an associated activity.
-      For example, an emission factor for isoprene within a forest would include the requirement of sunshine and suitable temperature.
-      The schematic for MEGAN, taken from \textcite{Megan_Website}, is shown in figure \ref{Models:GC:Isop:MEGAN:fig_megan_schematic}
-      
-      \begin{figure}[!htbp]
-        \includegraphics[width=\textwidth]{Figures/MEGANmodel_img.jpg}
-        \caption{MEGAN schematic, copied from \textcite{Megan_Website}}
-        \label{Models:GC:Isop:MEGAN:fig_megan_schematic}
-      \end{figure}
-      
-      MEGAN ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions.'' \parencite{Guenther2012}.
-      It allows parameterisation of various BVOC emissions, with descriptions given in \textcite{Guenther2012}.
-      Instructions to run version 2.1 are available at \url{http://lar.wsu.edu/megan/docs/MEGAN2.1_User_GuideWSU.pdf}, and a version using the Community Land Model (CLM) is available at \url{http://www.cesm.ucar.edu}.
-      It uses meteorological fields from the Weather Research and Forecasting (WRF) modelling system.
-      Version 2.1 (updated from 2.0 \parencite{Guenther2006}) includes 147 species, in 19 BVOC classes, which can be lumped together to provide appropriate output for mechanisms in various chemical models.
-      
-      MEGAN was developed as a replacement for two earlier canopy-environment emission models (BIES and GEIA), and initially included a simple canopy radiative transfer model, which parameterised sun-lit and shaded conditions through a canopy.
-      Early models didn't account for abiotic stresses, such as drought, prior rainfall and development processes. These stresses influenced species-specific emissions by more than an order of magnitude \parencite{Niinemets1999}.
-      Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \parencite{Guenther2000}, and a leaf energy balance model \parencite{Guenther2006} in MEGANv2.0.
-      This update included a parameter for soil moisture, to account for drought conditions, however this parameter is currently (as of version 2.1) not applied to isoprene \parencite{Sindelarova2014}.
-      Soil moisture effects on isoprene emission are very important, and can drastically affect estimates.
-      
-      MEGAN has recently been analysed using 30 years of meteorological reanalysis information by \textcite{Sindelarova2014}.
-      They estimate emissions of Biogenic VOCs (BVOCs) to be 760~Tg(C)yr$^{-1}$, 70\% (532~Tg(C)yr$^{-1}$) of which is isoprene.
-      This is similar to isoprene emission estimates from MEGAN itself, of 400-600~Tg(C)yr$^{-1}$ \parencite{Guenther2006}.
-      MEGAN emissions estimates are termed bottom-up, as opposed to top-down which are derived from satellite measurements of the products of various VOCs.
-      Using GOME satellite HCHO and a Beyesian inversion technique to derive isoprene emissions, \textcite{Shim2005} estimated global isoprene emissions to be $\sim566$~TgC yr$^{-1}$. 
-      This estimate is decreases simulated OH concentrations by $\sim10\%$, to 9.5e5 molec cm$^{-3}$.
-      
-      One of the important parameters in Australia is the soil moisture activity factor($\gamma_{SM}$), which can have large regional effects on the isoprene emissions \parencite{Sindelarova2014,Bauwens2016}.
-      Generally if soil moisture is too low, isoprene emissions stop \parencite{Pegoraro2004,Niinemets2010}, however in many Australian regions the plants may be more adapted to lower moisture levels. (TODO: Find cites for this - talk from K Emerson at Stanley indicated this)
-      GEOS-Chem runs MEGANv2.1, which has three possible states for isoprene emissions based on the soil moisture ($\theta$):
-      \begin{align*}
-        \gamma_\mathrm{SM} & = 1 && \theta > \theta_1 \\
-        \gamma_\mathrm{SM} & = (\theta-\theta_w)/\Delta\theta_1  && \theta_w < \theta < \theta_1 \\
-        \gamma_\mathrm{SM} & = 0 && \theta < \theta_w \\
-      \end{align*}
-      where $\theta_w$ is the wilting point, and $\theta_1$ determines when plants are near the wilting point.
-      The wilting point is set by a land based database from \textcite{Chen2001}, while $\theta_1$ is set globally based on \textcite{Pegoraro2004}.
-      These moisture states are disabled in GEOS-Chem V10.01, which is partly because accurate maps of soil moisture are not available.
-      
-      In GEOS-Chem the isoprene emissions can be globally multiplied by a constant factor.
-      By running the model with the biogenic isoprene emissions halved while other parameters remain unchanged, an estimate of modelled HCHO sensitivity to isoprene emissions can be determined.
-      This, along with smearing sensitivity, is described in Section \ref{BioIsop:Methods:Smearing}.
-  
   \subsection{Chemical Mechanisms}
     \label{Model:GC:Mechanisms}
     Chemical reactions are turned into systems of differential equations (DEs) to be solved by the CPU for each gridbox in GEOS-Chem.
     Some of the important ones involving isoprene are copied here, including reaction rates in the form $ k = A \exp{-ER/T} $.
-  
-  \begin{align} \begin{split}
+    
+    \begin{align} \begin{split}
     \label{Model:GC:Mechanisms:eqn_mechanisms}
     \ce{
       RIO2 + NO ->[2.7*10^{-12} \exp{350/T}] & .883NO2 + .783HO2 + .66CH2O \\
@@ -360,7 +312,39 @@
     %     % k1=2.7*10^{-12} \exp{350/T}
     %     % k2=4.07*10^{8} \exp{-7694/T}
     %      
-  \end{split} \end{align}
+    \end{split} \end{align}
+  
+  
+  \subsection{Emissions from MEGAN}
+    \label{Model:GC:Isop:MEGAN}
+
+    MEGAN is a global model with resolution of around 1~km, and is used to generate the BVOC emissions used in various global chemistry models such as GEOS-Chem.
+    MEGAN uses leaf area index, global meteorological data, and plant functional types (PFTs) to simulate terrestrial isoprene emissions.
+    The model includes global measurements of leaf area index, plant functional type, and photosynthetic photon flux density, from remote sensing databases \parencite{Kefauver2014}.
+    The various PFTs are used to generate emission factors which represent quantities of a compound released to the atmosphere through an associated activity.
+    For example, an emission factor for isoprene within a forest would include the requirement of sunshine and suitable temperature.
+    The schematic for MEGAN, taken from \textcite{Megan_Website}, is shown in figure \ref{Models:GC:Isop:MEGAN:fig_megan_schematic}
+    
+    \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{Figures/MEGANmodel_img.jpg}
+      \caption{MEGAN schematic, copied from \textcite{Megan_Website}}
+      \label{Models:GC:Isop:MEGAN:fig_megan_schematic}
+    \end{figure}
+    
+    GEOS-Chem V10.01 uses MEGAN V2.1 with biogenic emissions from \textcite{Guenther2012}.
+    It computes some emissions using predefined EF maps from MEGAN source code, and others using PFT maps and associated EFs.
+    MEGAN ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions.'' \parencite{Guenther2012}.
+    It allows parameterisation of various BVOC emissions, with descriptions given in \textcite{Guenther2012}.
+    Instructions to run version 2.1 are available at \url{http://lar.wsu.edu/megan/docs/MEGAN2.1_User_GuideWSU.pdf}, and a version using the Community Land Model (CLM) is available at \url{http://www.cesm.ucar.edu}.
+    It uses meteorological fields from the Weather Research and Forecasting (WRF) modelling system.
+    Version 2.1 (updated from 2.0 \parencite{Guenther2006}) includes 147 species, in 19 BVOC classes, which can be lumped together to provide appropriate output for mechanisms in various chemical models.
+    
+    MEGAN was developed as a replacement for two earlier canopy-environment emission models (BIES and GEIA), and initially included a simple canopy radiative transfer model, which parameterised sun-lit and shaded conditions through a canopy.
+    Early models didn't account for abiotic stresses, such as drought, prior rainfall and development processes. These stresses influenced species-specific emissions by more than an order of magnitude \parencite{Niinemets1999}.
+    Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \parencite{Guenther2000}, and a leaf energy balance model \parencite{Guenther2006} in MEGANv2.0.
+    This update included a parameter for soil moisture, to account for drought conditions, however this parameter is currently (as of version 2.1) not applied to isoprene \parencite{Sindelarova2014}.
+    Soil moisture effects on isoprene emission are very important, and can drastically affect estimates.
+  
   
   \subsection{GEOS-Chem simulations}
     \label{Model:GC:runs}
@@ -391,7 +375,9 @@
       
       \item Tropchem(isoprene emissions halved)
       \begin{enumerate}
-        \item Satellite output used to determine smearing.
+        \item In GEOS-Chem the isoprene emissions can be globally multiplied by a constant factor.
+        \item An estimate of modelled HCHO sensitivity to isoprene emissions and transport (smearing) can be determined.
+        \item Smearing is determined by running the model with the biogenic isoprene emissions halved while other parameters remain unchanged.
       \end{enumerate}
       
       \item Tropchem(biogenic emissions only, all other inventories turned off)
@@ -500,44 +486,27 @@
         This diagnostic allows easier analysis of model data against a satellite as one can match the output with the satellite's overpass time.
         Output averaged between 1300-1400 LT is saved to allow comparisons with Aura satellite measurements, as Aura overpasses at $\sim$1330 LT each day.
       \item[HEMCO diagnostics]%
+        % Local time offsets
+        In order to get hourly MEGAN modelled isoprene emissions, HEMCO (the module of GEOS-Chem dealing with emissions inventories) diagnostic output was created.
+        When working with globally gridded data, handling local time offsets becomes more important.
+        The hourly output emissions of isoprene is saved using GMT, which needs to be offset based on longitude in order to retrieve local time.
+        I do this by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with it's local time offset.
+        This offset is determined as one hour per 15 degrees (since 360 degrees is 24 hours), and then used to retrieve global data at any specific local time.
+        The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
         are the emissions TODO: averaged or instantaneous? in each gridbox, which I've stored for each 3 hours.
       \item[Tracer averages]%
         are daily or monthly averaged gridbox concentrations.
       
     \end{description}
-  
-   
-  \subsection{Reading Data}
-    \subsubsection{CAABA/MECCA outputs}
-      The box model can output in netcdf or text format, TODO: which way am I better off ? 
-      Text output from CAABA/MECCA was read using tailored python scripts modified from code written by dr. Luke Surl.
-      Dr. Luke Surl also wrote the code which implements calculations of yield from runs using isoprene injections as described in Section \ref{Model:CM} TODO: update to more specific reference.
+     
       
-    \subsubsection{GEOS-Chem Satellite output}
-    
-    \subsubsection{HEMCO diagnostics}
-      
-      % Local time offsets
-      In order to get hourly MEGAN modelled isoprene emissions, HEMCO (the module of GEOS-Chem dealing with emissions inventories) diagnostic output was created.
-      When working with globally gridded data, handling local time offsets becomes more important.
-      The hourly output emissions of isoprene is saved using GMT, which needs to be offset based on longitude in order to retrieve local time.
-      I do this by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with it's local time offset.
-      This offset is determined as one hour per 15 degrees (since 360 degrees is 24 hours), and then used to retrieve global data at any specific local time.
-      The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
-    
-  
-    
-    
-
 \section{Measurement Techniques}
   \label{Model:Meas}
   While I have not made any measurements myself, it is important to understand the techniques used in datasets I have utilised in order to understand possible anomalous datapoints or trends.
-  
   % Measurement difficulties
   In-situ measurements contain errors, and depending on the device used and chemical being measured this error can be significant.
-  \textcite{Dunne2017} analyse the uncertainty of VOC measurements (including isoprene) using three different techniques during a campaign in Sydney in 2012.
-  The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting.
-  Overall isoprene uncertainty in their measurements was a factor of 1.5 to 2.
+  The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting \parencite[eg.][]{Dunne2017}.
+  Overall isoprene uncertainty in measurements analysed by \textcite{Dunne2017} was a factor of 1.5 to 2.
   This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
   
   \subsection{DOAS}
@@ -553,7 +522,7 @@
     \begin{equation*}
       \tau = \int_0^l \alpha(z)\eta(z)\mathrm{d}z
     \end{equation*}
-    where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively, and l represents the length of the medium (in this case the path through which the light travels). 
+    where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively, and \textit{l} represents the length of the medium (in this case the path through which the light travels). 
     
     % Optical depth through the atmosphere
     Another way of describing optical depth, also called optical thickness, is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material.
@@ -564,19 +533,6 @@
     \end{equation*}
     where $\phi_e^i$ is radiant flux seen at the earth surface, $\phi_e^t$ is the solar radiant flux which arrives at the top of the atmosphere.
     In the atmosphere, optical depth can be due to several factors including scattering, chemical absorbance, and aerosols.
-    
-    Multiple axis DOAS (MAX-DOAS) is a remote sensing technique which uses several DOAS measurements over different viewing paths.
-    In these retrievals, the measurements of light absorption are performed over several elevations in order to add some vertical resolution to the measurement of trace gas concentrations.
-    An example of this is shown in figure \ref{LR:HCHO:fig_MAXDOASExample}, which was taken from \textcite{Lee2015}.
-    Recently MAX-DOAS has been used to examine HCHO profiles in the clean free troposphere (\textcite{Franco2015, Schreier2016}) as well as in polluted city air (\textcite{Lee2015}).
-    Depending on orography and atmospheric composition (ie. the influence of interfering chemicals), MAX-DOAS can be used to split the tropospheric column into two partial columns; giving a small amount of vertical resolution to HCHO measurements \parencite[eg.]{Franco2015, Lee2015}.
-    In \textcite{Franco2015}, an FTIR spectrometer at Jungfraujoch is compared against both MAX-DOAS and satellite data, with two CTMs; GEOS-Chem and IMAGES v2 used to compare total columns and vertical resolution of each instrument.
-    
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/MAXDoasExample.png}
-      \caption{ Image from \textcite{Lee2015}.}
-      \label{LR:HCHO:fig_MAXDOASExample}
-    \end{figure}
     
   \subsection{Satellites}
   \label{Model:Meas:sat}
@@ -768,13 +724,13 @@
   \end{equation}
   where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
   
-  \mypic{Figures/Flow_Reading_OMHCHO.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:Datasets:OMHCHO:fig_read_omhcho}}
+  \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:Datasets:OMHCHO:fig_flow_omhchorp}}
   
   % Method outline
   In order to visualise and analyse satellite column data it is generally transformed into vertical columns. 
   This is done using AMF calculations as shown in the following subsections.
   Taking the biogenic slant columns, scattering weights, and apriori estimates of HCHO vertical profiles we determine vertical HCHO column amounts.
-  This is an in depth process involving radiative transfer modelling in order to work out satellite sensitivities at various altitudes, as well as the effect from the local HCHO profile on those sensitivities.
+  This involves radiative transfer modelling in order to work out satellite sensitivities at various altitudes, as well as the effect from the local HCHO profile on those sensitivities.
   Several of these required data are available from the satellite data products, including the scattering weights and the zenith angles required to determine an AMF at any particular measured point.
   In this work the shape factor is recalculated from GOES-Chem, with the associated OMI per-pixel scattering weights unchanged. 
   The satellite shape factor is replaced by GEOS-Chem's overpass time simulated HCHO profile, normalised and saved daily along with air density.
@@ -789,19 +745,11 @@
   Apriori GEOS-Chem HCHO profiles are created using output averaged between 1200 and 1300 local time (LT).
   Using this one hour average matches the overpass time of OMI, and is similarly performed in \textcite{Jin2017}.
   
-  
-
-  
-  Figure \ref{Model:omiRecalc:fig_omhchorp_flow} shows an overview of how this process is performed in my work.
-  Output from GEOS-Chem is combined with both OMHCHO swath data and MOD14A1 gridded fire data in order to produce a gridded HCHO file which contains HCHO vertical columns and fire counts.
-  The output keeps the original AMF as well as those recalculated using GEOS-Chem, and optionally those recalculated using GEOS-Chem and LIDORT.
-  Additionally, OMAERUVd and OMNO2d data are used to create smoke and anthropogenic influence masks which are also stored in the OMHCHORP dataset.
+  Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how this process is performed in my work.
+  Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem aprioris.
+  The output keeps the original AMF as well as those recalculated using GEOS-Chem, and those recalculated using both GEOS-Chem and LIDORT.
+  Additionally, MOD14A1, OMAERUVd and OMNO2d data are used to create influence masks which are also stored in the OMHCHORP dataset.
   The creation of fire, smoke, and anthropogenic influence masks is described in section \ref{Model:Filter}.
-  
-  
-  
-  
-  \mypic{Figures/omhchorp_flow.png}{Depiction of processes and datasets used to recalculate OMI AMFs.}{\label{Model:omiRecalc:fig_omhchorp_flow}}
   
   
   After recalculating the AMFs for each satellite pixel using GEOS-Chem v10.01, we are left with the new vertical columns which are essentially what the satellite would show given that the modelled column was known and correct.
@@ -814,7 +762,7 @@
     The data set used is from the Ozone Monitoring Instrument (OMI) on board the Aura satellite, as it has data for the entire time line and sufficiently covers the southern hemisphere.
     % Filters applied when reading
     When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
-    The process is outlined in figure  \ref{Model:Datasets:OMHCHO:fig_read_omhcho} for a single day.
+    The process is outlined in figure  \ref{Model:Datasets:OMHCHO:fig_flow_omhchorp} for a single day.
     First all the pixels for are read, filtered by the QA flag, solar zenith angle (SZA) and latitude (\textcite{Palmer2001}).
     Satellite measurements polewards of 60\degr north or south are removed as well as measurements with SZA greater than 60\degr.
     Further filtering is performed to remove the measurements which are most likely to be unrealistic: those with column density outside the range $-0.5 \times 10^{16}$ to $10^{17} $~molecules cm$^{-2}$.
@@ -1015,7 +963,7 @@
     
     First special output is required from GEOS-Chem, averaged between 1300 and 1400 LT, including optical depths at several wavelengths (TODO: list), dust, and HCHO.
     I then pull out a subset of the OMI pixel information into a daily csv file, which can be read by the PP code as modified by Dr. Luke Surl, in conjunction with the GEOS-Chem outputs for each day.
-    The PP code then produces a csv of recalculated AMFs which get read by my python code and associated with the corresponding pixel (outlined in \ref{Model:omiRecalc:fig_omhchorp_flow}).
+    The PP code then produces a csv of recalculated AMFs which get read by my python code and associated with the corresponding pixel (outlined in \ref{Model:omiRecalc:fig_flow_omhchorp}).
     
   \subsection{Reference sector correction}
     \label{Model:omiRecalc:RSC}
@@ -1095,7 +1043,7 @@
   
   \subsection{Binning the results daily}
     
-    Finally the pixels are binned into a gridded dataset I've called OMHCHORP, as shown in figure \ref{Model:Datasets:OMHCHO:fig_read_omhcho}.
+    Finally the pixels are binned into a gridded dataset I've called OMHCHORP, as shown in figure \ref{Model:Datasets:OMHCHO:fig_flow_omhchorp}.
     The resolution is chosen to match the native resolution of GEOS-Chem (0.25x0.3125\degr) and the GEOS met data fields.
     %TODO: list of things stored in the daily omhchorp outputs
     Data averaged into this dataset are as follows:
