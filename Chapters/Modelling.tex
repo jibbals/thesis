@@ -185,9 +185,9 @@
       The product is most sensitive to error in the form of subpixel scale cloud interference, so I select AAOD as the basis for my smoke filter as it is least affected by clouds \parencite{Ahn2008}.
       
       % How I read the AAOD
-      Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to finer resolution using the nearest value for each gridsquare, before being saved along with the MOD14A1d fire product as seen in Figure \ref{Model:Datasets:OMHCHO:fig_flow_omhchorp}.
-      I use the AAOD at 500~nm wavelength, which should be sufficiently blocked by fire smoke plumes.
-      This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with higher than TODO AAOD values.
+      Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to finer resolution using the nearest value for each gridsquare.
+      I use the AAOD at 500~nm wavelength, which is blocked by fire smoke plumes.
+      This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with higher AAOD$>0.03$.
     
     \subsubsection{MOD14A1}
       \label{Model:Datasets:MOD14A1}
@@ -345,6 +345,95 @@
     This update included a parameter for soil moisture, to account for drought conditions, however this parameter is currently (as of version 2.1) not applied to isoprene \parencite{Sindelarova2014}.
     Soil moisture effects on isoprene emission are very important, and can drastically affect estimates.
   
+  \subsection{Rescaling NOx}
+  
+    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
+    This means that if the model is poorly simulating NO$_X$, isoprene to HCHO yield and transport (see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
+    In order to determine if rescaling the NO emissions over Australia is necessary in GEOS-Chem, I looked at modelled NO$_2$ amounts compared to satellite data for most of 2005.
+    
+    % Geos chem vs tropno2 from omno2d
+    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
+    Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
+    It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
+    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
+    The correlation between the bias (GEOS-Chem - OMNO2d) with anthropogenic and soil emissions is shown in the bottom rows.
+    The comparison for January and February of 2005 in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}, and winter (JJA) of 2005 in in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}.
+    The poor correlations for anthropogenic NO suggest that blanket alterations over Australia would not lead to improved NO$_2$ fit. 
+    
+    \begin{figure}
+      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
+      % Summer correlation
+      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
+      \caption{%
+        Row 1 shows the tropospheric columns in molec cm$^{-2}$, GEOS-Chem, OMNO2d, and OMNO2d averaged onto the lower resolution of GEOS-Chem from left to right.
+        Row 2 shows the correlations of GEOS-Chem (X axes) between daily anthropogenic emissions, and mid-day OMNO2d columns.
+        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
+      }
+      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}
+    \end{figure}
+    
+    \begin{figure}
+      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
+      % Winter correlation
+      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
+      \caption{%
+        Row 1 shows the tropospheric columns in molec cm$^{-2}$, GEOS-Chem, OMNO2d, and OMNO2d averaged onto the lower resolution of GEOS-Chem from left to right.
+        Row 2 shows the correlations of GEOS-Chem (X axes) between daily anthropogenic emissions, and mid-day OMNO2d columns.
+        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
+      }
+      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}
+    \end{figure}
+    
+    This comparison is expanded, including a comparison against modelled emissions, and repeated for autumn (MAM), winter (JJA), and spring (SON) in figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}.
+    These show an analysis of GEOS-Chem NO emissions and their correlations with the bias between GEOS-Chem NO$_2$ mid-day columns and the OMNO2d product, averaged over each season in 2005.
+    The scatter plots have one datapoint for each land square over Australia.
+    
+    The correlation between model and satellite NO$_2$ columns is OK throughout the year over Australia, with some overestimation in the north during non-summer months.
+    There is also slight underestimation over Sydney and Melbourne throughout the year.
+    Figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr} show that the visible biases are not over Australia are not driven by modelled emissions of NO.
+    While the correlation between column NO$_2$ and emitted NO is clear, emissions do not appear to bias the model in either direction away from the satellite data.
+    
+    % Figures from GC_tests.py GCe_vs_OMNO2d
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050101-20050228.png}
+    {
+      Top row (left to right): GEOS-Chem NO$_2$ mid-day tropospheric columns, OMNO2d NO$_2$ columns, modelled anthropogenic NO emissions. 
+      Second row: absolute and relative difference between GEOS-Chem and OMI NO$_2$ data, and the correlation.
+      Third row: correlation between GEOS-Chem tropospheric column NO$_2$ and emitted NO, then between the model-satellite bias and the emissions.
+      All correlation plots are coloured by emission rates.
+    }
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}}
+    
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050301-20050531.png}
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Aut}}
+    
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Win}}
+    
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Spr}}
+    
+    % Soil pictures
+    \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050101-20050228.png}
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, except anthropogenic NO emissions are replaced by soil NO emissions.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Sum}}
+    
+    \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050301-20050531.png}
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Aut}}
+    
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Win}}
+    
+    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
+    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}}
+    
+    The conclusion drawn is that modelled anthropogenic and soil NO emissions do not show sufficient evidence of biasing GEOS-Chem NO$_2$ columns away from satellite measurements over Australia.
+    For this reason modelled NO emissions are not scaled in model runs in this thesis.
   
   \subsection{GEOS-Chem simulations}
     \label{Model:GC:runs}
@@ -541,7 +630,7 @@
     In order to detect trace gases such as HCHO, satellites use a DOAS based technique to detect concentrations along the path of light which reaches the satellite instrument.
     This requires chemical transport and radiative transfer models used to transform the non-vertical light path into vertical column amounts.
     Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT in order to determine a trace gas's radiative properties at various altitudes.
-    The forward RTM used for satellite data products also involves functions representing extinction from Mie and Rayleigh scattering, and the efficiency of these on intensities from the trace gas under inspection, as well as accounting for various atmospheric parameters which may or may not be estimated (e.g. albedo).
+    The forward RTM used for satellite data products also involves functions representing extinction from Mie and Rayleigh scattering, and the efficiency of these on intensities from the trace gas under inspection, as well as accounting for (often estimated) atmospheric parameters such as albedo.
     
     
     Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium.
@@ -555,31 +644,11 @@
     Several public data servers are available which include products from satellites, including NASAs Earthdata portal (\url{https://earthdata.nasa.gov/}) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (\url{http://h2co.aeronomie.be/}).
     
     Satellite measurements are generally performed using spectral fitting followed by conversion to vertical column densities.
-    The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \textcite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
+    %The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \textcite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
     Instruments including MODIS on board the AQUA and TERRA satellites are also able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
     An AOD of under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
     This is important in order to determine where measurements from other instruments may be compromised by high interference.
     Satellite measured AOD requires validation by more accurate ground based instruments like those of AERONET which uses more than 200 sun photometers scattered globally.
-    
-    % Uncertainty in satellite pixel measurements
-    Uncertainty in a single pixel for OMI is quite high, roughly the same magnitude as HCHO background levels.
-    Figure \ref{Model:Meas:sat:fig_averagingUncertainty} shows uncertainty over Australia after one and eight days of averaging at 0.25$^{\circ}$ longitude by 0.3125${\circ}$ latitude.
-    % TODO: Several methods of uncertainty where?
-    %There are several methods of calculating this, one of which is used here and compared against the provided uncertainty (TODO) as shown in Section \ref{}.
-    If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
-    Random error can be reduced by either temporal or spatial averaging, decreasing uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
-    High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time.
-    A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
-    
-    
-    \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{Figures/HCHO/Uncertainty.png}
-      \caption{%
-        OMI uncertainty before and after gridding and averaging 8 days from Jan 1 2005 to Jan 8 2005.
-        The third panel shows the number of pixels in each grid box after 8 days of averaging, before accounting for fire.
-      }
-      \label{Model:Meas:sat:fig_averagingUncertainty}
-    \end{figure}
     
     Soon even more HCHO data will be available in the form of geostationary satellite measurements (\textcite{Kwon2017}).
     \textcite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.
@@ -667,10 +736,33 @@
       %% grid size and averaging
       Satellite measurements of HCHO are relatively uncertain, however this can be improved by averaging over larger grid boxes or longer time scales.
       An example of this can be seen in \textcite{Dufour2009}, where monthly averaging is used to decrease the measurements uncertainty.
-      They examine HCHO in Europe, which is low; near the detection limit of satellite measurements.
-      Taking monthly averages allows enough certainty that useful inversions can be determined to estimate the source emissions of HCHO.
-      The finer nadir resolution of OMI (13 by 24~km${^2}$) compared to other satellites reduces cloud influence (\textcite{Millet2006, Millet2008}). 
-      Although the uncertainty in each pixel is $\sim 2 \times 10^{16}$, which is $5 \times$ higher than GOME, there are $\sim 100-200 \times $ as many measurements due to the smaller footprint and better temporal resolution of OMI, which allows a greater reduction of uncertainty with averaging (\textcite{Chance2002,Millet2008}).
+      %They examine HCHO in Europe, which is low; near the detection limit of satellite measurements.
+      %Taking monthly averages allows enough certainty that useful inversions can be determined to estimate the source emissions of HCHO.
+      The finer nadir resolution of OMI (13 by 24~km${^2}$) compared to other satellites reduces cloud influence \parencite{Millet2006, Millet2008}.
+      Although the uncertainty in each pixel is $\sim 2 \times 10^{16}$, which is $5 \times$ higher than GOME, there are $\sim 100-200 \times $ as many measurements due to the smaller footprint and better temporal resolution of OMI, which allows a greater reduction of uncertainty with averaging \parencite{Chance2002,Millet2008}.
+      % Uncertainty in OMI pixels measurements
+      Uncertainty in a single pixel for OMI is roughly the same magnitude as HCHO background levels.
+      The top row in figure \ref{Model:Meas:sat:fig_OMI_uncertainty} shows OMI HCHO columns binned to at 0.25\degr longitude by 0.3125\degr latitude averaged over one day, one month, and one month after filtering.
+      Row two shows uncertainty of the satellite data after averaging.
+      It's clear that one day of satellite data is too uncertain when binned at 0.25x0.3125\degr horizontal resolution, however after a month with or without filtering the uncertainties become manageable.
+      % TODO: Several methods of uncertainty where?
+      %There are several methods of calculating this, one of which is used here and compared against the provided uncertainty (TODO) as shown in Section \ref{}.
+      If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
+      Random error can be reduced by temporal and/or spatial averaging, decreasing uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
+      High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[eg.][]{Zhu2014}.
+      %A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
+      
+      % Figure from tests.py
+      \mypic{Figures/OMI_link/Uncertainty_OMI_200501.png}{}{\label{Model:Meas:sat:fig_OMI_uncertainty}}
+      
+%      \begin{figure}
+%        \includegraphics[width=\textwidth]{Figures/HCHO/Uncertainty.png}
+%        \caption{%
+%          OMI uncertainty before and after gridding and averaging 8 days from Jan 1 2005 to Jan 8 2005.
+%          The third panel shows the number of pixels in each grid box after 8 days of averaging, before accounting for fire.
+%        }
+%        \label{Model:Meas:sat:fig_averagingUncertainty}
+%      \end{figure}
       
       %% SURFACE CONDITIONS AND CLOUDS
       In cloudy, hazy or polluted areas measurements are more difficult to analyse (\cite[e.g.][]{Palmer2003,Marais2014}).
@@ -681,9 +773,9 @@
       %% BACKGROUND MEASUREMENTS
       In satellite HCHO products, concentrations over the remote pacific ocean are sometimes used to analyse faulty instrument readings.
       This is due to the expected invariance of HCHO over this region.
-      For instance GOME (an instrument which measures trace gases on board the ERS-2) corrects for an instrument artifact using modelled HCHO over the remote pacific (\textcite{Shim2005}).
-      OMI HCHO products use a similar technique to account for sensor plate drift and changing bromine sensitivity (\textcite{Abad2015}).
-      Uncertainty in the OMI satellite instrument is calculated by the Smithsonian Astrophysical Observatory (SAO) group using the uncertainty in backscattered radiation retrievals (\textcite{Abad2015, Abad2016}).
+      For instance GOME (an instrument which measures trace gases on board the ERS-2) corrects for an instrument artifact using modelled HCHO over the remote pacific \parencite{Shim2005}.
+      OMI HCHO products use a similar technique to account for sensor plate drift and changing bromine sensitivity \parencite{Abad2015}.
+      Uncertainty in the OMI satellite instrument is calculated by the Smithsonian Astrophysical Observatory (SAO) group using the uncertainty in backscattered radiation retrievals \parencite{Abad2015, Abad2016}.
       Another method of calculating the uncertainty is used by the Belgian Institute for Space Aeronomy (BIRA) group, who determine uncertainty from the standard deviation of HCHO over the remote pacific ocean \parencite{DeSmedt2012, DeSmedt2015}.
       
       
@@ -698,24 +790,19 @@
       %% UNCERTAINTY CALCULATIONS
       
       A full analysis of the AMF uncertainty in OMI measurements, as well as the structural uncertainty (between different systems of calculations applied to the same data) is performed by \textcite{Lorente2017}.
-      They determine the structural uncertainty using ensemble techniques on seven AMF calculation approaches used by different retrieval groups.
+      They determine the structural uncertainty on seven AMF calculation approaches used by different retrieval groups.
       They show that in scenarios where the gas is enhanced in the lower troposphere, AMF calculation is the largest uncertainty in satellite measurements.
       In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments.
       The importance of apriori and ancilliary data (such as surface albedo and cloud top height) is also shown, as it sharply affects the structural uncertainty.
       
-      GOME suffers from similar uncertainties to OMI, as the same general method of DOAS remote measurements are performed.
-      The uncertainty from slant column fitting has been calculated for GOME to be $4\times10^{15}$ molecules cm$^{-2}$ \parencite{Chance2000, Millet2006}. 
-      The conversion factor for slant to vertical columns (AMF) calculation also suffers from errors; primarily from surface albedo, HCHO vertical profile apriori, aerosol, and cloud influence \parencite{Millet2006}. 
-      AMF uncertainties for GOME are calculated to be $1$ to $1.3\times10^{15}$ molecules cm$^{-2}$ by \textcite{Shim2005}.
+      
 
 \section{Recalculation of OMI HCHO}
   \label{Model:omiRecalc}
   
   % Reiteration of why we recalculate AMFs
-  When comparing satellite observations to a chemical model, one needs to recalculate the satellite AMF using their own modelled vertical gas profiles as the a-prior shape factor in order to remove any total column bias which may be due to the satellite's apriori.
-  The method used here largely follows that of \textcite{Palmer2001}.
-  When comparing satellite observations to a chemical model, recalculation of the satellite AMF using modelled vertical gas profiles removes any bias introduced by differences from the a-priori shape factor to the model.
-  
+  When comparing satellite observations to a chemical model, one needs to recalculate the satellite AMF using their own modelled vertical gas profiles as the apriori shape factor.
+  Recalculation of the satellite AMF using modelled vertical gas profiles removes any bias introduced by differences between the satellite apriori and the modelled profiles.
   % what is AMF, Omega_V and Omega_S
   The AMF is needed to transform the slant column, as viewed by the satellite, into a vertical column:
   \begin{equation}
@@ -724,12 +811,10 @@
   \end{equation}
   where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
   
-  \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:Datasets:OMHCHO:fig_flow_omhchorp}}
-  
   % Method outline
-  In order to visualise and analyse satellite column data it is generally transformed into vertical columns. 
-  This is done using AMF calculations as shown in the following subsections.
-  Taking the biogenic slant columns, scattering weights, and apriori estimates of HCHO vertical profiles we determine vertical HCHO column amounts.
+  In order to visualise and analyse OMI HCHO columns slant columns are transformed into vertical columns. 
+  This is done using AMF calculations, determined from the scattering weights and apriori estimates of HCHO vertical profiles.
+  Taking the biogenic slant columns and recalculating the AMFs we determine biogenic vertical HCHO column amounts.
   This involves radiative transfer modelling in order to work out satellite sensitivities at various altitudes, as well as the effect from the local HCHO profile on those sensitivities.
   Several of these required data are available from the satellite data products, including the scattering weights and the zenith angles required to determine an AMF at any particular measured point.
   In this work the shape factor is recalculated from GOES-Chem, with the associated OMI per-pixel scattering weights unchanged. 
@@ -737,20 +822,20 @@
   
   When comparing satellite measurements against models it is important to recognise the impact of the apriori shape factor on the total column values.
   This is due to the sensitivity of instruments varying vertically through the atmosphere, and how the simulated distribution of HCHO is accounted for.
-  In order to remove a possible bias caused by systematic differences between the old model and the current model, the shape factor used by the satellite is replaced using the profile from the current model before satellite total columns are recalculated (for example using equation \ref{Model:omiRecalc:eqn_AMFintwSdz}).
-  Both the shape factor and scattering weights of the satellite are recalculated using a combination of GEOS-Chem apriori profile information and satellite measurement data using code initially written by dr. Paul Palmer, which calculates the AMF after running the LIDORT radiative transfer calculations to determine apriori scattering, see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details.
-  Without performing this step a bias between modeled and measured total column values may be due to an apriori rather than actual chemistry or measurements.
+  In recalculating AMFs, the shape factors used by the OMI is replaced using the profile from GEOS-Chem before using equation \ref{Model:omiRecalc:eqn_AMFintwSdz}.
+  Additionally both the shape factor and scattering weights of the satellite are recalculated using a combination of GEOS-Chem apriori profile information and satellite measurement data using code initially written by Professor P. Palmer, which calculates the AMF after running the LIDORT radiative transfer calculations to determine scattering, see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details.
+  Without performing this step a bias between modeled and measured total column values may be due to an apriori rather than chemistry or measurements \parencite{Palmer2001, Lamsal2014}.
   
   % Geos chem profiles for apriori
-  Apriori GEOS-Chem HCHO profiles are created using output averaged between 1200 and 1300 local time (LT).
+  Apriori GEOS-Chem HCHO profiles are created using output averaged between 1300 and 1400 local time (LT).
   Using this one hour average matches the overpass time of OMI, and is similarly performed in \textcite{Jin2017}.
-  
-  Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how this process is performed in my work.
+  Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how these profiles are used in this thesis.
   Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem aprioris.
   The output keeps the original AMF as well as those recalculated using GEOS-Chem, and those recalculated using both GEOS-Chem and LIDORT.
   Additionally, MOD14A1, OMAERUVd and OMNO2d data are used to create influence masks which are also stored in the OMHCHORP dataset.
   The creation of fire, smoke, and anthropogenic influence masks is described in section \ref{Model:Filter}.
   
+  \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:Datasets:OMHCHO:fig_flow_omhchorp}}
   
   After recalculating the AMFs for each satellite pixel using GEOS-Chem v10.01, we are left with the new vertical columns which are essentially what the satellite would show given that the modelled column was known and correct.
   Comparing these new vertical columns to model output removes any bias caused by the apriori vertical column in the satellite product, since now biases in the modelled column affect both data sets equally.
@@ -1275,96 +1360,7 @@
 
     TODO: % TODO: campaign analysis compared to GEOS-Chem
     Analyse comparison of gridbox with campaigns of measurements
-    
-  \subsection{Rescaling NOx}
   
-    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
-    This means that if the model is poorly simulating NO$_X$, isoprene to HCHO yield and transport (see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
-    In order to determine if rescaling the NO emissions over Australia is necessary in GEOS-Chem, I looked at modelled NO$_2$ amounts compared to satellite data for most of 2005.
-    
-    % Geos chem vs tropno2 from omno2d
-    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
-    Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
-    It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
-    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
-    The correlation between the bias (GEOS-Chem - OMNO2d) with anthropogenic and soil emissions is shown in the bottom rows.
-    The comparison for January and February of 2005 in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}, and winter (JJA) of 2005 in in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}.
-    The poor correlations for anthropogenic NO suggest that blanket alterations over Australia would not lead to improved NO$_2$ fit. 
-    
-    \begin{figure}
-      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
-      % Summer correlation
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
-      \caption{%
-        Row 1 shows the tropospheric columns in molec cm$^{-2}$, GEOS-Chem, OMNO2d, and OMNO2d averaged onto the lower resolution of GEOS-Chem from left to right.
-        Row 2 shows the correlations of GEOS-Chem (X axes) between daily anthropogenic emissions, and mid-day OMNO2d columns.
-        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
-      }
-      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}
-    \end{figure}
-    
-    \begin{figure}
-      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
-      % Winter correlation
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
-      \caption{%
-        Row 1 shows the tropospheric columns in molec cm$^{-2}$, GEOS-Chem, OMNO2d, and OMNO2d averaged onto the lower resolution of GEOS-Chem from left to right.
-        Row 2 shows the correlations of GEOS-Chem (X axes) between daily anthropogenic emissions, and mid-day OMNO2d columns.
-        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
-      }
-      \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}
-    \end{figure}
-    
-    This comparison is expanded, including a comparison against modelled emissions, and repeated for autumn (MAM), winter (JJA), and spring (SON) in figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}.
-    These show an analysis of GEOS-Chem NO emissions and their correlations with the bias between GEOS-Chem NO$_2$ mid-day columns and the OMNO2d product, averaged over each season in 2005.
-    The scatter plots have one datapoint for each land square over Australia.
-    
-    The correlation between model and satellite NO$_2$ columns is OK throughout the year over Australia, with some overestimation in the north during non-summer months.
-    There is also slight underestimation over Sydney and Melbourne throughout the year.
-    Figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr} show that the visible biases are not over Australia are not driven by modelled emissions of NO.
-    While the correlation between column NO$_2$ and emitted NO is clear, emissions do not appear to bias the model in either direction away from the satellite data.
-    
-    % Figures from GC_tests.py GCe_vs_OMNO2d
-    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050101-20050228.png}
-    {
-      Top row (left to right): GEOS-Chem NO$_2$ mid-day tropospheric columns, OMNO2d NO$_2$ columns, modelled anthropogenic NO emissions. 
-      Second row: absolute and relative difference between GEOS-Chem and OMI NO$_2$ data, and the correlation.
-      Third row: correlation between GEOS-Chem tropospheric column NO$_2$ and emitted NO, then between the model-satellite bias and the emissions.
-      All correlation plots are coloured by emission rates.
-    }
-    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}}
-    
-    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050301-20050531.png}
-    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005.}
-    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Aut}}
-    
-    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
-    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005.}
-    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Win}}
-    
-    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
-    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005.}
-    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Spr}}
-    
-    % Soil pictures
-    \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050101-20050228.png}
-    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, except anthropogenic NO emissions are replaced by soil NO emissions.}
-    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Sum}}
-    
-    \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050301-20050531.png}
-    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005, with soil NO emissions replacing anthropogenic NO emissions.}
-    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Aut}}
-    
-    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
-    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005, with soil NO emissions replacing anthropogenic NO emissions.}
-    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Win}}
-    
-    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
-    {As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005, with soil NO emissions replacing anthropogenic NO emissions.}
-    {\label{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}}
-    
-    The conclusion drawn is that modelled anthropogenic and soil NO emissions do not show sufficient evidence of biasing GEOS-Chem NO$_2$ columns away from satellite measurements over Australia.
-    For this reason modelled NO emissions are not scaled in model runs in this thesis.
      
 \section{Data Access}
 TODO: ADD MORE HERE
