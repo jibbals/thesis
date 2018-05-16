@@ -1185,6 +1185,8 @@
     The AMF calculated using Dr. Palmer's code uses a more strict series of filters, leading to fewer satellite based HCHO columns and reduced coverage over Australia.
     Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating $\omega_z$.
   
+    Figure TODO: shows global and Australian HCHO averaged total column maps for January 2005, along with the reduced major axis (RMA) regression correlation and percentage difference.
+    This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
 
 \section{Filtering Data}
   \label{Model:Filter}
@@ -1242,6 +1244,48 @@
   
   % TODO: Quick analysis of how much data is lost with smoke filtering?
   
+    \subsubsection{Checking that fire masks are influencing pyrogenic HCHO}
+      
+      Looking at temperature can provide evidence of pyrogenic HCHO.
+      HCHO precursors are heavily tied to temperature (TODO:cite), and model output shows how higher temperature leads to an increase in HCHO levels.
+      Figures \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501} - \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SWA_200501} show the relationship between temperature and HCHO, for January 2005, within subsets of Australia.
+      A reduced major axis regression is used to determine the correlation between surface temperature (X axis) and HCHO (Y axis)..
+      Using the natural log of HCHO we can take the linear regression and then exponentiate each side in the equation $\ln{Y} = m{X}+b$ to get ${Y} = \exp{m{X}+b}$. 
+      This gives us the exponential fit as shown, with the correlation coefficient between $\ln{HCHO}$ and temperature.
+      The distributions of exponential correlation coefficients and exponential 'm' terms is shown in the embedded plot, with one datapoint available for each grid square where the regression is performed.
+      
+      When applying the fire mask to the modelled HCHO, we can analyse how this affects the relationship to temperature.
+      One cause of high HCHO at lower temperatures (above the exponential regression line) can be emissions from fires.
+      If we see these datapoints affected by the firemask then this suggests that the mask is working correctly.
+      TODO plot showing how fire mask affects HCHO - Temperature relationship
+      
+      
+      \begin{figure}
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SEA_20050101-20050228.png}
+        \caption{%
+          Top panel: surface temperature averaged over January and February 2005.
+          Bottom panel: surface temperature correlated against temperature over, with different colours for each gridbox, and the combined correlation. 
+          A reduced major axis regression is used within each gridbox (shown in top panel) using daily overpass time surface temperature and HCHO amounts (ppbv).
+          The distribution of slopes and regression correlation coefficients (one datapoint per gridbox) for the exponential regression is shown in the embedded plot.
+          }
+        \label{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501}
+        \end{figure}
+          
+        \begin{figure}
+          \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_NA_20050101-20050228.png}
+          \caption{%
+            As figure \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501} but for northern Australia.
+            }
+          \label{Model:Analysis:HCHO:fig_hcho_vs_temp_NA_200501}
+        \end{figure}
+          
+        \begin{figure}
+          \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SWA_20050101-20050228.png}
+          \caption{%
+            As figure \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501} but for south-western Australia.
+            }
+          \label{Model:Analysis:HCHO:fig_hcho_vs_temp_SWA_200501}
+        \end{figure}
   
   \subsection{NOx}
     \label{Model:Filter:NOx}
@@ -1301,66 +1345,8 @@
     % Affects of filtering
     % TODO: tabulate or summarise no2 filtering
     
-\section{Analysing output}
-\label{Model:Analysis}
-  
-    
-    
-  \subsection{Circadian emissions cycle}
-    HEMCO diagnostics provide the simulated MEGAN isoprene emissions at high temporal resolution.
-    TODO: Figure X shows the daily emissions cycles for a few regions over each season. 
-    The regions are labelled in the top panel, and seasonally averaged emissions from grid-boxes in each region are shown below.
-    TODO: Figure XX shows the emissions from SPS1 and 2 compared against GEOS-Chem estimates in the same grid square.
-    
-  \subsection{Temperature vs HCHO}
-  \label{Model:Analysis:HCHO}
-    
-    HCHO precursors are heavily tied to temperature (TODO:cite), and model output shows how higher temperature leads to an increase in HCHO levels.
-    Figures \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501} - \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SWA_200501} show the relationship between temperature and HCHO, for January 2005, within subsets of Australia.
-    A reduced major axis regression is used to determine the linear slopes between surface temperature (X axis) and HCHO (Y axis).
-    This gives us a linear regression for each region however it's clear from the straight line and from literature that the relationship is not linear but rather exponential (TODO: cite and example studies).
-    Using the natural log of HCHO we can take the linear regression and then exponentiate each side in the equation $\ln{Y} = m{X}+b$ to get ${Y} = \exp{m{X}+b}$. 
-    This gives us the exponential fit as shown, with the correlation coefficient between $\ln{HCHO}$ and temperature, which is not directly comparable to the linear coefficient.
-    The distributions of exponential correlation coefficients and exponential 'm' terms is shown in the embedded plot, with one datapoint available for each grid square where the regression is performed.
-    
-    
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SEA_20050101-20050228.png}
-      \caption{%
-        Top panel: surface temperature averaged over January and February 2005.
-        Bottom panel: surface temperature correlated against temperature over, with different colours for each gridbox, and the combined correlation. 
-        A reduced major axis regression is used within each gridbox (shown in top panel) using daily overpass time surface temperature and HCHO amounts (ppbv).
-        The distribution of slopes and regression correlation coefficients (one datapoint per gridbox) for the exponential regression is shown in the embedded plot.
-      }
-      \label{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501}
-    \end{figure}
-    
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_NA_20050101-20050228.png}
-      \caption{%
-        As figure \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501} but for northern Australia.
-      }
-      \label{Model:Analysis:HCHO:fig_hcho_vs_temp_NA_200501}
-    \end{figure}
-    
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SWA_20050101-20050228.png}
-      \caption{%
-        As figure \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501} but for south-western Australia.
-      }
-      \label{Model:Analysis:HCHO:fig_hcho_vs_temp_SWA_200501}
-    \end{figure}
-    
-    
-  \subsection{Comparison with standard OMI product}
-    Figure TODO: shows global and Australian HCHO eight day averaged total column maps for 1-8 January 2005, along with the reduced major axis (RMA) regression correlation and percentage difference.
-    This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
-    
-  \subsection{Comparison with in-situ measurements}
-
-    TODO: % TODO: campaign analysis compared to GEOS-Chem
-    Analyse comparison of gridbox with campaigns of measurements
-  
+    \subsection{Summary of filters effects on HCHO}
+      
      
 \section{Data Access}
 TODO: ADD MORE HERE
