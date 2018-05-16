@@ -798,6 +798,32 @@
       
 
 \section{Recalculation of OMI HCHO}
+  
+  % Summary of actual actions taken:
+  \begin{enumerate}
+    \item GEOS-Chem satellite overpass output is used to create new shape factors (S$_z$ and S$_\sigma$).
+    \begin{enumerate}
+      \item Pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
+      \item Number density and mixing ratio of HCHO ($N_{HCHO}$, $mr_{HCHO}$ respectively) is created using HCHO ppb and air density (molec/cm3) outputs
+      \item Total column HCHO is calculated $\Omega_{HCHO} = \Sigma_z \left(N_{HCHO}(z) \times H(z) \right)$.
+      \item S$_z(z)$ is calculated on each altitude $S_z(z) = N_{HCHO} / \Omega_{HCHO}$.
+      \item Pressures (\textit{P}) used to create sigma coordinates $\sigma(z) = (P(z) - P_{TOA}) / (P(0)-P_{TOA})$
+      \item S$_\sigma(z)$ is calculated on each altitude: $S_\sigma(z) = mr_{HCHO}(z) \times \Omega_A / \Omega_H$
+    \end{enumerate}
+    \item Satellite pixels and associated scattering weights, pressure levels, latitude and longitude are read from the OMHCHO dataset.
+    \item For each pixel, a new AMF is created using the GEOS-Chem shape factors and satellite scattering weights ($\omega(z)$)
+    \begin{enumerate}
+      \item scattering weights are interpolated onto the same vertical dimensions (\textit{z} and $\sigma$) as the shape factors.
+      \item Integration (approximated using rectangular method) is performed along the vertical dimension to calculate the AMFs.
+      \begin{align}
+        AMF_z &= \Sigma_z \left(\omega(z) \times S_z(z) \times H(z)\right) \\
+        AMF_s &= \Sigma_{\sigma} \left(\omega(\sigma) \times S_{\sigma}(\sigma) \times d\sigma \right)
+      \end{align}
+    \end{enumerate}
+    \item The AMFs are used to determine the new vertical columns.
+    \item A recalculation using code from P. Palmer and L. Surl which additionally recalculates the $\omega$ for each pixel is described in section \ref{Model:omiRecalc:ppcode}.
+  \end{enumerate}
+  
   \label{Model:omiRecalc}
   
   % Reiteration of why we recalculate AMFs
