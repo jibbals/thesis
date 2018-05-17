@@ -574,6 +574,7 @@
         This output allows comparison with satellite measurements, which overpass at the same local time every day.
         This diagnostic allows easier analysis of model data against a satellite as one can match the output with the satellite's overpass time.
         Output averaged between 1300-1400 LT is saved to allow comparisons with Aura satellite measurements, as Aura overpasses at $\sim$1330 LT each day.
+        This has been performed by others \parencite[eg.][]{Jin2017}.
       \item[HEMCO diagnostics]%
         % Local time offsets
         In order to get hourly MEGAN modelled isoprene emissions, HEMCO (the module of GEOS-Chem dealing with emissions inventories) diagnostic output was created.
@@ -677,7 +678,7 @@
       \label{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}
       \end{figure}
         
-    \subsubsection{AMF}
+    \subsubsection{Air mass factor (AMF)}
       
       % what satellite amfs are, and what they do
       An AMF characterises measurement sensitivity to a trace gas at various altitudes \cite[e.g.]{Palmer2001}.
@@ -798,74 +799,75 @@
       
 
 \section{Recalculation of OMI HCHO}
-  
-  % Summary of actual actions taken:
-  \begin{enumerate}
-    \item GEOS-Chem satellite overpass output is used to create new shape factors (S$_z$ and S$_\sigma$).
-    \begin{enumerate}
-      \item Pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
-      \item Number density and mixing ratio of HCHO ($N_{HCHO}$, $mr_{HCHO}$ respectively) is created using HCHO ppb and air density (molec/cm3) outputs
-      \item Total column HCHO is calculated $\Omega_{HCHO} = \Sigma_z \left(N_{HCHO}(z) \times H(z) \right)$.
-      \item S$_z(z)$ is calculated on each altitude $S_z(z) = N_{HCHO} / \Omega_{HCHO}$.
-      \item Pressures (\textit{P}) used to create sigma coordinates $\sigma(z) = (P(z) - P_{TOA}) / (P(0)-P_{TOA})$
-      \item S$_\sigma(z)$ is calculated on each altitude: $S_\sigma(z) = mr_{HCHO}(z) \times \Omega_A / \Omega_H$
-    \end{enumerate}
-    \item Satellite pixels and associated scattering weights, pressure levels, latitude and longitude are read from the OMHCHO dataset.
-    \item For each pixel, a new AMF is created using the GEOS-Chem shape factors and satellite scattering weights ($\omega(z)$)
-    \begin{enumerate}
-      \item scattering weights are interpolated onto the same vertical dimensions (\textit{z} and $\sigma$) as the shape factors.
-      \item Integration (approximated using rectangular method) is performed along the vertical dimension to calculate the AMFs.
-      \begin{align}
-        AMF_z &= \Sigma_z \left(\omega(z) \times S_z(z) \times H(z)\right) \\
-        AMF_s &= \Sigma_{\sigma} \left(\omega(\sigma) \times S_{\sigma}(\sigma) \times d\sigma \right)
-      \end{align}
-    \end{enumerate}
-    \item The AMFs are used to determine the new vertical columns.
-    \item A recalculation using code from P. Palmer and L. Surl which additionally recalculates the $\omega$ for each pixel is described in section \ref{Model:omiRecalc:ppcode}.
-  \end{enumerate}
-  
   \label{Model:omiRecalc}
   
-  % Reiteration of why we recalculate AMFs
-  When comparing satellite observations to a chemical model, one needs to recalculate the satellite AMF using their own modelled vertical gas profiles as the apriori shape factor.
-  Recalculation of the satellite AMF using modelled vertical gas profiles removes any bias introduced by differences between the satellite apriori and the modelled profiles.
   % what is AMF, Omega_V and Omega_S
-  The AMF is needed to transform the slant column, as viewed by the satellite, into a vertical column:
+  The AMF is needed to transform the slant column (SC) viewed by the satellite into a vertical column (VC, or $\Omega$):
   \begin{equation}
-  \label{eqn:AMFratio}
-  AMF = \frac{\Omega_s}{\Omega_v} %= \frac{\tau_s}{\tau_v}
+    \label{Model:omiRecalc:eqn_AMFratio}
+    AMF = \frac{SC}{\Omega} %= \frac{\tau_s}{\tau_v}
   \end{equation}
-  where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
+  A slant or vertical column is expressed in molecules cm$^{-2}$.
+  % Reiteration of why we recalculate AMFs
+  OMI HCHO vertical columns are calculated using modelled apriori HCHO profiles (see section \ref{Model:Datasets:OMHCHO}).
+  When comparing satellite measurements against models it is important to recognise the impact of this apriori on the total column values.
+  This is due to how the sensitivity of OMI (to HCHO and other trace gases) varies vertically throughout the atmosphere.
+  When comparing OMI VCs to GEOS-Chem, the satellite AMF needs to be recalculated using GOES-Chem modelled vertical gas profiles as the aprioris.
+  Without performing this step a bias between modelled and measured total column values may be due to the apriori rather than chemistry or measurements \parencite{Palmer2001, Lamsal2014}.
   
-  % Method outline
-  In order to visualise and analyse OMI HCHO columns slant columns are transformed into vertical columns. 
-  This is done using AMF calculations, determined from the scattering weights and apriori estimates of HCHO vertical profiles.
-  Taking the biogenic slant columns and recalculating the AMFs we determine biogenic vertical HCHO column amounts.
-  This involves radiative transfer modelling in order to work out satellite sensitivities at various altitudes, as well as the effect from the local HCHO profile on those sensitivities.
-  Several of these required data are available from the satellite data products, including the scattering weights and the zenith angles required to determine an AMF at any particular measured point.
-  In this work the shape factor is recalculated from GOES-Chem, with the associated OMI per-pixel scattering weights unchanged. 
-  The satellite shape factor is replaced by GEOS-Chem's overpass time simulated HCHO profile, normalised and saved daily along with air density.
+  % Very brief outline
+  In recalculating AMFs, the shape factors used by OMI are replaced using GEOS-Chem profiles.
+  Additionally both the shape factor and scattering weights of the satellite are recalculated using code initially written by Professor P. Palmer (see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details).
+  Finally a reference sector correction is determined using a similar method to that seen in \textcite{Abad2016}, (see section \ref{Model:omiRecalc:RSC}).
+  This correction is unique for each of the 60 \textit{measurement tracks} used by OMI.
   
-  When comparing satellite measurements against models it is important to recognise the impact of the apriori shape factor on the total column values.
-  This is due to the sensitivity of instruments varying vertically through the atmosphere, and how the simulated distribution of HCHO is accounted for.
-  In recalculating AMFs, the shape factors used by the OMI is replaced using the profile from GEOS-Chem before using equation \ref{Model:omiRecalc:eqn_AMFintwSdz}.
-  Additionally both the shape factor and scattering weights of the satellite are recalculated using a combination of GEOS-Chem apriori profile information and satellite measurement data using code initially written by Professor P. Palmer, which calculates the AMF after running the LIDORT radiative transfer calculations to determine scattering, see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details.
-  Without performing this step a bias between modeled and measured total column values may be due to an apriori rather than chemistry or measurements \parencite{Palmer2001, Lamsal2014}.
+  \subsection{Outline}
+    \label{Model:omiRecalc:outline}
+    
+    % Summary of actual actions taken:
+    Here is an outline in computational order of what takes place when recalculating the OMI HCHO VC.
+    \begin{enumerate}
+      \item GEOS-Chem satellite overpass output (see section \ref{Model:GC:outputs}) is used to create new shape factors (S$_z$ and S$_\sigma$).
+      \begin{enumerate}
+        \item Pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
+        \item Number density and mixing ratio of HCHO ($N_{HCHO}$, $mr_{HCHO}$ respectively) is created using HCHO ppb and air density (molec/cm3) outputs
+        \item Total column HCHO is calculated $\Omega_{HCHO} = \Sigma_z \left(N_{HCHO}(z) \times H(z) \right)$, along with total column air ($\Omega_{A}$, calculated similarly).
+        \item S$_z(z)$ is calculated on each altitude $S_z(z) = N_{HCHO} / \Omega_{HCHO}$.
+        \item Pressures (\textit{P}) used to create sigma coordinates $\sigma(z) = (P(z) - P_{TOA}) / (P(0)-P_{TOA})$
+        \item S$_\sigma(z)$ is calculated on each altitude: $S_\sigma(z) = mr_{HCHO}(z) \times \Omega_A / \Omega_{HCHO}$
+      \end{enumerate}
+      \item Satellite pixels and associated scattering weights ($\omega(z)$), pressure levels, latitude and longitude are read from the OMHCHO dataset.
+      \item For each pixel, a new AMF is created using the GEOS-Chem shape factors and satellite scattering weights.
+      \begin{enumerate}
+        \item $\omega$s are interpolated onto the same vertical dimensions (\textit{z} and $\sigma$) as the shape factors.
+        \item Integration (approximated using rectangular method) is performed along the vertical dimension to calculate the AMFs.
+        \begin{align}
+          AMF_z &= \Sigma_z \left(\omega(z) \times S_z(z) \times H(z)\right) \\
+          AMF_s &= \Sigma_{\sigma} \left(\omega(\sigma) \times S_{\sigma}(\sigma) \times d\sigma \right)
+        \end{align}
+      \end{enumerate}
+      \item The AMFs are used to determine the new vertical columns: $\Omega_{HCHO} = SC/AMF$.
+      \item Another recalculation (AMF$_{PP}$) using code from P. Palmer and L. Surl which additionally recalculates the $\omega$ for each pixel is described in section \ref{Model:omiRecalc:ppcode}.
+      \item A reference sector correction (RSC) is defined each day using these AMFs along with modelled HCHO over the remote pacific.
+      \begin{enumerate}
+        \item GEOS-Chem satellite overpass output total columns from 140{\degr}W to 160{\degr}W are averaged longitudinally to provide a modelled reference sector.
+        \item The modelled reference slant columns (MRSC) are calculated using $SC = VC \times AMF$ for each AMF.
+        \item For each satellite pixel between 140{\degr}W and 160{\degr}W, the correction is calculated as the SC minus the MRSC interpolated linearly to the matching latitude.
+        \item These corrections are binned by satellite track (1-60), and latitude (0.36\degr; 500 latitudes from 90{\degr}S to 90{\degr}N).
+        \item The median entry of each bin is the RSC used to correct each satellite pixel corresponding to the matching satellite track and latitude.
+      \end{enumerate}
+      \item Corrected vertical columns (VCC) are determined for each pixel using $VCC = (SC - RSC(lat,track) )/AMF$ for each AMF.
+      \item The VCC and $\Omega_{HCHO}$ are binned onto a 0.25\degr by 0.3125\degr grid along with how many pixels have been binned, and the average pixel uncertainty in product OMHCHORP.
+    \end{enumerate}
   
-  % Geos chem profiles for apriori
-  Apriori GEOS-Chem HCHO profiles are created using output averaged between 1300 and 1400 local time (LT).
-  Using this one hour average matches the overpass time of OMI, and is similarly performed in \textcite{Jin2017}.
-  Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how these profiles are used in this thesis.
-  Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem aprioris.
-  The output keeps the original AMF as well as those recalculated using GEOS-Chem, and those recalculated using both GEOS-Chem and LIDORT.
-  Additionally, MOD14A1, OMAERUVd and OMNO2d data are used to create influence masks which are also stored in the OMHCHORP dataset.
-  The creation of fire, smoke, and anthropogenic influence masks is described in section \ref{Model:Filter}.
-  
-  \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:Datasets:OMHCHO:fig_flow_omhchorp}}
-  
-  After recalculating the AMFs for each satellite pixel using GEOS-Chem v10.01, we are left with the new vertical columns which are essentially what the satellite would show given that the modelled column was known and correct.
-  Comparing these new vertical columns to model output removes any bias caused by the apriori vertical column in the satellite product, since now biases in the modelled column affect both data sets equally.
-  
+    Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how these profiles are used in this thesis.
+    Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem aprioris.
+    The output keeps the original AMF as well as those recalculated using GEOS-Chem, and those recalculated using both GEOS-Chem and LIDORT.
+    Additionally, MOD14A1, OMAERUVd and OMNO2d data are used to create influence masks which are also stored in the OMHCHORP dataset.
+    The creation of fire, smoke, and anthropogenic influence masks is described in section \ref{Model:Filter}.
+    
+    \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:Datasets:OMHCHO:fig_flow_omhchorp}}
+    
   \subsection{Reading satellite data}
     
     % Downloading the data
@@ -905,9 +907,19 @@
   % How we get the apriori 
   \subsection{Scattering weight and the shape factor}
     \label{Model:omiRecalc:ShapeFactor}
+    
+    %    % Method outline
+    %    In order to visualise and analyse OMI HCHO columns slant columns are transformed into vertical columns. 
+    %    This is done using AMF calculations, determined from the scattering weights and apriori estimates of HCHO vertical profiles.
+    %    Radiative transfer modelling is required to determine instrument sensitivities throughout the atmosphere.
+    %    Several of these required data are available from the satellite data products, including the scattering weights and the zenith angles required to determine an AMF at any particular measured point.
+    In this section I describe how the shape factor can be used to recalculate OMI AMFs.
+    The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in section \ref{Model:omiRecalc:ppcode}).
+    The satellite shape factor is replaced by GEOS-Chem's overpass time simulated HCHO profile, normalised and saved daily along with air density.
+    
     % per pixel amf calculation
     OMI's apriori shape factor is based on the GEOS-Chem (v9) model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
-    The equations and method of recalculating this apriori shape factur with the newer GEOS-Chem V10.01 code is layed out in this section.
+    The equations and method of recalculating this apriori shape factor with the newer GEOS-Chem V10.01 code is layed out in this section.
     For each pixel the shape factor used in the AMF is recalculated using GEOS-Chem by following the method layed out initially in \textcite{Palmer2001}.
     
     % Beer lambert
@@ -1058,10 +1070,12 @@
   \subsection{Recalculating the AMF using PP code}
     \label{Model:omiRecalc:ppcode}
     % pp code for AMF recalculation referred to as pp code
-    Next a subset covering Australia and most of the zonal band has its AMF recalculated with by fortran code written by Paul Palmer, Randal Martin, and updated by Luke Surl.
-    I will refer to this as the PP code, and subscripting the vertical column and AMF with PP when it is calculated through this method.
-    This code is computationally expensive, and is only run on pixels within a specific range including Australia (50-10\degr~S, 160\degr~W-160\degr~E).
-    These are used to recalculate the instrument sensitivity or scattering weights for each pixel, as well as the shape factor which together are integrated to give the pixel AMF.
+    
+    Some of the pixels (those covering Australia and most of the zonal band) have their AMFs recalculated using Fortran code written by Paul Palmer, Randal Martin, and updated by Luke Surl.
+    I will refer to this as the PP code, and subscript the VCs and AMFs with PP when referring to those calculated through this method.
+    This code is computationally expensive, and is only run on pixels within within the region (50-10\degr~S, 160\degr~W-160\degr~E).
+    The Fortran code uses a combination of GEOS-Chem apriori profile information and satellite measurement data to calculate the AMF after running the LIDORT radiative transfer calculations to determine scattering.
+    The instrument sensitivity or scattering weights, and shape factors for each pixel are calculated which I then integrate vertically to get AMF$_{PP}$s.
     
     
     Code for recalculating AMFs using satellite swaths and modelled aerosol optical depths and gas profiles can be found at \url{http://fizz.phys.dal.ca/~atmos/martin/?page_id=129}. 
@@ -1081,8 +1095,12 @@
     % where we apply the RSC
     Each satellite slant column measurement is corrected by some amount, based on the divergence from a modeled reference sector.
     HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \parencite{DeSmedt2008,Barkley2013,Kurosu2014}.
-    This reference sector correction (RSC) is calculated following \textcite{Abad2016}, and applied to the satellite AMF, the AMF recalculated by GEOS-Chem, and the AMF calculated using Paul Palmers code.
     
+    The reference sector correction (RSC) for OMI satellite pixels in this thesis is calculated following \textcite{Abad2016}.
+    The RSC is calculated daily and applied to each satellite pixel corresponding to each of the 60 measurement tracks used by OMI, depending also on latitude.
+    The reference sector correction is based on the difference between the GEOS-Chem simulated slant columns and OMI slant columns over the meridional band from 140{\degr}W to 160{\degr}W.
+    To get the modelled slant columns, each of the AMFs (calculated in prior sections) is applied to the modelled vertical columns using equation \ref{Model:omiRecalc:eqn_AMFratio}.
+
     % What RSC does
     The RSC method corrects for several problems, however it introduces some apriori model influence.
     One of the problems removed through this correction method is instrument degradation, which can introduce bias over time.
