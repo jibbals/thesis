@@ -794,7 +794,7 @@
       They determine the structural uncertainty on seven AMF calculation approaches used by different retrieval groups.
       They show that in scenarios where the gas is enhanced in the lower troposphere, AMF calculation is the largest uncertainty in satellite measurements.
       In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments.
-      The importance of apriori and ancilliary data (such as surface albedo and cloud top height) is also shown, as it sharply affects the structural uncertainty.
+      The importance of apriori and ancillary data (such as surface albedo and cloud top height) is also shown, as it sharply affects the structural uncertainty.
       
       
 
@@ -812,14 +812,18 @@
   OMI HCHO vertical columns are calculated using modelled apriori HCHO profiles (see section \ref{Model:Datasets:OMHCHO}).
   When comparing satellite measurements against models it is important to recognise the impact of this apriori on the total column values.
   This is due to how the sensitivity of OMI (to HCHO and other trace gases) varies vertically throughout the atmosphere.
-  When comparing OMI VCs to GEOS-Chem, the satellite AMF needs to be recalculated using GOES-Chem modelled vertical gas profiles as the aprioris.
+  When comparing OMI VCs to GEOS-Chem, the satellite AMF needs to be recalculated using GEOS-Chem modelled vertical gas profiles as the aprioris.
   Without performing this step a bias between modelled and measured total column values may be due to the apriori rather than chemistry or measurements \parencite{Palmer2001, Lamsal2014}.
   
   % Very brief outline
-  In recalculating AMFs, the shape factors used by OMI are replaced using GEOS-Chem profiles.
-  Additionally both the shape factor and scattering weights of the satellite are recalculated using code initially written by Professor P. Palmer (see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details).
-  Finally a reference sector correction is determined using a similar method to that seen in \textcite{Abad2016}, (see section \ref{Model:omiRecalc:RSC}).
+  Two new AMFs are calculated, both using GEOS-Chem HCHO profiles as the new apriori. 
+  The first AMF (AMF$_GC$) uses the original satellite scattering weights while recalculating the shape factor, whereas the second AMF (AMF$_{PP}$) also recalculates scattering weights.
+  AMF$_{PP}$ is created using code initially written by Professor P. Palmer (see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details).
+  A reference sector correction is determined using a similar method to that seen in \textcite{Abad2016}, (see section \ref{Model:omiRecalc:RSC}).
   This correction is unique for each of the 60 \textit{measurement tracks} used by OMI.
+  Finally the correction is applied to each pixel to create the corrected vertical column (VCC). 
+  The end product is three sets of VCCs: the original (VCC$_{OMI}$), VCC$_{GC}$, and VCC$_{PP}$.
+  
   
   \subsection{Outline}
     \label{Model:omiRecalc:outline}
@@ -837,17 +841,17 @@
         \item S$_\sigma(z)$ is calculated on each altitude: $S_\sigma(z) = mr_{HCHO}(z) \times \Omega_A / \Omega_{HCHO}$
       \end{enumerate}
       \item Satellite pixels and associated scattering weights ($\omega(z)$), pressure levels, latitude and longitude are read from the OMHCHO dataset.
-      \item For each pixel, a new AMF is created using the GEOS-Chem shape factors and satellite scattering weights.
+      \item For each pixel, a new AMF (AMF$_GC$)is created using the GEOS-Chem shape factors and satellite scattering weights.
       \begin{enumerate}
         \item $\omega$s are interpolated onto the same vertical dimensions (\textit{z} and $\sigma$) as the shape factors.
-        \item Integration (approximated using rectangular method) is performed along the vertical dimension to calculate the AMFs.
+        \item Integration (approximated using rectangular method) is performed along the vertical dimension to calculate the new AMF on both coordinate systems.
         \begin{align}
           AMF_z &= \Sigma_z \left(\omega(z) \times S_z(z) \times H(z)\right) \\
           AMF_s &= \Sigma_{\sigma} \left(\omega(\sigma) \times S_{\sigma}(\sigma) \times d\sigma \right)
         \end{align}
       \end{enumerate}
-      \item The AMFs are used to determine the new vertical columns: $\Omega_{HCHO} = SC/AMF$.
-      \item Another recalculation (AMF$_{PP}$) using code from P. Palmer and L. Surl which additionally recalculates the $\omega$ for each pixel is described in section \ref{Model:omiRecalc:ppcode}.
+      \item These two AMFs represent the same thing using different coordinates, either one can be used as the AMF$_{GC}$.
+      \item The AMF$_{PP}$ (created separately) and AMF$_{GC}$ are used to determine the new vertical columns: $\Omega_{HCHO} = SC/AMF$.
       \item A reference sector correction (RSC) is defined each day using these AMFs along with modelled HCHO over the remote pacific.
       \begin{enumerate}
         \item GEOS-Chem satellite overpass output total columns from 140{\degr}W to 160{\degr}W are averaged longitudinally to provide a modelled reference sector.
@@ -856,8 +860,8 @@
         \item These corrections are binned by satellite track (1-60), and latitude (0.36\degr; 500 latitudes from 90{\degr}S to 90{\degr}N).
         \item The median entry of each bin is the RSC used to correct each satellite pixel corresponding to the matching satellite track and latitude.
       \end{enumerate}
-      \item Corrected vertical columns (VCC) are determined for each pixel using $VCC = (SC - RSC(lat,track) )/AMF$ for each AMF.
-      \item The VCC and $\Omega_{HCHO}$ are binned onto a 0.25\degr by 0.3125\degr grid along with how many pixels have been binned, and the average pixel uncertainty in product OMHCHORP.
+      \item VCC are determined for each pixel using $VCC = (SC - RSC(lat,track) )/AMF$ for each AMF.
+      \item The VCC are binned onto a 0.25\degr by 0.3125\degr grid along with how many pixels have been binned, and the average pixel uncertainty in product OMHCHORP.
     \end{enumerate}
   
     Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how these profiles are used in this thesis.
@@ -876,10 +880,14 @@
     % Filters applied when reading
     When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
     The process is outlined in figure  \ref{Model:Datasets:OMHCHO:fig_flow_omhchorp} for a single day.
-    First all the pixels for are read, filtered by the QA flag, solar zenith angle (SZA) and latitude (\textcite{Palmer2001}).
+    First all \textit{good} pixels (those with QA flag equal to 0) are read into a long list (roughly 1 million per day).
+    These are then filtered by solar zenith angle (SZA) and latitude, similarly to other works \parencite[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
+    This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see section \ref{Model:Datasets:OMHCHO}) may have affected.
+    
+    % Actual filtering done
     Satellite measurements polewards of 60\degr north or south are removed as well as measurements with SZA greater than 60\degr.
-    Further filtering is performed to remove the measurements which are most likely to be unrealistic: those with column density outside the range $-0.5 \times 10^{16}$ to $10^{17} $~molecules cm$^{-2}$.
-    These are similar filters to those applied in \textcite{Zhu2016}, (TODO: add similar justification if succinct).
+    Pixels with a cloud fraction greater than 40\% are filtered out after RSC is created.
+    Further filtering is performed to remove the measurements which are most likely to be unrealistic: those with column density outside the range $-0.5 \times 10^{16}$ to $10^{17} $\moleccm, as is performed by\textcite{Zhu2016}.
     This final filter is required due to currently unexplained large negative values which occur in the OMI HCHO product increasingly over time.
     Figure \ref{Model:omiRecalc:fig_OMI_negative_hist} shows how unfiltered HCHO columns are affected by a small set of highly negative values which heavily affect the mean column amount over any region.
     The histograms here show the negative (left) and positive (right) total column HCHO measurements from a subset of swaths over Australia, on the 18th of March 2013.
@@ -891,9 +899,7 @@
     {\label{Model:omiRecalc:fig_OMI_negative_hist}}
     
     % Built in QA
-    The satellite data comes with quality assurance flags which are used as filtering criteria as is done in several other studies \parencite[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
-    This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see section \ref{Model:Datasets:OMHCHO}) may have affected.
-    Clouds also have various detrimental effects on slant column uncertainty and AMF calculation, so cloud fraction is saved in the OMHCHO product.
+    
     
     % reading pixels into a long list
     Each pixel and it's relevant data are saved in a long list, around $1.1$ million pixels per day.
