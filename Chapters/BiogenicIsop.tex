@@ -21,7 +21,7 @@
   Isoprene has a large impact on the oxidative properties of the atmosphere, as it reacts quickly with the OH radical to form RO$_2$.
   These react quickly with NO$_X$ to form OVOCs (such as HCHO), SOAs, and ozone.
   Australian isoprene emissions are poorly understood due to poor measurement coverage, and poor emission factor characterisation.
-  The emissions of isoprene have been modelled at around 500~Tg C yr$^{-1}$ in \textcite{Guenther1995,Guenther2006} using MEGAN, and more recently around 465~Tg C yr$^{-1}$ in \textcite{Messina2016} using ORCHIDEE.
+  The emissions of isoprene have been modelled at around 500\tgcpyr in \textcite{Guenther1995,Guenther2006} using MEGAN, and more recently around 465\tgcpyr in \textcite{Messina2016} using ORCHIDEE.
   The global emission factors model used to derive these estimates is based on modelling emissions from different plant species (phenotypes), and very few are used to set the emission factors of Australian forests.
   
   % What we aim to do
@@ -115,13 +115,14 @@
   \subsection{Outline}
     % Method Briefly outlined here
     Here is an overview of the steps involved in my Thesis, which take satellite data and model output to estimate isoprene emissions.
+    This process is summarised in figure \ref{BioIsop:Methods:fig_Flow_Making_Isop}.
     \begin{enumerate}
       \item 
-        Download Aqua/Terra MODIS gridded fire counts (MOD14A1), smoke measurements (OMAERUVd), and Aura HCHO columns (OMHCHO).
-        These products are discussed in more detail in Section \ref{Model:Datasets}.
+        Level three satellite data is used to make anthropogenic, fire, ad smoke influence masks (See section \ref{Model:Filter})
       \item 
-        Run GEOS-Chem with satellite overpass output averaged over 1200-1300~LT (matching Aura overpass time). 
-        This step is described in more detail in section \ref{Model:GC:running}, which includes set-up details for running GEOS Chem V10.01
+        Level two OMI HCHO satellite data(See section \ref{Model:Datasets:OMHCHO}), along with GEOS-Chem model runs (See section \ref{Model:GC:runs}) are used to recalculate corrected vertical columns (VCCs; saved in my OMHCHORP dataset) at 0.25\degr by 0.3125\degr horizontal resolution (see section \ref{Model:omiRecalc}).
+      \item 
+        GEOS-Chem modelled biogenic emissions of isoprene along with total biogenic columns of HCHO, both averaged from 1300-1400~LT are used to create a linear regression slope.
       \item 
         Recalculate OMHCHO vertical columns using GEOS-Chem to recreate the shape factors for each slant column. Also done with code from Paul Palmers group which includes recalculation of the scattering weights.
         The method to read the satellite data is given in Section \ref{Model:Datasets:OMHCHO}, while reprocessing the column AMFs is detailed in Section \ref{Model:omiRecalc}
@@ -147,8 +148,9 @@
       \item 
         Compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane(?) measurements
     \end{enumerate}
-  
-  
+    
+    \mypic{/Figures/Flow_Making_Isop.png}{Creation of isoprene emissions dataset using OMHCHORP and biogenic GEOS-Chem outputs.}{\ref{BioIsop:Methods:fig_Flow_Making_Isop}}
+    
   
   \subsection{Satellite inversion}
   \label{BioIsop:SatInv}
