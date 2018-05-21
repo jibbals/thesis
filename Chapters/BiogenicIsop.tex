@@ -123,28 +123,38 @@
         Level two OMI HCHO satellite data(See section \ref{Model:Datasets:OMHCHO}), along with GEOS-Chem model runs (See section \ref{Model:GC:runs}) are used to recalculate corrected vertical columns (VCCs; saved in my OMHCHORP dataset) at 0.25\degr by 0.3125\degr horizontal resolution (see section \ref{Model:omiRecalc}).
       \item 
         GEOS-Chem modelled biogenic emissions of isoprene along with total biogenic columns of HCHO, both averaged from 1300-1400~LT are used to create a linear regression slope.
+      \begin{enumerate}
+        \item Globally gridded (1300-1400~LT averaged) biogenic emissions of isoprene output from GEOS-Chem are read in as E$_{GC}$~atoms C cm$^{-2}$ s$^{-1}$.
+        \item Satellite overpass output (1300-1400~LT averaged) of total HCHO columns are read in as $\Omega_{GC}$\moleccm
+        \item A reduced major axis regression (Slope) is found between $\Omega_{GC}$ and E$_{GC}$ using a month of modelled output for each gridsquare at 2\degr latitude by 2.5\degr longitude
+      \end{enumerate}
       \item 
-        Recalculate OMHCHO vertical columns using GEOS-Chem to recreate the shape factors for each slant column. Also done with code from Paul Palmers group which includes recalculation of the scattering weights.
-        The method to read the satellite data is given in Section \ref{Model:Datasets:OMHCHO}, while reprocessing the column AMFs is detailed in Section \ref{Model:omiRecalc}
-      \item 
-        Mask HCHO columns which occur on days with non-zero (MODIS) fire counts over the prior 8 days, as is done in \textcite{Marais2012}.
-        More detail on this step can be found in \ref{Model:Filter:fire}
-      \item 
-        A second filter for OMHCHO grid squares is created where OMI AAOD (OMAERUVd) is over TODO.
-        This removes influence from transported smoke plumes, removing up to TODO grid squares from analysis.
-        More details for this filter are layed out in \ref{Model:Filter:fire}.
-      \item 
-        A third filter on OMHCHO columns is applied for anthropogenic influence. 
-        This filter is created each year using OMNO2d NO$_2$ tropospheric column amounts; masking any grid squares with greater than $1\times 10 ^{15}$\moleccm2 on any particular day, along with grid squares where the yearly average is above $1.5 \times 10^{15}$\moleccm2.
-        This filter removes up to TODO available datapoints, and a more detailed analysis can be found in section \ref{Model:Filter:NOx}.
-      \item 
-        Biogenic Yield calculated in each 2x2.5\degr grid square using daily averaged HCHO from biogenic only run of GEOS-Chem, linearly corellated with MEGAN isoprene emissions within those squares using the $\sim 30$ data points each month.
+        Fire and anthropogenic masks are applied to filter out satellite HCHO columns which may be influenced by non biogenic sources.
+        For a full outline of these filters see section \ref{Model:Filter}.
+      \begin{enumerate}
+        \item 
+          The fire mask is created daily from non-zero (MODIS) fire counts over the prior 2 days which occur in local or adjacent grid squares at 0.25\degr latitude by 0.3125\degr longitude
+        \item 
+          A second filter to remove influence from transported smoke plumes is created where OMI AAOD (OMAERUVd) is over 0.03
+        \item 
+          A filter for anthropogenic influence is created daily using OMNO2d NO$_2$ tropospheric column amounts; masking any grid squares with greater than $1\times 10 ^{15}$\moleccm2 on any particular day, along with grid squares where the yearly average is above $1.5 \times 10^{15}$\moleccm
+      \end{enumerate}
+      \item For each of the corrected vertical columns (VCC$_{OMI}$, VCC$_{GC}$, and VCC$_{PP}$; see section \ref{Model:omiRecalc}), a top down estimate of biogenic isoprene emissions (E$_{new}$; atoms C cm$^{-2}$ s$^{-1}$) is calculated
+      \begin{enumerate}
+        \item 
+          Background total columns (VCC$_{BG}$) are calculated by averaging longitudinally the VCCs between 180 and 120\degr W
+        \item
+          Emissions are calculated using 
+          \begin{equation} \label{BioIsop:Methods:eqn_Enew}
+            E_{new} = \frac{VCC - VCC_{BG}}{Slope}
+          \end{equation}
+        \item 
+          The masks (fire, anthropogenic, smoke) created earlier are applied at this point to E$_{new}$.
+      \end{enumerate}
       \item
         TODO: Biogenic yield masked when smearing term is above a threshhold (TODO: determine).
         This smearing value is determined as $S=\Delta \Omega_{HCHO}/ \Delta E_{isop}$, the change in ratios in each gridsquare of modelled HCHO columns to isoprene emissions. 
         A full description and analysis of this term used to determine the smearing filter is given in section \ref{BioIsop:Methods:Smearing}.
-      \item 
-        Yield (actually regression slope between hcho and emissions) multiplied against recalculated OMI HCHO to provide top down isop emissions estimate
       \item 
         Compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane(?) measurements
     \end{enumerate}
