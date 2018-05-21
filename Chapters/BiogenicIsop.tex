@@ -24,6 +24,7 @@
   The emissions of isoprene have been modelled at around 500\tgcpyr in \textcite{Guenther1995,Guenther2006} using MEGAN, and more recently around 465\tgcpyr in \textcite{Messina2016} using ORCHIDEE.
   The global emission factors model used to derive these estimates is based on modelling emissions from different plant species (phenotypes), and very few are used to set the emission factors of Australian forests.
   
+  
   % What we aim to do
   We estimate isoprene emissions in Australia using top-down estimates based on recalculated OMI HCHO measurements and modelled isoprene to HCHO yields.
   These estimates are compared to several campaigns (SPS1, SPS2, MUMBA, Daintree) and used as the new boundary conditions for GEOS-Chem.
@@ -31,6 +32,13 @@
   The effect of using these new top down isoprene emissions as the boundary conditions for GEOS-Chem is studied
   Wellness of fit between in-situ (at Wollongong) HCHO, satellite (OMI), and modelled (GEOS-Chem) HCHO is determined with and without updated emissions estimates.
   
+  % First isoprene inversion work
+  Using HCHO to determine emissions of isoprene was initially performed by \textcite{Palmer2001, Palmer2003}, who used in-situ summertime HCHO measurements over North America as model validation.
+  Isoprene emissions fluxes were derived using the Global Ozone Monitoring Experiment (GOME) satellite instrument.
+  Palmer's method improved biogenic isoprene emissions estimates (compared with in-situ measurements) over two available inventories: the U.S. EPA Biogenic Emissions Inventory System (BEIS2) and the Global Emissions Inventory Activity (GEIA).
+  This showed an inversion technique which could be used to improve large scale emissions estimates without further expensive measurement campaigns.
+  
+  % Megan estimates BVOCs - uncertain
   One of the most popular emissions inventories for biogenic isoprene, the Model of Emissions of Gases and Aerosols from Nature (MEGAN).
   Global atmospheric studies often use MEGAN along with a chemical transport model (CTM) to examine transport, deposition, and various chemical processes in the atmosphere.
   Emissions of Biogenic Volatile Organic Compounds (BVOCs) including isoprene are often the subject of studies as they are still relatively uncertain, as well as being drivers for imprtant oxidation and pollution events.
@@ -153,7 +161,7 @@
       \end{enumerate}
       \item
         TODO: Biogenic yield masked when smearing term is above a threshhold (TODO: determine).
-        This smearing value is determined as $S=\Delta \Omega_{HCHO}/ \Delta E_{isop}$, the change in ratios in each gridsquare of modelled HCHO columns to isoprene emissions. 
+        This smearing value is determined as $S=\Delta \Omega_{HCHO}/ \Delta E_{isop}$, the change in each gridsquare of the ratio between modelled HCHO columns and isoprene emissions. 
         A full description and analysis of this term used to determine the smearing filter is given in section \ref{BioIsop:Methods:Smearing}.
       \item 
         Compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane(?) measurements
@@ -169,22 +177,17 @@
     Top-down estimates look at how much of a chemical is in the atmosphere and try to work out how much of its major precursors were emitted.
     This generally takes advantage of longer lived products which may reach a measurable equilibrium in the atmosphere.
     For isoprene this is done by looking at atmospheric HCHO enhancement, which can be largely attributed to isoprene emissions once transport and other factors are accounted for.
-    Recently \textcite{Stavrakou2015} used satellite HCHO measurements to constrain anthropogenic sources of isoprene and found good global agreement with the bottom up estimates, although some regions had sources differ by up to 25-40\%. 
-    Their study used the RETRO 2000 database for anthropogenic emission aprioris except for Asia in 2008 where REASv2 was used. 
+    %Even anthropogenic HCHO source estimates, which are accurate at the global scale, can be improved using satellite data to improve regional estimates by up to 25-40\% \parencite{Stavrakou2015}. 
+    %Their study used the RETRO 2000 database for anthropogenic emission aprioris except for Asia in 2008 where REASv2 was used. 
     Since 1997, when GOME first measured HCHO over Asia \parencite{Thomas1998}, satellites have been able to provide a total column measurement of HCHO, one of the primary products of isoprene.
     
     Satellites recording reflected solar spectra use DOAS to measure various trace gases in the atmosphere, including formaldehyde. 
     While satellite measurements can only be used during daytime hours, HCHO lifetimes are sufficiently short that any night-time chemistry will not affect midday observations \parencite{Wolfe2016}.
     Satellites can be used to measure the seasonal and interannual variability of HCHO over the globe.
-    These records can be compared with modeled estimates of HCHO and used as a proxy to estimate isoprene emissions.
-    This has been done in North America \parencite{Palmer2003, Millet2006}, South America, Africa, China, Europe \parencite{Dufour2009}, and recently globally \parencite{FortemsCheiney2012, Bauwens2016}.
-    Often these works use two forms of measurement such as satellite and aircraft data combined for validation \parencite{Marais2014}.
+    These records can be compared with modeled estimates of HCHO and used as a proxy to estimate isoprene emissions, as first shown by \textcite{Palmer2001}.
+    This has been done in North America \parencite{Palmer2003, Millet2006}, South America, Africa, China, Europe \parencite{Dufour2009}, India \parencite{Surl2018}, and globally \parencite{FortemsCheiney2012, Bauwens2016}.
+    Often these works require both remote and in-situ measurements combined for validation \parencite{Marais2014}.
     There is less information available from satellite measurements at higher latitudes due to increased errors \parencite{DeSmedt2015}.
-    
-    Using HCHO to determine emissions of isoprene was initially performed by \textcite{Palmer2001, Palmer2003}, who used in-situ summertime HCHO measurements over North America as model validation.
-    Isoprene emissions fluxes were derived using the Global Ozone Monitoring Experiment (GOME) satellite instrument.
-    Palmer's method improved biogenic isoprene emissions estimates (compared with in-situ measurements) over two available inventories: the U.S. EPA Biogenic Emissions Inventory System (BEIS2) and the Global Emissions Inventory Activity (GEIA).
-    This showed an inversion technique which could be used to improve large scale emissions estimates without further expensive measurement campaigns.
     
     %TODO
     TODO: Read through this list of sources on the hcho to isop process : taken from Wolfe2015
