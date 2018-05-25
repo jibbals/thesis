@@ -444,9 +444,9 @@
     The primary first step for atmospheric isoprene is photooxidation, reacting with OH to form isoprene hydroxyperoxy radicals (ISOPOO - a subset of \roo)) \parencite{Wolfe2016,Marvin2017,Patchen2017}.
     These go on to form many products and lead to (amongst other things) aerosol, formaldehyde, and ozone formation, depending on sunlight and NO$_X$ concentrations \parencite{Atkinson2000}.
     
-    
     \subsubsection{Oxidation}
       
+      The primary sink for isoprene is oxidation by OH.
       First isoprene has its double bond replaced by OH, as summarised by the equation from \textcite{Patchen2007}:
       % Uses package{mchem}
       \ce{R-CH=CH-R$^{\prime}$ + OH -> R-CH(OH)CH-R$^{\prime}$ }
@@ -454,9 +454,15 @@
       This OH adduct then reacts with O$_2$ to produce ISOPOO, which can be any of six different isomers \parencite{Patchen2007}.
       ISOPOO react with HO$_2$ or NO and produce stable products (often called oxidised VOCs or OVOCs).
       Oxidation reactions are important and quickly stabilise the ratio of NO to NO$_2$.
-       
       
-      There is uncertainty about which pathways are most important following ISOPOO production \parencite{Nguyen2014}.
+      Ozonolysis is another oxidation pathway for volatile alkenes, involving the splitting of carbon chains by ozone molecules \parencite{Nguyen2016}.
+      This process also leads to HCHO, with yields depending on reactions following isoprene ozonolysis.
+      TODO: other oxidation pathways of note...
+      %Criegee intermediates (carbonyl oxides with two charge centres) are formed when isoprene reacts with O$_3$. 
+      %\textcite{Nguyen2016} examine in detail a few of these, with proposed mechanisms for C$_1$ and C$_4$ Criegee intermediate reactions.
+      %The C$_1$ stabilised Criegee (CH$_2$OO, $\sim 61\%$) is therein proposed to react with water yielding $73\%$ hydroxymethyl hydroperoxide (HMHP), $6\%$ HCHO $+$ H$_2$O$_2$, and formic acid $+$ H$_2$O, and the same products with yields of 40, 6, and 54$\%$ respectively when this Criegee reacts with (H$_2$O)$_2$.
+      
+      There is uncertainty about which pathways are most important following ISOPOO production, which carries through to predictions by atmospheric models \parencite{Nguyen2014}.
       This limits understanding of the relative importance of some chemical processes such as TODO example %TODO: example chemical process with \roo \parencite{Crounse2013}.
       The reaction pathways depend on local concentrations of NO$_X$: the high and low NO$_X$ pathways are dominated by NO and HO$_2$ reactions respectively.
       HO$_2$ reactions predominantly produce hydroxyhydroperoxides (ISOPOOH), while NO reactions produce isoprene nitrates (ISOPN) \parencite{Crounse2006}.
@@ -500,35 +506,21 @@
       
       \textcite{Paulot2009b} used GEOS-Chem, modified to include IEPOX formation, to estimate that one third of isoprene peroxy radicals react with HO$_2$, and two thirds react with NO. 
       In low NO$_X$ environments, ISOPOOH is formed in yields $> 70\%$, while MCR and MVK is formed with yields $< 30\%$ \parencite{Paulot2009b}.
-      
+      Uncertainties and bias from measurements have made it more difficult to understand what happens in low NO$_X$ conditions as many observations of OH were still quite under-predicted in models \parencite{Mao2012}.
+      Due to OVOC interference, measurements in low NO$_X$ environments can lead to massively overestimated MVK and MCR yields \parencite{Nguyen2014}.
+      \textcite{Nguyen2014} show preliminary estimates of low-NO yields of MVK and MCR to be 6$\pm3\%$ and 4$\pm2\%$ respectively, consistent with TODO:\textcite{Liu2013}, but only when cold-trapping methods are employed.
+      \textcite{Mao2012} showed that many instruments were generating OH internally.
+      %% MVK and MCR yields each increase (due to interference by OVOCs) to greater than 40\% when directly sampled by GC-FID.
+      Model and measurement corrections have helped closed the gap between model predictions and detected concentrations of VOCs and OH \parencite{Mao2012}.
       
       %\textcite{Paulot2009b} goes on to suggest (and provide experimental evidence) that  IEPOX are formed from oxidation of the ISOPOOH, which form precursors for SOAs as well as closing the HO$_X$ concentration gap.
       %They then use GEOS-Chem, modified to include IEPOX formation, to estimate that one third of isoprene peroxy radicals react with HO$_2$, and two thirds react with NO. 
       %Their work showed another pathway for isoprene based SOA creation, through these IEPOX creation and HO$_X$ recycling mechanisms.
       
-      %TODO: read more Peeters2010
-      
-      \textcite{Nguyen2014} examine various measurement techniques to determine isoprene reactions in non-laboratory conditions.
-      Their work discussed how large uncertainties persist in isoprene oxidation, which carries through to predictions by atmospheric models.
-      \textcite{Nguyen2014} show preliminary estimates of low-NO yields of MVK and MCR to be 6$\pm3\%$ and 4$\pm2\%$ respectively, consistent with TODO:\textcite{Liu2013}, but only when cold-trapping methods are employed.
-      These yields each increase (due to interference by OVOCs) to greater than 40\% when directly sampled by GC-FID.
       
       Even with the recent boom in isoprene analysis, uncertainties remain in the isoprene oxidation mechanisms.
-      Examples (taken from \textcite{Nguyen2014}) include isoprene nitrate yields, which range from 4-15\% \parencite{Paulot2009a}, 90\% disagreements in MAC and MVK yields TODO:\parencite{Liu2013}, various possible sources for SOA TODO:\parencite{Chan2010, Surratt2010, Lin2013}, unknown HPALD fates, incomplete O$_2$ incorporation TODO:\parencite{Peeters2009,Crounse2013}, and under-characterized RO$_2$ lifetime impacts TODO:\parencite{Wolfe2012}. TODO: get those citations and read abstracts.
+      Examples (taken from \textcite{Nguyen2014}) include isoprene nitrate yields, which range from 4-15\% \parencite{Paulot2009a}, 90\% disagreements in MCR and MVK yields TODO:\parencite{Liu2013}, various possible sources for SOA TODO:\parencite{Chan2010, Surratt2010, Lin2013}, unknown HPALD fates, incomplete O$_2$ incorporation TODO:\parencite{Peeters2009,Crounse2013}, and under-characterized RO$_2$ lifetime impacts TODO:\parencite{Wolfe2012}. TODO: get those citations and read abstracts.
       
-      Understanding of OH production/recycling in low NO conditions has been improved, however many observations of OH were still quite under-predicted in models \parencite{Mao2012}.
-      \textcite{Mao2012} showed how traditional OH measurements may be overestimated due to VOC oxidation.
-      They looked at measurements in a remote forest in California and found that the instruments were generating OH internally.
-      \textcite{Nguyen2014} also see this VOC oxidation interference in measurements using a gas chromatographer (GC) with an equipped flame ionisation detector (FID).
-      This lends more credence to the current understanding of VOC oxidation as it closed the gap between measurements and model predictions \parencite{Mao2012}.
-      
-    
-    %\subsubsection{Ozonolysis}
-      Ozonolysis is one of the primary oxidation pathways for volatile alkenes, involving the splitting of carbon chains by ozone molecules \parencite{Nguyen2016}.
-      This process also leads to HCHO, with yields depending on reactions following isoprene ozonolysis.
-      %Criegee intermediates (carbonyl oxides with two charge centres) are formed when isoprene reacts with O$_3$. 
-      %\textcite{Nguyen2016} examine in detail a few of these, with proposed mechanisms for C$_1$ and C$_4$ Criegee intermediate reactions.
-      %The C$_1$ stabilised Criegee (CH$_2$OO, $\sim 61\%$) is therein proposed to react with water yielding $73\%$ hydroxymethyl hydroperoxide (HMHP), $6\%$ HCHO $+$ H$_2$O$_2$, and formic acid $+$ H$_2$O, and the same products with yields of 40, 6, and 54$\%$ respectively when this Criegee reacts with (H$_2$O)$_2$.
     
     \subsubsection{Night time processes}
       At night when OH concentrations have dropped, isoprene can remain in the atmosphere.
