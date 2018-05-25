@@ -349,7 +349,8 @@
   Improved concentration estimates of these precursors requires a better understanding of their emissions, which is one of the foci in this thesis.
   
   % voc removals
-  VOCs are removed by wet and dry deposition, OH oxidation, reaction with NO$_3$, ozonolysis (at night time or in polluted areas) or photolysis \parencite{AtkinsonArey2003, Brown2009}.
+  Photolysis and oxidation of many VOCs initially form alkyl radicals ($R\dot{}$).
+  VOCs are removed mainly by photolysis and oxidation, but also by wet and dry deposition, reaction with NO$_3$, and ozonolysis (at night time or in polluted areas) \parencite{AtkinsonArey2003, Brown2009}.
   The process of deposition only accounts for a small fraction of the VOC loss, with the possible exception of the long lived methane compound \parencite{AtkinsonArey2003}.
   
   
@@ -437,69 +438,75 @@
     Isoprene reactions are important to understand due to their impacts on air quality, ozone, and physical properties in the lower troposphere.
     %TODO: some important isoprene reactions listed here
     TODO: List some reactions here.
-    The many children processes and products which begin with isoprene oxidation are often called the isoprene (photochemical) cascade \parencite{Crounse2012,Paulot2012,Wolfe2016}.
+    The many children processes and products which begin with isoprene oxidation are often called the isoprene (photochemical) cascade \parencite[eg.][]{Crounse2012,Paulot2012,Wolfe2016}.
     
-    Photolysis and oxidation of many VOCs initially form alkyl radicals ($R\dot{}$).
     Alkenes (VOCs with double bonded carbon, such as isoprene) react with ozone leading to organic peroxy radicals (\roo).
-    In the case of isoprene, these are often labeled as ISOPOO.
+    The primary first step for atmospheric isoprene is photooxidation, reacting with OH to form isoprene hydroxyperoxy radicals (ISOPOO - a subset of \roo)) \parencite{Wolfe2016,Marvin2017,Patchen2017}.
     These go on to form many products and lead to (amongst other things) aerosol, formaldehyde, and ozone formation, depending on sunlight and NO$_X$ concentrations \parencite{Atkinson2000}.
     
+    
     \subsubsection{Oxidation}
-      The primary first step for atmospheric isoprene is photooxidation, reacting with OH to form isoprene hydroxyperoxy radicals (\roo or ISOPOO) \parencite{Wolfe2016,Marvin2017,Patchen2017}.
-      There is still uncertainty about which pathways are most important following \roo production: HO$_2$ reactions predominantly produce hydroxyhydroperoxides (ISOPOOH), NO reactions largely produce methyl vinyl ketone (MVK) and methacrolein (MCR), and RO$_2$ reactions are also possible \textcite{Liu2016a}.
-      
-      NO$_X$ concentrations have a lead role in what reactions take place after ISOPOO is created, with high-NO$_X$ and low-NO$_X$ pathways producing different chemical products at different yields.
-      The portion of ISOPOO that reacts with NO or HO$_2$ is used to determine which pathway isoprene oxidation is following.
-      ISOPOO predominantly reacts with NO (forming ISOPN) in the high-NO$_X$ pathway, or with HO$_2$ (forming ISOPOOH) in the low-NO$_X$ pathway \parencite{Yu2016}.
-      
       
       First isoprene has its double bond replaced by OH, as summarised by the equation from \textcite{Patchen2007}:
       % Uses package{mchem}
       \ce{R-CH=CH-R$^{\prime}$ + OH -> R-CH(OH)CH-R$^{\prime}$ }
       where R and R$^{\prime}$ represent hydrocarbons.
-      This OH adduct then reacts with O$_2$ to produce a hydroxyperoxy radical (\roo), which can be any of six different isomers \parencite{Patchen2007}.
-      These \roo (also called organic-peroxy/alkyl-peroxyl/ISOPOO radicals, or RO$_2$)  react with HO$_2$ or NO and produce stable products (often called oxidised VOCs or OVOCs) \parencite{Nguyen2014}.
-      Most of these reaction pathways produce HCHO \parencite{Wolfe2016}.
+      This OH adduct then reacts with O$_2$ to produce ISOPOO, which can be any of six different isomers \parencite{Patchen2007}.
+      ISOPOO react with HO$_2$ or NO and produce stable products (often called oxidised VOCs or OVOCs).
+      Oxidation reactions are important and quickly stabilise the ratio of NO to NO$_2$.
+       
       
-      %% ROO reaction with NO
-      \roo reaction pathways depend on the NO$_X$ concentrations.                               
-      Reactions with NO can lead to ozone production in environments rich in isoprene or other  NMVOCs \parencite{Patchen2007,AtkinsonArey2003}.
-      These reactions are complex and coupled, for example NO$_2$ concentrations can be increased by NMOC and NO reactions \parencite{AtkinsonArey2003}.
-          
+      There is uncertainty about which pathways are most important following ISOPOO production \parencite{Nguyen2014}.
+      This limits understanding of the relative importance of some chemical processes such as TODO example %TODO: example chemical process with \roo \parencite{Crounse2013}.
+      The reaction pathways depend on local concentrations of NO$_X$: the high and low NO$_X$ pathways are dominated by NO and HO$_2$ reactions respectively.
+      HO$_2$ reactions predominantly produce hydroxyhydroperoxides (ISOPOOH), while NO reactions produce isoprene nitrates (ISOPN) \parencite{Crounse2006}.
+      If measured, first generation ISOPN and ISOPOOH products can be used to determine the portion of isoprene oxidation following each pathway \parencite[eg.][]{Yu2016}.
+      
+      Most of these reaction pathways produce HCHO, however products including HCHO, methyl vinyl ketone (MVK), and methacrolein (MCR) are formed at different yields between the two pathways \parencite{Marais2012, Liu2016a, Wolfe2016}.
+      Reactions with NO can lead to ozone production within environments rich in isoprene or other NMVOCs \parencite{Patchen2007,AtkinsonArey2003}.
+      %These reactions are complex and coupled, for example NO$_2$ concentrations can be increased by NMVOC and NO reactions \parencite{AtkinsonArey2003}.
+      
+    \subsubsection{High NOx pathway}
       %% NO2 reaction -> nitrates
       In the presence of NO$_X$, \roo may form organic nitrates after reacting with NO.
-      Any organic nitrates which are formed affect levels of both HO$_X$ (H, OH, peroxy radicals) and NO$_X$, generally acting as a sink (\textcite{Mao2013} and references therein), although TODO jenny's 2016 paper%TODO: Circumstances when NOx is not a sink: Jenny's 2016 paper.
-      Reaction with NO$_2$ forms isoprene nitrates, or hydroxynitrate (RONO$_2$).
-      % This is outdated and not relevant
-      %The first generation of organic nitrates produced by isoprene oxidation range from 7\% to 12\%, shown in laboratory experiments \parencite{Paulot2009a, Mao2013},
-      A portion of isoprene nitrates are recycled back to NO$_X$, so may serve as a reservoir of nitrogen and allow its transport to the boundary layer of remote regions \parencite{Patchen2007,Paulot2009a}.
+      Any organic nitrates which are formed affect levels of both HO$_X$ (H, OH, peroxy radicals) and NO$_X$, generally acting as a sink \parencite[][and references therein]{Mao2013}.
+      A portion of the organic nitrates are recycled back to NO$_X$, serving as a reservoir of nitrogen and allow its transport to the boundary layer of remote regions \parencite{Patchen2007,Paulot2009a,Lu2016}.
       The nitrates can also build up in the winter, when removal processes are not as dominant \parencite{Lelieveld2009}.
       
+      %% ISOPN already mentioned (same as RONO2?)
+      %Reaction with NO$_2$ forms isoprene nitrates, or hydroxynitrate (RONO$_2$).
+      % This is outdated and not relevant
+      %The first generation of organic nitrates produced by isoprene oxidation range from 7\% to 12\%, shown in laboratory experiments \parencite{Paulot2009a, Mao2013},
       
-      Oxidation reactions are important and quickly stabilise the ratio of NO to NO$_2$. 
-      There is still large uncertainty around the fate of \roo, which limits understanding of the relative importance of some chemical processes such as TODO example %TODO: example chemical process with \roo \parencite{Crounse2013}.
+       
+      
       % Not dominant isop->SOA pathway, delete unless can place into more comprehensive paragraph
       %Some portion of emitted isoprene leads to SOA, potentially through the formation of methacrylic acid epoxide (MAE) formed by decomposition of methacryloylperoxynitrate (MPAN, a second generation product of isoprene oxidation) as shown in smog chambers and field studies in \textcite{Lin2013}.
     
-    \subsubsection{Low NOx scenario}
+    \subsubsection{Low NOx pathway}
+      
       %% LOW NOX scenario
-      Isoprene oxidation by OH is less well understood when lower concentrations of NO are present in the atmosphere.
-      Initially isoprene was thought to be a sink for atmospheric oxidants \parencite[e.g.][]{Guenther2000}.
-      It was thought that in low NO environments, like those far from anthropogenic pollution and fires, oxidation of isoprene would create ISOPOOH and lead to low concentrations of OH and HO$_2$ \textcite{Paulot2009b}.
-      In \textcite{Paulot2009b}, the HO$_X$ levels are shown to be largely unaffected by isoprene concentrations.
-      They show that ISOPOOH is formed in yields $> 70\%$, and MACR and MVK is formed with yields $< 30\%$.
-      The formation of MACR and MVK produces some HO$_X$, although not enough to close the gap.
-      \textcite{Paulot2009b} goes on to suggest (and provide experimental evidence) that dihydroxyperoxides (IEPOX) are formed from oxidation of the ISOPOOH, which form precursors for SOAs as well as closing the HO$_X$ concentration gap.
-      They then use GEOS-Chem, modified to include IEPOX formation, to estimate that one third of isoprene peroxy radicals react with HO$_2$, and two thirds react with NO. 
-      They estimated $95 \pm 45$\tgpyr IEPOX being created in the atmosphere, which (at the time) was not modelled by CTMs.
-      Their work showed another pathway for isoprene based SOA creation, through these IEPOX creation and HO$_X$ recycling mechanisms.
+      Isoprene oxidation and subsequent reactions are less well understood when lower concentrations of NO are present in the atmosphere.
+      It was thought that in low NO environments, like those far from anthropogenic pollution and fires, oxidation of isoprene would create ISOPOOH and reduce local concentrations of OH and HO$_2$ \textcite{Guenther2000,Paulot2009b}.
+      However this reduction was not seen in measurements and HO$_X$ levels have been shown to be largely unaffected by isoprene concentrations \parencite{Paulot2009b}.
+      HO$_X$ is recycled through dihydroxyperoxides (IEPOX), formed from ISOPOOH oxidation, and some HO$_X$ is produced in the formation of MCR and MVK \parencite{Paulot2009b}.
+      \textcite{Paulot2009b} estimated that $95 \pm 45$\tgpyr of IEPOX was being created in the atmosphere, which (at the time) was not modelled by CTMs.
       \textcite{Peeters2010} suggested that the work of \textcite{Paulot2009b} only partially bridges the gap between clean air OH concentration measurements and models.
       They suggested four new mechanisms for OH recycling in these pristine conditions.
       These can be summarised as OH regenerating reactions which occur during photolysis of hydroperoxy-methyl-butenals (HPALDs), and resulting photolabile peroxy-acid-aldehydes (PACALDs).
-      These reactions are highly non-linear and subject to large uncertainty, however when compared against several campaigns they were shown to improve modeled HO$_X$ concentrations.
-      In \textcite{Crounse2012}, MACR products are examined and hydroxy recycling is observed in low NO conditions, backing up results from \textcite{Peeters2010}.
+      These reactions are highly non-linear and subject to large uncertainty, however they were shown to improve modeled HO$_X$ concentrations against several campaigns.
       \textcite{Peeters2010} showed that HO$_2$ is produced at near unity yields following isoprene oxidation initiated by OH.
-      TODO: read more Peeters2010
+      Their results were backed up by observations of OH recycling observed in low NO conditions \parencite{Crounse2012}.
+      
+      \textcite{Paulot2009b} used GEOS-Chem, modified to include IEPOX formation, to estimate that one third of isoprene peroxy radicals react with HO$_2$, and two thirds react with NO. 
+      In low NO$_X$ environments, ISOPOOH is formed in yields $> 70\%$, while MCR and MVK is formed with yields $< 30\%$ \parencite{Paulot2009b}.
+      
+      
+      %\textcite{Paulot2009b} goes on to suggest (and provide experimental evidence) that  IEPOX are formed from oxidation of the ISOPOOH, which form precursors for SOAs as well as closing the HO$_X$ concentration gap.
+      %They then use GEOS-Chem, modified to include IEPOX formation, to estimate that one third of isoprene peroxy radicals react with HO$_2$, and two thirds react with NO. 
+      %Their work showed another pathway for isoprene based SOA creation, through these IEPOX creation and HO$_X$ recycling mechanisms.
+      
+      %TODO: read more Peeters2010
       
       \textcite{Nguyen2014} examine various measurement techniques to determine isoprene reactions in non-laboratory conditions.
       Their work discussed how large uncertainties persist in isoprene oxidation, which carries through to predictions by atmospheric models.
