@@ -29,10 +29,6 @@
   In this chapter, modelled data are compared against both campaign measurements and satellite data in order to analyse Australia specific HCHO and isoprene sensitivities and to determine where the GEOS-Chem model needs the most improvement.
   Section \ref{Model:Datasets} lists and describes the campaign datasets, section \ref{Model:GC} describes the GEOS-Chem model, the creation and effects of filters are described in section \ref{Model:Filter}TODO: rest of section outlined.
   
-  % MOVE: this is method not intro
-   
-  
-
 \section{Datasets}
 \label{Model:Datasets}
 
@@ -892,7 +888,7 @@
           corr[lat,track] = SC[lat,track] - MRSC[lat]
         \end{equation*}
         \item These corrections are binned by satellite detector (track: 1-60), and latitude (0.36\degr; 500 latitudes from 90{\degr}S to 90{\degr}N).
-        \item The median entry of each bin is determined and this forms the RSC[lat,track]
+        \item The median entry of each bin is determined and this forms the RSC[lat,track] (eg. figure \ref{Model:omiRecalc:RSC:fig_track_correction_interpolations})
       \end{enumerate}
       \item VCC are determined using $VCC = (SC - RSC[lat,track] )/AMF$ for each measured SC and using each AMF, with the RSC linearly interpolated to the latitude of the satellite pixel.
       \item The VCC (along with most of the pixel and GEOS-Chem data) are binned onto a 0.25\degr by 0.3125\degr grid along with how many pixels have been binned, and the average pixel uncertainty in product OMHCHORP.
@@ -1136,11 +1132,6 @@
     Each satellite slant column measurement is corrected by some amount, based on the divergence from a modeled reference sector.
     HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \parencite{DeSmedt2008,Barkley2013,Kurosu2014}.
     
-    The reference sector correction (RSC) for OMI satellite pixels in this thesis is calculated following \textcite{Abad2016}.
-    The RSC is calculated daily and applied to each satellite pixel corresponding to each of the 60 measurement tracks used by OMI, depending also on latitude.
-    The reference sector correction is based on the difference between the GEOS-Chem simulated slant columns and OMI slant columns over the meridional band from 140{\degr}W to 160{\degr}W.
-    To get the modelled slant columns, each of the AMFs (calculated in prior sections) is applied to the modelled vertical columns using equation \ref{Model:omiRecalc:eqn_AMFratio}.
-
     % What RSC does
     The RSC method corrects for several problems, however it introduces some a priori model influence.
     One of the problems removed through this correction method is instrument degradation, which can introduce bias over time.
@@ -1158,15 +1149,16 @@
     Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \textcite{Abad2015}.
     
     % How my RSC is defined
-    The correction used in this thesis is created based on the difference between the background HCHO measurements from OMI and the GEOS-Chem modelled HCHO columns within the reference sector.
+    The reference sector correction (RSC) for OMI satellite pixels in this thesis is calculated following \textcite{Abad2016}.
+    A correction is created based on the difference between the background HCHO measurements (OMI slant columns) and the GEOS-Chem modelled HCHO columns ($\Omega_0$) within the reference sector (140{\degr}W to 160{\degr}W).
+    To get the modelled slant columns, each of the AMFs (calculated in prior sections) is applied to the modelled vertical columns using equation \ref{Model:omiRecalc:eqn_AMFratio}.
     % Then RSC Longitudinally averaged, binned into 500 lats
     The longitudinal average is taken within the a priori reference sector, as corrections are assumed to be longitudinally invariant.
-    The modeled reference sector is interpolated latitudinally to 500 equidistant bins.
-    Figure \ref{Model:omiRecalc:RSC:fig_RSCeg} the simulated reference sector VCs as an example, calculated for January 1st 2005.
+    The modeled reference sector is averaged over the month and interpolated latitudinally to 500 equidistant bins.
+    Figure \ref{Model:omiRecalc:RSC:fig_RSCeg} shows the simulated reference sector VCs as an example, calculated for January 1st 2005.
     In this figure the vertical resolution is increased from 2$^{\circ}$ to 0.36\degr, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
     Each day, good satellite measurements taken over the reference sector are used to determine a correction array.
-    The correction is based on the difference between measured slant column and the modeled slant column within the reference sector.
-    The model does not produce slant columns associated with each measurement, however one is created by multiplying the VC with the associated slant column's AMF.
+    The model does not produce slant columns associated with each measurement, however one is created by multiplying the vertical column with the associated slant column's AMF.
     
     % This picture was made where?!
     \mypicw{0.7\textwidth}
@@ -1195,8 +1187,8 @@
     % Interpolated daily RSC to cover missing latitudes
     Due incomplete latitudinal coverage, the correction for each track is interpolated linearly between measurements, with corrections outside of the highest measured latitudes being equal to the corrections at the highest measured latitudes.
     Figure \ref{Model:omiRecalc:RSC:fig_track_correction_interpolations} shows an example of the 60 track corrections for January 1st 2005, the points are satellite measurements and the lines are the interpolations for each track.
-    \mypicw{0.7\textwidth}{Figures/HCHO/track_corrections20050101.png}
-      {Example of track correction interpolations for January 1st 2005, points represent satellite slant column measurements, with lines interpolating and extrapolating along the latitudinal direction.}
+    \mypicw{0.7\textwidth}{Figures/OMI_link/RSC_track_corrections20050101.png}
+      {Example of track correction interpolations for January 1st 2005, points represent the difference between satellite slant column measurements and modelled slant columns over the remote pacific.}
       {\label{Model:omiRecalc:RSC:fig_track_correction_interpolations}}
     
     % Visualisation of RSC refering to plot and 8-day averaged corrections
