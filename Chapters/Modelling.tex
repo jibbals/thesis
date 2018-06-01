@@ -7,9 +7,13 @@
 \section{Introduction}
   %Why use models?
   % Models
-  Models of ozone in the atmosphere are used broadly for international assessments of ozone related emissions \parencite{Young2018}.
-  \textcite{Young2018} summarise current global ozone modelling standards and the metrics and processes used to evaluate these models.
-  They show how models can be used to improve measurements, estimate concentrations in regions not sampled, and allow analysis of other processes which involve ozone (such as radiation).
+  
+  In this thesis the word model is most often used to represent a chemical transport model (CTM), which simulates chemistry and chemical transport through the atmosphere.
+  Models of the atmosphere can be used to improve measurements, estimate concentrations in regions not sampled, and allow predictions of atmospheric composition in the future.
+  Models of ozone in the atmosphere are used broadly for international assessments of ozone related emissions and processes which involve ozone (such as radiation) \parencite{Young2018}.
+  %\textcite{Young2018} summarise current global ozone modelling standards and the metrics and processes used to evaluate these models.
+  Models can provide an estimate of trace gas concentrations without requiring measurements, however verification is required.
+  
   
   In-situ measurements from campaigns or measurement stations can be used to examine what is happening at a particular (or several) location(s).
   These data are useful to determine how accurate models or estimates are - however the utility is limited to where the measurements have been made.
@@ -19,10 +23,15 @@
   Satellite datasets give us access to lots of data over large areas.
   However, satellite measurements can have high amounts of uncertainty due to instrument limitations.
   Many datapoints can be averaged in order to reduce uncertainty.
-  Once the satellite data are quality filtered and gridded, I use additional data to account for anthropogenic and pyrogenic influences, which provides us an estimate of biogenic HCHO.
-  MODIS fire counts are used in conjunction with smoke AAOD enhancements (also measured by satellite) to remove data points which may be affected by fires. 
-  This has a negative affect on uncertainty, as fewer measurements are available to be averaged. 
-  The affect of the filtering on uncertainty, and how many points are removed is shown in section \ref{Model:Filter}.
+  In this thesis several satellite datasets are combined to provide biogenic HCHO amounts over Australia.
+  In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[eg.][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
+  
+  In this chapter, modelled data are compared against both campaign measurements and satellite data in order to analyse Australia specific HCHO and isoprene sensitivities and to determine where the GEOS-Chem model needs the most improvement.
+  Section \ref{Model:Datasets} lists and describes the campaign datasets, section \ref{Model:GC} describes the GEOS-Chem model, the creation and effects of filters are described in section \ref{Model:Filter}TODO: rest of section outlined.
+  
+  % MOVE: this is method not intro
+   
+  
 
 \section{Datasets}
 \label{Model:Datasets}
@@ -63,7 +72,11 @@
     Figure \ref{Model:Datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. In order to compare with GEOS-Chem output a daily average and an overpass time (1200-1300 LT) average are both created from these data.
     In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in (TODO: doi:10.5194/acp-15-223-2015, 2015) which should minimise any introduced bias.
     
-    \mypic{Figures/campaigns/SPS_Series.png}{SPS 1 and 2 HCHO (yellow) and isoprene (green) time series, along with detection limits (dashed).}{\label{Model:Datasets:SPS:fig_series}}
+    \mypic{Figures/campaigns/SPS_Series.png}{
+      SPS HCHO (yellow) and isoprene (green) time series, along with detection limits (dashed).
+      SPS 1 (left) took place in late summer 2011, while SPS 2 (right) occurred during Autumn.
+    }
+    {\label{Model:Datasets:SPS:fig_series}}
     
     Figure \ref{Model:Datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the gridsquare containing Sydney overlaid on SPS measurement data.
     Superficially the comparison is not too bad between these two datasets, however GEOS-Chem output is daily averaged over 2x2.5\degr (latitude by longitude)
@@ -81,15 +94,14 @@
     Level 3 data is a temporally aggregated version of the this, for instance monthly or yearly averages.
     
     % Aura satellite trace gas measurements
-    One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets, often called products.
+    One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets (products).
     Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
-    OMI measurements are used to map several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
-    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
-    The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
-    
     % omi instrument on board aura
     Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
     From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
+    OMI measures several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
+    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
+    The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
     OMI spectra are used in several products used in this thesis, including OMNO2d, OMHCHO, and OMAERUVd.
     
     % Terra/Aqua satellite
@@ -161,7 +173,8 @@
       
       % Where does cloud product come from? it removes around 30% of non-qa filtered data
       The cloud fraction with each pixel is provided with the OMHCHO dataset, however its source is the OMI cloud product, OMCLDO2.
-      To give an idea of how much data is filtered out, around 30\% of the pixels which remain after filtering out the bad or missing data are subsequently removed due to cloudiness.
+      If greater than 40\% of a pixel measurement is cloudy (ie. cloud fraction $>0.4$) then the pixel is removed from subsequent analysis.
+      This removes around 30\% of the pixels which remain after filtering out the bad or missing data.
       
       Each $\sim90$ minutes the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 50~k -- 80~k are classified as good.
       Each pixel contains several important pieces of data which are needed for recalculation of the HCHO vertical column: the total column of HCHO ($\Omega$\moleccm), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weights and their vertical altitudes (hPa), viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
@@ -192,6 +205,9 @@
     \subsubsection{MOD14A1}
       \label{Model:Datasets:MOD14A1}
       Daily gridded fire counts compiled from Terra and Aqua satellite into 1x1~km$^2$ resolution.
+      Using this product after binning into a lower resolution alows an active fire influence mask (see section \ref{Model:Filter:fire}.
+      
+      
   
   \subsection{Drought Index}
     The S Precipitation Evapotranspiration Index (SPEI) is a measure of drought using various parameters such as TODO. (\textcite{Wang2017}).
@@ -298,7 +314,13 @@
   \subsection{Chemical Mechanisms}
     \label{Model:GC:Mechanisms}
     Chemical reactions are turned into systems of differential equations (DEs) to be solved by the CPU for each gridbox in GEOS-Chem.
+    A chemical mechanisms is the name for a closed system of chemical reactions and the rates of each reaction.
+    Simplifications are required due to the massive amount of reactions which occur in the atmosphere, and the coupled and stiff nature of these reactions which serve to slow down computation of the solutions TODO: ref Brasseur Jacob book.
+    
+    
+    
     Some of the important ones involving isoprene are copied here, including reaction rates in the form $ k = A \exp{-ER/T} $.
+    The full list of chemical reactions can be found online at TODO: find list
     
     \begin{align} \begin{split}
     \label{Model:GC:Mechanisms:eqn_mechanisms}
@@ -1267,6 +1289,11 @@
   As seen in TODO: citation, HCHO concentrations scale exponentially with temperature.
   This allows another method for detecting the influence of non-biogenic HCHO emission/creation by looking for outliers above the curve at low temperature.
   \textcite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15*{T}-9.07)$.
+  
+  Once the satellite data are quality filtered and gridded, I use additional data to account for anthropogenic and pyrogenic influences, which provides us an estimate of biogenic HCHO.
+  MODIS fire counts are used in conjunction with smoke AAOD enhancements (also measured by satellite) to remove data points which may be affected by fires. 
+  This has a negative affect on uncertainty, as fewer measurements are available to be averaged.
+  This section describes the creation and effects of filters used on satellite data.
   
   
   \subsection{Fire and smoke}
