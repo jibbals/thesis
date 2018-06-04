@@ -212,35 +212,31 @@
     It is downloaded from TODO and holds monthly averaged values at 0.5$^{\circ}$ horizontal resolution.
     When comparing against the emissions estimates this is interpolated linearly onto the same grid as that of GEOS-Chem output at 2x2.5$^{\circ}$.
     
-  \subsection{NPI}
-    
-    One possible solution to anthropogenic filtering is the national pollution index (TODO:cite:\verb|http://www.npi.gov.au|) which contains industrial HCHO and NO$_X$ emissions from 2003 to 2014.
   
-  % TODO: Move this section INTO GEOS-Chem section!!!
 \section{GEOS-Chem}
   \label{Model:GC}
 
   \subsection{Outline}
     % Geos chem is a box model with chemistry and meteorology
-    GEOS-Chem is an atomspheric chemical model (ACM), using a 3-D grid of boxes with transport driven by the GEOS meteorological model and chemistry calculated in each box independently. 
-    Within each box chemistry, transport, and meteorology are simulated at 15 minute time steps.
-    GEOS-Chem has a meteorological model coupled to a chemical model, which simulates the world in a three dimensional grid of connected boxes.
-    
-    % It uses GEOS, from GMAO
     GEOS-Chem is a well supported global, Eulerian CTM with a state of the science chemical mechanism, with transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
+    Chemistry, transport, and meteorology are simulated at 15 minute time steps within a global set of 3-D boxes.
+    Emissions are either prescribed by inventories or modelled (eg. biogenic emissions are created using the Model of Emissions of Gases and Aerosols from Nature (MEGAN)).
+    % It uses GEOS, from GMAO
+    
+    % This thesis uses 10.01 at 2x2.5 model output
     GEOS-Chem simulates more than 100 chemical species from the earth's surface up to the edge of space (0.01~hPa) and can be used in combination with remote and in-situ sensing data to give a verifiable estimate of atmospheric gases and aerosols.
     It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide.
-    In this thesis I use version 10.01 of GEOS-Chem, which simulates and records up to 66 chemical species (tracers) in the standard run, at 2 by 2.5$^{\circ}$ horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
+    In this thesis I use version 10.01 of GEOS-Chem, which outputs up to 66 chemical species (tracers) in the standard run, at 2 by 2.5$^{\circ}$ horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
     
-    % This thesis uses 10.01, geos5, megan
+    
     Global CTMs are often run using one or several emission models (or the output from them) to determine boundary conditions for many gridboxes.
-    Some of the inventories are described here.
+    Some of the inventories used by GEOS-Chem are described here.
     Meteorological fields are taken from NASA's GEOS-5 dataset (0.5$^{\circ}$ x 0.666$^{\circ}$) \parencite{Chen2009}, which exists up to April, 2013.
     GEOS-5 meteorological fields are used as the boundary conditions driving transport.
     % Emissions models used for boundary conditions
     Fire emissions come from the GFED4 product \parencite{Giglio2013}. 
-    Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are simulated using the MEGAN model.
-    MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation, described in more detail in section TODO.
+    Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are simulated using the MEGAN model (see section \ref{Model:GC:Isop:MEGAN}).
+    MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation.
     The estimated biogenic VOC emissions are important for accurately simulating chemistry within models, as discussed in Section \ref{LR:Atmos:Chem}.
     
   
@@ -257,55 +253,47 @@
   \subsection{GEOS-Chem isoprene modelling}
     \label{Model:GC:Isop}
 
-    \subsubsection{Outline}
-      The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
-      This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
-      The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \textcite{Paulot2009a,Paulot2009b}.
-      Further mechanistic properties, like isomerisation rates, are based on results from four publications: cite{Crounse2011,Crounse2012,Peeters2010,Peeters2011}.
-      (TODO: check abstracts Peeters papers).
-      
-      \textcite{Crounse2011} examines the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen through $ISOP + OH \to ISOPOO$.
-      They determine rates and uncertainties involved in these reactions, and study the rate of formation of C$_5$-hydroperoxyaldehydes (HPALDs) by isomerisation.
-      Methacrolein (MACR) is one of the products of isoprene oxidation.
-      Prior to 2012 MACR oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012}.
-      In most environments this is not the case, GEOS-Chem uses MACR production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Crounse2012}.
-      Additionally, photolysis of photolabile peroxy-acid-aldehydes creates OH and improved model aggreement with continental observations.
-      photolysis of hydroperoxy-methyl-butenals (HPALDs, produced by isoprene isomerisation) regenerate OH levels in areas with high isoprene emissions \parencite{Peeters2010}.
-      OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and a sink of OH \parencite{Peeters2010,Taraborrelli2012}.
-      
-      Formation of isoprene nitrates have an effect on ozone levels through NO$_X$ sequestration, and the yields and destinies of these nitrates is analysed in \textcite{Paulot2009a}.
-      In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
-      GEOS-Chem uses these the yields of various positional isomers of isoprene nitrates, and pathways of their oxidation products, and reactions within its suite of chemical mechanisms determined by \textcite{Paulot2009a,Mao2013}.
-      %They use anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
-      
-      In low NO$_X$ conditions, isoprene oxidises to yield 70\% hydroxyhydroperoxides (ISOPOOH), which then oxidises to create dihydroxyperoxides (IEPOX) with OH recycling maintaining the OH levels in the atmosphere \parencite{Paulot2009b}.
-      In older models isoprene produced ISOPOOH which then titrated OH, however, the loss of OH has not been seen in measurements \parencite{Paulot2009b,Mao2013}.
-      The isoprene mechanism in GEOS-Chem has been updated to include OH regeneration from oxidation of epoxydiols and slow isomerisation of ISOPO$_2$ \parencite{Mao2013}.
-      
-      ISOPN can be oxidised (by OH) to form nitrated organic products \parencite{Paulot2009a}.
-      In low NO$_X$ ISOPOO reacts with HO$_2$ (producing hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing hydroperoxyenals HPALDs). 
-      ISOPOOH can be oxidised (by OH) to produce epoxydiols (IEPOX), precursors to SOA \parencite{Paulot2009b}. 
-      HPALDs can photolyse to regenrate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014} TODO: Check out crounse2011.
-      See section \ref{LR:VOCs:IsopCascade} for more information.
-      
-      Under high NO$_X$ conditions, isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) hydroxyl peroxy radicals (ISOPO$_2$). 
-      The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
-      The $\delta$-hydroxyl reacts with NO to form $\delta$-hydroxyl nitrates (24\%) (ISOPND), and ISOPNB (6.7\%).
-      ISOPNB and ISOPND yield first generation isoprene at 4.7\% and 7\% respectively.
-      
-      Under low NO$_X$ conditions, ISOPO$_2$ may react with HO$_2$ to form ISOPOOH.
-      In this case there is also production of HCHO (4.7\%), MVK(7.3\%), and MACR (12\%).
-      As stated in earlier; most ISOPOOH will form IEPOX (epoxydiols) after reacting with OH and lead to OH regeneration.
-      The other mechanism in low NO$_X$ environments is unimolecular isomerisation of ISOPO$_2$.
-      This leads to production of hydroperoxyaldehydes (HPALDS), which generally photolyse and have an OH yield of 100\%.
-      \textcite{Mao2013} show that a lower (factor of 50) rate constant for ISOPO$_2$ isomerisation leads to better organic nitrate aggreements with ICARTT. 
-      
-      This update leads to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
-      Prior to \textcite{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside the instrument.
-      \textcite{Mao2012} examine an upgraded method of measurement, and compare these against a regional atmospheric chemistry model (RACM2), with the OH recycling updates from \textcite{Paulot2009b} as discussed in prior paragraphs.
-      
-      The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last before version 11.
-      The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
+    The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
+    This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
+    The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \textcite{Paulot2009a,Paulot2009b}.
+    Further mechanistic properties, like isomerisation rates, are based on results from four publications: cite{Crounse2011,Crounse2012,Peeters2010,Peeters2011}.
+    (TODO: check abstracts Peeters papers).
+    
+    \textcite{Crounse2011} examines the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen through $ISOP + OH \to ISOPOO$.
+    They determine rates and uncertainties involved in these reactions, and study the rate of formation of C$_5$-hydroperoxyaldehydes (HPALDs) by isomerisation.
+    Prior to 2012 oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012}.
+    In most environments NO and HO$_2$ concentrations are not so high, GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Crounse2012}.
+    OH regeneration through photolysis of hydroperoxy-methyl-butenals (HPALDs, produced by isoprene isomerisation) in areas with high isoprene emissions are included from \textcite{Peeters2010}.
+    Photolysis of photolabile peroxy-acid-aldehydes creates OH and improved model aggreement with continental observations.
+    OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and a sink of OH \parencite{Peeters2010,Taraborrelli2012}.
+    
+    Formation of isoprene nitrates (ISOPN) have an effect on ozone levels through NO$_X$ sequestration, and the yields and destinies of these nitrates is analysed in \textcite{Paulot2009a}.
+    %% ISOPN can be oxidised (by OH) to form nitrated organic products \parencite{Paulot2009a}.
+    In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
+    GEOS-Chem uses these the yields of various positional isomers of isoprene nitrates, and pathways of their oxidation products, and reactions within its suite of chemical mechanisms determined by \textcite{Paulot2009a,Mao2013}.
+    %They use anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
+    
+    % First steps in GC: LOW NOx
+    In low NO$_X$ ISOPOO reacts with HO$_2$ ($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing hydroperoxyenals HPALDs). 
+    ISOPOOH can be oxidised (by OH) to produce epoxydiols (IEPOX), recycling OH \parencite{Paulot2009b}. 
+    HPALDs can photolyse to regenrate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014} TODO: Check out crounse2011.
+    See section \ref{LR:VOCs:IsopCascade} for more information.
+    Under low NO$_X$ conditions production of HCHO , MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
+    
+    % High nox chemistry
+    Under high NO$_X$ conditions, isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) hydroxyl peroxy radicals (ISOPO$_2$). 
+    The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
+    The $\delta$-hydroxyl reacts with NO to form $\delta$-hydroxyl nitrates (24\%) (ISOPND), and ISOPNB (6.7\%).
+    ISOPNB and ISOPND yield first generation isoprene at 4.7\% and 7\% respectively.
+    
+    % Improvements 
+    The isoprene mechanism in GEOS-Chem includes OH regeneration from oxidation of epoxydiols and slow isomerisation of ISOPO$_2$ \parencite{Mao2013}.
+    In older models isoprene produced ISOPOOH which then titrated OH, however, the loss of OH had not been seen in measurements \parencite{Paulot2009b,Mao2013}.
+    \textcite{Mao2013} show that a lower (factor of 50) rate constant for ISOPO$_2$ isomerisation leads to better organic nitrate aggreements with ICARTT. 
+    The chemistry updates have led to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
+    Prior to \textcite{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside the instrument.    
+    The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last before version 11.
+    The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
   
   \subsection{Chemical Mechanisms}
     \label{Model:GC:Mechanisms}
@@ -353,15 +341,16 @@
     It computes some emissions using predefined EF maps from MEGAN source code, and others using PFT maps and associated EFs.
     MEGAN ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions.'' \parencite{Guenther2012}.
     It allows parameterisation of various BVOC emissions, with descriptions given in \textcite{Guenther2012}.
-    Instructions to run version 2.1 are available at \url{http://lar.wsu.edu/megan/docs/MEGAN2.1_User_GuideWSU.pdf}, and a version using the Community Land Model (CLM) is available at \url{http://www.cesm.ucar.edu}.
-    It uses meteorological fields from the Weather Research and Forecasting (WRF) modelling system.
-    Version 2.1 (updated from 2.0 \parencite{Guenther2006}) includes 147 species, in 19 BVOC classes, which can be lumped together to provide appropriate output for mechanisms in various chemical models.
     
     MEGAN was developed as a replacement for two earlier canopy-environment emission models (BIES and GEIA), and initially included a simple canopy radiative transfer model, which parameterised sun-lit and shaded conditions through a canopy.
     Early models didn't account for abiotic stresses, such as drought, prior rainfall and development processes. These stresses influenced species-specific emissions by more than an order of magnitude \parencite{Niinemets1999}.
     Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \parencite{Guenther2000}, and a leaf energy balance model \parencite{Guenther2006} in MEGANv2.0.
     This update included a parameter for soil moisture, to account for drought conditions, however this parameter is currently (as of version 2.1) not applied to isoprene \parencite{Sindelarova2014}.
-    Soil moisture effects on isoprene emission are very important, and can drastically affect estimates.
+    Soil moisture effects on isoprene emission are very important, and can affect estimates.
+    
+    Instructions to run version 2.1 are available at \url{http://lar.wsu.edu/megan/docs/MEGAN2.1_User_GuideWSU.pdf}, and a version using the Community Land Model (CLM) is available at \url{http://www.cesm.ucar.edu}.
+    It uses meteorological fields from the Weather Research and Forecasting (WRF) modelling system.
+    Version 2.1 (updated from 2.0 \parencite{Guenther2006}) includes 147 species, in 19 BVOC classes, which can be lumped together to provide appropriate output for mechanisms in various chemical models.
   
   \subsection{Rescaling NOx}
   
@@ -408,7 +397,7 @@
     
     The correlation between model and satellite NO$_2$ columns is OK throughout the year over Australia, with some overestimation in the north during non-summer months.
     There is also slight underestimation over Sydney and Melbourne throughout the year.
-    Figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr} show that the visible biases are not over Australia are not driven by modelled emissions of NO.
+    Figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr} show that the visible biases are not driven by modelled emissions of NO.
     While the correlation between column NO$_2$ and emitted NO is clear, emissions do not appear to bias the model in either direction away from the satellite data.
     
     % Figures from GC_tests.py GCe_vs_OMNO2d
@@ -453,126 +442,7 @@
     The conclusion drawn is that modelled anthropogenic and soil NO emissions do not show sufficient evidence of biasing GEOS-Chem NO$_2$ columns away from satellite measurements over Australia.
     For this reason modelled NO emissions are not scaled in model runs in this thesis.
   
-  \subsection{GEOS-Chem simulations}
-    \label{Model:GC:runs}
-    
-    GEOS-Chem is run four independent times in this thesis, with different outputs from each simulation used to determine specific information. 
-    
-    Output for an area averaged over 1300 - 1400 local time is saved for comparison and recalculation with satellite overpass records.
-    These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (see section \ref{Model:omiRecalc:RSC}).
-    They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
-
-    TODO: Go through work process and clarify these items
-    Run descriptions and their outputs are listed here, with outputs described in more detail in section :
-    \begin{enumerate}
-      \item UCX 
-      \begin{enumerate}
-        \item Satellite output (1300-1400LT)
-        \item Create shape factors for AMF recalculation in OMI
-        \item This run was initially used to determine if the stratospheric chemistry had much influence over tropospheric isoprene or HCHO concentrations.
-      \end{enumerate}
-      
-      \item Tropchem (standard)
-      \begin{enumerate}
-        \item satellite output, daily tracer averages
-        \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
-        \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
-        \item TODO: Compare total yearly isoprene emissions before and after new estimate.
-      \end{enumerate}
-      
-      \item Tropchem(isoprene emissions halved)
-      \begin{enumerate}
-        \item In GEOS-Chem the isoprene emissions can be globally multiplied by a constant factor.
-        \item An estimate of modelled HCHO sensitivity to isoprene emissions and transport (smearing) can be determined.
-        \item Smearing is determined by running the model with the biogenic isoprene emissions halved while other parameters remain unchanged.
-      \end{enumerate}
-      
-      \item Tropchem(biogenic emissions only, all other inventories turned off)
-      \begin{enumerate}
-        \item Satellite output, hourly biogenic emissions from MEGAN
-        \item The output from this simulation is used to determine the biogenic yield from isoprene to HCHO over Australia, described in section \ref{BioIsop:Methods}.
-        \item TODO: compared to run with updated emissions
-      \end{enumerate}
-      
-    \end{enumerate}
-    NB: for non-UCX runs, satellite output was modified to include tropopause height
-
-      
-      % TODO: layout reasons why isoprene differs between runs
-      %    In GeosCore/fast_jx_mod.F:
-      %      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
-      %      line 4138: comment says ozone calculated online.
-      %	  TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
-      %    In GeosCore/calcrate.F:
-      %      line 1489 comment says rates are limited to prevent solver failure
-      %	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
-      %      Line 1724
-      %        ! SPECIAL TREATMENT FOR O3+hv -> OH+OH (trop-only simulation)
-      %        !                    or O3+hv -> O+O2  (UCX simulation)
-      %      line 1752:
-      %      #if defined( UCX )
-      %        IF ( NKO3PPHOT(NCS) > 0 ) THEN
-      %          PHOTVAL_2 = NKO3PPHOT(NCS) - NRATES(NCS)
-      %          NKN_2     = NKNPHOTRT(PHOTVAL_2,NCS)
-      %        ENDIF
-      %      #endif
-      %      line 1771:
-      %        comment: change rate of O(1D) + N2 to 3.1e-11 at 298K (from 2.6e-11)...
-      %        if not defined UCX:
-      %	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
-      
-    \subsubsection{Run comparisons}
   
-      There are many options available when running GEOS-Chem depending on the desired chemistry, resolution, meteorology, and boundary conditions.
-      Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
-      %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
-      Both runs use 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, however the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
-      The extra vertical levels are added in the stratosphere, providing finer vertical resolution from around 70~hPa to the top of the atmosphere.
-      For both runs the inpup parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
-      
-      GEOS-Chem output of HCHO does not differ much between runs with or without the Unified Chemistry eXchange (UCX).
-      Figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO} shows an example of surface HCHO amounts with and without UCX turned on.
-      The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
-      
-      \begin{figure}%[!htbp] % TODO: remove 'rerun' plot, use normal and delete rerun thingy so it's not confusing later.
-        % These figures created in GC_test.py -> TODO:
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_hcho_rerun.png}
-        \caption{ %
-          Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences(bottom left, right respectively).
-          Amounts simulated by GEOS-Chem for the 1st of January, 2005.
-        }
-        \label{Model:GC:running:fig_UCXvsTrop_HCHO}
-      \end{figure}
-      
-      Figure \ref{Model:GC:running:fig_UCXvsTrop_Isop} shows the differences in surface isoprene amounts over Australia.
-      Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
-      Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and lack of emissions over the oceans.
-      Generally isoprene is 0-30\% higher over Australia when the UCX mechanism is turned on.
-      This enhancement can be seen throughout the entire tropospheric column as shown by Figure TODO fix ref \ref{ch_HCHO:fig:isoptropUCXcomparison}. %TODO: fix ref
-      \begin{figure}%[!htbp]
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_isop_rerun.png}
-        \caption{ %
-          As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at isoprene. 
-        }      
-        \label{Model:GC:running:fig_UCXvsTrop_Isop}
-      \end{figure}
-      
-      
-      Figure TODO: shows the columns for isoprene and HCHO simulated by our two mechanisms over Australia in January of 2005.
-      The differences are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
-      
-      
-      TODO: The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
-      With higher stratospheric ozone levels, less radiation would reach the troposphere, changing the photochemistry.
-      Figure \ref{Model:GC:running:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, we can see that UCX has TODO: less or more ozone over Australia/USA in January.
-      
-      \begin{figure}%[!htbp]
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_O3_rerun.png}
-        \caption{%
-          As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at ozone. 
-        }
-        \label{Model:GC:running:fig_UCXvsTrop_O3}
-      \end{figure}
   
   \subsection{GEOS-Chem outputs}
     \label{Model:GC:outputs}
@@ -607,7 +477,127 @@
       
     \end{description}
      
+  \subsection{GEOS-Chem simulations}
+    \label{Model:GC:runs}
+    
+    GEOS-Chem is run four independent times in this thesis, with different outputs from each simulation used to determine specific information. 
+    Output averaged over 1300 - 1400 local time is saved for comparison with, and recalculation of, satellite overpass records.
+    These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (see section \ref{Model:omiRecalc:RSC}).
+    They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
+    
+    TODO: Go through work process and clarify these items
+    Run descriptions and their outputs are listed here, with outputs described in more detail in section :
+    \begin{enumerate}
+      \item UCX 
+      \begin{enumerate}
+        \item Satellite output (1300-1400LT)
+        \item Create shape factors for AMF recalculation in OMI
+        \item This run was initially used to determine if the stratospheric chemistry had much influence over tropospheric isoprene or HCHO concentrations.
+      \end{enumerate}
       
+      \item Tropchem (standard)
+      \begin{enumerate}
+        \item satellite output, daily tracer averages
+        \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
+        \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
+        \item TODO: Compare total yearly isoprene emissions before and after new estimate.
+      \end{enumerate}
+      
+      \item Tropchem(isoprene emissions halved)
+      \begin{enumerate}
+        \item In GEOS-Chem the isoprene emissions can be globally multiplied by a constant factor.
+        \item An estimate of modelled HCHO sensitivity to isoprene emissions and transport (smearing) can be determined.
+        \item Smearing is determined by running the model with the biogenic isoprene emissions halved while other parameters remain unchanged.
+      \end{enumerate}
+      
+      \item Tropchem(biogenic emissions only, all other inventories turned off)
+      \begin{enumerate}
+        \item Satellite output, hourly biogenic emissions from MEGAN
+        \item The output from this simulation is used to determine the biogenic yield from isoprene to HCHO over Australia, described in section \ref{BioIsop:Methods}.
+        \item TODO: compared to run with updated emissions
+      \end{enumerate}
+      
+    \end{enumerate}
+    NB: for non-UCX runs, satellite output was modified to include tropopause height
+    
+    
+    % TODO: layout reasons why isoprene differs between runs
+    %    In GeosCore/fast_jx_mod.F:
+    %      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
+    %      line 4138: comment says ozone calculated online.
+    %	  TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
+    %    In GeosCore/calcrate.F:
+    %      line 1489 comment says rates are limited to prevent solver failure
+    %	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
+    %      Line 1724
+    %        ! SPECIAL TREATMENT FOR O3+hv -> OH+OH (trop-only simulation)
+    %        !                    or O3+hv -> O+O2  (UCX simulation)
+    %      line 1752:
+    %      #if defined( UCX )
+    %        IF ( NKO3PPHOT(NCS) > 0 ) THEN
+    %          PHOTVAL_2 = NKO3PPHOT(NCS) - NRATES(NCS)
+    %          NKN_2     = NKNPHOTRT(PHOTVAL_2,NCS)
+    %        ENDIF
+    %      #endif
+    %      line 1771:
+    %        comment: change rate of O(1D) + N2 to 3.1e-11 at 298K (from 2.6e-11)...
+    %        if not defined UCX:
+    %	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
+    
+    \subsubsection{Run comparisons}
+    
+    There are many options available when running GEOS-Chem depending on the desired chemistry, resolution, meteorology, and boundary conditions.
+    Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
+    %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
+    Both runs use 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, however the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
+    The extra vertical levels are added in the stratosphere, providing finer vertical resolution from around 70~hPa to the top of the atmosphere.
+    For both runs the inpup parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
+    
+    GEOS-Chem output of HCHO does not differ much between runs with or without the Unified Chemistry eXchange (UCX).
+    Figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO} shows an example of surface HCHO amounts with and without UCX turned on.
+    The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
+    
+    \begin{figure}%[!htbp] % TODO: remove 'rerun' plot, use normal and delete rerun thingy so it's not confusing later.
+      % These figures created in GC_test.py -> TODO:
+      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_hcho_rerun.png}
+      \caption{ %
+        Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences(bottom left, right respectively).
+        Amounts simulated by GEOS-Chem for the 1st of January, 2005.
+      }
+      \label{Model:GC:running:fig_UCXvsTrop_HCHO}
+    \end{figure}
+    
+    Figure \ref{Model:GC:running:fig_UCXvsTrop_Isop} shows the differences in surface isoprene amounts over Australia.
+    Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
+    Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and lack of emissions over the oceans.
+    Generally isoprene is 0-30\% higher over Australia when the UCX mechanism is turned on.
+    This enhancement can be seen throughout the entire tropospheric column as shown by Figure TODO fix ref \ref{ch_HCHO:fig:isoptropUCXcomparison}. %TODO: fix ref
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_isop_rerun.png}
+      \caption{ %
+        As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at isoprene. 
+      }      
+      \label{Model:GC:running:fig_UCXvsTrop_Isop}
+    \end{figure}
+    
+    
+    Figure TODO: shows the columns for isoprene and HCHO simulated by our two mechanisms over Australia in January of 2005.
+    The differences are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
+    
+    
+    TODO: The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
+    With higher stratospheric ozone levels, less radiation would reach the troposphere, changing the photochemistry.
+    Figure \ref{Model:GC:running:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, we can see that UCX has TODO: less or more ozone over Australia/USA in January.
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_O3_rerun.png}
+      \caption{%
+        As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at ozone. 
+      }
+      \label{Model:GC:running:fig_UCXvsTrop_O3}
+    \end{figure}
+    
+    
 \section{Measurement Techniques}
   \label{Model:Meas}
   While I have not made any measurements myself, it is important to understand the techniques used in datasets I have utilised in order to understand possible anomalous datapoints or trends.
