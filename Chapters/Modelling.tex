@@ -307,8 +307,15 @@
     The full list of chemical reactions can be found online at TODO: find list
     
     %globchem.dat in the run directory.
-    %Isoprene is ISOP. LISOPOH is isop lost to OH reactions
-    %and RIO2 is the isoprene peroxy radical, ISOPO2 in most of the literature.
+    % species in http://wiki.seas.harvard.edu/geos-chem/index.php/Species_in_GEOS-Chem#Aerosol-only
+    %Isoprene is ISOP. 
+    %% LISOPOH is isop lost to OH reactions
+    %% RIO2 is the isoprene peroxy radical ISOPOO
+    %% INO2 is RO2 formed from Isop and NO3
+    %% ISOPNB is ISOPN-beta
+    %% ISOPNBO2 is ISOPNB+OH products
+    %% ISNP is an ISOPN 
+    %% PRPE are >C3 alkenes (C3H6, ...)
     % first line shows reaction rate:
     %     A nnn <A> xxxExx <-ER>  xxx  xx  xx
     %  k  =    <A>  exp {<-ER>/T}
@@ -320,8 +327,8 @@
       ISOP + OH ->[3.1*10^{-11} \exp{350/T}] & RIO2 \\ 
       % A606 Isoprene ozonolysis
       ISOP + O3 ->[1*10^{-14} \exp{-1970/T}] & 0.244MVK + .325MACR + 0.845HCHO \\
-      & + .11H2O2 + .522CO + .204HCOOH 
-      & + .199MCO3 +.026HO2 + .27OH 
+      & + .11H2O2 + .522CO + .204HCOOH \\
+      & + .199MCO3 +.026HO2 + .27OH \\
       & + .128PRPE + .051MO2 \\ 
       % A621 Isoprene NO3 oxidation
       ISOP + NO3 ->[3.3*10^{-12} \exp{-450/T}] & INO2 \\
@@ -908,11 +915,12 @@
   
     Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how these profiles are used in this thesis.
     Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem a prioris.
+    PP code is run on a subset of the globe covering Australia and the pacific ocean, producing AMF$_{PP}$.
     The output keeps the original AMF as well as those recalculated using GEOS-Chem (AMF$_{OMI}$, AMF$_{GC}$, and AMF$_{PP}$).
     Additionally, MOD14A1, OMAERUVd and OMNO2d data are used to create masks which are also stored in the OMHCHORP dataset.
     The creation of fire, smoke, and anthropogenic influence masks is described in section \ref{Model:Filter}.
     
-    \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:Datasets:OMHCHO:fig_flow_omhchorp}}
+    \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:omiRecalc:fig_flow_omhchorp}}
     
   \subsection{Reading satellite data}
     
@@ -928,15 +936,16 @@
     
     % Actual filtering done
     Satellite measurements polewards of 60\degr north or south are removed as well as measurements with SZA greater than 60\degr.
-    Pixels with a cloud fraction greater than 40\% are filtered out after RSC is created.
+    Pixels with cloud fraction greater than 40\% are removed after being used in determining the reference sector correction (see section \ref{Model:omiRecalc:RSC}), as is done in \textcite{Abad2015, DeSmedt2015}.
     Further filtering is performed to remove the measurements which are most likely to be unrealistic: those with column density outside the range $-0.5 \times 10^{16}$ to $10^{17} $\moleccm, as is performed by\textcite{Zhu2016}.
-    This final filter is required due to currently unexplained large negative values which occur in the OMI HCHO product increasingly over time.
+    This filter is required due to currently unexplained large negative values which occur in the OMI HCHO product increasingly over time.
     Figure \ref{Model:omiRecalc:fig_OMI_negative_hist} shows how unfiltered HCHO columns are affected by a small set of highly negative values which heavily affect the mean column amount over any region.
     The histograms here show the negative (left) and positive (right) total column HCHO measurements from a subset of swaths over Australia, on the 18th of March 2013.
     The highly negative values can be seen around the $-10^{19}$~molecules cm$^{-2}$ region.
     
-    \mypicw{0.7\textwidth}{Figures/AusOMHCHO_Hist_20130318.png}
-    {Column density histograms for a subset of OMI swaths over Australia on the 18th of March 2013.
+    \mypicw{1\textwidth}{Figures/AusOMHCHO_Hist_20130318.png}
+    {
+      Column density histograms for a subset of OMI swaths over Australia on the 18th of March 2013.
       Negative entries are shown in the left panel, positive in the right, note the different scale between negative and positive panels.}
     {\label{Model:omiRecalc:fig_OMI_negative_hist}}
     
@@ -949,8 +958,6 @@
     The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers.
     
     
-    Finally the pixels which may be too cloudy are dealt with after the pixel has been used in determining the reference sector correction (see section \ref{Model:omiRecalc:RSC}), as is done in \textcite{Abad2015, DeSmedt2015}.
-    Any pixel with a cloud fraction of greater than 40\% is removed, 
   
   % How we get the a priori 
   \subsection{Scattering weight and the shape factor}
@@ -1041,7 +1048,7 @@
     Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation when compared against \textcite{Palmer2001}.
     
     The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
-    This assumes that the provided scattering weights and shape factors are is linear between the 47 resolved values.
+    This assumes that the provided scattering weights and shape factors are linear between the 47 resolved values.
     I recalculate S$_z$(z) using vertical columns of HCHO averaged over 1300-1400~LT from GEOS-Chem.
     As a sanity check I also recalculate S$_\sigma$ and confirm that these shape factors are equivalent, for details see section \ref{Model:omiRecalc:normalising_shapefactor}.
     
@@ -1056,15 +1063,13 @@
     \subsubsection{Normalised vertical shape factor}
       \label{Model:omiRecalc:normalising_shapefactor}
     
-      Additionally the vertical shape factor is normalised and the recalculated AMF is checked against that using the non-normalised version.
-      The additional steps to calculate a normalised vertical shape factor S$_\sigma$ are first layed out in \textcite{Palmer2001}.
-      
+      The vertical shape factor is normalised by the total vertical column.
       The following equation converts model profile output from ppb into number densities:
       \begin{equation} \label{Model:omiRecalc:eqn_ppb_to_n}
       \eta_{HCHO} = ppb_{HCHO} \times \eta_a \times 10^{-9}
       \end{equation}
       where $\eta_{HCHO}$ is the number density of a HCHO, $\eta_a$ is the number density of air (from model output), and ppb$_{HCHO}$ is the molecules of that species per billion molecules of air.
-      In order to normalize these vertical density profiles over the globe, we divide by the modelled total vertical column $\Omega_{HCHO}$ which is determined by:
+      In order to normalise these vertical density profiles over the globe, we divide by the modelled total vertical column $\Omega_{HCHO}$ which is determined by:
       \begin{equation*}
       \Omega_{HCHO} = 2.12\times 10^{13} \Sigma_z \left( ppb_{HCHO}(z) (P(z)-P(z+1)) \right)
       \end{equation*}
@@ -1082,20 +1087,20 @@
       AMF = \int_0^\infty \omega(z) S_z(z) \mathrm{d}z
       \end{equation}
       
+    
+    \subsubsection{Sigma coordinate conversion}
+      \label{Model:omiRecalc:sigmacoord}
       
-      We have S$_z(z)$ and $\omega(z)$ over the vertical pressure coordinate z at all latitude and longitude points on whatever grid we wish. 
-      A conversion to the sigma ($\sigma$) vertical coordinate is performed using $ P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
+      Calculation of the vertical shape factor on the sigma coordinates S$_\sigma$ follows the method of \textcite{Palmer2001}.
+      A conversion to the sigma ($\sigma$) vertical coordinate is performed using $P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
       In the sigma coordinate system we calculated the shape factor as follows:
       \begin{equation} \label{Model:omiRecalc:eqn_ShapeFactorSigma}
       S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
       \end{equation}
       where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
       This equation comes from \textcite{Palmer2001}, and is unitless since $\Omega_a / \Omega_v$ is molecules of air per molecule of HCHO; the opposite of $C_{HCHO}$.
-    
-    \subsubsection{Sigma coordinate conversion}
-      \label{Model:omiRecalc:sigmacoord}
       
-      Using the vertical coordinate sigma ($\sigma$), which is related to pressure (P) by $P=\sigma \left( P_S - P_T \right) + P_T$, where subscripts S and T represent earth surface and top of the atmosphere respectively.
+      
       The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
       \begin{align*}
         \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
@@ -1113,6 +1118,11 @@
       where $\Omega_a$ is the vertical column of air and C($\sigma$) is the mixing ratio of the absorber.
       This normalised shape factor is dimensionless.
       This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
+      
+      
+
+      
+      
     
     
   \subsection{Recalculating the AMF using PP code}
