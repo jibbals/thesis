@@ -303,12 +303,29 @@
     
     
     
-    Some of the important ones involving isoprene are copied here, including reaction rates in the form $ k = A \exp{-ER/T} $.
+    Some of the important ones involving isoprene are copied here, including reaction rates in the form $ k = A \exp{-ER/T}$.
     The full list of chemical reactions can be found online at TODO: find list
     
+    %globchem.dat in the run directory.
+    %Isoprene is ISOP. LISOPOH is isop lost to OH reactions
+    %and RIO2 is the isoprene peroxy radical, ISOPO2 in most of the literature.
+    % first line shows reaction rate:
+    %     A nnn <A> xxxExx <-ER>  xxx  xx  xx
+    %  k  =    <A>  exp {<-ER>/T}
+    % T is Temperature
     \begin{align} \begin{split}
     \label{Model:GC:Mechanisms:eqn_mechanisms}
     \ce{
+      % A 587 Isop oxidation by OH
+      ISOP + OH ->[3.1*10^{-11} \exp{350/T}] & RIO2 \\ 
+      % A606 Isoprene ozonolysis
+      ISOP + O3 ->[1*10^{-14} \exp{-1970/T}] & 0.244MVK + .325MACR + 0.845HCHO \\
+      & + .11H2O2 + .522CO + .204HCOOH 
+      & + .199MCO3 +.026HO2 + .27OH 
+      & + .128PRPE + .051MO2 \\ 
+      % A621 Isoprene NO3 oxidation
+      ISOP + NO3 ->[3.3*10^{-12} \exp{-450/T}] & INO2 \\
+      % products from ISOPOO + NO
       RIO2 + NO ->[2.7*10^{-12} \exp{350/T}] & .883NO2 + .783HO2 + .66CH2O \\
       & + .4MVK + .26MACR + .07ISOPND \\
       & + .123HC5 + .1DIBOO \\
@@ -319,6 +336,7 @@
     %     % k2=4.07*10^{8} \exp{-7694/T}
     %      
     \end{split} \end{align}
+    In these reactions T is temperature.
   
   
   \subsection{Emissions from MEGAN}
@@ -810,11 +828,13 @@
       
       %% UNCERTAINTY CALCULATIONS
       
-      A full analysis of the AMF uncertainty in OMI measurements, as well as the structural uncertainty (between different systems of calculations applied to the same data) is performed by \textcite{Lorente2017}.
-      They determine the structural uncertainty on seven AMF calculation approaches used by different retrieval groups.
-      They show that in scenarios where the gas is enhanced in the lower troposphere, AMF calculation is the largest uncertainty in satellite measurements.
-      In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments.
-      The importance of a priori and ancillary data (such as surface albedo and cloud top height) is also shown, as it sharply affects the structural uncertainty.
+      %A full analysis of the AMF uncertainty in OMI measurements, as well as the structural uncertainty (between different systems of calculations applied to the same data) is performed by \textcite{Lorente2017}.
+      AMF calculation uncertainty often dominates the total uncertainty in satellite retrievals, especially in polluted regions \parencite{Lorente2017}.
+      In scenarios where the gas is enhanced in the lower troposphere, AMF calculation is the largest uncertainty in satellite measurements.
+      In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments \parencite{Lorente2017}.
+      Another impact often not included in uncertainty calculations is the structural uncertainty of retrieval methods.
+      The structural uncertainty of AMF calculation approaches used by different retrieval groups is the uncertainty due to how the AMF is calculated, rather than uncertainty in the calculation components.
+      The importance of a priori and ancillary data (such as surface albedo and cloud top height) sharply affects the structural uncertainty \parencite{Lorente2017}.
       
       
 
