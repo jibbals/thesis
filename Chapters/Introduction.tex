@@ -363,7 +363,7 @@
     Methane and isoprene each comprise around a third of the global total emissions of VOCs \parencite{Guenther2006}.
     Major emitters are broadleafs (notably eucalypts), and shrubs \parencite{Guenther2006, Arneth2008, Niinemets2010, Monks2015}.
     TODO: why do plants emit? increased canopy light penetration?
-    Emissions are affected by various factors such as temperature, sunlight, soil moisture, etc.
+    Emissions are affected by many factors including temperature, sunlight, soil moisture, drought stress, etc.
     The ocean also plays a role in VOC emissions, with the Oceanic Ni$\tilde{n}$o Index (ONI) showing positive VOC emission anomalies associated with neighbouring countries \parencite{Stavrakou2014}.
     
     
@@ -376,7 +376,7 @@
     Another model (ORCHIDEE, with inputs similar to MEGAN) estimates $752\pm16$\tgcpyr, sensitive to terrestrial vegetation variations \parencite{Lathiere2006}.
     MEGAN emissions estimates are termed bottom-up, as opposed to top-down which are derived from satellite measurements of the products of various VOCs.
     Using GOME satellite HCHO and a Beyesian inversion technique to derive isoprene emissions, \textcite{Shim2005} estimated global isoprene emissions to be $\sim566$\tgcpyr. 
-    This estimate is decreases simulated OH concentrations by $\sim10\%$, to 9.5e5 molec cm$^{-3}$.
+    This estimate decreases simulated OH concentrations by $\sim10\%$, to 9.5e5 molec cm$^{-3}$.
     
     %% TODO more cites for these two emissions statements
     %It used to be thought that emissions of anthropogenic and biogenic VOCs (AVOCs, BVOCs respectively) were roughly similar (\textcite{Muller1992}, TODO: more cites).
@@ -846,7 +846,9 @@
     \subsubsection{Soil Moisture}
       \label{LR:Models:Uncert:SoilMoisture}
       Modelled emissions are sensitive to soil moisture, especially near the wilting point, below which trees stop emitting isoprene and other VOCs completely as they can no longer draw water \parencite{Bauwens2016}.
-      MEGAN can account for soil moisture by applying it as an emission factor which scales the emission rate of various species.
+      MEGAN accounts for soil moisture through a parameterisation which drops plant emissions to zero below a prescribed soil moisture level (the wilting point).
+      Recently an update to this has been shown to improve modelled isoprene emissions in drought conditions \parencite{Jiang2018}.
+      \textcite{Jiang2018} found that improving the parameterisation of drought based on a measurement campaign in the U.S. would lower isoprene emissions globally by $\sim17\%$.
       Many environmental parameters are affected by soil moisture, which all play a role at fine scales to surface emissions \parencite{Rowntree1983,Chen2001}.
       %\textcite{Rowntree1983} show how quickly soil moisture anomalies affect rainfall and other weather systems, while \textcite{Chen2001} specifically show how important fine scale soil moisture information is when modelling land surface heat flux, and energy balances.
       Droughts effects can be difficult to measure, as they are a multi-scale problem which affects various aspects of the land-air interface including plant emissions and dry deposition \parencite{Wang2017}.
@@ -908,9 +910,10 @@
     
     % Vocs are uncertain because...
     Bottom up inventories of VOCs remain largely uncertain due to extensive extrapolation over plant functional types, changing land cover, and parameterised environmental stressors \parencite{Guenther2000,Kanakidou2005,Millet2006}.
-    \textcite{Muller2008} show how isoprene is poorly captured by the MEGAN model and analyse the affect of changing the soil moisture parameter.
+    \textcite{Muller2008} show how isoprene (a key VOC) is poorly captured by the MEGAN model and analyse the affect of changing the soil moisture parameter.
     \textcite{Sindelarova2014} show reductions in modelled Australian isoprene emissions of 50\% when incorporating soil moisture in MEGAN estimates. 
     Uncertainties in isoprene emissions could explain why models of HCHO over Australia are poor at reproducing satellite measurements \parencite{Stavrakou2009}.
+    Improved parameterisation of the affect of drought on plant emissions could also lower modelled isoprene emissions \parencite{Jiang2018}.
     
     
     % Australian VOCs suffer even specifically from:
@@ -921,7 +924,7 @@
     Soil type and moisture, along with drought threshholds, have poorly understood effects on plant emissions in Australia
     Changes in parameterisation of soil moisture in the MEGAN lead to massive changes in Australian isoprene emission estimates \parencite{Sindelarova2014}.
     Over Australia MEGAN suffers from a lack of studied plant functional types and their emissions \parencite[eg.][]{Muller2008}.
-    Emission rates from various species of eucalypt and other flora are highly complex, depending on current and recent weather, temperature, tree age, health, etc. \parencite{Guenther2012}. 
+    Emission rates from various species of Eucalyptus and other flora are highly complex, depending on current and recent weather, temperature, tree age, health, etc. \parencite{Guenther2012}. 
     With this complexity added to the diversity of tree species in Australia as well as sparse rural data collections it is hard to model and verify emissions.
        
     % What did Emmerson do?

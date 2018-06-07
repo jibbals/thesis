@@ -635,20 +635,31 @@
   \subsection{DOAS}
     \label{Model:Meas:DOAS}
   
-    %TODO: is some of this is repeated in isoprene chapter satellite section.
     The DOAS technique uses solar radiation absorption spectra to measure trace gases through paths of light.
-    Beer's law states that $ T = I/I_0 = e^{-\tau} $ with T being transmittance, $\tau$ being optical depth, and I, I$_0$ being radiant flux received at instrument and emitted at source respectively.
-    From $ \tau_i = \int \rho_i \beta_i ds $ we get:
-    $$ I = I_0 \exp {\left( \Sigma_i \int \rho_i \beta_i ds \right) } $$
-    Where i represents a chemical species index, $\rho$ is a species density(molecules per cm$^3$), $\beta$ is the scattering and absorption cross section area (cm$^2$), and the integral over ds represents integration over the path from light source to instrument.
-    $\tau$ can be described using the attenuation cross section (the attenuation coefficient divided by its number density), with the following relation:
+    % Beer lambert
+    Beer's law states
+    \begin{equation} \label{Model:Meas:DOAS:eqn_beerslaw}
+      T = I/I_0 = e^{-\tau}
+    \end{equation}
+    with T being transmittance, $\tau$ being optical depth, and I, I$_0$ being radiant flux received at instrument and emitted at source respectively.
+    The Beer-Lambert law of extinction allows spectroscopic measurement of absorbing chemical species (absorbers) in the atmosphere:
+    \begin{equation} \label{Model:Meas:DOAS:eqn_backscatterextinction}
+    I_B = I_{B_0} e^{-\tau}
+    \end{equation}
+    where I$_B$, I$_{B_0}$ is backscattered intensity with and without the absorber respectively, and $\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
+    
+    $\tau$ can be described using the scattering and absorption cross section area ($\alpha$, cm$^{2}$) and density ($\eta$, molec cm$^{-3}$) of an absorber as follows:
+    \begin{equation} \label{Model:Meas:DOAS:eqn_tau}
+    \tau = \int \alpha(s) \eta(s) \mathrm{d}s
+    \end{equation}
+    $\tau$ through a medium is the sum of optical thicknesses of each absorber within the measured path, and subbing \ref{Model:Meas:DOAS:eqn_tau} into \ref{Model:Meas:DOAS:eqn_backscatterextinction} leads to
     \begin{equation*}
-      \tau = \int_0^l \alpha(z)\eta(z)\mathrm{d}z
+      I = I_0 \exp { \left( \Sigma_i \int \eta_i \alph_i ds \right) }
     \end{equation*}
-    where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively, and \textit{l} represents the length of the medium (in this case the path through which the light travels). 
+    Where i represents a chemical species index, and the integral over ds represents integration over the path from light source to instrument.
     
     % Optical depth through the atmosphere
-    Another way of describing optical depth, also called optical thickness, is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material.
+    Another way of describing optical depth, also called optical thickness, is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material (from equation \ref{Model:Meas:DOAS:eqn_backscatterextinction}).
     In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
     The difference between solar radiation at the top of the atmosphere and the Earth's surface defines the atmospheric optical depth along the path of observation.
     \begin{equation*}
@@ -666,6 +677,19 @@
     Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT (see section \ref{Model:Meas:sat:LIDORT}) in order to determine a trace gas's radiative properties at various altitudes.
     The forward RTM used for satellite data products also involves functions representing extinction from Mie and Rayleigh scattering, and the efficiency of these on intensities from the trace gas under inspection, as well as accounting for (often estimated) atmospheric parameters such as albedo.
     
+    In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
+    The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
+    However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see section \ref{Model:Meas:DOAS}) must be accounted for.
+    Using equations \ref{Model:Meas:DOAS:eqn_beerslaw} and \ref{ch_HCHO:eqn:AMFratio} gives us an expression for the AMF which includes scattering:
+    \begin{equation} \label{Model:omiRecalc:eqn_amfscattering}
+    AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
+    \end{equation}
+    
+    \begin{figure}[!htbp]\begin{center}
+        \includegraphics[width=0.6\textwidth]{Figures/ZenithAngles.png}
+        \caption{Solar and viewing zenith angles, image copied from \textcite{SZA_Image}, originally from a NASA website.}
+        \label{ch_HCHO:fig:zenithangle}
+      \end{center}\end{figure}
     
     Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium.
     Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the scattered light.
@@ -691,7 +715,7 @@
     Geostationary satellites can provide temporally rich measurements over an area, as they are not sweeping around the earth but fixed relative to one latitude and longitude.
     
     \subsubsection{LIDORT}
-      \ref{Model:Meas:sat:LIDORT}
+      \label{Model:Meas:sat:LIDORT}
       
       %http://www.rtslidort.com/about_publications.html
       LIDORT is a model of LInearized Discrete Ordinate Radiative Transfer, used to determine backscatter intensities and weighting functions at arbitrary elevation angles \parencite{Spurr2001}.
@@ -922,6 +946,24 @@
     
     \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:omiRecalc:fig_flow_omhchorp}}
     
+  \subsection{Creating new shape factors}
+    % What is the AMF -> leading to what is the shapefactor
+    The shape factor (S) is one of the key components in creation of the AMF (see section \ref{Model:Meas:sat}).
+    In order to visualise and analyse OMI HCHO columns, slant columns are transformed into vertical columns using the AMF.
+    \begin{equation} \label{ch_HCHO:eqn:AMFratio}
+      AMF = \frac{\Omega_s}{\Omega_v} % = \frac{\tau_s}{\tau_v}
+    \end{equation}
+    where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
+    The AMF is determined using scattering weights and shape factors based on a priori estimates of HCHO vertical profiles.
+    In this section I describe how the shape factor is calculated before being used to recalculate the AMF read from OMHCHO, following the method layed out initially in \textcite{Palmer2001}.
+    The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in section \ref{Model:omiRecalc:ppcode}).
+    The satellite shape factor is replaced using GEOS-Chem V10.01 overpass time simulated HCHO profiles.
+    
+    
+    % Equations leading to shape factor
+    
+    % 
+    
   \subsection{Reading satellite data}
     
     % Downloading the data
@@ -949,9 +991,6 @@
       Negative entries are shown in the left panel, positive in the right, note the different scale between negative and positive panels.}
     {\label{Model:omiRecalc:fig_OMI_negative_hist}}
     
-    % Built in QA
-    
-    
     % reading pixels into a long list
     Each pixel and it's relevant data are saved in a long list, around $1.1$ million pixels per day.
     Additional information is added to each pixel, such as the new AMF calculated through replacing the a priori vertical profile with the newer GEOS-Chem simulated profile.
@@ -963,46 +1002,6 @@
   \subsection{Scattering weight and the shape factor}
     \label{Model:omiRecalc:ShapeFactor}
     
-    %    % Method outline
-    %    In order to visualise and analyse OMI HCHO columns slant columns are transformed into vertical columns. 
-    %    This is done using AMF calculations, determined from the scattering weights and a priori estimates of HCHO vertical profiles.
-    %    Radiative transfer modelling is required to determine instrument sensitivities throughout the atmosphere.
-    %    Several of these required data are available from the satellite data products, including the scattering weights and the zenith angles required to determine an AMF at any particular measured point.
-    In this section I describe how the shape factor can be used to recalculate OMI AMFs.
-    The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in section \ref{Model:omiRecalc:ppcode}).
-    The satellite shape factor is replaced by GEOS-Chem's overpass time simulated HCHO profile, normalised and saved daily along with air density.
-    
-    % per pixel amf calculation
-    OMI's a priori shape factor is based on the GEOS-Chem (v9) model, which uses 47 layers between the earth's surface and the top of the atmosphere using a pressure-eta hybrid (the actual values are shown in table \ref{app_a:tab:gc_47_vgrid}).
-    The equations and method of recalculating this a priori shape factor with the newer GEOS-Chem V10.01 code is layed out in this section.
-    For each pixel the shape factor used in the AMF is recalculated using GEOS-Chem by following the method layed out initially in \textcite{Palmer2001}.
-    
-    % Beer lambert
-    The Beer-Lambert law of extinction allows spectroscopic measurement of absorbing chemical species (absorbers) in the atmosphere:
-    \begin{equation} \label{ch_HCHO:eqn:beerlambert}
-    I_B = I_{B_0} e^{-\tau_s}
-    \end{equation}
-    where I$_B$, I$_{B_0}$ is backscattered intensity with and without the absorber respectively, and $\tau_s$ is the optical thickness of the slant column absorber (see section \ref{Model:Meas:DOAS}).
-    
-    The AMF is needed to transform the slant column, as viewed by the satellite, into a vertical column:
-    \begin{equation} \label{ch_HCHO:eqn:AMFratio}
-    AMF = \frac{\Omega_s}{\Omega_v} = \frac{\tau_s}{\tau_v}
-    \end{equation}
-    where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
-    
-    In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
-    The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
-    However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see section \ref{ch_HCHO:sec:satelliteHCHO:scattering}) must be accounted for.
-    Using equations \ref{ch_HCHO:eqn:beerlambert} and \ref{ch_HCHO:eqn:AMFratio} gives us an expression for the AMF which includes scattering:
-    \begin{equation} \label{Model:omiRecalc:eqn_amfscattering}
-    AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
-    \end{equation}
-    
-    \begin{figure}[!htbp]\begin{center}
-      \includegraphics[width=0.6\textwidth]{Figures/ZenithAngles.png}
-      \caption{Solar and viewing zenith angles, image copied from \textcite{SZA_Image}, originally from a NASA website.}
-      \label{ch_HCHO:fig:zenithangle}
-    \end{center}\end{figure}
     
     We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. Note that for optically thin absorption, $\nabla I / I_B << 1$, and we can use:
     \begin{equation} \label{Model:omiRecalc:eqn_AMFthin}
