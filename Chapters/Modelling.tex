@@ -644,7 +644,7 @@
     with T being transmittance, $\tau$ being optical depth, and I, I$_0$ being radiant flux received at instrument and emitted at source respectively.
     The Beer-Lambert law of extinction allows spectroscopic measurement of absorbing chemical species (absorbers) in the atmosphere:
     \begin{equation} \label{Model:Meas:DOAS:eqn_backscatterextinction}
-    I_B = I_{B_0} e^{-\tau}
+    I_B = I_{B_0} e^{-\tau_s}
     \end{equation}
     where I$_B$, I$_{B_0}$ is backscattered intensity with and without the absorber respectively, and $\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
     
@@ -654,7 +654,7 @@
     \end{equation}
     $\tau$ through a medium is the sum of optical thicknesses of each absorber within the measured path, and subbing \ref{Model:Meas:DOAS:eqn_tau} into \ref{Model:Meas:DOAS:eqn_backscatterextinction} leads to
     \begin{equation*}
-      I = I_0 \exp { \left( \Sigma_i \int \eta_i \alph_i ds \right) }
+      I = I_0 \exp { \left( \Sigma_i \int \eta_i \alpha_i ds \right) }
     \end{equation*}
     Where i represents a chemical species index, and the integral over ds represents integration over the path from light source to instrument.
     
@@ -680,10 +680,7 @@
     In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
     The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
     However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see section \ref{Model:Meas:DOAS}) must be accounted for.
-    Using equations \ref{Model:Meas:DOAS:eqn_beerslaw} and \ref{ch_HCHO:eqn:AMFratio} gives us an expression for the AMF which includes scattering:
-    \begin{equation} \label{Model:omiRecalc:eqn_amfscattering}
-    AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
-    \end{equation}
+    
     
     \begin{figure}[!htbp]\begin{center}
         \includegraphics[width=0.6\textwidth]{Figures/ZenithAngles.png}
@@ -867,7 +864,82 @@
       The structural uncertainty of AMF calculation approaches used by different retrieval groups is the uncertainty due to how the AMF is calculated, rather than uncertainty in the calculation components.
       The importance of a priori and ancillary data (such as surface albedo and cloud top height) sharply affects the structural uncertainty \parencite{Lorente2017}.
       
-      
+  \subsection{Calculating an AMF}
+    \label{Model:Meas:AMF}
+    
+    The AMF is the ratio of the slant column ($\Omega_s$) to the vertical column ($\Omega_v$)
+    \begin{equation} \label{Model:Meas:AMF:eqn_AMFFrac}
+      AMF=\frac{\Omega_s}{\Omega_v} = \frac{\tau_s}{\tau_v}
+    \end{equation}
+    with $\tau$ being the optical depth or thickness of the absorber through the slant (\textit{s}) or vertical (\textit{v}) path of light
+    
+    
+    The OMI instrument records spectra of light which enters the viewing lens on board the satellite.
+    The spectra provide backscattered intensity ($I_B$) at various wavelengths (see section \ref{Model:Datasets:Aura}), with the light source ($I_{B_0}$) being the sun. 
+    Using the log of beers law (equation \ref{Model:Meas:DOAS:eqn_beerslaw}) we get 
+    $$ \tau_s = \ln{I_{B_0}} - \ln{I_B} $$
+    which can be subbed into equation \ref{Model:Meas:AMF:eqn_AMFFrac} to give an expression for the AMF which includes scattering:
+    \begin{equation} \label{Model:Meas:AMF:eqn_amfscattering}
+      AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
+    \end{equation}
+    %{Model:Meas:DOAS:eqn_backscatterextinction}
+    %$\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
+    
+    We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. 
+    For optically thin absorption, $\nabla I / I_B << 1$, and we can use:
+    \begin{equation} \label{Model:Meas:AMF:eqn_AMFthin}
+      AMF = \frac{\ln{ \left( 1 - \frac{\nabla I}{I_B} \right)} }{\tau_v} \approx \frac{ - \frac{\nabla I}{I_B} }{\tau_v}
+    \end{equation}
+    This is due to the logarithmic property $\ln \left(1-x \right) \approx -x$ for $x<<1$.
+    $\nabla I$ can also be expressed as the integral of the absorption slices over optical depth increments: 
+    \begin{eqnarray*}
+    \nabla I &= \int_0^{\tau_v}{\frac{\partial I_B}{\partial \tau} \mathrm{d}\tau}
+    \frac{\nabla I}{I_B} & = \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
+    \end{eqnarray*}
+    which can be placed into equation \ref{Model:Meas:AMF:eqn_AMFthin} leading to
+    \begin{equation*}
+    AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
+    \end{equation*}
+    We can then convert $\text{d}\tau$ to our path using equation \ref{Model:Meas:DOAS:eqn_tau} leading to
+    \begin{equation} \label{Model:Meas:AMF:eqn_AMFcross}
+    AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
+    \end{equation}
+    where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. 
+    This uses the attenuation cross section relationship to optical depth (see section \ref{Model:Meas:DOAS}).
+    
+    To represent an average cross section weighted by the absorbing species' vertical distribution, the effective cross section ($\alpha_e$) is used.
+    This is to account for temperature and pressure dependence of $\alpha(z)$, and is defined as:
+    \begin{align*}
+      \alpha_e &= \frac{1}{\Omega_v} \int_0^\infty \alpha(z) \eta(z) \mathrm{d}z \\
+       &= \frac{\tau_v}{\Omega_v}
+    \end{align*}
+    Then replacing the $\tau_v$ in equation \ref{Model:Meas:AMF:eqn_AMFcross} we obtain:
+    \begin{equation} \label{Model:Meas:AMF:eqn_AMFpreomega}
+      AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
+    \end{equation}
+    
+    Often the integrand of this AMF formula (equation \ref{Model:Meas:AMF:eqn_AMFpreomega}) is broken apart into two defining terms: the scattering weights $\omega(z)$ and the shape factor $S(z)$.
+    \begin{description}
+      \item[$\omega$] The scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
+      \begin{equation} \label{Model:Meas:AMF:eqn_omega}
+      \omega(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
+      \end{equation}
+      It's worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and a the calculations which follow therefor do not include this term when utilising the provided $\omega$.
+      This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
+      \item[$S$] the shape factor describes the profile of an absorber ($\eta(z)$) normalised by its total vertical column amount ($\Omega_v$):
+      \begin{equation} \label{Model:Meas:AMF:eqn_shapefactor}
+        S(z) = \frac{\eta(z)}{\Omega_v}
+      \end{equation}
+    \end{description}
+    
+    Plugging equations \ref{Model:Meas:AMF:eqn_omega} and \ref{Model:Meas:AMF:eqn_shapefactor} into equation \ref{Model:Meas:AMF:eqn_AMFpreomega} gives us:
+    \begin{equation} \label{Model:Meas:AMF:eqn_AMF_amfgintwSdz}
+      AMF = AMF_G\int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
+    \end{equation}
+    Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation as it is not part equation \ref{Model:Meas:AMF:eqn_omega} leading to 
+    \begin{equation} \label{Model:Meas:AMF:eqn_AMF_intwSdz}
+      AMF = \int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
+    \end{equation}
 
 \section{Recalculation of OMI HCHO}
   \label{Model:omiRecalc}
@@ -945,24 +1017,25 @@
     The creation of fire, smoke, and anthropogenic influence masks is described in section \ref{Model:Filter}.
     
     \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:omiRecalc:fig_flow_omhchorp}}
+      
+    
     
   \subsection{Creating new shape factors}
     % What is the AMF -> leading to what is the shapefactor
-    The shape factor (S) is one of the key components in creation of the AMF (see section \ref{Model:Meas:sat}).
+    The shape factor (\textit{S}) is one of the key components in creation of the AMF (see section \ref{Model:Meas:sat}).
     In order to visualise and analyse OMI HCHO columns, slant columns are transformed into vertical columns using the AMF.
     \begin{equation} \label{ch_HCHO:eqn:AMFratio}
       AMF = \frac{\Omega_s}{\Omega_v} % = \frac{\tau_s}{\tau_v}
     \end{equation}
     where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
-    The AMF is determined using scattering weights and shape factors based on a priori estimates of HCHO vertical profiles.
+    The AMF is determined using scattering weights ($\omega$) and shape factors based on a priori estimates of HCHO vertical profiles.
     In this section I describe how the shape factor is calculated before being used to recalculate the AMF read from OMHCHO, following the method layed out initially in \textcite{Palmer2001}.
     The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in section \ref{Model:omiRecalc:ppcode}).
-    The satellite shape factor is replaced using GEOS-Chem V10.01 overpass time simulated HCHO profiles.
+    
+    % Calculations from GEOS-Chem output which lead to shape factor
+    TODO: GEOS-Chem output -> Shape factor per grid square
     
     
-    % Equations leading to shape factor
-    
-    % 
     
   \subsection{Reading satellite data}
     
@@ -999,67 +1072,19 @@
     
   
   % How we get the a priori 
-  \subsection{Scattering weight and the shape factor}
+  \subsection{Creating the new AMF}
     \label{Model:omiRecalc:ShapeFactor}
-    
-    
-    We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. Note that for optically thin absorption, $\nabla I / I_B << 1$, and we can use:
-    \begin{equation} \label{Model:omiRecalc:eqn_AMFthin}
-    AMF = \frac{\ln{ \left( 1 - \frac{\nabla I}{I_B} \right)} }{\tau_v} \approx \frac{ - \frac{\nabla I}{I_B} }{\tau_v}
-    \end{equation}
-    $\nabla I$ can also be expressed as the integral of the absorption slices over optical depth increments: 
-    \begin{equation*}
-      \nabla I = \int_0^{\tau_v}{\frac{\partial I_B}{\partial \tau} \mathrm{d}\tau}
-    \end{equation*}
-    which can be placed into equation \ref{Model:omiRecalc:eqn_AMFthin}:
-    \begin{equation*}
-      AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
-    \end{equation*}
-    and rewritten as:
-    \begin{equation} \label{Model:omiRecalc:eqn_AMFcross}
-    AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
-    \end{equation}
-    where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. 
-    This uses the attenuation cross section relationship to optical depth (see section \ref{Model:Meas:DOAS}).
-    
-    To represent an average cross section weighted by the absorbing species' vertical distribution, intended to account for temperature and pressure dependence of $\alpha(z)$, $\alpha_e$ is defined as:
-    \begin{equation*}
-      \alpha_e = \frac{1}{\Omega_v} \int_0^\infty \alpha(z) \eta(z) \mathrm{d}z
-    \end{equation*}
-    
-    This is the same as $ \tau_v = \Omega_v \alpha_e $, which we can place into equation \ref{Model:omiRecalc:eqn_AMFcross} to obtain:
-    \begin{equation} \label{Model:omiRecalc:eqn_AMFpreomega}
-      AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
-    \end{equation}
-    
-    Defining $\omega$(z) as the scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
-    \begin{equation} \label{Model:omiRecalc:eqn_omega}
-    \omega(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
-    \end{equation}
-    It's worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and a the calculations which follow therefor do not include this term when utilising the provided $\omega$.
-    This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
-    
-    Plugging equation \ref{Model:omiRecalc:eqn_omega} into equation \ref{Model:omiRecalc:eqn_AMFpreomega} gives us:
-    \begin{equation}
-      AMF = -\int_0^\infty{ \omega(z) \frac{\eta(z)}{\Omega_v} \mathrm{d}z}
-    \end{equation}
-    which is best described as the scattering weights ($\omega$) multiplied by the shape factor ($S_z(z) = \frac{\eta(z)}{\Omega_v}$) integrated over altitude z.
-    Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation when compared against \textcite{Palmer2001}.
     
     The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
     This assumes that the provided scattering weights and shape factors are linear between the 47 resolved values.
     I recalculate S$_z$(z) using vertical columns of HCHO averaged over 1300-1400~LT from GEOS-Chem.
     As a sanity check I also recalculate S$_\sigma$ and confirm that these shape factors are equivalent, for details see section \ref{Model:omiRecalc:normalising_shapefactor}.
     
-    All that remains for recalculating the total vertical column using our new a priori shape factor is to apply the new AMF to the slant columns and grid them onto our chosen resolution.
-    Recalculation of the $\omega$ is done seperately, as explained in section \ref{Model:omiRecalc:ppcode}.
-    
-    
     %TODO: Shape factor plot sigma vs z
     For example see figure TODO: sigma vs z shape factor plot.
     TODO add plot and describe here.
     
-    \subsubsection{Normalised vertical shape factor}
+    \subsubsection{vertical shape factor}
       \label{Model:omiRecalc:normalising_shapefactor}
     
       The vertical shape factor is normalised by the total vertical column.
@@ -1119,10 +1144,6 @@
       This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
       
       
-
-      
-      
-    
     
   \subsection{Recalculating the AMF using PP code}
     \label{Model:omiRecalc:ppcode}
@@ -1146,6 +1167,11 @@
     First special output is required from GEOS-Chem, averaged between 1300 and 1400 LT, including optical depths at several wavelengths (TODO: list), dust, and HCHO.
     I then pull out a subset of the OMI pixel information into a daily csv file, which can be read by the PP code as modified by Dr. Luke Surl, in conjunction with the GEOS-Chem outputs for each day.
     The PP code then produces a csv of recalculated AMFs which get read by my python code and associated with the corresponding pixel (outlined in \ref{Model:omiRecalc:fig_flow_omhchorp}).
+    
+  \subsection{Vertical columns from AMF}
+    
+    All that remains for recalculating the total vertical column using our new a priori shape factor is to apply the new AMF to the slant columns and grid them onto our chosen resolution.
+    Recalculation of the $\omega$ is done seperately, as explained in section \ref{Model:omiRecalc:ppcode}.
     
   \subsection{Reference sector correction}
     \label{Model:omiRecalc:RSC}
