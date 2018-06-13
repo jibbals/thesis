@@ -1021,21 +1021,45 @@
     
     
   \subsection{Creating new shape factors}
-    % What is the AMF -> leading to what is the shapefactor
-    The shape factor (\textit{S}) is one of the key components in creation of the AMF (see section \ref{Model:Meas:sat}).
+    % Reminder of AMF -> leading to what is the shapefactor
     In order to visualise and analyse OMI HCHO columns, slant columns are transformed into vertical columns using the AMF.
-    \begin{equation} \label{ch_HCHO:eqn:AMFratio}
-      AMF = \frac{\Omega_s}{\Omega_v} % = \frac{\tau_s}{\tau_v}
-    \end{equation}
-    where s and v subscripts refer to slant and vertical values, while $\Omega$ represents a column of absorber in molecules cm$^{-2}$.
-    The AMF is determined using scattering weights ($\omega$) and shape factors based on a priori estimates of HCHO vertical profiles.
-    In this section I describe how the shape factor is calculated before being used to recalculate the AMF read from OMHCHO, following the method layed out initially in \textcite{Palmer2001}.
+    The shape factor (\textit{S}) is one of the key components in creation of the AMF (see section \ref{Model:Meas:AMF}, equation \ref{Model:Meas:AMF:eqn_AMF_intwSdz}).
+    The shape factor is calculated using GEOS-Chem satellite output (see section \ref{Model:GC:outputs}) which provide simulated HCHO concentration profiles ($\eta(z)$) and total columns ($\Omega$) at 2x2.5\degr horizontal resolution.
+    Using equation \ref{Model:Meas:AMF:eqn_shapefactor} to determine the shape factor is straightforwards $S(z) = \frac{\eta(z)}{\Omega}$.
     The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in section \ref{Model:omiRecalc:ppcode}).
     
-    % Calculations from GEOS-Chem output which lead to shape factor
-    TODO: GEOS-Chem output -> Shape factor per grid square
+    Model output is in molecules per billion molecules of air (ppb), and is converted before being used in the shape factor calculation.
+    The following equation converts model profile output from ppb into number densities:
+    \begin{equation} \label{Model:omiRecalc:eqn_ppb_to_n}
+      \eta_{HCHO} = ppb_{HCHO} \times \eta_a \times 10^{-9}
+    \end{equation}
+    where $\eta_{HCHO}$ is the number density of a HCHO, $\eta_a$ is the number density of air (from model output), and ppb$_{HCHO}$ is the molecules of that species per billion molecules of air.
+    The modelled total vertical column $\Omega_{HCHO}$ is determined by:
+    \begin{equation*}
+      \Omega_{HCHO} = \Sigma_z \left( \eta_{HCHO} \times H(z) \right)
+    \end{equation*}
+    where H(z) is the box height for level z.
+    In effect this equation sums over the molecules per cm$^2$ in each altitude level.
     
+    As a sanity check I also recalculate $S_\sigma$ and confirm that these shape factors are equivalent. 
+    A conversion to the sigma ($\sigma$) vertical coordinate is performed using $P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
+    This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
+    $S_\sigma$ is a dimensionless normalised shape factor on the $\sigma$ coordinate system.
+    In the sigma coordinate system we calculated the shape factor as defined in \textcite{Palmer2001}:
+    \begin{equation} \label{Model:omiRecalc:eqn_ShapeFactorSigma}
+      S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
+    \end{equation}
+    where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
     
+    The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
+    \begin{align*}
+    \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
+    \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
+    \end{align*}
+    Substitution into \ref{Model:Meas:AMF:eqn_AMF_intwSdz} gives AMF using the sigma coordinates:
+    \begin{equation} \label{Model:omiRecalc:eqn_AMFintwSdsigma}
+    AMF = \int_0^1 w(\sigma) S_\sigma(\sigma) \mathrm{d}\sigma
+    \end{equation}
     
   \subsection{Reading satellite data}
     
@@ -1075,73 +1099,17 @@
   \subsection{Creating the new AMF}
     \label{Model:omiRecalc:ShapeFactor}
     
-    The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
-    This assumes that the provided scattering weights and shape factors are linear between the 47 resolved values.
-    I recalculate S$_z$(z) using vertical columns of HCHO averaged over 1300-1400~LT from GEOS-Chem.
-    As a sanity check I also recalculate S$_\sigma$ and confirm that these shape factors are equivalent, for details see section \ref{Model:omiRecalc:normalising_shapefactor}.
     
     %TODO: Shape factor plot sigma vs z
     For example see figure TODO: sigma vs z shape factor plot.
     TODO add plot and describe here.
+     
     
-    \subsubsection{vertical shape factor}
-      \label{Model:omiRecalc:normalising_shapefactor}
-    
-      The vertical shape factor is normalised by the total vertical column.
-      The following equation converts model profile output from ppb into number densities:
-      \begin{equation} \label{Model:omiRecalc:eqn_ppb_to_n}
-      \eta_{HCHO} = ppb_{HCHO} \times \eta_a \times 10^{-9}
-      \end{equation}
-      where $\eta_{HCHO}$ is the number density of a HCHO, $\eta_a$ is the number density of air (from model output), and ppb$_{HCHO}$ is the molecules of that species per billion molecules of air.
-      In order to normalise these vertical density profiles over the globe, we divide by the modelled total vertical column $\Omega_{HCHO}$ which is determined by:
-      \begin{equation*}
-      \Omega_{HCHO} = 2.12\times 10^{13} \Sigma_z \left( ppb_{HCHO}(z) (P(z)-P(z+1)) \right)
-      \end{equation*}
-      where P(z) is the pressure (hPa) at the bottom of altitude level z, the constant 2.12e13 is determined from equation (TODO: Add this equation).
-      In effect this equation sums over the molecules per cm$^2$ in each altitude level.
-      
-      The normalised vertical shape factor S$_z$(z) is defined as:
-      \begin{equation} \label{Model:omiRecalc:eqn_ShapeFactor}
-      S_z(z) = \frac{\eta(z)}{\Omega_v}
-      \end{equation}
-      where $\eta(z)$ is the number density in molecules m$^{-3}$.
-      
-      Now the AMF can be expressed as
-      \begin{equation} \label{Model:omiRecalc:eqn_AMFintwSdz}
-      AMF = \int_0^\infty \omega(z) S_z(z) \mathrm{d}z
-      \end{equation}
-      
-    
-    \subsubsection{Sigma coordinate conversion}
-      \label{Model:omiRecalc:sigmacoord}
-      
-      Calculation of the vertical shape factor on the sigma coordinates S$_\sigma$ follows the method of \textcite{Palmer2001}.
-      A conversion to the sigma ($\sigma$) vertical coordinate is performed using $P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
-      In the sigma coordinate system we calculated the shape factor as follows:
-      \begin{equation} \label{Model:omiRecalc:eqn_ShapeFactorSigma}
-      S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
-      \end{equation}
-      where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
-      This equation comes from \textcite{Palmer2001}, and is unitless since $\Omega_a / \Omega_v$ is molecules of air per molecule of HCHO; the opposite of $C_{HCHO}$.
-      
-      
-      The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
-      \begin{align*}
-        \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
-        \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
-      \end{align*}
-      
-      Substitution into \ref{Model:omiRecalc:eqn_AMFintwSdz} gives AMF using the sigma coordinates:
-      \begin{equation} \label{Model:omiRecalc:eqn_AMFintwSdsigma}
-      AMF = \int_0^1 w(\sigma) S_\sigma(\sigma) \mathrm{d}\sigma
-      \end{equation}
-      Where S$_\sigma$ is defined as a vertical shape factor representing a normalised mixing ratio:
-      \begin{equation}
-      S_\sigma (\sigma) = \frac{\Omega_a}{\Omega_v}C(\sigma)
-      \end{equation}
-      where $\Omega_a$ is the vertical column of air and C($\sigma$) is the mixing ratio of the absorber.
-      This normalised shape factor is dimensionless.
-      This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
+    From equation \ref{Model:Meas:AMF:eqn_AMF_intwSdz} we have:
+    $$ AMF = \int_0^\infty \omega(z) S_z(z) \mathrm{d}z $$
+    then using the $\omega(z)$ from satellite output, along with our calculated $S_z$ interpolated onto the same vertical grid as $\omega(z)$, the AMF can be determine through integration.
+    The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
+    This assumes that the provided scattering weights and shape factors are linear between the 47 resolved values.
       
       
     
