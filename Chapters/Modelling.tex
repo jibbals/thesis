@@ -917,7 +917,6 @@
     \begin{equation} \label{Model:Meas:AMF:eqn_AMFpreomega}
       AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
     \end{equation}
-    
     Often the integrand of this AMF formula (equation \ref{Model:Meas:AMF:eqn_AMFpreomega}) is broken apart into two defining terms: the scattering weights $\omega(z)$ and the shape factor $S(z)$.
     \begin{description}
       \item[$\omega$] The scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
@@ -939,6 +938,25 @@
     Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation as it is not part equation \ref{Model:Meas:AMF:eqn_omega} leading to 
     \begin{equation} \label{Model:Meas:AMF:eqn_AMF_intwSdz}
       AMF = \int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
+    \end{equation}
+    
+    Additionally the AMF can be determined using the sigma ($\sigma$) coordinate system.
+    A conversion to the $\sigma$ vertical coordinate is performed using $P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
+    This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
+    $S_\sigma$ is a dimensionless normalised shape factor on the $\sigma$ coordinate system.
+    In the sigma coordinate system we calculated the shape factor as defined in \textcite{Palmer2001}:
+    \begin{equation} \label{Model:Meas:AMF:eqn_ShapeFactorSigma}
+    S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
+    \end{equation}
+    where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
+    The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us integrate over the sigma coordinates:
+    \begin{align*}
+    \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
+    \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
+    \end{align*}
+    Substitution into \ref{Model:Meas:AMF:eqn_AMF_intwSdz} gives AMF using the sigma coordinates:
+    \begin{equation} \label{Model:Meas:AMF:eqn_AMFintwSdsigma}
+    AMF = \int_0^1 w(\sigma) S_\sigma(\sigma) \mathrm{d}\sigma
     \end{equation}
 
 \section{Recalculation of OMI HCHO}
@@ -1041,25 +1059,11 @@
     where H(z) is the box height for level z.
     In effect this equation sums over the molecules per cm$^2$ in each altitude level.
     
-    As a sanity check I also recalculate $S_\sigma$ and confirm that these shape factors are equivalent. 
-    A conversion to the sigma ($\sigma$) vertical coordinate is performed using $P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
-    This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
-    $S_\sigma$ is a dimensionless normalised shape factor on the $\sigma$ coordinate system.
-    In the sigma coordinate system we calculated the shape factor as defined in \textcite{Palmer2001}:
-    \begin{equation} \label{Model:omiRecalc:eqn_ShapeFactorSigma}
-      S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
-    \end{equation}
-    where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
+    As a sanity check I also recalculate $S_\sigma$ (through equation \ref{Model:Meas:AMF:eqn_ShapeFactorSigma})and confirm that these shape factors are equivalent by comparing the resulting AMFs created by equation \ref{Model:Meas:AMF:eqn_AMFintwSdsigma} and equation \ref{Model:Meas:AMF:eqn_AMF_intwSdz} for each pixel.
+    %TODO: Shape factor plot sigma vs z
+    For example see figure TODO: sigma vs z shape factor plot.
+    TODO add plot and describe here.
     
-    The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us switch to the sigma coordinate using:
-    \begin{align*}
-    \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
-    \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
-    \end{align*}
-    Substitution into \ref{Model:Meas:AMF:eqn_AMF_intwSdz} gives AMF using the sigma coordinates:
-    \begin{equation} \label{Model:omiRecalc:eqn_AMFintwSdsigma}
-    AMF = \int_0^1 w(\sigma) S_\sigma(\sigma) \mathrm{d}\sigma
-    \end{equation}
     
   \subsection{Reading satellite data}
     
@@ -1068,7 +1072,7 @@
     The data set used is from the Ozone Monitoring Instrument (OMI) on board the Aura satellite, as it has data for the entire time line and sufficiently covers the southern hemisphere.
     % Filters applied when reading
     When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
-    The process is outlined in figure  \ref{Model:Datasets:OMHCHO:fig_flow_omhchorp} for a single day.
+    The process is outlined in figure  \ref{Model:omiRecalc:fig_flow_omhchorp} for a single day.
     First all \textit{good} pixels (those with QA flag equal to 0) are read into a long list (roughly 1 million per day).
     These are then filtered by solar zenith angle (SZA) and latitude, similarly to other works \parencite[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
     This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see section \ref{Model:Datasets:OMHCHO}) may have affected.
@@ -1099,18 +1103,12 @@
   \subsection{Creating the new AMF}
     \label{Model:omiRecalc:ShapeFactor}
     
-    
-    %TODO: Shape factor plot sigma vs z
-    For example see figure TODO: sigma vs z shape factor plot.
-    TODO add plot and describe here.
-     
-    
     From equation \ref{Model:Meas:AMF:eqn_AMF_intwSdz} we have:
-    $$ AMF = \int_0^\infty \omega(z) S_z(z) \mathrm{d}z $$
-    then using the $\omega(z)$ from satellite output, along with our calculated $S_z$ interpolated onto the same vertical grid as $\omega(z)$, the AMF can be determine through integration.
+    $$ AMF = \int_0^\infty \omega(z) S(z) \mathrm{d}z $$
+    then using the $\omega(z)$ from satellite output, along with our calculated $S_z$ interpolated linearly onto the same vertical grid as $\omega(z)$, the AMF can be determined through integration.
     The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
     This assumes that the provided scattering weights and shape factors are linear between the 47 resolved values.
-      
+    
       
     
   \subsection{Recalculating the AMF using PP code}
@@ -1121,7 +1119,7 @@
     I will refer to this as the PP code, and subscript the VCs and AMFs with PP when referring to those calculated through this method.
     This code is computationally expensive, and is only run on pixels within within the region (50-10\degr~S, 160\degr~W-160\degr~E).
     The Fortran code uses a combination of GEOS-Chem a priori profile information and satellite measurement data to calculate the AMF after running the LIDORT radiative transfer calculations to determine scattering.
-    The instrument sensitivity or scattering weights, and shape factors for each pixel are calculated which I then integrate vertically to get AMF$_{PP}$s.
+    The instrument sensitivity or scattering weights and shape factors for each pixel are calculated within the PP code, which outputs AMF$_{PP}$.
     
     
     Code for recalculating AMFs using satellite swaths and modelled aerosol optical depths and gas profiles can be found at \url{http://fizz.phys.dal.ca/~atmos/martin/?page_id=129}. 
@@ -1131,15 +1129,20 @@
     
     Mie scattering and clouds can complicate the calculation of $\omega$(z), however tables of values for this function at various parameter inputs can be used with modeled vertical shape factors for local AMF calculations.
     This has been done in the PP code and the AMF look-up-table (LUT) can be found in the source code at TODO: add git repo with this code.
-    
-    First special output is required from GEOS-Chem, averaged between 1300 and 1400 LT, including optical depths at several wavelengths (TODO: list), dust, and HCHO.
-    I then pull out a subset of the OMI pixel information into a daily csv file, which can be read by the PP code as modified by Dr. Luke Surl, in conjunction with the GEOS-Chem outputs for each day.
+    In order to run, output is required from GEOS-Chem: the HCHO concentration profile averaged between 1300 and 1400 LT, including optical depths at several wavelengths (TODO: list), and dust concentrations.
+    A subset of the OMI pixel information is also required, which is coalesced from OMHCHO daily swath files into csv files (one per day), which can be read by the PP code as modified by Dr. Luke Surl, in conjunction with the GEOS-Chem outputs for each day.
     The PP code then produces a csv of recalculated AMFs which get read by my python code and associated with the corresponding pixel (outlined in \ref{Model:omiRecalc:fig_flow_omhchorp}).
     
   \subsection{Vertical columns from AMF}
     
     All that remains for recalculating the total vertical column using our new a priori shape factor is to apply the new AMF to the slant columns and grid them onto our chosen resolution.
-    Recalculation of the $\omega$ is done seperately, as explained in section \ref{Model:omiRecalc:ppcode}.
+    Each satellite pixel at this stage has an associated SC along with three AMFs: the original (AMF$_O$), one with recalculated shape factors (AMF$_G$), and one completely recalculated using PP code (AMF$_{PP}$).
+    These are used to create vertical columns ($\Omega$) through equation \ref{Model:Meas:AMF:eqn_AMFFrac}: $\Omega = SC/AMF$.
+    
+    Figure TODO shows a comparison between the three $\Omega$ over Australia for 2005. 
+    The first row shows the yearly average column amounts, as well as coloured rectangles describing regions which are averaged over time in row 3.
+    Row two from left to right shows the relative differences between $\Op$ and $\Og$, $\Oo$ and $\Og$, and $\Oo$ and $\Op$.
+    TODO: Add this plot here.
     
   \subsection{Reference sector correction}
     \label{Model:omiRecalc:RSC}
@@ -1200,8 +1203,8 @@
     This provides a different RSC 
     
     % Interpolated daily RSC to cover missing latitudes
-    Due incomplete latitudinal coverage, the correction for each track is interpolated linearly between measurements, with corrections outside of the highest measured latitudes being equal to the corrections at the highest measured latitudes.
-    Figure \ref{Model:omiRecalc:RSC:fig_track_correction_interpolations} shows an example of the 60 track corrections for January 1st 2005, the points are satellite measurements and the lines are the interpolations for each track.
+    Due to incomplete latitudinal coverage, the correction for each track is interpolated linearly between measurements, with corrections outside of the highest measured latitudes being equal to the corrections at the highest measured latitudes.
+    Figure \ref{Model:omiRecalc:RSC:fig_track_correction_interpolations} shows an example of the 60 track corrections for January 1st 2005, the points are satellite measurements longitudinally averaged over the remote pacific, coloured by track number.
     \mypicw{0.7\textwidth}{Figures/OMI_link/RSC_track_corrections20050101.png}
       {Example of track correction interpolations for January 1st 2005, points represent the difference between satellite slant column measurements and modelled slant columns over the remote pacific.}
       {\label{Model:omiRecalc:RSC:fig_track_correction_interpolations}}
@@ -1219,7 +1222,7 @@
   
   \subsection{Binning the results daily}
     
-    Finally the pixels are binned into a gridded dataset I've called OMHCHORP, as shown in figure \ref{Model:Datasets:OMHCHO:fig_flow_omhchorp}.
+    Finally the pixels are binned into a gridded dataset I've called OMHCHORP, as shown in figure \ref{Model:omiRecalc:fig_flow_omhchorp}.
     The resolution is chosen to match the native resolution of GEOS-Chem (0.25x0.3125\degr) and the GEOS met data fields.
     %TODO: list of things stored in the daily omhchorp outputs
     Data averaged into this dataset are as follows:
@@ -1243,18 +1246,15 @@
     In order to reprocess one year of swath files, X GB of daily data was downloaded and then transformed into Y GB of daily gridded data.
     This takes around 90 minutes per day, and is very parallelisable as each day is completely independent once the model has run in each required configuration.
     Initially paralellism was built into the python code, however simply running sending seperate 'jobs' to NCI's process queue was simpler and more scalable.
-    As much as possible, processing is done using the HDF-5 format, with some GEOS-Chem output being read and processed from bitpunch to HDF-EOS5 prior to reprocessing.
-    The scripts to regrid and reprocess the swath data set are available in the supplementary (TODO).
+    As much as possible, processing is done using the HDF-5 or NetCDF-4 formats, with some GEOS-Chem output being read from bitpunch.
+    The scripts to regrid and reprocess the swath data set are available from github at TODO.
   
   \subsection{Difference between new and old OMI HCHO columns}
   
     
-    Two HCHO products are created, both using GEOS-Chem output at global 2 by 2.5\degr horizontal resolution.
-    One uses the OMI product's $\omega_z$ and equation \ref{eqn:AMFintwSdz} in order to calculate an AMF.
-    While the other uses code provided by Dr. Paul Palmer, with alterations by Dr. Randal Martin, and Dr. Luke Surl to run LIDORT on the satellite slant columns and the GEOS-Chem output in order to calculate an AMF.
-    These two calculations are compared over Australia in figure(s) TODO: Map comparison, regression, and time series once AMFpp is working properly.
+    New corrected vertical columns (VCC) of HCHO are created at global 0.25 by 0.3125\degr horizontal resolution.
+    These calculations are compared over Australia in figure(s) TODO: Map comparison, regression, and time series.
     The effect of not recalculating the $\omega_z$ is can be seen in figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which looks at the altered satellite vertical columns using each method.
-    
     Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows vertical columns of HCHO for: column 1) the original satellite swaths, column 2) recalculated without changing the provided scattering weights, and column 3) fully recalculated vertical columns. 
     Each grid square (at 0.25 by 0.3125\degr lat lon resolution) has been created by binning the recalculated satellite pixels within the month.
     The average pixels per land square is overlaid and changes due to how a fire filter is applied.
