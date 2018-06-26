@@ -116,11 +116,12 @@
     \subsubsection{Bayesian}
       
       % Top down emissions estimation methods:
-      Another method of correcting isoprene emissions using observed HCHO total column involves a Bayesian inversion.
-      The Bayesian inversion corrects biased biogenic isoprene emissions by optimising emission parameters in order to simulate HCHO closest to satellite observed HCHO levels.
+      More recently, more in-depth inversions which can account for transport, source attribution, and chemical schemes have been implemented \parencite{FortemsCheiney2012}.
+      These methods correct isoprene emissions using observed HCHO total columns and Bayesian inversion.
+      Bayesian inversion corrects biased biogenic isoprene emissions by optimising emission parameters in order to simulate HCHO closest to satellite observed HCHO levels.
       This is more statistically intensive and can require more computation time than the linear method.
       For example this method is used by \textcite{Shim2005} who optimise GEOS-Chem isoprene emissions in areas with high HCHO concentrations to improve comparison against GOME HCHO observations % They looking at areas with high signal to noise ratio (higher HCHO concentrations).
-      They show that the model underestimates isoprene emissions and HCHO concentrations by 14-46\%, with the corrected VOC emissions reducing model biases to 3-25\%.
+      They show that the original model underestimates isoprene emissions and HCHO concentrations by 14-46\%, with the corrected VOC emissions reducing model biases to 3-25\%.
       The Bayesian inversion is also used in \textcite{Curci2010}, where a regional CTM (CHIMERE) simulates HCHO, which is compared against OMI observed HCHO and shown to be regionally biased.
       This bias is expected to be caused by errors in MEGANs isoprene emissions estimations.
       %The CHIMERE model is used to derive yields of HCHO from the various local VOCs and these are then used in estimating local emissions.
@@ -138,7 +139,6 @@
 \section{Methods}
   \label{BioIsop:Methods}
   
-  %TODO Full method outline to Jenny
   \subsection{Outline}
     % Method Briefly outlined here
     Here is an overview of the steps involved in this work, which take satellite data and model output to estimate isoprene emissions.
@@ -233,9 +233,6 @@
     Horizontal transport 'smears' the HCHO signal so that source location would need to be calculated using windspeeds and loss rates \parencite{Palmer2001,Palmer2003}.
     Smearing is explicitly handled in these studies due to the importance of transport and NO$_X$ on forming robust and accurate estimates.
     Over Australia NO$_X$ levels are generally not high enough to ensure quick HCHO formation and we must take extra care that we can account for the transport or 'smearing' caused by slower HCHO formation, details on this process can be found in Section \ref{BioIsop:Method:Smearing}.
-    
-    More recently, full inversions that better account for transport, source attribution, and chemical schemes have been implemented \parencite{FortemsCheiney2012}.
-    TODO: full description of this better inversion technique going through FortemsCheiney2012.
     
     \textcite{Kefauver2014} reviews remote sensing of BVOCs, which are on the rise, examining the last 20 years of data and analysis of the satellite products.
     Their review encompasses the latest reports up to 2014.
