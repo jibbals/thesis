@@ -99,15 +99,13 @@
     % Megan estimates BVOCs - uncertain
     One of the most popular emissions inventories for biogenic isoprene, the Model of Emissions of Gases and Aerosols from Nature (MEGAN).
     Global atmospheric studies often use MEGAN along with a chemical transport model (CTM) to examine transport, deposition, and various chemical processes in the atmosphere.
-    Emissions of Biogenic Volatile Organic Compounds (BVOCs) including isoprene are often the subject of studies as they are still relatively uncertain, as well as being drivers for imprtant oxidation and pollution events.
+    Emissions of Biogenic Volatile Organic Compounds (BVOCs) including isoprene are often the subject of studies as they are still relatively uncertain, as well as being drivers for important oxidation and pollution events.
     
     (MEGAN) is poorly calibrated for Australian conditions, their emissions of isoprene (C$_5$H$_8$) may be overestimated, especially in the southeast.
     \textcite{Stavrakou2015} showed that this overestimate may be a factor of 2-3 in January.
     \textcite{Sindelarova2014} show how 50\% of the isoprene emissions could be reduced by accounting for lower soil moisture.
     \textcite{Emmerson2016} discuss the suitability of MEGAN's isoprene and monoterpene emission factors over southeast Australia, and suggest isoprene emissions are estimated 2-6 times too high.
     They also show that no blanket increase or decrease in emission factors is appropriate for the entire southeast of Australia.
-  
-    
   
   \subsection{Top-down emissions estimates}
     
@@ -316,7 +314,7 @@
     Some affects from the low emissions in grid boxes which are largely oceanic can be seen and are handled by TODO: handle these and document here.
     Due to the low horizontal resolution of GEOS-Chem (2 by 2.5$^{\circ}$, latitude by longitude), calculations from grid boxes on the coast which are largely oceanic need to be discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for Eqn \ref{BioIsop:Calculation:eqn_isop_yield}.
     A nested version of GEOS-Chem allows a much better analysis of coastal regions, at 0.25 by 0.3125$^{\circ}$ resolution.
-    \begin{figure}[!htbp]
+    \begin{figure}
       % Figure from GC_tests.py -> isop_hcho_RMA
       \includegraphics[width=\textwidth]{Figures/Isoprene/E_isop_vs_hcho_series_200501.png}
       \caption{%
@@ -349,10 +347,10 @@
     \label{BioIsop:Method:HCHOYield}
     Australian forests are strong emitters of both isoprene and monoterpenes, which go on to form various products including secondary organic aerosols, oxygenated VOCs (OVOCs), ozone, OH, and HO$_2$.
     This production occurs over several steps, yields are often classed into at least two categories.
-    First generation yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (sometimes molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
+    First generation HCHO yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (sometimes molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
     \textcite{Wolfe2016} define prompt yield as the change in formaldehyde measurement per unit change in initial isoprene emissions.
     Some argue that isoprene emissions are overestimated, due to the fact that they are based on relatively few measurements of isoprene emission factors \parencite{Winters2009, FortemsCheiney2012} TODO: read and cite paper mentioned in Fortems.
-    Recently \textcite{Emmerson2017} showed that MEGAN estimates 3-6 times too much isoprene emissions, and 4 times too little monoterpenes when compared against 4 (relatively small scale) measurement campaigns in southeastern Australia.
+    
     
     Isoprene production of HCHO depends on several factors, importantly NO$_X$ levels have a direct effect on the fate of VOCs in the atmosphere.
     At higher NO mixing ratios (at least a few hundred pptv), organic peroxy radicals (RO$_2$) react mostly with NO. 
@@ -364,13 +362,9 @@
     They determine prompt yield as the change in HCHO per change in ISOP$_0$, using $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
     This effectively relates HCHO abundance with isoprene emission strength.
     %TODO:and finish Wolfe2016 discussion paper for yields
-    %TODO:go through atkinsonarey2003
     
     NO$_2$ measured by OMNO2d gives us a daily mid-day measurement which we can compare to output from GEOS-Chem to determine how well the model does at simulating NO$_2$.
     This is also done in \textcite{Travis2016}, as a way to examine model bias in ozone (potentially due to NO$_2$ bias) over the USA.
-    
-    
-    Looking at Australian emissions from running GEOS-Chem and using yields provided by XYZ (TODO other table), we see that Australia may be more or less likely to do something TODO: this comparison sentence would be good to tie up tables and be copied to conclusions.
     
     Conversions between HCHO per unit C yield and molar \% yield from species X given by the equation $ Y_{molar \%} = 100 \times C_X \times Y_{HCHO per unit C} $, where $C_X$ is how many Carbon are within species X (5 for isoprene, 10 for monoterpenes, etc...).
     For instance a 200\% molar yield of HCHO from isoprene implies 1 Mole of C$_5$H$_8$ becomes 2 Mole HCHO which is a 0.4 HCHO per unit C yield.
@@ -463,6 +457,7 @@
       \label{BioIsop:Method:tab_VOCLiteratureYields}
     \end{threeparttable} \end{table}
   
+    Looking at Australian emissions from running GEOS-Chem and using yields provided by XYZ (TODO other table), we see that Australia may be more or less likely to be affected by both NO$_X$ and pollution and high wind speeds TODO: this comparison sentence would be good to tie up tables and be copied to conclusions.
   
   \subsection{Accounting for smearing}
     \label{BioIsop:Method:Smearing}
@@ -520,16 +515,14 @@
     \textcite{Guenther2012} Estimate global biogenic isoprene emissions at roughly 535\tgpyr, using MEGAN.
     \textcite{Sindelarova2014} Estimate around 594\tgpyr using MEGAN with MACC, showing isoprene as 69.2\% of the total BVOC emissions, with monoterpenes at 10.9\tgpyr (10.9\%).
     They show 41\tgpyr decrease in Australia when introducing soil moisture parameterisation.
-    
     When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease over TODO: locations and seasons.
     TODO: table or figure showing summary of isoprene emissions changes over the whole of our time domain.
     
     Satellite measured HCHO has been found to be biased low in several studies \textcite[eg.][]{Zhu2016,DeSmedt2015,Barkley2013}.
     These papers use in-situ data to scale up the satellite HCHO columns for their areas of interest, however Australia lacks sufficient HCHO measurements to do this.
     In these papers bias is seen as high as 40\%, which we use as our upper bound.
-    Scaling up the satellite columns by 40\% gives us an upper bound on the uncertainty due to satellite bias.
-    The 'Scaled Satellite' column refers to the calculations when using the 40\% scaled up OMI HCHO columns. %TODO: make table, add that column
-    This can be considered as a boundary on satellite based HCHO column uncertainty.
+    We scaling up the satellite columns by 40\% and use this as an upper bound on the uncertainty due to satellite bias.
+    The 'Scaled Satellite' column refers to the calculations when using the 40\% scaled up OMI HCHO columns. %TODO: make table, add that column.
     
     One set of data from the Daintree rainforest in Queensland exists (TODO: summary from P. Nelson).
     Although the data set lies outside our run times, as it was measured in TODO(runtime), we compare against the seasonal average of our GEOS-Chem output for the matching months (TODO: name the months).
@@ -539,11 +532,12 @@
     
     TODO: Figure showing campaign data against model and recalculated emissions over region for averaged months and eventually different resolutions.
     
+  \subsection{Emissions affect on GEOS-Chem}
+    
+    
     %As is done in \textcite{Emmerson2016}, 
     We examine the affect of decreased isoprene emissions on the correlation between modelled and satellite based HCHO columns.
     Figure TODO: shows the regressions between GEOS-Chem tropospheric column amounts of HCHO and satellite columns for two runs of GEOS-Chem: a) using standard MEGAN emissions, b) using our updated emissions.
-    
-  \subsection{Emissions affect on GEOS-Chem}
     We interpolated or something (TODO) the emissions over Australia into the inventories used by GEOS-Chem which reduced the emissions by X\% per year (over Australia).
     The resulting simulation output shows that HCHO was reduced by X\%, although if we boost monoterpenes by X\% where the isoprene emissions were lowered then 
   
