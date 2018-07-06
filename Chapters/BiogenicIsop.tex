@@ -553,56 +553,85 @@
   Things with their own inherent uncertainty include the modelled a-priori, modelled relationship between HCHO and isoprene, and satellite measurements. 
   Important factors which need to be analysed for confidence in results include the steady state assumptions, filtering techniques for fire and human influences, and the regression model for determining the isoprene to HCHO yield.
   
-  Model uncertainty is difficult to accurately ascertain, generally an analysis of the model compared to in-situ measurements is performed, however there are few of these measurements over Australia.
-  
-  Yield calculations are performed at low resolution (2\degr by 2.5\degr) which may lead to an overestimate as seen in \textcite{Yu2016}.
-  TODO: how could I check this or estimate sensitivity?
+  Uncertainty in satellite HCHO, along with top down emissions estimates $E_{isop}$ is listed in table \ref{Model:Uncertainty:tab_uncertainties}.
+  %\textcite{Millet2006, Palmer2006} both examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
+  \begin{table}\begin{threeparttable}
+    \caption{Uncertainties in literature and here.}
+    \begin{tabular}{ l | c  c  l } 
+      \toprule
+      product & uncertainty & location & notes \\
+      \midrule
+      satellite HCHO & 40\% & North America & (a) mostly due to cloud interference \\
+       & X\% & where & (b) \\
+      top-down $E_{isop}$ & Y\% & where & (c) \\
+       & X\% & Australia & accumulated uncertainty in calculation \\
+       & X\% & Australia & range found when scaling satellite HCHO \\
+      \bottomrule
+    \end{tabular}
+    \begin{tablenotes} 
+      \item a: \textcite{Millet2006,Palmer2006}
+      \item b: 
+    \end{tablenotes}
+    \label{Model:Uncertainty:tab_uncertainties}
+  \end{threeparttable}\end{table}
   
   \subsection{Model Uncertainty}
     \label{Model:Uncertainty:Model}
-    Uncertainty in modelled yield is estimated somehow (TODO:), and a upper and lower bound for the yield is determined using satellite scaling.
-    Since OMI HCHO is scaled up by up to 40\% in several papers, we consider HCHO scaled by 1 and 1.4 to be boundaries for modelled yield calculations.
-    These prior works use flight campaigns and in-situ data to verify HCHO columns in various locations (TODO: redo cite list from lit review).
     
-    % uncertainty and sensitivity determined by CAABA/MECCA?
+    Model uncertainty is difficult to accurately ascertain, generally an analysis of the model compared to in-situ measurements is performed, however there are few of these measurements over Australia.
+    Here GEOS-Chem output is compared against the campaign datasets with the caveat that in-situ and point measurements are quite different to modelled (large) area averages.
     
-    % Link to satellite uncertainty
+    
+    Uncertainty in modelled yield is estimated somehow (TODO:).
+    Prior works use flight campaigns and in-situ data to verify HCHO columns in various locations (TODO: redo cite list from lit review).
+    Figures X to D TODO: make figures comparing campaigns to model HCHO
+    Yield calculations are performed at low resolution (2\degr x 2.5\degr) which may lead to overestimation \parencite{Yu2016}.
+    TODO: how do I check this?
+    
     
   % Subsection?
   \subsection{Satellite Uncertainty}
     \label{BioIsop:Uncertianty:Satellite}
     
-    Uncertainty in satellite measurements is generally provided along with the data, although uncertainty introduced through AMF calculation needs to be determined to give a representation of the confidence in vertical column amounts.
+    There are three main sources of error in the satellite HCHO columns:
+    \begin{description}
+      \item[a] Fitting error from the OMI retrieval.
+      \item[b] Uncertainty in AMF calculations.
+      \item[c] Uncertainty of HCHO background.
+    \end{description}
+    a) is available in the OMI product and reduced through spatial and temporal averaging.
+    Taking the eight day gridded average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
+    b) is determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
+    \textcite{Palmer2006} calculate the error in AMF through combining estimates of error in the UV albedo database ($\sim 8$\%), model error based on in-situ measurements, cloud error  ($20-30$\%) \parencite{Martin2003}, and aerosol errors ($<20$\%), totalling AMF error of around $\sim 30$\%.
+    It is worth noting here that independent error estimates are added in quadrature, which means total error equals the root of the sum of the independent errors each squared ($e_{Total}=\sqrt{\Sigma_i e_i^2}$).
+    TODO:Paul palmer calculation and combination for overall Satellite VC uncertainty per pixel and gridded.
+    TODO: Millet2008?
+    c) is also determined through a study of GEOS-Chem output, in relation to in-situ measurements.
+    TODO: calculate this uncertainty.
+    Compare this error estimate with that of \textcite{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
+    \textcite{Millet2008} also examine this uncertainty and determine an overall uncertainty ($1\sigma$) of $25-27\%$ in HCHO vertical columns with calculated AMFs where cloud fraction $< 0.2$.
+    
+    
+    
+    Two simple methods of looking at overall uncertainty from satellite measurements are performed here.
+    \begin{enumerate}
+      \item using the variance over the remote pacific ocean to provide relative uncertainty globally \parencite[e.g.][]{DeSmedt2012}
+      \item scaling up HCHO columns by 40\% as an upper bound on satellite uncertainty
+    \end{enumerate}
+    Analysing variance over the remote pacific gives a quick measure of uncertainty if we assume HCHO levels within the region are stable.
+    Other literature has found satellite HCHO columns to be up to 40\% too low, so scaling them up 40\% is another way of quickly analysing how sensitive our calculations are to the satellite HCHO columns.
+    
     
     Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by SAO from the backscattered solar radiation fit \parencite{Abad2015,Abad2016}.
     BIRA use another method, and calculate the standard deviation of HCHO over the remote pacific ocean as the uncertainty \parencite{DeSmedt2012, DeSmedt2015}.
     In the remote pacific, it can be assumed that HCHO variations are weak, with concentrations remaining steady in the short term ($\sim 1$ month).
     This means the standard deviation over this region can be used as a proxy for determination of the instrument error.
     
-    There are three main sources of error in the resulting HCHO columns:
-    \begin{description}
-      \item[a] Fitting error from the OMI retrieval.
-      \item[b] Uncertainty in AMF calculations.
-      \item[c] Uncertainty of HCHO background.
-    \end{description}
     
-    a) is available in the OMI product and reduced through spatial and temporal averaging.
-    Taking the eight day grided average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
-    Another method for examining uncertainty of OMI is to analyse the standard deviation of the HCHO columns over the remote pacific.
-    If we assume there is no HCHO variation from background levels over any 8-day period, then this method infers variations in the measuring instrument, and can be used as a metric for uncertainty as done in \textcite{DeSmedt2012}.
     TODO: uncertainty calculation on remote pacific OMI.
-    \textcite{Millet2006, Palmer2006} both examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
     
-    b) is determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
-    \textcite{Palmer2006} calculate the error in AMF through combining estimates of error in the UV albedo database ($\sim 8$\%), model error based on in-situ measurements, cloud error  ($20-30$\%) \parencite{Martin2003}, and aerosol errors ($<20$\%), totalling AMF error of around $\sim 30$\%.
-    It is worth noting here that independent error estimates are added in quadrature, which means total error equals the root of the sum of the independent errors each sqaured ($e_{Total}=\sqrt{\Sigma_i e_i^2}$).
-    TODO:Paul palmer calculation and combination for overall Satellite VC uncertainty per pixel and gridded.
-    TODO: Millet2008?
-    
-    c) is also determined through a study of GEOS-Chem output, in relation to in-situ measurements.
-    TODO: calculate this uncertainty.
-    Compare this error estimate with that of \textcite{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
-    \textcite{Millet2008} also examine this uncertainty and determine an overall uncertainty ($1\sigma$) of $25-27\%$ in HCHO vertical columns with calculated AMFs where cloud fraction $< 0.2$.
+    OMI is scaled up by up to 40\% in several papers (cite) we consider HCHO scaled by 1 and 1.4 to be boundaries for modelled yield.
+    Plot TODO shows the affect on $E_{isop}$ if we scale satellite HCHO up by 40\%, clearly showing how the top-down estimate is linearly sensitive to this parameter. TODO: Make sure this is true and make the plots.
     
   \subsection{Fire Filtering}
     
