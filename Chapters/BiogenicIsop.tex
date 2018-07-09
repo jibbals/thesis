@@ -33,9 +33,9 @@
   Direct isoprene measurements are costly and sparse within Australia, and satellite measurements are plentiful and freely available, making this technique very attractive.
   Such techniques have informed isoprene emission inventories in North America \parencite{Abbot2003,Palmer2003,Palmer2006,Millet2006,Millet2008}, South America \parencite{Barkley2013}, Europe \parencite{Dufour2009,Curci2010}, Africa \parencite{Marais2012}, Asia \parencite{Fu2007,Stavrakou2014}, India \parencite{Surl2018}, and even globally \parencite{Shim2005,FortemsCheiney2012,Bauwens2016}.
   
-  \textcite{Kefauver2014} reviews remote sensing of (currently rising) BVOC emissions, examining the last 20 years of data and analysis of the satellite products.
-  Their review encompasses the latest reports up to 2014.
-  The modelled isoprene and BVOC emissions from MEGAN \parencite{Guenther2000} of 500 and 1150~Tga$^{-1}$ respectively are still the global go to estimates.
+  Modelled isoprene and BVOC emissions from MEGAN \parencite{Guenther2000} of 500 and 1150~Tga$^{-1}$ respectively are still the global go-to estimates.
+  BVOC emissions are rising globally, and improved estimates for Australia is a priority due to their high uncertainty.
+  \textcite{Kefauver2014} reviews remote sensing of BVOC emissions, examining the last 20 years of data and analysis of the satellite products.
   Their review reinforces the message that NMVOCs affect the oxidative capacity of the atmosphere and are largely driven by and sensitive to vegetation.
   The tropospheric affects from NMVOCs on the hydroxyl radical (OH), ozone (O$_3$), SOAs, and methane longevity, all interconnect to form a very complex system which still suffers from relatively large uncertainties in both measurement and chemistry mechanisms.
   One focus of \textcite{Kefauver2014} is HCHO, which is the dominant product of most BVOCs which is measurable by remote sensing.
@@ -69,7 +69,7 @@
     For isoprene this is done by looking at atmospheric HCHO enhancement, which can be largely attributed to isoprene emissions once transport and other factors are accounted for.
     %Even anthropogenic HCHO source estimates, which are accurate at the global scale, can be improved using satellite data to improve regional estimates by up to 25-40\% \parencite{Stavrakou2015}. 
     %Their study used the RETRO 2000 database for anthropogenic emission aprioris except for Asia in 2008 where REASv2 was used. 
-    Since 1997, when GOME first measured HCHO over Asia \parencite{Thomas1998}, satellites have been able to provide a total column measurement of HCHO, one of the primary products of isoprene \parencite{Palmer2001,Bauwens2016}.
+    Since 1997, when GOME first measured HCHO over Asia \parencite{Thomas1998}, satellites have been able to provide a total column measurement of HCHO, allowing isoprene emissions estimates by proxy \parencite{Palmer2001,Bauwens2016}.
     
     Satellites recording reflected solar spectra use DOAS to measure various trace gases in the atmosphere, including formaldehyde. 
     While satellite measurements can only be used during daytime hours, HCHO lifetimes are sufficiently short that any night-time chemistry will not affect midday observations \parencite{Wolfe2016}.
@@ -165,7 +165,7 @@
     This process is summarised in figure \ref{BioIsop:Method:fig_Flow_Making_Isop}.
     \begin{enumerate}
       \item 
-        Level three satellite data are used to make anthropogenic, fire, and smoke influence masks (see section \ref{Model:Filter})
+        Level three satellite data are used to make anthropogenic, fire, and smoke influence masks (see section \ref{Model:Filter}).
       \item 
         Level two OMI HCHO satellite data (see section \ref{Model:Datasets:OMHCHO}), along with GEOS-Chem model runs (see section \ref{Model:GC:runs}) are used to recalculate corrected vertical columns (VCCs; saved in OMHCHORP dataset) at 0.25\degr by 0.3125\degr horizontal resolution (see section \ref{Model:omiRecalc}).
       \item 
@@ -209,12 +209,14 @@
     \mypic{Figures/Flow_Making_Isop.png}{Creation of isoprene emissions dataset using OMHCHORP and biogenic GEOS-Chem outputs.}{\label{BioIsop:Method:fig_Flow_Making_Isop}}
   
   \subsection{Masks and reprocessed satellite HCHO}
-
+    
+    Satellite data is read in, the AMFs are recalculated, and then pixels are gridded daily into 0.25x0.3125\degr horizontal bins. 
+    This is the intermediate product (OMHCHORP), the creation of which is detailed in section \ref{Model:omiRecalc:outline}.
+    In total a month of these data are read in at a time (to allow parallelism and reduce RAM usage) and then used in subsequent steps to calculate the isoprene emissions.
+    Pixel counts (how many satellite datapoints were used for each VCC) for each gridbox are also read in order to allow averaging when changing from fine to coarse resolution.
+    
     Anthropogenic, fire, and smoke influence masks are created from three satellite products: daily NO2 from OMNO2d, daily fire counts from MOD14A1, and daily AAOD from OMAERUVd respectively (see section \ref{Model:Filter}). These masks are binned using averaged or summed values within our 0.25x0.3125\degr horizontal resolution and read from the intermediate data product from Chapter \ref{Model}: OMHCHORP.
     Also from OMHCHORP are the recalculated corrected vertical columns (VCCs) (0.25\degr by 0.3125\degr horizontal resolution) (see section \ref{Model:omiRecalc}).
-
-    In total a month of these data are read in at a time (to allow parallelism and reduce RAM usage) and then used in subsequent steps to calculate the isoprene emissions.
-    Pixel counts (how many satellite datapoints were used for each VCC) for each gridbox are also read in order to allow weighted averaging when changing from fine to coarse resolution.
     
   \subsection{Calculating modelled slope}
   \label{BioIsop:Method:slope}
@@ -494,11 +496,6 @@
     
     TODO: Plots of S hat showing worst smearing affected areas per season.
     
-    Most recently a \textcite{Bauwens2016} estimated isoprene emissions with this technique using the IMAGESv2 global CTM.
-    They calculate emissions which create the closest match between model and satellite vertical columns, and compare these postiori data with the apriori (satellite data) and independent data sets.
-    They found TODO: what they found and how this analysis differs from my own.
-    (TODO: simple outline of what they did and how my focus is different, this paper will also need to be summarised in the LitReview)
-    
     
     
 \section{Results}
@@ -518,19 +515,17 @@
     When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease over TODO: locations and seasons.
     TODO: table or figure showing summary of isoprene emissions changes over the whole of our time domain.
     
+    Most recently a \textcite{Bauwens2016} estimated isoprene emissions with this technique using the IMAGESv2 global CTM.
+    They calculate emissions which create the closest match between model and satellite vertical columns, and compare these postiori data with the apriori (satellite data) and independent data sets.
+    They found TODO: what they found and how this analysis differs from my own.
+    (TODO: simple outline of what they did and how my focus is different, this paper will also need to be summarised in the LitReview)
+    
     Satellite measured HCHO has been found to be biased low in several studies \textcite[eg.][]{Zhu2016,DeSmedt2015,Barkley2013}.
     These papers use in-situ data to scale up the satellite HCHO columns for their areas of interest, however Australia lacks sufficient HCHO measurements to do this.
     In these papers bias is seen as high as 40\%, which we use as our upper bound.
     We scaling up the satellite columns by 40\% and use this as an upper bound on the uncertainty due to satellite bias.
     The 'Scaled Satellite' column refers to the calculations when using the 40\% scaled up OMI HCHO columns. %TODO: make table, add that column.
     
-    One set of data from the Daintree rainforest in Queensland exists (TODO: summary from P. Nelson).
-    Although the data set lies outside our run times, as it was measured in TODO(runtime), we compare against the seasonal average of our GEOS-Chem output for the matching months (TODO: name the months).
-    This is done for both GEOS-Chem output and our recalculated isoprene emissions.
-    When compared against GEOS-Chem output we see TODO.
-    When compared against recalculated emissions we see TODO.
-    
-    TODO: Figure showing campaign data against model and recalculated emissions over region for averaged months and eventually different resolutions.
     
   \subsection{Emissions affect on GEOS-Chem}
     
@@ -545,6 +540,14 @@
     
     TODO: % TODO: campaign analysis compared to GEOS-Chem
     Analyse comparison of gridbox with campaigns of measurements
+    
+    One set of data from the Daintree rainforest in Queensland exists (TODO: summary from P. Nelson).
+    Although the data set lies outside our run times, as it was measured in TODO(runtime), we compare against the seasonal average of our GEOS-Chem output for the matching months (TODO: name the months).
+    This is done for both GEOS-Chem output and our recalculated isoprene emissions.
+    When compared against GEOS-Chem output we see TODO.
+    When compared against recalculated emissions we see TODO.
+    
+    TODO: Figure showing campaign data against model and recalculated emissions over region for averaged months and eventually different resolutions.
     
 \section{Uncertainty}
 \label{BioIsop:Uncertainty}
