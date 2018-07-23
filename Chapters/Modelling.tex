@@ -1281,7 +1281,7 @@
     The effect of not recalculating the $\omega_z$ is can be seen in figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which looks at the altered satellite vertical columns using each method.
     Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows vertical columns of HCHO for: column 1) the original satellite swaths, column 2) recalculated without changing the provided scattering weights, and column 3) fully recalculated vertical columns. 
     Each grid square (at 0.25 by 0.3125\degr lat lon resolution) has been created by binning the recalculated satellite pixels within the month.
-    The average pixels per land square is overlaid and changes due to how a fire filter is applied.
+    The average pixels per land square is inset as text, changing due to how the fire filter is applied.
     Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
     This figure looks at March 2005 with biomass burning filtered differently in each row.
     Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
@@ -1330,6 +1330,10 @@
   This section describes the creation and effects of filters used on satellite data.
   
   A quick summary of how much data is filtered over Australian land squares is provided in table TODO, and an quick check of how many pixels are filtered in January 2006 can be seen in Figure \ref{Model:Filter:fig_pixel_loss_Jan06}.
+  The majority of fire filtering can be seen in Queensland, potentially due to gas flaring and mining hotspots which could be assessed as fire pixels by the MODIS active fires product. 
+  Other fire hot-spots occur over port Kembla, Perth, and Mount (remote WA) TODO find map showing that this is probably true.
+  The anthropogenic filter completely removes grid squares over Sydney and Melbourne, and high removal rates over Brisbane. 
+  Other major cities in Australia either do not emit enough NO$_2$ or are too spread out and do not breach the threshold to be filtered as anthropogenic.
   
   \mypic{Figures/OMI_link/Filters/PixelsFiltered_20060101-20060131.png}{Top row shows grid squares filtered out by pyrogenic(left) and anthropogenic(right) influence masks during January 2006. Along the bottom is the time series of total pixels over Australian land squares with and without filtering the data.}{\label{Model:Filter:fig_pixel_loss_Jan06}}
   
@@ -1358,7 +1362,7 @@
   
     % Smoke AAOD determination:
     Determining the AAOD due to smoke can be difficult since both smoke and dust absorb UV radiation \parencite{Ahn2008,Marais2012}.
-    AAOD is should be less sensitive to cloud contamination than AOD, and I use AAOD from the daily gridded level 3 satellite product OMAERUVd \parencite{Ahn2008} described in section \ref{Model:Datasets:OMAERUVd} to provide a filter for smoke plumes.
+    AAOD is less sensitive to cloud contamination than AOD, and I use AAOD from the daily gridded level 3 satellite product OMAERUVd \parencite{Ahn2008} described in section \ref{Model:Datasets:OMAERUVd} to provide a filter for smoke plumes.
     Although removing gridsquares with dust reduces how much data is available to analyse, it's considered a minor problem as dust in Australia is highly episodic and should not affect more than a few days per year, especially over regions with high tree coverage \parencite{Shao2007}.
     
     Filtering fire smoke using AAOD is done by removing OMHCHO gridsquares where the AAOD is above a 0.03, after the AAOD is mapped from 1x1\degr to the same 0.25x0.3125\degr resolution as our OMHCHO gridded product.
