@@ -408,7 +408,7 @@
     \subsubsection{MOD14A1}
       \label{Model:Datasets:MOD14A1}
       Daily gridded fire counts compiled from Terra and Aqua satellite into 1x1~km$^2$ resolution.
-      Using this product after binning into a lower resolution alows an active fire influence mask (see section \ref{Model:Filter:fire}.
+      Using this product after binning into a lower resolution allows an active fire influence mask (see section \ref{Model:Filter:fire}).
       
     \subsubsection{AIRS CO columns}
       \label{Model:Datasets:AIRS}
@@ -429,7 +429,6 @@
     In this thesis data from several measurement campaigns are used to examine accuracy of modelled data at specific sites.
     Figure \ref{Model:Datasets:fig_locations} shows the locations of each of the campaigns used in this work.
     These took place over disparate times, and are in-situ measurements which require filtering and interpolation in order to compare against GEOS-Chem output which is averaged over a large horizontal space.
-    
     \mypic{Figures/campaigns/campaign_locations.png}{Locations of Australian campaigns which are analysed within this thesis}{\label{Model:Datasets:fig_locations}}
     
     TODO: these summaries.
@@ -437,9 +436,30 @@
     \subsubsection{Daintree}
       Daintree summary (P. Nelson)
     
-    % TODO: MUMBA summary
     \subsubsection{Marine and Urban MBA ? (MUMBA)}
-    \label{Model:Datasets:MUMBA}
+      \label{Model:Datasets:MUMBA}
+      
+      The MUMBA campaign \parencite{PatonWalsh2013} measured various compound abundances including isoprene, formaldehyde, and ozone from 21 December 2012 to 15 February 2013.
+      These measurements took place in Wollongong, 10~m above ground level (40~m above sea level).
+      Ozone was measured by Thermo UV absorption with 1-minute time resolution averaged into hourly outputs.
+      Isoprene and HCHO were measured by Ionicon Proton-Transfer-Reaction Mass spectrometer, with a time resolution of 3-minutes, averaged each hour.
+      Detection limits varied due to instrument conditions, and are listed in table \ref{Model:Datasets:MUMBA:tab_detectionlimits}.
+      Measurements below the detection limit are set to half of the detection limit when reading this dataset in this thesis.
+      Uncertainty has been estimated to be 15~\%.
+      The full dataset has been published on PANGAEA \parencite{Guerette2017}.
+    
+      \begin{table}
+        \caption{Detection limits for MUMBA}
+        \begin{tabular}{  l |  l  l  l }
+          
+          \textbf{Dates} & \textbf{HCHO (ppb)} & \textbf{Isoprene (ppb)} & \textbf{Ozone (ppb)}
+          \\ \hline
+          21/Dec/2012 - 29/Dec/2012 & 0.205 & 0.003 & 0.5 \\
+          29/Dec/2012 - 18/Jan/2013 & 0.105 & 0.005 & 0.5 \\
+          19/Jan/2013 - 15/Feb/2013 & 0.186 & 0.003 & 0.5 \\
+        \end{tabular}
+        \label{Model:Datasets:MUMBA:tab_detectionlimits}
+      \end{table}
     
     \subsubsection{Sydney Particle Studies (SPS1, SPS2)}
       \label{Model:Datasets:SPS}
@@ -448,13 +468,19 @@
       
       Two instruments measured VOC concentrations: one was a Proton transfer reaction mass spectrometer (PTR-MS), the other a gas chromatographer (GC) with an equipped flame ionisation detector (FID).
       The PTR-MS uses chemical ionisation mass spectrometry and can quantify VOCs at high temporal resolution ($< 1$~s).
-      It was calibrated several times per day against hcho, isoprene, $\alpha$-pinene, and several more VOCs. Further details can be found in \textcite{Dunne2012, Dunne2017} (TODO: Check papers).
+      It was calibrated several times per day against hcho, isoprene, $\alpha$-pinene, and several more VOCs. Further details can be found in \textcite{Dunne2012, Dunne2018}.
+      % Dunne 2018 looks like an analysis of VOC readings from the sites
       The output lists hourly averaged ppbv concentrations of trace gases based on the mass to charge ratio (m/z), which for isoprene is 69.
+      
+      % Sensitivities
       It's possible that other chemicals (such as Furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires usage starts to become frequent (TODO cite something).
       The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interferences. GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT. Further details for this method can be found in TODO: cite Min et al 2016.
+      Uncertainties in VOC measurements range from a factor of 1.5 to 2.
+      This includes significant differences between measurement devices when detecting isoprene, potentially due to interfering compounds in the PTR-MS \parencite{Dunne2017}.
       
       Figure \ref{Model:Datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. In order to compare with GEOS-Chem output a daily average and an overpass time (1200-1300 LT) average are both created from these data.
-      In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in (TODO: doi:10.5194/acp-15-223-2015, 2015) which should minimise any introduced bias.
+      In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in \textcite{Lawson2015}. 
+      This should minimise any introduced bias.
       
       \mypic{Figures/campaigns/SPS_Series.png}{
         SPS HCHO (yellow) and isoprene (green) time series, along with detection limits (dashed).
@@ -506,7 +532,6 @@
       In order to build and run GEOS-Chem a high-speed computing system is optimal, as globally gridded chemical calculations can take a long time to perform.
       I installed GEOS-Chem onto a suitably configured workspace on the National Computational Infrastructure (NCI, \url{http://nci.org.au/}). 
       This workspace included access to compilers and libraries which are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
-      
       After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
   
   \subsection{GEOS-Chem isoprene modelling}
@@ -515,8 +540,9 @@
     The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
     This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
     The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \textcite{Paulot2009a,Paulot2009b}.
-    Further mechanistic properties, like isomerisation rates, are based on results from four publications: cite{Crounse2011,Crounse2012,Peeters2010,Peeters2011}.
-    (TODO: check abstracts Peeters papers).
+    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009,Peeters2010,Crounse2011,Crounse2012}.
+    % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
+    
     
     \textcite{Crounse2011} examines the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen through $ISOP + OH \to ISOPOO$.
     They determine rates and uncertainties involved in these reactions, and study the rate of formation of C$_5$-hydroperoxyaldehydes (HPALDs) by isomerisation.
@@ -535,7 +561,7 @@
     % First steps in GC: LOW NOx
     In low NO$_X$ ISOPOO reacts with HO$_2$ ($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing hydroperoxyenals HPALDs). 
     ISOPOOH can be oxidised (by OH) to produce epoxydiols (IEPOX), recycling OH \parencite{Paulot2009b}. 
-    HPALDs can photolyse to regenrate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014} TODO: Check out crounse2011.
+    HPALDs can photolyse to regenrate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
     See section \ref{LR:VOCs:IsopCascade} for more information.
     Under low NO$_X$ conditions production of HCHO , MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
     
@@ -648,7 +674,7 @@
     It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
     Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
     The correlation between the bias (GEOS-Chem - OMNO2d) with anthropogenic and soil emissions is shown in the bottom rows.
-    The comparison for January and February of 2005 in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}, and winter (JJA) of 2005 in in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}.
+    The comparison for January and February of 2005 in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}, and winter (JJA) of 2005 in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}.
     The poor correlations for anthropogenic NO suggest that blanket alterations over Australia would not lead to improved NO$_2$ fit. 
     
     \begin{figure}
@@ -666,11 +692,9 @@
     \begin{figure}
       % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
       % Winter correlation
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
+      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050601-20050831.png}
       \caption{%
-        Row 1 shows the tropospheric columns in molec cm$^{-2}$, GEOS-Chem, OMNO2d, and OMNO2d averaged onto the lower resolution of GEOS-Chem from left to right.
-        Row 2 shows the correlations of GEOS-Chem (X axes) between daily anthropogenic emissions, and mid-day OMNO2d columns.
-        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
+        As figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}, for winter 2005.
       }
       \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}
     \end{figure}
@@ -1277,7 +1301,7 @@
     The effect of not recalculating the $\omega_z$ is can be seen in figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which looks at the altered satellite vertical columns using each method.
     Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows vertical columns of HCHO for: column 1) the original satellite swaths, column 2) recalculated without changing the provided scattering weights, and column 3) fully recalculated vertical columns. 
     Each grid square (at 0.25 by 0.3125\degr lat lon resolution) has been created by binning the recalculated satellite pixels within the month.
-    The average pixels per land square is overlaid and changes due to how a fire filter is applied.
+    The average pixels per land square is inset as text, changing due to how the fire filter is applied.
     Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
     This figure looks at March 2005 with biomass burning filtered differently in each row.
     Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
@@ -1298,57 +1322,83 @@
   
     Figure TODO: shows global and Australian HCHO averaged total column maps for January 2005, along with the reduced major axis (RMA) regression correlation and percentage difference.
     This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
-
+    
 \section{Filtering Data}
   \label{Model:Filter}
   
   % Why filter data
   In order to examine only biogenic processes, pyrogenic and anthropogenic influences need to be removed from modelled and measured data.
-  As biomass burning can be a large local or transported source of HCHO, CHOCHO, glyoxal, and other compounds we would like to use to determine BVOC emissions, it is advantageous to filter out this source.
-  Just filtering active fires does not account for transported smoke plumes, which can carry HCHO precursors.
-  One complication when computing HCHO yield from VOC emissions is biomass burning interference, as smoke plumes can contribute to column HCHO.
-  In GEOS-Chem we can simply turn off pyrogenic and anthropogenic emissions, however in satellite datasets we need to mask pixels affected by biomass burning.
+  Biomass burning can be a large local or transported (via smoke plumes) source of HCHO, CHOCHO, glyoxal, and other compounds which influence levels of both HCHO and isoprene.
+  Anthropogenic emissions from power generation, transport, and agriculture can influence these levels as well.
+  Where possible these influences need to be removed so that calculations of purely biogenic emissions are not biased. 
+  In GEOS-Chem we can simply turn off pyrogenic and anthropogenic emissions, however in satellite datasets we need to mask potentially affected pixels.
   
   % How other people have filtered fires
-  Influence from biomass burning can be removed through measurements of acetonitrile and CO (eg: \parencite{Wolfe2016, Miller2017}, or else removal of scenes coincident with satellite detected fire counts and aerosol absorption optical depth as done in \textcite{Marais2014}.
+  Influence from biomass burning can be removed through measurements of acetonitrile and CO \parencite[eg.][]{Wolfe2016, Miller2017}, or else removal of scenes coincident with satellite detected fire counts and aerosol absorption optical depth as done in \textcite{Marais2014}.
+  \textcite{Marais2012} remove pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1 x 1\degr resolution.
+  \textcite{Barkley2013} use fires from the preceding and concurrent day, within local or adjacent grid squares, with grid resolution of 0.25 x 0.3125\degr.
   \textcite{Wolfe2016} disregard HCHO measurements when acetonitrile > 210~pptv and CO > 300~ppbv, while acetonitrile > 200~pptv is used to determine fire influence in \textcite{Miller2017}.
   TODO: look at yearly correlation, compare to exponential curve and look for fire outliers
   As seen in TODO: citation, HCHO concentrations scale exponentially with temperature.
   This allows another method for detecting the influence of non-biogenic HCHO emission/creation by looking for outliers above the curve at low temperature.
-  \textcite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15*{T}-9.07)$.
+  \textcite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15\times{T}-9.07)$.
   
-  Once the satellite data are quality filtered and gridded, I use additional data to account for anthropogenic and pyrogenic influences, which provides us an estimate of biogenic HCHO.
-  MODIS fire counts are used in conjunction with smoke AAOD enhancements (also measured by satellite) to remove data points which may be affected by fires. 
-  This has a negative affect on uncertainty, as fewer measurements are available to be averaged.
+  I use satellite data to account for anthropogenic and pyrogenic influences on the OMHCHO satellite HCHO columns.
+  MODIS fire counts are used in conjunction with smoke AAOD enhancements (from OMI) to remove data points which may be affected by fires or fire smoke plumes.
+  OMI NO$_2$ measurements are used to mask potential anthropogenic influence.  
+  These masks negatively affect uncertainty,  as fewer measurements are available to be averaged.
   This section describes the creation and effects of filters used on satellite data.
+  
+  A quick summary of how much data is filtered over Australian land squares is provided in table \ref{Model:Filter:tab_summary_pixels_masked}, and an quick check of how many pixels are filtered in January 2006 can be seen in Figure \ref{Model:Filter:fig_pixel_loss_Jan06}.
+  The anthropogenic filter completely removes grid squares over Sydney and Melbourne, and high removal rates over Brisbane. 
+  Other major cities in Australia either do not emit enough NO$_2$ or are too spread out and do not breach the threshold to be filtered as anthropogenic.
+  
+      \begin{table}
+        % This table can be generated by test_filters.summary_pixels_filtered()
+        \caption{How many satellite pixels are filtered by pyrogenic and anthropogenic masking. Left to right the columns display year, how many land pixels are read over Australia, how many of these pixels are removed by the pyrogenic filter, how many are removed by the anthropogenic filter, and how many are removed in total. In parenthesis are the portion of pixels filtered.}
+        \begin{tabular}{ c c c c c }
+          \textbf{Year} & \textbf{Pixels} & \textbf{Pyro} & \textbf{Anthro} & \textbf{Total} 
+          \\ \hline
+          2005   &  3.9e+06    &  4.1e+05(10.7\%)     &    5.0e+04( 1.3\%)    &    4.4e+05(11.5\%) \\
+          2006   &  3.8e+06    &  5.1e+05(13.5\%)     &    9.2e+04( 2.4\%)    &    5.6e+05(14.7\%) \\
+          2007   &  3.7e+06    &  4.4e+05(11.9\%)     &    7.5e+04( 2.0\%)    &    4.9e+05(13.0\%) \\
+          TODO &  &  &  \\
+          TODO &  &  &  \\
+        \end{tabular}
+        \label{Model:Filter:tab_summary_pixels_masked}
+      \end{table}
+  
+  \mypic{Figures/OMI_link/Filters/PixelsFiltered_20060101-20060131.png}{Top row shows grid squares filtered out by pyrogenic(left) and anthropogenic(right) influence masks during January 2006. Along the bottom is the time series of total pixels over Australian land squares with and without filtering the data.}{\label{Model:Filter:fig_pixel_loss_Jan06}}
   
   
   \subsection{Fire and smoke}
     \label{Model:Filter:fire}
     
+    
     The method used in this thesis follows that of \textcite{Marais2012}, and \textcite{Barkley2013}, with active fires filtered using fire counts, and smoke filtered out using smoke aerosol absorption optical depth (AAOD).
-    \textcite{Marais2012} remove pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1 x 1\degr resolution.
-    \textcite{Barkley2013} use fires from the preceding and concurrent day, within local or adjacent grid squares, with grid resolution of 0.25 x 0.3125\degr.
     We use the MODIS fire counts, detected from space using the combined product from Terra and Aqua (Terra at 10:30, 22:30 LT; Aqua at 13:30, 01:30 LT).
-    Smoke plumes can be filtered using product OMAERUVd, although care needs to be taken when deciding the threshhold for smoke detection \parencite{Marais2012}.
+    Smoke plumes are filtered using smoke AAOD from product OMAERUVd, with the threshold determined through analysis of Australian AAOD distributions.
     
     % My method for fire filtering:
-    When analysing satellite OMHCHO vertical columns ($\Omega$), the following steps are performed in order to mask influence from biomass burning:
+    OMHCHO total column HCHO $\Omega$ is processed into a 0.25x0.3125\degr horizontal daily grid.
+    Pyrogenic filters are created as follows. 
+    They are created or interpolated to the same the same horizontal resolution as $\Omega$ to simplify application. 
+    The following steps are performed in order to create the pyrogenic influence mask:
     \begin{enumerate}
-      \item MOD14A1 daily gridded Aqua/Terra combined fire counts are read at 1x1~km$^2$ resolution, and binned into 0.25x0.3125\degr bins, matching the resolution of binned $\Omega$.
+      \item MOD14A1 daily gridded Aqua/Terra combined fire counts (1x1~km$^2$) are read, and binned into 0.25x0.3125\degr bins (matching the resolution of binned $\Omega$).
       \item A rolling mask is formed which removes $\Omega$ if one or more fires are detected in a grid square, or in the adjacent grid square, up to 2 days previously.
       This includes the 'current' day, making 3 days of fires in total being filtered out on each day.
-      % TODO AAOD filtering description
-      \item AAOD at 500~nm is mapped from OMAERUVd 1x1\degr resolution onto the 0.25x0.3125\degr resolution.
-      \item An AAOD threshold of 0.03 is determined through visual analysis of AAOD distributions over several days, including days with and without influence from active fires, dust, and transported smoke plumes.
+      \item AAOD at 500~nm is mapped from OMAERUVd (1x1\degr resolution) onto the 0.25x0.3125\degr resolution.
+      \item An AAOD threshold of 0.03 is determined through visual analysis of AAOD distributions over several days, including days with and without influence from active fires, dust, and transported smoke plumes (see figure \ref{Model:Filter:fire:fig_typicalAAOD}).
       \item Grid squares with AAOD over this threshhold are considered potentially affected by transported fire smoke.
     \end{enumerate}
   
-    % Smoke AAOD determination:
+    % Smoke AAOD filtering:
     Determining the AAOD due to smoke can be difficult since both smoke and dust absorb UV radiation \parencite{Ahn2008,Marais2012}.
-    AAOD is should be less sensitive to cloud contamination than AOD, and I use AAOD from the daily gridded level 3 satellite product OMAERUVd \parencite{Ahn2008} described in section \ref{Model:Datasets:OMAERUVd} to provide a filter for smoke plumes.
+    AAOD is less sensitive to cloud contamination than AOD, and I use AAOD from the daily gridded level 3 satellite product OMAERUVd \parencite{Ahn2008} described in section \ref{Model:Datasets:OMAERUVd} to provide a filter for smoke plumes.
     Although removing gridsquares with dust reduces how much data is available to analyse, it's considered a minor problem as dust in Australia is highly episodic and should not affect more than a few days per year, especially over regions with high tree coverage \parencite{Shao2007}.
     
+    % Threshold for AAOD determination
     Filtering fire smoke using AAOD is done by removing OMHCHO gridsquares where the AAOD is above a 0.03, after the AAOD is mapped from 1x1\degr to the same 0.25x0.3125\degr resolution as our OMHCHO gridded product.
     The threshhold is determined through analysing AAOD over Australia in 4 scenarios: normal conditions, active local fires, during influence from transported fire smoke, and large scale dust storms.
     Figure \ref{Model:Filter:fire:fig_typicalAAOD} shows AAOD (columns 1 and 2), with AAOD distribution in column 3, along with satellite imagery on the same day in column 4 (from \url{https://worldview.earthdata.nasa.gov/}).
@@ -1357,8 +1407,30 @@
     \mypic{Figures/OMI_link/typical_AAODs.png}
       {AAOD from OMAERUVd (columns 1, 2, 3) over Australia for four different scenarios (rows 1-4). Scenes from the same day are taken from the EOS Worldview website \url{https://worldview.earthdata.nasa.gov/}.}
       {\label{Model:Filter:fire:fig_typicalAAOD}}
-  
-  % TODO: Quick analysis of how much data is lost with smoke filtering?
+    
+    %
+    Figure \ref{Model:Filter:fire:fig_portion_filtered_2005} shows what portion of pixels are filtered out by the pyrogenic filter. 
+    The top panel shows the spatial distribution of fire masks, with most pixels removed along the northern and eastern coastlines.
+    A large portion of the filtered areas appear to correspond with forested areas (see figure \ref{Model:Filter:fire:fig_forest_coverage}), which suggests that forest fires are being masked properly.
+    Central Australia is largely unmasked, which could be due to a lack of sufficient vegetation to create a large enough fire to be seen by satellite.
+    %Even though transported smoke plumes from South America and southern Africa would influence the measurements in the area.
+    The other potential cause of pyrogenic filtering is the proliferation of petrol or gas wells (see figure \ref{Model:Filter:fire:fig_petrol_wells} and figure \ref{Model:Filter:fire:fig_gas_lands}).
+    The filtering shown here is for 2005, when 388 gas wells existed in Queensland, however more than 2000 wells (cumulative) were approved by 2013, so this may cause more filtering over the course of this thesis' timeline \parencite{Carlisle2012}.
+    To check this the filtering portion for 2012 is also plotted in Figure TODO: plot map of filtered squares for 2012 when it's been run by NCI.
+    One clear hotspot is located over port Kembla (south of Sydney), most likely due to the flame which burns over the blast furnace stack throughout the year.
+    Another hotspot can be seen in Western Australia over Kalgoorlie, where a large open cut gold mine ``super pit'' is always open and blasting daily.
+    In Western Queensland over Mount Isa there is again a mining related hotspot.
+    A large area in southern Queensland/northern NSW is also heavily filtered, potentially due to gas flaring in the Surat Basin, which has thousands of petrol and gas wells.
+    
+    
+    \mypic{Figures/OMI_link/Filters/Pyrogenic_20050101-20060101_annotated.png}
+    {Top: Portion of 2005 filtered out by fire and smoke masks. Bottom: portion filtered out each day from land squares in Australia.}{\ref{Model:Filter:fire:fig_portion_filtered_2005}}
+    
+    \mypic{Figures/Wells_AUS.png}{Petrol Well locations over Australia (current-2018) (\url{http://dbforms.ga.gov.au/www/npm.well.search})}{\label{Model:Filter:fire:fig_petrol_wells}}
+    
+    \mypic{Figures/Gas_AUS.jpg}{Gas fields and pipelines (2018) for Australia (\url{http://www.ga.gov.au/scientific-topics/energy/resources/petroleum-resources/gas})}{\label{Model:Filter:fire:fig_gas_lands}}
+    
+    \mypic{Figures/Australiasforests_2016.png}{Forest coverage, coloured by predominant tree species.}{\ref{Model:Filter:fire:fig_forest_coverage}}
   
     \subsubsection{Checking that fire masks are influencing pyrogenic HCHO}
       
@@ -1417,7 +1489,7 @@
     % Nox analysis from OMNO2d
     OMNO2d from 2005 is used to determine a suitable threshhold for anthropogenic influence by looking at NO$_2$ columns near several major cities in the south eastern sector of Australia.
     The mean, standard deviation, and time series over Australia of tropospheric NO$_2$ seen by Aura is shown in figure \ref{Model:Filter:NOx:fig_omno2_timeseries}.
-    The average tropospheric NO$_2$ column for averaged within all of Australia and then each region shown in this figure is listed in table TODO \ref{Model:Filter:NOx:tab_summary}.
+    The average tropospheric NO$_2$ column averaged within all of Australia and then each region shown in this figure is listed in table TODO \ref{Model:Filter:NOx:tab_summary}.
     
     \mypic{Figures/OMI_link/OMNO2_timeseries_2005.png}
     {Mean (top left) and standard deviation (top right) of OMNO2d daily 0.25x0.25\degr tropospheric cloud filtered NO$_2$ columns. Time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right. A grey shaded area depicts the 25th to 75th percentiles of Australia averaged NO$_2$ columns for each day in the time series, with a thicker black line showing the Australia-wide mean value.}
@@ -1464,8 +1536,6 @@
     
     % Affects of filtering
     % TODO: tabulate or summarise no2 filtering
-    
-    \subsection{Summary of filters effects on HCHO}
       
      
 \section{Data Access}
