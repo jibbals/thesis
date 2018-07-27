@@ -12,9 +12,7 @@
   Models of the atmosphere can be used to improve measurements, estimate concentrations in regions not sampled, and allow predictions of atmospheric composition in the future.
   Models of ozone in the atmosphere are used broadly for international assessments of ozone related emissions and processes which involve ozone (such as radiation) \parencite{Young2018}.
   %\textcite{Young2018} summarise current global ozone modelling standards and the metrics and processes used to evaluate these models.
-  Models can provide an estimate of trace gas concentrations without requiring measurements, however verification is required.
-  
-  
+  Models provide an estimates of many trace gas concentrations, however verification is required, and generally performed using results from measurement campaigns or inventories.
   In-situ measurements from campaigns or measurement stations can be used to examine what is happening at a particular (or several) location(s).
   These data are useful to determine how accurate models or estimates are - however the utility is limited to where the measurements have been made.
   In this thesis data from several campaigns are compared against model outputs.
@@ -27,7 +25,12 @@
   In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[eg.][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
   
   In this chapter, modelled data are compared against both campaign measurements and satellite data in order to analyse Australia specific HCHO and isoprene sensitivities and to determine where the GEOS-Chem model needs the most improvement.
-  Section \ref{Model:Datasets} lists and describes the campaign datasets, section \ref{Model:GC} describes the GEOS-Chem model, the creation and effects of filters are described in section \ref{Model:Filter} TODO: rest of section outlined.
+  Section \ref{Model:Datasets} lists and describes the campaign datasets, as well as satellite products and types of model output.
+  Section \ref{Model:GC} describes the GEOS-Chem model, how it is run and what setup and outputs are used in this thesis.
+  In Section \ref{Model:AMF} the process of using model outputs to recalculate satellite vertical columns is defined and analysed.
+  How these recalculations affect satellite HCHO is determined in section \ref{Model:omiRecalc}.
+  The creation and effects of filters used to remove non-biogenic influences are described in section \ref{Model:Filter}.
+  
 
 \section{Measurement Techniques}
   \label{Model:Meas}
@@ -909,10 +912,10 @@
 
       
   \section{Calculating an AMF}
-    \label{Model:Meas:AMF}
+    \label{Model:AMF}
     
     The AMF is the ratio of the slant column ($\Omega_s$) to the vertical column ($\Omega_v$)
-    \begin{equation} \label{Model:Meas:AMF:eqn_AMFFrac}
+    \begin{equation} \label{Model:AMF:eqn_AMFFrac}
       AMF=\frac{\Omega_s}{\Omega_v} = \frac{\tau_s}{\tau_v}
     \end{equation}
     with $\tau$ being the optical depth or thickness of the absorber through the slant (\textit{s}) or vertical (\textit{v}) path of light
@@ -922,8 +925,8 @@
     The spectra provide backscattered intensity ($I_B$) at various wavelengths (see section \ref{Model:Datasets:Aura}), with the light source ($I_{B_0}$) being the sun. 
     Using the log of beers law (equation \ref{Model:Meas:DOAS:eqn_beerslaw}) we get 
     $$ \tau_s = \ln{I_{B_0}} - \ln{I_B} $$
-    which can be subbed into equation \ref{Model:Meas:AMF:eqn_AMFFrac} to give an expression for the AMF which includes scattering:
-    \begin{equation} \label{Model:Meas:AMF:eqn_amfscattering}
+    which can be subbed into equation \ref{Model:AMF:eqn_AMFFrac} to give an expression for the AMF which includes scattering:
+    \begin{equation} \label{Model:AMF:eqn_amfscattering}
       AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
     \end{equation}
     %{Model:Meas:DOAS:eqn_backscatterextinction}
@@ -931,7 +934,7 @@
     
     We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. 
     For optically thin absorption, $\nabla I / I_B << 1$, and we can use:
-    \begin{equation} \label{Model:Meas:AMF:eqn_AMFthin}
+    \begin{equation} \label{Model:AMF:eqn_AMFthin}
       AMF = \frac{\ln{ \left( 1 - \frac{\nabla I}{I_B} \right)} }{\tau_v} \approx \frac{ - \frac{\nabla I}{I_B} }{\tau_v}
     \end{equation}
     This is due to the logarithmic property $\ln \left(1-x \right) \approx -x$ for $x<<1$.
@@ -940,12 +943,12 @@
     \nabla I &= \int_0^{\tau_v}{\frac{\partial I_B}{\partial \tau} \mathrm{d}\tau}
     \frac{\nabla I}{I_B} & = \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
     \end{eqnarray*}
-    which can be placed into equation \ref{Model:Meas:AMF:eqn_AMFthin} leading to
+    which can be placed into equation \ref{Model:AMF:eqn_AMFthin} leading to
     \begin{equation*}
     AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
     \end{equation*}
     We can then convert $\text{d}\tau$ to our path using equation \ref{Model:Meas:DOAS:eqn_tau} leading to
-    \begin{equation} \label{Model:Meas:AMF:eqn_AMFcross}
+    \begin{equation} \label{Model:AMF:eqn_AMFcross}
     AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
     \end{equation}
     where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. 
@@ -957,30 +960,30 @@
       \alpha_e &= \frac{1}{\Omega_v} \int_0^\infty \alpha(z) \eta(z) \mathrm{d}z \\
        &= \frac{\tau_v}{\Omega_v}
     \end{align*}
-    Then replacing the $\tau_v$ in equation \ref{Model:Meas:AMF:eqn_AMFcross} we obtain:
-    \begin{equation} \label{Model:Meas:AMF:eqn_AMFpreomega}
+    Then replacing the $\tau_v$ in equation \ref{Model:AMF:eqn_AMFcross} we obtain:
+    \begin{equation} \label{Model:AMF:eqn_AMFpreomega}
       AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
     \end{equation}
-    Often the integrand of this AMF formula (equation \ref{Model:Meas:AMF:eqn_AMFpreomega}) is broken apart into two defining terms: the scattering weights $\omega(z)$ and the shape factor $S(z)$.
+    Often the integrand of this AMF formula (equation \ref{Model:AMF:eqn_AMFpreomega}) is broken apart into two defining terms: the scattering weights $\omega(z)$ and the shape factor $S(z)$.
     \begin{description}
       \item[$\omega$] The scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
-      \begin{equation} \label{Model:Meas:AMF:eqn_omega}
+      \begin{equation} \label{Model:AMF:eqn_omega}
       \omega(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
       \end{equation}
       It's worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and a the calculations which follow therefor do not include this term when utilising the provided $\omega$.
       This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
       \item[$S$] the shape factor describes the profile of an absorber ($\eta(z)$) normalised by its total vertical column amount ($\Omega_v$):
-      \begin{equation} \label{Model:Meas:AMF:eqn_shapefactor}
+      \begin{equation} \label{Model:AMF:eqn_shapefactor}
         S(z) = \frac{\eta(z)}{\Omega_v}
       \end{equation}
     \end{description}
     
-    Plugging equations \ref{Model:Meas:AMF:eqn_omega} and \ref{Model:Meas:AMF:eqn_shapefactor} into equation \ref{Model:Meas:AMF:eqn_AMFpreomega} gives us:
-    \begin{equation} \label{Model:Meas:AMF:eqn_AMF_amfgintwSdz}
+    Plugging equations \ref{Model:AMF:eqn_omega} and \ref{Model:AMF:eqn_shapefactor} into equation \ref{Model:AMF:eqn_AMFpreomega} gives us:
+    \begin{equation} \label{Model:AMF:eqn_AMF_amfgintwSdz}
       AMF = AMF_G\int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
     \end{equation}
-    Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation as it is not part equation \ref{Model:Meas:AMF:eqn_omega} leading to 
-    \begin{equation} \label{Model:Meas:AMF:eqn_AMF_intwSdz}
+    Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation as it is not part equation \ref{Model:AMF:eqn_omega} leading to 
+    \begin{equation} \label{Model:AMF:eqn_AMF_intwSdz}
       AMF = \int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
     \end{equation}
     
@@ -989,7 +992,7 @@
     This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
     $S_\sigma$ is a dimensionless normalised shape factor on the $\sigma$ coordinate system.
     In the sigma coordinate system we calculated the shape factor as defined in \textcite{Palmer2001}:
-    \begin{equation} \label{Model:Meas:AMF:eqn_ShapeFactorSigma}
+    \begin{equation} \label{Model:AMF:eqn_ShapeFactorSigma}
     S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
     \end{equation}
     where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
@@ -998,8 +1001,8 @@
     \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
     \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
     \end{align*}
-    Substitution into \ref{Model:Meas:AMF:eqn_AMF_intwSdz} gives AMF using the sigma coordinates:
-    \begin{equation} \label{Model:Meas:AMF:eqn_AMFintwSdsigma}
+    Substitution into \ref{Model:AMF:eqn_AMF_intwSdz} gives AMF using the sigma coordinates:
+    \begin{equation} \label{Model:AMF:eqn_AMFintwSdsigma}
     AMF = \int_0^1 w(\sigma) S_\sigma(\sigma) \mathrm{d}\sigma
     \end{equation}
 
@@ -1085,9 +1088,9 @@
   \subsection{Creating new shape factors}
     % Reminder of AMF -> leading to what is the shapefactor
     In order to visualise and analyse OMI HCHO columns, slant columns are transformed into vertical columns using the AMF.
-    The shape factor (\textit{S}) is one of the key components in creation of the AMF (see section \ref{Model:Meas:AMF}, equation \ref{Model:Meas:AMF:eqn_AMF_intwSdz}).
+    The shape factor (\textit{S}) is one of the key components in creation of the AMF (see section \ref{Model:AMF}, equation \ref{Model:AMF:eqn_AMF_intwSdz}).
     The shape factor is calculated using GEOS-Chem satellite output (see section \ref{Model:GC:outputs}) which provide simulated HCHO concentration profiles ($\eta(z)$) and total columns ($\Omega$) at 2x2.5\degr horizontal resolution.
-    Using equation \ref{Model:Meas:AMF:eqn_shapefactor} to determine the shape factor is straightforwards $S(z) = \frac{\eta(z)}{\Omega}$.
+    Using equation \ref{Model:AMF:eqn_shapefactor} to determine the shape factor is straightforwards $S(z) = \frac{\eta(z)}{\Omega}$.
     The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in section \ref{Model:omiRecalc:ppcode}).
     
     Model output is in molecules per billion molecules of air (ppb), and is converted before being used in the shape factor calculation.
@@ -1103,7 +1106,7 @@
     where H(z) is the box height for level z.
     In effect this equation sums over the molecules per cm$^2$ in each altitude level.
     
-    As a sanity check I also recalculate $S_\sigma$ (through equation \ref{Model:Meas:AMF:eqn_ShapeFactorSigma})and confirm that these shape factors are equivalent by comparing the resulting AMFs created by equation \ref{Model:Meas:AMF:eqn_AMFintwSdsigma} and equation \ref{Model:Meas:AMF:eqn_AMF_intwSdz} for each pixel.
+    As a sanity check I also recalculate $S_\sigma$ (through equation \ref{Model:AMF:eqn_ShapeFactorSigma})and confirm that these shape factors are equivalent by comparing the resulting AMFs created by equation \ref{Model:AMF:eqn_AMFintwSdsigma} and equation \ref{Model:AMF:eqn_AMF_intwSdz} for each pixel.
     %TODO: Shape factor plot sigma vs z
     For example see figure TODO: sigma vs z shape factor plot.
     TODO add plot and describe here.
@@ -1147,7 +1150,7 @@
   \subsection{Creating the new AMF}
     \label{Model:omiRecalc:ShapeFactor}
     
-    From equation \ref{Model:Meas:AMF:eqn_AMF_intwSdz} we have:
+    From equation \ref{Model:AMF:eqn_AMF_intwSdz} we have:
     $$ AMF = \int_0^\infty \omega(z) S(z) \mathrm{d}z $$
     then using the $\omega(z)$ from satellite output, along with our calculated $S_z$ interpolated linearly onto the same vertical grid as $\omega(z)$, the AMF can be determined through integration.
     The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
@@ -1181,7 +1184,7 @@
     
     All that remains for recalculating the total vertical column using our new a priori shape factor is to apply the new AMF to the slant columns and grid them onto our chosen resolution.
     Each satellite pixel at this stage has an associated SC along with three AMFs: the original (AMF$_O$), one with recalculated shape factors (AMF$_G$), and one completely recalculated using PP code (AMF$_{PP}$).
-    These are used to create vertical columns ($\Omega$) through equation \ref{Model:Meas:AMF:eqn_AMFFrac}: $\Omega = SC/AMF$.
+    These are used to create vertical columns ($\Omega$) through equation \ref{Model:AMF:eqn_AMFFrac}: $\Omega = SC/AMF$.
     
     Figure TODO shows a comparison between the three $\Omega$ over Australia for 2005. 
     The first row shows the yearly average column amounts, as well as coloured rectangles describing regions which are averaged over time in row 3.
@@ -1436,14 +1439,15 @@
       
       Looking at temperature can provide evidence of pyrogenic HCHO.
       HCHO precursors are heavily tied to temperature (TODO:cite), and model output shows how higher temperature leads to an increase in HCHO levels.
-      Figures \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501} - \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SWA_200501} show the relationship between temperature and HCHO, for January 2005, within subsets of Australia.
+      Figures \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501} - \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SWA_200501} show the relationship between modelled temperature, and satellite HCHO for January 2005 within subsets of Australia.
       A reduced major axis regression is used to determine the correlation between surface temperature (X axis) and HCHO (Y axis)..
       Using the natural log of HCHO we can take the linear regression and then exponentiate each side in the equation $\ln{Y} = m{X}+b$ to get ${Y} = \exp{m{X}+b}$. 
       This gives us the exponential fit as shown, with the correlation coefficient between $\ln{HCHO}$ and temperature.
-      The distributions of exponential correlation coefficients and exponential 'm' terms is shown in the embedded plot, with one datapoint available for each grid square where the regression is performed.
+      The distributions of exponential correlation coefficients and 'm' terms is shown in the embedded plot, with one datapoint available for each grid square where the regression is performed.
       
       
       One cause of high HCHO at lower temperatures is direct or transported emissions and subsequent products from biomass burning.
+      One potential problem with showing this is that days with fire enhanced HCHO are also likely to be hot.
       We test the fire mask by examining the relationship between modelled temperature and satellite HCHO with and without applying the filters for smoke and active fires.
       Figures TODO-TODO show the exponential fits for one month of datapoints (January 2005) in Northern, Southeastern, and Southwestern Australia respectively.
       Each grid square (2 by 2.5\degr) provides one datapoint per day, with satellite HCHO initially averaged onto the lower resolution of the GEOS-Chem modelled surface (from 0 to $\sim 100$~m) temperature
@@ -1453,6 +1457,7 @@
       
       
       \begin{figure}
+        % Figure produced in test_filters 
         \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SEA_20050101-20050228.png}
         \caption{%
           Top panel: surface temperature averaged over January and February 2005.
