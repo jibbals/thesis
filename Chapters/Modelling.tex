@@ -170,15 +170,14 @@
     These properties are combined into a single array called the AMF.
     Two examples of this are GOME-2 products on the MetOp-A satellite (\url{http://atmos.caf.dlr.de/gome/product_hcho.html}) and OMI products which use IMAGESv2 combined with LIDORT and GEOS-Chem with LIDORT for product processing respectively \parencite{Chance2002, Abad2015}.
     AMFs are unique to each trace gas and due to their complexity and the influence of cloud cover they remain one of the larger error sources in remote sensing of BVOCs \parencite{Palmer2001,Millet2006}).
+    \textcite{Lamsal2014} recommends that when comparing satellite data to models, the AMF should first be recalculated using the model as an apriori.
+    This is in order to remove any apriori bias between model and satellite columns.
     
     % averaging kernal relation to amf, why amfs are important when comparing data
     Related to the AMF is the averaging kernal (AK), which is used to handle instrument measurements which are sensitive to concentrations at different altitudes in the atmosphere.
-    DOAS methods can be heavily influenced by the initial estimates of a trace gas profile (the a priori) which is often produced by modelling, so when comparing models of these trace gases to satellite measurements extra care needs to be taken to avoid introducing bias from differing a priori assumptions.
-    One way to remove these a priori influences is through the satellites AK (or by using AMFs), which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas (\textcite{Eskes2003, Palmer2001}).
-    % TODO read and note this paper:
-    \textcite{Lamsal2014} recommends that when comparing satellite data to models, the AMF should first be recalculated using the model as an a priori.
-    This is in order to remove any a priori bias between model and satellite columns.
-    Another way of removing this bias is through deconvolution ($\Omega = AK \times VC_{satellite} + \times (I - AK) VC_{a priori}$) of the averaging kernal (AK) of the satellite instrument.
+    DOAS methods can be heavily influenced by the initial estimates of a trace gas profile (the apriori) which is often produced by modelling, so when comparing models of these trace gases to satellite measurements extra care needs to be taken to avoid introducing bias from differing apriori assumptions.
+    One way to remove these apriori influences is through the satellites AK (or by using AMFs), which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas (\textcite{Eskes2003, Palmer2001}).
+    This process is called deconvolution ($\Omega = AK \times VC_{satellite} + \times (I - AK) VC_{apriori}$) of the averaging kernal (AK) of the satellite instrument.
     The AK represents sensitivities to each species at multiple altitudes through the atmosphere and in the case of OMI, can be approximated from the scattering weights ($\omega(z)$) function as follows:
     \begin{equation} \label{ch_HCHO:eqn:AKfromw}
       AK(z) = \frac{\omega(z)}{AMF}
@@ -196,9 +195,9 @@
     Uncertainty in transforming satellite spectra comes from a range of things, including measurement difficulties introduced by clouds, and instrument sensitivity to particular aerosols \parencite{Millet2006}.
     Many products require analysis of cloud and aerosol properties in order to estimate concentration or total column amounts \parencite{Palmer2001,Palmer2003, Marais2012, Vasilkov2017}.
     The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor \parencite{Millet2006}.
-    % amf agreements between groups, but sensitive to a priori
-    Calculations of the AMF performed by different groups tend to agree fairly well, as long as all the a priori and ancilliary data is similar.
-    Large differences can occur depending on the a priori vertical profile, trace gas concentrations, and cloud properties \parencite{Lorent2017}.
+    % amf agreements between groups, but sensitive to apriori
+    Calculations of the AMF performed by different groups tend to agree fairly well, as long as all the apriori and ancilliary data is similar.
+    Large differences can occur depending on the apriori vertical profile, trace gas concentrations, and cloud properties \parencite{Lorent2017}.
     Choice of RTM and interpolation operations have a relatively small affect compared to the assumed state of the atmosphere, with high structural uncertainty introduced at this stage of AMF calculation - as shown in \textcite{Lorent2017}.
     
     There are two types of measurement error, arguably the worst of these is systematic error (or bias) which normally indicates a problem in calculation or instrumentation.
@@ -221,11 +220,10 @@
     The top row in figure \ref{Model:Meas:sat:fig_OMI_uncertainty} shows OMI HCHO columns binned to at 0.25\degr longitude by 0.3125\degr latitude averaged over one day, one month, and one month after filtering.
     Row two shows uncertainty of the satellite data after averaging.
     It's clear that one day of satellite data is too uncertain when binned at 0.25x0.3125\degr horizontal resolution, however after a month with or without filtering the uncertainties become manageable.
-    % TODO: Several methods of uncertainty where?
-    %There are several methods of calculating this, one of which is used here and compared against the provided uncertainty (TODO) as shown in Section \ref{}.
     If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
     Random error can be reduced by temporal and/or spatial averaging, decreasing uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
     High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[eg.][]{Zhu2014}.
+    Uncertainty in satellite recalculations, along with other factors is analysed in section \ref{BioIsop:Uncertainty}.
     %A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
     
     % Figure from tests.py
@@ -258,7 +256,7 @@
     %% EXAMPLES OF BIAS
     For many places the tropospheric column HCHO measured by satellite is biased low, \textcite{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over south east USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
     \textcite{DeSmedt2015} also found OMI and GOME2 observations were 20 - 40\% lower than ground based vertical profiles, and \textcite{Barkley2013} determine OMI to be 37\% low compared with aircraft measurements over Guyana.
-    These bias can be corrected by improving the assumed a priori HCHO profiles which are used to calculate the AMFs of the satellite columns.
+    These bias can be corrected by improving the assumed apriori HCHO profiles which are used to calculate the AMFs of the satellite columns.
     \textcite{Millet2006} examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
     \textcite{Millet2008} shows that there also exists some latitude based bias, as well as a systematic offset between the OMI and GOME instruments.
     This does not appear to be due to the different overpass times of the two instruments.
@@ -271,7 +269,7 @@
     In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments \parencite{Lorente2017}.
     Another impact often not included in uncertainty calculations is the structural uncertainty of retrieval methods.
     The structural uncertainty of AMF calculation approaches used by different retrieval groups is the uncertainty due to how the AMF is calculated, rather than uncertainty in the calculation components.
-    The importance of a priori and ancillary data (such as surface albedo and cloud top height) sharply affects the structural uncertainty \parencite{Lorente2017}.
+    The importance of apriori and ancillary data (such as surface albedo and cloud top height) sharply affects the structural uncertainty \parencite{Lorente2017}.
 
 \section{Datasets}
 \label{Model:Datasets}
@@ -368,7 +366,7 @@
       
       Each $\sim90$ minutes the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 50~k -- 80~k are classified as good.
       Each pixel contains several important pieces of data which are needed for recalculation of the HCHO vertical column: the total column of HCHO ($\Omega$\moleccm), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weights and their vertical altitudes (hPa), viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
-      All of these data are needed in order to reconstruct the total vertical column using a modelled a priori shape factor rather than NASA's included a priori shape factor.
+      All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
       
       Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}.
     
@@ -1017,14 +1015,14 @@
   \end{equation}
   A slant or vertical column is expressed in molecules cm$^{-2}$.
   % Reiteration of why we recalculate AMFs
-  OMI HCHO vertical columns are calculated using modelled a priori HCHO profiles (see section \ref{Model:Datasets:OMHCHO}).
-  When comparing satellite measurements against models it is important to recognise the impact of this a priori on the total column values.
+  OMI HCHO vertical columns are calculated using modelled apriori HCHO profiles (see section \ref{Model:Datasets:OMHCHO}).
+  When comparing satellite measurements against models it is important to recognise the impact of this apriori on the total column values.
   This is due to how the sensitivity of OMI (to HCHO and other trace gases) varies vertically throughout the atmosphere.
-  When comparing OMI vertical columns ($\Oo$) to GEOS-Chem ($\Og$), the satellite AMF needs to be recalculated using GEOS-Chem modelled vertical gas profiles as the a prioris.
-  Without performing this step a bias between modelled and measured total column values may be due to the a priori rather than chemistry or measurements \parencite{Palmer2001, Lamsal2014}.
+  When comparing OMI vertical columns ($\Oo$) to GEOS-Chem ($\Og$), the satellite AMF needs to be recalculated using GEOS-Chem modelled vertical gas profiles as the aprioris.
+  Without performing this step a bias between modelled and measured total column values may be due to the apriori rather than chemistry or measurements \parencite{Palmer2001, Lamsal2014}.
   
   % Very brief outline
-  Here, two new AMFs are calculated, both using GEOS-Chem HCHO profiles as the new a priori. 
+  Here, two new AMFs are calculated, both using GEOS-Chem HCHO profiles as the new apriori. 
   The first AMF (AMF$_{GC}$) uses the original satellite scattering weights while recalculating the shape factor, whereas the second AMF (AMF$_{PP}$) also recalculates scattering weights.
   AMF$_{PP}$ is created using code initially written by Professor P. Palmer (see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details).
   A reference sector correction is determined using the method described in \textcite{Abad2016}, (see section \ref{Model:omiRecalc:RSC}).
@@ -1075,7 +1073,7 @@
     \end{enumerate}
   
     Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how these profiles are used in this thesis.
-    Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem a prioris.
+    Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem aprioris.
     PP code is run on a subset of the globe covering Australia and the pacific ocean, producing AMF$_{PP}$.
     The output keeps the original AMF as well as those recalculated using GEOS-Chem (AMF$_{OMI}$, AMF$_{GC}$, and AMF$_{PP}$).
     Additionally, MOD14A1, OMAERUVd and OMNO2d data are used to create masks which are also stored in the OMHCHORP dataset.
@@ -1141,12 +1139,12 @@
     
     % reading pixels into a long list
     Each pixel and it's relevant data are saved in a long list, around $1.1$ million pixels per day.
-    Additional information is added to each pixel, such as the new AMF calculated through replacing the a priori vertical profile with the newer GEOS-Chem simulated profile.
+    Additional information is added to each pixel, such as the new AMF calculated through replacing the apriori vertical profile with the newer GEOS-Chem simulated profile.
     The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers.
     
     
   
-  % How we get the a priori 
+  % How we get the apriori 
   \subsection{Creating the new AMF}
     \label{Model:omiRecalc:ShapeFactor}
     
@@ -1165,7 +1163,7 @@
     Some of the pixels (those covering Australia and most of the zonal band) have their AMFs recalculated using Fortran code written by Paul Palmer, Randal Martin, and updated by Luke Surl.
     I will refer to this as the PP code, and subscript the VCs and AMFs with PP when referring to those calculated through this method.
     This code is computationally expensive, and is only run on pixels within within the region (50-10\degr~S, 160\degr~W-160\degr~E).
-    The Fortran code uses a combination of GEOS-Chem a priori profile information and satellite measurement data to calculate the AMF after running the LIDORT radiative transfer calculations to determine scattering.
+    The Fortran code uses a combination of GEOS-Chem apriori profile information and satellite measurement data to calculate the AMF after running the LIDORT radiative transfer calculations to determine scattering.
     The instrument sensitivity or scattering weights and shape factors for each pixel are calculated within the PP code, which outputs AMF$_{PP}$.
     
     
@@ -1182,7 +1180,7 @@
     
   \subsection{Vertical columns from AMF}
     
-    All that remains for recalculating the total vertical column using our new a priori shape factor is to apply the new AMF to the slant columns and grid them onto our chosen resolution.
+    All that remains for recalculating the total vertical column using our new apriori shape factor is to apply the new AMF to the slant columns and grid them onto our chosen resolution.
     Each satellite pixel at this stage has an associated SC along with three AMFs: the original (AMF$_O$), one with recalculated shape factors (AMF$_G$), and one completely recalculated using PP code (AMF$_{PP}$).
     These are used to create vertical columns ($\Omega$) through equation \ref{Model:AMF:eqn_AMFFrac}: $\Omega = SC/AMF$.
     
@@ -1198,7 +1196,7 @@
     HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \parencite{DeSmedt2008,Barkley2013,Kurosu2014}.
     
     % What RSC does
-    The RSC method corrects for several problems, however it introduces some a priori model influence.
+    The RSC method corrects for several problems, however it introduces some apriori model influence.
     One of the problems removed through this correction method is instrument degradation, which can introduce bias over time.
     Another is the possible influence of varying dead/hot pixel masks across 2-D detector arrays such as OMI \parencite{DeSmedt2015}.
     This method also corrects for the errors introduced through correlations between BrO and HCHO absorption cross sections, which are especially significant at high latitudes \parencite{Abad2015}.
@@ -1218,7 +1216,7 @@
     A correction is created based on the difference between the background HCHO measurements (OMI slant columns) and the GEOS-Chem modelled HCHO columns ($\Omega_0$) within the reference sector (140{\degr}W to 160{\degr}W).
     To get the modelled slant columns, each of the AMFs (calculated in prior sections) is applied to the modelled vertical columns using equation \ref{Model:omiRecalc:eqn_AMFratio}.
     % Then RSC Longitudinally averaged, binned into 500 lats
-    The longitudinal average is taken within the a priori reference sector, as corrections are assumed to be longitudinally invariant.
+    The longitudinal average is taken within the apriori reference sector, as corrections are assumed to be longitudinally invariant.
     The modeled reference sector is averaged over the month and interpolated latitudinally to 500 equidistant bins.
     Figure \ref{Model:omiRecalc:RSC:fig_RSCeg} shows the simulated reference sector VCs as an example, calculated for January 1st 2005.
     In this figure the vertical resolution is increased from 2$^{\circ}$ to 0.36\degr, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
@@ -1239,11 +1237,11 @@
     % Swath RSC corrections are done 'per track'
     For OMI swaths, each row of measured data contains 60 `Across track'(track) measurements.
     The track index (i) relates a the measurement to one of the 60 columns of data.
-    Corrections for each measurement are calculated by taking the difference between the measured slant column and the a priori slant column as follows:
+    Corrections for each measurement are calculated by taking the difference between the measured slant column and the apriori slant column as follows:
     \begin{equation} \label{Model:omiRecalc:eqn_RSC}
       Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF}(i,j)
     \end{equation}
-    where j represents a latitude index and $VC_{GEOS-Chem}(lat)$ represents the a priori reference sector vertical column HCHO at the latitude corresponding to j.
+    where j represents a latitude index and $VC_{GEOS-Chem}(lat)$ represents the apriori reference sector vertical column HCHO at the latitude corresponding to j.
     Note that the correction is in molecules cm$^{-2}$.
     % Correction applied over each of the 60 tracks
     The RSC is independently calculated for each of the 60 tracks, at each latitude in the 500 0.36\degr bins.
@@ -1314,8 +1312,8 @@
     
     \mypic{Figures/OMI_link/VCC_fires_20050301-20050331.png}{% 
       Column 1: Reference sector corrected HCHO vertical columns $\Omega$ from OMHCHOv003.
-      Column 2: $\Omega$ with recalculated a priori shape factors using GEOS-Chem v10.01.
-      Column 3: $\Omega$ with recalculated a priori shape factors and scattering weights using GEOS-Chem v10.01 and LIDORT.
+      Column 2: $\Omega$ with recalculated apriori shape factors using GEOS-Chem v10.01.
+      Column 3: $\Omega$ with recalculated apriori shape factors and scattering weights using GEOS-Chem v10.01 and LIDORT.
       Row 1-5: increasing number of prior days which have active fires are included when masking fire influence.
       }{\label{Model:omiRecalc:fig_VCC_pp_fires}}
     
