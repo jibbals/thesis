@@ -24,7 +24,9 @@
   In this thesis several satellite datasets are combined to provide biogenic HCHO amounts over Australia.
   In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[eg.][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
   
+  
   In this chapter, modelled data are compared against both campaign measurements and satellite data in order to analyse Australia specific HCHO and isoprene sensitivities and to determine where the GEOS-Chem model needs the most improvement.
+  Some of the measurement techniques used to retrieve satellite and in-situ concentrations are outlined first in Section \ref{Model:Meas}.
   Section \ref{Model:Datasets} lists and describes the campaign datasets, as well as satellite products and types of model output.
   Section \ref{Model:GC} describes the GEOS-Chem model, how it is run and what setup and outputs are used in this thesis.
   In Section \ref{Model:AMF} the process of using model outputs to recalculate satellite vertical columns is defined and analysed.
@@ -37,7 +39,7 @@
   While I have not made any measurements myself, it is important to understand the techniques used in datasets I have utilised in order to understand possible anomalous datapoints or trends.
   % Measurement difficulties
   In-situ measurements contain errors, and depending on the device used and chemical being measured this error can be significant.
-  The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting \parencite[eg.][]{Dunne2017}.
+  The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting \parencite[eg.][]{Dunne2017,Guerette2018}.
   Overall isoprene uncertainty in measurements analysed by \textcite{Dunne2017} was a factor of 1.5 to 2.
   This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
   
@@ -61,7 +63,7 @@
     \begin{equation} \label{Model:Meas:DOAS:eqn_tau}
     \tau = \int \alpha(s) \eta(s) \mathrm{d}s
     \end{equation}
-    $\tau$ through a medium is the sum of optical thicknesses of each absorber within the measured path, and subbing \ref{Model:Meas:DOAS:eqn_tau} into \ref{Model:Meas:DOAS:eqn_backscatterextinction} leads to
+    $\tau$ through a medium is the sum of optical thicknesses of each absorber within the measured path (s), and subbing \ref{Model:Meas:DOAS:eqn_tau} into \ref{Model:Meas:DOAS:eqn_backscatterextinction} leads to
     \begin{equation*}
     I = I_0 \exp { \left( \Sigma_i \int \eta_i \alpha_i ds \right) }
     \end{equation*}
@@ -1447,10 +1449,21 @@
       Looking at temperature can provide evidence of pyrogenic HCHO.
       HCHO precursors are heavily tied to temperature (TODO:cite), and model output shows how higher temperature leads to an increase in HCHO levels.
       Figures \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SEA_200501} - \ref{Model:Analysis:HCHO:fig_hcho_vs_temp_SWA_200501} show the relationship between modelled temperature, and satellite HCHO for January 2005 within subsets of Australia.
-      A reduced major axis regression is used to determine the correlation between surface temperature (X axis) and HCHO (Y axis)..
+      A reduced major axis regression is used to determine the correlation between surface temperature (X axis) and HCHO (Y axis).
       Using the natural log of HCHO we can take the linear regression and then exponentiate each side in the equation $\ln{Y} = m{X}+b$ to get ${Y} = \exp{m{X}+b}$. 
       This gives us the exponential fit as shown, with the correlation coefficient between $\ln{HCHO}$ and temperature.
       The distributions of exponential correlation coefficients and 'm' terms is shown in the embedded plot, with one datapoint available for each grid square where the regression is performed.
+      
+      Figures \ref{Model:Filter:fire:fig_HCHO_vs_GC_temperature} and \ref{Model:Filter:fire:fig_HCHO_vs_CPC} show the regressions between OMI HCHO total columns and temperature from GEOS-Chem output and CPC daily maximum temperatures respectively.
+      Comparing against GEOS-Chem modelled surface temperatures first requires deresolution from 0.25x0.3125 to 2x2.5\degr latitude by longitude resolution.
+      The left column in figure \ref{Model:Filter:fire:fig_HCHO_vs_GC_temperature} shows scatter and RMA correlation within a single gridbox over 2 months from Jan 1 to Feb 28, 2005, without having applied either the fire nor anthropogenic masks to OMI HCHO columns. 
+      The right column shows the same correlation after applying the fire filter, affected datapoints are marked in teal (matching the red marked points in the left column).
+      The analysis is repeated for Sydney, Canberra, and three gridsquares to the north-west, west, and southwest of Sydney (w1, w2, w3 respectively).
+      Figure \ref{Model:Filter:fire:fig_HCHO_vs_CPC} shows the same analysis at higher resolution using CPC daily maximum temperatures (see \ref{Model:Datasets}).
+      
+      \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_20050101-20050228.png}{HCHO vs GEOS-Chem daily midday temperatures TODO add longer caption}{\label{Model:Filter:fire:fig_HCHO_vs_GC_temperature}}
+      
+      \mypic{Figures/OMI_link/Filters/HCHO_vs_CPCtemp_20050101-20050228.png}{HCHO vs CPC daily maximum temperatures TODO add longer caption}{\label{Model:Filter:fire:fig_HCHO_vs_CPC}}
       
       
       One cause of high HCHO at lower temperatures is direct or transported emissions and subsequent products from biomass burning.
