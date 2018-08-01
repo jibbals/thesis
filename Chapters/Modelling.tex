@@ -154,6 +154,18 @@
         The table shows the optical properties for OMIs three channels.}
       \label{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}
     \end{figure}
+    
+    Uncertainty in a single pixel for OMI is roughly the same magnitude as HCHO background levels.
+    Each pixel has $\sim 2 \times 10^{14}$\moleccm uncertainty, which is $5 \times$ higher than GOME, there are $\sim 100-200 \times $ as many measurements due to the smaller footprint and better temporal resolution of OMI, which allows a greater reduction of uncertainty with averaging \parencite{Chance2002,Millet2008}.
+    % Uncertainty in OMI pixels measurements
+    The finer nadir resolution of OMI (13 by 24~km${^2}$) compared to other satellites also reduces cloud influence \parencite{Millet2006, Millet2008}.
+    The top row in figure \ref{Model:Meas:sat:fig_OMI_uncertainty} shows OMI HCHO columns binned to at 0.25\degr longitude by 0.3125\degr latitude averaged over one day and one month (with and without filtering).
+    Row two shows uncertainty of the satellite data after averaging.
+    It's clear that one day of satellite data is too uncertain when binned at 0.25x0.3125\degr horizontal resolution, however after a month with or without filtering the uncertainties become manageable.
+    If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
+    High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[eg.][]{Zhu2014}.
+    Uncertainty in satellite recalculations, along with other factors is analysed in section \ref{BioIsop:Uncertainty}.
+    %A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
   
   \subsubsection{Air mass factor (AMF)}
   
@@ -167,7 +179,7 @@
     Calculation of the AMF is important as it is multiplied against the estimated slant columns in order to give vertical column amounts.
     
     %how do we get an AMF?
-    DOAS retrieval columns are an integration of a trace gas over the instruments viewing path, in order to convert this total to a vertically distributed column a few assumptions and estimates are required. 
+    DOAS column retrievals are an integration of a trace gas over the instruments viewing path, in order to convert this total to a vertically distributed column a few assumptions and estimates are required. 
     The vertical profile of a trace gas is assumed or estimated via a CTM, while its' scattering and radiative properties are calculated at prescribed altitudes using an RTM. 
     These properties are combined into a single array called the AMF.
     Two examples of this are GOME-2 (on the MetOp-A satellite) products (\url{http://atmos.caf.dlr.de/gome/product_hcho.html}), and OMI products which respectively use LIDORT combined with IMAGESv2 and GEOS-Chem for processing \parencite{Chance2002, Abad2015}.
@@ -176,10 +188,10 @@
     This is in order to remove any apriori bias between model and satellite columns.
     
     % averaging kernal relation to amf, why amfs are important when comparing data
-    Related to the AMF is the averaging kernal (AK), which is used to handle instrument measurements which are sensitive to concentrations at different altitudes in the atmosphere.
+    Related to the AMF is the averaging kernal (AK), which is used to handle instrument measurements which are sensitive to gas concentrations at different altitudes through the atmosphere.
     DOAS methods can be heavily influenced by the initial estimates of a trace gas profile (the apriori) which is often produced by modelling, so when comparing models of these trace gases to satellite measurements extra care needs to be taken to avoid introducing bias from differing apriori assumptions.
-    One way to remove these apriori influences is through the satellites AK (or by using AMFs), which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas (\textcite{Eskes2003, Palmer2001}).
-    This process is called deconvolution ($\Omega = AK \times VC_{satellite} + \times (I - AK) VC_{apriori}$) of the averaging kernal (AK) of the satellite instrument.
+    One way to remove these apriori influences is through the satellite AK (or AMF), which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas \parencite{Eskes2003, Palmer2001}.
+    This process is called deconvolution ($\Omega = AK \times VC_{satellite} + \times (I - AK) VC_{apriori}$) of the AK of the satellite instrument.
     The AK represents sensitivities to each species at multiple altitudes through the atmosphere and in the case of OMI, can be approximated from the scattering weights ($\omega(z)$) function as follows:
     \begin{equation} \label{ch_HCHO:eqn:AKfromw}
       AK(z) = \frac{\omega(z)}{AMF}
@@ -189,6 +201,7 @@
     % How omi gets its AMF
     The latest OMI algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \parencite{Abad2015}.
     The GEOS-Chem model has been substantially updated since then, and using the more recent version $V10.01$ to recalculate the AMF is performed within this thesis, details are shown in section \ref{Model:omiRecalc}.
+    
   
   \subsubsection{Uncertainties}
     %Satellite Errors
@@ -199,34 +212,18 @@
     The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor \parencite{Millet2006}.
     % amf agreements between groups, but sensitive to apriori
     Calculations of the AMF performed by different groups tend to agree fairly well, as long as all the apriori and ancilliary data is similar.
-    Large differences can occur depending on the apriori vertical profile, trace gas concentrations, and cloud properties \parencite{Lorent2017}.
-    Choice of RTM and interpolation operations have a relatively small affect compared to the assumed state of the atmosphere, with high structural uncertainty introduced at this stage of AMF calculation - as shown in \textcite{Lorent2017}.
+    Large differences can occur depending on the apriori vertical profile, trace gas concentrations, and cloud properties \parencite{Lorente2017}.
+    Choice of RTM and interpolation operations have a relatively small affect compared to the assumed state of the atmosphere, with high structural uncertainty introduced at this stage of AMF calculation - as shown in \textcite{Lorente2017}.
     
     There are two types of measurement error, arguably the worst of these is systematic error (or bias) which normally indicates a problem in calculation or instrumentation.
     If the systematic error is known, it can be corrected for by either offsetting data in the opposite direction, or else fixing the cause.
     A proper fix can only be performed if the sources of error are known and there is a way of correcting or bypassing it.
     Random error is the other type (often reported as some function of a datasets variance, or uncertainty), and this can be reduced through averaging either spatially or temporally. 
-    By taking the average of several measurements, any random error can be reduced by a factor of one over the square root of the number of measurements.
+    Random error can be reduced by temporal and/or spatial averaging, decreasing uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
     This is done frequently for satellite measurements of trace gases (which are often near to the detection limit over much of the globe).
     For example: \textcite{Vigouroux2009} reduce the measurement uncertainty (in SCIAMACHY HCHO columns) by at least a factor of 4 through averaging daily over roughly 500km around Saint-Denis, and only using days with at least 20 good measurements.
-    
-    %% grid size and averaging
-    Satellite measurements of HCHO are relatively uncertain, however this can be improved by averaging over larger grid boxes or longer time scales.
-    An example of this can be seen in \textcite{Dufour2009}, where monthly averaging is used to decrease the measurements uncertainty.
+    Another example of this can be seen in \textcite{Dufour2009}, where monthly averaging is used to decrease the measurements uncertainty at the cost of temporal resolution.
     %They examine HCHO in Europe, which is low; near the detection limit of satellite measurements.
-    %Taking monthly averages allows enough certainty that useful inversions can be determined to estimate the source emissions of HCHO.
-    The finer nadir resolution of OMI (13 by 24~km${^2}$) compared to other satellites reduces cloud influence \parencite{Millet2006, Millet2008}.
-    Although the uncertainty in each pixel is $\sim 2 \times 10^{16}$, which is $5 \times$ higher than GOME, there are $\sim 100-200 \times $ as many measurements due to the smaller footprint and better temporal resolution of OMI, which allows a greater reduction of uncertainty with averaging \parencite{Chance2002,Millet2008}.
-    % Uncertainty in OMI pixels measurements
-    Uncertainty in a single pixel for OMI is roughly the same magnitude as HCHO background levels.
-    The top row in figure \ref{Model:Meas:sat:fig_OMI_uncertainty} shows OMI HCHO columns binned to at 0.25\degr longitude by 0.3125\degr latitude averaged over one day, one month, and one month after filtering.
-    Row two shows uncertainty of the satellite data after averaging.
-    It's clear that one day of satellite data is too uncertain when binned at 0.25x0.3125\degr horizontal resolution, however after a month with or without filtering the uncertainties become manageable.
-    If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
-    Random error can be reduced by temporal and/or spatial averaging, decreasing uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
-    High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[eg.][]{Zhu2014}.
-    Uncertainty in satellite recalculations, along with other factors is analysed in section \ref{BioIsop:Uncertainty}.
-    %A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
     
     % Figure from tests.py
     \mypic{Figures/OMI_link/Uncertainty_OMI_200501.png}{}{\label{Model:Meas:sat:fig_OMI_uncertainty}}
@@ -243,8 +240,9 @@
     %% SURFACE CONDITIONS AND CLOUDS
     In cloudy, hazy or polluted areas measurements are more difficult to analyse (\cite[e.g.][]{Palmer2003,Marais2014}).
     Recent work by \textcite{Vasilkov2017} showed that updating how the surface reflectivity is incorporated into satellite measurements can change the retrievals by 50~\% in polluted areas.
-    With the satellite HCHO columns, we filter cloud fractions over 40\%, which introduces a clear-sky bias.
-    This bias has been measured as a 13\% positive monthly mean bias by \textcite{Palmer2001, Surl2018}.
+    In this thesis, HCHO columns (pixels) with cloud fractions over 40\% are filtered as done in \textcite{Palmer2001}, which introduces a clear-sky bias to any monthly averages.
+    This is due to HCHO being lower on unrecorded cloudy days.
+    This bias has been measured as a 13\% positive monthly mean bias \parencite{Palmer2001, Surl2018}.
     
     %% BACKGROUND MEASUREMENTS
     In satellite HCHO products, concentrations over the remote pacific ocean are sometimes used to analyse faulty instrument readings.
