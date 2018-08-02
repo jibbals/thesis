@@ -253,7 +253,7 @@
     Another method of calculating the uncertainty is used by the Belgian Institute for Space Aeronomy (BIRA) group, who determine uncertainty from the standard deviation of HCHO over the remote pacific ocean \parencite{DeSmedt2012, DeSmedt2015}.
     
     
-    %% EXAMPLES OF BIAS
+    %% LOW BIAS IN SATELLITE HCHO EXAMPLES
     For many places the tropospheric column HCHO measured by satellite is biased low, \textcite{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over south east USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
     \textcite{DeSmedt2015} also found OMI and GOME2 observations were 20 - 40\% lower than ground based vertical profiles, and \textcite{Barkley2013} determine OMI to be 37\% low compared with aircraft measurements over Guyana.
     These bias can be corrected by improving the assumed apriori HCHO profiles which are used to calculate the AMFs of the satellite columns.
@@ -268,25 +268,22 @@
     In scenarios where the gas is enhanced in the lower troposphere, AMF calculation is the largest uncertainty in satellite measurements.
     In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments \parencite{Lorente2017}.
     Another impact often not included in uncertainty calculations is the structural uncertainty of retrieval methods.
-    The structural uncertainty of AMF calculation approaches used by different retrieval groups is the uncertainty due to how the AMF is calculated, rather than uncertainty in the calculation components.
+    The structural uncertainty of AMF calculation approaches used by different retrieval groups comes from how the AMF is calculated, rather than uncertainty in the calculation components.
     The importance of apriori and ancillary data (such as surface albedo and cloud top height) sharply affects the structural uncertainty \parencite{Lorente2017}.
 
 \section{Datasets}
 \label{Model:Datasets}
 
-  %TODO: Combine these sections
-  %\section{Campaigns}
   Here I will describe the various datasets used within this thesis, including modelled output, satellite measurements, and measurement campaigns.
   I will also give details on filtering and groupings which are undertaken when reading data, as each dataset has its own resolution.
   These datasets are used for four purposes: 
   \begin{enumerate}
     \item Model output validation in this chapter
-    \item Calculation of biogenic HCHO distribution over Australia in chapter \ref{Model}
-    \item Determination of isoprene emissions in chapter \ref{BioIsop}
+    \item Calculation of biogenic HCHO distribution over Australia in this chapter
+    \item Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}
     \item Extrapolation of ozone transport in chapter \ref{Ozone}
   \end{enumerate}
   
-
   
   \subsection{Satellite datasets}
     \label{Model:Datasets:Aura}
@@ -306,7 +303,7 @@
     OMI measures several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
     OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
     The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
-    OMI spectra are used in several products used in this thesis, including OMNO2d, OMHCHO, and OMAERUVd.
+    OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
     
     \subsubsection{OMHCHO}
       \label{Model:Datasets:OMHCHO}
@@ -318,7 +315,7 @@
       I use the NASA OMHCHOv003 data product \parencite{Abad2015}, with HCHO determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
       The algorithm used is based on direct fitting of radiances, and accounts for competing absorbers, under-sampling, and Ring effects.
       An OMI radiance measurement over the remote Pacific ocean is used instead of an irradiance measurement.
-      This means that the slant columns ($\Omega_S$) are actually the difference with respect to the radiance reference column ($\Omega_{S_0}$).
+      This means that the slant columns ($\Omega_S$) are formed from the spectra differential with respect to the radiance reference column over the Pacific.
       The full method details for slant column retrieval by OMI are outlined in section \ref{SuppNotes:Satellite:OMI_BOAS}.
       Slant columns range from $\sim 4\times 10^{15} $ to $\sim 6 \times 10^{16}$~molec cm$^{-2}$, with uncertainties from 30\% (larger columns) to over 100\% (smaller columns) \parencite{Abad2015}.
       
@@ -331,6 +328,7 @@
       Filtering bad or missing measurement pixels is preformed prior to any other filtering, this includes the datapoints affected by the row anomaly.
       This anomaly (\url{http://projects.knmi.nl/omi/research/product/rowanomaly-background.php}) affects radiance data at particular viewing angles, corresponding to a row on the CCD detectors, and is dynamic over time.
       The slant columns affected are flagged and easy to remove before further processing.
+      
       
       \begin{table}
         \caption{OMI quality flag values table from \textcite{Kurosu2014}}
@@ -359,17 +357,14 @@
         \label{Model:Datasets:OMHCHO:tab_qflag}
       \end{table}
       
-      % Where does cloud product come from? it removes around 30% of non-qa filtered data
-      The cloud fraction with each pixel is provided with the OMHCHO dataset, however its source is the OMI cloud product, OMCLDO2.
-      If greater than 40\% of a pixel measurement is cloudy (ie. cloud fraction $>0.4$) then the pixel is removed from subsequent analysis.
-      This removes around 30\% of the pixels which remain after filtering out the bad or missing data.
-      
       Each $\sim90$ minutes the AURA satellite sweeps over the sunny side of the planet, with OMI recording roughly 90~k pixels, of which around 50~k -- 80~k are classified as good.
       Each pixel contains several important pieces of data which are needed for recalculation of the HCHO vertical column: the total column of HCHO ($\Omega$\moleccm), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weights and their vertical altitudes (hPa), viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
       All of these data are needed in order to reconstruct the total vertical column using a modelled apriori shape factor rather than NASA's included apriori shape factor.
-      
-      Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}.
-    
+      Each pixel includes an estimate of the cloud fraction created using the OMI cloud product OMCLDO2.
+      If greater than 40\% of a pixel measurement is cloudy (ie. cloud fraction $>0.4$) then the pixel is removed from subsequent analysis.
+      This removes around 30\% of the pixels which remain after filtering out the bad or missing data.
+
+%UP TO HERE draft
     \subsubsection{OMNO2}
       \label{Model:Datasets:OMNO2d}
       NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem. 
@@ -485,7 +480,7 @@
       % Sensitivities
       It's possible that other chemicals (such as Furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires usage starts to become frequent \parencite{Guerette2018}.
       The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interferences. 
-      GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT. Further details for this method can be found in \textcite{Cheng2016}}.
+      GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT. Further details for this method can be found in \textcite{Cheng2016}.
       Uncertainties in VOC measurements range from a factor of 1.5 to 2.
       This includes significant differences between measurement devices when detecting isoprene, potentially due to interfering compounds in the PTR-MS \parencite{Dunne2018}.
       
@@ -1467,6 +1462,7 @@
       
       One cause of high HCHO at lower temperatures is direct or transported emissions and subsequent products from biomass burning.
       One potential problem with showing this is that days with fire enhanced HCHO are also likely to be hot.
+      Another problem with correlating heat and HCHO is that increased temperature accelerates HCHO destruction \parencite{Zheng2015}.
       We test the fire mask by examining the relationship between modelled temperature and satellite HCHO with and without applying the filters for smoke and active fires.
       Figures TODO-TODO show the exponential fits for one month of datapoints (January 2005) in Northern, Southeastern, and Southwestern Australia respectively.
       Each grid square (2 by 2.5\degr) provides one datapoint per day, with satellite HCHO initially averaged onto the lower resolution of the GEOS-Chem modelled surface (from 0 to $\sim 100$~m) temperature
