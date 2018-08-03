@@ -364,21 +364,19 @@
       If greater than 40\% of a pixel measurement is cloudy (ie. cloud fraction $>0.4$) then the pixel is removed from subsequent analysis.
       This removes around 30\% of the pixels which remain after filtering out the bad or missing data.
 
-%UP TO HERE draft
     \subsubsection{OMNO2}
       \label{Model:Datasets:OMNO2d}
-      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem. 
       OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
       An example figure from Jan 29, 2005 is shown in figure \ref{Model:Datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in figure \ref{Model:Datasets:OMNO2d:fig_omno2d_2005}.
+      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations).
+      It is also used to form the anthropogenic influence filter for OMHCHO (See section \ref{Model:Filter:NOx}).
+      
       
       \mypic{Figures/OMNO2d_2005m0129.png}{Example of NO$_2$ tropospheric columns taken from the OMNO2d product.}{\label{Model:Datasets:OMNO2d:fig_eg_omno2d}}
       
       \mypic{Figures/OMNO2d_avg2005.png}
         {Average 2005 tropospheric NO$_2$ from OMNO2d with pixels screened for $<30\%$ cloud cover.}
         {\label{Model:Datasets:OMNO2d:fig_omno2d_2005}}
-      
-      See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations.
-    
     
     
     \subsubsection{OMAERUVd}
@@ -390,7 +388,6 @@
       This is due these particles scattering and absorbing UV radiation \parencite{Ahn2008}.
       
       
-      %TODO: OMAERUVd brief description
       OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) provides a useful dataset allowing us to filter gridsquares which may be smoke affected.
       OMI aerosol extinction and absorption optical depths (AOD, AAOD respectively) at three wavelengths (354, 388, and 500~nm), along with UV aerosol index (UVAI), are available publicly from Earthdata: \url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}.
       The OMAERUVd product is level three, gridded daily data, based on quality filtered level two swath pixels which are then gridded by averaging.
@@ -399,18 +396,23 @@
       % How I read the AAOD
       Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to finer resolution using the nearest value for each gridsquare.
       I use the AAOD at 500~nm wavelength, which is blocked by fire smoke plumes.
-      This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with higher AAOD$>0.03$.
+      This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with AAOD$>0.03$ (See section \ref{Model:Filter:fire}).
     
     \subsubsection{MOD14A1}
       \label{Model:Datasets:MOD14A1}
-      Daily gridded fire counts compiled from Terra and Aqua satellite into 1x1~km$^2$ resolution.
-      Using this product after binning into a lower resolution allows an active fire influence mask (see section \ref{Model:Filter:fire}).
+      Daily gridded fire counts compiled from satellite measurements into 1x1~km$^2$ resolution.
+      Fire observations are performed four times daily from TERRA (1030, 2230) and Aqua (0130, 1330).
+      The fire pixels are detected automatically based on parameters including apparent pixel temperature and the nearby background temperature.
+      Obtained from NASA Earth Observations (NEO) that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
+      This product is downloaded and binned into a lower resolution (using sum of fire pixels) to create an active fire influence mask (see section \ref{Model:Filter:fire}).
       
     \subsubsection{AIRS CO columns}
       \label{Model:Datasets:AIRS}
       
       In chapter \ref{Ozone}, potential biomass burning plumes are identified using satellite observations of CO from the AIRS (Atmospheric Infra-red Sounder) instrument aboard the Aqua satellite \parencite{AIRS3STD}.
-      
+      CO is used as a proxy for biomass burning plumes, and used to qualitatively attribute ozone intrusion events as explained in section \ref{Ozone:WeatherClassifications}.
+      This is a separate method of detecting fire influence near specific sites through visual analysis.
+      Removal of fire influence reduces estimated ozone flux by $\sim 15\%$ at Macquarie Island and $\sim 20\%$ at Melbourne.
       
   \subsection{Model datasets}
     \subsubsection{Meteorological reanalysis}
@@ -419,6 +421,7 @@
       Synoptic scale weather patterns are taken from the European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}.
       These are used in chapter \ref{Ozone} to determine typical weather systems for stratospheric ozone intrusions.
     
+    % UP TO HERE DRAFT
     \subsubsection{CPC Temperatures}
       Maximum daily land-surface temperature at 0.5x0.5\degr horizontal resolution. 
       This data may be used to check the correlation between HCHO and temperature at a higher resolution than is provided by GEOS-Chem output.
