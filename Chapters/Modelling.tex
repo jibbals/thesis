@@ -1390,8 +1390,7 @@
     
     % My method for fire filtering:
     OMHCHO total column HCHO $\Omega$ is processed into a 0.25x0.3125\degr horizontal daily grid.
-    Pyrogenic filters are created as follows. 
-    They are created or interpolated to the same the same horizontal resolution as $\Omega$ to simplify application. 
+    Pyrogenic filters are interpolated to the same horizontal resolution as $\Omega$ to simplify application. 
     The following steps are performed in order to create the pyrogenic influence mask:
     \begin{enumerate}
       \item MOD14A1 daily gridded Aqua/Terra combined fire counts (1x1~km$^2$) are read, and binned into 0.25x0.3125\degr bins (matching the resolution of binned $\Omega$).
@@ -1412,10 +1411,16 @@
     The threshhold is determined through analysing AAOD over Australia in 4 scenarios: normal conditions, active local fires, during influence from transported fire smoke, and large scale dust storms.
     Figure \ref{Model:Filter:fire:fig_typicalAAOD} shows AAOD (columns 1 and 2), with AAOD distribution in column 3, along with satellite imagery on the same day in column 4 (from \url{https://worldview.earthdata.nasa.gov/}).
     The scenarios listed are shown from row 1 to 4, and AAOD $=$ 0.03 is demarked by a horizontal line in the density plots in column 3.
+    Figure \ref{Model:Filter:fire:fig_smokefilter} shows how the smoke filter compares to the fire filter over 2005.
+    The left panel shows how many days are filtered using the AAOD threshhold, while the right panel shows how many are filtered using the combined smoke and active fire masks.
+    The time series shows pixels available for analysis before being filtered (black), after smoke filtering (cyan) and after the full fire filter is applied (magenta).
+    The Ayre basin is the dominant area filtered by smoke detection, likely due to dust influence in the arid region.
     
     \mypic{Figures/OMI_link/typical_AAODs.png}
       {AAOD from OMAERUVd (columns 1, 2, 3) over Australia for four different scenarios (rows 1-4). Scenes from the same day are taken from the EOS Worldview website \url{https://worldview.earthdata.nasa.gov/}.}
       {\label{Model:Filter:fire:fig_typicalAAOD}}
+    
+    \mypic{Figures/OMI_link/Filters/SmokeFilter_20050101-20051231.png}{Smoke (top left) filtered days using AAOD$>0.03$ compared to the combined (smoke and active fires) fire filter (top left). Time series shows how many pixels are available for analysis before and after filtering.}{\label{Model:Filter:fire:fig_smokefilter}}
     
     %
     Figure \ref{Model:Filter:fire:fig_portion_filtered_2005} shows what portion of pixels are filtered out by the pyrogenic filter. 
