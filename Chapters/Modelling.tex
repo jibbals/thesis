@@ -421,13 +421,12 @@
       Synoptic scale weather patterns are taken from the European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}.
       These are used in chapter \ref{Ozone} to determine typical weather systems for stratospheric ozone intrusions.
     
-    % UP TO HERE DRAFT
-    \subsubsection{CPC Temperatures}
+    \subsubsection{CPC temperatures}
       Maximum daily land-surface temperature at 0.5x0.5\degr horizontal resolution. 
-      This data may be used to check the correlation between HCHO and temperature at a higher resolution than is provided by GEOS-Chem output.
+      This data is used to check the correlation between HCHO and temperature at a higher resolution than is provided by GEOS-Chem output.
       Data description at \url{https://www.esrl.noaa.gov/psd/data/gridded/data.cpc.globaltemp.html}.
       CPC Global Temperature data provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their Web site at \url{https://www.esrl.noaa.gov/psd/}.
-      An example of one day of output is shown in figure \ref{Model:Datasets:fig_CPC_EG}.
+      An example of one days output is shown in figure \ref{Model:Datasets:fig_CPC_EG}.
       
       \mypicw{.5\textwidth}{Figures/CPC_Temperature_EG.png}{CPC daily maximum temperature dataset output for 1, Jan, 2005.}{\label{Model:Datasets:fig_CPC_EG}}
     
@@ -437,6 +436,7 @@
     In this thesis data from several measurement campaigns are used to examine accuracy of modelled data at specific sites.
     Figure \ref{Model:Datasets:fig_locations} shows the locations of each of the campaigns used in this work.
     These took place over disparate times, and are in-situ measurements which require filtering and interpolation in order to compare against GEOS-Chem output which is averaged over a large horizontal space.
+    
     \mypic{Figures/campaigns/campaign_locations.png}{Locations of Australian campaigns which are analysed within this thesis}{\label{Model:Datasets:fig_locations}}
     
     TODO: these summaries.
@@ -450,7 +450,7 @@
       The MUMBA campaign \parencite{PatonWalsh2013} measured various compound abundances including isoprene, formaldehyde, and ozone from 21 December 2012 to 15 February 2013.
       These measurements took place in Wollongong, 10~m above ground level (40~m above sea level).
       Ozone was measured by Thermo UV absorption with 1-minute time resolution averaged into hourly outputs.
-      Isoprene and HCHO were measured by Ionicon Proton-Transfer-Reaction Mass spectrometer, with a time resolution of 3-minutes, averaged each hour.
+      Isoprene and HCHO were measured by Ionicon Proton-Transfer-Reaction Mass spectrometer (PTR-MS), with a time resolution of 3-minutes, averaged each hour.
       Detection limits varied due to instrument conditions, and are listed in table \ref{Model:Datasets:MUMBA:tab_detectionlimits}.
       Measurements below the detection limit are set to half of the detection limit when reading this dataset in this thesis.
       Uncertainty has been estimated to be 15~\%.
@@ -473,21 +473,22 @@
       \label{Model:Datasets:SPS}
       Two VOC and other trace gas measurement campaigns took place at the Westmead air quality station with scientists from CSIRO, OEH, and ANSTO. 
       Stage 1 (SPS1) was from 5 February to 7 March in 2011, while stage 2 (SPS2) ranged from 16 April to 14 May 2012.
-      
-      Two instruments measured VOC concentrations: one was a Proton transfer reaction mass spectrometer (PTR-MS), the other a gas chromatographer (GC) with an equipped flame ionisation detector (FID).
+      Two instruments measured VOC concentrations: one was a PTR-MS, the other a gas chromatographer (GC) with an equipped flame ionisation detector (FID).
       The PTR-MS uses chemical ionisation mass spectrometry and can quantify VOCs at high temporal resolution ($< 1$~s).
-      It was calibrated several times per day against hcho, isoprene, $\alpha$-pinene, and several other VOCs, further measurement specifics can be found in \textcite{Dunne2012, Dunne2018}.
+      It was calibrated several times per day against HCHO, isoprene, $\alpha$-pinene, and several other VOCs, further measurement specifics can be found in \textcite{Dunne2012, Dunne2018}.
       % Dunne 2018 looks like an analysis of VOC readings from the sites
-      The output lists hourly averaged ppbv concentrations of trace gases based on the mass to charge ratio (m/z), which for isoprene is 69.
       
+      The output lists hourly averaged ppbv concentrations of trace gases based on the mass to charge ratio (m/z), which for isoprene is 69.
       % Sensitivities
       It's possible that other chemicals (such as Furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires usage starts to become frequent \parencite{Guerette2018}.
       The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interferences. 
-      GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT. Further details for this method can be found in \textcite{Cheng2016}.
+      Further details for this method can be found in \textcite{Cheng2016}.
+      GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT, while PTR-MS data is averaged hourly.
       Uncertainties in VOC measurements range from a factor of 1.5 to 2.
       This includes significant differences between measurement devices when detecting isoprene, potentially due to interfering compounds in the PTR-MS \parencite{Dunne2018}.
       
-      Figure \ref{Model:Datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. In order to compare with GEOS-Chem output a daily average and an overpass time (1200-1300 LT) average are both created from these data.
+      Figure \ref{Model:Datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. 
+      In order to compare with GEOS-Chem output a daily average and an overpass time (1200-1300 LT) average are both created from these data.
       In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in \textcite{Lawson2015}. 
       This should minimise any introduced bias.
       
@@ -498,15 +499,28 @@
       {\label{Model:Datasets:SPS:fig_series}}
       
       Figure \ref{Model:Datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the gridsquare containing Sydney overlaid on SPS measurement data.
-      Superficially the comparison is not too bad between these two datasets, however GEOS-Chem output is daily averaged over 2x2.5\degr (latitude by longitude)
-      The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high.
+      Superficially the comparison is not too bad between these two datasets, however GEOS-Chem output is the daily average over 2x2.5\degr (latitude by longitude).
+      The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high since the daily average should not match the peak of the measurements.
       
       \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:Datasets:SPS:fig_GC_comparison}}
       
+
     \subsubsection{Ozonesondes}
       \label{Model:Datasets:ozonesondes}
+      
       Ozonesonde data comes from the World Ozone and Ultraviolet Data Centre (WOUDC).
-    
+      Ozonesondes are weather balloons which measure from the surface to around 35km.
+      Ozonesondes provide a high vertical resolution profile of ozone, temperature, pressure, and humidity.
+      Generally the instrument will perform 150-300 measurements in the troposphere with ozone mixing ratios quantified by an electrochemical concentration cell (\url{http://www.ndsc.ncep.noaa.gov/organize/protocols/appendix5/}).
+      
+      Ozonesondes are launched approximately weekly from Melbourne (38$^{\circ}$ S, 145$^{\circ}$ E), Macquarie Island (55$^{\circ}$ S, 159$^{\circ}$ E) and Davis (69$^{\circ}$ S, 78$^{\circ}$ E). 
+      Melbourne, a major city with more than 4 million residents \parencite{ABS2016}, may be affected by anthropogenic pollution in the lower troposphere.
+      Actual releases are north of the central business district in the Broadmeadows suburb.
+      Macquarie Island is in the remote Southern Ocean and unlikely to be affected by any local pollution events.
+      Davis (on the coast of Antarctica) is also unlikely to experience the effects of anthropogenic pollution.
+      More information on this dataset is given in section \ref{Ozone:DataMethods}.
+      
+% UP TO HERE DRAFT
 \section{GEOS-Chem}
   \label{Model:GC}
 
@@ -523,9 +537,9 @@
     In this thesis I use version 10.01 of GEOS-Chem, which outputs up to 66 chemical species (tracers) in the standard run, at 2 by 2.5$^{\circ}$ horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
     
     
-    Global CTMs are often run using one or several emission models (or the output from them) to determine boundary conditions for many gridboxes.
+    Global CTMs are often run using one or several emission models (or the output from them) to determine boundary conditions.
     Some of the inventories used by GEOS-Chem are described here.
-    Meteorological fields are taken from NASA's GEOS-5 dataset (0.5$^{\circ}$ x 0.666$^{\circ}$) \parencite{Chen2009}, which exists up to April, 2013.
+    Meteorological fields are taken from NASA's GEOS-5 dataset (0.5\degr x 0.666\degr) \parencite{Chen2009}, which exists up to April 2013.
     GEOS-5 meteorological fields are used as the boundary conditions driving transport.
     % Emissions models used for boundary conditions
     Fire emissions come from the GFED4 product \parencite{Giglio2013}. 
@@ -534,7 +548,7 @@
     The estimated biogenic VOC emissions are important for accurately simulating chemistry within models, as discussed in Section \ref{LR:Atmos:Chem}.
     
   
-  \subsection{Running GEOS-Chem (before isop?)}
+  \subsection{Running GEOS-Chem}
     \label{Model:GC:running}
     \subsubsection{Installation and requirements}
       GEOS-Chem instructions for download, compilation, and running can be found in the user guide provided by Harvard: \url{http://acmg.seas.harvard.edu/geos/doc/man/}.
@@ -550,7 +564,9 @@
     Simplifications are required due to the massive amount of reactions which occur in the atmosphere, and the coupled and stiff nature of these reactions which serve to slow down computation of the solutions \parencite{BrasseurJacob2017}.
     Stiffness in chemical systems of differential equations is due to the massively differing reaction rate time scales - for instance hydroxy radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
     
-    Some of the important ones involving isoprene are copied here, including reaction rates in the form $ k = A \exp{-ER/T}$.
+    Some of the important reactions involving isoprene are copied here, including reaction rates in the form $ k = A \exp{-ER/T}$.
+    Some tracers have multiple names in order to allow the model to keep track of extra information such as the tracers source.
+    For instance INO$_2$ is RO$_2$ specifically created by the ISOP $+$ NO$_3$ reactions.
     The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
     
     %globchem.dat in the run directory.
@@ -590,15 +606,15 @@
     %     % k2=4.07*10^{8} \exp{-7694/T}
     %      
     \end{split} \end{align}
-    In these reactions T is temperature.
+    In these reactions T is temperature, INO$_2$ is RO$_2$ formed from isoprene and NO$_3$, ISOPNB and ISOPND are $\beta$ and $\delta$ isoprene nitrates respectively.
   
   \subsection{GEOS-Chem isoprene modelling}
     \label{Model:GC:Isop}
 
     The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
     This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
-    The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \textcite{Paulot2009a,Paulot2009b}.
-    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009,Peeters2010,Crounse2011,Crounse2012}.
+    The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \textcite{Paulot2009a, Paulot2009b}.
+    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009, Peeters2010, Crounse2011, Crounse2012}.
     % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
     
     
