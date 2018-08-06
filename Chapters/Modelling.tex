@@ -543,63 +543,15 @@
       This workspace included access to compilers and libraries which are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
       After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
   
-  \subsection{GEOS-Chem isoprene modelling}
-    \label{Model:GC:Isop}
-
-    The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
-    This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
-    The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \textcite{Paulot2009a,Paulot2009b}.
-    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009,Peeters2010,Crounse2011,Crounse2012}.
-    % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
-    
-    
-    \textcite{Crounse2011} examines the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen through $ISOP + OH \to ISOPOO$.
-    They determine rates and uncertainties involved in these reactions, and study the rate of formation of C$_5$-hydroperoxyaldehydes (HPALDs) by isomerisation.
-    Prior to 2012 oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012}.
-    In most environments NO and HO$_2$ concentrations are not so high, GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Crounse2012}.
-    OH regeneration through photolysis of hydroperoxy-methyl-butenals (HPALDs, produced by isoprene isomerisation) in areas with high isoprene emissions are included from \textcite{Peeters2010}.
-    Photolysis of photolabile peroxy-acid-aldehydes creates OH and improved model aggreement with continental observations.
-    OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and a sink of OH \parencite{Peeters2010,Taraborrelli2012}.
-    
-    Formation of isoprene nitrates (ISOPN) have an effect on ozone levels through NO$_X$ sequestration, and the yields and destinies of these nitrates is analysed in \textcite{Paulot2009a}.
-    %% ISOPN can be oxidised (by OH) to form nitrated organic products \parencite{Paulot2009a}.
-    In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
-    GEOS-Chem uses these the yields of various positional isomers of isoprene nitrates, and pathways of their oxidation products, and reactions within its suite of chemical mechanisms determined by \textcite{Paulot2009a,Mao2013}.
-    %They use anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
-    
-    % First steps in GC: LOW NOx
-    In low NO$_X$ ISOPOO reacts with HO$_2$ ($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing hydroperoxyenals HPALDs). 
-    ISOPOOH can be oxidised (by OH) to produce epoxydiols (IEPOX), recycling OH \parencite{Paulot2009b}. 
-    HPALDs can photolyse to regenrate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
-    See section \ref{LR:VOCs:IsopCascade} for more information.
-    Under low NO$_X$ conditions production of HCHO , MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
-    
-    % High nox chemistry
-    Under high NO$_X$ conditions, isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) hydroxyl peroxy radicals (ISOPO$_2$). 
-    The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
-    The $\delta$-hydroxyl reacts with NO to form $\delta$-hydroxyl nitrates (24\%) (ISOPND), and ISOPNB (6.7\%).
-    ISOPNB and ISOPND yield first generation isoprene at 4.7\% and 7\% respectively.
-    
-    % Improvements 
-    The isoprene mechanism in GEOS-Chem includes OH regeneration from oxidation of epoxydiols and slow isomerisation of ISOPO$_2$ \parencite{Mao2013}.
-    In older models isoprene produced ISOPOOH which then titrated OH, however, the loss of OH had not been seen in measurements \parencite{Paulot2009b,Mao2013}.
-    \textcite{Mao2013} show that a lower (factor of 50) rate constant for ISOPO$_2$ isomerisation leads to better organic nitrate aggreements with ICARTT. 
-    The chemistry updates have led to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
-    Prior to \textcite{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside the instrument.    
-    The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last before version 11.
-    The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
-  
-  \subsection{Chemical Mechanisms}
+  \subsection{Chemical Mechanism}
     \label{Model:GC:Mechanisms}
     Chemical reactions are turned into systems of differential equations (DEs) to be solved by the CPU for each gridbox in GEOS-Chem.
     A chemical mechanisms is the name for a closed system of chemical reactions and the rates of each reaction.
     Simplifications are required due to the massive amount of reactions which occur in the atmosphere, and the coupled and stiff nature of these reactions which serve to slow down computation of the solutions \parencite{BrasseurJacob2017}.
     Stiffness in chemical systems of differential equations is due to the massively differing reaction rate time scales - for instance hydroxy radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
     
-    
-    
     Some of the important ones involving isoprene are copied here, including reaction rates in the form $ k = A \exp{-ER/T}$.
-    The full list of chemical reactions in the chemical mechanism of GEOS-Chem can be found online at TODO: find list
+    The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
     
     %globchem.dat in the run directory.
     % species in http://wiki.seas.harvard.edu/geos-chem/index.php/Species_in_GEOS-Chem#Aerosol-only
@@ -639,6 +591,52 @@
     %      
     \end{split} \end{align}
     In these reactions T is temperature.
+  
+  \subsection{GEOS-Chem isoprene modelling}
+    \label{Model:GC:Isop}
+
+    The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
+    This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
+    The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \textcite{Paulot2009a,Paulot2009b}.
+    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009,Peeters2010,Crounse2011,Crounse2012}.
+    % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
+    
+    
+    \textcite{Crounse2011} examines the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen through $ISOP + OH \to ISOPOO$.
+    They determine rates and uncertainties involved in these reactions, and study the rate of formation of C$_5$-hydroperoxyaldehydes (HPALDs) by isomerisation.
+    Prior to 2012 oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012}.
+    In most environments NO and HO$_2$ concentrations are not so high, GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Crounse2012}.
+    OH regeneration through photolysis of hydroperoxy-methyl-butenals (HPALDs, produced by isoprene isomerisation) in areas with high isoprene emissions are included from \textcite{Peeters2010}.
+    Photolysis of photolabile peroxy-acid-aldehydes creates OH and improved model agreement with continental observations.
+    OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and a sink of OH \parencite{Peeters2010,Taraborrelli2012}.
+    
+    Formation of isoprene nitrates (ISOPN) have an effect on ozone levels through NO$_X$ sequestration, and the yields and destinies of these nitrates is analysed in \textcite{Paulot2009a}.
+    %% ISOPN can be oxidised (by OH) to form nitrated organic products \parencite{Paulot2009a}.
+    In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
+    GEOS-Chem uses these the yields of various positional isomers of isoprene nitrates, and pathways of their oxidation products, and reactions within its suite of chemical mechanisms determined by \textcite{Paulot2009a,Mao2013}.
+    %They use anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
+    
+    % First steps in GC: LOW NOx
+    In low NO$_X$ ISOPOO reacts with HO$_2$ ($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing hydroperoxyenals HPALDs). 
+    ISOPOOH can be oxidised (by OH) to produce epoxydiols (IEPOX), recycling OH \parencite{Paulot2009b}. 
+    HPALDs can photolyse to regenrate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
+    Under low NO$_X$ conditions production of HCHO , MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
+    See section \ref{LR:VOCs:IsopCascade} for more information.
+    
+    % High nox chemistry
+    Under high NO$_X$ conditions, isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) hydroxyl peroxy radicals (ISOPO$_2$). 
+    The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
+    The $\delta$-hydroxyl reacts with NO to form $\delta$-hydroxyl nitrates (24\%) (ISOPND), and ISOPNB (6.7\%).
+    ISOPNB and ISOPND yield first generation isoprene at 4.7\% and 7\% respectively.
+    
+    % Improvements 
+    The isoprene mechanism in GEOS-Chem includes OH regeneration from oxidation of epoxydiols and slow isomerisation of ISOPO$_2$ \parencite{Mao2013}.
+    In older models isoprene produced ISOPOOH which then titrated OH, however, the loss of OH had not been seen in measurements \parencite{Paulot2009b,Mao2013}.
+    \textcite{Mao2013} show that a lower (factor of 50) rate constant for ISOPO$_2$ isomerisation leads to better organic nitrate aggreements with ICARTT. 
+    The chemistry updates have led to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
+    Prior to \textcite{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside the instrument.    
+    The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last before version 11.  
+
   
   
   \subsection{Emissions from MEGAN}
@@ -785,11 +783,11 @@
         % Local time offsets
         In order to get hourly MEGAN modelled isoprene emissions, HEMCO (the module of GEOS-Chem dealing with emissions inventories) diagnostic output was created.
         When working with globally gridded data, handling local time offsets becomes more important.
-        The hourly output emissions of isoprene is saved using GMT, which needs to be offset based on longitude in order to retrieve local time.
+        The hourly averaged output emissions of isoprene is saved using GMT, which needs to be offset based on longitude in order to retrieve local time.
         I do this by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with it's local time offset.
         This offset is determined as one hour per 15 degrees (since 360 degrees is 24 hours), and then used to retrieve global data at any specific local time.
         The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
-        are the emissions TODO: averaged or instantaneous? in each gridbox, which I've stored for each 3 hours.
+        % Emissions are averaged over the hour for hemco diag output in biogenic run at least
       \item[Tracer averages]%
         are daily or monthly averaged gridbox concentrations.
       
