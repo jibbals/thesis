@@ -820,27 +820,32 @@
     They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
     
     TODO: Go through work process and clarify these items
-    Run descriptions and their outputs are listed here, with outputs described in more detail in section :
+    Run descriptions and their outputs are listed here, with outputs described in more detail in section \ref{Model:GC:outputs}:
     \begin{enumerate}
       \item UCX 
       \begin{enumerate}
-        \item Satellite output (1300-1400LT)
-        \item Create shape factors for AMF recalculation in OMI
-        \item This run was initially used to determine if the stratospheric chemistry had much influence over tropospheric isoprene or HCHO concentrations.
+        \item Satellite output (1300-1400~LT, daily)
+        \item Determine ozone seasonality in the stratosphere and troposphere to quantify ozone flux influence.
+        \item Check how shape factors for AMF recalculation are affected by vertical resolution in OMI
+        TODO: Make a plot of AMF with without 72 vertical levels
+        \item Check if the stratospheric chemistry has much influence over tropospheric isoprene or HCHO concentrations.
       \end{enumerate}
       
       \item Tropchem (standard)
       \begin{enumerate}
-        \item satellite output, daily tracer averages
-        \item Recreate the AMFs for OMI when running code from Dr. Paul Palmer, modified by Dr. Luke Surl.
+        \item Satellite output (1300-1400~LT, daily), daily tracer averages
+        \item Recreate the AMFs for OMI
+        \item Additional output to run code from Prof. Paul Palmer, modified by Dr. Luke Surl.
         \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
-        \item TODO: Compare total yearly isoprene emissions before and after new estimate.
+        \item TODO: Compare total yearly ozone concentrations before and after implementing top-down estimate.
       \end{enumerate}
       
       \item Tropchem(isoprene emissions halved)
       \begin{enumerate}
-        \item In GEOS-Chem the isoprene emissions can be globally multiplied by a constant factor.
-        \item An estimate of modelled HCHO sensitivity to isoprene emissions and transport (smearing) can be determined.
+        \item Satellite output (1300-1400~LT, daily)
+        \item Monthly averaged tracer concentrations
+        \item Check ozone sensitivity to isoprene emissions
+        \item Determine model sensitivity transport (smearing)
         \item Smearing is determined by running the model with the biogenic isoprene emissions halved while other parameters remain unchanged (see \ref{BioIsop:Methods:Smearing}).
       \end{enumerate}
       
