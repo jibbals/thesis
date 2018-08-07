@@ -610,19 +610,19 @@
   
   \subsection{GEOS-Chem isoprene modelling}
     \label{Model:GC:Isop}
-
+    
     The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
     This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
     The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \textcite{Paulot2009a, Paulot2009b}.
     Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009, Peeters2010, Crounse2011, Crounse2012}.
     % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
     
-    
+    % hpald: hydroperoxyenal, hydroperoxyaldehyde, hydroperoxy-methyl-butenals
     \textcite{Crounse2011} examines the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen through $ISOP + OH \to ISOPOO$.
-    They determine rates and uncertainties involved in these reactions, and study the rate of formation of C$_5$-hydroperoxyaldehydes (HPALDs) by isomerisation.
-    Prior to 2012 oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012}.
+    They determine rates and uncertainties involved in these reactions, and study the rate of formation of C$_5$-hydroperoxyenals (C5-HPALD) by isomerisation.
+    Prior to 2012 oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012,Wolfe2012}.
     In most environments NO and HO$_2$ concentrations are not so high, GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Crounse2012}.
-    OH regeneration through photolysis of hydroperoxy-methyl-butenals (HPALDs, produced by isoprene isomerisation) in areas with high isoprene emissions are included from \textcite{Peeters2010}.
+    OH regeneration through photolysis of HPALDs in areas with high isoprene emissions are included from \textcite{Peeters2010}.
     Photolysis of photolabile peroxy-acid-aldehydes creates OH and improved model agreement with continental observations.
     OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and a sink of OH \parencite{Peeters2010,Taraborrelli2012}.
     
@@ -633,12 +633,12 @@
     %They use anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
     
     % First steps in GC: LOW NOx
-    In low NO$_X$ ISOPOO reacts with HO$_2$ ($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing hydroperoxyenals HPALDs). 
+    GEOS-Chem models both high and low NO$_X$ scenarios using NO$_X$ dependent reactions as derived by \textcite{Paulot2009a,Mao2013}.
+    In low NO$_X$ ISOPOO reacts with HO$_2$ ($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing HPALDs). 
     ISOPOOH can be oxidised (by OH) to produce epoxydiols (IEPOX), recycling OH \parencite{Paulot2009b}. 
-    HPALDs can photolyse to regenrate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
+    HPALDs can photolyse to regenerate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
     Under low NO$_X$ conditions production of HCHO , MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
     See section \ref{LR:VOCs:IsopCascade} for more information.
-    
     % High nox chemistry
     Under high NO$_X$ conditions, isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) hydroxyl peroxy radicals (ISOPO$_2$). 
     The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
@@ -662,10 +662,10 @@
     MEGAN uses leaf area index, global meteorological data, and plant functional types (PFTs) to simulate terrestrial isoprene emissions.
     The model includes global measurements of leaf area index, plant functional type, and photosynthetic photon flux density, from remote sensing databases \parencite{Kefauver2014}.
     The various PFTs are used to generate emission factors which represent quantities of a compound released to the atmosphere through an associated activity.
-    For example, an emission factor for isoprene within a forest would include the requirement of sunshine and suitable temperature.
+    For example, the emission factor for isoprene is tied to available sunshine, suitable temperature, etc.
     The schematic for MEGAN, taken from \textcite{Megan_Website}, is shown in figure \ref{Models:GC:Isop:MEGAN:fig_megan_schematic}
     
-    \begin{figure}[!htbp]
+    \begin{figure}
       \includegraphics[width=\textwidth]{Figures/MEGANmodel_img.jpg}
       \caption{MEGAN schematic, copied from \textcite{Megan_Website}}
       \label{Models:GC:Isop:MEGAN:fig_megan_schematic}
@@ -673,14 +673,14 @@
     
     GEOS-Chem V10.01 uses MEGAN V2.1 with biogenic emissions from \textcite{Guenther2012}.
     It computes some emissions using predefined EF maps from MEGAN source code, and others using PFT maps and associated EFs.
-    MEGAN ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions.'' \parencite{Guenther2012}.
+    MEGAN ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions'' \parencite{Guenther2012}.
     It allows parameterisation of various BVOC emissions, with descriptions given in \textcite{Guenther2012}.
     
     MEGAN was developed as a replacement for two earlier canopy-environment emission models (BIES and GEIA), and initially included a simple canopy radiative transfer model, which parameterised sun-lit and shaded conditions through a canopy.
-    Early models didn't account for abiotic stresses, such as drought, prior rainfall and development processes. These stresses influenced species-specific emissions by more than an order of magnitude \parencite{Niinemets1999}.
+    Early models did not account for abiotic stresses, such as drought, prior rainfall and development processes. These stresses influenced species-specific emissions by more than an order of magnitude \parencite{Niinemets1999}.
     Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \parencite{Guenther2000}, and a leaf energy balance model \parencite{Guenther2006} in MEGANv2.0.
     This update included a parameter for soil moisture, to account for drought conditions, however this parameter is currently (as of version 2.1) not applied to isoprene \parencite{Sindelarova2014}.
-    Soil moisture effects on isoprene emission are very important, and can affect estimates.
+    Soil moisture effects on isoprene emission are important, and can affect estimates.
     
     Instructions to run version 2.1 are available at \url{http://lar.wsu.edu/megan/docs/MEGAN2.1_User_GuideWSU.pdf}, and a version using the Community Land Model (CLM) is available at \url{http://www.cesm.ucar.edu}.
     It uses meteorological fields from the Weather Research and Forecasting (WRF) modelling system.
@@ -688,18 +688,18 @@
   
   \subsection{Rescaling NOx}
   
-    NO$_X$ concentrations affect HCHO yield, isoprene lifetimes, and other things due to affects on the atmospheres oxidative capacity.
-    This means that if the model is poorly simulating NO$_X$, isoprene to HCHO yield and transport (see \ref{BioIsop:Methods:Smearing}) may be poorly estimated.
-    In order to determine if rescaling the NO emissions over Australia is necessary in GEOS-Chem, I looked at modelled NO$_2$ amounts compared to satellite data for most of 2005.
+    NO$_X$ concentrations affect atmospheric oxidative capacity, which changes many factors important in estimating isoprene emissions including isoprene to HCHO yield, isoprene lifetime, and isoprene oxidation pathways.
+    This means that if the model is poorly simulating NO$_X$, yields and the effects of transport may be poorly estimated.
+    In order to determine if re-scaling the NO emissions over Australia is necessary in GEOS-Chem, modelled NO$_2$ amounts are compared to satellite data for most of 2005.
     
     % Geos chem vs tropno2 from omno2d
     Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
     Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
-    It's clear that the OMNO2d product can pick out Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
+    The top row shows (from left to right) GEOS-Chem NO$_2$, OMI NO$_2$ at 0.25x0.3125\degr, and OMI NO$_2$ at 2x2.5\degr.
+    The bottom row shows the difference (absolute, and relative) between GEOS-Chem and OMI, as well as the RMA linear correlation.
+    The OMNO2d product shows Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
     Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
-    The correlation between the bias (GEOS-Chem - OMNO2d) with anthropogenic and soil emissions is shown in the bottom rows.
     The comparison for January and February of 2005 in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}, and winter (JJA) of 2005 in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}.
-    The poor correlations for anthropogenic NO suggest that blanket alterations over Australia would not lead to improved NO$_2$ fit. 
     
     \begin{figure}
       % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
@@ -723,14 +723,16 @@
       \label{Model:Analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}
     \end{figure}
     
-    This comparison is expanded, including a comparison against modelled emissions, and repeated for autumn (MAM), winter (JJA), and spring (SON) in figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}.
+    This comparison is expanded, including against modelled emissions, and repeated for autumn (MAM), winter (JJA), and spring (SON) in figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}.
     These show an analysis of GEOS-Chem NO emissions and their correlations with the bias between GEOS-Chem NO$_2$ mid-day columns and the OMNO2d product, averaged over each season in 2005.
     The scatter plots have one datapoint for each land square over Australia.
+    The correlation between the bias (GEOS-Chem - OMNO2d) with anthropogenic and soil emissions is shown in the bottom right of these figures.
     
     The correlation between model and satellite NO$_2$ columns is OK throughout the year over Australia, with some overestimation in the north during non-summer months.
     There is also slight underestimation over Sydney and Melbourne throughout the year.
     Figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr} show that the visible biases are not driven by modelled emissions of NO.
     While the correlation between column NO$_2$ and emitted NO is clear, emissions do not appear to bias the model in either direction away from the satellite data.
+    The poor correlations for anthropogenic NO suggest that blanket alterations over Australia would not lead to improved NO$_2$ fit. 
     
     % Figures from GC_tests.py GCe_vs_OMNO2d
     \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050101-20050228.png}
@@ -738,7 +740,7 @@
       Top row (left to right): GEOS-Chem NO$_2$ mid-day tropospheric columns, OMNO2d NO$_2$ columns, modelled anthropogenic NO emissions. 
       Second row: absolute and relative difference between GEOS-Chem and OMI NO$_2$ data, and the correlation.
       Third row: correlation between GEOS-Chem tropospheric column NO$_2$ and emitted NO, then between the model-satellite bias and the emissions.
-      All correlation plots are coloured by emission rates.
+      All correlation plots are coloured by NO emission rates.
     }
     {\label{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum}}
     
@@ -839,7 +841,7 @@
       \begin{enumerate}
         \item In GEOS-Chem the isoprene emissions can be globally multiplied by a constant factor.
         \item An estimate of modelled HCHO sensitivity to isoprene emissions and transport (smearing) can be determined.
-        \item Smearing is determined by running the model with the biogenic isoprene emissions halved while other parameters remain unchanged.
+        \item Smearing is determined by running the model with the biogenic isoprene emissions halved while other parameters remain unchanged (see \ref{BioIsop:Methods:Smearing}).
       \end{enumerate}
       
       \item Tropchem(biogenic emissions only, all other inventories turned off)
