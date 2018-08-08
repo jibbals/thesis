@@ -520,7 +520,6 @@
       Davis (on the coast of Antarctica) is also unlikely to experience the effects of anthropogenic pollution.
       More information on this dataset is given in section \ref{Ozone:DataMethods}.
       
-% UP TO HERE DRAFT
 \section{GEOS-Chem}
   \label{Model:GC}
 
@@ -694,12 +693,12 @@
     
     % Geos chem vs tropno2 from omno2d
     Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
-    Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005} shows the direct comparison between these datasets averaged over the month of January, 2005.
+    Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005} shows the direct comparison between these datasets averaged over the months of January and February, 2005.
     The top row shows (from left to right) GEOS-Chem NO$_2$, OMI NO$_2$ at 0.25x0.3125\degr, and OMI NO$_2$ at 2x2.5\degr.
     The bottom row shows the difference (absolute, and relative) between GEOS-Chem and OMI, as well as the RMA linear correlation.
     The OMNO2d product shows Sydney and Melbourne as NO$_2$ hotspots, which are underestimated by GEOS-Chem due to averaging over the 2x2.5\degr horizontal resolution.
     Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in NA and northern Queensland where up to 50\% underestimation occurs.
-    The comparison for January and February of 2005 in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}, and winter (JJA) of 2005 in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}.
+    The comparison is repeated for winter (JJA) of 2005 in Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}.
     
     \begin{figure}
       % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
@@ -726,11 +725,10 @@
     This comparison is expanded, including against modelled emissions, and repeated for autumn (MAM), winter (JJA), and spring (SON) in figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr}.
     These show an analysis of GEOS-Chem NO emissions and their correlations with the bias between GEOS-Chem NO$_2$ mid-day columns and the OMNO2d product, averaged over each season in 2005.
     The scatter plots have one datapoint for each land square over Australia.
-    The correlation between the bias (GEOS-Chem - OMNO2d) with anthropogenic and soil emissions is shown in the bottom right of these figures.
-    
+    The correlation between the bias (GEOS-Chem - OMNO2d) with anthropogenic or soil emissions ($E_{NO}$) is shown in the bottom right of these figures.    
     The correlation between model and satellite NO$_2$ columns is OK throughout the year over Australia, with some overestimation in the north during non-summer months.
     There is also slight underestimation over Sydney and Melbourne throughout the year.
-    Figures \ref{Model:Analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:Analysis:NOx:fig_GC_vs_OMI_soil_Spr} show that the visible biases are not driven by modelled emissions of NO.
+    These figures show the visible biases are not driven by modelled emissions of NO.
     While the correlation between column NO$_2$ and emitted NO is clear, emissions do not appear to bias the model in either direction away from the satellite data.
     The poor correlations for anthropogenic NO suggest that blanket alterations over Australia would not lead to improved NO$_2$ fit. 
     
@@ -776,41 +774,40 @@
     The conclusion drawn is that modelled anthropogenic and soil NO emissions do not show sufficient evidence of biasing GEOS-Chem NO$_2$ columns away from satellite measurements over Australia.
     For this reason modelled NO emissions are not scaled in model runs in this thesis.
   
-  
-  
   \subsection{GEOS-Chem outputs}
     \label{Model:GC:outputs}
-    There are various outputs available when running GEOS-Chem, which require understanding in order to compare with observations.
+    There are various outputs available when running GEOS-Chem, some of which require manipulation in order to compare against observations.
     % Default time step and resolution of GC outputs
     GEOS-Chem in this thesis is run with a 15 minute time step for both chemistry and transport, at 2x2.5\degr horizontal resolution over 47 vertical levels.
-    Generally output is the average of these time steps either over an entire month, or else per day.
-    
-    In my work when estimating model yields of isoprene to HCHO, I use daily averaged HCHO columns and compare them to colocated isoprene emissions from MEGAN.
+    Output is the average of these time steps either over an entire month, or else per day, or else for the daily local time window of 1300-1400.
+    For example: in this thesis, estimation of model isoprene to HCHO yields uses daily averaged HCHO columns compared against colocated isoprene emissions from MEGAN.
     Optionally one can save high temporally resolved data for a single (or list of) column(s).
-    I've used this diagnostic to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
-    
+    This has been used here to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
     
     \begin{description}
       \item[Satellite overpass]%
         is output from averaging over a window of local time for each gridbox. 
         This output allows comparison with satellite measurements, which overpass at the same local time every day.
-        This diagnostic allows easier analysis of model data against a satellite as one can match the output with the satellite's overpass time.
         Output averaged between 1300-1400 LT is saved to allow comparisons with Aura satellite measurements, as Aura overpasses at $\sim$1330 LT each day.
         This has been performed by others \parencite[eg.][]{Jin2017}.
       \item[HEMCO diagnostics]%
+        are output by the HEMCO module, which deals with emissions inventories used in GEOS-Chem.
         % Local time offsets
-        In order to get hourly MEGAN modelled isoprene emissions, HEMCO (the module of GEOS-Chem dealing with emissions inventories) diagnostic output was created.
         When working with globally gridded data, handling local time offsets becomes more important.
         The hourly averaged output emissions of isoprene is saved using GMT, which needs to be offset based on longitude in order to retrieve local time.
         I do this by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with it's local time offset.
-        This offset is determined as one hour per 15 degrees (since 360 degrees is 24 hours), and then used to retrieve global data at any specific local time.
+        This offset is determined as one hour per 15\degr (as 360\degr is 24 hours), and then used to retrieve global data at any specific local time.
         The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
         % Emissions are averaged over the hour for hemco diag output in biogenic run at least
       \item[Tracer averages]%
-        are daily or monthly averaged gridbox concentrations.
-      
+        are daily or monthly averaged gridbox concentrations. 
+        These are used for several purposes including ozone intrusion quantification (see section \ref{Ozone:fig:GEOSChemSeasonalProfiles}), and isoprene emissions estimation sensitivities (see section \ref{BioIsop:Method:Smearing}).
+      \item[Time series]%
+        are 2x2.5\degr vertical columns it is possible to save diagnostics at a temporal resolution of up to 15 minutes.
+        TODO: How am I using this output (Ozone comparison?)
+        
     \end{description}
-     
+  % UP TO HERE DRAFT
   \subsection{GEOS-Chem simulations}
     \label{Model:GC:runs}
     

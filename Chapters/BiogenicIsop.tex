@@ -355,6 +355,7 @@
     When estimating emissions of isoprene using one of its products, it is often assumed that isoprene has a short lifetime, however when low NO$_X$ environments (which are prevalent in the Australian outback) this assumption can be wrong.
     Smearing (or spatial smearing) is a measure of how much formaldehyde (the product) was created from isoprene (the precursor) emissions in a different grid box.
     Smearing has been measured in order to account for this uncertainty in various works \parencite{Martin2003,Palmer2003,Millet2006,Marais2012,Barkley2013,Zhu2014,Wolfe2016,Surl2018}, often implementing the method designed in \textcite{Palmer2003}.
+    \textcite{Marais2012} additionally use airborn isoprene, MVK $+$ MACR (isoprene oxidation products), and HCHO measurements to check smearing in Africa where there is a sharp gradient of isoprene emitting vegetation from north to south.
     
     Horizontal transport complicates estimation of precursor emissions, as the smearing length scale which increases beyond our gridbox size.
     The smearing length scale; the distance travelled downwind (L$_{d,i}$) by a precursor (i) before becoming HCHO can be estimated using:
@@ -369,12 +370,12 @@
     \end{equation}
     with limiting values L$_{s,i} \rightarrow U/k_i$ for $k_i << k_{HCHO}$, and L$_{s,i} \rightarrow U/k_{HCHO}$ for $k_{HCHO} << k_i$.  
     
-    TODO: calculation of smearing
     Smearing sensitive grid boxes within the model can be detected by running with and without isoprene emissions halved.
     Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{Isop}} $, where $\Delta$ represents the monthly mean departure over 1300-1400LT from default run values.
     This allows us to determine which gridboxes are disproportionately affected by emissions from non-local sources.
     Consider halving the isoprene emitted globally and rerunning the model, you would expect HCHO enhancement (above background levels) to be halved in isoprene emitting grid-squares.
     If the local grid-square HCHO enhancement is reduced by much more than half (factoring yield) then you can infer sensitivity to non-local isoprene emissions.
+    $\hat{S}$ is shown per month in 2005 in figure TODO, along with diamonds and dots in gridsquares above the thresholds of 4000 (as seen in \textcite{Marais2012}) and 6000 (less restrictive) respectively.
     
     Smearing can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
     As such smearing sensitivity is both spatially and temporally diverse, shown in figure TODO: is a picture of the smearing sensitivity over Australia.
