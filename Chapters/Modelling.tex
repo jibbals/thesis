@@ -774,69 +774,76 @@
     The conclusion drawn is that modelled anthropogenic and soil NO emissions do not show sufficient evidence of biasing GEOS-Chem NO$_2$ columns away from satellite measurements over Australia.
     For this reason modelled NO emissions are not scaled in model runs in this thesis.
   
-  \subsection{GEOS-Chem outputs}
-    \label{Model:GC:outputs}
-    There are various outputs available when running GEOS-Chem, some of which require manipulation in order to compare against observations.
-    % Default time step and resolution of GC outputs
-    GEOS-Chem in this thesis is run with a 15 minute time step for both chemistry and transport, at 2x2.5\degr horizontal resolution over 47 vertical levels.
-    Output is the average of these time steps either over an entire month, or else per day, or else for the daily local time window of 1300-1400.
-    For example: in this thesis, estimation of model isoprene to HCHO yields uses daily averaged HCHO columns compared against colocated isoprene emissions from MEGAN.
-    Optionally one can save high temporally resolved data for a single (or list of) column(s).
-    This has been used here to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
+
+  \subsection{GEOS-Chem simulations}
+    \label{Model:GC:simulation}
     
-    \begin{description}
-      \item[Satellite overpass]%
+    GEOS-Chem is run four independent times in this thesis, with different outputs from each simulation used to determine specific information. 
+    In this section the different output types are first described (section \ref{Model:GC:simulation:outputs}).
+    Following this is the list of model runs, including a summary of the run, which outputs are created, and a summary of how they are used (section \ref{Model:GC:simulation:runs}).
+    Finally a brief comparison between a subset of the runs is performed (section \ref{Model:GC:simulation:comparison}).
+    
+    \subsubsection{GEOS-Chem outputs}
+      \label{Model:GC:simulation:outputs}
+      There are various outputs available when running GEOS-Chem, some of which require manipulation in order to compare against observations.
+      % Default time step and resolution of GC outputs
+      GEOS-Chem in this thesis is run with a 15 minute time step for both chemistry and transport, at 2x2.5\degr horizontal resolution over 47 vertical levels.
+      Output is the average of these time steps either over an entire month, or else per day, or else for the daily local time window of 1300-1400.
+      For example: in this thesis, estimation of model isoprene to HCHO yields uses daily averaged HCHO columns compared against colocated isoprene emissions from MEGAN.
+      Optionally one can save high temporally resolved data for a single (or list of) column(s).
+      This has been used here to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
+      
+      \begin{description}
+        \item[Satellite output]%
         is output from averaging over a window of local time for each gridbox. 
-        This output allows comparison with satellite measurements, which overpass at the same local time every day.
-        Output averaged between 1300-1400 LT is saved to allow comparisons with Aura satellite measurements, as Aura overpasses at $\sim$1330 LT each day.
-        This has been performed by others \parencite[eg.][]{Jin2017}.
-      \item[HEMCO diagnostics]%
+        Output averaged between 1300-1400 LT is saved to match with Aura satellite measurements, as Aura overpasses at $\sim$1330 LT each day.
+        Satellite output is saved both for comparison with, and recalculation of, satellite measurements.
+        %This has been performed by others \parencite[eg.][]{Jin2017}.
+        \item[HEMCO diagnostics]%
         are output by the HEMCO module, which deals with emissions inventories used in GEOS-Chem.
         % Local time offsets
         When working with globally gridded data, handling local time offsets becomes more important.
         The hourly averaged output emissions of isoprene is saved using GMT, which needs to be offset based on longitude in order to retrieve local time.
-        I do this by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with it's local time offset.
+        This is done by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with it's local time offset.
         This offset is determined as one hour per 15\degr (as 360\degr is 24 hours), and then used to retrieve global data at any specific local time.
         The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
         % Emissions are averaged over the hour for hemco diag output in biogenic run at least
-      \item[Tracer averages]%
+        \item[Tracer averages]%
         are daily or monthly averaged gridbox concentrations. 
-        These are used for several purposes including ozone intrusion quantification (see section \ref{Ozone:fig:GEOSChemSeasonalProfiles}), and isoprene emissions estimation sensitivities (see section \ref{BioIsop:Method:Smearing}).
-      \item[Time series]%
+        \item[Time series]%
         are 2x2.5\degr vertical columns it is possible to save diagnostics at a temporal resolution of up to 15 minutes.
-        TODO: How am I using this output (Ozone comparison?)
         
-    \end{description}
-  % UP TO HERE DRAFT
-  \subsection{GEOS-Chem simulations}
-    \label{Model:GC:runs}
+        These are compared against ozonesonde releases (section \ref{Ozone:ModelComparison}) both over time and vertically.
+        
+      \end{description}
     
-    GEOS-Chem is run four independent times in this thesis, with different outputs from each simulation used to determine specific information. 
-    Output averaged over 1300 - 1400 local time is saved for comparison with, and recalculation of, satellite overpass records.
-    These averages are used to calculate both the GEOS-Chem based AMF, and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (see section \ref{Model:omiRecalc:RSC}).
-    They are also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions.
+    \subsubsection{GEOS-Chem runs}
+    \label{Model:GC:simulation:runs}
     
-    TODO: Go through work process and clarify these items
-    Run descriptions and their outputs are listed here, with outputs described in more detail in section \ref{Model:GC:outputs}:
-    \begin{enumerate}
-      \item UCX 
-      \begin{enumerate}
-        \item Satellite output (1300-1400~LT, daily)
-        \item Determine ozone seasonality in the stratosphere and troposphere to quantify ozone flux influence.
-        \item Check how shape factors for AMF recalculation are affected by vertical resolution in OMI
-        TODO: Make a plot of AMF with without 72 vertical levels
-        \item Check if the stratospheric chemistry has much influence over tropospheric isoprene or HCHO concentrations.
-      \end{enumerate}
+    The following list summarises each model run as well as enumerating the outputs (described above), and how the run is used in the thesis.
+    \begin{description}
+      \item[UCX]%
+        Universal tropospheric-stratospheric Chemistry eXtension (UCX) mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa).
+        UCX runs a chemistry mechanism with combined tropospheric and stratospheric reactions, with an increased number of stratospheric calculations performed online \parencite{Eastham2014}.
+        \begin{enumerate}
+          \item Satellite output, daily tracer averages, time series over three stations
+          \item Satellite output used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry 
+          TODO: Make a plot of AMF with and without 72 vertical levels
+          \item Check if the stratospheric chemistry has much influence over tropospheric isoprene or HCHO concentrations.
+          \item daily tracer averages are used for ozone intrusion quantification (section \ref{Ozone:fluxcalc}), and ozone seasonality (section \ref{Ozone:ModelComparison}).
+        \end{enumerate}
       
       \item Tropchem (standard)
       \begin{enumerate}
-        \item Satellite output (1300-1400~LT, daily), daily tracer averages
-        \item Recreate the AMFs for OMI
-        \item Additional output to run code from Prof. Paul Palmer, modified by Dr. Luke Surl.
-        \item Combined with an identical run where isoprene emissions are halved in order to determine smearing.
+        \item Satellite output, daily tracer averages, HEMCO diagnostics
+        \item Used in recalculation of the satellite AMF (section \ref{Model:AMF}), and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (section \ref{Model:omiRecalc:RSC})
+        \item Also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions (section \ref{BioIsop:Method:slope})
+        \item Additional outputs are used to run code from Prof. Paul Palmer, modified by Dr. Luke Surl which provides another AMF calculation
+        \item TODO: ONE OF THESE Satellite output or monthly tracer averages is combined with another run in order to determine smearing (section \ref{BioIsop:Method:Smearing})
+        \item HEMCO diagnostics output used to determine isoprene to HCHO yields (section \ref{BioIsop:Calculation:eqn_isop_yield}), and to compare against top-down estimations of isoprene emissions (section \ref{BioIsop:Results:Emissions})
         \item TODO: Compare total yearly ozone concentrations before and after implementing top-down estimate.
       \end{enumerate}
-      
+      % UP TO HERE DRAFT
       \item Tropchem(isoprene emissions halved)
       \begin{enumerate}
         \item Satellite output (1300-1400~LT, daily)
@@ -853,7 +860,7 @@
         \item TODO: compared to run with updated emissions
       \end{enumerate}
       
-    \end{enumerate}
+    \end{description}
     NB: for non-UCX runs, satellite output was modified to include tropopause height
     
     
@@ -881,7 +888,7 @@
     %	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
     
     \subsubsection{Run comparisons}
-    
+    \label{Model:GC:simulation:comparison}
     There are many options available when running GEOS-Chem depending on the desired chemistry, resolution, meteorology, and boundary conditions.
     Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
     %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
@@ -889,7 +896,7 @@
     The extra vertical levels are added in the stratosphere, providing finer vertical resolution from around 70~hPa to the top of the atmosphere.
     For both runs the inpup parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
     
-    GEOS-Chem output of HCHO does not differ much between runs with or without the Unified Chemistry eXchange (UCX).
+    GEOS-Chem output of HCHO does not differ much between runs with or without the UCX.
     Figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO} shows an example of surface HCHO amounts with and without UCX turned on.
     The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
     
@@ -936,100 +943,101 @@
     
 
       
-  \section{Calculating an AMF}
-    \label{Model:AMF}
+\section{Calculating an AMF}
+  \label{Model:AMF}
     
-    The AMF is the ratio of the slant column ($\Omega_s$) to the vertical column ($\Omega_v$)
-    \begin{equation} \label{Model:AMF:eqn_AMFFrac}
-      AMF=\frac{\Omega_s}{\Omega_v} = \frac{\tau_s}{\tau_v}
-    \end{equation}
-    with $\tau$ being the optical depth or thickness of the absorber through the slant (\textit{s}) or vertical (\textit{v}) path of light
-    
-    
-    The OMI instrument records spectra of light which enters the viewing lens on board the satellite.
-    The spectra provide backscattered intensity ($I_B$) at various wavelengths (see section \ref{Model:Datasets:Aura}), with the light source ($I_{B_0}$) being the sun. 
-    Using the log of beers law (equation \ref{Model:Meas:DOAS:eqn_beerslaw}) we get 
-    $$ \tau_s = \ln{I_{B_0}} - \ln{I_B} $$
-    which can be subbed into equation \ref{Model:AMF:eqn_AMFFrac} to give an expression for the AMF which includes scattering:
-    \begin{equation} \label{Model:AMF:eqn_amfscattering}
-      AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
-    \end{equation}
-    %{Model:Meas:DOAS:eqn_backscatterextinction}
-    %$\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
-    
-    We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. 
-    For optically thin absorption, $\nabla I / I_B << 1$, and we can use:
-    \begin{equation} \label{Model:AMF:eqn_AMFthin}
-      AMF = \frac{\ln{ \left( 1 - \frac{\nabla I}{I_B} \right)} }{\tau_v} \approx \frac{ - \frac{\nabla I}{I_B} }{\tau_v}
-    \end{equation}
-    This is due to the logarithmic property $\ln \left(1-x \right) \approx -x$ for $x<<1$.
-    $\nabla I$ can also be expressed as the integral of the absorption slices over optical depth increments: 
-    \begin{eqnarray*}
+  The AMF is the ratio of the slant column ($\Omega_s$) to the vertical column ($\Omega_v$)
+  \begin{equation} \label{Model:AMF:eqn_AMFFrac}
+    AMF=\frac{\Omega_s}{\Omega_v} = \frac{\tau_s}{\tau_v}
+  \end{equation}
+  with $\tau$ being the optical depth or thickness of the absorber through the slant (\textit{s}) or vertical (\textit{v}) path of light
+  
+  
+  The OMI instrument records spectra of light which enters the viewing lens on board the satellite.
+  The spectra provide backscattered intensity ($I_B$) at various wavelengths (see section \ref{Model:Datasets:Aura}), with the light source ($I_{B_0}$) being the sun. 
+  Using the log of beers law (equation \ref{Model:Meas:DOAS:eqn_beerslaw}) we get 
+  $$ \tau_s = \ln{I_{B_0}} - \ln{I_B} $$
+  which can be subbed into equation \ref{Model:AMF:eqn_AMFFrac} to give an expression for the AMF which includes scattering:
+  \begin{equation} \label{Model:AMF:eqn_amfscattering}
+    AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
+  \end{equation}
+  %{Model:Meas:DOAS:eqn_backscatterextinction}
+  %$\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
+  
+  We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. 
+  For optically thin absorption, $\nabla I / I_B << 1$, and we can use:
+  \begin{equation} \label{Model:AMF:eqn_AMFthin}
+    AMF = \frac{\ln{ \left( 1 - \frac{\nabla I}{I_B} \right)} }{\tau_v} \approx \frac{ - \frac{\nabla I}{I_B} }{\tau_v}
+  \end{equation}
+  This is due to the logarithmic property $\ln \left(1-x \right) \approx -x$ for $x<<1$.
+  $\nabla I$ can also be expressed as the integral of the absorption slices over optical depth increments: 
+  \begin{eqnarray*}
     \nabla I &= \int_0^{\tau_v}{\frac{\partial I_B}{\partial \tau} \mathrm{d}\tau}
     \frac{\nabla I}{I_B} & = \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
-    \end{eqnarray*}
-    which can be placed into equation \ref{Model:AMF:eqn_AMFthin} leading to
-    \begin{equation*}
+  \end{eqnarray*}
+  which can be placed into equation \ref{Model:AMF:eqn_AMFthin} leading to
+  \begin{equation*}
     AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
-    \end{equation*}
-    We can then convert $\text{d}\tau$ to our path using equation \ref{Model:Meas:DOAS:eqn_tau} leading to
-    \begin{equation} \label{Model:AMF:eqn_AMFcross}
+  \end{equation*}
+  We can then convert $\text{d}\tau$ to our path using equation \ref{Model:Meas:DOAS:eqn_tau} leading to
+  \begin{equation} \label{Model:AMF:eqn_AMFcross}
     AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
-    \end{equation}
-    where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. 
-    This uses the attenuation cross section relationship to optical depth (see section \ref{Model:Meas:DOAS}).
-    
-    To represent an average cross section weighted by the absorbing species' vertical distribution, the effective cross section ($\alpha_e$) is used.
-    This is to account for temperature and pressure dependence of $\alpha(z)$, and is defined as:
-    \begin{align*}
-      \alpha_e &= \frac{1}{\Omega_v} \int_0^\infty \alpha(z) \eta(z) \mathrm{d}z \\
-       &= \frac{\tau_v}{\Omega_v}
-    \end{align*}
-    Then replacing the $\tau_v$ in equation \ref{Model:AMF:eqn_AMFcross} we obtain:
-    \begin{equation} \label{Model:AMF:eqn_AMFpreomega}
-      AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
-    \end{equation}
-    Often the integrand of this AMF formula (equation \ref{Model:AMF:eqn_AMFpreomega}) is broken apart into two defining terms: the scattering weights $\omega(z)$ and the shape factor $S(z)$.
-    \begin{description}
-      \item[$\omega$] The scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
-      \begin{equation} \label{Model:AMF:eqn_omega}
+  \end{equation}
+  where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. 
+  This uses the attenuation cross section relationship to optical depth (see section \ref{Model:Meas:DOAS}).
+  
+  To represent an average cross section weighted by the absorbing species' vertical distribution, the effective cross section ($\alpha_e$) is used.
+  This is to account for temperature and pressure dependence of $\alpha(z)$, and is defined as:
+  \begin{align*}
+    \alpha_e &= \frac{1}{\Omega_v} \int_0^\infty \alpha(z) \eta(z) \mathrm{d}z \\
+     &= \frac{\tau_v}{\Omega_v}
+  \end{align*}
+  Then replacing the $\tau_v$ in equation \ref{Model:AMF:eqn_AMFcross} we obtain:
+  \begin{equation} \label{Model:AMF:eqn_AMFpreomega}
+    AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
+  \end{equation}
+  Often the integrand of this AMF formula (equation \ref{Model:AMF:eqn_AMFpreomega}) is broken apart into two defining terms: the scattering weights $\omega(z)$ and the shape factor $S(z)$.
+  \begin{description}
+    \item[$\omega$] The scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
+    \begin{equation} \label{Model:AMF:eqn_omega}
       \omega(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
-      \end{equation}
-      It's worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and a the calculations which follow therefor do not include this term when utilising the provided $\omega$.
-      This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
-      \item[$S$] the shape factor describes the profile of an absorber ($\eta(z)$) normalised by its total vertical column amount ($\Omega_v$):
-      \begin{equation} \label{Model:AMF:eqn_shapefactor}
-        S(z) = \frac{\eta(z)}{\Omega_v}
-      \end{equation}
-    \end{description}
-    
-    Plugging equations \ref{Model:AMF:eqn_omega} and \ref{Model:AMF:eqn_shapefactor} into equation \ref{Model:AMF:eqn_AMFpreomega} gives us:
-    \begin{equation} \label{Model:AMF:eqn_AMF_amfgintwSdz}
-      AMF = AMF_G\int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
     \end{equation}
-    Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation as it is not part equation \ref{Model:AMF:eqn_omega} leading to 
-    \begin{equation} \label{Model:AMF:eqn_AMF_intwSdz}
-      AMF = \int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
+    It's worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and a the calculations which follow therefor do not include this term when utilising the provided $\omega$.
+    This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
+    \item[$S$] the shape factor describes the profile of an absorber ($\eta(z)$) normalised by its total vertical column amount ($\Omega_v$):
+    \begin{equation} \label{Model:AMF:eqn_shapefactor}
+      S(z) = \frac{\eta(z)}{\Omega_v}
     \end{equation}
-    
-    Additionally the AMF can be determined using the sigma ($\sigma$) coordinate system.
-    A conversion to the $\sigma$ vertical coordinate is performed using $P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
-    This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
-    $S_\sigma$ is a dimensionless normalised shape factor on the $\sigma$ coordinate system.
-    In the sigma coordinate system we calculated the shape factor as defined in \textcite{Palmer2001}:
-    \begin{equation} \label{Model:AMF:eqn_ShapeFactorSigma}
+  \end{description}
+  
+  Plugging equations \ref{Model:AMF:eqn_omega} and \ref{Model:AMF:eqn_shapefactor} into equation \ref{Model:AMF:eqn_AMFpreomega} gives us:
+  \begin{equation} \label{Model:AMF:eqn_AMF_amfgintwSdz}
+    AMF = AMF_G\int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
+  \end{equation}
+  Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation as it is not part equation \ref{Model:AMF:eqn_omega} leading to 
+  \begin{equation} \label{Model:AMF:eqn_AMF_intwSdz}
+    AMF = \int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
+  \end{equation}
+  
+  Additionally the AMF can be determined using the sigma ($\sigma$) coordinate system.
+  A conversion to the $\sigma$ vertical coordinate is performed using $P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
+  This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
+  $S_\sigma$ is a dimensionless normalised shape factor on the $\sigma$ coordinate system.
+  In the sigma coordinate system we calculated the shape factor as defined in \textcite{Palmer2001}:
+  \begin{equation}
+    \label{Model:AMF:eqn_ShapeFactorSigma}
     S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
-    \end{equation}
-    where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
-    The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us integrate over the sigma coordinates:
-    \begin{align*}
+  \end{equation}
+  where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
+  The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us integrate over the sigma coordinates:
+  \begin{align*}
     \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
     \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
-    \end{align*}
-    Substitution into \ref{Model:AMF:eqn_AMF_intwSdz} gives AMF using the sigma coordinates:
-    \begin{equation} \label{Model:AMF:eqn_AMFintwSdsigma}
+  \end{align*}
+  Substitution into \ref{Model:AMF:eqn_AMF_intwSdz} gives AMF using the sigma coordinates:
+  \begin{equation} \label{Model:AMF:eqn_AMFintwSdsigma}
     AMF = \int_0^1 w(\sigma) S_\sigma(\sigma) \mathrm{d}\sigma
-    \end{equation}
+  \end{equation}
 
 \section{Recalculation of OMI HCHO}
   \label{Model:omiRecalc}
@@ -1063,7 +1071,7 @@
     % Summary of actual actions taken:
     Here is an outline in computational order of what takes place when recalculating the $\Omega$ from OMI.
     \begin{enumerate}
-      \item GEOS-Chem satellite overpass output (see section \ref{Model:GC:outputs}) is used to create new shape factors (S$_z$ and S$_\sigma$).
+      \item GEOS-Chem satellite overpass output (see section \ref{Model:GC:simulation:outputs}) is used to create new shape factors (S$_z$ and S$_\sigma$).
       \begin{enumerate}
         \item Pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
         \item Number density and mixing ratio of HCHO ($n_{HCHO}$, $C_{HCHO}$ respectively) are taken or created from model outputs HCHO(ppb) and air density (molec/cm3)
@@ -1114,7 +1122,7 @@
     % Reminder of AMF -> leading to what is the shapefactor
     In order to visualise and analyse OMI HCHO columns, slant columns are transformed into vertical columns using the AMF.
     The shape factor (\textit{S}) is one of the key components in creation of the AMF (see section \ref{Model:AMF}, equation \ref{Model:AMF:eqn_AMF_intwSdz}).
-    The shape factor is calculated using GEOS-Chem satellite output (see section \ref{Model:GC:outputs}) which provide simulated HCHO concentration profiles ($\eta(z)$) and total columns ($\Omega$) at 2x2.5\degr horizontal resolution.
+    The shape factor is calculated using GEOS-Chem satellite output (see section \ref{Model:GC:simulation:outputs}) which provide simulated HCHO concentration profiles ($\eta(z)$) and total columns ($\Omega$) at 2x2.5\degr horizontal resolution.
     Using equation \ref{Model:AMF:eqn_shapefactor} to determine the shape factor is straightforwards $S(z) = \frac{\eta(z)}{\Omega}$.
     The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in section \ref{Model:omiRecalc:ppcode}).
     
