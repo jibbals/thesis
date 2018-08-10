@@ -811,9 +811,8 @@
         \item[Tracer averages]%
         are daily or monthly averaged gridbox concentrations. 
         \item[Time series]%
-        are 2x2.5\degr vertical columns it is possible to save diagnostics at a temporal resolution of up to 15 minutes.
+        list of vertical columns with diagnostics saved at a temporal resolution of up to 15 minutes.
         
-        These are compared against ozonesonde releases (section \ref{Ozone:ModelComparison}) both over time and vertically.
         
       \end{description}
     
@@ -831,14 +830,17 @@
           TODO: Make a plot of AMF with and without 72 vertical levels
           \item Check if the stratospheric chemistry has much influence over tropospheric isoprene or HCHO concentrations.
           \item daily tracer averages are used for ozone intrusion quantification (section \ref{Ozone:fluxcalc}), and ozone seasonality (section \ref{Ozone:ModelComparison}).
+          \item Time series are compared against ozonesonde releases (section \ref{Ozone:ModelComparison}) both over time and vertically.
         \end{enumerate}
       
-      \item Tropchem (standard)
+      \item [Tropchem (standard)]%
+        default settings for GEOS-Chem 10.01, using 47 vertical levels at 2x2.5\degr horizontal resolution.
+        Additional satellite output is created to allow pp code to run on OMI satellite measurements (section \ref{Model:omiRecalc:ppcode}).
       \begin{enumerate}
         \item Satellite output, daily tracer averages, HEMCO diagnostics
         \item Used in recalculation of the satellite AMF (section \ref{Model:AMF}), and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (section \ref{Model:omiRecalc:RSC})
         \item Also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions (section \ref{BioIsop:Method:slope})
-        \item Additional outputs are used to run code from Prof. Paul Palmer, modified by Dr. Luke Surl which provides another AMF calculation
+        \item Additional satellite outputs used to determine a separate AMF.
         \item TODO: ONE OF THESE Satellite output or monthly tracer averages is combined with another run in order to determine smearing (section \ref{BioIsop:Method:Smearing})
         \item HEMCO diagnostics output used to determine isoprene to HCHO yields (section \ref{BioIsop:Calculation:eqn_isop_yield}), and to compare against top-down estimations of isoprene emissions (section \ref{BioIsop:Results:Emissions})
         \item TODO: Compare total yearly ozone concentrations before and after implementing top-down estimate.
@@ -846,11 +848,9 @@
       % UP TO HERE DRAFT
       \item Tropchem(isoprene emissions halved)
       \begin{enumerate}
-        \item Satellite output (1300-1400~LT, daily)
-        \item Monthly averaged tracer concentrations
-        \item Check ozone sensitivity to isoprene emissions
-        \item Determine model sensitivity transport (smearing)
-        \item Smearing is determined by running the model with the biogenic isoprene emissions halved while other parameters remain unchanged (see \ref{BioIsop:Methods:Smearing}).
+        \item Satellite output, monthly tracer averages 
+        \item Check modelled ozone sensitivity to isoprene emissions TODO: plot ozone between the two runs and reference here
+        \item Combined with standard run to determine model sensitivity transport (section \ref{BioIsop:Method:Smearing})
       \end{enumerate}
       
       \item Tropchem(biogenic emissions only, all other inventories turned off)
