@@ -817,51 +817,52 @@
       \end{description}
     
     \subsubsection{GEOS-Chem runs}
-    \label{Model:GC:simulation:runs}
-    
-    The following list summarises each model run as well as enumerating the outputs (described above), and how the run is used in the thesis.
-    \begin{description}
-      \item[UCX]%
-        Universal tropospheric-stratospheric Chemistry eXtension (UCX) mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa).
-        UCX runs a chemistry mechanism with combined tropospheric and stratospheric reactions, with an increased number of stratospheric calculations performed online \parencite{Eastham2014}.
+      \label{Model:GC:simulation:runs}
+      
+      The following list summarises each model run as well as enumerating the outputs (described above), and how the run is used in the thesis.
+      \begin{description}
+        \item[UCX]%
+          Universal tropospheric-stratospheric Chemistry eXtension (UCX) mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa).
+          UCX runs a chemistry mechanism with combined tropospheric and stratospheric reactions, with an increased number of stratospheric calculations performed online \parencite{Eastham2014}.
+          \begin{enumerate}
+            \item Satellite output, daily tracer averages, time series over three stations
+            \item Satellite output used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry 
+            TODO: Make a plot of AMF with and without 72 vertical levels
+            \item Check if the stratospheric chemistry has much influence over tropospheric isoprene or HCHO concentrations.
+            \item daily tracer averages are used for ozone intrusion quantification (section \ref{Ozone:fluxcalc}), and ozone seasonality (section \ref{Ozone:ModelComparison}).
+            \item Time series are compared against ozonesonde releases (section \ref{Ozone:ModelComparison}) both over time and vertically.
+          \end{enumerate}
+        
+        \item [Tropchem (standard)]%
+          default settings for GEOS-Chem 10.01, using 47 vertical levels at 2x2.5\degr horizontal resolution.
+          Additional satellite output is created to allow pp code to run on OMI satellite measurements (section \ref{Model:omiRecalc:ppcode}).
         \begin{enumerate}
-          \item Satellite output, daily tracer averages, time series over three stations
-          \item Satellite output used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry 
-          TODO: Make a plot of AMF with and without 72 vertical levels
-          \item Check if the stratospheric chemistry has much influence over tropospheric isoprene or HCHO concentrations.
-          \item daily tracer averages are used for ozone intrusion quantification (section \ref{Ozone:fluxcalc}), and ozone seasonality (section \ref{Ozone:ModelComparison}).
-          \item Time series are compared against ozonesonde releases (section \ref{Ozone:ModelComparison}) both over time and vertically.
+          \item Satellite output, daily tracer averages, HEMCO diagnostics
+          \item Used in recalculation of the satellite AMF (section \ref{Model:AMF}), and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (section \ref{Model:omiRecalc:RSC})
+          \item Also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions (section \ref{BioIsop:Method:slope})
+          \item Additional satellite outputs used to determine a separate AMF.
+          \item TODO: ONE OF THESE Satellite output or monthly tracer averages is combined with another run in order to determine smearing (section \ref{BioIsop:Method:Smearing})
+          \item HEMCO diagnostics output used to determine isoprene to HCHO yields (section \ref{BioIsop:Calculation:eqn_isop_yield}), and to compare against top-down estimations of isoprene emissions (section \ref{BioIsop:Results:Emissions})
+          \item TODO: Compare total yearly ozone concentrations before and after implementing top-down estimate.
         \end{enumerate}
-      
-      \item [Tropchem (standard)]%
-        default settings for GEOS-Chem 10.01, using 47 vertical levels at 2x2.5\degr horizontal resolution.
-        Additional satellite output is created to allow pp code to run on OMI satellite measurements (section \ref{Model:omiRecalc:ppcode}).
-      \begin{enumerate}
-        \item Satellite output, daily tracer averages, HEMCO diagnostics
-        \item Used in recalculation of the satellite AMF (section \ref{Model:AMF}), and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (section \ref{Model:omiRecalc:RSC})
-        \item Also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions (section \ref{BioIsop:Method:slope})
-        \item Additional satellite outputs used to determine a separate AMF.
-        \item TODO: ONE OF THESE Satellite output or monthly tracer averages is combined with another run in order to determine smearing (section \ref{BioIsop:Method:Smearing})
-        \item HEMCO diagnostics output used to determine isoprene to HCHO yields (section \ref{BioIsop:Calculation:eqn_isop_yield}), and to compare against top-down estimations of isoprene emissions (section \ref{BioIsop:Results:Emissions})
-        \item TODO: Compare total yearly ozone concentrations before and after implementing top-down estimate.
-      \end{enumerate}
-      % UP TO HERE DRAFT
-      \item Tropchem(isoprene emissions halved)
-      \begin{enumerate}
-        \item Satellite output, monthly tracer averages 
-        \item Check modelled ozone sensitivity to isoprene emissions TODO: plot ozone between the two runs and reference here
-        \item Combined with standard run to determine model sensitivity transport (section \ref{BioIsop:Method:Smearing})
-      \end{enumerate}
-      
-      \item Tropchem(biogenic emissions only, all other inventories turned off)
-      \begin{enumerate}
-        \item Satellite output, hourly biogenic emissions from MEGAN
-        \item The output from this simulation is used to determine the biogenic yield from isoprene to HCHO over Australia, described in section \ref{BioIsop:Methods}.
-        \item TODO: compared to run with updated emissions
-      \end{enumerate}
-      
-    \end{description}
-    NB: for non-UCX runs, satellite output was modified to include tropopause height
+        % UP TO HERE DRAFT
+        \item [Tropchem (isoprene emissions halved)]%
+          identical to standard tropchem except isoprene emissions are halved.
+        \begin{enumerate}
+          \item Satellite output, monthly tracer averages 
+          \item Check modelled ozone sensitivity to isoprene emissions TODO: plot ozone between the two runs and reference here
+          \item Combined with standard run to determine model sensitivity transport (section \ref{BioIsop:Method:Smearing})
+        \end{enumerate}
+        
+        \item [Tropchem (biogenic emissions only)]%
+          identical to standard tropchem except all non-biogenic emissions inventories are disabled.
+        \begin{enumerate}
+          \item Satellite output, hourly biogenic emissions from MEGAN
+          \item The output from this simulation is used to determine the biogenic yield from isoprene to HCHO over Australia, described in section \ref{BioIsop:Methods}
+          \item Compared to run with updated emissions (\ref{BioIsop:Results})
+        \end{enumerate}
+        
+      \end{description}
     
     
     % TODO: layout reasons why isoprene differs between runs
@@ -887,58 +888,59 @@
     %        if not defined UCX:
     %	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
     
-    \subsubsection{Run comparisons}
-    \label{Model:GC:simulation:comparison}
-    There are many options available when running GEOS-Chem depending on the desired chemistry, resolution, meteorology, and boundary conditions.
-    Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
-    %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
-    Both runs use 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, however the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
-    The extra vertical levels are added in the stratosphere, providing finer vertical resolution from around 70~hPa to the top of the atmosphere.
-    For both runs the inpup parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
-    
-    GEOS-Chem output of HCHO does not differ much between runs with or without the UCX.
-    Figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO} shows an example of surface HCHO amounts with and without UCX turned on.
-    The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
-    
-    \begin{figure}%[!htbp] % TODO: remove 'rerun' plot, use normal and delete rerun thingy so it's not confusing later.
-      % These figures created in GC_test.py -> TODO:
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_hcho_rerun.png}
-      \caption{ %
-        Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences(bottom left, right respectively).
-        Amounts simulated by GEOS-Chem for the 1st of January, 2005.
-      }
-      \label{Model:GC:running:fig_UCXvsTrop_HCHO}
-    \end{figure}
-    
-    Figure \ref{Model:GC:running:fig_UCXvsTrop_Isop} shows the differences in surface isoprene amounts over Australia.
-    Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
-    Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and lack of emissions over the oceans.
-    Generally isoprene is 0-30\% higher over Australia when the UCX mechanism is turned on.
-    This enhancement can be seen throughout the entire tropospheric column as shown by Figure TODO fix ref \ref{ch_HCHO:fig:isoptropUCXcomparison}. %TODO: fix ref
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_isop_rerun.png}
-      \caption{ %
-        As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at isoprene. 
-      }      
-      \label{Model:GC:running:fig_UCXvsTrop_Isop}
-    \end{figure}
-    
-    
-    Figure TODO: shows the columns for isoprene and HCHO simulated by our two mechanisms over Australia in January of 2005.
-    The differences are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
-    
-    
-    TODO: The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
-    With higher stratospheric ozone levels, less radiation would reach the troposphere, changing the photochemistry.
-    Figure \ref{Model:GC:running:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, we can see that UCX has TODO: less or more ozone over Australia/USA in January.
-    
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_O3_rerun.png}
-      \caption{%
-        As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at ozone. 
-      }
-      \label{Model:GC:running:fig_UCXvsTrop_O3}
-    \end{figure}
+    \subsubsection{UCX vs tropchem}
+      \label{Model:GC:simulation:comparison}
+      Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
+      %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
+      Both runs use 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, however the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
+      The extra vertical levels are added in the stratosphere, providing finer vertical resolution from around 70~hPa to the top of the atmosphere.
+      For both runs the input parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
+      
+      Figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO} shows an example of surface HCHO amounts with and without UCX turned on.
+      Total column HCHO ($\Omega_{HCHO}$) does not differ much between runs.
+      The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
+      The major notable difference occurs over northern Africa, where $\Omega_{HCHO}$ is around 20\% lower in the UCX run.
+      Otherwise the only difference is a slight ($<8\%$) decrease in $\Omega_{HCHO}$ over the oceans.
+      
+      \begin{figure} % TODO: remove 'rerun' plot, use normal and delete rerun thingy so it's not confusing later.
+        % These figures created in GC_test.py -> TODO:
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_hcho_rerun.png}
+        \caption{ %
+          Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences(bottom left, right respectively).
+          Amounts simulated by GEOS-Chem for the 1st of January, 2005.
+        }
+        \label{Model:GC:running:fig_UCXvsTrop_HCHO}
+      \end{figure}
+      
+      Figure \ref{Model:GC:running:fig_UCXvsTrop_Isop} shows the differences in surface isoprene amounts over Australia.
+      Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
+      Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and lack of emissions over the oceans.
+      Generally isoprene is 0-30\% higher over Australia when the UCX mechanism is turned on.
+      This enhancement can be seen throughout the entire tropospheric column as shown by Figure TODO fix ref \ref{ch_HCHO:fig:isoptropUCXcomparison}. %TODO: fix ref
+      \begin{figure}
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_isop_rerun.png}
+        \caption{ %
+          As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at isoprene. 
+        }      
+        \label{Model:GC:running:fig_UCXvsTrop_Isop}
+      \end{figure}
+      
+      
+      Figure TODO: shows the columns for isoprene and HCHO simulated by our two mechanisms over Australia in January of 2005.
+      The differences are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
+      
+      
+      TODO: The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
+      With higher stratospheric ozone levels, less radiation would reach the troposphere, changing the photochemistry.
+      Figure \ref{Model:GC:running:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, we can see that UCX has TODO: less or more ozone over Australia/USA in January.
+      
+      \begin{figure}
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_O3_rerun.png}
+        \caption{%
+          As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at ozone. 
+        }
+        \label{Model:GC:running:fig_UCXvsTrop_O3}
+      \end{figure}
     
     
 
