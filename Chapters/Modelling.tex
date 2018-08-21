@@ -1135,7 +1135,7 @@
       \item The VCC (along with most of the pixel and GEOS-Chem data) are binned onto a 0.25\degr by 0.3125\degr grid along with how many pixels have been binned, and the average pixel uncertainty in product OMHCHORP
     \end{enumerate}
  
-    % UP TO HERE draft
+    
     Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how these profiles are used in this thesis.
     Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem aprioris.
     PP code is run on a subset of the globe covering Australia and the pacific ocean, producing AMF$_{PP}$.
@@ -1145,7 +1145,6 @@
     
     \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:omiRecalc:fig_flow_omhchorp}}
       
-    
     
   \subsection{Creating new shape factors}
     % Reminder of AMF -> leading to what is the shapefactor
@@ -1195,18 +1194,16 @@
     The histograms here show the negative (left) and positive (right) total column HCHO measurements from a subset of swaths over Australia, on the 18th of March 2013.
     The highly negative values can be seen around the $-10^{19}$~molecules cm$^{-2}$ region.
     
-    \mypicw{1\textwidth}{Figures/AusOMHCHO_Hist_20130318.png}
+    \mypic{Figures/AusOMHCHO_Hist_20130318.png}
     {
       Column density histograms for a subset of OMI swaths over Australia on the 18th of March 2013.
       Negative entries are shown in the left panel, positive in the right, note the different scale between negative and positive panels.}
     {\label{Model:omiRecalc:fig_OMI_negative_hist}}
     
     % reading pixels into a long list
-    Each pixel and it's relevant data are saved in a long list, around $1.1$ million pixels per day.
-    Additional information is added to each pixel, such as the new AMF calculated through replacing the apriori vertical profile with the newer GEOS-Chem simulated profile.
+    Additional information is added to each pixel, including the new AMFs.
+    Each pixel and its relevant data are saved in a long list for subsequent gridding.
     The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers.
-    
-    
   
   % How we get the apriori 
   \subsection{Creating the new AMF}
@@ -1215,32 +1212,30 @@
     From equation \ref{Model:AMF:eqn_AMF_intwSdz} we have:
     $$ AMF = \int_0^\infty \omega(z) S(z) \mathrm{d}z $$
     then using the $\omega(z)$ from satellite output, along with our calculated $S_z$ interpolated linearly onto the same vertical grid as $\omega(z)$, the AMF can be determined through integration.
-    The integration is done in Python using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum.
+    The integration is performed using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum for each vertical box.
     This assumes that the provided scattering weights and shape factors are linear between the 47 resolved values.
-    
-      
     
   \subsection{Recalculating the AMF using PP code}
     \label{Model:omiRecalc:ppcode}
     % pp code for AMF recalculation referred to as pp code
     
-    Some of the pixels (those covering Australia and most of the zonal band) have their AMFs recalculated using Fortran code written by Paul Palmer, Randal Martin, and updated by Luke Surl.
+    Some of the pixels (those covering Australia and most of the zonal band) have their AMFs recalculated using Fortran code written by Paul Palmer, and Randal Martin, subsequently updated by Luke Surl.
     I will refer to this as the PP code, and subscript the VCs and AMFs with PP when referring to those calculated through this method.
-    This code is computationally expensive, and is only run on pixels within within the region (50-10\degr~S, 160\degr~W-160\degr~E).
-    The Fortran code uses a combination of GEOS-Chem apriori profile information and satellite measurement data to calculate the AMF after running the LIDORT radiative transfer calculations to determine scattering.
-    The instrument sensitivity or scattering weights and shape factors for each pixel are calculated within the PP code, which outputs AMF$_{PP}$.
-    
+    Running this code is computationally expensive, and is subset to within the region (50-10\degr~S, 160\degr~W-160\degr~E).
+    The code uses a combination of GEOS-Chem apriori profile information and satellite measurement data to calculate the AMF by using LIDORT radiative transfer calculations to determine scattering.
+    The instrument sensitivity (or scattering weights; $\omega$) and shape factors for each pixel are calculated within the PP code, which outputs AMF$_{PP}$.
     
     Code for recalculating AMFs using satellite swaths and modelled aerosol optical depths and gas profiles can be found at \url{http://fizz.phys.dal.ca/~atmos/martin/?page_id=129}. 
     The original method for HCHO is layed out in \textcite{Palmer2001}, with modifications for clouds and use of the LIDORT RTM \parencite{Spurr2002} as described by \textcite{Martin2003}.
     This code does not work as is when using OMI satellite data, and requires modifications performed by Luke Surl at Edinburgh University.
-    Additionally the tropopause heights averaged within satellite overpass times output by GEOS-Chem is required, which is achieved by modifying the ND51 diagnostic.
+    Additionally the tropopause heights averaged within satellite overpass times are required, and provided by modifying the GEOS-Chem diagnostic output.
     
     Mie scattering and clouds can complicate the calculation of $\omega$(z), however tables of values for this function at various parameter inputs can be used with modeled vertical shape factors for local AMF calculations.
     This has been done in the PP code and the AMF look-up-table (LUT) can be found in the source code at TODO: add git repo with this code.
     In order to run, output is required from GEOS-Chem: the HCHO concentration profile averaged between 1300 and 1400 LT, including optical depths at several wavelengths (TODO: list), and dust concentrations.
-    A subset of the OMI pixel information is also required, which is coalesced from OMHCHO daily swath files into csv files (one per day), which can be read by the PP code as modified by Dr. Luke Surl, in conjunction with the GEOS-Chem outputs for each day.
-    The PP code then produces a csv of recalculated AMFs which get read by my python code and associated with the corresponding pixel (outlined in \ref{Model:omiRecalc:fig_flow_omhchorp}).
+    A subset of the OMI pixel information is also required, which is coalesced from OMHCHO daily swath files into csv files (one per day), and read by the PP code in conjunction with the GEOS-Chem outputs for each day.
+    The PP code then produces a list of recalculated AMFs which get read by my python code and associated with the corresponding pixel (outlined in \ref{Model:omiRecalc:fig_flow_omhchorp}).
+    
     
   \subsection{Vertical columns from AMF}
     
@@ -1252,6 +1247,8 @@
     The first row shows the yearly average column amounts, as well as coloured rectangles describing regions which are averaged over time in row 3.
     Row two from left to right shows the relative differences between $\Op$ and $\Og$, $\Oo$ and $\Og$, and $\Oo$ and $\Op$.
     TODO: Add this plot here.
+    
+    % UP TO HERE draft
     
   \subsection{Reference sector correction}
     \label{Model:omiRecalc:RSC}
