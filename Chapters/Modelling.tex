@@ -846,6 +846,7 @@
           \item TODO: Compare total yearly ozone concentrations before and after implementing top-down estimate.
         \end{enumerate}
 
+
         \item [Tropchem (isoprene emissions halved)]%
           identical to standard tropchem except isoprene emissions are halved.
         \begin{enumerate}
@@ -858,7 +859,7 @@
           identical to standard tropchem except all non-biogenic emissions inventories are disabled.
         \begin{enumerate}
           \item Satellite output, hourly biogenic emissions from MEGAN
-          \item The output from this simulation is used to determine the biogenic yield from isoprene to HCHO over Australia, described in section \ref{BioIsop:Methods}
+          \item Used to determine the biogenic yield from isoprene to HCHO over Australia, described in section \ref{BioIsop:Methods}
           \item Compared to run with updated emissions (\ref{BioIsop:Results})
         \end{enumerate}
         
@@ -890,19 +891,24 @@
     
     \subsubsection{UCX vs tropchem}
       \label{Model:GC:simulation:comparison}
+      
+      % brief description of both runs resolution
       Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
       %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
       Both runs use 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude, however the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
       The extra vertical levels are added in the stratosphere, providing finer vertical resolution from around 70~hPa to the top of the atmosphere.
       For both runs the input parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
       
+      % Figure showing differences between runs HCHO described and analysed
       Figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO} shows an example of surface HCHO amounts with and without UCX turned on.
       Total column HCHO ($\Omega_{HCHO}$) does not differ much between runs.
       The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
       The major notable difference occurs over northern Africa, where $\Omega_{HCHO}$ is around 20\% lower in the UCX run.
       Otherwise the only difference is a slight ($<8\%$) decrease in $\Omega_{HCHO}$ over the oceans.
-      % UP TO HERE DRAFT
-      \begin{figure} 
+      The comparison is repeated using total columns (instead of surface values) in figure TODO, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
+      
+      
+      \begin{figure} % TODO: remove 'rerun' plot, use normal and delete rerun thingy so it's not confusing later.
         % These figures created in GC_test.py -> TODO:
         \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_hcho_rerun.png}
         \caption{ %
@@ -912,11 +918,13 @@
         \label{Model:GC:running:fig_UCXvsTrop_HCHO}
       \end{figure}
       
+
       %TODO Figure showing OH differences..
       
+      % Differences between run isoprene amounts described and analysed here
       Figure \ref{Model:GC:running:fig_UCXvsTrop_Isop} shows the differences in surface isoprene amounts over Australia.
       Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
-      Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and lack of emissions over the oceans.
+      Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and a lack of sources over the oceans.
       Generally isoprene is 0-30\% higher over Australia when the UCX mechanism is turned on.
       This enhancement can be seen throughout the entire tropospheric column as shown by Figure TODO fix ref \ref{ch_HCHO:fig:isoptropUCXcomparison}. %TODO: fix ref
       \begin{figure}
@@ -928,13 +936,11 @@
       \end{figure}
       
       
-      Figure TODO: shows the columns for isoprene and HCHO simulated by our two mechanisms over Australia in January of 2005.
-      The differences are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
-      
-      
       TODO: The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
       With higher stratospheric ozone levels, less radiation would reach the troposphere, changing the photochemistry.
+      The differences are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
       Figure \ref{Model:GC:running:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, we can see that UCX has TODO: less or more ozone over Australia/USA in January.
+      
       
       \begin{figure}
         \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_O3_rerun.png}
@@ -943,23 +949,22 @@
         }
         \label{Model:GC:running:fig_UCXvsTrop_O3}
       \end{figure}
-    
-    
 
       
 \section{Calculating an AMF}
   \label{Model:AMF}
-    
+  
+  % What is AMF again?
   The AMF is the ratio of the slant column ($\Omega_s$) to the vertical column ($\Omega_v$)
   \begin{equation} \label{Model:AMF:eqn_AMFFrac}
     AMF=\frac{\Omega_s}{\Omega_v} = \frac{\tau_s}{\tau_v}
   \end{equation}
-  with $\tau$ being the optical depth or thickness of the absorber through the slant (\textit{s}) or vertical (\textit{v}) path of light
+  with $\tau$ being the optical depth or thickness of the absorber through the slant (\textit{s}) or vertical (\textit{v}) path of light.
   
   
-  The OMI instrument records spectra of light which enters the viewing lens on board the satellite.
+  The OMI instrument records spectra of light which enters the viewing lens on board the Aura satellite.
   The spectra provide backscattered intensity ($I_B$) at various wavelengths (see section \ref{Model:Datasets:Aura}), with the light source ($I_{B_0}$) being the sun. 
-  Using the log of beers law (equation \ref{Model:Meas:DOAS:eqn_beerslaw}) we get 
+  Using the log of Beers law (equation \ref{Model:Meas:DOAS:eqn_beerslaw}) we get 
   $$ \tau_s = \ln{I_{B_0}} - \ln{I_B} $$
   which can be subbed into equation \ref{Model:AMF:eqn_AMFFrac} to give an expression for the AMF which includes scattering:
   \begin{equation} \label{Model:AMF:eqn_amfscattering}
@@ -967,6 +972,8 @@
   \end{equation}
   %{Model:Meas:DOAS:eqn_backscatterextinction}
   %$\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
+  
+  % UP TO HERE DRAFT
   
   We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. 
   For optically thin absorption, $\nabla I / I_B << 1$, and we can use:
