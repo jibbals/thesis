@@ -1199,15 +1199,15 @@
       Column density histograms for a subset of OMI swaths over Australia on the 18th of March 2013.
       Negative entries are shown in the left panel, positive in the right, note the different scale between negative and positive panels.}
     {\label{Model:omiRecalc:fig_OMI_negative_hist}}
-    
+  
     % reading pixels into a long list
-    Additional information is added to each pixel, including the new AMFs.
+    Additional information is added to each pixel, including the new AMFs (see the following subsections).
     Each pixel and its relevant data are saved in a long list for subsequent gridding.
     The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers.
   
   % How we get the apriori 
   \subsection{Creating the new AMF}
-    \label{Model:omiRecalc:ShapeFactor}
+    \label{Model:omiRecalc:AMFgc}
     
     From equation \ref{Model:AMF:eqn_AMF_intwSdz} we have:
     $$ AMF = \int_0^\infty \omega(z) S(z) \mathrm{d}z $$
@@ -1234,7 +1234,7 @@
     This has been done in the PP code and the AMF look-up-table (LUT) can be found in the source code at TODO: add git repo with this code.
     In order to run, output is required from GEOS-Chem: the HCHO concentration profile averaged between 1300 and 1400 LT, including optical depths at several wavelengths (TODO: list), and dust concentrations.
     A subset of the OMI pixel information is also required, which is coalesced from OMHCHO daily swath files into csv files (one per day), and read by the PP code in conjunction with the GEOS-Chem outputs for each day.
-    The PP code then produces a list of recalculated AMFs which get read by my python code and associated with the corresponding pixel (outlined in \ref{Model:omiRecalc:fig_flow_omhchorp}).
+    The PP code then produces a list of recalculated AMFs which is read by my python code and associated with the corresponding pixel (outlined in \ref{Model:omiRecalc:fig_flow_omhchorp}).
     
     
   \subsection{Vertical columns from AMF}
@@ -1248,12 +1248,10 @@
     Row two from left to right shows the relative differences between $\Op$ and $\Og$, $\Oo$ and $\Og$, and $\Oo$ and $\Op$.
     TODO: Add this plot here.
     
-    % UP TO HERE draft
-    
   \subsection{Reference sector correction}
     \label{Model:omiRecalc:RSC}
     % where we apply the RSC
-    Each satellite slant column measurement is corrected by some amount, based on the divergence from a modeled reference sector.
+    Each satellite slant column measurement is corrected by its divergence from a modelled reference sector.
     HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \parencite{DeSmedt2008,Barkley2013,Kurosu2014}.
     
     % What RSC does
@@ -1263,26 +1261,25 @@
     This method also corrects for the errors introduced through correlations between BrO and HCHO absorption cross sections, which are especially significant at high latitudes \parencite{Abad2015}.
     
     % How Vertical columns use reference sector corrections
-    Vertical columns in OMI use this oceanic background instead of a solar irradiance spectrum
-    In order to recalculate the vertical columns using modelled data, a RSC needs to be applied.
-    The correction uses the difference between the slant column ($\Omega_S$) and the reference slant column ($\Omega_{S_0}$) divided by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
+    %Vertical columns in OMI use an oceanic background instead of a solar irradiance spectrum when calculating trace gas interference with DOAS calculations.
+    Here a new reference sector correction (\textit{RSC}) is created using modelled and measured HCHO columns over the remote pacific, to produce corrected vertical columns (\textit{VCC}).
+    This follows \textcite{Abad2016}, and defines the remote pacific as the band between 140{\degr}W to 160{\degr}W.
+    It uses the difference between slant columns ($\Omega_S$) and reference slant columns ($\Omega_{S_0}$) divided by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
     \begin{equation*}
-      \Omega_{VC} = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
+      VCC = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
     \end{equation*}
-    This method is used in various papers, including \textcite{DeSmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013, Bauwens2016}.
+    This method is used in several works, including \textcite[eg.][]{DeSmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013, Bauwens2016}.
     Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \textcite{Abad2015}.
     
     % How my RSC is defined
-    The reference sector correction (RSC) for OMI satellite pixels in this thesis is calculated following \textcite{Abad2016}.
-    A correction is created based on the difference between the background HCHO measurements (OMI slant columns) and the GEOS-Chem modelled HCHO columns ($\Omega_0$) within the reference sector (140{\degr}W to 160{\degr}W).
     To get the modelled slant columns, each of the AMFs (calculated in prior sections) is applied to the modelled vertical columns using equation \ref{Model:omiRecalc:eqn_AMFratio}.
     % Then RSC Longitudinally averaged, binned into 500 lats
-    The longitudinal average is taken within the apriori reference sector, as corrections are assumed to be longitudinally invariant.
-    The modeled reference sector is averaged over the month and interpolated latitudinally to 500 equidistant bins.
+    The longitudinal average is taken within the remote pacific, as corrections are assumed to be longitudinally invariant.
+    The modelled reference sector is averaged over the month and interpolated latitudinally to 500 equidistant bins.
     Figure \ref{Model:omiRecalc:RSC:fig_RSCeg} shows the simulated reference sector VCs as an example, calculated for January 1st 2005.
-    In this figure the vertical resolution is increased from 2$^{\circ}$ to 0.36\degr, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
-    Each day, good satellite measurements taken over the reference sector are used to determine a correction array.
-    The model does not produce slant columns associated with each measurement, however one is created by multiplying the vertical column with the associated slant column's AMF.
+    In this figure the vertical resolution is increased from 2\degr to 0.36\degr, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
+    Each day, satellite measurements (pixels) over the remote pacific are used to determine a correction array.
+    The model does not produce slant columns associated with each measurement, however one is created by multiplying the vertical column with the associated slant columns AMF.
     
     % This picture was made where?!
     \mypicw{0.7\textwidth}
@@ -1295,9 +1292,10 @@
     }
     {\label{Model:omiRecalc:RSC:fig_RSCeg}}
     
+    % UP TO HERE draft
     % Swath RSC corrections are done 'per track'
-    For OMI swaths, each row of measured data contains 60 `Across track'(track) measurements.
-    The track index (i) relates a the measurement to one of the 60 columns of data.
+    For OMI swaths, each row of measured data contains 60 ``Across track''(track) measurements.
+    The track index (i) relates the measurement to one of the 60 columns of data.
     Corrections for each measurement are calculated by taking the difference between the measured slant column and the apriori slant column as follows:
     \begin{equation} \label{Model:omiRecalc:eqn_RSC}
       Correction(i,j) = SC_{HCHO}(i,j) - VC_{GEOS-Chem}(lat(j)) \times {AMF}(i,j)
@@ -1306,7 +1304,7 @@
     Note that the correction is in molecules cm$^{-2}$.
     % Correction applied over each of the 60 tracks
     The RSC is independently calculated for each of the 60 tracks, at each latitude in the 500 0.36\degr bins.
-    This provides a different RSC 
+    This provides a different RSC for each of the three AMFs.
     
     % Interpolated daily RSC to cover missing latitudes
     Due to incomplete latitudinal coverage, the correction for each track is interpolated linearly between measurements, with corrections outside of the highest measured latitudes being equal to the corrections at the highest measured latitudes.
@@ -1314,7 +1312,6 @@
     \mypicw{0.7\textwidth}{Figures/OMI_link/RSC_track_corrections20050101.png}
       {Example of track correction interpolations for January 1st 2005, points represent the difference between satellite slant column measurements and modelled slant columns over the remote pacific.}
       {\label{Model:omiRecalc:RSC:fig_track_correction_interpolations}}
-    
     % Visualisation of RSC refering to plot and 8-day averaged corrections
     Another way to look at this correction is given in the OMI corrections panel of figure \ref{Model:omiRecalc:RSC:fig_RSCeg}, which has the sensors along the x axis, and latitude on the y axis, and shows how for this example 8-day period, the corrections are distributed with more negative values towards the left or right sensors, especially in the tropics.
     
@@ -1323,14 +1320,13 @@
     \begin{equation}
     VCC(i,j) = \frac{SC_{HCHO}(i,j) - Correction(i,lat(j))}{AMF(i,j)}
     \end{equation}
-    Finally, for each day, the good satellite measurements are averaged into our own latitude longitude resolution bins along with the associated corrected SC, VC, VCC, AMF, and bin entry count.
-    The bin entry count is used to create weighted averages from the daily binned data, which accounts for sparse entries due to filtering.
+    For each day, good satellite measurements and associated SC, VC, VCC, and AMFs are listed.
   
   \subsection{Binning the results daily}
     
     Finally the pixels are binned into a gridded dataset I've called OMHCHORP, as shown in figure \ref{Model:omiRecalc:fig_flow_omhchorp}.
     The resolution is chosen to match the native resolution of GEOS-Chem (0.25x0.3125\degr) and the GEOS met data fields.
-    %TODO: list of things stored in the daily omhchorp outputs
+    A bin entry count is used to allow easy rebinning, and can be used to check for sparse data days due to filtering or poor weather.
     Data averaged into this dataset are as follows:
     \begin{enumerate}
       \item satellite SC %($\Omega_{S}$)
@@ -1347,11 +1343,10 @@
       \item fire counts (summed into bins)
     \end{enumerate}
     
-    TODO: time per regridding and reprocessing:
     This whole process requires some processing time as well as RAM and computer storage space, and has been performed on the National Computing Infrastructure (NCI) supercomputer cluster.
-    In order to reprocess one year of swath files, X GB of daily data was downloaded and then transformed into Y GB of daily gridded data.
+    In order to reprocess one year of swath files, $\sim 162$~GB ($142 + 16 + 4$ OMHCHO, MOD14A1, and OMNO2d respectively) of daily data was downloaded and then transformed into $\sim 8$~GB (per year) of daily gridded data.
     This takes around 90 minutes per day, and is very parallelisable as each day is completely independent once the model has run in each required configuration.
-    Initially paralellism was built into the python code, however simply running sending seperate 'jobs' to NCI's process queue was simpler and more scalable.
+    Initially parallelism was built into the python code, however simply sending separate 'jobs' to NCI's process queue was simpler and more scalable.
     As much as possible, processing is done using the HDF-5 or NetCDF-4 formats, with some GEOS-Chem output being read from bitpunch.
     The scripts to regrid and reprocess the swath data set are available from github at TODO.
   
@@ -1490,7 +1485,7 @@
     A large area in southern Queensland/northern NSW is also heavily filtered, potentially due to gas flaring in the Surat Basin, which has thousands of petrol and gas wells.
     
     
-    \mypic{Figures/OMI_link/Filters/Pyrogenic_20050101-20060101_annotated.png}
+    \mypic{Figures/OMI_link/Filters/Pyrogenic_filter_annotated_2.png}
     {Top: Portion of 2005 filtered out by fire and smoke masks. Bottom: portion filtered out each day from land squares in Australia.}{\ref{Model:Filter:fire:fig_portion_filtered_2005}}
     
     \mypic{Figures/Wells_AUS.png}{Petrol Well locations over Australia (current-2018) (\url{http://dbforms.ga.gov.au/www/npm.well.search})}{\label{Model:Filter:fire:fig_petrol_wells}}
