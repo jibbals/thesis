@@ -900,54 +900,73 @@
       For both runs the input parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
       
       % Figure showing differences between runs HCHO described and analysed
-      Figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO} shows an example of surface HCHO amounts with and without UCX turned on.
-      Total column HCHO ($\Omega_{HCHO}$) does not differ much between runs.
-      The differences do not exceed 3\% over Australia for the averaged month of January, 2005.
-      The major notable difference occurs over northern Africa, where $\Omega_{HCHO}$ is around 20\% lower in the UCX run.
+      Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_surf_fullday} shows an example of surface HCHO amounts, averaged over Jan and Feb, 2007, with (A) and without (B) UCX turned on.
+      Surface HCHO (first model level; up to $\sim$100~m) does not differ much between runs.
+      The differences do not exceed 3\% over Australia, and absolute differences are exceedingly minor (note the scale in A-B).
+      The major notable difference occurs over northern Africa, where HCHO is around 20\% lower in the UCX run.
       Otherwise the only difference is a slight ($<8\%$) decrease in $\Omega_{HCHO}$ over the oceans.
-      The comparison is repeated using total columns (instead of surface values) in figure TODO, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
+      The comparison is repeated using total columns (instead of surface values) in figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
       
       
-      \begin{figure} % TODO: remove 'rerun' plot, use normal and delete rerun thingy so it's not confusing later.
-        % These figures created in GC_test.py -> TODO:
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_hcho_rerun.png}
-        \caption{ %
+      \begin{figure}
+        % These figures created in GC_test.py -> UCX_vs_trp...:
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_hcho.png}
+        \caption{%
           Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences(bottom left, right respectively).
-          Amounts simulated by GEOS-Chem for the 1st of January, 2005.
+          Amounts are the average of all times between 1, Jan and 28, Feb, 2007.
         }
-        \label{Model:GC:running:fig_UCXvsTrop_HCHO}
+        \label{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_surf_fullday}
+      \end{figure}
+      
+      \begin{figure}
+        % These figures created in GC_test.py -> UCX_vs_trp...:
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_hcho.png}
+        \caption{%
+          As figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_surf_fullday} except using total column amounts instead of surface concentrations.
+        }
+        \label{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}
       \end{figure}
       
 
       %TODO Figure showing OH differences..
       
       % Differences between run isoprene amounts described and analysed here
-      Figure \ref{Model:GC:running:fig_UCXvsTrop_Isop} shows the differences in surface isoprene amounts over Australia.
+      Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
       Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
-      Very little isoprene is seen away from the continent (4-5 orders of magnitude less), due to the short lifetime of isoprene, and a lack of sources over the oceans.
-      Generally isoprene is 0-30\% higher over Australia when the UCX mechanism is turned on.
-      This enhancement can be seen throughout the entire tropospheric column as shown by Figure TODO fix ref \ref{ch_HCHO:fig:isoptropUCXcomparison}. %TODO: fix ref
+      Very little isoprene is seen away from the continents (4-5 orders of magnitude less), due to the short lifetime of isoprene, and a lack of sources over the oceans.
+      Generally isoprene is 0-30\% higher over mid to western Australia when the UCX mechanism is turned on, however this increase is lower in the regions with high isoprene emissions (north-east to south-east coastline).
+      This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_surf_fullday}.
+      There is a greater effect in Africa and South America in the tropics, with high relative differences in many regions with low absolute amounts.
+      
       \begin{figure}
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_isop_rerun.png}
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_isop.png}
         \caption{ %
-          As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at isoprene. 
+          As figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except looking at isoprene. 
         }      
-        \label{Model:GC:running:fig_UCXvsTrop_Isop}
+        \label{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_surf_fullday}
+      \end{figure}
+      \begin{figure}
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_isop.png}
+        \caption{ %
+          As figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_surf_fullday}, except looking at isoprene total column amounts. 
+        }      
+        \label{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_totcol_fullday}
       \end{figure}
       
       
       TODO: The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
       With higher stratospheric ozone levels, less radiation would reach the troposphere, changing the photochemistry.
       The differences are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
-      Figure \ref{Model:GC:running:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, we can see that UCX has TODO: less or more ozone over Australia/USA in January.
+      Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, we can see that UCX has TODO: less or more ozone over Australia/USA in January.
       
-      
+      % RERUN THIS PLOT
       \begin{figure}
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_glob_200501_O3_rerun.png}
+        % Figure from GC_tests.py -> ucx vs tropchem function
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_O3.png}
         \caption{%
-          As figure \ref{Model:GC:running:fig_UCXvsTrop_HCHO}, except looking at ozone. 
+          As figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except looking at ozone. 
         }
-        \label{Model:GC:running:fig_UCXvsTrop_O3}
+        \label{Model:GC:simulation:comparison:fig_UCXvsTrop_O3_surf_fullday}
       \end{figure}
 
       
@@ -972,8 +991,6 @@
   \end{equation}
   %{Model:Meas:DOAS:eqn_backscatterextinction}
   %$\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
-  
-  % UP TO HERE DRAFT
   
   We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. 
   For optically thin absorption, $\nabla I / I_B << 1$, and we can use:
@@ -1007,13 +1024,13 @@
   \begin{equation} \label{Model:AMF:eqn_AMFpreomega}
     AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
   \end{equation}
-  Often the integrand of this AMF formula (equation \ref{Model:AMF:eqn_AMFpreomega}) is broken apart into two defining terms: the scattering weights $\omega(z)$ and the shape factor $S(z)$.
+  Often the integrand of this AMF formula (equation \ref{Model:AMF:eqn_AMFpreomega}) is broken apart into two defining terms: the scattering weights $\omega(z)$ and the shape factor $S(z)$, described here:
   \begin{description}
-    \item[$\omega$] The scattering weights describing the sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
+    \item[$\omega$] The scattering weights describing sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
     \begin{equation} \label{Model:AMF:eqn_omega}
       \omega(z) = -\frac{1}{AMF_G} \frac{\alpha(z)}{\alpha_e} \frac{\partial \ln{I_B}}{\partial \tau}
     \end{equation}
-    It's worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and a the calculations which follow therefor do not include this term when utilising the provided $\omega$.
+    It is worth noting that in the OMI satellite product, the provided $\omega(z)$ term does not include the $\frac{1}{AMF_G}$ term and the calculations which follow therefor do not include this term when utilising the provided $\omega$.
     This is not noted in any of the papers which recalculate the AMF from the OMI product, due to them recalculating the $\omega$ term themselves with a radiative transfer model such as LIDORT.
     \item[$S$] the shape factor describes the profile of an absorber ($\eta(z)$) normalised by its total vertical column amount ($\Omega_v$):
     \begin{equation} \label{Model:AMF:eqn_shapefactor}
@@ -1040,7 +1057,7 @@
     S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
   \end{equation}
   where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
-  The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, g, being density of air, gravity, respectively lets us integrate over the sigma coordinates:
+  The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, \textit{g}, being density of air, and gravity respectively lets us integrate over the sigma coordinates:
   \begin{align*}
     \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
     \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
@@ -1063,13 +1080,13 @@
   % Reiteration of why we recalculate AMFs
   OMI HCHO vertical columns are calculated using modelled apriori HCHO profiles (see section \ref{Model:Datasets:OMHCHO}).
   When comparing satellite measurements against models it is important to recognise the impact of this apriori on the total column values.
-  This is due to how the sensitivity of OMI (to HCHO and other trace gases) varies vertically throughout the atmosphere.
+  This is complicated by how OMI is differently sensitive to HCHO (and other trace gases) vertically throughout the atmosphere.
   When comparing OMI vertical columns ($\Oo$) to GEOS-Chem ($\Og$), the satellite AMF needs to be recalculated using GEOS-Chem modelled vertical gas profiles as the aprioris.
   Without performing this step a bias between modelled and measured total column values may be due to the apriori rather than chemistry or measurements \parencite{Palmer2001, Lamsal2014}.
   
   % Very brief outline
   Here, two new AMFs are calculated, both using GEOS-Chem HCHO profiles as the new apriori. 
-  The first AMF (AMF$_{GC}$) uses the original satellite scattering weights while recalculating the shape factor, whereas the second AMF (AMF$_{PP}$) also recalculates scattering weights.
+  The first (AMF$_{GC}$) uses the original satellite scattering weights while recalculating the shape factor, whereas the second (AMF$_{PP}$) also recalculates scattering weights.
   AMF$_{PP}$ is created using code initially written by Professor P. Palmer (see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details).
   A reference sector correction is determined using the method described in \textcite{Abad2016}, (see section \ref{Model:omiRecalc:RSC}).
   This correction is unique for each of the 60 \textit{measurement tracks} used by OMI.
@@ -1080,44 +1097,45 @@
     \label{Model:omiRecalc:outline}
     
     % Summary of actual actions taken:
-    Here is an outline in computational order of what takes place when recalculating the $\Omega$ from OMI.
+    An outline in computational order of what takes place when recalculating the $\Omega$ from OMI follows:
     \begin{enumerate}
       \item GEOS-Chem satellite overpass output (see section \ref{Model:GC:simulation:outputs}) is used to create new shape factors (S$_z$ and S$_\sigma$).
       \begin{enumerate}
         \item Pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
-        \item Number density and mixing ratio of HCHO ($n_{HCHO}$, $C_{HCHO}$ respectively) are taken or created from model outputs HCHO(ppb) and air density (molec/cm3)
+        \item Number density and mixing ratio of HCHO ($n_{HCHO}$, $C_{HCHO}$ respectively) are taken or created from model outputs HCHO(ppb), air density (molec cm$^{-3}$), and box heights (\textit{H(z)})
         \item Total column HCHO from GEOS-Chem ($\Og$) is calculated $\Og = \Sigma_z \left(n_{HCHO}(z) \times H(z) \right)$, along with total column air ($\Omega_{A}$, calculated similarly)
         \item The shape factor S$_z(z)$ is calculated on each altitude $S_z(z) = n_{HCHO} / \Omega_{HCHO}$.
         \item Pressures (\textit{p})are used to create sigma coordinates $\sigma(z) = (p(z) - p_{TOA}) / (p(0)-p_{TOA})$
         \item S$_\sigma(z)$ is calculated on each altitude: $S_\sigma(z) = C_{HCHO}(z) \times \Omega_A / \Omega_{HCHO}$
       \end{enumerate}
-      \item Satellite pixels (SC, scattering weights ($\omega(z)$), pressure levels, latitude and longitude) are read from the OMHCHO dataset.
-      \item For each pixel, a new AMF (AMF$_{GC}$)is created using the GEOS-Chem shape factors and satellite scattering weights.
+      \item Satellite pixels (SC, scattering weights ($\omega(z)$), pressure levels, latitude and longitude) are read from the OMHCHO dataset
+      \item For each pixel, a new AMF (AMF$_{GC}$)is created using the GEOS-Chem shape factors and satellite scattering weights:
       \begin{enumerate}
         \item scattering weights ($\omega$) are interpolated onto the same vertical dimensions (\textit{z} and $\sigma$) as the shape factors.
-        \item Integration (approximated using rectangular method) is performed along the vertical dimension to calculate the new AMF on both coordinate systems.
+        \item Integration (approximated using rectangular method) is performed along the vertical dimension to calculate the new AMF on both coordinate systems:
         \begin{align}
           AMF_z &= \Sigma_z \left(\omega(z) \times S_z(z) \times H(z)\right) \\
           AMF_s &= \Sigma_{\sigma} \left(\omega(\sigma) \times S_{\sigma}(\sigma) \times d\sigma \right)
         \end{align}
       \end{enumerate}
-      \item These two AMFs represent the same thing using different coordinates. Either one can be used as the AMF$_{GC}$.
-      \item The AMF$_{PP}$ (created separately) and AMF$_{GC}$ are used to determine the new vertical columns ($\Op$, $\Og$ respectively): $\Omega = SC/AMF$.
-      \item A reference sector correction (RSC) is defined each day using these AMFs along with modelled HCHO over the remote pacific.
+      \item These two AMFs represent the same thing using different coordinates, and either one can be used as the AMF$_{GC}$
+      \item The AMF$_{PP}$ (created separately) and AMF$_{GC}$ are used to determine the new vertical columns ($\Op$, $\Og$ respectively): $\Omega = SC/AMF$
+      \item A reference sector correction (RSC) is defined each day using these AMFs along with modelled HCHO over the remote pacific:
       \begin{enumerate}
-        \item GEOS-Chem satellite overpass output ($\Omega_{GEOS-Chem}$ from 140{\degr}W to 160{\degr}W) are averaged monthly and longitudinally to provide a modelled reference sector $\Omega_0[lat]$.
-        \item The modelled reference slant columns (\textit{MRSC}) are calculated using $MRSC = \Omega_0 \times AMF$ for each AMF.
-        \item For each satellite pixel between 140{\degr}W and 160{\degr}W, the correction is calculated as the measured \textit{SC} minus the \textit{MRSC} at the nearest latitude.
+        \item GEOS-Chem satellite overpass output ($\Omega_{GEOS-Chem}$ from 140{\degr}W to 160{\degr}W) are averaged monthly and longitudinally to provide a modelled reference sector $\Omega_0[lat]$
+        \item The modelled reference slant columns (\textit{MRSC}) are calculated using $MRSC = \Omega_0 \times AMF$ for each AMF
+        \item For each satellite pixel between 140{\degr}W and 160{\degr}W, the correction is calculated as the measured \textit{SC} minus the \textit{MRSC} at the nearest latitude:
         \begin{equation*}
           corr[lat,track] = SC[lat,track] - MRSC[lat]
         \end{equation*}
-        \item These corrections are binned by satellite detector (track: 1-60), and latitude (0.36\degr; 500 latitudes from 90{\degr}S to 90{\degr}N).
+        \item These corrections are binned by satellite detector (track: 1-60), and latitude (0.36\degr; 500 latitudes from 90{\degr}S to 90{\degr}N)
         \item The median entry of each bin is determined and this forms the RSC[lat,track] (eg. figure \ref{Model:omiRecalc:RSC:fig_track_correction_interpolations})
       \end{enumerate}
-      \item VCC are determined using $VCC = (SC - RSC[lat,track] )/AMF$ for each measured SC and using each AMF, with the RSC linearly interpolated to the latitude of the satellite pixel.
-      \item The VCC (along with most of the pixel and GEOS-Chem data) are binned onto a 0.25\degr by 0.3125\degr grid along with how many pixels have been binned, and the average pixel uncertainty in product OMHCHORP.
+      \item VCC are determined using $VCC = (SC - RSC[lat,track] )/AMF$ for each measured SC and using each AMF, with the RSC linearly interpolated to the latitude of the satellite pixel
+      \item The VCC (along with most of the pixel and GEOS-Chem data) are binned onto a 0.25\degr by 0.3125\degr grid along with how many pixels have been binned, and the average pixel uncertainty in product OMHCHORP
     \end{enumerate}
-  
+ 
+    % UP TO HERE draft
     Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how these profiles are used in this thesis.
     Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem aprioris.
     PP code is run on a subset of the globe covering Australia and the pacific ocean, producing AMF$_{PP}$.
