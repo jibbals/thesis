@@ -62,14 +62,14 @@
     Sensitivity to soil moisture, (maybe) LAI, and satellite AMF calculation is examined and quantified for some scenarios.
     The effect of using these new top down isoprene emissions as the boundary conditions for GEOS-Chem is studied
     Wellness of fit between in-situ (at Wollongong) HCHO, satellite (OMI), and modelled (GEOS-Chem) HCHO is determined with and without updated emissions estimates.
-  % UP TO HERE Draft
+    
   \subsection{MEGAN emission model}
     % Megan estimates BVOCs - uncertain
-    One of the most popular emissions inventories for biogenic isoprene, the Model of Emissions of Gases and Aerosols from Nature (MEGAN).
-    Global atmospheric studies often use MEGAN along with a chemical transport model (CTM) to examine transport, deposition, and various chemical processes in the atmosphere.
+    The Model of Emissions of Gases and Aerosols from Nature (MEGAN) is one of the most popular emissions inventories for biogenic isoprene.
+    Global atmospheric studies often use MEGAN along with a chemical transport model (CTM) to examine transport, emission, deposition, and other chemical processes in the atmosphere.
     Emissions of Biogenic Volatile Organic Compounds (BVOCs) including isoprene are often the subject of studies as they are still relatively uncertain, as well as being drivers for important oxidation and pollution events.
     
-    (MEGAN) is poorly calibrated for Australian conditions, their emissions of isoprene (C$_5$H$_8$) may be overestimated, especially in the southeast.
+    (MEGAN) is poorly calibrated for Australian conditions, and emissions of isoprene (C$_5$H$_8$) may be overestimated, especially in the southeast.
     \textcite{Stavrakou2015} showed that this overestimate may be a factor of 2-3 in January.
     \textcite{Sindelarova2014} show how 50\% of the isoprene emissions could be reduced by accounting for lower soil moisture.
     \textcite{Emmerson2016} discuss the suitability of MEGAN's isoprene and monoterpene emission factors over southeast Australia, and suggest isoprene emissions are estimated 2-6 times too high.
@@ -99,44 +99,43 @@
     Satellites recording reflected solar spectra use DOAS to measure various trace gases in the atmosphere, including formaldehyde. 
     While satellite measurements can only be used during daytime hours, HCHO lifetimes are sufficiently short that any night-time chemistry will not affect midday observations \parencite{Wolfe2016}.
     Satellites can be used to measure the seasonal and inter annual variability of HCHO over the globe.
-    These records can be compared with modeled estimates of HCHO and used as a proxy to estimate isoprene emissions, as first shown by \textcite{Palmer2001}.
+    These records can be compared with modelled estimates of HCHO and also used as a proxy to estimate isoprene emissions.
     Total HCHO is measured by satellite over the entire world, however the technique is not perfect and suffers from uncertainties.
     Satellite based chemical concentrations often require both remote and in-situ measurements combined with modelled data for validation \parencite{Marais2014}.
     There is less information available from satellite measurements at higher latitudes due to increased error in measurements over the more slanted column paths \parencite{DeSmedt2015}.
     
     
-    Validation is important due to the various uncertainties in the satellite remote sensing process, with a priori assumptions having the greatest effect on structural uncertainty between measurements techniques \textcite{Lorente2017}.
+    Validation is important due to the various uncertainties in the satellite remote sensing process, with apriori assumptions having the greatest effect on structural uncertainty between measurements techniques \textcite{Lorente2017}.
     \textcite{Zhu2016} use SEAC$^4$RS aircraft HCHO measurements over the southeastern US as model validation, and show a bias in the assumed OMI shape factor that leads to a bias between satellite and SEAC$^4$RS measurements.
-    \textcite{Marais2014} compare OMI based isoprene emission estimates against relaxed eddy accumulation measurements from African field campaigns, as well as MEGAN and GEOS-5 inventories.
-    \textcite{Dufour2009} use HCHO from SCIAMACHY, and examine Europe using CHIMERE as the chemical model. 
-    In their work they show that satellite measurements can reduce source emission uncertainty by a factor of two, where emissions are relatively large.
+    \textcite{Marais2014} compare OMI based isoprene emission estimates against relaxed eddy accumulation measurements from African field campaigns in order to improve MEGAN emission factors in the region.
+    \textcite{Dufour2009} use HCHO from SCIAMACHY, and examine Europe using CHIMERE as the chemical model, showing that satellite measurements can reduce source emission uncertainty by a factor of two, where emissions are relatively large.
     
     
   
-  
+  % UP TO HERE
   
   \subsection{Top-down emissions estimates}
     
     % First isoprene inversion work
-    Using HCHO to determine emissions of isoprene was initially performed by \textcite{Palmer2001, Palmer2003}, who used in-situ summertime HCHO measurements over North America as model validation.
-    Isoprene emissions fluxes were derived using the Global Ozone Monitoring Experiment (GOME) satellite instrument.
+    We broadly follow the method of \textcite{Palmer2001} to create an emissions estimate of isoprene over Australia.
+    In their work isoprene emissions fluxes were derived using the Global Ozone Monitoring Experiment (GOME) satellite instrument, however here we use OMI as it has better temporal coverage and increased pixel counts.
     Palmer's method improved biogenic isoprene emissions estimates (compared with in-situ measurements) over two available inventories: the U.S. EPA Biogenic Emissions Inventory System (BEIS2) and the Global Emissions Inventory Activity (GEIA).
-    This showed an inversion technique which could be used to improve large scale emissions estimates without further expensive measurement campaigns.
+    Here we try to improve MEGAN emissions estimates over Australia and analyse some of the technique sensitivities.
 
-    There are now a few methods of estimating isoprene emissions using satellite measurements of emission products, here I describe them and briefly compare the pros and cons of each.
+    There are two main methods of estimating isoprene emissions using satellite measurements of child products, here I describe them and briefly compare the pros and cons of each.
     
     \subsubsection{Linear}
       \label{BioIsop:intro:top_down_linear}
       
       %TODO: Paul palmer outline of technique for top-down estimate
       This technique is the simplest, and is performed in this thesis.
-      With the vertical columns of biogenic HCHO we can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (In other continents around 2-3, or 1 in low NO$_X$ conditions) \parencite{Palmer2003,Marais2012,Bauwens2016}.
-      If we assume there is fast HCHO yield, so that the effect of chemical transport is minimal, and that HCHO and isoprene are at steady states, then we can calculate local yield from our CTM.
+      Using vertical columns of biogenic HCHO one can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (In other continents around 2-3, or 1 in low NO$_X$ conditions) \parencite{Palmer2003,Marais2012,Bauwens2016}.
+      If one assumes fast HCHO yield, so that the effect of chemical transport is minimal, and that HCHO and isoprene are at steady states, then one may calculate local yield from a CTM.
       %This yield is derived from both HCHO and isoprene, such as was used by \textcite{Millet2006} who produced a molar HCHO yield of 2.3 in north eastern USA.
       
-      In this work yield is calculated from the modelled slope between isoprene emissions and HCHO total column within each gridbox over Australia, as performed in \textcite{Palmer2003}, using modelled values between 1200-1300 LT which is around the overpass time of the OMI.
+      In this work yield is calculated from the modelled slope between isoprene emissions and HCHO total column within each gridbox over Australia, as performed in \textcite{Palmer2003}, using modelled values between 1300-1400 LT which is around the overpass time of the OMI.
       This modelled yield is then used in conjunction with the recalculated OMI measurements in order to estimate isoprene emissions.
-      To calculate this yield we use a reduced major axis (RMA) regression between modelled average values of the loss rates and total columns, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
+      To calculate this yield we use a reduced major axis (RMA) regression between modelled average values of the total columns and isoprene emission rates, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
       
       % TODO: Pros and cons of PP top down method
       % Pros and cons:
@@ -363,15 +362,15 @@
     Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $, where $\Delta$ represents the monthly mean departure over 1300-1400LT from default run values.
     If $\hat{S}$ is large, then you can infer sensitivity to non-local isoprene emissions.
     A relatively large change in $\Omega_{HCHO}$ (compared to local emissions) suggests that HCHO is being formed from non-local isoprene emissions.
-    This is sensitive to how E$_{isop}$ is determined, figure \ref{BioIsop:Method:Smearing:fig_smearing_def_2005} shows smearing over two seasons with E$_{isop} =$ daily averaged isoprene emissions (left column) and midday (1300-1400~LT) emissions (right column). Essentially the midday isoprene emissions are at the peak of their daily cycle (see figure TODO) which means the effect of smearing is relatively smaller during these hours.
-    Figure TODO: shows the same figure with added markers showing when the threshold of 4000 affects at least one day within the season (pink diamonds) and where it removes all data for that gridbox (red x).
-    
-    gridsquares above the thresholds of 4000 (as seen in \textcite{Marais2012}).
+    This is sensitive to how E$_{isop}$ is determined, figure \ref{BioIsop:Method:Smearing:fig_smearing_def_2005} shows smearing over two seasons with E$_{isop} =$ daily averaged isoprene emissions (left column) and midday (1300-1400~LT) emissions (right column). 
+    Essentially the midday isoprene emissions are at the peak of their daily cycle (see figure TODO) which means the effect of smearing is relatively smaller during these hours.
+    Figure TODO: shows the same figure with added markers showing when the threshold of 4000 \parencite[as in][]{Marais2012} affects at least one day within the season (pink diamonds) and where it removes all data for that gridbox (red x).
     
     \mypic{/Figures/OMI_link/Filters/smearing_definitions_2005.png}{Smearing ($\hat{S}$, see text) in summer (DJF, top row) and winter (JJA, bottom row) using averaged isoprene emissions daily (left column) and 1300-1400~LT (right column). Note that the scale changes between left and right columns.}{\label{BioIsop:Method:Smearing:fig_smearing_def_2005}}
     
     
-
+    % Marais 2012 also look at average windspeed and best hcho-isop corelation when hcho is shifted by 0.5 degrees, don't think I can do that with 2.5 degree resolution
+    % Marais compare smearing with model estimated yield " 
     
     
     Smearing can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
@@ -380,6 +379,9 @@
     Once the smearing sensitive grid squares are filtered out, application of equation \ref{ch_isop:eqn:isop_yield} gives us an estimate of isoprene emissions across the nation.
     
     TODO: Plots of S hat showing worst smearing affected areas per season.
+    
+    TODO: Figure (TODO scatter plot of $\hat{S}$ vs $\Omega_{NO_2}$) shows how smearing is related to NO$_X$ over Australia.
+    Figure (TODO same but binned by nox columns at about 0.1e15 width, over a longer time)
     
     \subsubsection{Smearing length scale}
     
