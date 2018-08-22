@@ -110,9 +110,6 @@
     \textcite{Marais2014} compare OMI based isoprene emission estimates against relaxed eddy accumulation measurements from African field campaigns in order to improve MEGAN emission factors in the region.
     \textcite{Dufour2009} use HCHO from SCIAMACHY, and examine Europe using CHIMERE as the chemical model, showing that satellite measurements can reduce source emission uncertainty by a factor of two, where emissions are relatively large.
     
-    
-  
-  % UP TO HERE
   
   \subsection{Top-down emissions estimates}
     
@@ -139,12 +136,14 @@
       
       % TODO: Pros and cons of PP top down method
       % Pros and cons:
+      This technique suffers from the assumptions of fast HCHO yield and no transport, which leads to necessary filtering of areas with low NO$_X$, high winds, or low emissions. 
+      
     
     \subsubsection{Bayesian}
       
       % Top down emissions estimation methods:
-      More recently, more in-depth inversions which can account for transport, source attribution, and chemical schemes have been implemented \parencite{FortemsCheiney2012}.
-      These methods correct isoprene emissions using observed HCHO total columns and Bayesian inversion.
+      More recently, in-depth inversions which can account for transport, source attribution, and chemical schemes have been implemented \parencite{FortemsCheiney2012}.
+      These methods also use observed HCHO total columns and then optimise models in order to improve HCHO output.
       Bayesian inversion corrects biased biogenic isoprene emissions by optimising emission parameters in order to simulate HCHO closest to satellite observed HCHO levels.
       For example this method is used by \textcite{Shim2005} who optimise GEOS-Chem isoprene emissions in areas with high HCHO concentrations to improve comparison against GOME HCHO observations % They looking at areas with high signal to noise ratio (higher HCHO concentrations).
       They show that the original model underestimates isoprene emissions and HCHO concentrations by 14-46\%, with the corrected VOC emissions reducing model biases to 3-25\%.
@@ -152,7 +151,7 @@
       This bias is expected to be caused by errors in MEGANs isoprene emissions estimations.
       %The CHIMERE model is used to derive yields of HCHO from the various local VOCs and these are then used in estimating local emissions.
       The model is run initially with emissions of BVOCs and reactive anthropogenic VOCs (RAVOCs) turned off in order to work out the background (b) values of these compounds.
-      \textcite{Curci2010} uses CHIMERE as the forward model to determine the relationship between HCHO (y), isorene and reactive anthropogenic VOCs (\textbf{x}), using 
+      \textcite{Curci2010} uses CHIMERE as the forward model to determine the relationship between HCHO (y), isoprene and reactive anthropogenic VOCs (\textbf{x}), using 
       \begin{equation}
         y=\mathbf{K}x + b + \epsilon
       \end{equation}
@@ -162,6 +161,10 @@
     
       The Bayesian method is more statistically intensive and requires more computation time than the linear method. 
       In this work we don't use the Bayesian method due to heavy computational costs involved.
+      Both the linear and Bayesian techniques assume that modelled chemistry is accurate and only try to correct precursor emissions, which may be a problem if the chemistry is uncertain.
+      An advantage of the Bayesian method is that it can account for pyrogenic and anthropogenic emissions rather than filtering them out.
+      
+      %UP TO HERE
   
 \section{Methods}
   \label{BioIsop:Methods}
