@@ -165,15 +165,13 @@
       In this work we don't use the Bayesian method due to heavy computational costs involved.
       Both the linear and Bayesian techniques assume that modelled chemistry is accurate and only try to correct precursor emissions, which may be a problem if the chemistry is uncertain.
       An advantage of the Bayesian method is that it can account for pyrogenic and anthropogenic emissions rather than filtering them out.
-      
-      %UP TO HERE
   
 \section{Methods}
   \label{BioIsop:Methods}
   
   \subsection{Outline}
     % Method Briefly outlined here
-    Here is an overview of the steps involved in this work, which take satellite data and model output to estimate isoprene emissions.
+    Here is an overview of the steps involved in this work, from reading satellite data and model output to the creation of isoprene emissions estimates.
     This process is summarised in figure \ref{BioIsop:Method:fig_Flow_Making_Isop}.
     \begin{enumerate}
       \item 
@@ -214,39 +212,29 @@
         A full description and analysis of this term used to determine the smearing filter is given in section \ref{BioIsop:Method:Smearing}.
       \item 
         Compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane measurements (HIPPO).
+        TODO: do these things
+      \begin{enumerate}
+        \item Top-down isoprene emissions are calculated for the time window 1300-1400~LT, matching the peak of the diurnal cycle
+        \item Scaled isoprene emissions are used in place of MEGAN in GEOS-Chem for specified dates so that HCHO, O$_3$, isoprene, and NO$_X$ outputs can be compared to campaigns measurements
+      \end{enumerate}
     \end{enumerate}
     
     \mypic{Figures/Flow_Making_Isop.png}{Creation of isoprene emissions dataset using OMHCHORP and biogenic GEOS-Chem outputs.}{\label{BioIsop:Method:fig_Flow_Making_Isop}}
   
   \subsection{Masks and reprocessed satellite HCHO}
     
-    Satellite data is read in, the AMFs are recalculated, and then pixels are gridded daily into 0.25x0.3125\degr horizontal bins. 
-    This is the intermediate product (OMHCHORP), the creation of which is detailed in section \ref{Model:omiRecalc:outline}.
+    Satellite data pixels are read from the OMHCHO level 2 satellite dataset, AMFs are recalculated, and then pixels are gridded daily into 0.25x0.3125\degr horizontal bins. 
+    This forms the intermediate product (OMHCHORP), the creation of which is detailed in section \ref{Model:omiRecalc:outline}.
     In total a month of these data are read in at a time (to allow parallelism and reduce RAM usage) and then used in subsequent steps to calculate the isoprene emissions.
-    Pixel counts (how many satellite datapoints were used for each VCC) for each gridbox are also read in order to allow averaging when changing from fine to coarse resolution.
+    Pixel counts (how many satellite datapoints were used for each VCC) for each gridbox are kept track of to allow averaging when changing from fine to coarse resolution.
     
-    Anthropogenic, fire, and smoke influence masks are created from three satellite products: daily NO2 from OMNO2d, daily fire counts from MOD14A1, and daily AAOD from OMAERUVd respectively (see section \ref{Model:Filter}). These masks are binned using averaged or summed values within our 0.25x0.3125\degr horizontal resolution and read from the intermediate data product from Chapter \ref{Model}: OMHCHORP.
-    Also from OMHCHORP are the recalculated corrected vertical columns (VCCs) (0.25\degr by 0.3125\degr horizontal resolution) (see section \ref{Model:omiRecalc}).
+    Anthropogenic, fire, and smoke influence masks are created from three satellite products: daily NO2 from OMNO2d, daily fire counts from MOD14A1, and daily AAOD from OMAERUVd respectively (see section \ref{Model:Filter}). 
+    These masks are binned using averaged or summed values within our 0.25x0.3125\degr horizontal resolution, read from OMHCHORP.
+    The recalculated corrected vertical columns (VCCs) (0.25\degr by 0.3125\degr horizontal resolution) are additionally read from OMHCHORP. %(see section \ref{Model:omiRecalc}).
+    
     
   \subsection{Calculating modelled slope}
-  \label{BioIsop:Method:slope}
-  
-    Figure \ref{BioIsop:Method:slope:fig_regressions} (top left) shows the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid square over January 2005, using one datapoint for each day.
-    Also shown are the regression coefficients (bottom left), Australia averaged time series (top right), and a sample of the regressions (bottom right).
-    Each regression is for a single latitude and longitude, over the course of one month, and is coloured by location (matching dots shown in the bottom left panel).
-    
-    \mypic{Figures/OMI_link/GC/E_isop_vs_hcho_200501.png}
-    { % Caption
-      Top left panel: the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid box over January 2005.
-      Bottom left panel: the square of the regression coefficients.
-      Top right panel: Australia averaged time series 
-      Bottom right panel: a sample of the regressions coloured by latitude and longitude pairs, matching dots in the bottom left panel.
-    }
-    {\label{BioIsop:Method:slope:fig_regressions}}
-  
-  \subsection{Satellite inversion}
-  \label{BioIsop:SatInv}
-  
+    \label{BioIsop:Method:slope}
     
     Initially studies assumed a simple linear steady-state relationship between HCHO and it's precursors \parencite{Palmer2003, Palmer2006, Millet2006}.
     This allowed a simple calculation of isoprene using the measured HCHO, with estimated reaction rates and yields.
@@ -269,14 +257,27 @@
     \end{split} \end{eqnarray}
     
     Estimates of $Y_i$ or $slope$ can be attained from a model \parencite[e.g.][]{Millet2006}.
-    This involves a reduced major axis (RMA) correlation calculation between modelled HCHO and isoprene columns, multiplied by their loss rates (to photolysis and oxidation) (as a normalising factor).  
+    This involves a reduced major axis (RMA) correlation between modelled HCHO columns and isoprene emissions, multiplied by their loss rates (to photolysis and oxidation) (as a normalising factor).  
     In high NOx environments where HCHO has a lifetime on the order of 30 minutes, it can be used to map isoprene emissions with spatial resolution from 10-100 kms.
-    Horizontal transport 'smears' the HCHO signal so that source location would need to be calculated using windspeeds and loss rates \parencite{Palmer2001,Palmer2003}.
-    Smearing is explicitly handled in these studies due to the importance of transport and NO$_X$ on forming robust and accurate estimates.
-    Over Australia NO$_X$ levels are generally not high enough to ensure quick HCHO formation and we must account for the transport or 'smearing' caused by slower HCHO formation, details on this process can be found in Section \ref{BioIsop:Method:Smearing}.
+    Horizontal transport \textit{smears} the HCHO signal so that source location would need to be calculated using wind speeds and loss rates \parencite{Palmer2001,Palmer2003}.
+    Smearing requires analysis and filtering due to the importance of transport and NO$_X$ on forming robust and accurate estimates.
+    Over Australia NO$_X$ levels are generally not high enough to ensure quick HCHO formation and we must take care to account for resultant smearing
+    Details on smearing analysis and filtering are in Section \ref{BioIsop:Method:Smearing}.
     
+    Figure \ref{BioIsop:Method:slope:fig_regressions} (top left) shows the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid square over January 2005, using one datapoint for each day.
+    Also shown are the regression coefficients (bottom left), Australia averaged time series (top right), and a sample of the regressions (bottom right).
+    Each regression is for a single latitude and longitude, over the course of one month, and is coloured by location (matching dots shown in the bottom left panel).
     
+    \mypic{Figures/OMI_link/GC/E_isop_vs_hcho_200501.png}
+    { % Caption
+      Top left panel: the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid box over January 2005.
+      Bottom left panel: the square of the regression coefficients.
+      Top right panel: Australia averaged time series 
+      Bottom right panel: a sample of the regressions coloured by latitude and longitude pairs, matching dots in the bottom left panel.
+    }
+    {\label{BioIsop:Method:slope:fig_regressions}}
     
+  % UP TO HERE
   \subsection{Calculation of Emissions}
     \label{BioIsop:Calculation}
    
@@ -350,7 +351,6 @@
       \label{BioIsop:Calculation:fig_E_isop_200501}
     \end{figure}
     
-  
   
   \subsection{Accounting for smearing}
     \label{BioIsop:Method:Smearing}
