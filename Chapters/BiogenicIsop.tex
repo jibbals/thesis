@@ -207,15 +207,18 @@
           \end{equation}
       \end{enumerate}
       \item
-        TODO: Biogenic yield masked when smearing term is above a threshhold (TODO: determine).
-        This smearing value is determined as $S=\Delta \Omega_{HCHO}/ \Delta E_{isop}$, the ratio between modelled HCHO column changes and isoprene emission changes between model runs. 
-        A full description and analysis of this term used to determine the smearing filter is given in section \ref{BioIsop:Method:Smearing}.
+        Biogenic yield is masked where the HCHO production is not dominated by local isoprene emissions. 
+        This is determined by calculating smearing over Australia using two model runs with differing isoprene emissions.
+        This smearing value is determined as $\hat{S}=\Delta \Omega_{HCHO}/ \Delta E_{isop}$, the ratio between HCHO columns and isoprene emissions changed between model runs.
+        This value is set to 4000 in \textcite{Marais2014}, based on local NO$_X$, windspeeds, and emission concentrations. (TODO: determine properly for Aus).
+        A full description and analysis of this term used to determine the smearing filter is given in section \ref{BioIsop:Method:Smearing}
       \item 
         Compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane measurements (HIPPO).
         TODO: do these things
       \begin{enumerate}
         \item Top-down isoprene emissions are calculated for the time window 1300-1400~LT, matching the peak of the diurnal cycle
-        \item Scaled isoprene emissions are used in place of MEGAN in GEOS-Chem for specified dates so that HCHO, O$_3$, isoprene, and NO$_X$ outputs can be compared to campaigns measurements
+        \item A monthly scaling factor for isoprene emissions is updated based on the difference between peak MEGAN emissions and our top-down estimates
+        \item GEOS-Chem is run with the updated scaling factor, and HCHO, O$_3$, isoprene, and NO$_X$ outputs are compared to campaign measurements
       \end{enumerate}
     \end{enumerate}
     

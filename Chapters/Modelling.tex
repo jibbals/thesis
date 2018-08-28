@@ -845,8 +845,7 @@
           \item HEMCO diagnostics output used to determine isoprene to HCHO yields (section \ref{BioIsop:Calculation:eqn_isop_yield}), and to compare against top-down estimations of isoprene emissions (section \ref{BioIsop:Results:Emissions})
           \item TODO: Compare total yearly ozone concentrations before and after implementing top-down estimate.
         \end{enumerate}
-
-
+        
         \item [Tropchem (isoprene emissions halved)]%
           identical to standard tropchem except isoprene emissions are halved.
         \begin{enumerate}
@@ -861,6 +860,13 @@
           \item Satellite output, hourly biogenic emissions from MEGAN
           \item Used to determine the biogenic yield from isoprene to HCHO over Australia, described in section \ref{BioIsop:Methods}
           \item Compared to run with updated emissions (\ref{BioIsop:Results})
+        \end{enumerate}
+        
+        \item [Tropchem (altered MEGAN scaling factor)]
+        \begin{enumerate}
+          \item Satellite output, time series, daily averaged tracers
+          \item Compare to campaign datasets after altering isoprene emissions (see chapter \ref{BioIsop})
+          \item Compare against satellite column HCHO as a sanity check on improving isoprene emissions
         \end{enumerate}
         
       \end{description}
@@ -1354,14 +1360,25 @@
   
     
     New corrected vertical columns (VCC) of HCHO are created at global 0.25 by 0.3125\degr horizontal resolution.
-    These calculations are compared over Australia in figure(s) TODO: Map comparison, regression, and time series.
-    The effect of not recalculating the $\omega_z$ is can be seen in figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which looks at the altered satellite vertical columns using each method.
+    These calculations are compared over Australia in figure(s) \ref{Model:omiRecalc:diff:fig_vcc_comparison}, TODO: regression, and time series.
+    Figure \ref{Model:omiRecalc:diff:fig_vcc_comparison} shows how the recalculated columns compare to the original (OMI, left). 
+    Recalculation increases the January column amounts while also slightly flattening the distributions (row 3).
+    The effect of not recalculating the $\omega_z$ can also be seen in figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which looks at the altered satellite vertical columns using each method.
+    
+    % Fire filtering affect split over recalculations
     Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows vertical columns of HCHO for: column 1) the original satellite swaths, column 2) recalculated without changing the provided scattering weights, and column 3) fully recalculated vertical columns. 
-    Each grid square (at 0.25 by 0.3125\degr lat lon resolution) has been created by binning the recalculated satellite pixels within the month.
+    Each grid square (at 0.25 by 0.3125\degr resolution) has been created by binning the recalculated satellite pixels within the month.
     The average pixels per land square is inset as text, changing due to how the fire filter is applied.
     Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
     This figure looks at March 2005 with biomass burning filtered differently in each row.
     Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
+    
+    % Figure showing VCC omi, gc, and pp, and distribution
+    % produced in tests.py -> check_products()
+    \mypic{Figures/OMI_link/VCC_check_200501.png}{%
+      Row 1: regridded corrected $\Omega_{HCHO}$ from OMHCHO on January 1, 2005: original (left), recalculated using new shape factors (middle), and additionally using updated scattering weights (right).
+      Row 2: shows the monthly average for January 2005.
+      Row 3: shows the distribution over the month for each of the three column amounts.}{\label{Model:omiRecalc:diff:fig_vcc_comparison}}
     
     %TODO: figure analysing amf vs amf_gc vs amf_pp
     Figure TODO shows an analysis of the differences between running the recalculation with and without updating the $\omega_z$.
