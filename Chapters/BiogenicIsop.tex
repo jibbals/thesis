@@ -350,7 +350,7 @@
     
     Accounting for transport of the precursors is important, especially in low NO$_X$ conditions in which isoprene has a longer lifetime (hours-days).
     When estimating emissions of isoprene using one of its products, it is often assumed that isoprene has a short lifetime.
-    This is a probelm in Australia where low NO$_X$ environments abound, as detected formaldehyde may have not be directly above its emission source (as assumed in this top-down estimation technique).
+    This is a problem in Australia where low NO$_X$ environments abound, as detected formaldehyde may not be directly above its emission source (as assumed in this top-down estimation technique).
     An analysis of spatial smearing (smearing from here forwards) can be used to mitigate potential emissions estimation biases.
     Smearing in this case is a measure of how much formaldehyde is created from isoprene emissions in non-local grid boxes.
     Smearing has been measured in various works \parencite[eg.][]{Martin2003,Palmer2003,Millet2006,Stavrakou2009,Marais2012,Barkley2013,Zhu2014,Wolfe2016,Surl2018}, often implementing the method designed in \textcite{Palmer2003}.
@@ -360,8 +360,7 @@
     Consider halving the isoprene emitted globally and rerunning the model, one would expect HCHO enhancement (above background levels) to be halved in isoprene emitting gridboxes if no transport has occurred.
     %\textcite{Marais2012} additionally use airborn isoprene, MVK $+$ MACR (isoprene oxidation products), and HCHO measurements to check smearing in Africa where there is a sharp gradient of isoprene emitting vegetation from north to south.
     
-    % UP TO HERE ...
-    Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $, where $\Delta$ represents the monthly mean departure over 1300-1400LT from default run values.
+    Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $, where $\Delta$ represents the departure (daily over 1300-1400LT) from default run values.
     If $\hat{S}$ is large, then you can infer sensitivity to non-local isoprene emissions.
     A relatively large change in $\Omega_{HCHO}$ (compared to local emissions) suggests that HCHO is being formed from non-local isoprene emissions.
     This is sensitive to how E$_{isop}$ is determined, figure \ref{BioIsop:Method:Smearing:fig_smearing_def_2005} shows smearing over two seasons with E$_{isop} =$ daily averaged isoprene emissions (left column) and midday (1300-1400~LT) emissions (right column). 
@@ -379,7 +378,7 @@
     As such smearing sensitivity is both spatially and temporally diverse.
     Figure TODO: is a picture of the smearing sensitivity over Australia in Summer and Winter, along with where the smearing threshold is exceeded (for one or all days).
     Large smearing values can be seen near many coastlines as only a fraction of the grid squares actually emit isoprene, which makes transported isoprene relatively more important in these gridboxes.
-    Once the smearing sensitive grid squares are filtered out, application of equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho} can be used to estimate isoprene emissions across the nation.
+    Once the smearing sensitive grid squares are filtered out, application of equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho} is used to estimate isoprene emissions across the nation.
     
     %TODO: Plots of S hat showing worst smearing affected areas per season.
     
@@ -388,8 +387,8 @@
     
     \subsubsection{Smearing length scale}
     
-      Horizontal transport complicates estimation of precursor emissions, as emitted compounds react beyond local gridboxes.
-      The distance travelled (L) downwind (d) by a precursor (i) before becoming HCHO can be estimated using:
+      The expected horizontal transport (prior to reaction) of a precursor can be calculated using the smearing length \parencite{Palmer2003}.
+      The distance travelled (L) downwind (d) by a precursor (i) before becoming HCHO can be estimated through:
       \begin{equation*}
         L_{d,i} = \frac{U}{k_i - k_{HCHO}} \ln{ \left( \frac{k_i}{k_{HCHO}} \right) }
       \end{equation*}
@@ -400,9 +399,10 @@
       \frac{1}{k_{HCHO}-k_i} \left( k_{HCHO} \exp{ \left[ \frac{-k_i L_{s,i}}{U} \right]} -k_i \exp{ \left[ \frac{-k_{HCHO} L_{s,i}}{U} \right]} \right) = \frac{1}{e} 
       \end{equation}
       with limiting values L$_{s,i} \rightarrow U/k_i$ for $k_i << k_{HCHO}$, and L$_{s,i} \rightarrow U/k_{HCHO}$ for $k_{HCHO} << k_i$.
-      Figure TODO: shows a rough estimate of isoprene smearing (L$_{isop}$) in Australia using wind speeds from TODO:, and reaction rates k$_{isop}$, k$_{HCHO}$ from GEOS-Chem.
+      Figure TODO: shows a rough estimate of isoprene smearing length(L$_{isop}$) in Australia using wind speeds from TODO:, and reaction rates k$_{isop}$, k$_{HCHO}$ from GEOS-Chem.
       %TODO make this plot!
     
+    %UP TO HERE
 \section{Results}
   \label{BioIsop:Results}
   
