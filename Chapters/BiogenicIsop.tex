@@ -25,9 +25,11 @@
   Australian isoprene emissions are poorly understood due to poor measurement coverage, and poor emission factor characterisation.
   The emissions of isoprene have been modelled at around 500\tgcpyr in \textcite{Guenther1995,Guenther2006} using MEGAN, and more recently around 465\tgcpyr in \textcite{Messina2016} using ORCHIDEE.
   The global emission models used to derive these estimates are based on modelling emissions from different plant species (phenotypes), of which few are used when setting the emission factors of Australian forests.
+  Some argue that isoprene emissions are overestimated as they are based on relatively few measurements of isoprene emission factors \parencite{Winters2009, FortemsCheiney2012,}.
   Satellite based emissions estimates may allow us to improve the models without requiring other expensive measurements over the large data sparse continent of Australia.
   
-  Modelled isoprene and BVOC emissions from MEGAN \parencite{Guenther2000} of 500 and 1150~Tga$^{-1}$ respectively are still the global go-to estimates.
+  Australian forests are strong emitters of both isoprene and monoterpenes, which go on to form various products including secondary organic aerosols, oxygenated VOCs (OVOCs), ozone, OH, and HO$_2$.
+  Modelled BVOC emissions from MEGAN \parencite{Guenther2000} of 1150~Tga$^{-1}$ are still the global go-to estimates.
   BVOC emissions are rising globally, and improved estimates for Australia is a priority due to their high uncertainty.
   \textcite{Kefauver2014} reviews remote sensing of BVOC emissions, examining the last 20 years of data and analysis of the satellite products.
   Their review reinforces the message that NMVOCs affect the oxidative capacity of the atmosphere and are largely driven by and sensitive to vegetation.
@@ -298,8 +300,12 @@
     There are a couple of ways to determine the modelled background HCHO concentration, one of which involves running the model with isoprene emissions turned off, which allows us to see exactly how much the modelled isoprene emissions alter each vertical column of HCHO.
     This is effective since we have assumed variation in HCHO columns only depends on isoprene emissions, so our background term is theoretically identical to the emission free simulated HCHO.
     The other way involves looking at HCHO over the remote pacific at matching latitudes and times, which emulates how the background is determined for the measured HCHO.
-    These modelled background HCHO concentrations are mostly used for comparison with other datasets.
-    TODO: show how these two numbers compare! figure with time series of both backgrounds for Aus, SEAus, and remote ocean.
+    Figure \ref{BioIsop:Method:fig_background_hcho} shows how GEOS-Chem total column HCHO looks with and without isoprene emissions along with amounts over the remote pacific at the same latitudes.
+    Modelled background HCHO concentrations are used for comparison with other datasets, along with creating the reference sector correction for satellite measurements.
+    
+    
+    \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{Total column HCHO over Australia (left) and the remote pacific region (right) using GEOS-Chem with (top) and without (bottom) isoprene emissions. }{\label{BioIsop:Method:fig_background_hcho}}
+    
     
     In high NO$_x$ environments where HCHO has a lifetime on the order of 30 minutes, it can be used to map isoprene emissions with spatial resolution from 10-100~kms.
     Horizontal transport \textit{smears} the HCHO signal so that source location would need to be calculated using wind speeds and loss rates \parencite{Palmer2001,Palmer2003}.
@@ -402,37 +408,41 @@
       Figure TODO: shows a rough estimate of isoprene smearing length(L$_{isop}$) in Australia using wind speeds from TODO:, and reaction rates k$_{isop}$, k$_{HCHO}$ from GEOS-Chem.
       %TODO make this plot!
     
-    %UP TO HERE
+    \subsubsection{NOx dependence}
+      
+      Isoprene production of HCHO depends on several factors, importantly NO$_X$ levels have a direct effect on the fate of VOCs in the atmosphere.
+      At higher NO mixing ratios (at least a few hundred pptv), organic peroxy radicals (RO$_2$) react mostly with NO. 
+      At low NO (less than 50~pptv), reaction with HO$_2$, other RO$_2$, and isomerization dominate the fate of RO$_2$.
+      In low NO$_X$ environments, reported HCHO yields from isoprene are from XtoY\%, while in high NO$_X$ environments this value is XtoY\% TODO: these values from table.
+      For monoterpenes the yields are around X, Y\% for low, high NO$_X$ respectively.
+      
+      NO$_2$ measured by OMNO2d gives us a daily mid-day measurement which we can compare to output from GEOS-Chem to determine how well the model does at simulating NO$_2$.
+      This is also done in \textcite{Travis2016}, as a way to examine model bias in ozone (potentially due to NO$_2$ bias) over the USA.
+      The affect of NO$_2$ on smearing can be seen in figure TODO
+    
 \section{Results}
   \label{BioIsop:Results}
   
   %TODO: Preliminary results shown at AGU - leading into other stuff
   
   
-    \subsection{HCHO Products and yield}
+  \subsection{HCHO Products and yield}
     \label{BioIsop:Results:HCHOYield}
-    Australian forests are strong emitters of both isoprene and monoterpenes, which go on to form various products including secondary organic aerosols, oxygenated VOCs (OVOCs), ozone, OH, and HO$_2$.
+    Isoprene forms many products, with many reactions, most of which have some yield of HCHO.
     This production occurs over several steps, yields are often classed into at least two categories.
     First generation HCHO yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (sometimes molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
     \textcite{Wolfe2016} define prompt yield as the change in formaldehyde measurement per unit change in initial isoprene emissions.
-    Some argue that isoprene emissions are overestimated, due to the fact that they are based on relatively few measurements of isoprene emission factors \parencite{Winters2009, FortemsCheiney2012} TODO: read and cite paper mentioned in Fortems.
     Averaged area yields can be derived from the $slope$ using the modelled loss rates $k_{hcho}$ since $slope = \frac{Y_{isop}}{k_{HCHO}}$ from equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
     Table \ref{BioIsop:Method:tab_VOCAusYields} shows the average yield calculated for Australia. (TODO: this table and some notes).
     
-    Isoprene production of HCHO depends on several factors, importantly NO$_X$ levels have a direct effect on the fate of VOCs in the atmosphere.
-    At higher NO mixing ratios (at least a few hundred pptv), organic peroxy radicals (RO$_2$) react mostly with NO. 
-    At low NO (less than 10's of pptv), reaction with HO$_2$, other RO$_2$, and isomerization dominate the fate of RO$_2$.
-    In low NO$_X$ environments, reported HCHO yields from isoprene are from XtoY\%, while in high NO$_X$ environments this value is XtoY\% TODO: these values from table.
-    For monoterpenes the yields are around X, Y\% for low, high NO$_X$ respectively.
     Emissions and yields for various species including some terpenes can be seen in table \ref{BioIsop:Method:tab_VOCAusYields}.
     \textcite{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
     They determine prompt yield as the change in HCHO per change in ISOP$_0$, using $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
     This effectively relates HCHO abundance with isoprene emission strength.
     %TODO:and finish Wolfe2016 discussion paper for yields
     
-    NO$_2$ measured by OMNO2d gives us a daily mid-day measurement which we can compare to output from GEOS-Chem to determine how well the model does at simulating NO$_2$.
-    This is also done in \textcite{Travis2016}, as a way to examine model bias in ozone (potentially due to NO$_2$ bias) over the USA.
-    
+    %UP TO HERE
+        
     Conversions between HCHO per unit C yield and molar \% yield from species X given by the equation $ Y_{molar \%} = 100 \times C_X \times Y_{HCHO per unit C} $, where $C_X$ is how many Carbon are within species X (5 for isoprene, 10 for monoterpenes, etc...).
     For instance a 200\% molar yield of HCHO from isoprene implies 1 Mole of C$_5$H$_8$ becomes 2 Mole HCHO which is a 0.4 HCHO per unit C yield.
     
