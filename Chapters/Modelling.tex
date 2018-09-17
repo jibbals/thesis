@@ -101,7 +101,6 @@
     Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium.
     Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the scattered light.
     Mie scattering is more generally involves larger particles, and has less wavelength dependence.
-    %These scattering functions are described in detail at (maybe TODO:section? reference?).
     The effects of scattering are what gives us the information about substances in the atmosphere.
     The different particles and gases in the air have various properties which affect remote sensing devices such as a satellite, making them more or less sensitive at certain altitudes for detecting various species \parencite[e.g.][]{Martin2002}.
     
@@ -1247,8 +1246,8 @@
     Additionally the tropopause heights averaged within satellite overpass times are required, and provided by modifying the GEOS-Chem diagnostic output.
     
     Mie scattering and clouds can complicate the calculation of $\omega$(z), however tables of values for this function at various parameter inputs can be used with modeled vertical shape factors for local AMF calculations.
-    This has been done in the PP code and the AMF look-up-table (LUT) can be found in the source code at TODO: add git repo with this code.
-    In order to run, output is required from GEOS-Chem: the HCHO concentration profile averaged between 1300 and 1400 LT, including optical depths at several wavelengths (TODO: list), and dust concentrations.
+    This has been done in the PP code and the AMF look-up-table (LUT) can be found in the source code at (\url{https://github.com/LukeSurl/amf581g}).
+    In order to run, output is required from GEOS-Chem: the HCHO concentration profile averaged between 1300 and 1400 LT, including optical depths at 550~nm, and dust concentrations.
     A subset of the OMI pixel information is also required, which is coalesced from OMHCHO daily swath files into csv files (one per day), and read by the PP code in conjunction with the GEOS-Chem outputs for each day.
     The PP code then produces a list of recalculated AMFs which is read by my python code and associated with the corresponding pixel (outlined in \ref{Model:omiRecalc:fig_flow_omhchorp}).
     
@@ -1645,12 +1644,16 @@
 TODO: ADD MORE HERE
 \label{Model:DataAccess}
 \begin{description}
+  \item[OMHCHO] Satellite swaths of HCHO slant columns downloaded from \url{https://search.earthdata.nasa.gov}, with DOI 10.5067/Aura/OMI/DATA2015
+  
   \item[OMNO2d] Daily satellite NO$_2$ product downloaded from \url{https://search.earthdata.nasa.gov/search}, DOI:10.5067/Aura/OMI/DATA3007. 
   See more information in section %TODO:
+  
+  \item[OMAERUVd] Gridded satellite based AAOD measurements downloaded from \url{https://search.earthdata.nasa.gov}, DOI 10.5067/Aura/OMI/DATA3003. %TODO cite Omar O. Torres (2008), OMI/Aura Near UV Aerosol Optical Depth and Single Scattering Albedo L3 
   
   \item[SPEI] Monthly standardised precipitation evapotranspiration index (metric to determine drought stress) downloaded from \url{http://hdl.handle.net/10261/153475} with DOI:10.20350/digitalCSIC/8508.
   See more information in section %TODO:
   
-  \item[OMHCHO] Satellite swaths of HCHO slant columns downloaded from TODO, with DOI TODO
+  
   
 \end{description}
