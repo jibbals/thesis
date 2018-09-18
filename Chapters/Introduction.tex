@@ -448,7 +448,7 @@
     The many children processes and products which begin with isoprene oxidation are often called the isoprene (photochemical) cascade \parencite[eg.][]{Crounse2012,Paulot2012,Wolfe2016}.
     
     \subsubsection{Oxidation}
-      
+      \label{LR:VOCs:IsopCascade:Oxidation}
       The primary sink for isoprene is oxidation by OH.
       First isoprene has its double bond replaced by OH, as summarised by the equation from \textcite{Patchen2007}:
       % Uses package{mchem}
@@ -817,12 +817,13 @@
     %% GEOS-Chem resolution uncertainties
     \subsubsection{Resolution}
       \label{LR:Models:Uncert:Resolution}
-      todo: Yu2016 paper.
       
       GEOS-Chem simulations are somewhat sensitive to the gridbox resolution.
       For example: \textcite{Wild2006} show that reduced resolution increases OH concentrations and ozone production rates.
       \textcite{Christian2017} find small changes in OH ($<10$\%) in OH, HO$_2$ and ozone concentrations local to the north American arctic, when changing from 4 by 5 to 2 by 2.5\degr resolution.
-      For many global scale analyses, errors from resolution are less important than those from chemistry, meteorology, and emissions \parencite{Christian2017, Christian2018}.
+      \textcite{Yu2016} show how only at GEOS-Chems higher resolution (0.25 by 0.3125\degr) does isoprene oxidise under the correct NO$_X$ scheme (through high or low NO$_X$ pathways, see section \ref{LR:VOCs:IsopCascade:Oxidation}) in variable NO$_X$ environments.
+      This leads to an increase of high NO$_X$ pathway oxidation of isoprene at the lower resolutions, which leads to an overestimation of HCHO but not ozone at coarser resolutions.
+      However, for many global scale analyses, errors from resolution are less important than those from chemistry, meteorology, and emissions \parencite{Christian2017, Christian2018}.
       
             
     
@@ -957,19 +958,18 @@
   \subsection{Measurements}
     
     % TODO: Campaigns
-    TODO: Brief overview of all the measurement campaigns, pointing to Modelling and Data chapter for more details.
-    There are relatively few measurements of isoprene in the southern hemisphere, including MUMBA(TODO CITE), SPSS(cite), Tumbarumba \parencite{Emmerson2016}, and that girl from Macquarie University with an instrument in the daintree rainforest(TODO CITE, DESCRIBE).
-    For details on the MUMBA campaign see Section \ref{Model:Datasets:MUMBA}.
+    TODO: Brief overview of all the measurement campaigns.
+    There are relatively few measurements of isoprene in the southern hemisphere, including MUMBA \parencite{PatonWalsh2013}, SPSS\parencite{Dunne2012}, Tumbarumba \parencite{Emmerson2016}, and that girl from Macquarie University with an instrument in the daintree rainforest(TODO CITE, DESCRIBE).
+    These campaigns focus on air quality or biogenic emissions and use several different instruments (including PTR-MS and GC-FID) to detect metrics such as air particulates, HCHO, isoprene, and meteorological information.
+    For further details on these campaigns see Section \ref{Model:Datasets}.
     An airflight campaign (HIPPO) measuring isoprene was also performed in 2009-2011? TODO: ask Jenny re this one.
     
-    A particulate and air quality measurement campaign took place in Sydney using PTR-MS and GC-FID, for details see Section \ref{Model:Datasets:SPS}.
-    
-    One method of measuring ozone in the troposphere and stratosphere is by releasing weather balloons (with attached ozone detectors) which take readings as they rise up to around 30~km, giving a vertical profile of concentrations.
+    Detecting ozone from the surface up to the top of the stratosphere requires different techniques such as remote sensing and ozonesonde releases.
+    Ozonesondes are weather balloons (with attached ozone detectors) which detect ozone concentrations up to the mid stratosphere ($\sim 30$~km), providing a vertical profile over a single location.
     Since 1986, Lauder, New Zealand (45$^{\circ}$S, 170$^{\circ}$E) has released ozonesondes allowing a multi-decadal analysis of ozone concentrations over the city \parencite{Brinksma2002}.
     Kerguelan Island (49.2$^{\circ}$S, 70.1$^{\circ}$E), also has a record of ozonesonde profiles, which are directly in the path of biomass burning smoke plumes transported off shore from Africa \parencite{Baray2012}.
     SHADOZ is the southern hemispheric additional ozone project, which have released sondes from 15 sites at different times \url{http://tropo.gsfc.nasa.gov/shadoz/}.
-    
-    A smaller network of ozonesonde release sites is operated by TODO: get details for sondes I use in ozone chapter.
+    A smaller network of ozonesonde release sites (including Davis, Macquarie Island, and Melbourne) is available from the WOUDC \url{http://woudc.org/data/explore.php} and is used in Chapter \ref{Ozone} to examine stratospheric impacts on tropospheric ozone (see \ref{Model:Datasets:ozonesondes} for more info on these ozonesondes).
   
 \section{Aims}
 \label{LR:Aims}
