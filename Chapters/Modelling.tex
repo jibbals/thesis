@@ -363,10 +363,11 @@
       If greater than 40\% of a pixel measurement is cloudy (ie. cloud fraction $>0.4$) then the pixel is removed from subsequent analysis.
       This removes around 30\% of the pixels which remain after filtering out the bad or missing data.
 
-    \subsubsection{OMNO2}
+    \subsubsection{OMNO2d}
       \label{Model:Datasets:OMNO2d}
       OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
       An example figure from Jan 29, 2005 is shown in figure \ref{Model:Datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in figure \ref{Model:Datasets:OMNO2d:fig_omno2d_2005}.
+      OMNO2 pixel resolution is 40~km by 130~km.
       NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations).
       It is also used to form the anthropogenic influence filter for OMHCHO (See section \ref{Model:Filter:NOx}).
       
@@ -376,7 +377,10 @@
       \mypic{Figures/OMNO2d_avg2005.png}
         {Average 2005 tropospheric NO$_2$ from OMNO2d with pixels screened for $<30\%$ cloud cover.}
         {\label{Model:Datasets:OMNO2d:fig_omno2d_2005}}
-    
+      
+      Like other satellite products, OMNO2d is influenced by apriori modelling which is required to convert slant path radiance to vertical columns.
+      These models are generally low resolution ($\sim$ 110~km by 110~km), which leads to column smearing which is not actually there, along with difficulty detecting point sources of high NO emissions \parencite{Goldberg2018}.
+      Uncertainty in this product arises mostly from the calculation of the AMF (up to 50\% of total error) \parencite{Lorente2017}.
     
     \subsubsection{OMAERUVd}
       \label{Model:Datasets:OMAERUVd}

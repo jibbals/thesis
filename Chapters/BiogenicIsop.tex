@@ -357,16 +357,37 @@
     Accounting for transport of the precursors is important, especially in low NO$_X$ conditions in which isoprene has a longer lifetime (hours-days).
     When estimating emissions of isoprene using one of its products, it is often assumed that isoprene has a short lifetime.
     This is a problem in Australia where low NO$_X$ environments abound, as detected formaldehyde may not be directly above its emission source (as assumed in this top-down estimation technique).
-    An analysis of spatial smearing (smearing from here forwards) can be used to mitigate potential emissions estimation biases.
+    An analysis of spatial smearing (smearing from here forwards) can be used to mitigate potential emissions estimation biases by filtering out affected gridsquares.
     Smearing in this case is a measure of how much formaldehyde is created from isoprene emissions in non-local grid boxes.
-    Smearing has been measured in various works \parencite[eg.][]{Martin2003,Palmer2003,Millet2006,Stavrakou2009,Marais2012,Barkley2013,Zhu2014,Wolfe2016,Surl2018}, often implementing the method designed in \textcite{Palmer2003}.
-    One method (performed in \textcite{Stavrakou2009}) involves the analysis of an adjoint CTM, however this is computationally expensive.
+    Smearing has been measured in various works \parencite[eg.][]{Martin2003, Palmer2003, Millet2006, Stavrakou2009, Marais2012, Barkley2013, Zhu2014, Wolfe2016, Surl2018}, often implementing the method designed in \textcite{Palmer2003}.
+    One method \parencite[eg.][]{Stavrakou2009} involves the analysis of an adjoint CTM, however this is computationally expensive.
     A simpler method calculates smearing using just two almost identical model runs, one of which has isoprene emissions halved globally.
     This allows determination of which gridboxes are disproportionately affected by emissions from non-local sources.
     Consider halving the isoprene emitted globally and rerunning the model, one would expect HCHO enhancement (above background levels) to be halved in isoprene emitting gridboxes if no transport has occurred.
     %\textcite{Marais2012} additionally use airborn isoprene, MVK $+$ MACR (isoprene oxidation products), and HCHO measurements to check smearing in Africa where there is a sharp gradient of isoprene emitting vegetation from north to south.
     
-    Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $, where $\Delta$ represents the departure (daily over 1300-1400LT) from default run values.
+    \subsubsection{Calculation of smearing}
+    \label{BioIsop:Method:Smearing:calculation}
+    
+    
+    The calculation of smearing is closely tied to isoprene to HCHO yield and modelled regression slopes.
+    From equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho} we have modelled slope (S) being the yield of HCHO per C of emitted isoprene divided by HCHO loss rate per second ($S = \frac{Y_{isop}}{k_{HCHO}}$).
+    Using two runs of GEOS-Chem with isoprene emissions being the only difference, and assuming the background is from oxidation of methane and other long lived VOCs:
+    \begin{eqnarray*}
+      Run_1 :&  \Omega_{HCHO} = S E_{isop} + \Omega_0 \\
+      Run_2 :&  \prime{\Omega_{HCHO}} = \prime{S} \prime{E_{isop}} + \Omega_0 \\
+      Run_1-Run_2 :& \Delta \Omega_{HCHO} = \hat{S} \Delta E_{isop} \\
+      & \hat{S} = \frac{\Delta{Omega_{HCHO}}}{\Delta E_{isop}}
+    \end{eqnarray*}
+    
+    The modelled slope multiplied by the column HCHO loss rate ($k_{HCHO}$) should approximate the HCHO yield \parencite{Palmer2003, Barkley2013}.
+    
+    Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $.
+    Here $\Delta$ represents the departure (daily over 1300-1400~LT) from default run values.
+    
+    
+    
+    
     If $\hat{S}$ is large, then you can infer sensitivity to non-local isoprene emissions.
     A relatively large change in $\Omega_{HCHO}$ (compared to local emissions) suggests that HCHO is being formed from non-local isoprene emissions.
     This is sensitive to how E$_{isop}$ is determined, figure \ref{BioIsop:Method:Smearing:fig_smearing_def_2005} shows smearing over two seasons with E$_{isop} =$ daily averaged isoprene emissions (left column) and midday (1300-1400~LT) emissions (right column). 
@@ -377,7 +398,8 @@
     
     
     % Marais 2012 also look at average windspeed and best hcho-isop corelation when hcho is shifted by 0.5 degrees, don't think I can do that with 2.5 degree resolution
-    % Marais compare smearing with model estimated yield " 
+    % Marais compare smearing with model estimated yield "
+    
     
     
     Smearing can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
