@@ -9,36 +9,82 @@
   % Models
   
   In this thesis the word model is most often used to represent a chemical transport model (CTM), which simulates chemistry and chemical transport through the atmosphere.
-  Models of the atmosphere can be used to improve measurements, estimate concentrations in regions not sampled, and allow predictions of atmospheric composition in the future.
+  Models of the atmosphere can be used to interpret measurements, estimate concentrations in regions not sampled, and allow predictions of atmospheric composition in the future.
+  In remote sensing measurements, modelling is required in order to produce useful outputs.
   Models of ozone in the atmosphere are used broadly for international assessments of ozone related emissions and processes which involve ozone (such as radiation) \parencite{Young2018}.
   %\textcite{Young2018} summarise current global ozone modelling standards and the metrics and processes used to evaluate these models.
-  Models provide an estimates of many trace gas concentrations, however verification is required, and generally performed using results from measurement campaigns or inventories.
-  In-situ measurements from campaigns or measurement stations can be used to examine what is happening at a particular (or several) location(s).
-  These data are useful to determine how accurate models or estimates are - however the utility is limited to where the measurements have been made.
-  In this thesis data from several campaigns are compared against model outputs.
+  Models provide an estimate of many trace gas concentrations, however verification is required, and generally performed using results from measurement campaigns.
+  In situ measurements from campaigns or measurement stations can be used to examine what is happening at a particular (or several) location(s).
+  These data are useful to determine how accurate models or estimates are - however the utility is limited to where and when the measurements have been made.
+  In this thesis data from several campaigns are compared against model outputs and satellite datasets.
   
   %Satellite usage and reduction of uncertainty
-  Satellite datasets give us access to lots of data over large areas.
-  However, satellite measurements can have high amounts of uncertainty due to instrument limitations.
+  Satellite datasets provide large amounts of data over most of the planet.
+  However, satellite measurements can have high uncertainty due to instrument limitations.
   Many datapoints can be averaged in order to reduce uncertainty.
-  In this thesis several satellite datasets are combined to provide biogenic HCHO amounts over Australia.
-  In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[eg.][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
+  In this chapter several satellite datasets are combined to estimate biogenic HCHO amounts over Australia.
+  Modelled data are compared against both campaign measurements and satellite data.
+  The first goal of these comparisons are to analyse Australia-specific HCHO and isoprene sensitivities and to determine where the GEOS-Chem model needs the most improvement.
+  This leads into chapter \ref{BioIsop} where biogenic HCHO columns are used to estimate isoprene emissions.
+  The second goal is to quantify ozone transported from the stratosphere down into the troposphere (Chapter \ref{Ozone}).
   
-  
-  In this chapter, modelled data are compared against both campaign measurements and satellite data in order to analyse Australia specific HCHO and isoprene sensitivities and to determine where the GEOS-Chem model needs the most improvement.
-  Some of the measurement techniques used to retrieve satellite and in-situ concentrations are outlined first in Section \ref{Model:Meas}.
+  The focus in this chapter is to describe and analyse model outputs and measurements along with how they are recalculated and compared.
+  Measurement techniques used to retrieve satellite columns and in situ concentrations are outlined first in Section \ref{Model:Meas}.
   Section \ref{Model:Datasets} lists and describes the campaign datasets, as well as satellite products and types of model output.
   Section \ref{Model:GC} describes the GEOS-Chem model, how it is run and what setup and outputs are used in this thesis.
   In Section \ref{Model:AMF} the process of using model outputs to recalculate satellite vertical columns is defined and analysed.
-  How these recalculations affect satellite HCHO is determined in section \ref{Model:omiRecalc}.
+  In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[eg.][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
+  One key step is to recalculate the satellite information using modelled data, detailed in section \ref{Model:omiRecalc}.
+  The effects of these recalculations on satellite HCHO is also examined.
   The creation and effects of filters used to remove non-biogenic influences are described in section \ref{Model:Filter}.
   
+% UP TO HERE JENNY COMMENTS
+% NEED TO STRUCTURALLY FIX 2.2 up to 2.3, 
+% put OMHCHO relevant stuff all into 2.3
+% ADD MORE DESCRIPTIVE PICTURES TO SATELLITE DESCRIPTIONS
 
-\section{Measurement Techniques}
+\section{Measurement techniques}
   \label{Model:Meas}
+  
+  Here I will describe the various datasets used within this thesis, including modelled output, satellite measurements, and measurement campaigns.
+  I will also give details on filtering and interpolations which are undertaken when reading data, as each dataset has its own resolution.
+  These datasets are used for four purposes: 
+  \begin{enumerate}
+    \item Model output validation in this chapter
+    \item Calculation of biogenic HCHO distribution over Australia in this chapter
+    \item Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}
+    \item Extrapolation of ozone transport in chapter \ref{Ozone}
+  \end{enumerate}
+  
+  
+  \subsection{Satellite datasets}
+  \label{Model:Meas:Satellite}
+  
+  % Satellite data product levels
+  Satellite data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. 
+  Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
+  To create level 2 data slant column density is determined and then translated into vertical column density using an AMF calculated through radiative transfer models. 
+  Level 3 data is a temporally aggregated version of the this, for instance monthly or yearly averages.
+  
+  % Aura satellite trace gas measurements
+  One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets (products).
+  Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
+  % omi instrument on board aura
+  Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
+  From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
+  OMI measures several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
+  OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
+  The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
+  OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
+  
+  OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section TODO.
+  
+  
+  
+  
   While I have not made any measurements myself, it is important to understand the techniques used in datasets I have utilised in order to understand possible anomalous datapoints or trends.
   % Measurement difficulties
-  In-situ measurements contain errors, and depending on the device used and chemical being measured this error can be significant.
+  In situ measurements contain errors, and depending on the device used and chemical being measured this error can be significant.
   The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting \parencite[eg.][]{Dunne2018,Guerette2018}.
   Overall isoprene uncertainty in measurements analysed by \textcite{Dunne2018} was a factor of 1.5 to 2.
   This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
@@ -111,7 +157,7 @@
     
     
     Difficulties can arise when aerosols interfere with recorded spectra (eg. clouds, smoke, dust), however some of these can be detected and filtered out.
-    Instruments including MODIS on board the AQUA and TERRA satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
+    Instruments including MODIS on board the Aqua and Terra satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
     An AOD of under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
     This is important in order to determine where measurements from other instruments may be compromised by high interference.
     Satellite measured AOD requires validation by more accurate ground based instruments like those of AERONET which uses more than 200 sun photometers scattered globally.
@@ -273,36 +319,7 @@
 \section{Datasets}
 \label{Model:Datasets}
 
-  Here I will describe the various datasets used within this thesis, including modelled output, satellite measurements, and measurement campaigns.
-  I will also give details on filtering and groupings which are undertaken when reading data, as each dataset has its own resolution.
-  These datasets are used for four purposes: 
-  \begin{enumerate}
-    \item Model output validation in this chapter
-    \item Calculation of biogenic HCHO distribution over Australia in this chapter
-    \item Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}
-    \item Extrapolation of ozone transport in chapter \ref{Ozone}
-  \end{enumerate}
   
-  
-  \subsection{Satellite datasets}
-    \label{Model:Datasets:Aura}
-    
-    % Satellite data product levels
-    Satellite data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. 
-    Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
-    To create level 2 data slant column density is determined and then translated into vertical column density using an AMF calculated through radiative transfer models. 
-    Level 3 data is a temporally aggregated version of the this, for instance monthly or yearly averages.
-    
-    % Aura satellite trace gas measurements
-    One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets (products).
-    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
-    % omi instrument on board aura
-    Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
-    From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
-    OMI measures several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
-    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
-    The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
-    OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
     
     \subsubsection{OMHCHO}
       \label{Model:Datasets:OMHCHO}
@@ -367,8 +384,8 @@
       \label{Model:Datasets:OMNO2d}
       OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
       An example figure from Jan 29, 2005 is shown in figure \ref{Model:Datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in figure \ref{Model:Datasets:OMNO2d:fig_omno2d_2005}.
-      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations).
-      It is also used to form the anthropogenic influence filter for OMHCHO (See section \ref{Model:Filter:NOx}).
+      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (see section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations).
+      It is also used to form the anthropogenic influence filter for OMHCHO (see section \ref{Model:Filter:NOx}).
       
       
       \mypic{Figures/OMNO2d_2005m0129.png}{Example of NO$_2$ tropospheric columns taken from the OMNO2d product.}{\label{Model:Datasets:OMNO2d:fig_eg_omno2d}}
@@ -395,12 +412,12 @@
       % How I read the AAOD
       Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to finer resolution using the nearest value for each gridsquare.
       I use the AAOD at 500~nm wavelength, which is blocked by fire smoke plumes.
-      This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with AAOD$>0.03$ (See section \ref{Model:Filter:fire}).
+      This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with AAOD$>0.03$ (see section \ref{Model:Filter:fire}).
     
     \subsubsection{MOD14A1}
       \label{Model:Datasets:MOD14A1}
       Daily gridded fire counts compiled from satellite measurements into 1x1~km$^2$ resolution.
-      Fire observations are performed four times daily from TERRA (1030, 2230) and Aqua (0130, 1330).
+      Fire observations are performed four times daily from Terra (1030, 2230) and Aqua (0130, 1330).
       The fire pixels are detected automatically based on parameters including apparent pixel temperature and the nearby background temperature.
       Obtained from NASA Earth Observations (NEO) that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
       This product is downloaded and binned into a lower resolution (using sum of fire pixels) to create an active fire influence mask (see section \ref{Model:Filter:fire}).
@@ -434,7 +451,7 @@
     %TODO: Add all campaigns to the plot of locations
     In this thesis data from several measurement campaigns are used to examine accuracy of modelled data at specific sites.
     Figure \ref{Model:Datasets:fig_locations} shows the locations of each of the campaigns used in this work.
-    These took place over disparate times, and are in-situ measurements which require filtering and interpolation in order to compare against GEOS-Chem output which is averaged over a large horizontal space.
+    These took place over disparate times, and are in situ measurements which require filtering and interpolation in order to compare against GEOS-Chem output which is averaged over a large horizontal space.
     
     \mypic{Figures/campaigns/campaign_locations.png}{Locations of Australian campaigns which are analysed within this thesis}{\label{Model:Datasets:fig_locations}}
     
@@ -530,7 +547,7 @@
     % It uses GEOS, from GMAO
     
     % This thesis uses 10.01 at 2x2.5 model output
-    GEOS-Chem simulates more than 100 chemical species from the earth's surface up to the edge of space (0.01~hPa) and can be used in combination with remote and in-situ sensing data to give a verifiable estimate of atmospheric gases and aerosols.
+    GEOS-Chem simulates more than 100 chemical species from the earth's surface up to the edge of space (0.01~hPa) and can be used in combination with remote and in situ sensing data to give a verifiable estimate of atmospheric gases and aerosols.
     It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide.
     In this thesis I use version 10.01 of GEOS-Chem, which outputs up to 66 chemical species (tracers) in the standard run, at 2 by 2.5$^{\circ}$ horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
     
@@ -636,7 +653,7 @@
     ISOPOOH can be oxidised (by OH) to produce epoxydiols (IEPOX), recycling OH \parencite{Paulot2009b}. 
     HPALDs can photolyse to regenerate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
     Under low NO$_X$ conditions production of HCHO , MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
-    See section \ref{LR:VOCs:IsopCascade} for more information.
+    Refer to section \ref{LR:VOCs:IsopCascade} for more information.
     % High nox chemistry
     Under high NO$_X$ conditions, isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) hydroxyl peroxy radicals (ISOPO$_2$). 
     The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
@@ -1647,7 +1664,7 @@ TODO: ADD MORE HERE
   \item[OMHCHO] Satellite swaths of HCHO slant columns downloaded from \url{https://search.earthdata.nasa.gov}, with DOI 10.5067/Aura/OMI/DATA2015
   
   \item[OMNO2d] Daily satellite NO$_2$ product downloaded from \url{https://search.earthdata.nasa.gov/search}, DOI:10.5067/Aura/OMI/DATA3007. 
-  See more information in section %TODO:
+  For more information in refer to section %TODO:
   
   \item[OMAERUVd] Gridded satellite based AAOD measurements downloaded from \url{https://search.earthdata.nasa.gov}, DOI 10.5067/Aura/OMI/DATA3003. %TODO cite Omar O. Torres (2008), OMI/Aura Near UV Aerosol Optical Depth and Single Scattering Albedo L3 
   
