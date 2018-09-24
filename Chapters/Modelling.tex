@@ -59,36 +59,27 @@
   
   
   \subsection{Satellite datasets}
-  \label{Model:Meas:Satellite}
+    \label{Model:Meas:Satellite}
+    
+    % Satellite data product levels
+    Satellite data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. 
+    Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
+    To create level 2 data slant column density is determined and then translated into vertical column density using an AMF calculated through radiative transfer models. 
+    Level 3 data is a temporally aggregated version of this, for instance monthly or yearly averages.
+    
+    % Aura satellite trace gas measurements
+    One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets (products).
+    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
+    % omi instrument on board aura
+    Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
+    From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
+    OMI measures several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
+    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
+    The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
+    OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
+    
+    OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section \ref{Model:Datasets}.
   
-  % Satellite data product levels
-  Satellite data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. 
-  Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
-  To create level 2 data slant column density is determined and then translated into vertical column density using an AMF calculated through radiative transfer models. 
-  Level 3 data is a temporally aggregated version of the this, for instance monthly or yearly averages.
-  
-  % Aura satellite trace gas measurements
-  One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets (products).
-  Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
-  % omi instrument on board aura
-  Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
-  From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
-  OMI measures several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
-  OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
-  The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
-  OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
-  
-  OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section \ref{Model:Datasets}.
-  
-  
-  
-  
-  
-  % Measurement difficulties
-  In situ measurements contain errors, and depending on the device used and chemical being measured this error can be significant.
-  The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting \parencite[eg.][]{Dunne2018,Guerette2018}.
-  Overall isoprene uncertainty in measurements analysed by \textcite{Dunne2018} was a factor of 1.5 to 2.
-  This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
   
   \subsection{DOAS}
     \label{Model:Meas:DOAS}
@@ -166,55 +157,9 @@
     Soon even more HCHO data will be available in the form of geostationary satellite measurements (\textcite{Kwon2017}).
     \textcite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.
     Geostationary satellites can provide temporally rich measurements over an area, as they are not sweeping around the earth but fixed relative to one latitude and longitude.
-  
-  \subsubsection{LIDORT}
-  \label{Model:Meas:sat:LIDORT}
-  
-    %http://www.rtslidort.com/about_publications.html
-    LIDORT is a model of LInearized Discrete Ordinate Radiative Transfer, used to determine backscatter intensities and weighting functions at arbitrary elevation angles \parencite{Spurr2001}.
-    The model solves radiative transfer equations and can be used to determine various atmospheric column measurement attributes such as optical depth, ring effects, and scattering.
-    These radiative properties (or at least estimates thereof) are required when measuring trace gases in the atmosphere through a long path such as seen by satellites \parencite[eg.][]{Palmer2001,Martin2002a,DeSmedt2015,Abad2015}.
-  
-  
-  
-  \subsubsection{OMI}
-  
-    The OMI instrument on board AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
-    This band of wavelengths allows measurments of trace gases including O$_3$, NO$_2$, SO$_2$, HCHO, and various other quantities like surface UV radiation.
-    Recently \textcite{Schenkeveld2017} analysed the performance over time of the instrument and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
-    These changes are measured excluding the row anomaly (RA) effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
-    Their analysis of OMI concludes that data is still of high quality and will deliver useful information for 5-10 more years, with radiances only changing by $1-2\%$ outside of RA impacted areas.
-    They also provide a useful summary of the OMI instrument (copied here in Fig. \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}) showing the instruments spectral, temporal, and spatial resolutions.
-    An analysis of the row anomaly by \textcite{Huang2017} state that OMI ozone columns remain suitable for scientific use, with recommendation for further evaluation.
-    The RA began in June 2007, with some cross-track rows seemingly blocked. 
-    The most likely cause is some instrument insulation partially obscuring the radiance port \parencite{Schenkeveld2017}.
     
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/Shenkeveld_OMI_summary.png}
-      \caption{ %
-        Figure 1 and Table 1 from \textcite{Schenkeveld2017}, with the following caption ``An impression of OMI flying over the Earth.
-        The spectrum of a ground pixel is projected on the wavelength dimension of the charge-coupled device (CCD; the columns). 
-        The cross-track ground pixels are projected on the swath dimension of the CCD (the rows).
-        The forward speed of 7~kms$^{-1}$ and an exposure time of 2~s lead to a ground pixel size of 13~km in the flight direction.
-        The viewing angle of 114\degr leads to a swath width on the ground of 2600~km.''
-        The table shows the optical properties for OMIs three channels.}
-      \label{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}
-    \end{figure}
-    
-    Uncertainty in a single pixel for OMI is roughly the same magnitude as HCHO background levels.
-    Each pixel has $\sim 2 \times 10^{14}$\moleccm uncertainty, which is $5 \times$ higher than GOME, there are $\sim 100-200 \times $ as many measurements due to the smaller footprint and better temporal resolution of OMI, which allows a greater reduction of uncertainty with averaging \parencite{Chance2002,Millet2008}.
-    % Uncertainty in OMI pixels measurements
-    The finer nadir resolution of OMI (13 by 24~km${^2}$) compared to other satellites also reduces cloud influence \parencite{Millet2006, Millet2008}.
-    The top row in figure \ref{Model:Meas:sat:fig_OMI_uncertainty} shows OMI HCHO columns binned to at 0.25\degr longitude by 0.3125\degr latitude averaged over one day and one month (with and without filtering).
-    Row two shows uncertainty of the satellite data after averaging.
-    It's clear that one day of satellite data is too uncertain when binned at 0.25x0.3125\degr horizontal resolution, however after a month with or without filtering the uncertainties become manageable.
-    If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
-    High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[eg.][]{Zhu2014}.
-    Uncertainty in satellite recalculations, along with other factors is analysed in section \ref{BioIsop:Uncertainty}.
-    %A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
-  
   \subsubsection{Air mass factor (AMF)}
-  
+    
     % what satellite amfs are, and what they do
     To convert the trace gas profile from a reflected solar radiance column (slanted along the light path) into a purely vertical column requires calculations of an air mass factor (AMF).
     In satellite data, the AMF is typically a scalar value for each horizontal grid point which will equal the ratio of the total vertical column density to the total slant column density.
@@ -240,14 +185,17 @@
     This process is called deconvolution ($\Omega = AK \times VC_{satellite} + \times (I - AK) VC_{a priori}$) of the AK of the satellite instrument.
     The AK represents sensitivities to each species at multiple altitudes through the atmosphere and in the case of OMI, can be approximated from the scattering weights ($\omega(z)$) function as follows:
     \begin{equation} \label{ch_HCHO:eqn:AKfromw}
-      AK(z) = \frac{\omega(z)}{AMF}
+    AK(z) = \frac{\omega(z)}{AMF}
     \end{equation}
     This is an approximation for the OMI product, which does not include the AK but does include the $\omega$ and AMF, as explained in \textcite{Abad2015}.
     
-    % How omi gets its AMF
-    The latest OMI algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \parencite{Abad2015}.
-    The GEOS-Chem model has been substantially updated since then, and using the more recent version $V10.01$ to recalculate the AMF is performed within this thesis, details are shown in section \ref{Model:omiRecalc}.
+  \subsubsection{LIDORT}
+    \label{Model:Meas:sat:LIDORT}
     
+    %http://www.rtslidort.com/about_publications.html
+    LIDORT is a model of LInearized Discrete Ordinate Radiative Transfer, used to determine backscatter intensities and weighting functions at arbitrary elevation angles \parencite{Spurr2001}.
+    The model solves radiative transfer equations and can be used to determine various atmospheric column measurement attributes such as optical depth, ring effects, and scattering.
+    These radiative properties (or at least estimates thereof) are required when measuring trace gases in the atmosphere through a long path such as seen by satellites \parencite[eg.][]{Palmer2001,Martin2002a,DeSmedt2015,Abad2015}.
   
   \subsubsection{Uncertainties}
     %Satellite Errors
@@ -317,7 +265,53 @@
     The structural uncertainty of AMF calculation approaches used by different retrieval groups comes from how the AMF is calculated, rather than uncertainty in the calculation components.
     The importance of a priori and ancillary data (such as surface albedo and cloud top height) sharply affects the structural uncertainty \parencite{Lorente2017}.
 
-\section{Datasets}
+
+\section{OMHCHO}
+\label{Model:omhcho}
+
+
+\subsubsection{OMI}
+
+  The OMI instrument on board AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
+  This band of wavelengths allows measurments of trace gases including O$_3$, NO$_2$, SO$_2$, HCHO, and various other quantities like surface UV radiation.
+  Recently \textcite{Schenkeveld2017} analysed the performance over time of the instrument and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
+  These changes are measured excluding the row anomaly (RA) effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
+  Their analysis of OMI concludes that data is still of high quality and will deliver useful information for 5-10 more years, with radiances only changing by $1-2\%$ outside of RA impacted areas.
+  They also provide a useful summary of the OMI instrument (copied here in Fig. \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}) showing the instruments spectral, temporal, and spatial resolutions.
+  An analysis of the row anomaly by \textcite{Huang2017} state that OMI ozone columns remain suitable for scientific use, with recommendation for further evaluation.
+  The RA began in June 2007, with some cross-track rows seemingly blocked. 
+  The most likely cause is some instrument insulation partially obscuring the radiance port \parencite{Schenkeveld2017}.
+  
+  \begin{figure}
+    \includegraphics[width=\textwidth]{Figures/Shenkeveld_OMI_summary.png}
+    \caption{ %
+      Figure 1 and Table 1 from \textcite{Schenkeveld2017}, with the following caption ``An impression of OMI flying over the Earth.
+      The spectrum of a ground pixel is projected on the wavelength dimension of the charge-coupled device (CCD; the columns). 
+      The cross-track ground pixels are projected on the swath dimension of the CCD (the rows).
+      The forward speed of 7~kms$^{-1}$ and an exposure time of 2~s lead to a ground pixel size of 13~km in the flight direction.
+      The viewing angle of 114\degr leads to a swath width on the ground of 2600~km.''
+      The table shows the optical properties for OMIs three channels.}
+    \label{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}
+  \end{figure}
+
+  Uncertainty in a single pixel for OMI is roughly the same magnitude as HCHO background levels.
+  Each pixel has $\sim 2 \times 10^{14}$\moleccm uncertainty, which is $5 \times$ higher than GOME, there are $\sim 100-200 \times $ as many measurements due to the smaller footprint and better temporal resolution of OMI, which allows a greater reduction of uncertainty with averaging \parencite{Chance2002,Millet2008}.
+  % Uncertainty in OMI pixels measurements
+  The finer nadir resolution of OMI (13 by 24~km${^2}$) compared to other satellites also reduces cloud influence \parencite{Millet2006, Millet2008}.
+  The top row in figure \ref{Model:Meas:sat:fig_OMI_uncertainty} shows OMI HCHO columns binned to at 0.25\degr longitude by 0.3125\degr latitude averaged over one day and one month (with and without filtering).
+  Row two shows uncertainty of the satellite data after averaging.
+  It's clear that one day of satellite data is too uncertain when binned at 0.25x0.3125\degr horizontal resolution, however after a month with or without filtering the uncertainties become manageable.
+  If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
+  High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[eg.][]{Zhu2014}.
+  Uncertainty in satellite recalculations, along with other factors is analysed in section \ref{BioIsop:Uncertainty}.
+  %A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
+  
+  % How omi gets its AMF
+  The latest OMI algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \parencite{Abad2015}.
+  The GEOS-Chem model has been substantially updated since then, and using the more recent version $V10.01$ to recalculate the AMF is performed within this thesis, details are shown in section \ref{Model:omiRecalc}.
+
+
+\section{Other datasets}
 \label{Model:Datasets}
 
   This section examines the datasets used in this thesis.
@@ -542,6 +536,16 @@
       Davis (on the coast of Antarctica) is also unlikely to experience the effects of anthropogenic pollution.
       More information on this dataset is given in section \ref{Ozone:DataMethods}.
       
+    
+    \subsubsection{Uncertainties}
+      \label{Model:Datasets:uncertainties}
+      
+      % Measurement difficulties
+      In situ measurements contain errors, and depending on the device used and chemical being measured this error can be significant.
+      The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting \parencite[eg.][]{Dunne2018,Guerette2018}.
+      Overall isoprene uncertainty in measurements analysed by \textcite{Dunne2018} was a factor of 1.5 to 2.
+      This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
+    
 \section{GEOS-Chem}
   \label{Model:GC}
 
