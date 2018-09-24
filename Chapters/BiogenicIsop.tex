@@ -377,12 +377,14 @@
     Using two runs of GEOS-Chem with isoprene emissions being the only difference, and assuming the background is from oxidation of methane and other long lived VOCs:
     \begin{eqnarray*}
       Run_1 :&  \Omega_{HCHO} = S E_{isop} + \Omega_0 \\
-      Run_2 :&  \prime{\Omega_{HCHO}} = \prime{S} \prime{E_{isop}} + \Omega_0 \\
+      Run_2 :&  \Omega_{HCHO}' = S' E_{isop}' + \Omega_0 \\
       Run_1-Run_2 :& \Delta \Omega_{HCHO} = \hat{S} \Delta E_{isop} \\
-      & \hat{S} = \frac{\Delta{Omega_{HCHO}}}{\Delta E_{isop}}
+      & \hat{S} = \frac{\Delta{\Omega_{HCHO}}}{\Delta E_{isop}}
     \end{eqnarray*}
-    
-    The modelled slope multiplied by the column HCHO loss rate ($k_{HCHO}$) should approximate the HCHO yield \parencite{Palmer2003, Barkley2013}.
+
+    The modelled slope multiplied by the column HCHO loss rate ($k_{HCHO}$) should approximate the HCHO yield from isoprene \parencite{Palmer2003, Barkley2013}.
+    %TODO: find lifetime and yields from GEOS-Chem
+    Using the mean HCHO lifetime of Z hours applied against $\Delta S$ from 1000 to 4000 corresponds to yields in the range of X to Y HCHO per C
     
     Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $.
     Here $\Delta$ represents the departure (daily over 1300-1400~LT) from default run values.
@@ -401,7 +403,7 @@
     
     % Marais 2012 also look at average windspeed and best hcho-isop corelation when hcho is shifted by 0.5 degrees, don't think I can do that with 2.5 degree resolution
     % Marais compare smearing with model estimated yield "
-    
+
     
     
     Smearing can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
@@ -414,6 +416,11 @@
     
     %TODO: Figure scatter plot of $\hat{S}$ vs $\Omega_{NO_2}$) shows how smearing is related to NO$_X$ over Australia.
     %TODO: Figure same but binned by nox columns at about 0.1e15 width, over a longer time)
+    
+    % TODO: figure out this paragraphs numbers, make plot
+    When limiting smearing ($\hat{S}$) to the range of X to Y GEOS-Chem correlation between isoprene emissions and HCHO columns improves (TODO show by how much). 
+    Figure TODO shows GEOS-Chem midday HCHO columns compared against GEOS-Chem emissions of isoprene, over land squares with (red) and without (grey) filtering for smearing.
+    This smearing range captures isoprene to HCHO yields of around X to Y C per C if HCHO lifetime is assumed to be Z hours.
     
     \subsubsection{Smearing length scale}
     
