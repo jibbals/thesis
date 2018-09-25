@@ -29,8 +29,8 @@
   The second goal is to quantify ozone transported from the stratosphere down into the troposphere (Chapter \ref{Ozone}).
   
   The focus in this chapter is to describe and analyse model outputs and measurements along with how they are recalculated and compared.
-  Measurement techniques used to retrieve satellite columns and in situ concentrations are outlined first in Section \ref{Model:Meas}.
-  Section \ref{Model:Datasets} lists and describes the campaign datasets, as well as satellite products and types of model output.
+  Section \ref{Model:Datasets} details satellite and campaign datasets, and additionally describes model outputs.
+  Measurement techniques used to retrieve the most utilised satellite dataset are outlined in Section \ref{Model:omhcho}.
   Section \ref{Model:GC} describes the GEOS-Chem model, how it is run and what setup and outputs are used in this thesis.
   In Section \ref{Model:AMF} the process of using model outputs to recalculate satellite vertical columns is defined and analysed.
   In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[eg.][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
@@ -38,17 +38,30 @@
   The effects of these recalculations on satellite HCHO is also examined.
   The creation and effects of filters used to remove non-biogenic influences are described in section \ref{Model:Filter}.
   
+  Uncertainty (or error) is present in each datasets and where possible the causes are explained.
+  There are two types of error: systematic and random.
+  Arguably the worst of these is systematic error (or bias).
+  Bias normally indicates a problem in calculation or instrumentation.
+  If the systematic error is known, it can be corrected for by either offsetting data in the opposite direction, or else fixing the cause.
+  A proper fix can only be performed if the sources of error are known and there is a way of correcting or bypassing it.
+  Random error is often reported as some function of a datasets variance, or uncertainty.
+  It can be reduced through averaging either spatially or temporally. 
+  Temporal and/or spatial averaging decreases uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
+  This is done frequently for satellite measurements of trace gases (which are often near to the detection limit over much of the globe).
+  For example: \textcite{Vigouroux2009} reduce the measurement uncertainty (in SCIAMACHY HCHO columns) by at least a factor of 4 through averaging daily over roughly 500km around Saint-Denis, and only using days with at least 20 good measurements.
+  Another example of this can be seen in \textcite{Dufour2009}, where monthly averaging is used to decrease the measurements uncertainty at the cost of temporal resolution.
+  %They examine HCHO in Europe, which is low; near the detection limit of satellite measurements.
+  
 % UP TO HERE JENNY COMMENTS
 % NEED TO STRUCTURALLY FIX 2.2 up to 2.3, 
 % put OMHCHO relevant stuff all into 2.3
 % ADD MORE DESCRIPTIVE PICTURES TO SATELLITE DESCRIPTIONS
 
-\section{Measurement techniques}
-  \label{Model:Meas}
+\section{Datasets}
+  \label{Model:Datasets}
   
-  While I have not made any measurements myself, it is important to understand the techniques used in datasets I have utilised in order to understand possible anomalous datapoints or trends.
-  Here I will describe the various datasets used within this thesis, including modelled output, satellite measurements, and measurement campaigns.
-  This section outlines the techniques and instruments used.
+  This section describes the datasets used in this thesis, along with an overview of the measurement techniques used for each.
+  This includes modelled output, satellite measurements, and measurement campaigns.
   These datasets serve four purposes: 
   \begin{enumerate}
     \item Model output validation in this chapter
@@ -56,85 +69,23 @@
     \item Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}
     \item Extrapolation of ozone transport in chapter \ref{Ozone}
   \end{enumerate}
+  I will also give details on filtering and interpolations which are undertaken when reading data, as each dataset has its own resolution.
+  While I have not made any measurements myself, it is important to understand the techniques used in datasets I have utilised in order to understand possible anomalous datapoints or trends.
   
-  
-  \subsection{Satellite datasets}
-    \label{Model:Meas:Satellite}
-    
+  \subsection{Satellite}
+  \label{Model:Datasets:satellite}
     % Satellite data product levels
     Satellite data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. 
     Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
-    To create level 2 data slant column density is determined and then translated into vertical column density using an AMF calculated through radiative transfer models. 
-    Level 3 data is a temporally aggregated version of this, for instance monthly or yearly averages.
+    To create level 2 data slant column density is determined and then translated into vertical column density. 
+    Level 3 data is a temporally aggregated subset of level 2 data, for instance monthly or yearly averages.
     
-    % Aura satellite trace gas measurements
-    One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets (products).
-    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
-    % omi instrument on board aura
-    Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
-    From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
-    OMI measures several atmospheric trace gases, including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
-    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
-    The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
+    % Satellites use DOAS for trace gases which we are interested in
+    Satellites record near nadir (vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO \parencite[eg.][]{Leue2001}.
+    Satellite measurements are generally performed using spectral fitting followed by conversion to vertical column densities.
+    %The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \textcite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
+    Several public data servers are available which include products from satellites, including NASAs Earthdata portal (\url{https://earthdata.nasa.gov/}) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (\url{http://h2co.aeronomie.be/}).
     
-    OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
-    OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section \ref{Model:omhcho}.
-  
-  
-  \subsection{DOAS}
-    \label{Model:Meas:DOAS}
-    
-    The DOAS technique uses solar radiation absorption spectra to measure trace gases through paths of light.
-    % Beer lambert
-    Beer's law states
-    \begin{equation} \label{Model:Meas:DOAS:eqn_beerslaw}
-    T = I/I_0 = e^{-\tau}
-    \end{equation}
-    with T being transmittance, $\tau$ being optical depth, and I, I$_0$ being radiant flux received at instrument and emitted at source respectively.
-    The Beer-Lambert law of extinction allows spectroscopic measurement of absorbing chemical species (absorbers) in the atmosphere:
-    \begin{equation} \label{Model:Meas:DOAS:eqn_backscatterextinction}
-    I_B = I_{B_0} e^{-\tau_s}
-    \end{equation}
-    where I$_B$, I$_{B_0}$ is backscattered intensity with and without the absorber respectively, and $\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
-    
-    $\tau$ can be described using the scattering and absorption cross section area ($\alpha$, cm$^{2}$) and density ($\eta$, molec cm$^{-3}$) of an absorber as follows:
-    \begin{equation} \label{Model:Meas:DOAS:eqn_tau}
-    \tau = \int \alpha(s) \eta(s) \mathrm{d}s
-    \end{equation}
-    $\tau$ through a medium is the sum of optical thicknesses of each absorber within the measured path (s), and subbing \ref{Model:Meas:DOAS:eqn_tau} into \ref{Model:Meas:DOAS:eqn_backscatterextinction} leads to
-    \begin{equation*}
-    I = I_0 \exp { \left( \Sigma_i \int \eta_i \alpha_i ds \right) }
-    \end{equation*}
-    Where \textit{i} represents a chemical species index, and the integral over ds represents integration over the path from light source to instrument.
-    
-    % Optical depth through the atmosphere
-    Another way of describing optical depth (also called optical thickness) is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material (from equation \ref{Model:Meas:DOAS:eqn_backscatterextinction}).
-    In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
-    The difference between solar radiation at the top of the atmosphere and the Earth's surface defines the atmospheric optical depth along the path of observation.
-    \begin{equation*}
-    \tau = \ln{\frac{\phi_e^i}{\phi_e^t}}
-    \end{equation*}
-    where $\phi_e^i$ is radiant flux seen at the earth surface, $\phi_e^t$ is the solar radiant flux which arrives at the top of the atmosphere.
-    In the atmosphere, optical depth can be due to several factors including scattering, chemical absorbance, and aerosols.
-  
-  \subsection{Satellites}
-    \label{Model:Meas:sat}
-    
-    % Satellites use DOAS for trace gases which we are interested in, which includes 
-    In order to detect trace gases such as HCHO, satellites use a DOAS based technique to detect concentrations along the path of light which reaches the satellite instrument.
-    This requires chemical transport and radiative transfer models used to transform the non-vertical light path into vertical column amounts.
-    Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT (see section \ref{Model:Meas:sat:LIDORT}) in order to determine a trace gas's radiative properties at various altitudes.
-    The forward RTM used for satellite data products also involves functions representing extinction from Mie and Rayleigh scattering, and the effect of these on spectra, as well as accounting for (often estimated) atmospheric parameters such as albedo.
-    In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
-    The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
-    However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see section \ref{Model:Meas:DOAS}) must be accounted for.
-    
-    
-    \begin{figure}\begin{center}
-      \includegraphics[width=0.6\textwidth]{Figures/ZenithAngles.png}
-      \caption{Solar and viewing zenith angles, image copied from \textcite{SZA_Image}, originally from a NASA website.}
-      \label{ch_HCHO:fig:zenithangle}
-    \end{center}\end{figure}
     
     Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium.
     Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the scattered light.
@@ -142,121 +93,240 @@
     The effects of scattering are what gives us the information about substances in the atmosphere.
     The different particles and gases in the air have various properties which affect remote sensing devices such as a satellite, making them more or less sensitive at certain altitudes for detecting various species \parencite[e.g.][]{Martin2002}.
     
-    Satellites record near nadir (vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO (eg: \textcite{Leue2001}).
-    Satellite measurements are generally performed using spectral fitting followed by conversion to vertical column densities.
-    %The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \textcite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
-    Several public data servers are available which include products from satellites, including NASAs Earthdata portal (\url{https://earthdata.nasa.gov/}) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (\url{http://h2co.aeronomie.be/}).
-    
-    
     Difficulties can arise when aerosols interfere with recorded spectra (eg. clouds, smoke, dust), however some of these can be detected and filtered out.
     Instruments including MODIS on board the Aqua and Terra satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
     An AOD of under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
     This is important in order to determine where measurements from other instruments may be compromised by high interference.
     Satellite measured AOD requires validation by more accurate ground based instruments like those of AERONET which uses more than 200 sun photometers scattered globally.
     
-    Soon even more satellite data will be available in the form of geostationary satellite measurements (\textcite{Kwon2017}).
-    \textcite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.
+    Soon even more satellite data will be available in the form of geostationary satellite measurements \parencite{Kwon2017}.
+    %\textcite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.
     Geostationary satellites can provide temporally rich measurements over an area, as they are not sweeping around the earth but fixed relative to one latitude and longitude.
     
-  \subsubsection{Air mass factor (AMF)}
-    
-    % what satellite amfs are, and what they do
-    To convert the trace gas profile from a reflected solar radiance column (slanted along the light path) into a purely vertical column requires calculations of an air mass factor (AMF).
-    In satellite data, the AMF is typically a scalar value for each horizontal grid point which will equal the ratio of the total vertical column density to the total slant column density.
-    This value requires calculations to account for instrument sensitivities to various wavelengths over resolved altitudes, and is unique for each trace gas under consideration.
-    An AMF characterises measurement sensitivity to a trace gas at various altitudes \cite[e.g.]{Palmer2001}.
-    \textcite{Lorente2017} show that AMF calculations can be the largest source of uncertainty in satellite measurements.
-    Another way of describing AMFs are as measures of how radiance at the top of the atmosphere (TOA) changes with trace gas optical depths at specific altitudes \parencite{Lorente2017}.
-    Calculation of the AMF is important as it is multiplied against the estimated slant columns in order to give vertical column amounts.
-    
-    %how do we get an AMF?
-    DOAS column retrievals are an integration of a trace gas over the instruments viewing path, in order to convert this total to a vertically distributed column a few assumptions and estimates are required. 
-    The vertical profile of a trace gas is assumed or estimated via a CTM, while its' scattering and radiative properties are calculated at prescribed altitudes using an RTM. 
-    These properties are combined into a single array called the AMF.
-    Two examples of this are GOME-2 (on the MetOp-A satellite) products (\url{http://atmos.caf.dlr.de/gome/product_hcho.html}), and OMI products which respectively use LIDORT combined with IMAGESv2 and GEOS-Chem for processing \parencite{Chance2002, Abad2015}.
-    AMFs are unique to each trace gas and due to their complexity and the influence of cloud cover they remain one of the largest error sources in remote sensing of BVOCs \parencite{Palmer2001,Millet2006}).
-    \textcite{Lamsal2014} recommends that when comparing satellite data to models, the AMF should first be recalculated using the model as an a priori.
-    This is in order to remove any a priori bias between model and satellite columns.
-    
-    % averaging kernal relation to amf, why amfs are important when comparing data
-    Related to the AMF is the averaging kernal (AK), which is used to handle instrument measurements which are sensitive to gas concentrations at different altitudes through the atmosphere.
-    DOAS methods can be heavily influenced by the initial estimates of a trace gas profile (the a priori) which is often produced by modelling, so when comparing models of these trace gases to satellite measurements extra care needs to be taken to avoid introducing bias from differing a priori assumptions.
-    One way to remove these a priori influences is through the satellite AK (or AMF), which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas \parencite{Eskes2003, Palmer2001}.
-    This process is called deconvolution ($\Omega = AK \times VC_{satellite} + \times (I - AK) VC_{a priori}$) of the AK of the satellite instrument.
-    The AK represents sensitivities to each species at multiple altitudes through the atmosphere and in the case of OMI, can be approximated from the scattering weights ($\omega(z)$) function as follows:
-    \begin{equation} \label{ch_HCHO:eqn:AKfromw}
-    AK(z) = \frac{\omega(z)}{AMF}
-    \end{equation}
-    This is an approximation for the OMI product, which does not include the AK but does include the $\omega$ and AMF, as explained in \textcite{Abad2015}.
-    
-  \subsubsection{LIDORT}
-    \label{Model:Meas:sat:LIDORT}
-    
-    %http://www.rtslidort.com/about_publications.html
-    LIDORT is a model of LInearized Discrete Ordinate Radiative Transfer, used to determine backscatter intensities and weighting functions at arbitrary elevation angles \parencite{Spurr2001}.
-    The model solves radiative transfer equations and can be used to determine various atmospheric column measurement attributes such as optical depth, ring effects, and scattering.
-    These radiative properties (or at least estimates thereof) are required when measuring trace gases in the atmosphere through a long path such as seen by satellites \parencite[eg.][]{Palmer2001,Martin2002a,DeSmedt2015,Abad2015}.
+    \subsubsection{OMHCHO}
+      
+      OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
+      OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section \ref{Model:omhcho}.
+      Calculation of column density and AMF are also discussed (section \ref{Model:omhcho:DOAS}, \ref{Model:omhcho:amf}).
   
-  \subsubsection{Uncertainties}
-    %Satellite Errors
-    While satellite data is effective at covering huge areas (the entire earth) it only exists at a particular time of day, is subject to cloud cover, and generally does not have fine horizontal or vertical resolution.
-    Concentrations retrieved by satellites have large uncertainties, which arise in the process of transforming spectra to total column measurements, as well as instrument degradation (satellite instruments are hard to tinker with once they are launched).
-    Uncertainty in transforming satellite spectra comes from a range of things, including measurement difficulties introduced by clouds, and instrument sensitivity to particular aerosols \parencite{Millet2006}.
-    Many products require analysis of cloud and aerosol properties in order to estimate concentration or total column amounts \parencite{Palmer2001,Palmer2003, Marais2012, Vasilkov2017}.
-    The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor \parencite{Millet2006}.
-    % amf agreements between groups, but sensitive to a priori
-    Calculations of the AMF performed by different groups tend to agree fairly well, as long as all the a priori and ancilliary data is similar.
-    Large differences can occur depending on the a priori vertical profile, trace gas concentrations, and cloud properties \parencite{Lorente2017}.
-    Choice of RTM and interpolation operations have a relatively small affect compared to the assumed state of the atmosphere, with high structural uncertainty introduced at this stage of AMF calculation - as shown in \textcite{Lorente2017}.
+    \subsubsection{OMNO2d}
+      \label{Model:Datasets:OMNO2d}
+      OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
+      An example figure from Jan 29, 2005 is shown in figure \ref{Model:Datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in figure \ref{Model:Datasets:OMNO2d:fig_omno2d_2005}.
+      OMNO2 pixel resolution is 40~km by 130~km.
+      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations).
+      It is also used to form the anthropogenic influence filter for OMHCHO (See section \ref{Model:Filter:NOx}).
+      
+      
+      \mypic{Figures/OMNO2d_2005m0129.png}{Example of NO$_2$ tropospheric columns taken from the OMNO2d product.}{\label{Model:Datasets:OMNO2d:fig_eg_omno2d}}
+      
+      \mypic{Figures/OMNO2d_avg2005.png}
+      {Average 2005 tropospheric NO$_2$ from OMNO2d with pixels screened for $<30\%$ cloud cover.}
+      {\label{Model:Datasets:OMNO2d:fig_omno2d_2005}}
+      
+      Like other satellite products, OMNO2d is influenced by a priori modelling which is required to convert slant path radiance to vertical columns.
+      These models are generally low resolution ($\sim$ 110~km by 110~km), which leads to column smearing which is not actually there, along with difficulty detecting point sources of high NO emissions \parencite{Goldberg2018}.
+      Uncertainty in this product arises mostly from the calculation of the AMF (up to 50\% of total error) \parencite{Lorente2017}.
     
-    There are two types of measurement error, arguably the worst of these is systematic error (or bias) which normally indicates a problem in calculation or instrumentation.
-    If the systematic error is known, it can be corrected for by either offsetting data in the opposite direction, or else fixing the cause.
-    A proper fix can only be performed if the sources of error are known and there is a way of correcting or bypassing it.
-    Random error is the other type (often reported as some function of a datasets variance, or uncertainty), and this can be reduced through averaging either spatially or temporally. 
-    Random error can be reduced by temporal and/or spatial averaging, decreasing uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
-    This is done frequently for satellite measurements of trace gases (which are often near to the detection limit over much of the globe).
-    For example: \textcite{Vigouroux2009} reduce the measurement uncertainty (in SCIAMACHY HCHO columns) by at least a factor of 4 through averaging daily over roughly 500km around Saint-Denis, and only using days with at least 20 good measurements.
-    Another example of this can be seen in \textcite{Dufour2009}, where monthly averaging is used to decrease the measurements uncertainty at the cost of temporal resolution.
-    %They examine HCHO in Europe, which is low; near the detection limit of satellite measurements.
+    \subsubsection{OMAERUVd}
+      \label{Model:Datasets:OMAERUVd}
+      
+      % smoke aaod outline
+      Aerosols in the atmosphere can be seen through their affects on light. 
+      Smoke and dust can be seen as an increase in AAOD (see section \ref{Model:omhcho:DOAS}).
+      This is due these particles scattering and absorbing UV radiation \parencite{Ahn2008}.
+      
+      
+      OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) provides a useful dataset allowing us to filter gridsquares which may be smoke affected.
+      OMI aerosol extinction and absorption optical depths (AOD, AAOD respectively) at three wavelengths (354, 388, and 500~nm), along with UV aerosol index (UVAI), are available publicly from Earthdata: \url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}.
+      The OMAERUVd product is level three, gridded daily data, based on quality filtered level two swath pixels which are then gridded by averaging.
+      The product is most sensitive to error in the form of subpixel scale cloud interference, so I select AAOD as the basis for my smoke filter as it is least affected by clouds \parencite{Ahn2008}.
+      
+      % How I read the AAOD
+      Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to finer resolution using the nearest value for each gridsquare.
+      I use the AAOD at 500~nm wavelength, which is blocked by fire smoke plumes.
+      This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with AAOD$>0.03$ (see section \ref{Model:Filter:fire}).
     
-    %% SURFACE CONDITIONS AND CLOUDS
-    In cloudy, hazy or polluted areas measurements are more difficult to analyse (\cite[e.g.][]{Palmer2003,Marais2014}).
-    Recent work by \textcite{Vasilkov2017} showed that updating how the surface reflectivity is incorporated into satellite measurements can change the retrievals by 50~\% in polluted areas.
+    \subsubsection{MOD14A1}
+      \label{Model:Datasets:MOD14A1}
+      Daily gridded fire counts compiled from satellite measurements into 1x1~km$^2$ resolution.
+      Fire observations are performed four times daily from Terra (1030, 2230) and Aqua (0130, 1330).
+      The fire pixels are detected automatically based on parameters including apparent pixel temperature and the nearby background temperature.
+      Obtained from NASA Earth Observations (NEO) that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
+      This product is downloaded and binned into a lower resolution (using sum of fire pixels) to create an active fire influence mask (see section \ref{Model:Filter:fire}).
+      
+    \subsubsection{AIRS CO columns}
+      \label{Model:Datasets:AIRS}
+      
+      In chapter \ref{Ozone}, potential biomass burning plumes are identified using satellite observations of CO from the AIRS (Atmospheric Infra-red Sounder) instrument aboard the Aqua satellite \parencite{AIRS3STD}.
+      CO is used as a proxy for biomass burning plumes, and used to qualitatively attribute ozone intrusion events as explained in section \ref{Ozone:WeatherClassifications}.
+      This is a separate method of detecting fire influence near specific sites through visual analysis.
+      Removal of fire influence reduces estimated ozone flux by $\sim 15\%$ at Macquarie Island and $\sim 20\%$ at Melbourne.
+  
+    \subsubsection{Uncertainties}
+      
+      %Satellite Errors
+      While satellite data is effective at covering huge areas (the entire earth) it only exists at a particular time of day, is subject to cloud cover, and generally does not have fine horizontal or vertical resolution.
+      Concentrations retrieved by satellites have large uncertainties, which arise in the process of transforming spectra to total column measurements, as well as instrument degradation (satellite instruments are hard to tinker with once they are launched).
+      Uncertainty in transforming satellite spectra comes from a range of things, including measurement difficulties introduced by clouds, and instrument sensitivity to particular aerosols \parencite{Millet2006}.
+      Many products require analysis of cloud and aerosol properties in order to estimate concentration or total column amounts \parencite{Palmer2001,Palmer2003, Marais2012, Vasilkov2017}.
+      The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor \parencite{Millet2006}.
+      % amf agreements between groups, but sensitive to a priori
+      Calculations of the AMF performed by different groups tend to agree fairly well, as long as all the a priori and ancillary data is similar.
+      Large differences can occur depending on the a priori vertical profile, trace gas concentrations, and cloud properties \parencite{Lorente2017}.
+      Choice of RTM and interpolation operations have a relatively small affect compared to the assumed state of the atmosphere, with high structural uncertainty introduced at this stage of AMF calculation - as shown in \textcite{Lorente2017}.
+      
+      %% SURFACE CONDITIONS AND CLOUDS
+      In cloudy, hazy or polluted areas measurements are more difficult to analyse \parencite[e.g.][]{Palmer2003,Marais2014}.
+      Recent work by \textcite{Vasilkov2017} showed that updating how the surface reflectivity is incorporated into satellite measurements can change the retrievals by 50~\% in polluted areas.
+      
+      %% BACKGROUND MEASUREMENTS
+      In satellite HCHO products, concentrations over the remote pacific ocean are sometimes used to analyse faulty instrument readings.
+      This is due to the expected invariance of HCHO over this region.
+      For instance GOME (an instrument which measures trace gases on board the ERS-2) corrects for an instrument artifact using modelled HCHO over the remote pacific \parencite{Shim2005}.
+      OMI HCHO products use a similar technique to account for sensor plate drift and changing bromine sensitivity \parencite{Abad2015}.
+      Uncertainty in the OMI satellite instrument is calculated by the Smithsonian Astrophysical Observatory (SAO) group using the uncertainty in backscattered radiation retrievals \parencite{Abad2015, Abad2016}.
+      Another method of calculating the uncertainty is used by the Belgian Institute for Space Aeronomy (BIRA) group, who determine uncertainty from the standard deviation of HCHO over the remote pacific ocean \parencite{DeSmedt2012, DeSmedt2015}.
+    
+  \subsection{Model datasets}
+  \subsubsection{Meteorological reanalysis}
+  \label{Model:Datasets:ERAI}
+  
+  Synoptic scale weather patterns are taken from the European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}.
+  These are used in chapter \ref{Ozone} to determine typical weather systems for stratospheric ozone intrusions.
+  
+  \subsubsection{CPC temperatures}
+  Maximum daily land-surface temperature at 0.5x0.5\degr horizontal resolution. 
+  This data is used to check the correlation between HCHO and temperature at a higher resolution than is provided by GEOS-Chem output.
+  Data description at \url{https://www.esrl.noaa.gov/psd/data/gridded/data.cpc.globaltemp.html}.
+  CPC Global Temperature data provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their Web site at \url{https://www.esrl.noaa.gov/psd/}.
+  An example of one days output is shown in figure \ref{Model:Datasets:fig_CPC_EG}.
+  
+  \mypicw{.5\textwidth}{Figures/CPC_Temperature_EG.png}{CPC daily maximum temperature dataset output for 1, Jan, 2005.}{\label{Model:Datasets:fig_CPC_EG}}
+  
+  \subsection{Campaign datasets}
+  
+    %TODO: Add all campaigns to the plot of locations
+    In this thesis data from several measurement campaigns are used to examine accuracy of modelled data at specific sites.
+    Figure \ref{Model:Datasets:fig_locations} shows the locations of each of the campaigns used in this work.
+    These took place over disparate times, and are in situ measurements which require filtering and interpolation in order to compare against GEOS-Chem output which is averaged over a large horizontal space.
+    
+    \mypic{Figures/campaigns/campaign_locations.png}{Locations of Australian campaigns which are analysed within this thesis}{\label{Model:Datasets:fig_locations}}
+    
+    TODO: these summaries.
+    
+    \subsubsection{Daintree}
+    Daintree summary (P. Nelson)
+    
+    \subsubsection{Marine and Urban MBA ? (MUMBA)}
+    \label{Model:Datasets:MUMBA}
+    
+    The MUMBA campaign \parencite{PatonWalsh2013} measured various compound abundances including isoprene, formaldehyde, and ozone from 21 December 2012 to 15 February 2013.
+    These measurements took place in Wollongong, 10~m above ground level (40~m above sea level).
+    Ozone was measured by Thermo UV absorption with 1-minute time resolution averaged into hourly outputs.
+    Isoprene and HCHO were measured by Ionicon Proton-Transfer-Reaction Mass spectrometer (PTR-MS), with a time resolution of 3-minutes, averaged each hour.
+    Detection limits varied due to instrument conditions, and are listed in table \ref{Model:Datasets:MUMBA:tab_detectionlimits}.
+    Measurements below the detection limit are set to half of the detection limit when reading this dataset in this thesis.
+    Uncertainty has been estimated to be 15~\%.
+    The full dataset has been published on PANGAEA \parencite{Guerette2017}.
+    
+    \begin{table}
+      \caption{Detection limits for MUMBA}
+      \begin{tabular}{  l |  l  l  l }
+        
+        \textbf{Dates} & \textbf{HCHO (ppb)} & \textbf{Isoprene (ppb)} & \textbf{Ozone (ppb)}
+        \\ \hline
+        21/Dec/2012 - 29/Dec/2012 & 0.205 & 0.003 & 0.5 \\
+        29/Dec/2012 - 18/Jan/2013 & 0.105 & 0.005 & 0.5 \\
+        19/Jan/2013 - 15/Feb/2013 & 0.186 & 0.003 & 0.5 \\
+      \end{tabular}
+      \label{Model:Datasets:MUMBA:tab_detectionlimits}
+    \end{table}
+    
+    \subsubsection{Sydney Particle Studies (SPS1, SPS2)}
+    \label{Model:Datasets:SPS}
+    Two VOC and other trace gas measurement campaigns took place at the Westmead air quality station with scientists from CSIRO, OEH, and ANSTO. 
+    Stage 1 (SPS1) was from 5 February to 7 March in 2011, while stage 2 (SPS2) ranged from 16 April to 14 May 2012.
+    Two instruments measured VOC concentrations: one was a PTR-MS, the other a gas chromatographer (GC) with an equipped flame ionisation detector (FID).
+    The PTR-MS uses chemical ionisation mass spectrometry and can quantify VOCs at high temporal resolution ($< 1$~s).
+    It was calibrated several times per day against HCHO, isoprene, $\alpha$-pinene, and several other VOCs, further measurement specifics can be found in \textcite{Dunne2012, Dunne2018}.
+    % Dunne 2018 looks like an analysis of VOC readings from the sites
+    
+    The output lists hourly averaged ppbv concentrations of trace gases based on the mass to charge ratio (m/z), which for isoprene is 69.
+    % Sensitivities
+    It's possible that other chemicals (such as Furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires usage starts to become frequent \parencite{Guerette2018}.
+    The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interferences. 
+    Further details for this method can be found in \textcite{Cheng2016}.
+    GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT, while PTR-MS data is averaged hourly.
+    Uncertainties in VOC measurements range from a factor of 1.5 to 2.
+    This includes significant differences between measurement devices when detecting isoprene, potentially due to interfering compounds in the PTR-MS \parencite{Dunne2018}.
+    
+    Figure \ref{Model:Datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. 
+    In order to compare with GEOS-Chem output a daily average and an overpass time (1200-1300 LT) average are both created from these data.
+    In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in \textcite{Lawson2015}. 
+    This should minimise any introduced bias.
+    
+    \mypic{Figures/campaigns/SPS_Series.png}{
+      SPS HCHO (yellow) and isoprene (green) time series, along with detection limits (dashed).
+      SPS 1 (left) took place in late summer 2011, while SPS 2 (right) occurred during Autumn.
+    }
+    {\label{Model:Datasets:SPS:fig_series}}
+    
+    Figure \ref{Model:Datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the gridsquare containing Sydney overlaid on SPS measurement data.
+    Superficially the comparison is not too bad between these two datasets, however GEOS-Chem output is the daily average over 2x2.5\degr (latitude by longitude).
+    The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high since the daily average should not match the peak of the measurements.
+    
+    \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:Datasets:SPS:fig_GC_comparison}}
     
     
-    %% BACKGROUND MEASUREMENTS
-    In satellite HCHO products, concentrations over the remote pacific ocean are sometimes used to analyse faulty instrument readings.
-    This is due to the expected invariance of HCHO over this region.
-    For instance GOME (an instrument which measures trace gases on board the ERS-2) corrects for an instrument artifact using modelled HCHO over the remote pacific \parencite{Shim2005}.
-    OMI HCHO products use a similar technique to account for sensor plate drift and changing bromine sensitivity \parencite{Abad2015}.
-    Uncertainty in the OMI satellite instrument is calculated by the Smithsonian Astrophysical Observatory (SAO) group using the uncertainty in backscattered radiation retrievals \parencite{Abad2015, Abad2016}.
-    Another method of calculating the uncertainty is used by the Belgian Institute for Space Aeronomy (BIRA) group, who determine uncertainty from the standard deviation of HCHO over the remote pacific ocean \parencite{DeSmedt2012, DeSmedt2015}.
+    \subsubsection{Ozonesondes}
+    \label{Model:Datasets:ozonesondes}
+    
+    Ozonesonde data comes from the World Ozone and Ultraviolet Data Centre (WOUDC).
+    Ozonesondes are weather balloons which measure from the surface to around 35km.
+    Ozonesondes provide a high vertical resolution profile of ozone, temperature, pressure, and humidity.
+    Generally the instrument will perform 150-300 measurements in the troposphere with ozone mixing ratios quantified by an electrochemical concentration cell (\url{http://www.ndsc.ncep.noaa.gov/organize/protocols/appendix5/}).
+    
+    Ozonesondes are launched approximately weekly from Melbourne (38$^{\circ}$ S, 145$^{\circ}$ E), Macquarie Island (55$^{\circ}$ S, 159$^{\circ}$ E) and Davis (69$^{\circ}$ S, 78$^{\circ}$ E). 
+    Melbourne, a major city with more than 4 million residents \parencite{ABS2016}, may be affected by anthropogenic pollution in the lower troposphere.
+    Actual releases are north of the central business district in the Broadmeadows suburb.
+    Macquarie Island is in the remote Southern Ocean and unlikely to be affected by any local pollution events.
+    Davis (on the coast of Antarctica) is also unlikely to experience the effects of anthropogenic pollution.
+    More information on this dataset is given in section \ref{Ozone:DataMethods}.
     
     
-    %% LOW BIAS IN SATELLITE HCHO EXAMPLES
-    For many places the tropospheric column HCHO measured by satellite is biased low, \textcite{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over south east USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
-    \textcite{DeSmedt2015} also found OMI and GOME2 observations were 20 - 40\% lower than ground based vertical profiles, and \textcite{Barkley2013} determine OMI to be 37\% low compared with aircraft measurements over Guyana.
-    These bias can be corrected by improving the assumed a priori HCHO profiles which are used to calculate the AMFs of the satellite columns.
-    \textcite{Millet2006} examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
-    \textcite{Millet2008} shows that there also exists some latitude based bias, as well as a systematic offset between the OMI and GOME instruments.
-    This does not appear to be due to the different overpass times of the two instruments.
-    
-    %% UNCERTAINTY CALCULATIONS
-    
-    %A full analysis of the AMF uncertainty in OMI measurements, as well as the structural uncertainty (between different systems of calculations applied to the same data) is performed by \textcite{Lorente2017}.
-    AMF calculation uncertainty often dominates the total uncertainty in satellite retrievals, especially in polluted regions \parencite{Lorente2017}.
-    In scenarios where the gas is enhanced in the lower troposphere, AMF calculation is the largest uncertainty in satellite measurements.
-    In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments \parencite{Lorente2017}.
-    Another impact often not included in uncertainty calculations is the structural uncertainty of retrieval methods.
-    The structural uncertainty of AMF calculation approaches used by different retrieval groups comes from how the AMF is calculated, rather than uncertainty in the calculation components.
-    The importance of a priori and ancillary data (such as surface albedo and cloud top height) sharply affects the structural uncertainty \parencite{Lorente2017}.
-
+    \subsubsection{Uncertainties}
+    \label{Model:Datasets:uncertainties}
+      
+      % Measurement difficulties
+      In situ measurements contain errors, and depending on the device used and chemical being measured this error can be significant.
+      The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting \parencite[eg.][]{Dunne2018,Guerette2018}.
+      Overall isoprene uncertainty in measurements analysed by \textcite{Dunne2018} was a factor of 1.5 to 2.
+      This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
 
 \section{OMHCHO}
 \label{Model:omhcho}
   
+  OMI uses a Differential Optical Absorption Spectroscopy (DOAS) based technique to read HCHO along the path of light which reaches the satellite instrument.
+  The first step is to determine how much HCHO is in the path of light between the sun and detector.
+  Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT (see section \ref{Model:Meas:sat:LIDORT}) in order to determine a trace gas's radiative properties at various altitudes.
+  The forward RTM used for satellite data products also involve functions representing extinction from Mie and Rayleigh scattering, and the effect of these on spectra.
+  These RTM are also required to account for (often estimated) atmospheric parameters such as albedo.
+  The next step is to transform the calculated amounts along the non-vertical light path into vertical column amounts.
+  This is done by applying an air mass factor (AMF).
+  In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
+  The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
+  However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see section \ref{Model:omhcho:DOAS}) must be accounted for.
+  
+  
+  \begin{figure}\begin{center}
+      \includegraphics[width=0.6\textwidth]{Figures/ZenithAngles.png}
+      \caption{Solar and viewing zenith angles, image copied from \textcite{SZA_Image}, originally from a NASA website.}
+      \label{ch_HCHO:fig:zenithangle}
+    \end{center}\end{figure}
+  
   % How omhcho is produced
-  Atmospheric HCHO can be measured using Differential Optical Absorption Spectroscopy (DOAS), as long as trace gases with similar features near the same wavelength are accounted for.
+  Atmospheric HCHO detected by satellite requires that other trace gases with similar features near the HCHO affected wavelengths are accounted for.
   A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
   This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
   I use the NASA OMHCHOv003 data product \parencite{Abad2015}, with HCHO determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
@@ -312,11 +382,23 @@
   If greater than 40\% of a pixel measurement is cloudy (ie. cloud fraction $>0.4$) then the pixel is removed from subsequent analysis.
   This removes around 30\% of the pixels which remain after filtering out the bad or missing data.
   
-
   \subsection{OMI}
 
+    % Aura satellite trace gas measurements
+    One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets (products).
+    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
+    % omi instrument on board aura
+    Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
     The OMI instrument on board AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
-    This band of wavelengths allows measurements of trace gases including O$_3$, NO$_2$, SO$_2$, HCHO, and various other quantities like surface UV radiation.
+    This band of wavelengths allows measurements of trace gases (among other quantities).
+    
+    
+    From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
+    Figure \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary} shows the details of OMI's detector array and measurement resolutions.
+    OMI measures atmospheric trace gases including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
+    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
+    The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
+    
     
     
     \begin{figure}
@@ -336,6 +418,80 @@
     The GEOS-Chem model has been substantially updated since then
     In this thesis the more recent version $V10.01$ is used to recalculate the AMF (details are shown in section \ref{Model:omiRecalc}).
     
+  \subsection{DOAS}
+    \label{Model:omhcho:DOAS}
+    
+    The DOAS technique uses solar radiation absorption spectra to measure trace gases through paths of light.
+    % Beer lambert
+    Beer's law states
+    \begin{equation} \label{Model:omhcho:DOAS:eqn_beerslaw}
+    T = I/I_0 = e^{-\tau}
+    \end{equation}
+    with T being transmittance, $\tau$ being optical depth, and I, I$_0$ being radiant flux received at instrument and emitted at source respectively.
+    The Beer-Lambert law of extinction allows spectroscopic measurement of absorbing chemical species (absorbers) in the atmosphere:
+    \begin{equation} \label{Model:omhcho:DOAS:eqn_backscatterextinction}
+    I_B = I_{B_0} e^{-\tau_s}
+    \end{equation}
+    where I$_B$, I$_{B_0}$ is backscattered intensity with and without the absorber respectively, and $\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
+    
+    $\tau$ can be described using the scattering and absorption cross section area ($\alpha$, cm$^{2}$) and density ($\eta$, molec cm$^{-3}$) of an absorber as follows:
+    \begin{equation} \label{Model:omhcho:DOAS:eqn_tau}
+    \tau = \int \alpha(s) \eta(s) \mathrm{d}s
+    \end{equation}
+    $\tau$ through a medium is the sum of optical thicknesses of each absorber within the measured path (s), and subbing \ref{Model:omhcho:DOAS:eqn_tau} into \ref{Model:omhcho:DOAS:eqn_backscatterextinction} leads to
+    \begin{equation*}
+      I = I_0 \exp { \left( \Sigma_i \int \eta_i \alpha_i ds \right) }
+    \end{equation*}
+    Where \textit{i} represents a chemical species index, and the integral over ds represents integration over the path from light source to instrument.
+    
+    % Optical depth through the atmosphere
+    Another way of describing optical depth (also called optical thickness) is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material (from equation \ref{Model:omhcho:DOAS:eqn_backscatterextinction}).
+    In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
+    The difference between solar radiation at the top of the atmosphere and the Earth's surface defines the atmospheric optical depth along the path of observation.
+    \begin{equation*}
+      \tau = \ln{\frac{\phi_e^i}{\phi_e^t}}
+    \end{equation*}
+    where $\phi_e^i$ is radiant flux seen at the earth surface, $\phi_e^t$ is the solar radiant flux which arrives at the top of the atmosphere.
+    In the atmosphere, optical depth can be due to several factors including scattering, chemical absorbance, and aerosols.
+  
+  \subsection{Air mass factor (AMF)}
+  \label{Model:omhcho:amf}
+    % what satellite amfs are, and what they do
+    To convert the trace gas profile from a reflected solar radiance column (slanted along the light path) into a purely vertical column requires calculations of an air mass factor (AMF).
+    In satellite data, the AMF is typically a scalar value for each horizontal grid point which will equal the ratio of the total vertical column density to the total slant column density.
+    This value requires calculations to account for instrument sensitivities to various wavelengths over resolved altitudes, and is unique for each trace gas under consideration.
+    An AMF characterises measurement sensitivity to a trace gas at various altitudes \cite[e.g.]{Palmer2001}.
+    \textcite{Lorente2017} show that AMF calculations can be the largest source of uncertainty in satellite measurements.
+    Another way of describing AMFs are as measures of how radiance at the top of the atmosphere (TOA) changes with trace gas optical depths at specific altitudes \parencite{Lorente2017}.
+    Calculation of the AMF is important as it is multiplied against the estimated slant columns in order to give vertical column amounts.
+    
+    %how do we get an AMF?
+    DOAS column retrievals are an integration of a trace gas over the instruments viewing path, in order to convert this total to a vertically distributed column a few assumptions and estimates are required. 
+    The vertical profile of a trace gas is assumed or estimated via a CTM, while its' scattering and radiative properties are calculated at prescribed altitudes using an RTM. 
+    These properties are combined into a single array called the AMF.
+    Two examples of this are GOME-2 (on the MetOp-A satellite) products (\url{http://atmos.caf.dlr.de/gome/product_hcho.html}), and OMI products which respectively use LIDORT combined with IMAGESv2 and GEOS-Chem for processing \parencite{Chance2002, Abad2015}.
+    AMFs are unique to each trace gas and due to their complexity and the influence of cloud cover they remain one of the largest error sources in remote sensing of BVOCs \parencite{Palmer2001,Millet2006}).
+    \textcite{Lamsal2014} recommends that when comparing satellite data to models, the AMF should first be recalculated using the model as an a priori.
+    This is in order to remove any a priori bias between model and satellite columns.
+    
+    % averaging kernal relation to amf, why amfs are important when comparing data
+    Related to the AMF is the averaging kernal (AK), which is used to handle instrument measurements which are sensitive to gas concentrations at different altitudes through the atmosphere.
+    DOAS methods can be heavily influenced by the initial estimates of a trace gas profile (the a priori) which is often produced by modelling, so when comparing models of these trace gases to satellite measurements extra care needs to be taken to avoid introducing bias from differing a priori assumptions.
+    One way to remove these a priori influences is through the satellite AK (or AMF), which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas \parencite{Eskes2003, Palmer2001}.
+    This process is called deconvolution ($\Omega = AK \times VC_{satellite} + \times (I - AK) VC_{a priori}$) of the AK of the satellite instrument.
+    The AK represents sensitivities to each species at multiple altitudes through the atmosphere and in the case of OMI, can be approximated from the scattering weights ($\omega(z)$) function as follows:
+    \begin{equation} \label{ch_HCHO:eqn:AKfromw}
+    AK(z) = \frac{\omega(z)}{AMF}
+    \end{equation}
+    This is an approximation for the OMI product, which does not include the AK but does include the $\omega$ and AMF, as explained in \textcite{Abad2015}.
+  
+  \subsection{LIDORT}
+    \label{Model:Meas:sat:LIDORT}
+    
+    %http://www.rtslidort.com/about_publications.html
+    LIDORT is a model of LInearized Discrete Ordinate Radiative Transfer, used to determine backscatter intensities and weighting functions at arbitrary elevation angles \parencite{Spurr2001}.
+    The model solves radiative transfer equations and can be used to determine various atmospheric column measurement attributes such as optical depth, ring effects, and scattering.
+    These radiative properties (or at least estimates thereof) are required when measuring trace gases in the atmosphere through a long path such as seen by satellites \parencite[eg.][]{Palmer2001,Martin2002a,DeSmedt2015,Abad2015}.
   
   \subsection{Uncertainty}
     Uncertainty in a single pixel for OMHCHO is roughly the same magnitude as HCHO background levels.
@@ -363,187 +519,27 @@
     Recently \textcite{Schenkeveld2017} analysed the performance over time of the instrument and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
     These changes are measured excluding the row anomaly (RA) effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
     Their analysis of OMI concludes that data is still of high quality and will deliver useful information for 5-10 more years, with radiance only changing by $1-2\%$ outside of RA impacted areas.
-    They also provide a useful summary of the OMI instrument (copied here in Fig. \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}) showing the instruments spectral, temporal, and spatial resolutions.
+    The OMI instrument's spectral, temporal, and spatial resolutions are listed in Fig. \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}.
     An analysis of the row anomaly by \textcite{Huang2017} state that measurements remain suitable for scientific use, with recommendation for further evaluation.
     % they were talking about ozone columns...
     The RA began in June 2007, with some cross-track rows seemingly blocked. 
     The most likely cause is some instrument insulation partially obscuring the radiance port \parencite{Schenkeveld2017}.
 
-\section{Other datasets}
-\label{Model:Datasets}
-
-  This section examines the other data sets used in this thesis.
-  I will also give details on filtering and interpolations which are undertaken when reading data, as each dataset has its own resolution.
-
-    \subsubsection{OMNO2d}
-      \label{Model:Datasets:OMNO2d}
-      OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
-      An example figure from Jan 29, 2005 is shown in figure \ref{Model:Datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in figure \ref{Model:Datasets:OMNO2d:fig_omno2d_2005}.
-      OMNO2 pixel resolution is 40~km by 130~km.
-      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations).
-      It is also used to form the anthropogenic influence filter for OMHCHO (See section \ref{Model:Filter:NOx}).
-      
-      
-      \mypic{Figures/OMNO2d_2005m0129.png}{Example of NO$_2$ tropospheric columns taken from the OMNO2d product.}{\label{Model:Datasets:OMNO2d:fig_eg_omno2d}}
-      
-      \mypic{Figures/OMNO2d_avg2005.png}
-        {Average 2005 tropospheric NO$_2$ from OMNO2d with pixels screened for $<30\%$ cloud cover.}
-        {\label{Model:Datasets:OMNO2d:fig_omno2d_2005}}
-      
-      Like other satellite products, OMNO2d is influenced by a priori modelling which is required to convert slant path radiance to vertical columns.
-      These models are generally low resolution ($\sim$ 110~km by 110~km), which leads to column smearing which is not actually there, along with difficulty detecting point sources of high NO emissions \parencite{Goldberg2018}.
-      Uncertainty in this product arises mostly from the calculation of the AMF (up to 50\% of total error) \parencite{Lorente2017}.
+    %% LOW BIAS IN SATELLITE HCHO EXAMPLES
+    For many places the tropospheric column HCHO measured by satellite is biased low, \textcite{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over south east USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
+    \textcite{DeSmedt2015} also found OMI and GOME2 observations were 20 - 40\% lower than ground based vertical profiles, and \textcite{Barkley2013} determine OMI to be 37\% low compared with aircraft measurements over Guyana.
+    These bias can be corrected by improving the assumed a priori HCHO profiles which are used to calculate the AMFs of the satellite columns.
+    \textcite{Millet2006} examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
+    \textcite{Millet2008} shows that there also exists some latitude based bias, as well as a systematic offset between the OMI and GOME instruments.
+    This does not appear to be due to the different overpass times of the two instruments.
     
-    \subsubsection{OMAERUVd}
-      \label{Model:Datasets:OMAERUVd}
-      
-      % smoke aaod outline
-      Aerosols in the atmosphere can be seen through their affects on light. 
-      Smoke and dust can be seen as an increase in AAOD (see section \ref{Model:Meas:DOAS}).
-      This is due these particles scattering and absorbing UV radiation \parencite{Ahn2008}.
-      
-      
-      OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) provides a useful dataset allowing us to filter gridsquares which may be smoke affected.
-      OMI aerosol extinction and absorption optical depths (AOD, AAOD respectively) at three wavelengths (354, 388, and 500~nm), along with UV aerosol index (UVAI), are available publicly from Earthdata: \url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}.
-      The OMAERUVd product is level three, gridded daily data, based on quality filtered level two swath pixels which are then gridded by averaging.
-      The product is most sensitive to error in the form of subpixel scale cloud interference, so I select AAOD as the basis for my smoke filter as it is least affected by clouds \parencite{Ahn2008}.
-      
-      % How I read the AAOD
-      Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to finer resolution using the nearest value for each gridsquare.
-      I use the AAOD at 500~nm wavelength, which is blocked by fire smoke plumes.
-      This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with AAOD$>0.03$ (see section \ref{Model:Filter:fire}).
-    
-    \subsubsection{MOD14A1}
-      \label{Model:Datasets:MOD14A1}
-      Daily gridded fire counts compiled from satellite measurements into 1x1~km$^2$ resolution.
-      Fire observations are performed four times daily from Terra (1030, 2230) and Aqua (0130, 1330).
-      The fire pixels are detected automatically based on parameters including apparent pixel temperature and the nearby background temperature.
-      Obtained from NASA Earth Observations (NEO) that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
-      This product is downloaded and binned into a lower resolution (using sum of fire pixels) to create an active fire influence mask (see section \ref{Model:Filter:fire}).
-      
-    \subsubsection{AIRS CO columns}
-      \label{Model:Datasets:AIRS}
-      
-      In chapter \ref{Ozone}, potential biomass burning plumes are identified using satellite observations of CO from the AIRS (Atmospheric Infra-red Sounder) instrument aboard the Aqua satellite \parencite{AIRS3STD}.
-      CO is used as a proxy for biomass burning plumes, and used to qualitatively attribute ozone intrusion events as explained in section \ref{Ozone:WeatherClassifications}.
-      This is a separate method of detecting fire influence near specific sites through visual analysis.
-      Removal of fire influence reduces estimated ozone flux by $\sim 15\%$ at Macquarie Island and $\sim 20\%$ at Melbourne.
-      
-  \subsection{Model datasets}
-    \subsubsection{Meteorological reanalysis}
-      \label{Model:Datasets:ERAI}
-      
-      Synoptic scale weather patterns are taken from the European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}.
-      These are used in chapter \ref{Ozone} to determine typical weather systems for stratospheric ozone intrusions.
-    
-    \subsubsection{CPC temperatures}
-      Maximum daily land-surface temperature at 0.5x0.5\degr horizontal resolution. 
-      This data is used to check the correlation between HCHO and temperature at a higher resolution than is provided by GEOS-Chem output.
-      Data description at \url{https://www.esrl.noaa.gov/psd/data/gridded/data.cpc.globaltemp.html}.
-      CPC Global Temperature data provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their Web site at \url{https://www.esrl.noaa.gov/psd/}.
-      An example of one days output is shown in figure \ref{Model:Datasets:fig_CPC_EG}.
-      
-      \mypicw{.5\textwidth}{Figures/CPC_Temperature_EG.png}{CPC daily maximum temperature dataset output for 1, Jan, 2005.}{\label{Model:Datasets:fig_CPC_EG}}
-    
-  \subsection{Campaign datasets}
-    
-    %TODO: Add all campaigns to the plot of locations
-    In this thesis data from several measurement campaigns are used to examine accuracy of modelled data at specific sites.
-    Figure \ref{Model:Datasets:fig_locations} shows the locations of each of the campaigns used in this work.
-    These took place over disparate times, and are in situ measurements which require filtering and interpolation in order to compare against GEOS-Chem output which is averaged over a large horizontal space.
-    
-    \mypic{Figures/campaigns/campaign_locations.png}{Locations of Australian campaigns which are analysed within this thesis}{\label{Model:Datasets:fig_locations}}
-    
-    TODO: these summaries.
-    
-    \subsubsection{Daintree}
-      Daintree summary (P. Nelson)
-    
-    \subsubsection{Marine and Urban MBA ? (MUMBA)}
-      \label{Model:Datasets:MUMBA}
-      
-      The MUMBA campaign \parencite{PatonWalsh2013} measured various compound abundances including isoprene, formaldehyde, and ozone from 21 December 2012 to 15 February 2013.
-      These measurements took place in Wollongong, 10~m above ground level (40~m above sea level).
-      Ozone was measured by Thermo UV absorption with 1-minute time resolution averaged into hourly outputs.
-      Isoprene and HCHO were measured by Ionicon Proton-Transfer-Reaction Mass spectrometer (PTR-MS), with a time resolution of 3-minutes, averaged each hour.
-      Detection limits varied due to instrument conditions, and are listed in table \ref{Model:Datasets:MUMBA:tab_detectionlimits}.
-      Measurements below the detection limit are set to half of the detection limit when reading this dataset in this thesis.
-      Uncertainty has been estimated to be 15~\%.
-      The full dataset has been published on PANGAEA \parencite{Guerette2017}.
-    
-      \begin{table}
-        \caption{Detection limits for MUMBA}
-        \begin{tabular}{  l |  l  l  l }
-          
-          \textbf{Dates} & \textbf{HCHO (ppb)} & \textbf{Isoprene (ppb)} & \textbf{Ozone (ppb)}
-          \\ \hline
-          21/Dec/2012 - 29/Dec/2012 & 0.205 & 0.003 & 0.5 \\
-          29/Dec/2012 - 18/Jan/2013 & 0.105 & 0.005 & 0.5 \\
-          19/Jan/2013 - 15/Feb/2013 & 0.186 & 0.003 & 0.5 \\
-        \end{tabular}
-        \label{Model:Datasets:MUMBA:tab_detectionlimits}
-      \end{table}
-    
-    \subsubsection{Sydney Particle Studies (SPS1, SPS2)}
-      \label{Model:Datasets:SPS}
-      Two VOC and other trace gas measurement campaigns took place at the Westmead air quality station with scientists from CSIRO, OEH, and ANSTO. 
-      Stage 1 (SPS1) was from 5 February to 7 March in 2011, while stage 2 (SPS2) ranged from 16 April to 14 May 2012.
-      Two instruments measured VOC concentrations: one was a PTR-MS, the other a gas chromatographer (GC) with an equipped flame ionisation detector (FID).
-      The PTR-MS uses chemical ionisation mass spectrometry and can quantify VOCs at high temporal resolution ($< 1$~s).
-      It was calibrated several times per day against HCHO, isoprene, $\alpha$-pinene, and several other VOCs, further measurement specifics can be found in \textcite{Dunne2012, Dunne2018}.
-      % Dunne 2018 looks like an analysis of VOC readings from the sites
-      
-      The output lists hourly averaged ppbv concentrations of trace gases based on the mass to charge ratio (m/z), which for isoprene is 69.
-      % Sensitivities
-      It's possible that other chemicals (such as Furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires usage starts to become frequent \parencite{Guerette2018}.
-      The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interferences. 
-      Further details for this method can be found in \textcite{Cheng2016}.
-      GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT, while PTR-MS data is averaged hourly.
-      Uncertainties in VOC measurements range from a factor of 1.5 to 2.
-      This includes significant differences between measurement devices when detecting isoprene, potentially due to interfering compounds in the PTR-MS \parencite{Dunne2018}.
-      
-      Figure \ref{Model:Datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. 
-      In order to compare with GEOS-Chem output a daily average and an overpass time (1200-1300 LT) average are both created from these data.
-      In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in \textcite{Lawson2015}. 
-      This should minimise any introduced bias.
-      
-      \mypic{Figures/campaigns/SPS_Series.png}{
-        SPS HCHO (yellow) and isoprene (green) time series, along with detection limits (dashed).
-        SPS 1 (left) took place in late summer 2011, while SPS 2 (right) occurred during Autumn.
-      }
-      {\label{Model:Datasets:SPS:fig_series}}
-      
-      Figure \ref{Model:Datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the gridsquare containing Sydney overlaid on SPS measurement data.
-      Superficially the comparison is not too bad between these two datasets, however GEOS-Chem output is the daily average over 2x2.5\degr (latitude by longitude).
-      The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high since the daily average should not match the peak of the measurements.
-      
-      \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:Datasets:SPS:fig_GC_comparison}}
-      
-
-    \subsubsection{Ozonesondes}
-      \label{Model:Datasets:ozonesondes}
-      
-      Ozonesonde data comes from the World Ozone and Ultraviolet Data Centre (WOUDC).
-      Ozonesondes are weather balloons which measure from the surface to around 35km.
-      Ozonesondes provide a high vertical resolution profile of ozone, temperature, pressure, and humidity.
-      Generally the instrument will perform 150-300 measurements in the troposphere with ozone mixing ratios quantified by an electrochemical concentration cell (\url{http://www.ndsc.ncep.noaa.gov/organize/protocols/appendix5/}).
-      
-      Ozonesondes are launched approximately weekly from Melbourne (38$^{\circ}$ S, 145$^{\circ}$ E), Macquarie Island (55$^{\circ}$ S, 159$^{\circ}$ E) and Davis (69$^{\circ}$ S, 78$^{\circ}$ E). 
-      Melbourne, a major city with more than 4 million residents \parencite{ABS2016}, may be affected by anthropogenic pollution in the lower troposphere.
-      Actual releases are north of the central business district in the Broadmeadows suburb.
-      Macquarie Island is in the remote Southern Ocean and unlikely to be affected by any local pollution events.
-      Davis (on the coast of Antarctica) is also unlikely to experience the effects of anthropogenic pollution.
-      More information on this dataset is given in section \ref{Ozone:DataMethods}.
-      
-    
-    \subsubsection{Uncertainties}
-      \label{Model:Datasets:uncertainties}
-      
-      % Measurement difficulties
-      In situ measurements contain errors, and depending on the device used and chemical being measured this error can be significant.
-      The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting \parencite[eg.][]{Dunne2018,Guerette2018}.
-      Overall isoprene uncertainty in measurements analysed by \textcite{Dunne2018} was a factor of 1.5 to 2.
-      This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
+    %A full analysis of the AMF uncertainty in OMI measurements, as well as the structural uncertainty (between different systems of calculations applied to the same data) is performed by \textcite{Lorente2017}.
+    AMF calculation often dominates the total uncertainty in satellite retrievals, especially in polluted regions \parencite{Lorente2017}.
+    In scenarios where the gas is enhanced in the lower troposphere, AMF calculation is the largest uncertainty in satellite measurements.
+    In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments \parencite{Lorente2017}.
+    Another impact often not included in uncertainty calculations is the structural uncertainty of retrieval methods.
+    The structural uncertainty of AMF calculation approaches used by different retrieval groups comes from how the AMF is calculated, rather than uncertainty in the calculation components.
+    The importance of a priori and ancillary data (such as surface albedo and cloud top height) sharply affects the structural uncertainty \parencite{Lorente2017}.
     
 \section{GEOS-Chem}
   \label{Model:GC}
@@ -1024,13 +1020,13 @@
   
   The OMI instrument records spectra of light which enters the viewing lens on board the Aura satellite.
   The spectra provide backscattered intensity ($I_B$) at various wavelengths (see section \ref{Model:Datasets:Aura}), with the light source ($I_{B_0}$) being the sun. 
-  Using the log of Beers law (equation \ref{Model:Meas:DOAS:eqn_beerslaw}) we get 
+  Using the log of Beers law (equation \ref{Model:omhcho:DOAS:eqn_beerslaw}) we get 
   $$ \tau_s = \ln{I_{B_0}} - \ln{I_B} $$
   which can be subbed into equation \ref{Model:AMF:eqn_AMFFrac} to give an expression for the AMF which includes scattering:
   \begin{equation} \label{Model:AMF:eqn_amfscattering}
     AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
   \end{equation}
-  %{Model:Meas:DOAS:eqn_backscatterextinction}
+  %{Model:omhcho:DOAS:eqn_backscatterextinction}
   %$\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
   
   We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. 
@@ -1048,12 +1044,12 @@
   \begin{equation*}
     AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
   \end{equation*}
-  We can then convert $\text{d}\tau$ to our path using equation \ref{Model:Meas:DOAS:eqn_tau} leading to
+  We can then convert $\text{d}\tau$ to our path using equation \ref{Model:omhcho:DOAS:eqn_tau} leading to
   \begin{equation} \label{Model:AMF:eqn_AMFcross}
     AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
   \end{equation}
   where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. 
-  This uses the attenuation cross section relationship to optical depth (see section \ref{Model:Meas:DOAS}).
+  This uses the attenuation cross section relationship to optical depth (see section \ref{Model:omhcho:DOAS}).
   
   To represent an average cross section weighted by the absorbing species' vertical distribution, the effective cross section ($\alpha_e$) is used.
   This is to account for temperature and pressure dependence of $\alpha(z)$, and is defined as:
