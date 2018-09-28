@@ -130,27 +130,28 @@
       
       % smoke aaod outline
       Aerosols in the atmosphere can be seen through their affects on light. 
-      Smoke and dust can be seen as an increase in AAOD (see section \ref{Model:omhcho:DOAS}).
+      Smoke and dust can be seen as an increase in aerosol optical depth (AOD) (see section \ref{Model:omhcho:DOAS}).
       This is due these particles scattering and absorbing UV radiation \parencite{Ahn2008}.
+      A data product provided by Earthdata (\url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}) called OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) is used in this thesis. 
       
       
-      OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) provides a useful dataset allowing us to filter gridsquares which may be smoke affected.
-      OMI aerosol extinction and absorption optical depths (AOD, AAOD respectively) at three wavelengths (354, 388, and 500~nm), along with UV aerosol index (UVAI), are available publicly from Earthdata: \url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}.
-      The OMAERUVd product is level three, gridded daily data, based on quality filtered level two swath pixels which are then gridded by averaging.
-      The product is most sensitive to error in the form of subpixel scale cloud interference, so I select AAOD as the basis for my smoke filter as it is least affected by clouds \parencite{Ahn2008}.
+      OMAERUVd provides a useful dataset which allows detect areas which may be smoke affected.
+      The product contains AOD and aerosol absorption optical depths (AAOD) at three wavelengths (354, 388, and 500~nm), along with UV aerosol index (UVAI).
+      The OMAERUVd product is level three gridded daily data, based on quality filtered level two swath pixels which are then gridded by averaging.
+      The product is most sensitive to error in the form of sub-pixel scale cloud interference, so I select AAOD as the basis for my smoke filter as it is least affected by clouds \parencite{Ahn2008}.
       
       % How I read the AAOD
-      Gridded smoke AAOD is read from OMAERUVd at 1x1\degr resolution daily, and mapped to finer resolution using the nearest value for each gridsquare.
-      I use the AAOD at 500~nm wavelength, which is blocked by fire smoke plumes.
-      This daily AAOD is used to mask fire smoke plume influence, by masking gridsquares with AAOD$>0.03$ (see section \ref{Model:Filter:fire}).
+      In this work AAOD is mapped from 1x1\degr horizontal resolution to 0.25x0.3125\degr using nearest value mapping.
+      The AAOD at 500~nm wavelength is used to determine smoke influence, although any of the provided wavelengths would be affected by smoke plumes and could also be used.
+      This daily AAOD is compared to a threshold to create a daily smoke filter, any areas with AAOD$>0.03$ are considered to be potentially smoke plume affected (see section \ref{Model:Filter:fire}).
     
     \subsubsection{MOD14A1}
       \label{Model:Datasets:MOD14A1}
-      Daily gridded fire counts compiled from satellite measurements into 1x1~km$^2$ resolution.
-      Fire observations are performed four times daily from Terra (1030, 2230) and Aqua (0130, 1330).
-      The fire pixels are detected automatically based on parameters including apparent pixel temperature and the nearby background temperature.
-      Obtained from NASA Earth Observations (NEO) that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
-      This product is downloaded and binned into a lower resolution (using sum of fire pixels) to create an active fire influence mask (see section \ref{Model:Filter:fire}).
+      MOD14A1 is a gridded daily satellite based dataset of fire counts at 1x1~km$^2$ horizontal resolution.
+      Fire observations are performed four times daily from Terra (10:30~LT, 22:30~LT) and Aqua (01:30~LT, 13:30~LT).
+      The fire pixels are detected based on parameters including apparent pixel temperature and the nearby background temperature.
+      The dataset is obtained from NASA Earth Observations (NEO) that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
+      This product is downloaded and binned into a lower resolution (using the sum of fire pixels) to create an active fire influence mask (see section \ref{Model:Filter:fire}).
       
     \subsubsection{AIRS CO columns}
       \label{Model:Datasets:AIRS}
@@ -158,7 +159,7 @@
       In chapter \ref{Ozone}, potential biomass burning plumes are identified using satellite observations of CO from the AIRS (Atmospheric Infra-red Sounder) instrument aboard the Aqua satellite \parencite{AIRS3STD}.
       CO is used as a proxy for biomass burning plumes, and used to qualitatively attribute ozone intrusion events as explained in section \ref{Ozone:WeatherClassifications}.
       This is a separate method of detecting fire influence near specific sites through visual analysis.
-      Removal of fire influence reduces estimated ozone flux by $\sim 15\%$ at Macquarie Island and $\sim 20\%$ at Melbourne.
+      
   
     \subsubsection{Uncertainties}
       
@@ -186,11 +187,18 @@
       
       
   \subsection{Model datasets}
+    
+    \subsubsection{CTM output}
+      
+      GEOS-Chem model output is used extensively in this thesis and is discussed in more detail in section \ref{Model:GC:simulation:outputs}.
+      These output are resolved to 47 vertical levels from the ground up to 0.01~hPa, at 2x2.5\degr horizontal resolution.
+    
     \subsubsection{Meteorological reanalysis}
       \label{Model:Datasets:ERAI}
       
       Synoptic scale weather patterns are taken from the European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}.
       These are used in chapter \ref{Ozone} to determine typical weather systems for stratospheric ozone intrusions.
+      The version used was ERA-Interim, which was the most up to date at the time (2016) but has since been superseded by ERA5.
     
     \subsubsection{CPC temperatures}
       Maximum daily land-surface temperature at 0.5x0.5\degr horizontal resolution. 
@@ -373,7 +381,7 @@
   \end{table}
   
   Each $\sim90$ minutes the AURA satellite sweeps over the sunny side of the planet of which around 50~k -- 80~k of the roughly 90~k pixels are classified as good.
-  Each pixel contains several important pieces of data which are needed for recalculation of the HCHO vertical column: the total column of HCHO ($\Omega$\moleccm), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weights and their vertical altitudes (hPa), viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
+  Each pixel contains several important pieces of data which are needed for recalculation of the HCHO vertical column: the total column of HCHO ($\Omega$; \moleccm), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weights and their vertical altitudes (hPa), viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
   All of these data are needed in order to reconstruct the total vertical column using a modelled a priori shape factor rather than NASA's included a priori shape factor.
   Each pixel includes an estimate of the cloud fraction created using the OMI cloud product OMCLDO2.
   If greater than 40\% of a pixel measurement is cloudy (ie. cloud fraction $>0.4$) then the pixel is removed from subsequent analysis.
@@ -516,7 +524,6 @@
     Recently \textcite{Schenkeveld2017} analysed the performance over time of the instrument and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
     These changes are measured excluding the row anomaly (RA) effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
     Their analysis of OMI concludes that data is still of high quality and will deliver useful information for 5-10 more years, with radiance only changing by $1-2\%$ outside of RA impacted areas.
-    The OMI instrument's spectral, temporal, and spatial resolutions are listed in Fig. \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}.
     An analysis of the row anomaly by \textcite{Huang2017} state that measurements remain suitable for scientific use, with recommendation for further evaluation.
     % they were talking about ozone columns...
     The RA began in June 2007, with some cross-track rows seemingly blocked. 
@@ -1484,7 +1491,7 @@
     \label{Model:Filter:fire}
     
     
-    The method used in this thesis follows that of \textcite{Marais2012}, and \textcite{Barkley2013}, with active fires filtered using fire counts, and smoke filtered out using smoke aerosol absorption optical depth (AAOD).
+    The method used in this thesis follows that of \textcite{Marais2012}, and \textcite{Barkley2013}, with active fires filtered using fire counts, and smoke filtered out using smoke AAOD.
     We use the MODIS fire counts, detected from space using the combined product from Terra and Aqua (Terra at 10:30, 22:30 LT; Aqua at 13:30, 01:30 LT).
     Smoke plumes are filtered using smoke AAOD from product OMAERUVd, with the threshold determined through analysis of Australian AAOD distributions.
     
