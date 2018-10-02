@@ -367,14 +367,17 @@
     This method calculates smearing using just two almost identical model runs, one of which has isoprene emissions scaled globally by a factor (generally from 0.5 to 2).
     Another method \parencite[eg.][]{Stavrakou2009} involves the analysis of an adjoint CTM, however this is computationally expensive.
     
-    In order to understand the smearing calculation the underlying equations and assumptions must first be understood.
+    In this work a run of GEOS-Chem using globally halved isoprene emissions (with no other changes) is performed to test and filter smearing.
     Consider halving the isoprene emitted globally and rerunning the model, one would expect HCHO enhancement (above background levels) to be halved in isoprene emitting gridboxes if no transport has occurred.
+    This leads to the method used here and elsewhere: testing the correlation between HCHO enhancement and isoprene emissions does not change too much between runs.
+    This is done through assuming the correlations are equivalent and then finding where the assumption leads to unlikely yields.
+    
     %\textcite{Marais2012} additionally use airborn isoprene, MVK $+$ MACR (isoprene oxidation products), and HCHO measurements to check smearing in Africa where there is a sharp gradient of isoprene emitting vegetation from north to south.
     
     \subsubsection{Calculation of smearing}
     \label{BioIsop:Method:Smearing:calculation}
     
-    
+    In order to understand the smearing calculation the underlying equations and assumptions must first be understood.
     The calculation of smearing is closely tied to isoprene to HCHO yield and modelled regression slopes.
     From equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho} we have modelled slope (S) being the yield of HCHO per C of emitted isoprene divided by HCHO loss rate per second ($S = \frac{Y_{isop}}{k_{HCHO}}$).
     Using two runs of GEOS-Chem with isoprene emissions being the only difference we have:
@@ -402,16 +405,18 @@
     %TODO: find lifetime and yields from GEOS-Chem
     Using the mean HCHO lifetime of Z hours applied against $\Delta S$ from 1000 to 4000 corresponds to yields in the range of X to Y HCHO per C
     
-    Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $.
-    Here $\Delta$ represents the departure (daily over 1300-1400~LT) from default run values.
-    
-    
-    
     If $\hat{S}$ is large, then you can infer sensitivity to non-local isoprene emissions.
     A relatively large change in $\Omega_{HCHO}$ (compared to local emissions) suggests that HCHO is being formed from non-local isoprene emissions.
-    This is sensitive to how E$_{isop}$ is determined, figure \ref{BioIsop:Method:Smearing:fig_smearing_def_2005} shows smearing over two seasons with E$_{isop} =$ daily averaged isoprene emissions (left column) and midday (1300-1400~LT) emissions (right column). 
+    Alternatively a relatively low value of $\hat{S}$ can be used to infer that emissions from a particular grid square are being exported before they form HCHO, which also informs us that local HCHO levels are not due to local emissions.
+    TODO: Determine and explain choice of $\hat{S}$ range and why we expect yields and loss rates around these levels.
+    
+    
+    Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $.
+    Here $\Delta$ represents the departure (daily over 1300-1400~LT) from default run values.
+    Smearing is sensitive to how E$_{isop}$ is determined, figure \ref{BioIsop:Method:Smearing:fig_smearing_def_2005} shows smearing over two seasons with E$_{isop} =$ daily averaged isoprene emissions (left column) and midday (1300-1400~LT) emissions (right column). 
     Essentially the midday isoprene emissions are at the peak of their daily cycle (see figure TODO) which means the effect of smearing is relatively smaller during these hours.
     Figure TODO: shows the same figure with added markers showing when the threshold of 4000 \parencite[as in][]{Marais2012} affects at least one day within the season (pink diamonds) and where it removes all data for that gridbox (red x).
+    
     
     \mypic{/Figures/OMI_link/Filters/smearing_definitions_2005.png}{Smearing ($\hat{S}$, see text) in summer (DJF, top row) and winter (JJA, bottom row) using averaged isoprene emissions daily (left column) and 1300-1400~LT (right column). The scale changes between left and right columns.}{\label{BioIsop:Method:Smearing:fig_smearing_def_2005}}
     
@@ -462,9 +467,10 @@
       In low NO$_X$ environments, reported HCHO yields from isoprene are from XtoY\%, while in high NO$_X$ environments this value is XtoY\% TODO: these values from table.
       For monoterpenes the yields are around X, Y\% for low, high NO$_X$ respectively.
       
-      NO$_2$ measured by OMNO2d gives us a daily mid-day measurement which we can compare to output from GEOS-Chem to determine how well the model does at simulating NO$_2$.
-      This is also done in \textcite{Travis2016}, as a way to examine model bias in ozone (potentially due to NO$_2$ bias) over the USA.
+      NO$_2$ measured by OMNO2d gives us a daily mid-day measurement which we can compare to output from GEOS-Chem to determine how well the model does at simulating NO$_2$ (presented back in section \ref{Model:Analysis:NOx}).
+      %\textcite{Travis2016} show how NO$_X$ can be used to examine model bias in ozone (potentially due to NO$_2$ bias) over the USA.
       The affect of NO$_2$ on smearing can be seen in figure TODO
+      This plot shows how smearing over Australia compares to satellite NO$_2$ levels, with smearing distributions binned by NO$_2$.
     
 \section{Results}
   \label{BioIsop:Results}
