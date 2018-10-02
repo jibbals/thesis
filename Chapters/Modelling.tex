@@ -310,6 +310,40 @@
 \section{OMHCHO}
 \label{Model:omhcho}
   
+  % Aura satellite trace gas measurements
+  One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets (products).
+  Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
+  % omi instrument on board aura
+  Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
+  The OMI instrument on board AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
+  This band of wavelengths allows measurements of trace gases (among other quantities).
+  
+  
+  From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
+  Figure \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary} shows the details of OMI's detector array and measurement resolutions.
+  OMI measures atmospheric trace gases including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
+  OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
+  The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
+  
+  
+  
+  \begin{figure}
+    \includegraphics[width=\textwidth]{Figures/Shenkeveld_OMI_summary.png}
+    \caption{ %
+      Figure 1 and Table 1 from \textcite{Schenkeveld2017}, with the following caption ``An impression of OMI flying over the Earth.
+      The spectrum of a ground pixel is projected on the wavelength dimension of the charge-coupled device (CCD; the columns). 
+      The cross-track ground pixels are projected on the swath dimension of the CCD (the rows).
+      The forward speed of 7~kms$^{-1}$ and an exposure time of 2~s lead to a ground pixel size of 13~km in the flight direction.
+      The viewing angle of 114\degr leads to a swath width on the ground of 2600~km.''
+      The table shows the optical properties for OMIs three channels.}
+    \label{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}
+  \end{figure}
+  
+  % How omi gets its AMF
+  The latest OMHCHO algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \parencite{Abad2015}.
+  The GEOS-Chem model has been substantially updated since then
+  In this thesis the more recent version $V10.01$ is used to recalculate the AMF (details are shown in section \ref{Model:omiRecalc}).
+  
   OMI uses a Differential Optical Absorption Spectroscopy (DOAS) based technique to read HCHO along the path of light which reaches the satellite instrument.
   The first step is to determine how much HCHO is in the path of light between the sun and detector.
   Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT (see section \ref{Model:Meas:sat:LIDORT}) in order to determine a trace gas's radiative properties at various altitudes.
@@ -339,6 +373,8 @@
   The full method details for slant column retrieval by OMI are outlined in supplemental section \ref{SuppNotes:Satellite:OMI_BOAS}, or in the technical document (DOI: 10.5067/Aura/OMI/DATA2015).
   Slant columns range from $\sim 4\times 10^{15} $ to $\sim 6 \times 10^{16}$~molec cm$^{-2}$, with uncertainties from 30\% (larger columns) to over 100\% (smaller columns) \parencite{Abad2015}.
   
+  \subsubsection{Pixel filtering}
+  \label{Model:omhcho:pixel_filtering}
   
   % What the swathes look like
   This thesis uses the level 2 product swath output from the NASA earth data web portal.
@@ -385,42 +421,10 @@
   If greater than 40\% of a pixel measurement is cloudy (ie. cloud fraction $>0.4$) then the pixel is removed from subsequent analysis.
   This removes around 30\% of the pixels which remain after filtering out the bad or missing data.
   
-  \subsection{OMI}
-
-    % Aura satellite trace gas measurements
-    One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets (products).
-    Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
-    % omi instrument on board aura
-    Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
-    The OMI instrument on board AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
-    This band of wavelengths allows measurements of trace gases (among other quantities).
-    
-    
-    From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
-    Figure \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary} shows the details of OMI's detector array and measurement resolutions.
-    OMI measures atmospheric trace gases including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
-    OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
-    The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
-    
-    
-    
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/Shenkeveld_OMI_summary.png}
-      \caption{ %
-        Figure 1 and Table 1 from \textcite{Schenkeveld2017}, with the following caption ``An impression of OMI flying over the Earth.
-        The spectrum of a ground pixel is projected on the wavelength dimension of the charge-coupled device (CCD; the columns). 
-        The cross-track ground pixels are projected on the swath dimension of the CCD (the rows).
-        The forward speed of 7~kms$^{-1}$ and an exposure time of 2~s lead to a ground pixel size of 13~km in the flight direction.
-        The viewing angle of 114\degr leads to a swath width on the ground of 2600~km.''
-        The table shows the optical properties for OMIs three channels.}
-      \label{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}
-    \end{figure}
+  One more filter is applied before any other calculations are applied, which filters unreasonable column amounts.
+  Due to numerous highly negative vertical columns (beyond what is expected) a screen is applied to remove any pixels with vertical columns outside the range of -5$\times 10^{15}$ to 1$\times 10^{17}$.
+  This has been done previously in TODO %TODO: find which paper did this.
   
-    % How omi gets its AMF
-    The latest OMHCHO algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \parencite{Abad2015}.
-    The GEOS-Chem model has been substantially updated since then
-    In this thesis the more recent version $V10.01$ is used to recalculate the AMF (details are shown in section \ref{Model:omiRecalc}).
-    
   \subsection{DOAS}
     \label{Model:omhcho:DOAS}
     
@@ -872,7 +876,7 @@
           \item Used in recalculation of the satellite AMF (section \ref{Model:AMF}), and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (section \ref{Model:omiRecalc:RSC})
           \item Also used to determine isoprene to HCHO yield, after removing days with high biomass burning emissions (section \ref{BioIsop:Method:slope})
           \item Additional satellite outputs used to determine a separate AMF.
-          \item TODO: ONE OF THESE Satellite output or monthly tracer averages is combined with another run in order to determine smearing (section \ref{BioIsop:Method:Smearing})
+          \item Satellite output is combined from two different runs in order to determine smearing (section \ref{BioIsop:Method:Smearing})
           \item HEMCO diagnostics output used to determine isoprene to HCHO yields (section \ref{BioIsop:Calculation:eqn_isop_yield}), and to compare against top-down estimations of isoprene emissions (section \ref{BioIsop:Results:Emissions})
           \item TODO: Compare total yearly ozone concentrations before and after implementing top-down estimate.
         \end{enumerate}
@@ -903,28 +907,7 @@
       \end{description}
     
     
-    % TODO: layout reasons why isoprene differs between runs
-    %    In GeosCore/fast_jx_mod.F:
-    %      strat aerosols are scaled somehow at line 2922, looks like it affects SSA.
-    %      line 4138: comment says ozone calculated online.
-    %	  TOMS/SBUV O3 are read by toms_mod.f, passed to FAST-J routine ``set_prof.f''. in UCX the stratospheric O3 is calculated online
-    %    In GeosCore/calcrate.F:
-    %      line 1489 comment says rates are limited to prevent solver failure
-    %	if lifetime of A is below PSCMINLIFE, limit reaction rate to yield the specified lifetimedepletion
-    %      Line 1724
-    %        ! SPECIAL TREATMENT FOR O3+hv -> OH+OH (trop-only simulation)
-    %        !                    or O3+hv -> O+O2  (UCX simulation)
-    %      line 1752:
-    %      #if defined( UCX )
-    %        IF ( NKO3PPHOT(NCS) > 0 ) THEN
-    %          PHOTVAL_2 = NKO3PPHOT(NCS) - NRATES(NCS)
-    %          NKN_2     = NKNPHOTRT(PHOTVAL_2,NCS)
-    %        ENDIF
-    %      #endif
-    %      line 1771:
-    %        comment: change rate of O(1D) + N2 to 3.1e-11 at 298K (from 2.6e-11)...
-    %        if not defined UCX:
-    %	  RO1Dp1H2O, RO1Dp1H2, RO1D, (and maybe 2 RRates) are changed.
+    
     
     \subsubsection{UCX vs tropchem}
       \label{Model:GC:simulation:comparison}
@@ -972,7 +955,7 @@
       % Differences between run isoprene amounts described and analysed here
       Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
       Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
-      Very little isoprene is seen away from the continents (4-5 orders of magnitude less), due to the short lifetime of isoprene, and a lack of sources over the oceans.
+      Very little isoprene is seen away from the continents (4-5 orders of magnitude less), due to its short lifetime and  lack of oceanic sources.
       Generally isoprene is 0-30\% higher over mid to western Australia when the UCX mechanism is turned on, however this increase is lower in the regions with high isoprene emissions (north-east to south-east coastline).
       This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_surf_fullday}.
       There is a greater effect in Africa and South America in the tropics, with high relative differences in many regions with low absolute amounts.
@@ -1003,7 +986,7 @@
       Decreased O$_3$ could lead to lower OH and the other differences between the runs over Australia.
       
       
-      % RERUN THIS PLOT
+      % TODO: RERUN THIS PLOT
       \begin{figure}
         % Figure from GC_tests.py -> ucx vs tropchem function
         \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_O3.png}
@@ -1221,10 +1204,12 @@
     where H(z) is the box height for level z.
     In effect this equation sums over the molecules per cm$^2$ in each altitude level.
     
-    As a sanity check I also recalculate $S_\sigma$ (through equation \ref{Model:AMF:eqn_ShapeFactorSigma})and confirm that these shape factors are equivalent by comparing the resulting AMFs created by equation \ref{Model:AMF:eqn_AMFintwSdsigma} and equation \ref{Model:AMF:eqn_AMF_intwSdz} for each pixel.
+    As a sanity check $S_\sigma$ is calculated (through equation \ref{Model:AMF:eqn_ShapeFactorSigma}) to confirm that these shape factors are equivalent.
+    Comparing the resulting AMFs created by equations \ref{Model:AMF:eqn_AMFintwSdsigma} and \ref{Model:AMF:eqn_AMF_intwSdz} for each pixel provides confidence in the unit conversions (and other factors) applied.
     %TODO: Shape factor plot sigma vs z
-    For example see figure TODO: sigma vs z shape factor plot.
-    TODO add plot and describe here.
+    For example see figure TODO: plot showing correlation between AMFz and AMFs - or state that these are exactly one to one if that is the case..
+    
+    %TODO add plot and describe here.
     
     
   \subsection{Reading satellite data}
@@ -1410,12 +1395,12 @@
     These calculations are compared over Australia in figure(s) \ref{Model:omiRecalc:diff:fig_vcc_comparison}, TODO: regression, and time series.
     Figure \ref{Model:omiRecalc:diff:fig_vcc_comparison} shows how the recalculated columns compare to the original (OMI, left). 
     Recalculation increases the January column amounts while also slightly flattening the distributions (row 3).
-    The effect of not recalculating the $\omega_z$ can also be seen in figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which looks at the altered satellite vertical columns using each method.
+    The effect of not recalculating the $\omega_z$ can also be seen in figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which shows the altered satellite vertical columns using each method.
     
     % Fire filtering affect split over recalculations
     Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows vertical columns of HCHO for: column 1) the original satellite swaths, column 2) recalculated without changing the provided scattering weights, and column 3) fully recalculated vertical columns. 
     Each grid square (at 0.25 by 0.3125\degr resolution) has been created by binning the recalculated satellite pixels within the month.
-    The average pixels per land square is inset as text, changing due to how the fire filter is applied.
+    The average number of pixels per land square is inset as text, changing due to how the fire filter is applied.
     Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
     This figure looks at March 2005 with biomass burning filtered differently in each row.
     Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
@@ -1437,8 +1422,8 @@
       Row 1-5: increasing number of prior days which have active fires are included when masking fire influence.
       }{\label{Model:omiRecalc:fig_VCC_pp_fires}}
     
-    TODO: Ask luke if this is true:
-    The AMF calculated using Dr. Palmer's code uses a more strict series of filters, leading to fewer satellite based HCHO columns and reduced coverage over Australia.
+    TODO: compare how many nans from palmers code to my code
+    The AMF calculated using Dr. Palmer's produces TODO: MORE OR FEWER reasonable (within screening range of -5$\times 10^{15}$ to 1$\times 10^{17}$) vertical column amounts.
     Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating $\omega_z$.
   
     Figure TODO: shows global and Australian HCHO averaged total column maps for January 2005, along with the reduced major axis (RMA) regression correlation and percentage difference.
@@ -1474,20 +1459,21 @@
   The anthropogenic filter completely removes grid squares over Sydney and Melbourne, and high removal rates over Brisbane. 
   Other major cities in Australia either do not emit enough NO$_2$ or are too spread out and do not breach the threshold to be filtered as anthropogenic.
   
-      \begin{table}
-        % This table can be generated by test_filters.summary_pixels_filtered()
-        \caption{How many satellite pixels are filtered by pyrogenic and anthropogenic masking. Left to right the columns display year, how many land pixels are read over Australia, how many of these pixels are removed by the pyrogenic filter, how many are removed by the anthropogenic filter, and how many are removed in total. In parenthesis are the portion of pixels filtered.}
-        \begin{tabular}{ c c c c c }
-          \textbf{Year} & \textbf{Pixels} & \textbf{Pyro} & \textbf{Anthro} & \textbf{Total} 
-          \\ \hline
-          2005   &  3.9e+06    &  4.1e+05(10.7\%)     &    5.0e+04( 1.3\%)    &    4.4e+05(11.5\%) \\
-          2006   &  3.8e+06    &  5.1e+05(13.5\%)     &    9.2e+04( 2.4\%)    &    5.6e+05(14.7\%) \\
-          2007   &  3.7e+06    &  4.4e+05(11.9\%)     &    7.5e+04( 2.0\%)    &    4.9e+05(13.0\%) \\
-          TODO &  &  &  \\
-          TODO &  &  &  \\
-        \end{tabular}
-        \label{Model:Filter:tab_summary_pixels_masked}
-      \end{table}
+  %TODO: Rerun the calculation after changing fire filter
+  \begin{table}
+    % This table can be generated by test_filters.summary_pixels_filtered()
+    \caption{How many satellite pixels are filtered by pyrogenic and anthropogenic masking. Left to right the columns display year, how many land pixels are read over Australia, how many of these pixels are removed by the pyrogenic filter, how many are removed by the anthropogenic filter, and how many are removed in total. In parenthesis are the portion of pixels filtered.}
+    \begin{tabular}{ c c c c c }
+      \textbf{Year} & \textbf{Pixels} & \textbf{Pyro} & \textbf{Anthro} & \textbf{Total} 
+      \\ \hline
+      2005   &  3.9e+06    &  4.1e+05(10.7\%)     &    5.0e+04( 1.3\%)    &    4.4e+05(11.5\%) \\
+      2006   &  3.8e+06    &  5.1e+05(13.5\%)     &    9.2e+04( 2.4\%)    &    5.6e+05(14.7\%) \\
+      2007   &  3.7e+06    &  4.4e+05(11.9\%)     &    7.5e+04( 2.0\%)    &    4.9e+05(13.0\%) \\
+      TODO &  &  &  \\
+      TODO &  &  &  \\
+    \end{tabular}
+    \label{Model:Filter:tab_summary_pixels_masked}
+  \end{table}
   
   \mypic{Figures/OMI_link/Filters/PixelsFiltered_20060101-20060131.png}{Top row shows grid squares filtered out by pyrogenic(left) and anthropogenic(right) influence masks during January 2006. Along the bottom is the time series of total pixels over Australian land squares with and without filtering the data.}{\label{Model:Filter:fig_pixel_loss_Jan06}}
   
