@@ -243,30 +243,48 @@
   \subsection{Calculating modelled slope}
     \label{BioIsop:Method:slope}
     
-    Initially studies assumed a simple linear steady-state relationship between HCHO and it's precursors \parencite{Palmer2003, Palmer2006, Millet2006}.
+    % determination of HCHO = S E_isop + HCHO_BG
+    Initially studies assumed a simple linear steady-state relationship between HCHO and its precursors \parencite{Palmer2003, Palmer2006, Millet2006}.
     This allowed a simple calculation of isoprene using the measured HCHO, with estimated reaction rates and yields.
     The methodology for calculating VOCs from HCHO is laid out in \textcite{Palmer2003}, and takes into account the expected lifetime and reaction rates of the precursor VOCs and HCHO.
-    Assuming HCHO is produced quickly from short-lived intermediates, and the column is at steady state:
+    Assuming HCHO is produced quickly from short-lived intermediates:
     \begin{eqnarray*}
       VOC_i \overset{k_i}{\rightarrow} Y_i HCHO
     \end{eqnarray*}
-    Where $Y_i$ is HCHO yield per C atom (a measure of how much HCHO will form per gram of C from a VOC within a system), and $k_i$ is the reaction rate.
+    Where $Y_i$ is HCHO yield per C atom (a measure of how much HCHO will form per gram of C from a VOC within the system), and $k_i$ is the reaction rate.
     Then assuming a steady state of atmospheric HCHO ($\Omega$; \moleccm) produced by oxidation of VOCs (VOC$_i$) and no horizontal transport:
     \begin{eqnarray*}
       \Omega = \frac{1}{k_{HCHO}} \sum_{i} Y_i E_i
     \end{eqnarray*}
-    Where i indexes a chemical species, $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the molar HCHO yield from oxidation of i, and $E_i$ is emission fluxes ( C atoms $cm^{-2}s^{-1}$).
+    Where $i$ indexes a chemical species, $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the molar HCHO yield from oxidation of $i$, and $E_i$ is emission fluxes ( C atoms $cm^{-2} s^{-1}$).
     We assume isoprene is the most important precursor and lump other terms into the background $\Omega_0$ so that our equation becomes 
     \begin{eqnarray} 
     \label{BioIsop:Method:slope:eqn_isop_to_hcho}
     \begin{split}
       \Omega_{HCHO} 
       &= \frac{Y_{isop}}{k_{HCHO}} \times E_{isop} + \Omega_0 \\
-      & = slope \times E_{isop} + \Omega_0
+      & = S \times E_{isop} + \Omega_0
     \end{split} \end{eqnarray}
     
+    The equations above come from several assumptions that are important to understand.
+    The first assumption is that HCHO ($H$) %and isoprene ($I$)?
+    is at steady state, which implies productions and losses are equivalent.
+    Then we assume that loss is only due to photolysis and oxidation (first order, $k_{HCHO} = 1/t$).
+    Production of HCHO is due to the sum of the precursor emissions ($E_i$) multiplied by their yields to HCHO ($Y_i$).
+    \begin{eqnarray*}
+      \frac{d [ H ] }{dt} & = 0 = Prod(HCHO) - Loss(HCHO) \\
+      Loss(HCHO)  & = k_{HCHO} [ H ] \\
+      Prod(HCHO)  & = \Sigma_i Y_i E_i  \\
+    \end{eqnarray*}
+    Now instead of concentrations we use total column amounts for HCHO, with emissions being in units of molecules cm$^{-2}$ s$^{-1}$.
+    And then lumping together non-isoprene precursors, and assuming that enhancements above the background are only due to isoprene emissions we have: 
+    \begin{eqnarray}
+    k_{HCHO} \Omega_{HCHO} & = Y_{isop} E_{isop} + \Sigma_{i \not isop} Y_{i} E_{i} \\
+    \Omega_{HCHO} & = S E_{isop} + \Omega_{0}
+    \end{eqnarray}
     
-    Estimates of $Y_i$ or $slope$ can be attained through modelling \parencite[e.g.][]{Millet2006}.
+    
+    Estimates of $Y_{isop}$ or $S$ can be attained through modelling \parencite[e.g.][]{Millet2006}.
     We look at each $2\times2.5$~\degr grid box from daily GEOS-Chem (biogenic only) output of $\Omega_{HCHO}$ and $E_{isop}$ within Australia, and calculate the (RMA) correlation for each month.
     Modelled background emissions can be ignored here as they do not affect the slope calculation.
     This effectively gives us monthly gridded isoprene to HCHO $slope$ in units of molecules HCHO $\times$ seconds $\times$ atom C$^{-1}$.
@@ -356,8 +374,6 @@
   \subsection{Accounting for smearing}
     \label{BioIsop:Method:Smearing}
     
-    
-    
     Accounting for transport of the precursors is important, especially in low NO$_X$ conditions in which isoprene has a longer lifetime (hours-days).
     When estimating emissions of isoprene using one of its products, it is often assumed that isoprene has a short lifetime.
     This is a problem in Australia where low NO$_X$ environments abound, as detected formaldehyde may not be directly above its emission source (as assumed in this top-down estimation technique).
@@ -377,9 +393,10 @@
     \subsubsection{Calculation of smearing}
     \label{BioIsop:Method:Smearing:calculation}
     
+    % slope and yields
     In order to understand the smearing calculation the underlying equations and assumptions must first be understood.
-    The calculation of smearing is closely tied to isoprene to HCHO yield and modelled regression slopes.
-    From equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho} we have modelled slope (S) being the yield of HCHO per C of emitted isoprene divided by HCHO loss rate per second ($S = \frac{Y_{isop}}{k_{HCHO}}$).
+    From section \ref{BioIsop:Method:slope}, equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho} we have the formulation of a modelled slope (S) being the yield of HCHO per C of emitted isoprene divided by HCHO loss rate per second ($S = \frac{Y_{isop}}{k_{HCHO}}$).
+    % smearing defined from two runs of geos chem
     Using two runs of GEOS-Chem with isoprene emissions being the only difference we have:
     \begin{eqnarray}
       \label{BioIsop:Method:Smearing:calculation:eqn_runs}
