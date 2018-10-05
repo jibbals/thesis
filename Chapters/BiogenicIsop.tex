@@ -451,8 +451,6 @@
     
     %TODO: Plots of S hat showing worst smearing affected areas per season.
     
-    %TODO: Figure scatter plot of $\hat{S}$ vs $\Omega_{NO_2}$) shows how smearing is related to NO$_X$ over Australia.
-    %TODO: Figure same but binned by nox columns at about 0.1e15 width, over a longer time)
     
     % TODO: figure out this paragraphs numbers, make plot
     When limiting smearing ($\hat{S}$) to the range of X to Y GEOS-Chem correlation between isoprene emissions and HCHO columns improves (TODO show by how much). 
@@ -486,9 +484,20 @@
       
       NO$_2$ measured by OMNO2d gives us a daily mid-day measurement which we can compare to output from GEOS-Chem to determine how well the model does at simulating NO$_2$ (presented back in section \ref{Model:Analysis:NOx}).
       %\textcite{Travis2016} show how NO$_X$ can be used to examine model bias in ozone (potentially due to NO$_2$ bias) over the USA.
-      The affect of NO$_2$ on smearing can be seen in figure TODO
-      This plot shows how smearing over Australia compares to satellite NO$_2$ levels, with smearing distributions binned by NO$_2$.
-    
+      The affect of NO$_2$ on smearing can be seen in figure \ref{BiogIsop:Method:smearing:fig_smearing_vs_nox}.
+      This plot shows how smearing over Australia compares to satellite NO$_2$ levels, with smearing distributions binned by NO$_2$ both with and without applying a filter for smearing.
+      One feature of the figure is that at lower NO$_2$ levels the smearing is often 2-4 orders of magnitude above a reasonable number. 
+      This abruptly decreases at around $5 \times 10^{14} $~molec cm$^{-2}$ NO$_2$.
+      There is also a higher number of too-low smearing amounts before that same NO$_2$ level, suggesting that transport is a bigger issue at NO$_2 < 5 \times 10^{14} $~molec cm$^{-2}$. 
+      
+      %% FIGURE SHOWS SMEARING BINNED BY NOX
+      % Figure made in test_filters.smearing_nox() 
+      \mypic{Figures/OMI_link/Filteres/smearing_nox.png}{%
+        Top left: OMNO2d tropospheric NO$_2$ columns (NO$_2$: molec/cm$^{-2}$) averaged into 2x2.5\degr horizontal bins for over Jan, 2005.
+        Right: Scatter plot of NO$_2$ against smearing calculations from GEOS-Chem ($\hat{S}$), with points above and below the smearing threshold range of X TO Y (TODO) coloured red and blue respectively. Points are binned by NO$_2$ with and without having the smearing filter applied (orange and magenta respectively). Overplotted is the mean and standard deviation (error bars) within each bin. Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
+        Bottom left: TODO fix this one. daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter.
+      }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}
+      
 \section{Results}
   \label{BioIsop:Results}
   
@@ -512,8 +521,8 @@
     
     %UP TO HERE
         
-    Conversions between HCHO per unit C yield and molar \% yield from species X given by the equation $ Y_{molar \%} = 100 \times C_X \times Y_{HCHO per unit C} $, where $C_X$ is how many Carbon are within species X (5 for isoprene, 10 for monoterpenes, etc...).
-    For instance a 200\% molar yield of HCHO from isoprene implies 1 Mole of C$_5$H$_8$ becomes 2 Mole HCHO which is a 0.4 HCHO per unit C yield.
+    Conversions between HCHO per unit C yield and molar \% yield from species X given by the equation $ Y_{molar \%} = 100 \times C_X \times Y_{HCHO per unit C} $, where $C_X$ is how many carbon are within species X (5 for isoprene, 10 for monoterpenes, etc...).
+    For instance a 200\% molar yield of HCHO from isoprene implies 1 mole of C$_5$H$_8$ becomes 2 mole HCHO which is a 0.4 HCHO per unit C yield.
     
     TODO: Fill out this table
     \begin{table} \begin{threeparttable}
@@ -551,7 +560,6 @@
       
       Yields table looking at literature provided yields of HCHO.
       % molar HCHO yield per unit carbon equal to HCHO molar percent yield(per carbon)? or some conversion?
-      % TODO: ask steve about ppbv ppbv^-1 ??
       
       \begin{table} \begin{threeparttable}
           \caption{ HCHO yields from various species, and lifetime against oxidation by OH. }
@@ -603,7 +611,7 @@
           \label{BioIsop:Method:tab_VOCLiteratureYields}
         \end{threeparttable} \end{table}
         
-        Looking at Australian emissions from running GEOS-Chem and using yields provided by XYZ (TODO other table), we see that Australia may be more or less likely to be affected by both NO$_X$ and pollution and high wind speeds TODO: this comparison sentence would be good to tie up tables and be copied to conclusions.  
+        Looking at Australian emissions from running GEOS-Chem and using yields provided by XYZ (TODO other table), we see that Australia may be more or less likely to be affected by both NO$_X$ and pollution and high wind speeds TODO: this comparison sentence would be good to tie up tables and be copied to conclusions.
         
   \subsection{Emissions comparisons}
     \label{BioIsop:Results:Emissions}
@@ -616,14 +624,14 @@
     TODO: table or figure showing summary of isoprene emissions changes over the whole of our time domain.
     
     Recently \textcite{Bauwens2016} estimated isoprene emissions with this technique using the IMAGESv2 global CTM.
-    They calculate emissions which create the closest match between model and satellite vertical columns, and compare these postiori data with the a priori (satellite data) and independent data sets.
+    They calculate emissions which create the closest match between model and satellite vertical columns, and compare these a postiori data with the a priori (satellite data) and independent data sets.
     They found TODO: what they found and how this analysis differs from my own.
-    (TODO: simple outline of what they did and how my focus is different, this paper will also need to be summarised in the LitReview)
+    (TODO: simple outline of what they did and how my focus is different)
     
-    Satellite measured HCHO has been found to be biased low in several studies \textcite[eg.][]{Zhu2016,DeSmedt2015,Barkley2013}.
+    Satellite measured HCHO has been found to be biased low in several studies \parencite[eg.][]{Zhu2016,DeSmedt2015,Barkley2013}.
     These papers use in-situ data to scale up the satellite HCHO columns for their areas of interest, however Australia lacks sufficient HCHO measurements to do this.
     Satellite bias is seen to be as high as 40\%, which we use as a simplistic method of quantifying satellite uncertainty.
-    By scaling up satellite HCHO by 40\% we increase our isoprene emissions estimates by the same, as our estimate is proportional to satellite HCHO.
+    By scaling satellite HCHO up by 40\% we increase our isoprene emissions estimates by the same, as our estimate is proportional to satellite HCHO.
     The 'Scaled' column refers to the calculations when using the 40\% scaled up OMI HCHO columns. %TODO: make table, add that column.
     
     Figure todo shows the emissions over Australia averaged within January 2005.
