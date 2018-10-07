@@ -346,7 +346,7 @@
   
   OMI uses a Differential Optical Absorption Spectroscopy (DOAS) based technique to read HCHO along the path of light which reaches the satellite instrument.
   The first step is to determine how much HCHO is in the path of light between the sun and detector.
-  Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT (see section \ref{Model:Meas:sat:LIDORT}) in order to determine a trace gas's radiative properties at various altitudes.
+  Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT (see section \ref{Model:Meas:sat:LIDORT}) in order to determine a trace gas' radiative properties at various altitudes.
   The forward RTM used for satellite data products also involve functions representing extinction from Mie and Rayleigh scattering, and the effect of these on spectra.
   These RTM are also required to account for (often estimated) atmospheric parameters such as albedo.
   The next step is to transform the calculated amounts along the non-vertical light path into vertical column amounts.
@@ -454,7 +454,7 @@
     % Optical depth through the atmosphere
     Another way of describing optical depth (also called optical thickness) is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material (from equation \ref{Model:omhcho:DOAS:eqn_backscatterextinction}).
     In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
-    The difference between solar radiation at the top of the atmosphere and the Earth's surface defines the atmospheric optical depth along the path of observation.
+    The difference between solar radiation at the top of the atmosphere and the earth's surface defines the atmospheric optical depth along the path of observation.
     \begin{equation*}
       \tau = \ln{\frac{\phi_e^i}{\phi_e^t}}
     \end{equation*}
@@ -474,7 +474,7 @@
     
     %how do we get an AMF?
     DOAS column retrievals are an integration of a trace gas over the instruments viewing path, in order to convert this total to a vertically distributed column a few assumptions and estimates are required. 
-    The vertical profile of a trace gas is assumed or estimated via a CTM, while its' scattering and radiative properties are calculated at prescribed altitudes using an RTM. 
+    The vertical profile of a trace gas is assumed or estimated via a CTM, while its scattering and radiative properties are calculated at prescribed altitudes using an RTM. 
     These properties are combined into a single array called the AMF.
     Two examples of this are GOME-2 (on the MetOp-A satellite) products (\url{http://atmos.caf.dlr.de/gome/product_hcho.html}), and OMI products which respectively use LIDORT combined with IMAGESv2 and GEOS-Chem for processing \parencite{Chance2002, Abad2015}.
     AMFs are unique to each trace gas and due to their complexity and the influence of cloud cover they remain one of the largest error sources in remote sensing of BVOCs \parencite{Palmer2001,Millet2006}).
@@ -509,7 +509,7 @@
     The finer nadir resolution of OMI (13 by 24~km${^2}$) compared to other satellites also reduces cloud influence \parencite{Millet2006, Millet2008}.
     The top row in figure \ref{Model:Meas:sat:fig_OMI_uncertainty} shows OMI HCHO columns binned to at 0.25\degr longitude by 0.3125\degr latitude averaged over one day and one month (with and without filtering).
     Row two shows uncertainty of the satellite data after averaging.
-    It's clear that one day of satellite data is too uncertain when binned at 0.25x0.3125\degr horizontal resolution, however after a month with or without filtering the uncertainties become manageable.
+    It is clear that one day of satellite data is too uncertain when binned at 0.25x0.3125\degr horizontal resolution, however after a month (with or without filtering) the uncertainties become manageable.
     If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
     High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[eg.][]{Zhu2014}.
     Uncertainty in satellite recalculations, along with other factors is analysed in section \ref{BioIsop:Uncertainty}.
@@ -839,7 +839,7 @@
         % Local time offsets
         When working with globally gridded data, handling local time offsets becomes more important.
         The hourly averaged output emissions of isoprene is saved using GMT, which needs to be offset based on longitude in order to retrieve local time.
-        This is done by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with it's local time offset.
+        This is done by setting up a latitude by longitude array which matches the horizontal resolution of the data, filling each gridbox with its local time offset.
         This offset is determined as one hour per 15\degr (as 360\degr is 24 hours), and then used to retrieve global data at any specific local time.
         The retrieval of a daily local time global array is done by index matching the GMT+LT (modulo 24) with the desired hour on this grid over the 24 GMT hours.
         % Emissions are averaged over the hour for hemco diag output in biogenic run at least
@@ -1362,7 +1362,7 @@
   
   \subsection{Binning the results daily}
     
-    Finally the pixels are binned into a gridded dataset I've called OMHCHORP, as shown in figure \ref{Model:omiRecalc:fig_flow_omhchorp}.
+    Finally the pixels are binned into a gridded dataset named OMHCHORP, as shown in figure \ref{Model:omiRecalc:fig_flow_omhchorp}.
     The resolution is chosen to match the native resolution of GEOS-Chem (0.25x0.3125\degr) and the GEOS met data fields.
     A bin entry count is used to allow easy rebinning, and can be used to check for sparse data days due to filtering or poor weather.
     Data averaged into this dataset are as follows:
@@ -1384,7 +1384,7 @@
     This whole process requires some processing time as well as RAM and computer storage space, and has been performed on the National Computing Infrastructure (NCI) supercomputer cluster.
     In order to reprocess one year of swath files, $\sim 162$~GB ($142 + 16 + 4$ OMHCHO, MOD14A1, and OMNO2d respectively) of daily data was downloaded and then transformed into $\sim 8$~GB (per year) of daily gridded data.
     This takes around 90 minutes per day, and is very parallelisable as each day is completely independent once the model has run in each required configuration.
-    Initially parallelism was built into the python code, however simply sending separate 'jobs' to NCI's process queue was simpler and more scalable.
+    Initially parallelism was built into the python code, however simply sending separate jobs to NCI's process queue was simpler and more scalable.
     As much as possible, processing is done using the HDF-5 or NetCDF-4 formats, with some GEOS-Chem output being read from bitpunch.
     The scripts to regrid and reprocess the swath data set are available from github at TODO.
   
@@ -1423,7 +1423,7 @@
       }{\label{Model:omiRecalc:fig_VCC_pp_fires}}
     
     TODO: compare how many nans from palmers code to my code
-    The AMF calculated using Dr. Palmer's produces TODO: MORE OR FEWER reasonable (within screening range of -5$\times 10^{15}$ to 1$\times 10^{17}$) vertical column amounts.
+    The AMF calculated using professor Palmer's produces TODO: MORE OR FEWER reasonable (within screening range of -5$\times 10^{15}$ to 1$\times 10^{17}$) vertical column amounts.
     Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating $\omega_z$.
   
     Figure TODO: shows global and Australian HCHO averaged total column maps for January 2005, along with the reduced major axis (RMA) regression correlation and percentage difference.
@@ -1493,7 +1493,7 @@
     \begin{enumerate}
       \item MOD14A1 daily gridded Aqua/Terra combined fire counts (1x1~km$^2$) are read, and binned into 0.25x0.3125\degr bins (matching the resolution of binned $\Omega$).
       \item A rolling mask is formed which removes $\Omega$ if one or more fires are detected in a grid square, or in the adjacent grid square, up to 2 days previously.
-      This includes the 'current' day, making 3 days of fires in total being filtered out on each day.
+      This includes the current day, making 3 days of fires in total being filtered out on each day.
       \item AAOD at 500~nm is mapped from OMAERUVd (1x1\degr resolution) onto the 0.25x0.3125\degr resolution.
       \item An AAOD threshold of 0.03 is determined through visual analysis of AAOD distributions over several days, including days with and without influence from active fires, dust, and transported smoke plumes (see figure \ref{Model:Filter:fire:fig_typicalAAOD}).
       \item Grid squares with AAOD over this threshhold are considered potentially affected by transported fire smoke.
@@ -1502,7 +1502,7 @@
     % Smoke AAOD filtering:
     Determining the AAOD due to smoke can be difficult since both smoke and dust absorb UV radiation \parencite{Ahn2008,Marais2012}.
     AAOD is less sensitive to cloud contamination than AOD, and I use AAOD from the daily gridded level 3 satellite product OMAERUVd \parencite{Ahn2008} described in section \ref{Model:Datasets:OMAERUVd} to provide a filter for smoke plumes.
-    Although removing gridsquares with dust reduces how much data is available to analyse, it's considered a minor problem as dust in Australia is highly episodic and should not affect more than a few days per year, especially over regions with high tree coverage \parencite{Shao2007}.
+    Although removing gridsquares with dust reduces how much data is available to analyse, dust in Australia is highly episodic and should not affect more than a few days per year, especially over regions with high tree coverage \parencite{Shao2007}.
     
     % Threshold for AAOD determination
     Filtering fire smoke using AAOD is done by removing OMHCHO gridsquares where the AAOD is above a 0.03, after the AAOD is mapped from 1x1\degr to the same 0.25x0.3125\degr resolution as our OMHCHO gridded product.
@@ -1528,7 +1528,7 @@
     %Even though transported smoke plumes from South America and southern Africa would influence the measurements in the area.
     The other potential cause of pyrogenic filtering is the proliferation of petrol or gas wells (see figure \ref{Model:Filter:fire:fig_petrol_wells} and figure \ref{Model:Filter:fire:fig_gas_lands}).
     The filtering shown here is for 2005, when 388 gas wells existed in Queensland, however more than 2000 wells (cumulative) were approved by 2013, so this may cause more filtering over the course of this thesis' timeline \parencite{Carlisle2012}.
-    To check this the filtering portion for 2012 is also plotted in Figure TODO: plot map of filtered squares for 2012 when it's been run by NCI.
+    To check this the filtering portion for 2012 is also plotted in Figure TODO: plot map of filtered squares for 2012 when it has been run by NCI.
     One clear hotspot is located over port Kembla (south of Sydney), most likely due to the flame which burns over the blast furnace stack throughout the year.
     Another hotspot can be seen in Western Australia over Kalgoorlie, where a large open cut gold mine ``super pit'' is always open and blasting daily.
     In Western Queensland over Mount Isa there is again a mining related hotspot.
@@ -1552,7 +1552,7 @@
       A reduced major axis regression is used to determine the correlation between surface temperature (X axis) and HCHO (Y axis).
       Using the natural log of HCHO we can take the linear regression and then exponentiate each side in the equation $\ln{Y} = m{X}+b$ to get ${Y} = \exp{m{X}+b}$. 
       This gives us the exponential fit as shown, with the correlation coefficient between $\ln{HCHO}$ and temperature.
-      The distributions of exponential correlation coefficients and 'm' terms is shown in the embedded plot, with one datapoint available for each grid square where the regression is performed.
+      The distributions of exponential correlation coefficients and $m$ terms is shown in the embedded plot, with one datapoint available for each grid square where the regression is performed.
       
       Figures \ref{Model:Filter:fire:fig_HCHO_vs_GC_temperature} and \ref{Model:Filter:fire:fig_HCHO_vs_CPC} show the regressions between OMI HCHO total columns and temperature from GEOS-Chem output and CPC daily maximum temperatures respectively.
       Comparing against GEOS-Chem modelled surface temperatures first requires deresolution from 0.25x0.3125 to 2x2.5\degr latitude by longitude resolution.
