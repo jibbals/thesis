@@ -54,7 +54,7 @@
     Here we introduce how uncertain isoprene emissions are over Australia, and discuss literature which shows how the estimates may be too high.
     We also describe how emissions may be calculated using satellite datasets.
     Additionally we outline why current isoprene emissions estimates are inadequate and how they can be improved.
-    Section \ref{BioIsop:Methods} lays out how new isoprene emissions are estimated, and results are examined in Section \ref{BioIsop:Results}. 
+    Section \ref{BioIsop:Method} lays out how new isoprene emissions are estimated, and results are examined in Section \ref{BioIsop:Results}. 
     In section \ref{BioIsop:Affects} we examine how these changes in emissions would affect ozone concentrations in Australia, along with some other chemical processes.
     Uncertainties for each step along the way are quantified in section \ref{BioIsop:Uncertainty}.
   
@@ -171,7 +171,7 @@
       An advantage of the Bayesian method is that it can account for pyrogenic and anthropogenic emissions rather than filtering them out.
   
 \section{Methods}
-  \label{BioIsop:Methods}
+  \label{BioIsop:Method}
   
   \subsection{Outline}
     % Method Briefly outlined here
@@ -278,10 +278,10 @@
     \end{eqnarray*}
     Now instead of concentrations we use total column amounts for HCHO, with emissions being in units of molecules cm$^{-2}$ s$^{-1}$.
     And then lumping together non-isoprene precursors, and assuming that enhancements above the background are only due to isoprene emissions we have: 
-    \begin{eqnarray}
-    k_{HCHO} \Omega_{HCHO} & = Y_{isop} E_{isop} + \Sigma_{i \not isop} Y_{i} E_{i} \\
+    \begin{eqnarray*}
+    k_{HCHO} \Omega_{HCHO} & = Y_{isop} E_{isop} + \Sigma_{i \not isop} Y_{i} VOC_{i} \\
     \Omega_{HCHO} & = S E_{isop} + \Omega_{0}
-    \end{eqnarray}
+    \end{eqnarray*}
     
     
     Estimates of $Y_{isop}$ or $S$ can be attained through modelling \parencite[e.g.][]{Millet2006}.
@@ -291,37 +291,37 @@
     Figure \ref{BioIsop:Method:slope:fig_regressions} (top left) shows the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid square over January 2005, averaged between 1300-1400~LT each day.
     Also shown are the regression coefficients (bottom left), Australia averaged time series (top right), and a sample of the regressions (bottom right).
     Each regression is for a single grid box, over the course of one month, and is coloured by location (matching dots shown in the bottom left panel).
+    The slopes shown in the bottom right panel can range widely due to differences in emission and yield parameters, which plays a role in the smearing filters applied in section \ref{BioIsop:Method:Smearing}.
+    Due to the low horizontal resolution of GEOS-Chem (2 by 2.5\degr, latitude by longitude), calculations from grid boxes on the coast which are largely oceanic need to be discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
     
     \mypic{Figures/OMI_link/GC/E_isop_vs_hcho_200501.png}
     { % Caption
-      Top left panel: the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid box over January 2005.
-      Bottom left panel: the square of the regression coefficients.
-      Top right panel: Australia averaged time series 
-      Bottom right panel: a sample of the regressions coloured by latitude and longitude pairs, matching dots in the bottom left panel.
+      Top left: the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid box over January 2005.
+      Bottom left: the square of the regression coefficients.
+      Top right: Australia averaged time series 
+      Bottom right: a sample of the regressions coloured by latitude and longitude pairs, matching dots in the bottom left panel.
     }
     {\label{BioIsop:Method:slope:fig_regressions}}
     
-    Figure \ref{BioIsop:Calculation:fig_E_isop_vs_hcho_model_sample} shows the modelled isoprene emissions and column HCHO concentrations along with the RMA regression line, sampled from grid boxes over Australia for January 2005.
-    Some affects from the low emissions in grid boxes which are largely oceanic can be seen and are handled by smearing filters applied in section \ref{BioIsop:Method:Smearing}.
-    Due to the low horizontal resolution of GEOS-Chem (2 by 2.5\degr, latitude by longitude), calculations from grid boxes on the coast which are largely oceanic need to be discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
-    %A nested version of GEOS-Chem would allow better analysis of coastal regions, at 0.25 by 0.3125$^{\circ}$ resolution, however this may require more explicit handling of smearing.
-    \begin{figure}
-      % Figure from GC_tests.py -> isop_hcho_RMA
-      \includegraphics[width=\textwidth]{Figures/Isoprene/E_isop_vs_hcho_series_200501.png}
-      \caption{%
-        Top panel: isoprene emissions for January, 2005, shown in red, co-plotted with tropospheric hcho columns, shown in magenta.
-        Both series are daily averages over Australia.
-        Bottom panel: (RMA) linear regressions from between emissions of isoprene and tropospheric hcho columns, sampled randomly from the 2$^{\circ}$ by 2.5$^{\circ}$ latitude longitude gridboxes over Australia for the month of January (2005).
-      }
-      \label{BioIsop:Calculation:fig_E_isop_vs_hcho_model_sample}
-    \end{figure}
+    
+    %%A nested version of GEOS-Chem would allow better analysis of coastal regions, at 0.25 by 0.3125$^{\circ}$ resolution, however this may require more explicit handling of smearing.
+    %\begin{figure}
+    %  % Figure from GC_tests.py -> isop_hcho_RMA
+    %  \includegraphics[width=\textwidth]{Figures/Isoprene/E_isop_vs_hcho_series_200501.png}
+    %  \caption{%
+    %    Top panel: isoprene emissions for January, 2005, shown in red, co-plotted with tropospheric hcho columns, shown in magenta.
+    %    Both series are daily averages over Australia.
+    %    Bottom panel: (RMA) linear regressions from between emissions of isoprene and tropospheric hcho columns, sampled randomly from the 2$^{\circ}$ by 2.5$^{\circ}$ latitude longitude gridboxes over Australia for the month of January (2005).
+    %  }
+    %  \label{BioIsop:Calculation:fig_E_isop_vs_hcho_model_sample}
+    %\end{figure}
     
     %% BACKGROUND calculation(s)
     There are a couple of ways to determine the modelled background HCHO concentration, one of which involves running the model with isoprene emissions turned off, which allows us to see exactly how much the modelled isoprene emissions alter each vertical column of HCHO.
     This is effective since we have assumed variation in HCHO columns only depends on isoprene emissions, so our background term is theoretically identical to the emission free simulated HCHO.
     The other way involves looking at HCHO over the remote pacific at matching latitudes and times, which emulates how the background is determined for the measured HCHO.
     Figure \ref{BioIsop:Method:fig_background_hcho} shows how GEOS-Chem total column HCHO with and without isoprene emissions along with amounts over the remote pacific at the same latitudes.
-    Modelled background HCHO concentrations are used for comparison with other datasets, along with creating the reference sector correction for satellite measurements.
+    Modelled background HCHO concentrations over the ocean are used when creating the reference sector correction for satellite measurements (in section \ref{Model:omiRecalc:RSC}).
     
     
     \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{Total column HCHO over Australia (left) and the remote pacific region (right) using GEOS-Chem with (top) and without (bottom) isoprene emissions. }{\label{BioIsop:Method:fig_background_hcho}}
@@ -492,7 +492,7 @@
       
       %% FIGURE SHOWS SMEARING BINNED BY NOX
       % Figure made in test_filters.smearing_nox() 
-      \mypic{Figures/OMI_link/Filteres/smearing_nox.png}{%
+      \mypic{Figures/OMI_link/Filters/smearing_nox.png}{%
         Top left: OMNO2d tropospheric NO$_2$ columns (NO$_2$: molec/cm$^{-2}$) averaged into 2x2.5\degr horizontal bins for over Jan, 2005.
         Right: Scatter plot of NO$_2$ against smearing calculations from GEOS-Chem ($\hat{S}$), with points above and below the smearing threshold range of X TO Y (TODO) coloured red and blue respectively. Points are binned by NO$_2$ with and without having the smearing filter applied (orange and magenta respectively). Overplotted is the mean and standard deviation (error bars) within each bin. Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
         Bottom left: TODO fix this one. daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter.
@@ -766,7 +766,7 @@
     
     %Look at emissions estimates with and without the fire filter applied
     Figure \ref{BioIsop:Uncertainty:Fire:fig_emiss_without_fire_filter} shows emissions estimates for January 2005, using three different HCHO columns as the basis: the original OMI satellite HCHO columns ($\Omega$), those with AMF recalculated using a new a priori ($\Omega_{GC}$), and those with AMFs recalculated using PP code ($\Omega_{PP}$).
-    The first row shows emissions estimates calculated as shown in \ref{BioIsop:Methods}, while the second row runs the same calculations without applying any fire or smoke filter.
+    The first row shows emissions estimates calculated as shown in \ref{BioIsop:Method}, while the second row runs the same calculations without applying any fire or smoke filter.
     The Third row is the absolute difference between them: fire filtered minus standard emissions.
     
     \mypic{Figures/OMI_link/Emiss/FireFilter200501.png}
