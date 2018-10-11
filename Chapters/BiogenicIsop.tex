@@ -418,9 +418,17 @@
       & \hat{S} \equiv \frac{\Delta{\Omega_{HCHO}}}{\Delta E_{isop}} \approx \frac{Y_{isop}}{k_{HCHO}}
     \end{eqnarray}
     And using the output from our two runs we can see if the calculated $\hat{S}$ is wildly different from expected values for S.
-    The modelled slope multiplied by the column HCHO loss rate ($k_{HCHO}$) should approximate the HCHO yield from isoprene \parencite{Palmer2003, Barkley2013}.
+    The modelled slope multiplied by the column HCHO loss rate ($k_{HCHO} = 1/\tau$) should approximate the HCHO yield from isoprene \parencite{Palmer2003, Barkley2013}.
+    
     %TODO: find lifetime and yields from GEOS-Chem
-    Using the mean HCHO lifetime of Z hours applied against $\Delta S$ from 1000 to 4000 corresponds to yields in the range of X to Y HCHO per C
+    Using the mean HCHO lifetime of Z hours applied against $\Delta S$ from 1000 to 4000 corresponds to yields in the range of X to Y HCHO per C.
+    The expected lifetime ($\tau$) of HCHO is determined by assuming loss is linear (first order) and dividing grid box daily averaged concentrations of GEOS-Chem HCHO ($[HCHO]$ in molecules cm$^{-3}$) by their modelled losses ($L$ in molecules cm$^{-3}$ s${-1}$).
+    This is from the equation relating the lifetime to mass and loss rates: 
+    \begin{equation*}
+      \tau    = [HCHO] / L
+    \end{equation*}
+    For each grid square over Australia the lifetime over the year is shown in figure TODO, one colour for each gridbox is shown over time.
+    
     
     If $\hat{S}$ is large, then you can infer sensitivity to non-local isoprene emissions.
     A relatively large change in $\Omega_{HCHO}$ (compared to local emissions) suggests that HCHO is being formed from non-local isoprene emissions.
@@ -512,6 +520,13 @@
     \textcite{Wolfe2016} define prompt yield as the change in formaldehyde measurement per unit change in initial isoprene emissions.
     Averaged area yields can be derived from the $slope$ using the modelled loss rates $k_{hcho}$ since $slope = \frac{Y_{isop}}{k_{HCHO}}$ from equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
     Table \ref{BioIsop:Method:tab_VOCAusYields} shows the average yield calculated for Australia. (TODO: this table and some notes).
+    
+    The half-life of HCHO to photo-oxidation with hydroxyl radicals is around 1~hr depending on environmental conditions \parencite{WHO_hcho_guidelines_2010}.
+    This would make the expected lifetime ($\tau = \text{half-life}/\ln{2}$) around 1.4 hours.
+    The estimated loss rate of HCHO in GEOS-Chem approximately ranges from 1e6 to 3e6 mol cm$^{-3}$ s${-1}$, with higher values in summer and along the north and eastern regions also associated with denser forest regions.
+    Over the majority of Australia conditions are relatively clean (low NO$_X$ levels) which extends the expected lifetime up to around TODO: convert this  1e6 mol/cm3/s.
+    Assuming a lifetime of 2.5~hours for HCHO over Australia allows a simple estimation of isoprene to HCHO yield, which is how the yields are calculated in table TODO.
+    
     
     Emissions and yields for various species including some terpenes can be seen in table \ref{BioIsop:Method:tab_VOCAusYields}.
     \textcite{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
