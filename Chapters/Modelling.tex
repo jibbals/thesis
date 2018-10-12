@@ -9,25 +9,23 @@
   % Models
   
   In this thesis the word model is most often used to represent a chemical transport model (CTM), which simulates chemistry and chemical transport through the atmosphere.
-  Models of the atmosphere can be used to interpret measurements, estimate concentrations in regions not sampled, and allow predictions of atmospheric composition in the future.
+  Models of the atmosphere can be used to interpret measurements, estimate chemical concentrations at any scale, and predict atmospheric composition in the future.
   In remote sensing measurements, modelling is required in order to produce useful outputs.
-  Models of ozone in the atmosphere are used broadly for international assessments of ozone related emissions and processes which involve ozone (such as radiation) \parencite{Young2018}.
+  Models of ozone in the atmosphere are used broadly for international assessments of ozone precursor emissions, and estimating effects from related processes (such as radiation) \parencite{Young2018}.
   %\textcite{Young2018} summarise current global ozone modelling standards and the metrics and processes used to evaluate these models.
   Models provide an estimate of many trace gas concentrations, however verification is required, and generally performed using results from measurement campaigns.
-  In situ measurements from campaigns or measurement stations can be used to examine what is happening at a particular (or several) location(s).
-  These data are useful to determine how accurate models or estimates are - however the utility is limited to where and when the measurements have been made.
+  In situ measurements from campaigns or measurement stations can be used to examine what is happening at a particular location.
+  These data are used to determine how accurate models or estimates are - however the utility is limited to where and when the measurements took place.
   In this thesis data from several campaigns are compared against model outputs and satellite datasets.
-  
   %Satellite usage and reduction of uncertainty
   Satellite datasets provide large amounts of data over most of the planet.
-  However, satellite measurements can have high uncertainty due to instrument limitations.
+  However, they can have high uncertainty due to instrument limitations.
   Many datapoints can be averaged in order to reduce uncertainty.
   In this chapter several satellite datasets are combined to estimate biogenic HCHO amounts over Australia.
-  Modelled data are compared against both campaign measurements and satellite data.
-  The first goal of these comparisons are to analyse Australia-specific HCHO and isoprene sensitivities and to determine where the GEOS-Chem model needs the most improvement.
+  
+  The first goal is to analyse Australia-specific HCHO concentrations measured by satellite, and determine isoprene sensitivity and any model bias.
   This leads into chapter \ref{BioIsop} where biogenic HCHO columns are used to estimate isoprene emissions.
   The second goal is to quantify ozone transported from the stratosphere down into the troposphere (Chapter \ref{Ozone}).
-  
   The focus in this chapter is to describe and analyse model outputs and measurements along with how they are recalculated and compared.
   Section \ref{Model:Datasets} details satellite and campaign datasets, and additionally describes model outputs.
   Measurement techniques used to retrieve the most utilised satellite dataset are outlined in Section \ref{Model:omhcho}.
@@ -38,19 +36,7 @@
   The effects of these recalculations on satellite HCHO is also examined.
   The creation and effects of filters used to remove non-biogenic influences are described in section \ref{Model:Filter}.
   
-  Uncertainty (or error) is present in each datasets and where possible the causes are explained.
-  There are two types of error: systematic and random.
-  Arguably the worst of these is systematic error (or bias).
-  Bias normally indicates a problem in calculation or instrumentation.
-  If the systematic error is known, it can be corrected for by either offsetting data in the opposite direction, or else fixing the cause.
-  A proper fix can only be performed if the sources of error are known and there is a way of correcting or bypassing it.
-  Random error is often reported as some function of a datasets variance, or uncertainty.
-  It can be reduced through averaging either spatially or temporally. 
-  Temporal and/or spatial averaging decreases uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
   
-  
-% UP TO HERE JENNY COMMENTS
-% NEED TO STRUCTURALLY FIX 2.2 up to 2.3, 
 % put OMHCHO relevant stuff all into 2.3
 % ADD MORE DESCRIPTIVE PICTURES TO SATELLITE DESCRIPTIONS
 
@@ -69,6 +55,17 @@
   I will also give details on filtering and interpolations which are undertaken when reading data, as each dataset has its own resolution.
   While I have not made any measurements myself, it is important to understand the techniques used in datasets I have utilised in order to understand possible anomalous datapoints or trends.
   
+  
+  Uncertainty (or error) is present in each dataset and where possible the causes are explained.
+  There are two types of error: systematic and random.
+  Arguably the worst of these is systematic error (or bias).
+  Bias normally indicates a problem in calculation or instrumentation.
+  If the systematic error is known, it can be corrected for by either offsetting data in the opposite direction, or else fixing the cause.
+  A proper fix can only be performed if the sources of error are known and there is a way of correcting or bypassing it.
+  Random error is often reported as some function of a datasets variance, or uncertainty.
+  It can be reduced through averaging either spatially or temporally. 
+  Temporal and/or spatial averaging decreases uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
+  
   \subsection{Satellite}
   \label{Model:Datasets:satellite}
     % Satellite data product levels
@@ -86,17 +83,17 @@
     
     Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium.
     Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the scattered light.
-    Mie scattering is more generally involves larger particles, and has less wavelength dependence.
+    Mie scattering more generally involves larger particles, and has less wavelength dependence.
     The effects of scattering are what gives us the information about substances in the atmosphere.
-    The different particles and gases in the air have various properties which affect remote sensing devices such as a satellite, making them more or less sensitive at certain altitudes for detecting various species \parencite[e.g.][]{Martin2002}.
+    The different particles and gases in the air have measurable properties seen by remote sensing devices such as a satellite. Although instruments will be more or less sensitive to various properties depending on altitude, radiation, and other parameters \parencite[e.g.][]{Martin2002}.
     
     Difficulties can arise when aerosols interfere with recorded spectra (eg. clouds, smoke, dust), however some of these can be detected and filtered out.
     Instruments including MODIS on board the Aqua and Terra satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
-    An AOD of under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
+    An AOD under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
     This is important in order to determine where measurements from other instruments may be compromised by high interference.
     Satellite measured AOD requires validation by more accurate ground based instruments like those of AERONET which uses more than 200 sun photometers scattered globally.
     
-    Soon even more satellite data will be available in the form of geostationary satellite measurements \parencite{Kwon2017}.
+    Soon much more satellite data will be available in the form of geostationary satellite measurements \parencite{Kwon2017}.
     %\textcite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.
     Geostationary satellites can provide temporally rich measurements over an area, as they are not sweeping around the earth but fixed relative to one latitude and longitude.
     
@@ -135,7 +132,7 @@
       A data product provided by Earthdata (\url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}) called OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) is used in this thesis. 
       
       
-      OMAERUVd provides a useful dataset which allows detect areas which may be smoke affected.
+      OMAERUVd provides a useful dataset which allows detection of areas which may be smoke affected.
       The product contains AOD and aerosol absorption optical depths (AAOD) at three wavelengths (354, 388, and 500~nm), along with UV aerosol index (UVAI).
       The OMAERUVd product is level three gridded daily data, based on quality filtered level two swath pixels which are then gridded by averaging.
       The product is most sensitive to error in the form of sub-pixel scale cloud interference, so I select AAOD as the basis for my smoke filter as it is least affected by clouds \parencite{Ahn2008}.
@@ -165,10 +162,10 @@
       
       %Satellite Errors
       While satellite data is effective at covering huge areas (the entire earth) it only exists at a particular time of day, is subject to cloud cover, and generally does not have fine horizontal or vertical resolution.
-      Concentrations retrieved by satellites have large uncertainties, which arise in the process of transforming spectra to total column measurements, as well as instrument degradation (satellite instruments are hard to tinker with once they are launched).
+      Concentrations retrieved by satellites have large uncertainties, which arise in the process of transforming spectra into total column measurements, as well as instrument degradation (satellite instruments are hard to tinker with once they are launched).
       Uncertainty in transforming satellite spectra comes from a range of things, including measurement difficulties introduced by clouds, and instrument sensitivity to particular aerosols \parencite{Millet2006}.
       Many products require analysis of cloud and aerosol properties in order to estimate concentration or total column amounts \parencite{Palmer2001,Palmer2003, Marais2012, Vasilkov2017}.
-      The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and the vertical multiplication factor \parencite{Millet2006}.
+      The main source of error in satellite retrievals of HCHO are due to instrument detection sensitivities, and calculation of the air mass factor (AMF) which converts slanted light path concentrations into a vertical profile \parencite{Millet2006}.
       % amf agreements between groups, but sensitive to a priori
       Calculations of the AMF performed by different groups tend to agree fairly well, as long as all the a priori and ancillary data is similar.
       Large differences can occur depending on the a priori vertical profile, trace gas concentrations, and cloud properties \parencite{Lorente2017}.
@@ -190,8 +187,9 @@
     
     \subsubsection{CTM output}
       
-      GEOS-Chem model output is used extensively in this thesis and is discussed in more detail in section \ref{Model:GC:simulation:outputs}.
-      These output are resolved to 47 vertical levels from the ground up to 0.01~hPa, at 2x2.5\degr horizontal resolution.
+      GEOS-Chem model output is used extensively in this thesis and is discussed in more detail in section \ref{Model:GC}.
+      Section \ref{Model:GC:simulation:outputs} specifically describes the model outputs used in this thesis.
+      These are generally resolved to 47 vertical levels from the ground up to 0.01~hPa, at 2x2.5\degr horizontal resolution.
     
     \subsubsection{Meteorological reanalysis}
       \label{Model:Datasets:ERAI}
@@ -220,8 +218,7 @@
     
     TODO: these summaries.
     
-    \subsubsection{Daintree}
-    Daintree summary (P. Nelson)
+
     
     \subsubsection{Measurements of Urban, Marine and Biogenic Air (MUMBA)}
     \label{Model:Datasets:MUMBA}
@@ -247,7 +244,8 @@
       \label{Model:Datasets:MUMBA:tab_detectionlimits}
     \end{table}
     
-    In this thesis we assume uncertainty in this product is as estimated (15\%).
+    In this thesis we assume uncertainty in this product is as estimated by TODO at (50\%).
+    Although the uncertainty determined through calibration measurements was only 15\% \parencite{Guerette2018}, this does not account for competing trace gas interference (such as furan).
     The readings are resampled to hourly averages.
     Measurements below the detection limit are set to half of the detection limit when reading this dataset.
     
@@ -342,7 +340,7 @@
   % How omi gets its AMF
   The latest OMHCHO algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \parencite{Abad2015}.
   The GEOS-Chem model has been substantially updated since then
-  In this thesis the more recent version $V10.01$ is used to recalculate the AMF (details are shown in section \ref{Model:omiRecalc}).
+  In this thesis the more recent version $V10.01$ is used to recalculate the vertical column HCHO (details are shown in section \ref{Model:omiRecalc}).
   
   OMI uses a Differential Optical Absorption Spectroscopy (DOAS) based technique to read HCHO along the path of light which reaches the satellite instrument.
   The first step is to determine how much HCHO is in the path of light between the sun and detector.
@@ -350,7 +348,7 @@
   The forward RTM used for satellite data products also involve functions representing extinction from Mie and Rayleigh scattering, and the effect of these on spectra.
   These RTM are also required to account for (often estimated) atmospheric parameters such as albedo.
   The next step is to transform the calculated amounts along the non-vertical light path into vertical column amounts.
-  This is done by applying an air mass factor (AMF).
+  This is done by applying an AMF.
   In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
   The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
   However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see section \ref{Model:omhcho:DOAS}) must be accounted for.
