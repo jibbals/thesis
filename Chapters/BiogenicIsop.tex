@@ -403,13 +403,14 @@
       Run_1 :&  \Omega_{HCHO} = S E_{isop} + \Omega_0 \\
       Run_2 :&  \Omega_{HCHO}' = S' E_{isop}' + \Omega_0' 
     \end{eqnarray}
-    There are several assumptions which need to be understood, as these are what is actually tested by the smearing calculation.
-    The initial assumption is that the system is in a steady state, with no transport of isoprene affecting HCHO columns, this is the basis for the equations in \ref{BioIsop:Method:Smearing:calculation:eqn_runs}.
+    There are several assumptions which need to be understood, as these are what is tested by the smearing calculation.
+    The initial assumption is that the system is in a steady state, with no transport of isoprene affecting HCHO columns, this is the basis for equations \ref{BioIsop:Method:Smearing:calculation:eqn_runs}.
     It is assumed that background values ($\Omega_0$) are from oxidation of methane and other long lived VOCs, so that $\Omega_0 = \Omega_0'$.
     Between these two runs we are only changing the $E$ term, we do not change any chemistry and so we can expect that the yield and loss rate is not changing between the two runs:
-    \begin{equation*}
-      S = S' = \frac{Y_{isop}}{k_{HCHO}}
-    \end{equation*}
+    \begin{eqnarray*}
+      S = S' & = \frac{Y_{isop}}{k_{HCHO}} \\
+      \Omega_0 & = \Omega_0'
+    \end{eqnarray*}
     which leads to us being able to combine the runs in equation \ref{BioIsop:Method:Smearing:calculation:eqn_runs} as follows:
     \begin{eqnarray}
       \label{BioIsop:Method:Smearing:calculation:eqn_hats}
@@ -421,15 +422,23 @@
     The modelled slope multiplied by the column HCHO loss rate ($k_{HCHO} = 1/\tau$) should approximate the HCHO yield from isoprene \parencite{Palmer2003, Barkley2013}.
     
     %TODO: find lifetime and yields from GEOS-Chem
-    Using the mean HCHO lifetime of $\sim 2.5$ hours applied against $\Delta S$ from 1000 to 4000 corresponds to yields in the range of X to Y HCHO per C.
-    The expected lifetime ($\tau$) of HCHO is determined by assuming loss is linear (first order) and dividing grid box daily averaged concentrations of GEOS-Chem HCHO ($[HCHO]$ in molecules cm$^{-3}$) by their modelled losses ($L$ in molecules cm$^{-3}$ s${-1}$).
-    This is from the equation relating the lifetime to mass and loss rates: 
-    \begin{equation*}
-      \tau    = [HCHO] / L
-    \end{equation*}
-    For each grid square over Australia the lifetime over the year is shown in figure TODO, one colour for each gridbox is shown over time.
-    Since this is based on the daily average HCHO loss, the daytime lifetime of HCHO is approximately halved ranging from $\sim 1.5$-$4$~hrs in Summer and X to Y in winter.
+    Using the mean HCHO lifetime of $\sim 2.5$ hours applied against $\hat{S}$ from 1000 to 4000 corresponds to yields in the range of $1/9$ to $4/9$~molecules HCHO per C.
+    A better approximation of lifetimes for HCHO is required to properly account for seasonality and regional NO$_X$ concentrations.
     
+    Using GEOS-Chem to approximate the daily average lifetime of HCHO has been performed, with results for 2005 shown in figure \ref{BioIsop:Method:Smearing:fig_tau_GC_2005}.
+    This lifetime is calculated using daily averaged surface loss rates and concentrations of HCHO:
+    \begin{equation*}
+      \tau = \frac{[HCHO]}{L}
+    \end{equation*}
+    The expected lifetime ($\tau$) of HCHO is determined by assuming loss is linear (first order) and dividing grid box daily averaged concentrations of GEOS-Chem HCHO ($[HCHO]$ in molecules cm$^{-3}$) by their modelled losses ($L$ in molecules cm$^{-3}$ s${-1}$).
+    For each grid square over Australia this daily averaged surface lifetime in summer (Jan., Feb.) and winter (JJA) is shown in figure \ref{BioIsop:Method:Smearing:fig_tau_GC_2005}.
+    Additionally lifetimes coloured by land grid squares (dots in top right panel) are shown over time in the bottom panel.
+    The problem with this approximation is that we are not interested in daily averaged lifetime, but the midday (13:00-14:00~LT) lifetime.
+    This figure does highlight the seasonal nature of HCHO loss rates, although midday numbers are less extreme (todo: rough numbers from caaba mecca).
+    
+    \mypic{/Figures/OMI_link/Filters/tau_2005.png}{%
+      Top left, right: Summer (Jan., Feb.) and winter (JJA) averaged daily surface HCHO lifetime ($\tau$). Bottom panel: $\tau$ over the year, coloured by grid square (see dots in top right panel).
+      }{\label{BioIsop:Method:Smearing:fig_tau_GC_2005}}
     
     If $\hat{S}$ is large, then you can infer sensitivity to non-local isoprene emissions.
     A relatively large change in $\Omega_{HCHO}$ (compared to local emissions) suggests that HCHO is being formed from non-local isoprene emissions.

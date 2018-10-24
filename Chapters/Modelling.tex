@@ -101,14 +101,14 @@
       
       OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
       OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section \ref{Model:omhcho}.
-      Calculation of column density and AMF are also discussed (section \ref{Model:omhcho:DOAS}, \ref{Model:omhcho:amf}).
+      Calculation of column density and AMF are discussed respectively in sections \ref{Model:omhcho:DOAS} and \ref{Model:omhcho:amf}.
   
     \subsubsection{OMNO2d}
       \label{Model:Datasets:OMNO2d}
       OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
       An example figure from Jan 29, 2005 is shown in figure \ref{Model:Datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in figure \ref{Model:Datasets:OMNO2d:fig_omno2d_2005}.
       OMNO2 pixel resolution is 40~km by 130~km.
-      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (See section \ref{Model:Analysis:NOx} for the comparison between this product and GEOS-Chem calculations).
+      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (see section \ref{Model:GC:NOx} for the comparison between this product and GEOS-Chem calculations).
       It is also used to form the anthropogenic influence filter for OMHCHO (See section \ref{Model:Filter:NOx}).
       
       
@@ -119,7 +119,7 @@
       {\label{Model:Datasets:OMNO2d:fig_omno2d_2005}}
       
       Like other satellite products, OMNO2d is influenced by a priori modelling which is required to convert slant path radiance to vertical columns.
-      These models are generally low resolution ($\sim$ 110~km by 110~km), which leads to column smearing which is not actually there, along with difficulty detecting point sources of high NO emissions \parencite{Goldberg2018}.
+      These models are generally low resolution ($\sim$ 110~km by 110~km), which leads to column smearing and difficulty detecting point sources of high NO emissions \parencite{Goldberg2018}.
       Uncertainty in this product arises mostly from the calculation of the AMF (up to 50\% of total error) \parencite{Lorente2017}.
     
     \subsubsection{OMAERUVd}
@@ -223,77 +223,76 @@
     \subsubsection{Measurements of Urban, Marine and Biogenic Air (MUMBA)}
     \label{Model:Datasets:MUMBA}
     
-    The MUMBA campaign \parencite{PatonWalsh2017} measured various compound abundances including isoprene, formaldehyde, and ozone from 21 December 2012 to 15 February 2013.
-    These measurements took place in Wollongong, 10~m above ground level (40~m above sea level).
-    Ozone was measured by Thermo UV absorption with 1-minute time resolution averaged into hourly outputs.
-    Isoprene and HCHO were measured by Ionicon Proton-Transfer-Reaction Mass spectrometer (PTR-MS), with a time resolution of 3-minutes, averaged each hour.
-    Detection limits varied due to instrument conditions, and are listed in table \ref{Model:Datasets:MUMBA:tab_detectionlimits}.
-    The full dataset has been published on PANGAEA (DOI:10.1594/PANGAEA.871982) \parencite{Guerette2018}.
-    
-    
-    \begin{table}
-      \caption{Detection limits for MUMBA}
-      \begin{tabular}{  l |  l  l  l }
-        
-        \textbf{Dates} & \textbf{HCHO (ppb)} & \textbf{Isoprene (ppb)} & \textbf{Ozone (ppb)}
-        \\ \hline
-        21/Dec/2012 - 29/Dec/2012 & 0.205 & 0.003 & 0.5 \\
-        29/Dec/2012 - 18/Jan/2013 & 0.105 & 0.005 & 0.5 \\
-        19/Jan/2013 - 15/Feb/2013 & 0.186 & 0.003 & 0.5 \\
-      \end{tabular}
-      \label{Model:Datasets:MUMBA:tab_detectionlimits}
-    \end{table}
-    
-    In this thesis we assume uncertainty in this product is as estimated by TODO at (50\%).
-    Although the uncertainty determined through calibration measurements was only 15\% \parencite{Guerette2018}, this does not account for competing trace gas interference (such as furan).
-    The readings are resampled to hourly averages.
-    Measurements below the detection limit are set to half of the detection limit when reading this dataset.
+      The MUMBA campaign \parencite{PatonWalsh2017} measured various compound abundances including isoprene, formaldehyde, and ozone from 21 December 2012 to 15 February 2013.
+      These measurements took place in Wollongong, 10~m above ground level (40~m above sea level).
+      Ozone was measured by Thermo UV absorption with 1-minute time resolution averaged into hourly outputs.
+      Isoprene and HCHO were measured by Ionicon Proton-Transfer-Reaction Mass spectrometer (PTR-MS), with a time resolution of 3-minutes, averaged each hour.
+      Detection limits varied due to instrument conditions, and are listed in table \ref{Model:Datasets:MUMBA:tab_detectionlimits}.
+      The full dataset has been published on PANGAEA (DOI:10.1594/PANGAEA.871982) \parencite{Guerette2018}.
+      
+      
+      \begin{table}
+        \caption{Detection limits for MUMBA}
+        \begin{tabular}{  l |  l  l  l }
+          
+          \textbf{Dates} & \textbf{HCHO (ppb)} & \textbf{Isoprene (ppb)} & \textbf{Ozone (ppb)}
+          \\ \hline
+          21/Dec/2012 - 29/Dec/2012 & 0.205 & 0.003 & 0.5 \\
+          29/Dec/2012 - 18/Jan/2013 & 0.105 & 0.005 & 0.5 \\
+          19/Jan/2013 - 15/Feb/2013 & 0.186 & 0.003 & 0.5 \\
+        \end{tabular}
+        \label{Model:Datasets:MUMBA:tab_detectionlimits}
+      \end{table}
+      
+      In this thesis we assume uncertainty in this product is as estimated by TODO at (50\%).
+      Although the uncertainty determined through calibration measurements was only 15\% \parencite{Guerette2018}, this does not account for competing trace gas interference (such as furan).
+      The readings are resampled to hourly averages.
+      Measurements below the detection limit are set to half of the detection limit when reading this dataset.
     
     \subsubsection{Sydney Particle Studies (SPS1, SPS2)}
     \label{Model:Datasets:SPS}
-    Two trace gas measurement campaigns took place at the Westmead air quality station. %with scientists from CSIRO, OEH, and ANSTO 
-    Stage 1 (SPS1) from 5 February to 7 March, 2011 and stage 2 (SPS2) from 16 April to 14 May, 2012.
-    Two instruments measured VOC concentrations: a PTR-MS, and a gas chromatographer (GC) with a flame ionisation detector (FID).
-    The PTR-MS uses chemical ionisation mass spectrometry and can quantify VOCs at high temporal resolution ($< 1$~s).
-    It was calibrated several times per day against HCHO, isoprene, $\alpha$-pinene, and several other VOCs, further measurement specifics can be found in \textcite{Dunne2018}.
-    % Dunne 2018 looks like an analysis of VOC readings from the sites
-    
-    The output lists hourly averaged ppbv concentrations of trace gases based on the mass to charge ratio (m/z), which for isoprene is 69.
-    % Sensitivities
-    It is possible that other chemicals (such as furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires start to become frequent \parencite{Guerette2018}.
-    The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interferences. 
-    Further details for this method can be found in \textcite{Cheng2016}.
-    GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT, while PTR-MS data is averaged hourly.
-    Uncertainties in VOC measurements range from a factor of 1.5 to 2.
-    This includes significant differences between measurement devices when detecting isoprene, potentially due to interfering compounds in the PTR-MS \parencite{Dunne2018}.
-    
-    Figure \ref{Model:Datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. 
-    In order to compare with GEOS-Chem output (see section \ref{Model:GC}) a daily average and an midday time (13:00-14:00~LT) average are both created from these data.
-    In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in \textcite{Lawson2015}. 
-    This should minimise any introduced bias.
-    
-    \mypic{Figures/campaigns/SPS_Series.png}{
-      SPS HCHO (yellow) and isoprene (green) time series, along with detection limits (dashed).
-      SPS 1 (left) took place in late summer 2011, while SPS 2 (right) occurred during autumn 2012.
-    }
-    {\label{Model:Datasets:SPS:fig_series}}
+      Two trace gas measurement campaigns took place at the Westmead air quality station. %with scientists from CSIRO, OEH, and ANSTO 
+      Stage 1 (SPS1) from 5 February to 7 March, 2011 and stage 2 (SPS2) from 16 April to 14 May, 2012.
+      Two instruments measured VOC concentrations: a PTR-MS, and a gas chromatographer (GC) with a flame ionisation detector (FID).
+      The PTR-MS uses chemical ionisation mass spectrometry and can quantify VOCs at high temporal resolution ($< 1$~s).
+      It was calibrated several times per day against HCHO, isoprene, $\alpha$-pinene, and several other VOCs, further measurement specifics can be found in \textcite{Dunne2018}.
+      % Dunne 2018 looks like an analysis of VOC readings from the sites
+      
+      The output lists hourly averaged ppbv concentrations of trace gases based on the mass to charge ratio (m/z), which for isoprene is 69.
+      % Sensitivities
+      It is possible that other chemicals (such as furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires start to become frequent \parencite{Guerette2018}.
+      The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interference. 
+      Further details for this method can be found in \textcite{Cheng2016}.
+      GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT, while PTR-MS data is averaged hourly.
+      This includes significant differences between measurement devices when detecting isoprene, potentially due to interfering compounds in the PTR-MS \parencite{Dunne2018}.
+      
+      Figure \ref{Model:Datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. 
+      In order to compare with GEOS-Chem output (see section \ref{Model:GC}) a daily average and an midday time (13:00-14:00~LT) average are both created from these data.
+      In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in \textcite{Lawson2015}. 
+      This should minimise any introduced bias.
+      
+      \mypic{Figures/campaigns/SPS_Series.png}{
+        SPS HCHO (yellow) and isoprene (green) time series, along with detection limits (dashed).
+        SPS 1 (left) took place in late summer 2011, while SPS 2 (right) occurred during autumn 2012.
+      }
+      {\label{Model:Datasets:SPS:fig_series}}
     
     
     
     \subsubsection{Ozonesondes}
     \label{Model:Datasets:ozonesondes}
     
-    Ozonesonde data come from the World Ozone and Ultraviolet Data Centre (WOUDC).
-    Ozonesondes are weather balloons which measure from the surface to around 35km.
-    Ozonesondes provide a high vertical resolution profile of ozone, temperature, pressure, and humidity.
-    Generally the instrument will perform 150-300 measurements in the troposphere with ozone mixing ratios quantified by an electrochemical concentration cell (\url{http://www.ndsc.ncep.noaa.gov/organize/protocols/appendix5/}).
-    
-    Ozonesondes are launched approximately weekly from Melbourne (38$^{\circ}$ S, 145$^{\circ}$ E), Macquarie Island (55$^{\circ}$ S, 159$^{\circ}$ E) and Davis (69$^{\circ}$ S, 78$^{\circ}$ E). 
-    Melbourne, a major city with more than 4 million residents \parencite{ABS2016}, may be affected by anthropogenic pollution in the lower troposphere.
-    Actual releases are north of the central business district in the Broadmeadows suburb.
-    Macquarie Island is in the remote Southern Ocean and unlikely to be affected by any local pollution events.
-    Davis (on the coast of Antarctica) is also unlikely to experience the effects of anthropogenic pollution.
-    More information on this dataset is given in section \ref{Ozone:DataMethods}.
+      Ozonesonde data come from the World Ozone and Ultraviolet Data Centre (WOUDC).
+      Ozonesondes are weather balloons which measure from the surface to around 35km.
+      Ozonesondes provide a high vertical resolution profile of ozone, temperature, pressure, and humidity.
+      Generally the instrument will perform 150-300 measurements in the troposphere with ozone mixing ratios quantified by an electrochemical concentration cell (\url{http://www.ndsc.ncep.noaa.gov/organize/protocols/appendix5/}).
+      
+      Ozonesondes are launched approximately weekly from Melbourne (38$^{\circ}$ S, 145$^{\circ}$ E), Macquarie Island (55$^{\circ}$ S, 159$^{\circ}$ E) and Davis (69$^{\circ}$ S, 78$^{\circ}$ E). 
+      Melbourne, a major city with more than 4 million residents \parencite{ABS2016}, may be affected by anthropogenic pollution in the lower troposphere.
+      Actual releases are north of the central business district in the Broadmeadows suburb.
+      Macquarie Island is in the remote Southern Ocean and unlikely to be affected by any local pollution events.
+      Davis (on the coast of Antarctica) is also unlikely to experience the effects of anthropogenic pollution.
+      More information on this dataset is given in section \ref{Ozone:DataMethods}.
     
     
     \subsubsection{Uncertainties}
@@ -309,7 +308,7 @@
 \label{Model:omhcho}
   
   % Aura satellite trace gas measurements
-  One satellite is NASA's Earth Observing System's ``Aura'', which provides several useful datasets (products).
+  One satellite product used extensively in this thesis is named OMHCHO: from NASA's Earth Observing System's ``Aura'', which provides several other useful datasets (products).
   Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
   % omi instrument on board aura
   Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
@@ -321,8 +320,7 @@
   Figure \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary} shows the details of OMI's detector array and measurement resolutions.
   OMI measures atmospheric trace gases including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
   OMI measurements occur from right to left on a band covering 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
-  The swaths cover Earth daily, although half of these are at night time and contain no useful near-UV/Visible information.
-  
+  The swaths cover Earth daily, both on the light and dark side of the planet, only daytime measurements provide useful near-UV/Visible information.
   
   
   \begin{figure}
@@ -371,7 +369,7 @@
   The full method details for slant column retrieval by OMI are outlined in supplemental section \ref{SuppNotes:Satellite:OMI_BOAS}, or in the technical document (DOI: 10.5067/Aura/OMI/DATA2015).
   Slant columns range from $\sim 4\times 10^{15} $ to $\sim 6 \times 10^{16}$~molec cm$^{-2}$, with uncertainties from 30\% (larger columns) to over 100\% (smaller columns) \parencite{Abad2015}.
   
-  \subsubsection{Pixel filtering}
+  \subsection{Pixel filtering}
   \label{Model:omhcho:pixel_filtering}
   
   % What the swathes look like
@@ -419,9 +417,9 @@
   If greater than 40\% of a pixel measurement is cloudy (ie. cloud fraction $>0.4$) then the pixel is removed from subsequent analysis.
   This removes around 30\% of the pixels which remain after filtering out the bad or missing data.
   
-  One more filter is applied before any other calculations are applied, which filters unreasonable column amounts.
+  One more filter is applied before any calculations, to remove unreasonable column amounts.
   Due to numerous highly negative vertical columns (beyond what is expected) a screen is applied to remove any pixels with vertical columns outside the range of -5$\times 10^{15}$ to 1$\times 10^{17}$.
-  This has been done previously in TODO %TODO: find which paper did this.
+  This has been performed previously in TODO %TODO: find which paper did this.
   
   \subsection{DOAS}
     \label{Model:omhcho:DOAS}
@@ -443,7 +441,8 @@
     \begin{equation} \label{Model:omhcho:DOAS:eqn_tau}
     \tau = \int \alpha(s) \eta(s) \mathrm{d}s
     \end{equation}
-    $\tau$ through a medium is the sum of optical thicknesses of each absorber within the measured path (s), and subbing \ref{Model:omhcho:DOAS:eqn_tau} into \ref{Model:omhcho:DOAS:eqn_backscatterextinction} leads to
+    $\tau$ through a medium is the sum of optical thicknesses of each absorber within the measured path (s)
+    substituting equation \ref{Model:omhcho:DOAS:eqn_tau} into equation \ref{Model:omhcho:DOAS:eqn_backscatterextinction} leads to
     \begin{equation*}
       I = I_0 \exp { \left( \Sigma_i \int \eta_i \alpha_i ds \right) }
     \end{equation*}
@@ -513,12 +512,13 @@
     Uncertainty in satellite recalculations, along with other factors is analysed in section \ref{BioIsop:Uncertainty}.
     %A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
     
+    % Figure from tests.py
+    \mypic{Figures/OMI_link/Uncertainty_OMI_200501.png}{Top row shows 0.25\degr by 0.3125\degr binned OMHCHO columns with one day, one month, and one month with non-biogenic masking applied from left to right respectively. Bottom row shows the uncertainty for each gridsquare after averaging.}{\label{Model:Meas:sat:fig_OMI_uncertainty}}
+    
     In this thesis, HCHO columns (pixels) with cloud fractions over 40\% are filtered as done in \textcite{Palmer2001}, which introduces a clear-sky bias to any monthly averages.
     This is due to HCHO being lower on unrecorded cloudy days.
     This bias has been measured as a 13\% positive monthly mean bias \parencite{Palmer2001, Surl2018}.
     
-    % Figure from tests.py
-    \mypic{Figures/OMI_link/Uncertainty_OMI_200501.png}{Top row shows 0.25\degr by 0.3125\degr binned OMHCHO columns with one day, one month, and one month with non-biogenic masking applied from left to right respectively. Bottom row shows the uncertainty for each gridsquare after averaging.}{\label{Model:Meas:sat:fig_OMI_uncertainty}}
     
     % Row anomaly
     Recently \textcite{Schenkeveld2017} analysed the performance over time of the instrument and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
@@ -575,7 +575,7 @@
     GEOS-5 meteorological fields are used as the boundary conditions driving transport.
     % Emissions models used for boundary conditions
     Fire emissions come from the GFED4 product \parencite{Giglio2013}. 
-    Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are simulated using the MEGAN model (see section \ref{Model:GC:Isop:MEGAN}).
+    Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are simulated using the MEGAN model (see section \ref{Model:GC:MEGAN}).
     MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation.
     The estimated biogenic VOC emissions are important for accurately simulating chemistry within models, as discussed in Section \ref{LR:Atmos:Chem}.
     
@@ -688,7 +688,7 @@
   
   
   \subsection{Emissions from MEGAN}
-    \label{Model:GC:Isop:MEGAN}
+    \label{Model:GC:MEGAN}
 
     MEGAN is a global model with resolution of around 1~km, and is used to generate the BVOC emissions used in various global chemistry models such as GEOS-Chem.
     MEGAN uses leaf area index, global meteorological data, and plant functional types (PFTs) to simulate terrestrial isoprene emissions.
@@ -719,13 +719,13 @@
     Version 2.1 (updated from 2.0 \parencite{Guenther2006}) includes 147 species, in 19 BVOC classes, which can be lumped together to provide appropriate output for mechanisms in various chemical models.
   
   \subsection{Rescaling NOx}
-  
+  \label{Model:GC:NOx}
     NO$_X$ concentrations affect atmospheric oxidative capacity, which changes many factors important in estimating isoprene emissions including isoprene to HCHO yield, isoprene lifetime, and isoprene oxidation pathways.
     This means that if the model is poorly simulating NO$_X$, yields and the effects of transport may be poorly estimated.
     In order to determine if re-scaling the NO emissions over Australia is necessary in GEOS-Chem, modelled NO$_2$ amounts are compared to satellite data for most of 2005.
     
     % Geos chem vs tropno2 from omno2d
-    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data (Sec. \ref{Model:Datasets:OMNO2d}). 
+    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 1300-1400~LT are compared against OMNO2d data. %(Sec. \ref{Model:Datasets:OMNO2d}). 
     Figure \ref{Model:Analysis:NOx:fig_GC_vs_OMNO2d_summer_2005} shows the direct comparison between these datasets averaged over the months of January and February, 2005.
     The top row shows (from left to right) GEOS-Chem NO$_2$, OMI NO$_2$ at 0.25x0.3125\degr, and OMI NO$_2$ at 2x2.5\degr.
     The bottom row shows the difference (absolute, and relative) between GEOS-Chem and OMI, as well as the RMA linear correlation.
