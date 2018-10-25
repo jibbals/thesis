@@ -793,9 +793,9 @@
   \subsection{Uncertainties}
   \label{LR:Models:Uncert}
     
-    Here I will attempt to list and partially explain the major uncertainties models have in relation to  VOCs, and ozone. 
-    TODO: Move these uncertainties to the sections where they are applicable.
-    %TODO: Move uncertainties to related sections
+    Here I will attempt to list and partially explain the major uncertainties models have in relation to  VOCs, and ozone.
+    Atmospheric chemical models by necessity require various simplifications of real world processes, and also utilise information which may be itself uncertain or extrapolated.
+    Uncertainty is introduced through both of these channels as well as through computational limitations and non-linear non-continuous system solution approximations.
     
     
     \subsubsection{Emissions Inventories}
@@ -808,20 +808,23 @@
       Many estimates of isoprene emission are based on a few algorithms which can depend greatly on input parameters \parencite{Arneth2008,Niinemets2010}.
       \textcite{Arneth2008} argue that this monopoly of emissions estimates may be leading us to an incorrect understanding of isoprene chemistry.
       \textcite{Yue2015} have shown that this is still a problem by looking at land carbon fluxes and modelling the sensitivity to VOC emissions estimates using two independent models of VOC emission.
-      One model is photosynthesis based and estimates isoprene emissions using electron transfer energies and leaf physiology \parencite{Niinemets1999}, while the other (MEGAN) uses the light and canopy temperature (\parencite{Guenther1995,Arneth2007}.
+      One model is photosynthesis based and estimates isoprene emissions using electron transfer energies and leaf physiology \parencite{Niinemets1999}, while the other (MEGAN) uses the light and canopy temperature \parencite{Guenther1995,Arneth2007}.
       % Arneth et al., 2007; CO2 may also inhibit isoprene emissions.
       % Unger et al., 2013; another plant process isoprene model
       Both are sensitive to light and temperature parameterisations.
       
+      The concentration of NO$_X$ is an important factor in determining the yield of HCHO and ozone from BVOCs.
+      \textcite{Travis2016} show how modelled surface ozone is overestimated due to high estimates of NO$_X$ emissions, which affect oxidative capacity and VOC reactions in the US.
+      NO$_X$ and isoprene emissions are shown to be the most significant sources of uncertainty for ozone concentrations near the surface in GOES-Chem over the US, while isoprene derived products and lightning NO$_X$ drives uncertainty in the upper atmosphere \parencite{Christian2017}.
       
     %% GEOS-Chem resolution uncertainties
     \subsubsection{Resolution}
       \label{LR:Models:Uncert:Resolution}
       
-      GEOS-Chem simulations are somewhat sensitive to the gridbox resolution.
+      Atmospheric chemistry simulations are somewhat sensitive to the gridbox resolution.
       For example: \textcite{Wild2006} show that reduced resolution increases OH concentrations and ozone production rates.
       \textcite{Christian2017} find small changes in OH ($<10$\%) in OH, HO$_2$ and ozone concentrations local to the north American arctic, when changing from 4 by 5 to 2 by 2.5\degr resolution.
-      \textcite{Yu2016} show how only at GEOS-Chems higher resolution (0.25 by 0.3125\degr) does isoprene oxidise under the correct NO$_X$ scheme (through high or low NO$_X$ pathways, see section \ref{LR:VOCs:IsopCascade:Oxidation}) in variable NO$_X$ environments.
+      \textcite{Yu2016} show how only at higher resolution (0.25 by 0.3125\degr) does isoprene oxidise under the correct NO$_X$ scheme (through high or low NO$_X$ pathways, see section \ref{LR:VOCs:IsopCascade:Oxidation}) in variable NO$_X$ environments.
       This leads to an increase of high NO$_X$ pathway oxidation of isoprene at the lower resolutions, which leads to an overestimation of HCHO but not ozone at coarser resolutions.
       However, for many global scale analyses, errors from resolution are less important than those from chemistry, meteorology, and emissions \parencite{Christian2017, Christian2018}.
       
@@ -832,18 +835,14 @@
       %% GEOS-Chem Ozone uncertainties 
       There is still much work to be done in models to correctly simulate emissions and processes which lead to HCHO and ozone.
       Often HCHO is used as a way of checking if precursors are correctly modelled since HCHO measurements are more readily available (for instance from satellites).
-      GEOS-Chem has recently been analysed for ozone and oxidant (OH and HO$_2$) sensitivity to the processes within the model along with inputs which drive it \parencite{Christian2017}.
-      \textcite{Christian2017} found that GEOS-Chem ozone was most sensitive to NO$_2$ photolysis, the $NO_2 + OH$ reaction rate, and precursor emissions such as VOCs.
+      Recently \textcite{Christian2017} analysed GEOS-Chem (A global CTM; see section \ref{Model:GC}) for ozone and oxidant (OH and HO$_2$) sensitivity to the driving processes and inputs.
+      They found that GEOS-Chem ozone was most sensitive to NO$_2$ photolysis, the $NO_2 + OH$ reaction rate, and precursor emissions such as VOCs.
 
       Many models lack in-situ measurements with which to verify their chemical mechanisms, leading to large discrepancies \parencite{Marvin2017}.
       \textcite{Marvin2017} suggest that isoprene mechanisms in several contemporary models (including GEOS-Chem) are inadequate. 
-      They show that for a specific measurement campaign, the HCHO concentrations are underestimated in a way that can not be easily fixed through rate constant changes.
-      \textcite{Marvin2017} compared five global CTMs isoprene mechanisms by evaluating simulated HCHO mixing ratios compared to in situ measurements from the Southeast Nexus (SENEX) aircraft campaign (in southeastern USA).
-      They compared five models (GEOS-Chem, CB05, CB6r2, MCMv3.2, and MCMv3.3.1) and found all of them underestimated the HCHO concentrations (by $15 - 30\%$).
-      
-      Another important factor in determining the yield of HCHO and ozone from BVOCs is the local concentration of NO$_X$.
-      \textcite{Travis2016} showed how modelled surface ozone is overestimated due to high estimates of NO$_X$ emissions, which affect oxidative capacity and VOC reactions in the US.
-      NO$_X$ and isoprene emissions are shown to be the most significant sources of uncertainty for ozone concentrations near the surface in GOES-Chem over the US, while isoprene derived products and lightning NO$_X$ drives uncertainty in the upper atmosphere \parencite{Christian2017}.
+      They show that (for a specific measurement campaign) HCHO concentrations are underestimated in a way that can not be easily fixed through reaction rate changes.
+      They compared five global CTMs isoprene mechanisms by evaluating simulated HCHO mixing ratios compared to in situ measurements from the Southeast Nexus (SENEX) aircraft campaign (in southeastern USA).
+      Five models (GEOS-Chem, CB05, CB6r2, MCMv3.2, and MCMv3.3.1) all are found to underestimate HCHO concentrations (by $15 - 30\%$).
       
     
     \subsubsection{Clouds}
@@ -852,8 +851,7 @@
       Clouds are remarkably complex at a much finer scale than can be accurately modelled by global chemistry models (with current processing power).
       Globally over half (50-60\%) of the world is covered by clouds, with $\sim10\%$ of them being rain-clouds \parencite{Kanakidou2005}.
       Wet scavenging performed in clouds not only depends on large scale cloud processes, but also on the microphysics of aerosols being scavenged, differing between aerosol sizes and hygroscopic properties.
-      Cloud filtering is performed on both OMHCHO and OMNO2d products, as those measurements are too uncertain or do not capture enough information. 
-      This has been seen to introduces a clear-sky bias - as monthly averages do not include cloudy conditions \parencite{Surl2018}.
+      
       
     
     \subsubsection{Soil Moisture}
