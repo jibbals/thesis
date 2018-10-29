@@ -133,10 +133,18 @@
       If one assumes fast HCHO yield, so that the effect of chemical transport is minimal, and that HCHO and isoprene are at steady states, then one may calculate local yield from a CTM.
       %This yield is derived from both HCHO and isoprene, such as was used by \textcite{Millet2006} who produced a molar HCHO yield of 2.3 in north eastern USA.
       
-      In this work yield is calculated from the modelled slope between isoprene emissions and HCHO total column within each gridbox over Australia, as performed in \textcite{Palmer2003}, using modelled values between 1300-1400 LT which is around the overpass time of the OMI.
+      In this work yield is calculated from the modelled slope between isoprene emissions and HCHO tropospheric columns within each gridbox over Australia, as performed in \textcite{Palmer2003}, using modelled values between 1300-1400 LT which is around the overpass time of the OMI.
       This modelled yield is then used in conjunction with the recalculated OMI measurements in order to estimate isoprene emissions.
-      To calculate this yield we use a reduced major axis (RMA) regression between modelled average values of the total columns and isoprene emission rates, an example is shown in figure TODO: figure with RMA of these over whatever time and space I end up using.
-      The top down estimation process in this thesis is explained and detailed in chapter \ref{BioIsop}.
+      To calculate this yield we use a reduced major axis (RMA) regression between modelled average values of the total columns and isoprene emission rates, an example is shown in figure \ref{BioIsop:intro:top_down_linear:fig_RMA_example} shows the modelled regression between emissions and tropospheric columns for January, 2005. Also shown is the time series for these two quantities averaged over Australia, and the squared correlation coefficient along with a sample from four gridsquares.
+      The top down estimation process in this thesis is further explained in section \ref{BioIsop:Method}.
+      
+      %Plot from GC_tests.py -> Examine_Model_Slope()
+      \mypic{/Figures/OMI_link/GC/E_isop_vs_hcho_200501.png}{%
+        Top left: RMA slope between modelled tropospheric column HCHO ($\Omega_{HCHO}$) and isoprene emissions ($E_{isop}$) using midday (13:00-14:00~LT) values over for January 2005, per gridsquare at 2x2.5\degr horizontal resolution.
+        Top right: Australia-wide average of midday emissions and tropospheric columns.
+        Bottom left: Squared RMA correlation coefficient for regression in top left. Coloured dots correspond to colour of regressions shown in bottom right panel.
+        Bottom right: Sample of correlations from four gridsquares.}
+        {\label{BioIsop:intro:top_down_linear:fig_RMA_example}}
       
       % Pros and cons:
       This technique suffers from the assumptions of fast HCHO yield and no transport, which leads to necessary filtering of areas with low NO$_X$, high winds, or low emissions.
@@ -388,6 +396,14 @@
     This leads to the method used here and elsewhere: testing the correlation between HCHO enhancement and isoprene emissions does not change too much between runs.
     This is done through assuming the correlations are equivalent and then finding where the assumption leads to unlikely yields.
     
+    In order to filter potential smearing, a daily modelled value for $\hat{S} \approx Y_{isop}/k_{HCHO}$ is determined.
+    By assuming midday HCHO lifetime typically falls within 1.5 to 4~hrs (as seen in the USA), and isoprene to HCHO yield (HCHO per isoprene carbon emitted) lies within the range 0.2 to 0.4 (scenarios estimated in \textcite{Palmer2003}): one can set a simple bound on $\hat{S}$ of $[0.2 \times 1.5, 0.4 \times 4]$~hrs or 1080 to 5760 seconds.
+    As NO$_X$ levels across Australia are relatively low, the yield is likely lower seen in \textcite{Palmer2003}: and here we use a bounding range of 900 to 5000 for $\hat{S}$.
+    A better approximation of lifetimes for HCHO is required to properly account for seasonality and regional NO$_X$ concentrations.
+    TODO: Figure todo shows $\hat{S}$ over Australia for one year, along with where and when the filter has most impact.
+    TODO: Show yield and lifetimes from caaba/mecca if possible
+    
+    
     %\textcite{Marais2012} additionally use airborn isoprene, MVK $+$ MACR (isoprene oxidation products), and HCHO measurements to check smearing in Africa where there is a sharp gradient of isoprene emitting vegetation from north to south.
     
     \subsubsection{Calculation of smearing}
@@ -421,9 +437,6 @@
     And using the output from our two runs we can see if the calculated $\hat{S}$ is wildly different from expected values for S.
     The modelled slope multiplied by the column HCHO loss rate ($k_{HCHO} = 1/\tau$) should approximate the HCHO yield from isoprene \parencite{Palmer2003, Barkley2013}.
     
-    %TODO: find lifetime and yields from GEOS-Chem
-    Using the mean HCHO lifetime of $\sim 2.5$ hours applied against $\hat{S}$ from 1000 to 4000 corresponds to yields in the range of $1/9$ to $4/9$~molecules HCHO per C.
-    A better approximation of lifetimes for HCHO is required to properly account for seasonality and regional NO$_X$ concentrations.
     
     Using GEOS-Chem to approximate the daily average lifetime of HCHO has been performed, with results for 2005 shown in figure \ref{BioIsop:Method:Smearing:fig_tau_GC_2005}.
     This lifetime is calculated using daily averaged surface loss rates and concentrations of HCHO:
@@ -459,21 +472,21 @@
     % Marais 2012 also look at average windspeed and best hcho-isop corelation when hcho is shifted by 0.5 degrees, don't think I can do that with 2.5 degree resolution
     % Marais compare smearing with model estimated yield "
 
+    \subsubsection{Sensitivity to smearing}
     
-    
-    Smearing can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
-    As such smearing sensitivity is both spatially and temporally diverse.
-    Figure TODO: is a picture of the smearing sensitivity over Australia in Summer and Winter, along with where the smearing threshold is exceeded (for one or all days).
-    Large smearing values can be seen near many coastlines as only a fraction of the grid squares actually emit isoprene, which makes transported isoprene relatively more important in these gridboxes.
-    Once the smearing sensitive grid squares are filtered out, application of equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho} is used to estimate isoprene emissions across the nation.
-    
-    %TODO: Plots of S hat showing worst smearing affected areas per season.
-    
-    
-    % TODO: figure out this paragraphs numbers, make plot
-    When limiting smearing ($\hat{S}$) to the range of X to Y GEOS-Chem correlation between isoprene emissions and HCHO columns improves (TODO show by how much). 
-    Figure TODO shows GEOS-Chem midday HCHO columns compared against GEOS-Chem emissions of isoprene, over land squares with (red) and without (grey) filtering for smearing.
-    This smearing range captures isoprene to HCHO yields of around X to Y C per C if HCHO lifetime is assumed to be Z hours.
+      Smearing can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
+      As such smearing sensitivity is both spatially and temporally diverse.
+      Figure TODO: is a picture of the smearing sensitivity over Australia in Summer and Winter, along with where the smearing threshold is exceeded (for one or all days).
+      Large smearing values can be seen near many coastlines as only a fraction of the grid squares actually emit isoprene, which makes transported isoprene relatively more important in these gridboxes.
+      Once the smearing sensitive grid squares are filtered out, application of equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho} is used to estimate isoprene emissions across the nation.
+      
+      %TODO: Plots of S hat showing worst smearing affected areas per season.
+      
+      
+      % TODO: figure out this paragraphs numbers, make plot
+      When limiting smearing ($\hat{S}$) to the range of X to Y GEOS-Chem correlation between isoprene emissions and HCHO columns improves (TODO show by how much). 
+      Figure TODO shows GEOS-Chem midday HCHO columns compared against GEOS-Chem emissions of isoprene, over land squares with (red) and without (grey) filtering for smearing.
+      This smearing range captures isoprene to HCHO yields of around X to Y C per C if HCHO lifetime is assumed to be Z hours.
     
     \subsubsection{Smearing length scale}
     
