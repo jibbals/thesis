@@ -222,7 +222,7 @@
         Biogenic yield is masked where the HCHO production is not dominated by local isoprene emissions. 
         This is determined by calculating smearing over Australia using two model runs with differing isoprene emissions.
         This smearing value is determined as $\hat{S}=\Delta \Omega_{HCHO}/ \Delta E_{isop}$, the ratio between HCHO columns and isoprene emissions changed between model runs.
-        This value is set to 4000 in \textcite{Marais2014}, based on local NO$_X$, windspeeds, and emission concentrations. (TODO: determine properly for Aus).
+        The range for $\hat{S}$ over Australia is determined as 900 - 5200~s.
         A full description and analysis of this term used to determine the smearing filter is given in section \ref{BioIsop:Method:Smearing}
       \item 
         Compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane measurements (HIPPO).
@@ -347,9 +347,9 @@
     % First: outline of what we do
     As is done in \textcite{Palmer2003, Millet2006, Bauwens2016}, we assume that HCHO and isoprene columns are in a steady state, with no horizontal transport.
     We also assume that isoprene is the only compound enhancing the HCHO levels, which requires that we filter out influence from fires, smoke, and anthropogenic emissions.
-    Emissions of precursors are easy to calculate using the $slope$ calculated in the prior section from modelled HCHO and isoprene columns:
+    Emissions of precursors are easy to calculate using the slope $S$ calculated in the prior section from modelled HCHO and isoprene columns:
     \begin{equation}
-    \Omega_{HCHO} = slope \times E_isop + \Omega_0
+    \Omega_{HCHO} = S \times E_isop + \Omega_0
     \end{equation}
     This is the same equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}, except now we use the modelled $slope$ along with satellite $\Omega_{HCHO}$ and $\Omega_0$.
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude as $\Omega_{HCHO}$.
@@ -391,18 +391,43 @@
     This method calculates smearing using just two almost identical model runs, one of which has isoprene emissions scaled globally by a factor (generally from 0.5 to 2).
     Another method \parencite[eg.][]{Stavrakou2009} involves the analysis of an adjoint CTM, however this is computationally expensive.
     
-    In this work a run of GEOS-Chem using globally halved isoprene emissions (with no other changes) is performed to test and filter smearing.
+    In this work a run of GEOS-Chem using globally halved isoprene emissions (with no other changes) is performed to create a smearing filter.
     Consider halving the isoprene emitted globally and rerunning the model, one would expect HCHO enhancement (above background levels) to be halved in isoprene emitting gridboxes if no transport has occurred.
-    This leads to the method used here and elsewhere: testing the correlation between HCHO enhancement and isoprene emissions does not change too much between runs.
-    This is done through assuming the correlations are equivalent and then finding where the assumption leads to unlikely yields.
+    This idea is behind the method of testing the correlation between HCHO enhancement and isoprene emissions.
+    This is done through assuming no transport and negligible yield and lifetime changes between model runs and then finding where the assumption leads to unlikely yields.
     
     In order to filter potential smearing, a daily modelled value for $\hat{S} \approx Y_{isop}/k_{HCHO}$ is determined.
     By assuming midday HCHO lifetime typically falls within 1.5 to 4~hrs (as seen in the USA), and isoprene to HCHO yield (HCHO per isoprene carbon emitted) lies within the range 0.2 to 0.4 (scenarios estimated in \textcite{Palmer2003}): one can set a simple bound on $\hat{S}$ of $[0.2 \times 1.5, 0.4 \times 4]$~hrs or 1080 to 5760 seconds.
-    As NO$_X$ levels across Australia are relatively low, the yield is likely lower seen in \textcite{Palmer2003}: and here we use a bounding range of 900 to 5000 for $\hat{S}$.
+    As NO$_X$ levels across Australia are relatively low, the yield is likely lower than seen in \textcite{Palmer2003}: and here we reduce the bounds by 10\% and round to the nearest hundred to get a bounding range of 900 to 5200 for $\hat{S}$. 
+    This range also strikes a balance between unlikely modelled yields/lifetimes and how much data is lost to filtering.
     A better approximation of lifetimes for HCHO is required to properly account for seasonality and regional NO$_X$ concentrations.
     TODO: Figure todo shows $\hat{S}$ over Australia for one year, along with where and when the filter has most impact.
     TODO: Show yield and lifetimes from caaba/mecca if possible
+    Table \ref{BioIsop:Method:Smearing:tab_smearing_ranges} shows the smearing filters or typical slopes seen in other works.
     
+    \begin{table}\begin{threeparttable}
+        \caption{Smearing filters or slopes ($S$) seen in literature.}
+        \begin{tabular}{ l | c  c  >{\centering\arraybackslash}p{5cm} } 
+          \toprule
+          Publication & min. (s) & max. (s) & Notes \\
+          \midrule
+          \textcite{Palmer2003}      & 1270 & 2090 & Slope ranges seen in North America Summer \\
+          \textcite{Marais2012}      &      & 4000 & Smearing limits for Africa \\
+          \textcite{Barkley2013}$^a$ & 1300 & 1800 & Smearing limits for South America \\
+          \textcite{Surl2018}        & 2200 & 4900 & Slope ranges seen in India \\
+          
+          \bottomrule
+        \end{tabular}
+        \begin{tablenotes} 
+          \item a: Assumed HCHO lifetime of 2.5 hours implies yields from 0.14 to 0.2 per C, consistent with box modelling.
+          %\item b: In this work the slopes are shown 
+        \end{tablenotes}
+        \label{BioIsop:Method:Smearing:tab_smearing_ranges}
+      \end{threeparttable}\end{table}
+    
+    If $\hat{S}$ is large, then you can infer sensitivity to non-local isoprene emissions.
+    A relatively large change in $\Omega_{HCHO}$ (compared to local emissions) suggests that HCHO is being formed from non-local isoprene emissions.
+    Alternatively a relatively low value of $\hat{S}$ can be used to infer that emissions from a particular grid square are being exported before they form HCHO, which also informs us that local HCHO levels are not due to local emissions.
     
     %\textcite{Marais2012} additionally use airborn isoprene, MVK $+$ MACR (isoprene oxidation products), and HCHO measurements to check smearing in Africa where there is a sharp gradient of isoprene emitting vegetation from north to south.
     
@@ -452,11 +477,6 @@
     \mypic{/Figures/OMI_link/Filters/tau_2005.png}{%
       Top left, right: Summer (Jan., Feb.) and winter (JJA) averaged daily surface HCHO lifetime ($\tau$). Bottom panel: $\tau$ over the year, coloured by grid square (see dots in top right panel).
       }{\label{BioIsop:Method:Smearing:fig_tau_GC_2005}}
-    
-    If $\hat{S}$ is large, then you can infer sensitivity to non-local isoprene emissions.
-    A relatively large change in $\Omega_{HCHO}$ (compared to local emissions) suggests that HCHO is being formed from non-local isoprene emissions.
-    Alternatively a relatively low value of $\hat{S}$ can be used to infer that emissions from a particular grid square are being exported before they form HCHO, which also informs us that local HCHO levels are not due to local emissions.
-    TODO: Determine and explain choice of $\hat{S}$ range and why we expect yields and loss rates around these levels.
     
     
     Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $.
@@ -542,7 +562,8 @@
     First generation HCHO yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (sometimes molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
     \textcite{Wolfe2016} define prompt yield as the change in formaldehyde measurement per unit change in initial isoprene emissions.
     Averaged area yields can be derived from the $slope$ using the modelled loss rates $k_{hcho}$ since $slope = \frac{Y_{isop}}{k_{HCHO}}$ from equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
-    Table \ref{BioIsop:Method:tab_VOCAusYields} shows the average yield calculated for Australia. (TODO: this table and some notes).
+    Figures TODO: and TODO show the daily averaged lifetime ($k_{HCHO}$ and yield ($Y_{isop}$) modelled by GEOS-Chem.
+    The daily average can be calculated from model output however this does not provide us useful information at midday, only allow an overview of seasonality in these metrics.
     
     The half-life of HCHO to photo-oxidation with hydroxyl radicals is around 1~hr depending on environmental conditions \parencite{WHO_hcho_guidelines_2010}.
     This would make the expected lifetime ($\tau = \text{half-life}/\ln{2}$) around 1.4 hours.
