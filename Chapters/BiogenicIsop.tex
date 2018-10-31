@@ -543,10 +543,10 @@
       
       %% FIGURE SHOWS SMEARING BINNED BY NOX
       % Figure made in test_filters.smearing_nox() 
-      \mypic{Figures/OMI_link/Filters/smearing_nox.png}{%
-        Top left: OMNO2d tropospheric NO$_2$ columns (NO$_2$: molec/cm$^{-2}$) averaged into 2x2.5\degr horizontal bins for over Jan, 2005.
-        Right: Scatter plot of NO$_2$ against smearing calculations from GEOS-Chem ($\hat{S}$), with points above and below the smearing threshold range of X TO Y (TODO) coloured red and blue respectively. Points are binned by NO$_2$ with and without having the smearing filter applied (orange and magenta respectively). Overplotted is the mean and standard deviation (error bars) within each bin. Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
-        Bottom left: TODO fix this one. daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter.
+      \mypic{Figures/OMI_link/Filters/smearing_nox_200501.png}{%
+        Top left: OMNO2d tropospheric NO$_2$ columns (NO$_2$: molec cm$^{-2}$) averaged into 2x2.5\degr horizontal bins for over Jan, 2005.
+        Right: Scatter plot of NO$_2$ against smearing calculations from GEOS-Chem ($\hat{S}$), with points above and below the smearing threshold range of 900-5200~s coloured red and blue respectively. Points are binned by NO$_2$ with and without having the smearing filter applied (orange and magenta respectively). Overplotted is the mean and standard deviation (error bars) within each bin. Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
+        Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}
       
 \section{Results}
@@ -708,13 +708,16 @@
     TODO: % TODO: campaign analysis compared to GEOS-Chem
     Analyse comparison of gridbox with campaigns of measurements
     
-    One set of data from the Daintree rainforest in Queensland exists (TODO: summary from P. Nelson).
-    Although the data set lies outside our run times, as it was measured in TODO(runtime), we compare against the seasonal average of our GEOS-Chem output for the matching months (TODO: name the months).
-    This is done for both GEOS-Chem output and our recalculated isoprene emissions.
-    When compared against GEOS-Chem output we see TODO.
-    When compared against recalculated emissions we see TODO.
-    
-    TODO: Figure showing campaign data against model and recalculated emissions over region for averaged months and eventually different resolutions.
+    \subsubsection{Wollongong}
+      Wollongong FTIR measurements (see section \ref{Model:Datasets:Wollongong}) provide vertical profiles of HCHO which can be converted to total column amounts using modelled air densities.
+      This is the only non-satellite long-term record of vertical profile HCHO available in Australia and we use it here to examine trends and seasonality.
+      The time series for HCHO is shown in figure TODO, along with GEOS-Chem output before and after updating isoprene emissions.
+      TODO: discuss plot here
+      
+      TODO: Figure showing campaign data against model and recalculated model.
+      
+      A long term regression of anomalies from the multi-year monthly average shows that TODO.
+      Figure TODO shows the trend for each month along with colocated HCHO from GEOS-Chem outputs.
 
  \section{Affects of emissions on chemistry}
  
@@ -734,10 +737,19 @@
 \label{BioIsop:Uncertainty}
 
   There are several factors which need to be considered when looking at the uncertainty in emissions estimates.
-  Things with their own inherent uncertainty include the modelled a-priori, modelled relationship between HCHO and isoprene, and satellite measurements. 
+  Things with their own inherent uncertainty include the modelled a-priori, modelled relationship between HCHO and isoprene, and satellite measurements.
   Important factors which need to be analysed for confidence in results include the steady state assumptions, filtering techniques for fire and human influences, and the regression model for determining the isoprene to HCHO yield.
   
   Uncertainty in satellite HCHO, along with top down emissions estimates $E_{isop}$ is listed in table \ref{Model:Uncertainty:tab_uncertainties}.
+  The final determination of top-down emissions comes from equation \ref{BioIsop:Method:eqn_Enew}: $E_{isop}=\frac{VCC - VCC_{BG}}{S}$.
+  Assuming each term is independent, we use the following equations to estimate error in $E_{isop}$:
+  \begin{align*}
+    \mathtt{z=x+y:} \, \Delta{z} & = \sqrt{(\Delta{x})^2 + (\Delta{y})^2} \\
+    \mathtt{z=x/y:} \, \Delta{z} & = z \sqrt{(\frac{\Delta{x}}{x})^2 + (\frac{\Delta{y}}{y})^2} \\
+    VCC - VCC_{BG} & = \Phi \\
+    \Delta{\Phi} & = \sqrt{(\Delta{VCC})^2 + (\Delta{VCC_{BG}})^2} \\
+    \Delta{E_{isop}} &= E_{isop} \times \sqrt{(\frac{\Delta{\Phi}}{\Phi})^2 + (\frac{\Delta{S}^2}{S})^2}
+  \end{align*}
   %\textcite{Millet2006, Palmer2006} both examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
   \begin{table}\begin{threeparttable}
     \caption{Uncertainties in literature and here.}
