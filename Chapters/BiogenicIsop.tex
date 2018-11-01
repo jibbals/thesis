@@ -533,7 +533,7 @@
       In low NO$_X$ environments, reported HCHO yields from isoprene are from XtoY\%, while in high NO$_X$ environments this value is XtoY\% TODO: these values from table.
       For monoterpenes the yields are around X, Y\% for low, high NO$_X$ respectively.
       
-      NO$_2$ measured by OMNO2d gives us a daily mid-day measurement which we can compare to output from GEOS-Chem to determine how well the model does at simulating NO$_2$ (presented back in section \ref{Model:Analysis:NOx}).
+      NO$_2$ measured by OMNO2d gives us a daily mid-day measurement which we can compare to output from GEOS-Chem to determine how well the model does at simulating NO$_2$ (see section \ref{Model:GC:NOx}).
       %\textcite{Travis2016} show how NO$_X$ can be used to examine model bias in ozone (potentially due to NO$_2$ bias) over the USA.
       The affect of NO$_2$ on smearing can be seen in figure \ref{BiogIsop:Method:smearing:fig_smearing_vs_nox}.
       This plot shows how smearing over Australia compares to satellite NO$_2$ levels, with smearing distributions binned by NO$_2$ both with and without applying a filter for smearing.
@@ -548,7 +548,17 @@
         Right: Scatter plot of NO$_2$ against smearing calculations from GEOS-Chem ($\hat{S}$), with points above and below the smearing threshold range of 900-5200~s coloured red and blue respectively. Points are binned by NO$_2$ with and without having the smearing filter applied (orange and magenta respectively). Overplotted is the mean and standard deviation (error bars) within each bin. Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
         Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}
-      
+
+\section{Running GEOS-Chem with scaled isoprene emissions}
+\label{BioIsop:ScaledRun}
+  
+  Having calculated the midday (13:00-14:00~LT) emission rates of isoprene, a new run of GEOS-Chem is performed after scaling the MEGAN emissions to match the new top-down estimate.
+  This is performed using a monthly scale factor (at 2x2.5\degr) based on the difference between midday MEGAN emissions and the top-down estimate multi-year monthly average.
+  Figure TODO: shows the monthly mean daily cycle of isoprene emissions from MEGAN, along with the top-down midday estimate, for an example grid box located 2.5\degr west of Sydney.
+  
+  This is performed through a small modification of GEOS-chem source code which applies the extra scale factor after calculating emissions for each grid-square based on the default emission factors and meteorology.
+  This scale factor is set to one wherever top-down emissions are not calculated.
+
 \section{Results}
   \label{BioIsop:Results}
   
@@ -703,10 +713,31 @@
     The black line is the average and over Australia, while the red line is the average for within the red rectangle. 
     Grey shading shows the 25th to 75th percentile for all of Australia.
     
+  \subsection{Effects from scaling emissions}
+    
+    \subsubsection{HCHO levels}
+      
+      %As is done in \textcite{Emmerson2016}, 
+      We examine the affect of decreased isoprene emissions on the correlation between modelled and satellite based HCHO columns.
+      Figure TODO: shows the regressions between GEOS-Chem tropospheric column amounts of HCHO and satellite columns for two runs of GEOS-Chem: a) using standard MEGAN emissions, b) using our updated emissions.
+      We interpolated or something (TODO) the emissions over Australia into the inventories used by GEOS-Chem which reduced the emissions by X\% per year (over Australia).
+      The resulting simulation output shows that HCHO was reduced by X\%, although if we boost monoterpenes by X\% where the isoprene emissions were lowered then 
+  
+    \subsubsection{Ozone levels}
+  
+      TODO: compare ozone after changing isoprene emissions in GEOS-Chem
+  
   \subsection{Comparison with in-situ measurements}
     
     TODO: % TODO: campaign analysis compared to GEOS-Chem
     Analyse comparison of gridbox with campaigns of measurements
+    
+    \subsubsection{Overall}
+      
+      Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (section \ref{Model:Datasets:MUMBA}, \ref{Model:Datasets:SPS}) both before and after scaling isoprene emissions to match the top-down estimation.
+      TODO: discuss results and differences, does isoprene improve?
+      
+      Figure TODO shows how these campaigns compare against GEOS-Chem modelled HCHO before and after isoprene scaling is performed. The regressions show improvement/no improvement TODO however there are relatively few data points for comparison as the campaigns only lasted a few months.
     
     \subsubsection{Wollongong}
       Wollongong FTIR measurements (see section \ref{Model:Datasets:Wollongong}) provide vertical profiles of HCHO which can be converted to total column amounts using modelled air densities.
@@ -717,21 +748,7 @@
       TODO: Figure showing campaign data against model and recalculated model.
       
       A long term regression of anomalies from the multi-year monthly average shows that TODO.
-      Figure TODO shows the trend for each month along with colocated HCHO from GEOS-Chem outputs.
-
- \section{Affects of emissions on chemistry}
- 
-   \subsection{HCHO levels}
-     
-     %As is done in \textcite{Emmerson2016}, 
-     We examine the affect of decreased isoprene emissions on the correlation between modelled and satellite based HCHO columns.
-     Figure TODO: shows the regressions between GEOS-Chem tropospheric column amounts of HCHO and satellite columns for two runs of GEOS-Chem: a) using standard MEGAN emissions, b) using our updated emissions.
-     We interpolated or something (TODO) the emissions over Australia into the inventories used by GEOS-Chem which reduced the emissions by X\% per year (over Australia).
-     The resulting simulation output shows that HCHO was reduced by X\%, although if we boost monoterpenes by X\% where the isoprene emissions were lowered then 
-     
-   \subsection{Ozone levels}
-   
-     TODO: compare ozone after changing isoprene emissions in GEOS-Chem
+      Figure TODO shows the trend for each month along with co-located HCHO from GEOS-Chem outputs.
 
 \section{Uncertainty}
 \label{BioIsop:Uncertainty}
