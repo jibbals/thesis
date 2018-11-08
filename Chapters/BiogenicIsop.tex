@@ -224,7 +224,8 @@
           \end{equation}
       \end{enumerate}
       \item
-        Biogenic yield is masked where the HCHO production is not dominated by local isoprene emissions. 
+        Modelled slope calculations depend on several assumptions which are not always valid.
+        A mask is created for where the HCHO production is not dominated by local isoprene emissions. 
         This is determined by calculating smearing over Australia using two model runs with differing isoprene emissions.
         This smearing value is determined as $\hat{S}=\Delta \Omega_{HCHO}/ \Delta E_{isop}$, the ratio between HCHO columns and isoprene emissions changed between model runs.
         The range for $\hat{S}$ over Australia is determined as 800 - 4600~s.
@@ -280,13 +281,13 @@
     \end{split} \end{eqnarray}
     
     The equations above come from several assumptions that are important to understand.
-    The first assumption is that HCHO ($H$) %and isoprene ($I$)?
+    The first assumption is that HCHO %and isoprene ($I$)?
     is at steady state, which implies productions and losses are equivalent.
     Then we assume that loss is only due to photolysis and oxidation (first order, $k_{HCHO} = 1/t$).
     Production of HCHO is due to the sum of the precursor emissions ($E_i$) multiplied by their yields to HCHO ($Y_i$).
     \begin{eqnarray*}
-      \frac{d [ H ] }{dt} & = 0 = Prod(HCHO) - Loss(HCHO) \\
-      Loss(HCHO)  & = k_{HCHO} [ H ] \\
+      \frac{d [ HCHO ] }{dt} & = 0 = Prod(HCHO) - Loss(HCHO) \\
+      Loss(HCHO)  & = k_{HCHO} [ HCHO ] \\
       Prod(HCHO)  & = \Sigma_i Y_i E_i  \\
     \end{eqnarray*}
     Now instead of concentrations we use total column amounts for HCHO, with emissions being in units of molecules cm$^{-2}$ s$^{-1}$.
@@ -335,6 +336,7 @@
     The other way involves looking at HCHO over the remote pacific at matching latitudes and times, which emulates how the background is determined for the measured HCHO.
     Figure \ref{BioIsop:Method:fig_background_hcho} shows how GEOS-Chem total column HCHO with and without isoprene emissions along with amounts over the remote pacific at the same latitudes.
     Modelled background HCHO concentrations over the ocean are used when creating the reference sector correction for satellite measurements (in section \ref{Model:omiRecalc:RSC}).
+    In this thesis modelled background columns are calculated using the longitudinally averaged remote pacific .
     
     
     \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{Total column HCHO over Australia (left) and the remote pacific region (right) using GEOS-Chem with (top) and without (bottom) isoprene emissions. }{\label{BioIsop:Method:fig_background_hcho}}
@@ -349,12 +351,12 @@
     As is done in \textcite{Palmer2003, Millet2006, Bauwens2016}, we assume that HCHO and isoprene columns are in a steady state, with no horizontal transport.
     We also assume that isoprene is the only compound enhancing the HCHO levels, which requires that we filter out influence from fires, smoke, and anthropogenic emissions.
     Emissions of precursors are easy to calculate using the slope $S$ calculated in the prior section from modelled HCHO and isoprene columns:
-    \begin{equation}
+    \begin{equation*}
     \Omega_{HCHO} = S \times E_isop + \Omega_0
-    \end{equation}
-    This is the same equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}, except now we use the modelled $slope$ along with satellite $\Omega_{HCHO}$ and $\Omega_0$.
+    \end{equation*}
+    This is the same equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}, except now we use the modelled slope along with satellite $\Omega_{HCHO}$ and $\Omega_0$.
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude as $\Omega_{HCHO}$.
-    This leaves $E_{isop}$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of our $slope$.
+    This leaves $E_{isop}$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
     Figure \ref{BioIsop:Calculation:fig_E_isop_200501} shows the emissions calculated this way along with the modelled emissions output by GEOS-Chem averaged over January, 2005.
     \begin{figure}
       % Figure from Inversion.py -> check_against_MEGAN()
@@ -550,18 +552,18 @@
         Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}
 
-\section{Running GEOS-Chem with scaled isoprene emissions}
-\label{BioIsop:ScaledRun}
-  
-  Having calculated the midday (13:00-14:00~LT) emission rates of isoprene, a new run of GEOS-Chem is performed after scaling the MEGAN emissions to match the new top-down estimate.
-  This is performed using a monthly scale factor (at 2x2.5\degr) based on the difference between midday MEGAN emissions and the top-down estimate multi-year monthly average.
-  Figure TODO: shows the monthly mean daily cycle of isoprene emissions from MEGAN, along with the top-down midday estimate, for an example grid box located 2.5\degr west of Sydney.
-  Initially a run of GEOS-Chem using no chemistry it performed in order to quickly retrieve MEGAN hourly averaged isoprene emissions.
-  Then the MEGAN emissions at midday for each month per gridbox are averaged (see figure TODO) and the multi-year average of these is compared against the top-down estimate.
-  
-  A scaling factor $\alpha$ is derived which when multiplied with MEGAN midday emission monthly averages $E_{MEGAN}$ produces the top down emissions estimate $E_{OMI}$ : $\alpha = \frac{E_{MEGAN}}{E_{OMI}}$.
-  This is performed through a small modification of GEOS-chem source code which applies $\alpha$ after calculating emissions for each grid-square based on the default emission factors and meteorology.
-  This scale factor is set to one wherever top-down emissions are not calculated.
+  \subsection{Running GEOS-Chem with scaled isoprene emissions}
+  \label{BioIsop:ScaledRun}
+    
+    Having calculated the midday (13:00-14:00~LT) emission rates of isoprene, a new run of GEOS-Chem is performed after scaling the MEGAN emissions to match the new top-down estimate.
+    This is performed using a monthly scale factor (at 2x2.5\degr) based on the difference between midday MEGAN emissions and the top-down estimate multi-year monthly average.
+    Figure TODO: shows the monthly mean daily cycle of isoprene emissions from MEGAN, along with the top-down midday estimate, for an example grid box located 2.5\degr west of Sydney.
+    Initially a run of GEOS-Chem using no chemistry it performed in order to quickly retrieve MEGAN hourly averaged isoprene emissions.
+    Then the MEGAN emissions at midday for each month per gridbox are averaged (see figure TODO) and the multi-year average of these is compared against the top-down estimate.
+    
+    A scaling factor $\alpha$ is derived which when multiplied with MEGAN midday emission monthly averages $E_{MEGAN}$ produces the top down emissions estimate $E_{OMI}$ : $\alpha = \frac{E_{MEGAN}}{E_{OMI}}$.
+    This is performed through a small modification of GEOS-chem source code which applies $\alpha$ after calculating emissions for each grid-square based on the default emission factors and meteorology.
+    This scale factor is set to one wherever top-down emissions are not calculated.
 
 \section{Results}
   \label{BioIsop:Results}
@@ -706,57 +708,25 @@
     
     
     
-    Figure todo shows emissions over Australia calculated using the OMI top down estimate (column 1) and MEGAN (column 2). 
-    The black line is the average and over Australia, while the red line is the average for within the red rectangle. 
+    Figure \ref{BioIsop:Results:Emissions:fig_time_series_vs_megan} shows emissions over Australia calculated using the OMI top down estimate (column 1: E$_{new}$) and MEGAN (column 2: E$_{MEGAN}$).
+    The first row shows the overall average emission rates, the second row shows the time series (daily midday averages) and the final row shows the relative differences as $\frac{E_{MEGAN} - E_{new}}{E_{MEGAN}}$.
+    The black lines and grey areas show the Australian mean and inter-quartile range respectively, while the coloured lines show the mean within the rectangles (of matching colours) shown in the first row.
     Grey shading shows the 25th to 75th percentile for all of Australia.
+    This figure is repeated using monthly medians in (of the daily midday estimates) in \ref{BioIsop:Results:Emissions:fig_time_series_vs_megan_monthly}.
     
-  \subsection{Effects from scaling emissions}
     
-    After creating the top-down estimation of isoprene emissions, we run GEOS-Chem again with emissions scaled to match the new estimate. 
-    This is done through taking all the new midday (13:00-14:00~LT) emissions (per grid box) and forming a multi year monthly mean, which can be compared to the MEGAN equivalent (13:00-14:00~LT).
-    A monthly factor ($\alpha$ at 2x2.5\degr) that scales MEGAN to match the top-down emissions is then applied within HEMCO (the emissions module in GEOS-Chem).
-    How these changes affect HCHO and ozone model outputs are discussed in this section.
-    
-    \subsubsection{HCHO levels}
-      
-      %As is done in \textcite{Emmerson2016}, 
-      We examine the affect of scaling isoprene emissions on the correlation between modelled and satellite based HCHO columns.
-      Figure TODO: shows the regressions between GEOS-Chem tropospheric column amounts of HCHO and satellite columns for two runs of GEOS-Chem: a) using standard MEGAN emissions, b) using our updated emissions.
-      We interpolated or something (TODO) the emissions over Australia into the inventories used by GEOS-Chem which reduced the emissions by X\% per year (over Australia).
-      The resulting simulation output shows that HCHO was reduced by X\%, although if we boost monoterpenes by X\% where the isoprene emissions were lowered then 
+    \mypic{E_zones_PP_lr.png}{}{\label{BioIsop:Results:Emissions:fig_time_series_vs_megan}}
+    \mypic{E_zones_GC_monthly_lr}{ As figure \ref{BioIsop:Results:Emissions:fig_time_series_vs_megan} using monthly medians of the daily midday emissions estimates.}{\label{BioIsop:Results:Emissions:fig_time_series_vs_megan_monthly}}
   
-    \subsubsection{Ozone levels}
-  
-      TODO: compare ozone after changing isoprene emissions in GEOS-Chem
-      Changing isoprene emissions over Australia impacts the cities/coasts TODO determine this.
-      This is likely due to the relatively clean atmosphere over the majority of Australia, which is likely NO$_X$ limited outside of major population centres.
-      
-      TODO: Figure shows modelled surface ozone concentrations and their differences between model runs over an average summer (DJF). 
-      Figure TODO shows the same over an average winter (JJA).
-      Figure TODO compares the summer differences to surface NO emissions (modelled), and total column NO (satellite).
-  
-  \subsection{Comparison with in-situ measurements}
+  \subsection{Comparison with measurements}
     
     TODO: % TODO: campaign analysis compared to GEOS-Chem
     Analyse comparison of gridbox with campaigns of measurements
     
-    \subsubsection{Overall}
-      
-      Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (section \ref{Model:Datasets:MUMBA}, \ref{Model:Datasets:SPS}) both before and after scaling isoprene emissions to match the top-down estimation.
-      TODO: discuss results and differences, does isoprene improve?
-      
-      Figure TODO shows how these campaigns compare against GEOS-Chem modelled HCHO before and after isoprene scaling is performed. The regressions show improvement/no improvement TODO however there are relatively few data points for comparison as the campaigns only lasted a few months.
+  
+    Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (section \ref{Model:Datasets:MUMBA}, \ref{Model:Datasets:SPS}) both before and after scaling isoprene emissions to match the top-down estimation.
+    TODO: discuss results and differences, does isoprene improve?
     
-    \subsubsection{Wollongong}
-      Wollongong FTIR measurements (see section \ref{Model:Datasets:Wollongong}) provide vertical profiles of HCHO which can be converted to total column amounts using modelled air densities.
-      This is the only non-satellite long-term record of vertical profile HCHO available in Australia and we use it here to examine trends and seasonality.
-      The time series for HCHO is shown in figure TODO, along with GEOS-Chem output before and after updating isoprene emissions.
-      TODO: discuss plot here
-      
-      TODO: Figure showing campaign data against model and recalculated model.
-      
-      A long term regression of anomalies from the multi-year monthly average shows that TODO.
-      Figure TODO shows the trend for each month along with co-located HCHO from GEOS-Chem outputs.
 
 \section{Uncertainty}
 \label{BioIsop:Uncertainty}
@@ -773,7 +743,7 @@
     \mathtt{z=x/y:} \, \Delta{z} & = z \sqrt{(\frac{\Delta{x}}{x})^2 + (\frac{\Delta{y}}{y})^2} \\
     VCC - VCC_{BG} & = \Phi \\
     \Delta{\Phi} & = \sqrt{(\Delta{VCC})^2 + (\Delta{VCC_{BG}})^2} \\
-    \Delta{E_{isop}} &= E_{isop} \times \sqrt{(\frac{\Delta{\Phi}}{\Phi})^2 + (\frac{\Delta{S}^2}{S})^2}
+    \Delta{E_{isop}} &= E_{isop} \times \sqrt{(\frac{\Delta{\Phi}}{\Phi})^2 + (\frac{\Delta{S}}{S})^2}
   \end{align*}
   %\textcite{Millet2006, Palmer2006} both examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
   \begin{table}\begin{threeparttable}
@@ -899,16 +869,55 @@
     The wilting point is set by a land based database from \textcite{Chen2001}, while $\theta_1$ is set globally based on \textcite{Pegoraro2004}.
     Potentially importantly, these moisture states are disabled in GEOS-Chem V10.01, which is partly because accurate maps of soil moisture are not available.
   
-  \subsubsection{Inversion}
+  \subsection{Inversion}
   
-    Uncertainties introduced through the inversion process are hard to adequately quantify. 
+Wl    Uncertainties introduced through the inversion process are hard to adequately quantify. 
     We can identify the uncertainties in the linear regression used to relate HCHO to isoprene emissions, however a lack of data coverage means that we cannot be too sure that our assumptions hold true.
     Even though this top-down inversion attempts to remedy the lack of measurement over Australia, it suffers from the lack of data-points against which it can be verified.
     
     
-
-\section{Conclusions}
+\section{Conclusions and implications}
   \label{BioIsop:Conclusions}
+  
+  \subsection{Effects from scaling emissions}
+  
+    After creating the top-down estimation of isoprene emissions, we run GEOS-Chem again with emissions scaled to match the new estimate. 
+    This is done through taking all the new midday (13:00-14:00~LT) emissions (per grid box) and forming a multi year monthly mean, which can be compared to the MEGAN equivalent (13:00-14:00~LT).
+    A monthly factor ($\alpha$ at 2x2.5\degr) that scales MEGAN to match the top-down emissions is then applied within HEMCO (the emissions module in GEOS-Chem).
+    How these changes affect HCHO and ozone model outputs are discussed in this section.
+  
+    \subsubsection{HCHO levels}
+    
+      %As is done in \textcite{Emmerson2016}, 
+      We examine the affect of scaling isoprene emissions on the correlation between modelled and satellite based HCHO columns.
+      Figure TODO: shows the regressions between GEOS-Chem tropospheric column amounts of HCHO and satellite columns for two runs of GEOS-Chem: a) using standard MEGAN emissions, b) using our updated emissions.
+      We interpolated or something (TODO) the emissions over Australia into the inventories used by GEOS-Chem which reduced the emissions by X\% per year (over Australia).
+      The resulting simulation output shows that HCHO was reduced by X\%, although if we boost monoterpenes by X\% where the isoprene emissions were lowered then 
+      
+      Wollongong FTIR measurements (see section \ref{Model:Datasets:Wollongong}) provide vertical profiles of HCHO which can be converted to total column amounts using modelled air densities.
+      This is the only non-satellite long-term record of vertical profile HCHO available in Australia and we use it here to examine trends and seasonality.
+      The time series for HCHO is shown in figure TODO, along with GEOS-Chem output before and after updating isoprene emissions.
+      TODO: discuss plot here
+              
+      TODO: Figure showing campaign data against model and recalculated model.
+              
+      A long term regression of anomalies from the multi-year monthly average shows that TODO.
+      Figure TODO shows the trend for each month along with co-located HCHO from GEOS-Chem outputs.
+      Figure TODO shows how campaign data compares against GEOS-Chem modelled HCHO before and after isoprene scaling is performed. 
+      The regressions show improvement/no improvement TODO however there are relatively few data points for comparison as the campaigns only lasted a few months.
+      
+
+      Figure todo shows how the longer term FTIR HCHO measurements compare against modelled HCHO before and after changing isoprene emissions
+    
+    \subsubsection{Ozone levels}
+    
+      TODO: compare ozone after changing isoprene emissions in GEOS-Chem
+      Changing isoprene emissions over Australia impacts the cities/coasts TODO determine this.
+      This is likely due to the relatively clean atmosphere over the majority of Australia, which is likely NO$_X$ limited outside of major population centres.
+      
+      TODO: Figure shows modelled surface ozone concentrations and their differences between model runs over an average summer (DJF). 
+      Figure TODO shows the same over an average winter (JJA).
+      Figure TODO compares the summer differences to surface NO emissions (modelled), and total column NO (satellite).
   
 % Extras for potential paper output 
 %  
