@@ -192,51 +192,56 @@
     This process is summarised in figure \ref{BioIsop:Method:fig_Flow_Making_Isop}.
     \begin{enumerate}
       \item 
+        Level two OMI HCHO satellite data (see section \ref{Model:omhcho}), along with GEOS-Chem model runs (see section \ref{Model:GC:simulations}) are used to recalculate corrected vertical columns (VCCs; saved in OMHCHORP dataset) at 0.25\degr by 0.3125\degr horizontal resolution (see section \ref{Model:omiRecalc}).
+      \item 
         Level three satellite data are used to make anthropogenic, fire, and smoke influence masks (see section \ref{Model:Filter}).
-      \item 
-        Level two OMI HCHO satellite data (see section \ref{Model:Datasets:OMHCHO}), along with GEOS-Chem model runs (see section \ref{Model:GC:runs}) are used to recalculate corrected vertical columns (VCCs; saved in OMHCHORP dataset) at 0.25\degr by 0.3125\degr horizontal resolution (see section \ref{Model:omiRecalc}).
-      \item 
-        Fire and anthropogenic masks are applied to filter out satellite HCHO columns which may be influenced by non biogenic sources.
-        For a full outline of these filters see section \ref{Model:Filter}.
+        These are applied to remove VCCs which may be influenced by non biogenic sources. 
       \begin{enumerate}
         \item 
           The fire mask is created daily from non-zero (MODIS) fire counts over the prior 2 days which occur in local or adjacent grid squares at 0.25\degr latitude by 0.3125\degr longitude
         \item 
           A second filter to remove influence from transported smoke plumes is created where OMI aerosol absorption optical depth (AAOD, from OMAERUVd) greater than 0.03
         \item 
-          A filter for anthropogenic influence is created daily using OMNO2d NO$_2$ tropospheric column amounts; masking any grid squares with greater than $1\times 10 ^{15}$\moleccm2 on any particular day, along with grid squares where the yearly average is above $1.5 \times 10^{15}$\moleccm
+          A filter for anthropogenic influence is created daily using OMNO2d NO$_2$ tropospheric column amounts; masking any grid squares with greater than $2\times 10 ^{15}$\moleccm2 on any particular day, along with grid squares where the yearly average is above $1.5 \times 10^{15}$\moleccm
       \end{enumerate}
       \item 
-      GEOS-Chem modelled biogenic emissions of isoprene along with total biogenic columns of HCHO, both averaged over 2x2.5\degr horizontally  and 1300-1400~LT temporally, are used to calculate a linear regression slope.
-      \begin{enumerate}
-        \item Globally gridded biogenic emissions of isoprene output from GEOS-Chem are read in as E$_{GC}$~atoms C cm$^{-2}$ s$^{-1}$.
-        \item Satellite overpass output of total HCHO columns from GEOS-Chem are read in as $\Omega_{GC}$\moleccm
-        \item A reduced major axis regression slope is found between $\Omega_{GC}$ and E$_{GC}$ using a month of modelled output (one value per day) for each gridsquare (eg. see figure \ref{BioIsop:Method:slope:fig_regressions})
-      \end{enumerate}
-      \item For each of the corrected vertical columns (VCC$_{OMI}$, VCC$_{GC}$, and VCC$_{PP}$; see section \ref{Model:omiRecalc}), a top down estimate of biogenic isoprene emissions (E$_{new}$; atoms C cm$^{-2}$ s$^{-1}$) is calculated
+        GEOS-Chem modelled biogenic emissions of isoprene ($E_{GC}$) along with total biogenic columns of HCHO ($\Omega_{GC}$), both averaged over 2x2.5\degr horizontally  and 1300-1400~LT temporally, are used to calculate a linear regression slope ($\Omega_{GC}=S E_{GC} + \Omega_{GC_0}$)
+        \begin{enumerate}
+          \item 
+            Hourly gridded model output $E_{GC}$~atoms C cm$^{-2}$ s$^{-1}$ is read, and 13:00~LT daily values are extracted.
+          \item
+            Daily 13:00-14:00~LT $\Omega_{GC}$\moleccm output is read.
+          \item 
+            A reduced major axis regression slope is determined between $\Omega_{GC}$ and E$_{GC}$ using a month of modelled output (one value per day) for each gridsquare (eg. see figure \ref{BioIsop:Method:slope:fig_regressions})
+        \end{enumerate}
+      %\item For each of the corrected vertical columns (VCC$_{OMI}$, VCC$_{GC}$, and VCC$_{PP}$; see section \ref{Model:omiRecalc}), a top down estimate of biogenic isoprene emissions (E$_{new}$; atoms C cm$^{-2}$ s$^{-1}$) is calculated
+      \item 
+        VCCs are used to create a top-down estimate of biogenic isoprene emissions ($E_{new}$~atoms C cm$^{-2}$ s$^{-1}$)
       \begin{enumerate}
         \item 
           Background total columns (VCC$_{BG}$) are calculated by averaging longitudinally the VCCs between 180 and 120\degr W
         \item
           Emissions are calculated using 
           \begin{equation} \label{BioIsop:Method:eqn_Enew}
-            E_{new} = \frac{VCC - VCC_{BG}}{slope}
+            E_{new} = \frac{VCC - VCC_{BG}}{S}
           \end{equation}
       \end{enumerate}
       \item
-        Modelled slope calculations depend on several assumptions which are not always valid.
+        Modelled slope (S) calculations depend on several assumptions which are not always valid.
         A mask is created for where the HCHO production is not dominated by local isoprene emissions. 
         This is determined by calculating smearing over Australia using two model runs with differing isoprene emissions.
-        This smearing value is determined as $\hat{S}=\Delta \Omega_{HCHO}/ \Delta E_{isop}$, the ratio between HCHO columns and isoprene emissions changed between model runs.
-        The range for $\hat{S}$ over Australia is determined as 800 - 4600~s.
-        A full description and analysis of this term used to determine the smearing filter is given in section \ref{BioIsop:Method:Smearing}
+        This smearing value is determined as $\hat{S}=\Delta \Omega_{HCHO}/ \Delta E_{isop}$: the ratio between HCHO columns and isoprene emissions changed between model runs.
+        The acceptable range for $\hat{S}$ over Australia is determined as 800 - 4600~s.
+        A full description of the creation of this smearing filter is given in section \ref{BioIsop:Method:Smearing}
       \item 
-        Compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane measurements (HIPPO).
+        Top-down emissions $E_{new}$ are compared against MEGAN estimated emissions, as well as analysed in conjunction with concentration measurement campaigns (MUMBA, SPS, and one set of airplane measurements (HIPPO)).
         TODO: do these things
       \begin{enumerate}
-        \item Top-down isoprene emissions are calculated for the time window 1300-1400~LT, matching the peak of the diurnal cycle
-        \item A monthly scaling factor for isoprene emissions is updated based on the difference between peak MEGAN emissions and our top-down estimates
-        \item GEOS-Chem is run with the updated scaling factor, and HCHO, O$_3$, isoprene, and NO$_X$ outputs are compared to campaign measurements
+        \item 
+          Top-down isoprene emissions are calculated for the time window 1300-1400~LT, matching the peak of the diurnal cycle
+        \item 
+          A monthly scaling factor ($\alpha$) for isoprene emissions is created based on the difference between peak MEGAN emissions and our top-down estimates
+        \item GEOS-Chem is run using the a posteori emissions, and HCHO, O$_3$, isoprene, and NO$_X$ outputs are compared to campaign measurements
       \end{enumerate}
     \end{enumerate}
     
@@ -245,32 +250,35 @@
   \subsection{Masks and reprocessed satellite HCHO}
     
     Satellite data pixels are read from the OMHCHO level 2 satellite dataset, AMFs are recalculated, and then pixels are gridded daily into 0.25x0.3125\degr horizontal bins. 
-    This forms the intermediate product (OMHCHORP), the creation of which is detailed in section \ref{Model:omiRecalc:outline}.
-    In total a month of these data are read in at a time (to allow parallelism and reduce RAM usage) and then used in subsequent steps to calculate the isoprene emissions.
-    Pixel counts (how many satellite datapoints were used for each VCC) for each gridbox are kept track of to allow averaging when changing from fine to coarse resolution.
+    This forms the intermediate product OMHCHORP, which is fully described in section \ref{Model:omiRecalc:outline}.
+    In total a month of these data are read in at a time %(to allow parallelism and reduce RAM usage)
+    and then used in subsequent steps to calculate the isoprene emissions.
+    Pixel counts (how many satellite datapoints were used for each VCC) for each gridbox are kept track of to allow averaging and resolution changes.
     
-    Anthropogenic, fire, and smoke influence masks are created from three satellite products: daily NO2 from OMNO2d, daily fire counts from MOD14A1, and daily AAOD from OMAERUVd respectively (see section \ref{Model:Filter}). 
-    These masks are binned using averaged or summed values within our 0.25x0.3125\degr horizontal resolution, read from OMHCHORP.
-    The recalculated corrected vertical columns (VCCs) (0.25\degr by 0.3125\degr horizontal resolution) are additionally read from OMHCHORP. %(see section \ref{Model:omiRecalc}).
+    The satellite data is used to determine biogenic HCHO enhancements, which means that non-biogenic sources need to be filtered out of the OMHCHORP product.
+    Anthropogenic, fire, and smoke influence masks are created from three satellite products: daily NO2 from OMNO2d, daily fire counts from MOD14A1, and daily AAOD from OMAERUVd respectively (see section \ref{Model:Filter}).
+    These masks are binned using averaged or summed values within our 0.25x0.3125\degr horizontal resolution.
+    The recalculated corrected vertical columns (VCCs) are saved to OMHCHORP dataset both before and after applying the filters, to allow basic analysis.
+    While the major source of HCHO concentrations is oxidation of methane, the linear regression used to estimate isoprene emissions effectively ignores this source as part of the background.
     
     
   \subsection{Calculating modelled slope}
     \label{BioIsop:Method:slope}
     
     % determination of HCHO = S E_isop + HCHO_BG
-    Initially studies assumed a simple linear steady-state relationship between HCHO and its precursors \parencite{Palmer2003, Palmer2006, Millet2006}.
-    This allowed a simple calculation of isoprene using the measured HCHO, with estimated reaction rates and yields.
+    By assuming a simple linear steady-state relationship between HCHO and its precursors \parencite{Palmer2003, Palmer2006, Millet2006}, one may calculate isoprene emissions using measured HCHO.
+    The calculation requires reaction rates and yields from isoprene to HCHO, which can be determined most readily using chemical modelling.
     The methodology for calculating VOCs from HCHO is laid out in \textcite{Palmer2003}, and takes into account the expected lifetime and reaction rates of the precursor VOCs and HCHO.
     Assuming HCHO is produced quickly from short-lived intermediates:
     \begin{eqnarray*}
       VOC_i \overset{k_i}{\rightarrow} Y_i HCHO
     \end{eqnarray*}
-    Where $Y_i$ is HCHO yield per C atom (a measure of how much HCHO will form per gram of C from a VOC within the system), and $k_i$ is the reaction rate.
+    Where $i$ indexes a chemical species, $Y_i$ is HCHO yield per C atom, and $k_i$ is the reaction rate.
     Then assuming a steady state of atmospheric HCHO ($\Omega$; \moleccm) produced by oxidation of VOCs (VOC$_i$) and no horizontal transport:
     \begin{eqnarray*}
       \Omega = \frac{1}{k_{HCHO}} \sum_{i} Y_i E_i
     \end{eqnarray*}
-    Where $i$ indexes a chemical species, $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the molar HCHO yield from oxidation of $i$, and $E_i$ is emission fluxes ( C atoms $cm^{-2} s^{-1}$).
+    Where $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the molar HCHO yield from oxidation (of $i$), and $E_i$ is emission fluxes (C atoms $cm^{-2} s^{-1}$).
     We assume isoprene is the most important precursor and lump other terms into the background $\Omega_0$ so that our equation becomes 
     \begin{eqnarray} 
     \label{BioIsop:Method:slope:eqn_isop_to_hcho}
@@ -283,8 +291,8 @@
     The equations above come from several assumptions that are important to understand.
     The first assumption is that HCHO %and isoprene ($I$)?
     is at steady state, which implies productions and losses are equivalent.
-    Then we assume that loss is only due to photolysis and oxidation (first order, $k_{HCHO} = 1/t$).
-    Production of HCHO is due to the sum of the precursor emissions ($E_i$) multiplied by their yields to HCHO ($Y_i$).
+    Then we assume that loss is only due to photolysis and oxidation (first order, $k_{HCHO} = 1/\tau_{HCHO}$).
+    Production of HCHO above a background is due to the sum of the precursor emissions ($E_i$) multiplied by their yields to HCHO ($Y_i$).
     \begin{eqnarray*}
       \frac{d [ HCHO ] }{dt} & = 0 = Prod(HCHO) - Loss(HCHO) \\
       Loss(HCHO)  & = k_{HCHO} [ HCHO ] \\
@@ -300,13 +308,14 @@
     
     Estimates of $Y_{isop}$ or $S$ can be attained through modelling \parencite[e.g.][]{Millet2006}.
     We look at each $2\times2.5$~\degr grid box from daily GEOS-Chem (biogenic only) output of $\Omega_{HCHO}$ and $E_{isop}$ within Australia, and calculate the (RMA) correlation for each month.
-    Modelled background emissions can be ignored here as they do not affect the slope calculation.
-    This effectively gives us monthly gridded isoprene to HCHO $slope$ in units of molecules HCHO $\times$ seconds $\times$ atom C$^{-1}$.
+    Modelled background concentrations can be ignored here as they do not affect slope calculation.
+    This effectively gives us monthly gridded isoprene to HCHO slope ($S$) in units of molecules HCHO $\times$ seconds $\times$ atom C$^{-1} = $ seconds.
     Figure \ref{BioIsop:Method:slope:fig_regressions} (top left) shows the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid square over January 2005, averaged between 1300-1400~LT each day.
     Also shown are the regression coefficients (bottom left), Australia averaged time series (top right), and a sample of the regressions (bottom right).
     Each regression is for a single grid box, over the course of one month, and is coloured by location (matching dots shown in the bottom left panel).
     The slopes shown in the bottom right panel can range widely due to differences in emission and yield parameters, which plays a role in the smearing filters applied in section \ref{BioIsop:Method:Smearing}.
     Due to the low horizontal resolution of GEOS-Chem (2 by 2.5\degr, latitude by longitude), calculations from grid boxes on the coast which are largely oceanic need to be discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
+    
     
     \mypic{Figures/OMI_link/GC/E_isop_vs_hcho_200501.png}
     { % Caption
@@ -330,18 +339,6 @@
     %  \label{BioIsop:Calculation:fig_E_isop_vs_hcho_model_sample}
     %\end{figure}
     
-    %% BACKGROUND calculation(s)
-    There are a couple of ways to determine the modelled background HCHO concentration, one of which involves running the model with isoprene emissions turned off, which allows us to see exactly how much the modelled isoprene emissions alter each vertical column of HCHO.
-    This is effective since we have assumed variation in HCHO columns only depends on isoprene emissions, so our background term is theoretically identical to the emission free simulated HCHO.
-    The other way involves looking at HCHO over the remote pacific at matching latitudes and times, which emulates how the background is determined for the measured HCHO.
-    Figure \ref{BioIsop:Method:fig_background_hcho} shows how GEOS-Chem total column HCHO with and without isoprene emissions along with amounts over the remote pacific at the same latitudes.
-    Modelled background HCHO concentrations over the ocean are used when creating the reference sector correction for satellite measurements (in section \ref{Model:omiRecalc:RSC}).
-    In this thesis modelled background columns are calculated using the longitudinally averaged remote pacific .
-    
-    
-    \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{Total column HCHO over Australia (left) and the remote pacific region (right) using GEOS-Chem with (top) and without (bottom) isoprene emissions. }{\label{BioIsop:Method:fig_background_hcho}}
-    
-    
     
     
   \subsection{Calculation of Emissions}
@@ -352,12 +349,12 @@
     We also assume that isoprene is the only compound enhancing the HCHO levels, which requires that we filter out influence from fires, smoke, and anthropogenic emissions.
     Emissions of precursors are easy to calculate using the slope $S$ calculated in the prior section from modelled HCHO and isoprene columns:
     \begin{equation*}
-    \Omega_{HCHO} = S \times E_isop + \Omega_0
+    \Omega_{HCHO} = S \times E_{isop} + \Omega_0
     \end{equation*}
     This is the same equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}, except now we use the modelled slope along with satellite $\Omega_{HCHO}$ and $\Omega_0$.
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude as $\Omega_{HCHO}$.
     This leaves $E_{isop}$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
-    Figure \ref{BioIsop:Calculation:fig_E_isop_200501} shows the emissions calculated this way along with the modelled emissions output by GEOS-Chem averaged over January, 2005.
+    Figure \ref{BioIsop:Calculation:fig_E_isop_200501} shows the emissions calculated this way along with the modelled emissions output by GEOS-Chem $E_{GC}$ averaged over January, 2005.
     \begin{figure}
       % Figure from Inversion.py -> check_against_MEGAN()
       \includegraphics[width=\textwidth]{Figures/Isoprene/E_Comparison.png}
@@ -368,12 +365,25 @@
       \label{BioIsop:Calculation:fig_E_isop_200501}
     \end{figure}
     
-    The Background ($\Omega_0$) from OMI is determined using the mean column HCHO measured over the remote pacific ocean (180-120{\degr}W).
+    %% BACKGROUND calculation(s)
+    There are a couple of ways to determine the modelled background HCHO concentration, one of which involves running the model with isoprene emissions turned off, which allows us to see exactly how much the modelled isoprene emissions alter each vertical column of HCHO.
+    This is effective since we have assumed variation in HCHO columns only depends on isoprene emissions, so our background term is theoretically identical to the emission free simulated HCHO.
+    The other way involves looking at HCHO over the remote pacific at matching latitudes and times, which emulates how the background is determined for the satellite measured HCHO.
+    Figure \ref{BioIsop:Method:fig_background_hcho} shows how GEOS-Chem total column HCHO with and without isoprene emissions along with amounts over the remote pacific at the same latitudes.
+    Background HCHO for any latitude in this thesis are calculated by averaging longitudinally (140\degr W to 160\degr W) the matching latitudes over the remote pacific.
+    %These backgrounds are used when creating the reference sector corrections for satellite measurements (in section \ref{Model:omiRecalc:RSC}).
+    %The background columns are longitudinally averaged from 140\degr W to 160\degr W.
+    
+    
+    \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{Total column HCHO over Australia (left) and the remote pacific region (right) using GEOS-Chem with (top) and without (bottom) isoprene emissions. }{\label{BioIsop:Method:fig_background_hcho}}
+    
+    %% How we use the background..
+    The Background ($\Omega_0$) from OMI is determined using the mean column HCHO measured over the remote pacific ocean.
     For this term we use remote ocean measurements averaged monthly and longitudinally.
     This is gives us a background which is appropriate for any latitude.
     Figure TODO: figure with background region highlighted and a time series of background values.
     One potential issue is at high latitudes (especially during winter) which have fewer measurements and higher uncertainty.
-    When calculating the $E_{isop}$ from our modelled slope with OMI HCHO and background, we end up with negative emissions wherever the OMI HCHO column is less than the OMI background (as $E_{isop} = \frac{\Omega_{HCHO} - \Omega_0}{S}$).
+    When calculating the $E_{isop}$ from our modelled slope, negative emissions result when using OMI measured columns are lower than the background amounts (as $E_{isop} = \frac{\Omega_{HCHO} - \Omega_0}{S}$).
     These are set to zero, which increases the average by around TODO: X\%.
     
    
@@ -553,9 +563,16 @@
     
     Having calculated the midday (13:00-14:00~LT) emission rates of isoprene, a new run of GEOS-Chem is performed after scaling the MEGAN emissions to match the new top-down estimate.
     This is performed using a monthly scale factor (at 2x2.5\degr) based on the difference between midday MEGAN emissions and the top-down estimate multi-year monthly average.
-    Figure TODO: shows the monthly mean daily cycle of isoprene emissions from MEGAN, along with the top-down midday estimate, for an example grid box located 2.5\degr west of Sydney.
+    Figure \ref{BioIsop:ScaledRun:megan_diurnal} shows the multi-year monthly mean daily cycle of isoprene emissions from MEGAN, along with the top-down midday estimate, for an example grid box located 2.5\degr west of Sydney.
     Initially a run of GEOS-Chem using no chemistry it performed in order to quickly retrieve MEGAN hourly averaged isoprene emissions.
     Then the MEGAN emissions at midday for each month per gridbox are averaged (see figure TODO) and the multi-year average of these is compared against the top-down estimate.
+    
+    \mypic{Figures/OMI_link/Emiss/MEGAN_monthly_daycycle.png}{ %
+      The diurnal cycle of MEGAN emissions averaged by month over 1, Jan, 2005 to TODO, 2013 are shown with lines, while top-down emissions estimates are shown with plus symbols.
+      MEGAN emissions are estimated hourly per 2x2.5\degr horizontal grid box, shown here are the averages within several areas (denoted by colour, see figure todo).
+      Top-down estimates are similarly grouped by colour, and shown at the 13:00~LT mark for each month.
+      Rows 1-4 match seasons from austral summer (DJF) through to spring (SON).
+      }{\label{BioIsop:ScaledRun:megan_diurnal}}
     
     A scaling factor $\alpha$ is derived which when multiplied with MEGAN midday emission monthly averages $E_{MEGAN}$ produces the top down emissions estimate $E_{OMI}$ : $\alpha = \frac{E_{MEGAN}}{E_{OMI}}$.
     This is performed through a small modification of GEOS-chem source code which applies $\alpha$ after calculating emissions for each grid-square based on the default emission factors and meteorology.
