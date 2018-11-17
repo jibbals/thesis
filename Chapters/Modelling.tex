@@ -190,7 +190,7 @@
     \subsubsection{CTM output}
       
       GEOS-Chem model output is used extensively in this thesis and is discussed in more detail in section \ref{Model:GC}.
-      Section \ref{Model:GC:simulation:outputs} specifically describes the model outputs used in this thesis.
+      Section \ref{Model:GC:simulations:outputs} specifically describes the model outputs used in this thesis.
       These are generally resolved to 47 vertical levels from the ground up to 0.01~hPa, at 2x2.5\degr horizontal resolution.
     
     \subsubsection{Meteorological reanalysis}
@@ -810,15 +810,15 @@
   
 
   \subsection{GEOS-Chem simulations}
-    \label{Model:GC:simulation}
+    \label{Model:GC:simulations}
     
     GEOS-Chem is run four independent times in this thesis, with different outputs from each simulation used to determine specific information. 
-    In this section the different output types are first described (section \ref{Model:GC:simulation:outputs}).
-    Following this is the list of model runs, including a summary of the run, which outputs are created, and a summary of how they are used (section \ref{Model:GC:simulation:runs}).
-    Finally a brief comparison between a subset of the runs is performed (section \ref{Model:GC:simulation:comparison}).
+    In this section the different output types are first described (section \ref{Model:GC:simulations:outputs}).
+    Following this is the list of model runs, including a summary of the run, which outputs are created, and a summary of how they are used (section \ref{Model:GC:simulations:runs}).
+    Finally a brief comparison between a subset of the runs is performed (section \ref{Model:GC:simulations:comparison}).
     
     \subsubsection{GEOS-Chem outputs}
-      \label{Model:GC:simulation:outputs}
+      \label{Model:GC:simulations:outputs}
       There are various outputs available when running GEOS-Chem, some of which require manipulation in order to compare against observations.
       % Default time step and resolution of GC outputs
       GEOS-Chem in this thesis is run with a 15 minute time step for both chemistry and transport, at 2x2.5\degr horizontal resolution over 47 vertical levels.
@@ -851,7 +851,7 @@
       \end{description}
     
     \subsubsection{GEOS-Chem runs}
-      \label{Model:GC:simulation:runs}
+      \label{Model:GC:simulations:runs}
       
       The following list summarises each model run as well as enumerating the outputs (described above), and how the run is used in the thesis.
       \begin{description}
@@ -909,7 +909,7 @@
     
     
     \subsubsection{UCX vs tropchem}
-      \label{Model:GC:simulation:comparison}
+      \label{Model:GC:simulations:comparison}
       
       % brief description of both runs resolution
       Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
@@ -919,12 +919,12 @@
       For both runs the input parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
       
       % Figure showing differences between runs HCHO described and analysed
-      Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_surf_fullday} shows an example of surface HCHO amounts, averaged over Jan and Feb, 2007, with (A) and without (B) UCX turned on.
+      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} shows an example of surface HCHO amounts, averaged over Jan and Feb, 2007, with (A) and without (B) UCX turned on.
       Surface HCHO (first model level; up to $\sim$100~m) does not differ much between runs.
       The differences do not exceed 3\% over Australia, and absolute differences are exceedingly minor (note the scale in A-B).
       The major notable difference occurs over northern Africa, where HCHO is around 20\% lower in the UCX run.
       Additionally a slight ($<8\%$) decrease in $\Omega_{HCHO}$ over the oceans can be seen.
-      The comparison is repeated using total columns (instead of surface values) in figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
+      The comparison is repeated using total columns (instead of surface values) in figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
       
       
       \begin{figure}
@@ -934,53 +934,53 @@
           Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences(bottom left, right respectively).
           Amounts are the average of all times between 1, Jan and 28, Feb, 2007.
         }
-        \label{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_surf_fullday}
+        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}
       \end{figure}
       
       \begin{figure}
         % These figures created in GC_test.py -> UCX_vs_trp...:
         \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_hcho.png}
         \caption{%
-          As figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_surf_fullday} except using total column amounts instead of surface concentrations.
+          As figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} except using total column amounts instead of surface concentrations.
         }
-        \label{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}
+        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}
       \end{figure}
       
 
       %TODO Figure showing OH differences..
       % Gc_tests.py -> compare_tc_ucx(...)
-      \mypic{Figures/OMI_link/GC/UCX_vs_trp_middaysurf_20070101-20070228_OH.png}{Midday (1300-1400~LT) surface OH concentrations averaged over Jan-Feb, 2007. Absolute and relative differences are shown on the bottom row.}{\label{Model:GC:simulation:comparison:fig_UCXvsTrop_OH_surf_midday}}
+      \mypic{Figures/OMI_link/GC/UCX_vs_trp_middaysurf_20070101-20070228_OH.png}{Midday (1300-1400~LT) surface OH concentrations averaged over Jan-Feb, 2007. Absolute and relative differences are shown on the bottom row.}{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday}}
       
       % Differences between run isoprene amounts described and analysed here
-      Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
+      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
       Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
       Very little isoprene is seen away from the continents (4-5 orders of magnitude less), due to its short lifetime and  lack of oceanic sources.
       Generally isoprene is 0-30\% higher over mid to western Australia when the UCX mechanism is turned on, however this increase is lower in the regions with high isoprene emissions (north-east to south-east coastline).
-      This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_surf_fullday}.
+      This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}.
       There is a greater effect in Africa and South America in the tropics, with high relative differences in many regions with low absolute amounts.
       
       \begin{figure}
         \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_isop.png}
         \caption{ %
-          As figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except looking at isoprene. 
+          As figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except looking at isoprene. 
         }      
-        \label{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_surf_fullday}
+        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}
       \end{figure}
       \begin{figure}
         \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_isop.png}
         \caption{ %
-          As figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_surf_fullday}, except looking at isoprene total column amounts. 
+          As figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}, except looking at isoprene total column amounts. 
         }      
-        \label{Model:GC:simulation:comparison:fig_UCXvsTrop_isop_totcol_fullday}
+        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_totcol_fullday}
       \end{figure}
       
       
       The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
       With higher stratospheric ozone levels, less radiation would reach the troposphere, changing the photochemistry.
-      Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_OH_surf_midday} shows how OH at midday is changed between runs.
+      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday} shows how OH at midday is changed between runs.
       This figure shows a marked striping which is due to how OH is handled in GEOS-Chem.
       The most notable difference is again over northern Africa into eastern Europe, with some small decrease in the UCX OH over Australia everywhere except the east coast.
-      Figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, using full day averages.
+      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, using full day averages.
       This shows that UCX ozone is lower everywhere except for a thin band just north and south of the equator.
       Decreased O$_3$ could lead to lower OH and the other differences between the runs over Australia.
       
@@ -990,9 +990,9 @@
         % Figure from GC_tests.py -> ucx vs tropchem function
         \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_O3.png}
         \caption{%
-          As figure \ref{Model:GC:simulation:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except looking at ozone. 
+          As figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except looking at ozone. 
         }
-        \label{Model:GC:simulation:comparison:fig_UCXvsTrop_O3_surf_fullday}
+        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3_surf_fullday}
       \end{figure}
       
       % Wrap up of UCX vs Tropchem differences and explanation of tropchem usage
@@ -1145,7 +1145,7 @@
     % Summary of actual actions taken:
     An outline in computational order of what takes place when recalculating the $\Omega$ from OMI follows:
     \begin{enumerate}
-      \item GEOS-Chem satellite overpass output (see section \ref{Model:GC:simulation:outputs}) is used to create new shape factors (S$_z$ and S$_\sigma$).
+      \item GEOS-Chem satellite overpass output (see section \ref{Model:GC:simulations:outputs}) is used to create new shape factors (S$_z$ and S$_\sigma$).
       \begin{enumerate}
         \item Pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
         \item Number density and mixing ratio of HCHO ($n_{HCHO}$, $C_{HCHO}$ respectively) are taken or created from model outputs HCHO(ppb), air density (molec cm$^{-3}$), and box heights (\textit{H(z)})
@@ -1196,7 +1196,7 @@
     % Reminder of AMF -> leading to what is the shapefactor
     In order to visualise and analyse OMI HCHO columns, slant columns are transformed into vertical columns using the AMF.
     The shape factor (\textit{S}) is one of the key components in creation of the AMF (see section \ref{Model:AMF}, equation \ref{Model:AMF:eqn_AMF_intwSdz}).
-    The shape factor is calculated using GEOS-Chem satellite output (see section \ref{Model:GC:simulation:outputs}) which provide simulated HCHO concentration profiles ($\eta(z)$) and total columns ($\Omega$) at 2x2.5\degr horizontal resolution.
+    The shape factor is calculated using GEOS-Chem satellite output (see section \ref{Model:GC:simulations:outputs}) which provide simulated HCHO concentration profiles ($\eta(z)$) and total columns ($\Omega$) at 2x2.5\degr horizontal resolution.
     Using equation \ref{Model:AMF:eqn_shapefactor} to determine the shape factor is straightforwards $S(z) = \frac{\eta(z)}{\Omega}$.
     The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in section \ref{Model:omiRecalc:ppcode}).
     

@@ -20,58 +20,57 @@
   
   
   % isoprene and Australia
-  Australian isoprene emissions are poorly understood due to poor measurement coverage.
-  The lack of measurements makes it difficult to estimate important subsequent processes such as ozone and secondary organic aerosol (SOA) formation, and OH radical cycling.
-  The emissions of isoprene have been modelled at around 500\tgcpyr in \textcite{Guenther1995,Guenther2006} using MEGAN, and more recently around 465\tgcpyr in \textcite{Messina2016} using ORCHIDEE.
-  The global emission models used to derive these estimates are based on modelling emissions from different plant species (phenotypes), of which few are used when setting the emission factors of Australian forests.
-  Emission factors are combined with meteorological parameters to determine emissions in simulations.
-  Some argue that isoprene emissions are overestimated as they are based on relatively few measurements of isoprene emission factors \parencite{Winters2009, FortemsCheiney2012,}.
-  Satellite based emissions estimates may allow us to improve the models without requiring other expensive measurements over the large data sparse continent of Australia.
-  
   Australian forests are strong emitters of both isoprene and monoterpenes.
-  Isoprene has a large impact on the oxidative properties of the atmosphere, as it reacts quickly with the OH radical to form RO$_2$.
-  These react quickly with NO$_X$ to form oxygenated VOCs (OVOCs), SOAs, and ozone.
-  Modelled BVOC emissions from MEGAN \parencite{Guenther2000} of 1150~Tga$^{-1}$ are still the global go-to estimates.
-  BVOC emissions are rising globally, and improved estimates for Australia is a priority due to their high uncertainty.
-  \textcite{Kefauver2014} reviews remote sensing of BVOC emissions, examining the last 20 years of data and analysis of the satellite products.
-  Their review reinforces the message that NMVOCs affect the oxidative capacity of the atmosphere and are largely driven by and sensitive to vegetation.
-  The tropospheric effects of NMVOCs on the hydroxyl radical (OH), ozone (O$_3$), SOAs, and methane longevity all interconnect to form a very complex system which still suffers from relatively large uncertainties in both measurement and chemistry mechanisms.
+  However emissions are poorly understood due to poor measurement coverage.
+  The lack of measurements makes it difficult to estimate important subsequent processes such as ozone and secondary organic aerosol (SOA) formation.
+  Isoprene has a large impact on the oxidative properties of the atmosphere, as it reacts quickly with the OH radical.
+  One frequently used model of biogenic volatile organic compound (BVOC) emissions is MEGAN \parencite{Guenther2000} which estimates $\sim 1150$\tgpyr globally.
+  The primary BVOC emission is isoprene, globally modelled at $\sim$465-500\tgcpyr \parencite{Guenther2006, Messina2016}. 
+  The emission models used to derive these estimates are estimate fluxes from different plant species (phenotypes), which are seldom well understood within Australian forests.
+  Isoprene emissions may be overestimated in Australia since they are based on measurements of taken from a few heavily emitting young eucalyptus trees which are not representative \parencite{Winters2009, FortemsCheiney2012,}.
   
-  In this chapter the top-down technique using satellite measurements of HCHO to estimate surface isoprene emissions is used.
-  Direct isoprene measurements are costly and sparse within Australia, and satellite measurements are plentiful and freely available, making this technique very attractive.
+  Satellite based emissions estimates allow us to improve the models without requiring other expensive measurements over the large data sparse continent of Australia.
+  %%BVOC emissions are rising globally, and improving estimates for Australia is a priority since they affect such important processes in the atmosphere.
+  \textcite{Kefauver2014} reviews remote sensing of BVOC emissions, examining the last 20 years of data and analysis of the satellite products.
+  Their review reinforces the message that BVOCs affect the oxidative capacity of the atmosphere and are largely driven by and sensitive to vegetation.
+  In the troposphere, BVOC emissions affect the hydroxyl radical (OH) cycling, ozone (O$_3$) and secondary organic aerosol (SOA) production, and methane longevity.
+  The chemistry involved is complex and still suffers from relatively large uncertainties in both measurement and chemistry mechanisms.
+  
+  In this chapter the we use and describe a technique using satellite measurements of HCHO to estimate surface isoprene emissions.
+  In-situ isoprene concentration measurements are costly and sparse within Australia, while satellite HCHO data are plentiful and freely available, making this technique very attractive.
   Such techniques have informed isoprene emission inventories in North America \parencite{Abbot2003,Palmer2003,Palmer2006,Millet2006,Millet2008}, South America \parencite{Barkley2013}, Europe \parencite{Dufour2009,Curci2010}, Africa \parencite{Marais2012}, Asia \parencite{Fu2007,Stavrakou2014}, India \parencite{Surl2018}, and even globally \parencite{Shim2005,FortemsCheiney2012,Bauwens2016}.
   HCHO is the dominant product of most BVOCs and is measured by remote sensing.
   HCHO products can be found in four satellite instruments: GOME on ERS-2, SCIAMACHY on ENVI-SAT, OMI on EOS AURA, and GOME2 on MetOp-A.
   These satellites have slightly different spectral and spatial resolutions, as well as using varied processes to estimate HCHO from detected radiances.
-  This leads to different estimates between instruments as described in \textcite{Lorente2017}, which means validation and comparison is more important when using these remotely sensed data.
-  In this thesis HCHO from the OMI instrument (\ref{Model:omhcho}) is used as the basis for top-down isoprene emissions estimation over Australia.
+  This leads to different estimates between instruments as described in \textcite{Lorente2017}, and both validation and comparison become more important when using these remotely sensed data.
+  In this thesis the OMHCHO dataset from the OMI instrument (see section \ref{Model:omhcho}) is used as the basis for HCHO amounts.
   
-  In a prior chapter (chapter \ref{Model}), the OMI HCHO total columns are recalculated using an updated estimate of HCHO profiles from GEOS-Chem v10.01 .
-  These estimates are compared to available datasets of isoprene or HCHO (SPS1, SPS2, MUMBA, Wollongong FTIR).%, Daintree) 
-  Sensitivity satellite AMF calculation is examined and quantified for some scenarios.
-  In this chapter we outline why current isoprene emissions estimates are inadequate and how they can be improved.
-  We discuss literature which shows how the estimates may be too high, and describe how emissions may be calculated using satellite datasets.
-  Section \ref{BioIsop:Method} lays out how new isoprene emissions are estimated, with results examined in Section \ref{BioIsop:Results}. 
-  In section \ref{BioIsop:Conclusions} we examine how these changes in emissions would affect ozone concentrations in Australia, along with some other chemical processes.
-  Uncertainties for each step along the way are quantified in section \ref{BioIsop:Uncertainty}.
   
   \subsection{Aims}
     
+    In a prior chapter (chapter \ref{Model}), the OMI HCHO total columns are recalculated using an updated estimate of HCHO profiles from GEOS-Chem v10.01 .
+    These estimates are compared to available datasets of isoprene or HCHO (SPS1, SPS2, MUMBA, Wollongong FTIR). %, Daintree) 
+    Sensitivity satellite AMF calculation is examined and quantified for some scenarios.
+    In this chapter we outline why current isoprene emissions estimates are inadequate and how they can be improved.
+    We discuss literature which shows how the estimates may be too high, and describe how emissions may be calculated using satellite datasets.
+    Section \ref{BioIsop:Method} lays out how new isoprene emissions are estimated, with results examined in Section \ref{BioIsop:Results}. 
+    In section \ref{BioIsop:Conclusions} we examine how these changes in emissions would affect ozone concentrations in Australia, along with some other chemical processes.
+    Uncertainties for each step along the way are quantified in section \ref{BioIsop:Uncertainty}.
+    
     %% AIMs paragraph
-    Recently isoprene measurements have suggested that modelled emissions may be overestimated in southeastern Australia, while
-    emissions of monoterpenes (C$_{10}$H$_{16}$, two units of isoprene) appear to be underestimated \parencite{Emmerson2016}. 
+    Recent work suggests that modelled emissions may be overestimated in southeastern Australia, while emissions of monoterpenes (C$_{10}$H$_{16}$, two units of isoprene) appear to be underestimated \parencite{Emmerson2016}. 
     This could lead to the unique scenario of neither emission type dominating VOC chemistry over the forests.
-    This work aims to improve isoprene emission estimates in Australia.
+    This work tries to improve the understanding of isoprene emissions over the whole of Australia, clarifying the spatial distribution of bias and how these biases impact modelled chemistry.
     We estimate isoprene emissions in Australia using top-down estimates based on OMI HCHO measurements and modelled isoprene to HCHO yields.
-    A secondary aim is to determine whether this top-down estimate improves model fit to the sparse available ground-based measurements.
-    This is achieved through an examination of GEOS-Chem model output after updating isoprene emissions which are used as inputs.
+    This a postiori top-down estimate is used to determine if model fit against sparse available ground-based measurements can be improved.
+    GEOS-Chem model output is examined before and after updating isoprene emissions which are used as inputs.
     Wellness of fit between in-situ (at Wollongong) HCHO, satellite (OMI), and modelled (GEOS-Chem) HCHO is determined with and without updated emissions estimates.
     
   \subsection{Top-down isoprene emissions estimates}
     
     % Brief isoprene to hcho description
-    In the remote troposphere HCHO production is dominated by methane oxidation, while in the continental boundary layer (CBL) production is largely due to NMVOCs \parencite{Abbot2003, Kefauver2014}.
-    This is the idea behind using HCHO enhancement over continents to determine NMVOC emissions.
+    In the remote troposphere HCHO production is dominated by methane oxidation, while in the continental boundary layer (CBL) production is largely due to non-methane VOCs (NMVOCs) \parencite{Abbot2003, Kefauver2014}.
+    This leads to the technique of using a linear regression between enhanced HCHO and NMVOC emissions.
     In the CBL, HCHO enhancement is generally driven by short lived ($<1$~hr) precursors (most importantly isoprene).
     HCHO itself has a lifetime of a few hours \parencite{Kefauver2014}.
     Isoprene is emitted and enters the atmosphere in the gas phase, where it begins a complex series of reactions.
@@ -84,11 +83,41 @@
     Palmer's method improved biogenic isoprene emissions estimates (compared with in-situ measurements) over two available inventories: the U.S. EPA Biogenic Emissions Inventory System (BEIS2) and the Global Emissions Inventory Activity (GEIA).
     Here we try to improve MEGAN emissions estimates over Australia and analyse some of the technique sensitivities.
     
+    Top-down emission estimation is an in-depth process, and a couple of examples are provided here.
+    \textcite{Marais2014} compare OMI based isoprene emission estimates against relaxed eddy accumulation measurements from African field campaigns in order to improve MEGAN emission factors in the region.
+    \textcite{Dufour2009} use HCHO from SCIAMACHY, and examine Europe using CHIMERE as the chemical model, showing that satellite measurements can reduce source emission uncertainty by a factor of two, where emissions are relatively large.
     There are two main methods of estimating isoprene emissions using satellite measurements of child products, here I describe them and briefly compare the pros and cons of each.
     
-    \subsubsection{Linear}
-    \label{BioIsop:intro:top_down_linear}
+    \subsubsection{Bayesian}
     
+      % Top down emissions estimation methods:
+      Bayesian inversion corrects biased biogenic isoprene emissions by optimising emission parameters in order to reduce the difference between observed HCHO and model output.
+      In-depth inversions can account for effects from transport and allow source attribution \parencite{FortemsCheiney2012}.
+      
+      
+      For example this method is used by \textcite{Shim2005} who optimise GEOS-Chem isoprene emissions in areas with high HCHO concentrations to improve comparison against GOME HCHO observations % They looking at areas with high signal to noise ratio (higher HCHO concentrations).
+      They show that the original model underestimates isoprene emissions and HCHO concentrations by 14-46\%, with the corrected VOC emissions reducing model biases to 3-25\%.
+      The Bayesian inversion is also used in \textcite{Curci2010}, where a regional CTM (CHIMERE) simulates HCHO, which is compared against OMI observed HCHO and shown to be regionally biased.
+      %The CHIMERE model is used to derive yields of HCHO from the various local VOCs and these are then used in estimating local emissions.
+      The model is run initially with emissions of BVOCs and reactive anthropogenic VOCs turned off in order to work out the background (b) values of these compounds.
+      \textcite{Curci2010} uses CHIMERE as the forward model to determine the relationship between HCHO (y), isoprene and reactive anthropogenic VOCs (\textbf{x}), using 
+      \begin{equation}
+      y=\mathbf{K}x + b + \epsilon
+      \end{equation}
+      where $\epsilon$ are the (assumed) independent errors in measurements.
+      K is the Jacobian matrix determined from CHIMERE representing the sensitivity of y to the state variable x.
+      This K matrix is used in conjunction with error covariance in x to determine the Maximum A Posteriori solution to calculate the optimal estimate of x. % ($\hat{x}$).
+      
+      The Bayesian method is computationally expensive due to the requirement that model runs take place using many permutations of changed inputs.
+      An advantage of the Bayesian method is that it can account for pyrogenic and anthropogenic emissions rather than filtering them out.
+      Biases may still arise due to errors in modelled emission estimation \parencite{Curci2010}.
+      In this work we do not use the Bayesian method due to the heavy computational costs involved.
+      
+        
+    
+    \subsubsection{Linear}
+      \label{BioIsop:intro:top_down_linear}
+      
       This technique is the simplest, and is performed in this thesis.
       Using vertical columns of biogenic HCHO one can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (In other continents around 2-3, or 1 in low NO$_X$ conditions) \parencite{Palmer2003,Marais2012,Bauwens2016}.
       If one assumes fast HCHO yield, so that the effect of chemical transport is minimal, and that HCHO and isoprene are at steady states, then one may calculate local yield from a CTM.
@@ -108,54 +137,34 @@
       {\label{BioIsop:intro:top_down_linear:fig_RMA_example}}
       
       % Pros and cons:
-      This technique suffers from the assumptions of fast HCHO yield and no transport, which leads to necessary filtering of areas with low NO$_X$, high winds, or low emissions.
+      This technique suffers from the assumptions of fast HCHO yield and no transport, which requires filtering areas with low NO$_X$, high winds, or low emissions.
       Since we use an estimate of the yield from biogenic isoprene to HCHO, we must also filter out areas where HCHO may be coming from anthropogenic or pyrogenic sources.
       On the plus side, the simple nature of the inversion requires very little computational power after acquiring satellite and model datasets, even over large amounts of gridded data.
+      Both the linear and Bayesian techniques assume that modelled chemistry is accurate and only try to correct precursor emissions, which may be a problem if the chemistry is uncertain.
       
       In high NO$_x$ environments where HCHO has a lifetime on the order of 30 minutes, it can be used to map isoprene emissions with spatial resolution from 10-100~kms.
       Horizontal transport \textit{smears} the HCHO signal so that source location would need to be calculated using wind speeds and loss rates \parencite{Palmer2001,Palmer2003}.
       Smearing requires analysis and filtering due to the importance of transport and NO$_X$ on forming robust and accurate estimates.
       Over Australia NO$_X$ levels are generally not high enough to ensure quick HCHO formation and we must take care to account for resultant smearing
       Details on smearing analysis and filtering are in Section \ref{BioIsop:Method:Smearing}.
-      
-      
-    \subsubsection{Bayesian}
     
-      % Top down emissions estimation methods:
-      More recently, in-depth inversions which can account for transport, source attribution, and chemical schemes have been implemented \parencite{FortemsCheiney2012}.
-      These methods also use observed HCHO total columns and then optimise models in order to improve HCHO output.
-      Bayesian inversion corrects biased biogenic isoprene emissions by optimising emission parameters in order to simulate HCHO closest to satellite observed HCHO levels.
-      For example this method is used by \textcite{Shim2005} who optimise GEOS-Chem isoprene emissions in areas with high HCHO concentrations to improve comparison against GOME HCHO observations % They looking at areas with high signal to noise ratio (higher HCHO concentrations).
-      They show that the original model underestimates isoprene emissions and HCHO concentrations by 14-46\%, with the corrected VOC emissions reducing model biases to 3-25\%.
-      The Bayesian inversion is also used in \textcite{Curci2010}, where a regional CTM (CHIMERE) simulates HCHO, which is compared against OMI observed HCHO and shown to be regionally biased.
-      This bias is expected to be caused by errors in MEGANs isoprene emissions estimations.
-      %The CHIMERE model is used to derive yields of HCHO from the various local VOCs and these are then used in estimating local emissions.
-      The model is run initially with emissions of BVOCs and reactive anthropogenic VOCs (RAVOCs) turned off in order to work out the background (b) values of these compounds.
-      \textcite{Curci2010} uses CHIMERE as the forward model to determine the relationship between HCHO (y), isoprene and reactive anthropogenic VOCs (\textbf{x}), using 
-      \begin{equation}
-      y=\mathbf{K}x + b + \epsilon
-      \end{equation}
-      where $\epsilon$ are the (assumed) independent errors in measurements.
-      K is the Jacobian matrix determined from CHIMERE representing the sensitivity of y to the state variable x.
-      This K matrix is used in conjunction with error covariance in x to determine the Maximum A Posteriori solution to calculate the optimal estimate of x ($\hat{x}$).
-      
-      The Bayesian method is more statistically intensive and requires more computation time than the linear method. 
-      In this work we do not use the Bayesian method due to the heavy computational costs involved.
-      Both the linear and Bayesian techniques assume that modelled chemistry is accurate and only try to correct precursor emissions, which may be a problem if the chemistry is uncertain.
-      An advantage of the Bayesian method is that it can account for pyrogenic and anthropogenic emissions rather than filtering them out.  
       
   \subsection{MEGAN emission model}
     % Megan estimates BVOCs - uncertain
     The Model of Emissions of Gases and Aerosols from Nature (MEGAN) is one of the most popular emissions inventories for biogenic isoprene.
     Global atmospheric studies often use MEGAN along with a chemical transport model (CTM) to examine transport, emission, deposition, and other chemical processes in the atmosphere.
     Emissions of Biogenic Volatile Organic Compounds (BVOCs) including isoprene are often the subject of studies as they are still relatively uncertain, as well as being drivers for important oxidation and pollution events.
+    In this work MEGAN is run as a module within GEOS-Chem, a global CTM which uses emissions inventories and meteorological data to simulate atmospheric gas concentrations and transport.
     
-    (MEGAN) is poorly calibrated for Australian conditions, and emissions of isoprene (C$_5$H$_8$) may be overestimated, especially in the southeast.
-    \textcite{Stavrakou2015} showed that this overestimate may be a factor of 2-3 in January.
-    \textcite{Sindelarova2014} show how 50\% of the isoprene emissions could be reduced by accounting for lower soil moisture.
+    MEGAN is poorly calibrated for Australian conditions.
+    Emissions of isoprene (C$_5$H$_8$) may be overestimated in some regions within Australia.
+    \textcite{Sindelarova2014} showed how the isoprene emissions could be as much as halved by accounting for lower soil moisture.
+    \textcite{Stavrakou2015} saw isoprene emissions overestimated by a factor of 2-3 in January.
     \textcite{Emmerson2016} discuss the suitability of MEGAN's isoprene and monoterpene emission factors over southeast Australia, and suggest isoprene emissions are estimated 2-6 times too high.
     They also show that no blanket increase or decrease in emission factors is appropriate for the entire southeast of Australia.
-    This work tries to improve the understanding of isoprene emissions in Australia, clarifying the spatial distribution of bias and how these biases impact modelled chemistry.
+    Additionally, emissions of monoterpenes (C$_{10}$H$_{16}$, two units of isoprene) appear to be underestimated \parencite{Emmerson2016}.
+    This could lead to the unique scenario of neither emission type dominating VOC chemistry over the forests.
+  
   
   \subsection{satellite measurements}
     \label{BioIsop:intro:satellite_inversion}
@@ -165,28 +174,25 @@
     For isoprene this is done by looking at atmospheric HCHO enhancement, which can be largely attributed to isoprene emissions once transport and other factors are accounted for.
     %Even anthropogenic HCHO source estimates, which are accurate at the global scale, can be improved using satellite data to improve regional estimates by up to 25-40\% \parencite{Stavrakou2015}. 
     %Their study used the RETRO 2000 database for anthropogenic emission a prioris except for Asia in 2008 where REASv2 was used. 
-    Since 1997, when GOME first measured HCHO over Asia \parencite{Thomas1998}, satellites have been able to provide a total column measurement of HCHO, allowing isoprene emissions estimates by proxy \parencite{Palmer2001,Bauwens2016}.
+    Since 1997, when GOME measurements were first used to measure HCHO over Asia \parencite{Thomas1998}, satellites have been used to provided a total column measurement of HCHO, allowing isoprene emissions estimates by proxy \parencite{Palmer2001,Bauwens2016}.
     Using satellite information to improve biogenic emissions is pinpointed as a valuable use of satellite derived datasets \parencite{Streets2013}.
     In this work we use NASA's OMHCHO product, using measurements from OMI on board the AURA satellite (see section \ref{Model:omhcho}).
     
     
     Satellites recording reflected solar spectra use DOAS to measure various trace gases in the atmosphere, including formaldehyde. 
     While satellite measurements can only be used during daytime hours, HCHO lifetimes are sufficiently short that any night-time chemistry will not affect midday observations \parencite{Wolfe2016}.
-    Satellites can be used to measure the seasonal and inter annual variability of HCHO over the globe.
-    These records can be compared with modelled estimates of HCHO and also used as a proxy to estimate isoprene emissions.
-    Total HCHO is measured by satellite over the entire world, however the technique is not perfect and suffers from uncertainties.
+    %Satellites can be used to measure the seasonal and inter annual variability of HCHO over the globe.
+    Satellite records are often compared with modelled estimates of HCHO and also used as a proxy to estimate isoprene emissions.
+    Total HCHO is measured by satellite over the entire world.
+    The technique used to determine precursor emissions suffers from uncertainties, not the least of which are the uncertainties in the satellite measurements themselves.
+    \textcite{Zhu2016} use SEAC$^4$RS aircraft HCHO measurements over the southeastern US as model validation. 
+    They show that a bias in the assumed OMI shape factor leads to a bias between satellite and SEAC$^4$RS measurements.
     Satellite based chemical concentrations often require both remote and in-situ measurements combined with modelled data for validation \parencite{Marais2014}.
     There is less information available from satellite measurements at higher latitudes due to increased error in measurements over the more slanted column paths \parencite{DeSmedt2015}.
-    
-    
     Validation is important due to the various uncertainties in the satellite remote sensing process, with a priori assumptions having the greatest effect on structural uncertainty between measurements techniques \textcite{Lorente2017}.
-    \textcite{Zhu2016} use SEAC$^4$RS aircraft HCHO measurements over the southeastern US as model validation, and show a bias in the assumed OMI shape factor that leads to a bias between satellite and SEAC$^4$RS measurements.
-    \textcite{Marais2014} compare OMI based isoprene emission estimates against relaxed eddy accumulation measurements from African field campaigns in order to improve MEGAN emission factors in the region.
-    \textcite{Dufour2009} use HCHO from SCIAMACHY, and examine Europe using CHIMERE as the chemical model, showing that satellite measurements can reduce source emission uncertainty by a factor of two, where emissions are relatively large.
     
-  
-
-  
+    
+    
 \section{Methods}
   \label{BioIsop:Method}
   
@@ -196,51 +202,56 @@
     This process is summarised in figure \ref{BioIsop:Method:fig_Flow_Making_Isop}.
     \begin{enumerate}
       \item 
+        Level two OMI HCHO satellite data (see section \ref{Model:omhcho}), along with GEOS-Chem model runs (see section \ref{Model:GC:simulations}) are used to recalculate corrected vertical columns (VCCs; saved in OMHCHORP dataset) at 0.25\degr by 0.3125\degr horizontal resolution (see section \ref{Model:omiRecalc}).
+      \item 
         Level three satellite data are used to make anthropogenic, fire, and smoke influence masks (see section \ref{Model:Filter}).
-      \item 
-        Level two OMI HCHO satellite data (see section \ref{Model:Datasets:OMHCHO}), along with GEOS-Chem model runs (see section \ref{Model:GC:runs}) are used to recalculate corrected vertical columns (VCCs; saved in OMHCHORP dataset) at 0.25\degr by 0.3125\degr horizontal resolution (see section \ref{Model:omiRecalc}).
-      \item 
-        Fire and anthropogenic masks are applied to filter out satellite HCHO columns which may be influenced by non biogenic sources.
-        For a full outline of these filters see section \ref{Model:Filter}.
+        These are applied to remove VCCs which may be influenced by non biogenic sources. 
       \begin{enumerate}
         \item 
           The fire mask is created daily from non-zero (MODIS) fire counts over the prior 2 days which occur in local or adjacent grid squares at 0.25\degr latitude by 0.3125\degr longitude
         \item 
           A second filter to remove influence from transported smoke plumes is created where OMI aerosol absorption optical depth (AAOD, from OMAERUVd) greater than 0.03
         \item 
-          A filter for anthropogenic influence is created daily using OMNO2d NO$_2$ tropospheric column amounts; masking any grid squares with greater than $1\times 10 ^{15}$\moleccm2 on any particular day, along with grid squares where the yearly average is above $1.5 \times 10^{15}$\moleccm
+          A filter for anthropogenic influence is created daily using OMNO2d NO$_2$ tropospheric column amounts; masking any grid squares with greater than $2\times 10 ^{15}$\moleccm2 on any particular day, along with grid squares where the yearly average is above $1.5 \times 10^{15}$\moleccm
       \end{enumerate}
       \item 
-      GEOS-Chem modelled biogenic emissions of isoprene along with total biogenic columns of HCHO, both averaged over 2x2.5\degr horizontally  and 1300-1400~LT temporally, are used to calculate a linear regression slope.
-      \begin{enumerate}
-        \item Globally gridded biogenic emissions of isoprene output from GEOS-Chem are read in as E$_{GC}$~atoms C cm$^{-2}$ s$^{-1}$.
-        \item Satellite overpass output of total HCHO columns from GEOS-Chem are read in as $\Omega_{GC}$\moleccm
-        \item A reduced major axis regression slope is found between $\Omega_{GC}$ and E$_{GC}$ using a month of modelled output (one value per day) for each gridsquare (eg. see figure \ref{BioIsop:Method:slope:fig_regressions})
-      \end{enumerate}
-      \item For each of the corrected vertical columns (VCC$_{OMI}$, VCC$_{GC}$, and VCC$_{PP}$; see section \ref{Model:omiRecalc}), a top down estimate of biogenic isoprene emissions (E$_{new}$; atoms C cm$^{-2}$ s$^{-1}$) is calculated
+        GEOS-Chem modelled biogenic emissions of isoprene ($E_{GC}$) along with total biogenic columns of HCHO ($\Omega_{GC}$), both averaged over 2x2.5\degr horizontally  and 1300-1400~LT temporally, are used to calculate a linear regression slope ($\Omega_{GC}=S E_{GC} + \Omega_{GC_0}$)
+        \begin{enumerate}
+          \item 
+            Hourly gridded model output $E_{GC}$~atoms C cm$^{-2}$ s$^{-1}$ is read, and 13:00~LT daily values are extracted.
+          \item
+            Daily 13:00-14:00~LT $\Omega_{GC}$\moleccm output is read.
+          \item 
+            A reduced major axis regression slope is determined between $\Omega_{GC}$ and E$_{GC}$ using a month of modelled output (one value per day) for each gridsquare (eg. see figure \ref{BioIsop:Method:slope:fig_regressions})
+        \end{enumerate}
+      %\item For each of the corrected vertical columns (VCC$_{OMI}$, VCC$_{GC}$, and VCC$_{PP}$; see section \ref{Model:omiRecalc}), a top down estimate of biogenic isoprene emissions (E$_{new}$; atoms C cm$^{-2}$ s$^{-1}$) is calculated
+      \item 
+        VCCs are used to create a top-down estimate of biogenic isoprene emissions ($E_{new}$~atoms C cm$^{-2}$ s$^{-1}$)
       \begin{enumerate}
         \item 
           Background total columns (VCC$_{BG}$) are calculated by averaging longitudinally the VCCs between 180 and 120\degr W
         \item
           Emissions are calculated using 
           \begin{equation} \label{BioIsop:Method:eqn_Enew}
-            E_{new} = \frac{VCC - VCC_{BG}}{slope}
+            E_{new} = \frac{VCC - VCC_{BG}}{S}
           \end{equation}
       \end{enumerate}
       \item
-        Modelled slope calculations depend on several assumptions which are not always valid.
+        Modelled slope (S) calculations depend on several assumptions which are not always valid.
         A mask is created for where the HCHO production is not dominated by local isoprene emissions. 
         This is determined by calculating smearing over Australia using two model runs with differing isoprene emissions.
-        This smearing value is determined as $\hat{S}=\Delta \Omega_{HCHO}/ \Delta E_{isop}$, the ratio between HCHO columns and isoprene emissions changed between model runs.
-        The range for $\hat{S}$ over Australia is determined as 800 - 4600~s.
-        A full description and analysis of this term used to determine the smearing filter is given in section \ref{BioIsop:Method:Smearing}
+        This smearing value is determined as $\hat{S}=\Delta \Omega_{HCHO}/ \Delta E_{isop}$: the ratio between HCHO columns and isoprene emissions changed between model runs.
+        The acceptable range for $\hat{S}$ over Australia is determined as 800 - 4600~s.
+        A full description of the creation of this smearing filter is given in section \ref{BioIsop:Method:Smearing}
       \item 
-        Compare against MEGAN, MUMBA, SPS, Daintree, Wollongong, and one set of airplane measurements (HIPPO).
+        Top-down emissions $E_{new}$ are compared against MEGAN estimated emissions, as well as analysed in conjunction with concentration measurement campaigns (MUMBA, SPS, and one set of airplane measurements (HIPPO)).
         TODO: do these things
       \begin{enumerate}
-        \item Top-down isoprene emissions are calculated for the time window 1300-1400~LT, matching the peak of the diurnal cycle
-        \item A monthly scaling factor for isoprene emissions is updated based on the difference between peak MEGAN emissions and our top-down estimates
-        \item GEOS-Chem is run with the updated scaling factor, and HCHO, O$_3$, isoprene, and NO$_X$ outputs are compared to campaign measurements
+        \item 
+          Top-down isoprene emissions are calculated for the time window 1300-1400~LT, matching the peak of the diurnal cycle
+        \item 
+          A monthly scaling factor ($\alpha$) for isoprene emissions is created based on the difference between peak MEGAN emissions and our top-down estimates
+        \item GEOS-Chem is run using the a posteori emissions, and HCHO, O$_3$, isoprene, and NO$_X$ outputs are compared to campaign measurements
       \end{enumerate}
     \end{enumerate}
     
@@ -249,32 +260,35 @@
   \subsection{Masks and reprocessed satellite HCHO}
     
     Satellite data pixels are read from the OMHCHO level 2 satellite dataset, AMFs are recalculated, and then pixels are gridded daily into 0.25x0.3125\degr horizontal bins. 
-    This forms the intermediate product (OMHCHORP), the creation of which is detailed in section \ref{Model:omiRecalc:outline}.
-    In total a month of these data are read in at a time (to allow parallelism and reduce RAM usage) and then used in subsequent steps to calculate the isoprene emissions.
-    Pixel counts (how many satellite datapoints were used for each VCC) for each gridbox are kept track of to allow averaging when changing from fine to coarse resolution.
+    This forms the intermediate product OMHCHORP, which is fully described in section \ref{Model:omiRecalc:outline}.
+    In total a month of these data are read in at a time %(to allow parallelism and reduce RAM usage)
+    and then used in subsequent steps to calculate the isoprene emissions.
+    Pixel counts (how many satellite datapoints were used for each VCC) for each gridbox are kept track of to allow averaging and resolution changes.
     
-    Anthropogenic, fire, and smoke influence masks are created from three satellite products: daily NO2 from OMNO2d, daily fire counts from MOD14A1, and daily AAOD from OMAERUVd respectively (see section \ref{Model:Filter}). 
-    These masks are binned using averaged or summed values within our 0.25x0.3125\degr horizontal resolution, read from OMHCHORP.
-    The recalculated corrected vertical columns (VCCs) (0.25\degr by 0.3125\degr horizontal resolution) are additionally read from OMHCHORP. %(see section \ref{Model:omiRecalc}).
+    The satellite data is used to determine biogenic HCHO enhancements, which means that non-biogenic sources need to be filtered out of the OMHCHORP product.
+    Anthropogenic, fire, and smoke influence masks are created from three satellite products: daily NO2 from OMNO2d, daily fire counts from MOD14A1, and daily AAOD from OMAERUVd respectively (see section \ref{Model:Filter}).
+    These masks are binned using averaged or summed values within our 0.25x0.3125\degr horizontal resolution.
+    The recalculated corrected vertical columns (VCCs) are saved to OMHCHORP dataset both before and after applying the filters, to allow basic analysis.
+    While the major source of HCHO concentrations is oxidation of methane, the linear regression used to estimate isoprene emissions effectively ignores this source as part of the background.
     
     
   \subsection{Calculating modelled slope}
     \label{BioIsop:Method:slope}
     
     % determination of HCHO = S E_isop + HCHO_BG
-    Initially studies assumed a simple linear steady-state relationship between HCHO and its precursors \parencite{Palmer2003, Palmer2006, Millet2006}.
-    This allowed a simple calculation of isoprene using the measured HCHO, with estimated reaction rates and yields.
+    By assuming a simple linear steady-state relationship between HCHO and its precursors \parencite{Palmer2003, Palmer2006, Millet2006}, one may calculate isoprene emissions using measured HCHO.
+    The calculation requires reaction rates and yields from isoprene to HCHO, which can be determined most readily using chemical modelling.
     The methodology for calculating VOCs from HCHO is laid out in \textcite{Palmer2003}, and takes into account the expected lifetime and reaction rates of the precursor VOCs and HCHO.
     Assuming HCHO is produced quickly from short-lived intermediates:
     \begin{eqnarray*}
       VOC_i \overset{k_i}{\rightarrow} Y_i HCHO
     \end{eqnarray*}
-    Where $Y_i$ is HCHO yield per C atom (a measure of how much HCHO will form per gram of C from a VOC within the system), and $k_i$ is the reaction rate.
+    Where $i$ indexes a chemical species, $Y_i$ is HCHO yield per C atom, and $k_i$ is the reaction rate.
     Then assuming a steady state of atmospheric HCHO ($\Omega$; \moleccm) produced by oxidation of VOCs (VOC$_i$) and no horizontal transport:
     \begin{eqnarray*}
       \Omega = \frac{1}{k_{HCHO}} \sum_{i} Y_i E_i
     \end{eqnarray*}
-    Where $i$ indexes a chemical species, $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the molar HCHO yield from oxidation of $i$, and $E_i$ is emission fluxes ( C atoms $cm^{-2} s^{-1}$).
+    Where $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the molar HCHO yield from oxidation (of $i$), and $E_i$ is emission fluxes (C atoms $cm^{-2} s^{-1}$).
     We assume isoprene is the most important precursor and lump other terms into the background $\Omega_0$ so that our equation becomes 
     \begin{eqnarray} 
     \label{BioIsop:Method:slope:eqn_isop_to_hcho}
@@ -287,8 +301,8 @@
     The equations above come from several assumptions that are important to understand.
     The first assumption is that HCHO %and isoprene ($I$)?
     is at steady state, which implies productions and losses are equivalent.
-    Then we assume that loss is only due to photolysis and oxidation (first order, $k_{HCHO} = 1/t$).
-    Production of HCHO is due to the sum of the precursor emissions ($E_i$) multiplied by their yields to HCHO ($Y_i$).
+    Then we assume that loss is only due to photolysis and oxidation (first order, $k_{HCHO} = 1/\tau_{HCHO}$).
+    Production of HCHO above a background is due to the sum of the precursor emissions ($E_i$) multiplied by their yields to HCHO ($Y_i$).
     \begin{eqnarray*}
       \frac{d [ HCHO ] }{dt} & = 0 = Prod(HCHO) - Loss(HCHO) \\
       Loss(HCHO)  & = k_{HCHO} [ HCHO ] \\
@@ -304,13 +318,14 @@
     
     Estimates of $Y_{isop}$ or $S$ can be attained through modelling \parencite[e.g.][]{Millet2006}.
     We look at each $2\times2.5$~\degr grid box from daily GEOS-Chem (biogenic only) output of $\Omega_{HCHO}$ and $E_{isop}$ within Australia, and calculate the (RMA) correlation for each month.
-    Modelled background emissions can be ignored here as they do not affect the slope calculation.
-    This effectively gives us monthly gridded isoprene to HCHO $slope$ in units of molecules HCHO $\times$ seconds $\times$ atom C$^{-1}$.
+    Modelled background concentrations can be ignored here as they do not affect slope calculation.
+    This effectively gives us monthly gridded isoprene to HCHO slope ($S$) in units of molecules HCHO $\times$ seconds $\times$ atom C$^{-1} = $ seconds.
     Figure \ref{BioIsop:Method:slope:fig_regressions} (top left) shows the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid square over January 2005, averaged between 1300-1400~LT each day.
     Also shown are the regression coefficients (bottom left), Australia averaged time series (top right), and a sample of the regressions (bottom right).
     Each regression is for a single grid box, over the course of one month, and is coloured by location (matching dots shown in the bottom left panel).
     The slopes shown in the bottom right panel can range widely due to differences in emission and yield parameters, which plays a role in the smearing filters applied in section \ref{BioIsop:Method:Smearing}.
     Due to the low horizontal resolution of GEOS-Chem (2 by 2.5\degr, latitude by longitude), calculations from grid boxes on the coast which are largely oceanic need to be discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
+    
     
     \mypic{Figures/OMI_link/GC/E_isop_vs_hcho_200501.png}
     { % Caption
@@ -334,18 +349,6 @@
     %  \label{BioIsop:Calculation:fig_E_isop_vs_hcho_model_sample}
     %\end{figure}
     
-    %% BACKGROUND calculation(s)
-    There are a couple of ways to determine the modelled background HCHO concentration, one of which involves running the model with isoprene emissions turned off, which allows us to see exactly how much the modelled isoprene emissions alter each vertical column of HCHO.
-    This is effective since we have assumed variation in HCHO columns only depends on isoprene emissions, so our background term is theoretically identical to the emission free simulated HCHO.
-    The other way involves looking at HCHO over the remote pacific at matching latitudes and times, which emulates how the background is determined for the measured HCHO.
-    Figure \ref{BioIsop:Method:fig_background_hcho} shows how GEOS-Chem total column HCHO with and without isoprene emissions along with amounts over the remote pacific at the same latitudes.
-    Modelled background HCHO concentrations over the ocean are used when creating the reference sector correction for satellite measurements (in section \ref{Model:omiRecalc:RSC}).
-    In this thesis modelled background columns are calculated using the longitudinally averaged remote pacific .
-    
-    
-    \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{Total column HCHO over Australia (left) and the remote pacific region (right) using GEOS-Chem with (top) and without (bottom) isoprene emissions. }{\label{BioIsop:Method:fig_background_hcho}}
-    
-    
     
     
   \subsection{Calculation of Emissions}
@@ -356,12 +359,12 @@
     We also assume that isoprene is the only compound enhancing the HCHO levels, which requires that we filter out influence from fires, smoke, and anthropogenic emissions.
     Emissions of precursors are easy to calculate using the slope $S$ calculated in the prior section from modelled HCHO and isoprene columns:
     \begin{equation*}
-    \Omega_{HCHO} = S \times E_isop + \Omega_0
+    \Omega_{HCHO} = S \times E_{isop} + \Omega_0
     \end{equation*}
     This is the same equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}, except now we use the modelled slope along with satellite $\Omega_{HCHO}$ and $\Omega_0$.
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude as $\Omega_{HCHO}$.
     This leaves $E_{isop}$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
-    Figure \ref{BioIsop:Calculation:fig_E_isop_200501} shows the emissions calculated this way along with the modelled emissions output by GEOS-Chem averaged over January, 2005.
+    Figure \ref{BioIsop:Calculation:fig_E_isop_200501} shows the emissions calculated this way along with the modelled emissions output by GEOS-Chem $E_{GC}$ averaged over January, 2005.
     \begin{figure}
       % Figure from Inversion.py -> check_against_MEGAN()
       \includegraphics[width=\textwidth]{Figures/Isoprene/E_Comparison.png}
@@ -372,15 +375,27 @@
       \label{BioIsop:Calculation:fig_E_isop_200501}
     \end{figure}
     
-    The Background ($\Omega_0$) from OMI is determined using the mean column HCHO measured over the remote pacific ocean (180-120{\degr}W).
+    %% BACKGROUND calculation(s)
+    There are a couple of ways to determine the modelled background HCHO concentration, one of which involves running the model with isoprene emissions turned off, which allows us to see exactly how much the modelled isoprene emissions alter each vertical column of HCHO.
+    This is effective since we have assumed variation in HCHO columns only depends on isoprene emissions, so our background term is theoretically identical to the emission free simulated HCHO.
+    The other way involves looking at HCHO over the remote pacific at matching latitudes and times, which emulates how the background is determined for the satellite measured HCHO.
+    Figure \ref{BioIsop:Method:fig_background_hcho} shows how GEOS-Chem total column HCHO with and without isoprene emissions along with amounts over the remote pacific at the same latitudes.
+    Background HCHO for any latitude in this thesis are calculated by averaging longitudinally (140\degr W to 160\degr W) the matching latitudes over the remote pacific.
+    %These backgrounds are used when creating the reference sector corrections for satellite measurements (in section \ref{Model:omiRecalc:RSC}).
+    %The background columns are longitudinally averaged from 140\degr W to 160\degr W.
+    
+    
+    \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{Total column HCHO over Australia (left) and the remote pacific region (right) using GEOS-Chem with (top) and without (bottom) isoprene emissions. }{\label{BioIsop:Method:fig_background_hcho}}
+    
+    %% How we use the background..
+    The Background ($\Omega_0$) from OMI is determined using the mean column HCHO measured over the remote pacific ocean.
     For this term we use remote ocean measurements averaged monthly and longitudinally.
     This is gives us a background which is appropriate for any latitude.
     Figure TODO: figure with background region highlighted and a time series of background values.
     One potential issue is at high latitudes (especially during winter) which have fewer measurements and higher uncertainty.
-    When calculating the $E_{isop}$ from our modelled slope with OMI HCHO and background, we end up with negative emissions wherever the OMI HCHO column is less than the OMI background (as $E_{isop} = \frac{\Omega_{HCHO} - \Omega_0}{S}$).
+    When calculating the $E_{isop}$ from our modelled slope, negative emissions result when using OMI measured columns are lower than the background amounts (as $E_{isop} = \frac{\Omega_{HCHO} - \Omega_0}{S}$).
     These are set to zero, which increases the average by around TODO: X\%.
     
-   
   
   \subsection{Accounting for smearing}
     \label{BioIsop:Method:Smearing}
@@ -391,7 +406,7 @@
     An analysis of spatial smearing (smearing from here forwards) can be used to mitigate potential emissions estimation biases by filtering out affected gridsquares.
     Smearing in this case is a measure of how much formaldehyde is created from isoprene emissions in non-local grid boxes.
     Smearing has been estimated in various works \parencite[eg.][]{Martin2003, Palmer2003, Millet2006, Stavrakou2009, Marais2012, Barkley2013, Zhu2014, Wolfe2016, Surl2018}, often implementing the method designed in \textcite{Palmer2003}.
-    This method calculates smearing using just two almost identical model runs, one of which has isoprene emissions scaled globally by a factor (generally from 0.5 to 2).
+    This method involves calculating smearing using two almost identical model runs, one of which has isoprene emissions scaled globally by a factor (generally from 0.5 to 2).
     Another method \parencite[eg.][]{Stavrakou2009} involves the analysis of an adjoint CTM, however this is computationally expensive.
     
     In this work a run of GEOS-Chem using globally halved isoprene emissions (with no other changes) is performed to create a smearing filter.
@@ -405,7 +420,7 @@
     This range strikes a balance between unlikely modelled yields and how much data is lost to filtering.
     A better approximation of lifetimes for HCHO is required to properly account for seasonality and regional NO$_X$ concentrations.
     TODO: Figure todo shows $\hat{S}$ over Australia for one year, along with where and when the filter has most impact.
-    TODO: Show yield and lifetimes from caaba/mecca if possible
+    %Todo?: Show yield and lifetimes from caaba/mecca if possible
     Table \ref{BioIsop:Method:Smearing:tab_smearing_ranges} shows the smearing filters or typical slopes seen in other works.
     
     \begin{table}\begin{threeparttable}
@@ -444,17 +459,19 @@
     Using two runs of GEOS-Chem with isoprene emissions being the only difference we have:
     \begin{eqnarray}
       \label{BioIsop:Method:Smearing:calculation:eqn_runs}
+      \begin{split}
       Run_1 :&  \Omega_{HCHO} = S E_{isop} + \Omega_0 \\
       Run_2 :&  \Omega_{HCHO}' = S' E_{isop}' + \Omega_0' 
+      \end{split}
     \end{eqnarray}
     There are several assumptions which need to be understood, as these are what is tested by the smearing calculation.
     The initial assumption is that the system is in a steady state, with no transport of isoprene affecting HCHO columns, this is the basis for equations \ref{BioIsop:Method:Smearing:calculation:eqn_runs}.
     It is assumed that background values ($\Omega_0$) are from oxidation of methane and other long lived VOCs, so that $\Omega_0 = \Omega_0'$.
-    Between these two runs we are only changing the $E$ term, we do not change any chemistry and so we can expect that the yield and loss rate is not changing between the two runs:
-    \begin{eqnarray*}
-      S = S' & = \frac{Y_{isop}}{k_{HCHO}} \\
-      \Omega_0 & = \Omega_0'
-    \end{eqnarray*}
+    Between these two runs we are only changing the $E$ term, we do not change any chemistry and so we can expect that the yield and loss rate is not changing between the two runs $S = S' = \frac{Y_{isop}}{k_{HCHO}}$
+    %    \begin{eqnarray*}
+    %      S = S' & = \frac{Y_{isop}}{k_{HCHO}} \\
+    %      \Omega_0 & = \Omega_0'
+    %    \end{eqnarray*}
     which leads to us being able to combine the runs in equation \ref{BioIsop:Method:Smearing:calculation:eqn_runs} as follows:
     \begin{eqnarray}
       \label{BioIsop:Method:Smearing:calculation:eqn_hats}
@@ -463,7 +480,7 @@
       & \hat{S} \equiv \frac{\Delta{\Omega_{HCHO}}}{\Delta E_{isop}} \approx \frac{Y_{isop}}{k_{HCHO}}
     \end{eqnarray}
     And using the output from our two runs we can see if the calculated $\hat{S}$ is wildly different from expected values for S.
-    The modelled slope multiplied by the column HCHO loss rate ($k_{HCHO} = 1/\tau$) should approximate the HCHO yield from isoprene \parencite{Palmer2003, Barkley2013}.
+    %The modelled slope multiplied by the column HCHO loss rate ($k_{HCHO} = 1/\tau$) should approximate the HCHO yield from isoprene \parencite{Palmer2003, Barkley2013}.
     
     
     Using GEOS-Chem to approximate the daily average lifetime of HCHO has been performed, with results for 2005 shown in figure \ref{BioIsop:Method:Smearing:fig_tau_GC_2005}.
@@ -475,7 +492,8 @@
     For each grid square over Australia this daily averaged surface lifetime in summer (Jan., Feb.) and winter (JJA) is shown in figure \ref{BioIsop:Method:Smearing:fig_tau_GC_2005}.
     Additionally lifetimes coloured by land grid squares (dots in top right panel) are shown over time in the bottom panel.
     The problem with this approximation is that we are not interested in daily averaged lifetime, but the midday (13:00-14:00~LT) lifetime.
-    This figure does highlight the seasonal nature of HCHO loss rates, although midday numbers are less extreme (todo: rough numbers from caaba mecca).
+    This figure highlights the seasonal nature of HCHO loss rates, although midday numbers are expected to be less extreme. %(todo: rough numbers from caaba mecca).
+    
     
     \mypic{/Figures/OMI_link/Filters/tau_2005.png}{%
       Top left, right: Summer (Jan., Feb.) and winter (JJA) averaged daily surface HCHO lifetime ($\tau$). Bottom panel: $\tau$ over the year, coloured by grid square (see dots in top right panel).
@@ -534,8 +552,9 @@
       At higher NO mixing ratios (at least a few hundred pptv), organic peroxy radicals (RO$_2$) react mostly with NO. 
       At low NO (less than 50~pptv), reaction with HO$_2$, other RO$_2$, and isomerisation dominate the fate of RO$_2$.
       In low NO$_X$ environments, reported HCHO yields from isoprene are around 0.2 - 0.3 C per C, while in high NO$_X$ environments this value becomes two to three times higher \parencite{Palmer2003, Wolfe2016}.
-      \textcite{Wolfe2016} also see background HCHO doubling in high NO$_X$ regions.
+      %\textcite{Wolfe2016} also see background HCHO doubling in high NO$_X$ regions.
       %\textcite{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
+
       
       NO$_2$ measured by OMNO2d gives us a daily mid-day measurement which we can compare to output from GEOS-Chem to determine how well the model does at simulating NO$_2$ (see section \ref{Model:GC:NOx}).
       %\textcite{Travis2016} show how NO$_X$ can be used to examine model bias in ozone (potentially due to NO$_2$ bias) over the USA.
@@ -552,15 +571,117 @@
         Right: Scatter plot of NO$_2$ against smearing calculations from GEOS-Chem ($\hat{S}$), with points above and below the smearing threshold range of 900-5200~s coloured red and blue respectively. Points are binned by NO$_2$ with and without having the smearing filter applied (orange and magenta respectively). Overplotted is the mean and standard deviation (error bars) within each bin. Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
         Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}
+      
+      The half-life of HCHO to photo-oxidation with hydroxyl radicals is around 1~hr depending on environmental conditions \parencite{WHO_hcho_guidelines_2010}.
+      This would make the expected lifetime ($\tau = \text{half-life}/\ln{2}$) around 1.4 hours.
+      The estimated loss rate of HCHO in GEOS-Chem approximately ranges from 1e6 to 3e6 mol cm$^{-3}$ s${-1}$, with higher values in summer and along the north and eastern regions also associated with denser forest regions.
+      %Over the majority of Australia conditions are relatively clean (low NO$_X$ levels) which extends the expected lifetime.
+      Isoprene yields from various sources are shown in table \ref{BioIsop:Method:tab_VOCAusYields}.
+      %\textcite{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
+      
+      Conversions between HCHO per unit C yield and molar \% yield from species X are given by the equation $ Y_{molar \%} = 100 \times C_X \times Y_{HCHO \,C^{-1}}$, where $C_X$ is how many carbon are within species X (5 for isoprene).
+      For instance a 200\% molar yield of HCHO from isoprene implies 1 mole of C$_5$H$_8$ becomes 2 mole HCHO which is a 0.4 HCHO per unit C yield.
+      
+      %    TODO: Fill out this table
+      %    \begin{table} \begin{threeparttable}
+      %        \caption{HCHO yields from various species averaged over Australia during Summer.}
+      %        \begin{tabular}{ | c  c  c  c  c | }
+      %          \toprule
+      %          \textbf{Species}   & \textbf{Emissions$^a$}& \textbf{Lifetime$^b$}& \textbf{HCHO Yield$^c$} & \textbf{HCHO production$^d$\%}
+      %          \\                 & (Tg C per month)      &                      & (per C reacted)         &         \\
+      %          \midrule
+      %          Isoprene           & Y                     & n minutes            & 0.x                     & 10       \\
+      %          $\alpha$-Pinene    & Y                     & n minutes            & 0.x                     & 10       \\
+      %          $\beta$-Pinene     & Y                     & n minutes            & 0.x                     & 10       \\
+      %          HCHO               & Y                     & n minutes            & 1.0                     & 10       \\
+      %          \bottomrule
+      %        \end{tabular}
+      %        \begin{tablenotes} 
+      %          \item a: Calculated using GEOS-Chem emissions over Australia in January 2005.
+      %          \item b:  
+      %          \item c: 
+      %          \item d: Production determined by dividing emission*yield by the sum of all VOC emissions*yields. 
+      %        \end{tablenotes}
+      %        \label{BioIsop:Method:tab_VOCAusYields}
+      %      \end{threeparttable} \end{table}
+      %      
+      % yields from Atkinsen2003
+      %isoprene
+      %0.63 0.10 Tuazon and Atkinson (1990a)
+      %0.57 0.06 Miyoshi et al. (1994)
+      % a-pinene
+      %0.23 0.09 Noziere et al. (1999a)
+      %0.19 0.05 Orlando et al. (2000)
+      % b-pinene
+      %0.54 0.05 Hatakeyama et al. (1991)
+      %0.45 0.08 Orlando et al. (2000)
+      
+      % molar HCHO yield per unit carbon equal to HCHO molar percent yield(per carbon)? or some conversion?
+      \begin{table} \begin{threeparttable}
+          \caption{ HCHO yields from various species, and lifetime against oxidation by OH. }
+          \begin{tabular}{  l  l  l  l  l  }
+            \toprule
+            Species    & HCHO Yield    & Life vs OH   & NO$_X$ background & Source   \\
+            & (molar \% )   &              &                   &          \\
+            \midrule 
+            Isoprene	& 315$\pm$50      &            & High          & a        \\ 
+            & 285$\pm$30      &            & High          & a        \\ 
+            & 225             & 35 min     & High          & b        \\ % Done
+            & 150             &            & Low           & b        \\ % Done
+            & 150             &            & Low           & d        \\
+            & 450             &            & High          & d        \\
+            & 235             &            & 1~ppbv        & e        \\
+            & 150             &            & 0.1~ppbv      & e        \\
+            %          $\alpha$-Pinene & 28$\pm$3        &        & Low                & c        \\ 
+            %          & X$\pm$3         &        & X                  & d        \\ 
+            %          & 230$\pm$90      &        & High        & a        \\ 
+            %          & 190$\pm$50      &        & High        & a        \\ 
+            %          & 19              & 1 hour &              & b        \\ % Done
+            %          & 210             &        & 1~ppbv        & e        \\
+            %          & 70              &        & 0.1~ppbv      & e        \\
+            %          $\beta$-Pinene  & 65$\pm$6        &        & Low           & c      \\ 
+            %          & X$\pm$3         &        & X             & d      \\ 
+            %          & 540$\pm$50      &        & High          & a     \\ 
+            %          & 450$\pm$80      &        & High          & a      \\ 
+            %          & 45              & 40 min &              & b      \\ % Done
+            %          Methane 	      & 100             & 1 year  &             & b     \\ 
+            %          Ethane          & 180             & 10 days &             & b     \\ 
+            %          Propane         & 60              & 2 days  &             & b     \\ 
+            %          Methylbutanol   & .13(per C)    & 1 hour  &             & b     \\ 
+            %          HCHO            & 100             & 2 hour  &             & b     \\ 
+            %          Acetone         & .67(per C)      & 10 days &             & b     \\ 
+            %          Methanol        & 100             & 2 days  &             & b     \\ %Done
+            \bottomrule
+          \end{tabular}
+          \begin{tablenotes} % \item makes new lines
+            \item a \textcite{AtkinsonArey2003}: Table 2, Yield from Isoprene reaction with OH, two values are from two referenced papers therein.
+            \item b \textcite{Palmer2003}: lifetimes assume [OH] is 1e15 mol cm$^{-3}$.
+            \item c \parencite{Lee2006}: Calculated through change in concentration of parent and product linear least squares regression.
+            Estimates assume 20$^\circ$~C conditions.
+            \item d \textcite{Wolfe2016}: ``prompt yield'': change in HCHO per change in ISOP$_0$.
+            $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
+            Effectively relates HCHO abundance with isoprene emission strength.
+            \item e \textcite{Dufour2009}: One-day yields from oxidation modelled by CHIMERE, using MCM reference scheme.
+            \item f Calculated using PTR-MS and iWAS on SENEX campaign data.
+          \end{tablenotes}
+          \label{BioIsop:Method:tab_VOCLiteratureYields}
+        \end{threeparttable} \end{table}
 
-  \subsection{Running GEOS-Chem with scaled isoprene emissions}
+  \subsection{Running GEOS-Chem using a posteriori emissions}
   \label{BioIsop:ScaledRun}
     
     Having calculated the midday (13:00-14:00~LT) emission rates of isoprene, a new run of GEOS-Chem is performed after scaling the MEGAN emissions to match the new top-down estimate.
     This is performed using a monthly scale factor (at 2x2.5\degr) based on the difference between midday MEGAN emissions and the top-down estimate multi-year monthly average.
-    Figure TODO: shows the monthly mean daily cycle of isoprene emissions from MEGAN, along with the top-down midday estimate, for an example grid box located 2.5\degr west of Sydney.
-    Initially a run of GEOS-Chem using no chemistry it performed in order to quickly retrieve MEGAN hourly averaged isoprene emissions.
-    Then the MEGAN emissions at midday for each month per gridbox are averaged (see figure TODO) and the multi-year average of these is compared against the top-down estimate.
+    Figure \ref{BioIsop:ScaledRun:megan_diurnal} shows the multi-year monthly mean daily cycle of isoprene emissions from GEOS-Chem, along with the top-down midday estimate, for an example grid box located 2.5\degr west of Sydney.
+    Initially a run of GEOS-Chem using no chemistry it performed in order to quickly retrieve hourly averaged isoprene emissions.
+    Then these emissions at midday for each month per gridbox are averaged (see figure TODO) and the multi-year average of these is compared against the top-down estimate.
+    
+    \mypic{Figures/OMI_link/Emiss/MEGAN_monthly_daycycle.png}{ %
+      The diurnal cycle of MEGAN emissions averaged by month over 1, Jan, 2005 to TODO, 2013 are shown with lines, while top-down emissions estimates are shown with plus symbols.
+      MEGAN emissions are estimated hourly per 2x2.5\degr horizontal grid box, shown here are the averages within several areas (denoted by colour, see figure todo).
+      Top-down estimates are similarly grouped by colour, and shown at the 13:00~LT mark for each month.
+      Rows 1-4 match seasons from austral summer (DJF) through to spring (SON).
+      }{\label{BioIsop:ScaledRun:megan_diurnal}}
     
     A scaling factor $\alpha$ is derived which when multiplied with MEGAN midday emission monthly averages $E_{MEGAN}$ produces the top down emissions estimate $E_{OMI}$ : $\alpha = \frac{E_{MEGAN}}{E_{OMI}}$.
     This is performed through a small modification of GEOS-chem source code which applies $\alpha$ after calculating emissions for each grid-square based on the default emission factors and meteorology.
@@ -569,133 +690,104 @@
 \section{Results}
   \label{BioIsop:Results}
   
+  Australia is a large country with heterogeneous environmental conditions.
+  The results presented in this section are frequently split into five regions which are differentiated by colour.
+  Figure \ref{BioIsop:Results:fig_subregions} shows Australia along with coloured rectangles which show the regions belonging to each colour.
+  
+  \mypic{Figures/OMI_link/subregions.png}{%
+    Sub-regions used in subsequent figures.
+    Averages taken within Australia will be black or grey, while averages from within the coloured rectangles will match the colour shown here.
+  }{\label{BioIsop:Results:fig_subregions}}
+  
   \subsection{HCHO Products and yield}
     \label{BioIsop:Results:HCHOYield}
+    
     Isoprene forms many products, with many reactions, most of which have some yield of HCHO.
-    This production occurs over several steps, yields are often classed into at least two categories.
-    First generation HCHO yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, total yield (or molar yield) refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
+    This production occurs over several steps, with yields often classed into at least two categories.
+    First generation HCHO yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, while total (or molar) yield refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
     \textcite{Wolfe2016} define prompt yield as the change in formaldehyde per unit change in initial isoprene emissions.
     %$[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
-    In this work yield refers to total HCHO yield from isoprene oxidation.
+    In this work yield ($Y_{isop}$) is approximately the total yield within 1.5-4 hours.
+    
+    Figure \ref{BioIsop:Results:HCHOYield:fig_Yield_Lifetime}: shows the GEOS-Chem Y$_{isop}$ and lifetime of HCHO estimations throughout the year.
+    By using an assumed constant $Y_{isop}$ of 0.4, we estimate the midday lifetimes of HCHO using $S = \frac{Y_{isop}}{k_{HCHO}}$ from equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
+    Then dividing the slope by this monthly mean lifetime returns an estimate of the Yield.
+    Both of these terms are heavily influenced by the assumed yield, and should not be taken as results, however this technique shows the seasonal cycle and spread of the HCHO yield and lifetime.
+    A clear June (and sometimes March, July and August) increase in HCHO lifetimes is shown, with a matching drop in yield. 
+    These are the winter months, when midday temperature and insolation is reduced.
+    The noise in the southwest region may be indicative of heavy filtering and due to westerly winds, which can lead to both smearing and transported pollution.
+    
+    \mypic{Figures/OMI_link/GC/Yield_lifetime_monthly.png}{ %
+      Monthly area averaged isoprene to HCHO midday yield, and HCHO lifetime.
+      Coloured by regions shown in figure \ref{BioIsop:Results:fig_subregions}
+      Shaded areas show the yield (plain) and lifetime (hatched) IQR.
+    }{\label{BioIsop:Results:HCHOYield:fig_Yield_Lifetime}}    
     
     Modelled daily averaged yields can be qualitatively derived from the $slope$ using the daily averaged modelled loss rates ($L$) in $k_{hcho} = \frac{L}{[HCHO]}$ since $slope = \frac{Y_{isop}}{k_{HCHO}}$ from equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
     Figures TODO: and TODO show the daily averaged lifetime ($\tau = \frac{1}{k_{HCHO}}$) and yield ($Y_{isop}$) modelled by GEOS-Chem.
     Model output of loss rates are only available on a daily time scale, which limits us to an overview of modelled seasonality in this metric.
     
-    The half-life of HCHO to photo-oxidation with hydroxyl radicals is around 1~hr depending on environmental conditions \parencite{WHO_hcho_guidelines_2010}.
-    This would make the expected lifetime ($\tau = \text{half-life}/\ln{2}$) around 1.4 hours.
-    The estimated loss rate of HCHO in GEOS-Chem approximately ranges from 1e6 to 3e6 mol cm$^{-3}$ s${-1}$, with higher values in summer and along the north and eastern regions also associated with denser forest regions.
-    Over the majority of Australia conditions are relatively clean (low NO$_X$ levels) which extends the expected lifetime (up to around TODO: convert this  1e6 mol/cm3/s).
-    Assuming a lifetime of 2.5~hours for HCHO over Australia allows a simple estimation of isoprene to HCHO yield distributions, which is how the yields are calculated in table TODO.
-    Assuming a Yield of 0.2 over Australia allows a rough estimate of the lifetime distribution.
-    These distributions are shown in figure TODO, where we see both the hard limits imposed by our smearing filter and the affects of location as Australia is split into north and south eastern forests, northern forests, southeastern forests and the lake Ayers region.
-    Emissions and yields for various species including some terpenes can be seen in table \ref{BioIsop:Method:tab_VOCAusYields}.
-    
-    
-        
-    Conversions between HCHO per unit C yield and molar \% yield from species X given by the equation $ Y_{molar \%} = 100 \times C_X \times Y_{HCHO per unit C} $, where $C_X$ is how many carbon are within species X (5 for isoprene, 10 for monoterpenes, etc...).
-    For instance a 200\% molar yield of HCHO from isoprene implies 1 mole of C$_5$H$_8$ becomes 2 mole HCHO which is a 0.4 HCHO per unit C yield.
-    
-    % yields from Atkinsen2003
-    %isoprene
-    %0.63 0.10 Tuazon and Atkinson (1990a)
-    %0.57 0.06 Miyoshi et al. (1994)
-    % a-pinene
-    %0.23 0.09 Noziere et al. (1999a)
-    %0.19 0.05 Orlando et al. (2000)
-    % b-pinene
-    %0.54 0.05 Hatakeyama et al. (1991)
-    %0.45 0.08 Orlando et al. (2000)
-    
-    % molar HCHO yield per unit carbon equal to HCHO molar percent yield(per carbon)? or some conversion?
-    \begin{table} \begin{threeparttable}
-      \caption{ HCHO yields from various species, and lifetime against oxidation by OH. }
-      \begin{tabular}{  l  l  l  l  l  }
-        \toprule
-        Species    & HCHO Yield    & Life vs OH   & NO$_X$ background & Source   \\
-        & (molar \% )   &              &                   &          \\
-        \midrule 
-        Isoprene	& 315$\pm$50      &            & High          & a        \\ 
-        & 285$\pm$30      &            & High          & a        \\ 
-        & 225             & 35 min     & High          & b        \\ % Done
-        & 150             &            & Low           & b        \\ % Done
-        & 150             &            & Low           & d        \\
-        & 450             &            & High          & d        \\
-        & 235             &            & 1~ppbv        & e        \\
-        & 150             &            & 0.1~ppbv      & e        \\
-        $\alpha$-Pinene & 28$\pm$3        &        & Low                & c        \\ 
-        & X$\pm$3         &        & X                  & d        \\ 
-        & 230$\pm$90      &        & High        & a        \\ 
-        & 190$\pm$50      &        & High        & a        \\ 
-        & 19              & 1 hour &              & b        \\ % Done
-        & 210             &        & 1~ppbv        & e        \\
-        & 70              &        & 0.1~ppbv      & e        \\
-        $\beta$-Pinene  & 65$\pm$6        &        & Low           & c      \\ 
-        & X$\pm$3         &        & X             & d      \\ 
-        & 540$\pm$50      &        & High          & a     \\ 
-        & 450$\pm$80      &        & High          & a      \\ 
-        & 45              & 40 min &              & b      \\ % Done
-        Methane 	      & 100             & 1 year  &             & b     \\ 
-        Ethane          & 180             & 10 days &             & b     \\ 
-        Propane         & 60              & 2 days  &             & b     \\ 
-        Methylbutanol   & .13(per C)    & 1 hour  &             & b     \\ 
-        HCHO            & 100             & 2 hour  &             & b     \\ 
-        Acetone         & .67(per C)      & 10 days &             & b     \\ 
-        Methanol        & 100             & 2 days  &             & b     \\ %Done
-        \bottomrule
-      \end{tabular}
-      \begin{tablenotes} % \item makes new lines
-        \item a \textcite{AtkinsonArey2003}: Table 2, Yield from Isoprene reaction with OH, two values are from two referenced papers therein.
-        \item b \textcite{Palmer2003}: lifetimes assume [OH] is 1e15 mol cm$^{-3}$.
-        \item c \parencite{Lee2006}: Calculated through change in concentration of parent and product linear least squares regression.
-        Estimates assume 20$^\circ$~C conditions.
-        \item d \textcite{Wolfe2016}: ``prompt yield'': change in HCHO per change in ISOP$_0$.
-        $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
-        Effectively relates HCHO abundance with isoprene emission strength
-        \item e \textcite{Dufour2009}: One-day yields from oxidation modelled by CHIMERE, using MCM reference scheme.
-        \item f Calculated using PTR-MS and iWAS on SENEX campaign data.
-        \item g Australian average over austral summer from GEOS-Chem assuming 2.5 hour HCHO lifetime in this work.
-      \end{tablenotes}
-      \label{BioIsop:Method:tab_VOCLiteratureYields}
-    \end{threeparttable} \end{table}
-      
-    Looking at Australian emissions from running GEOS-Chem and using yields provided by XYZ (TODO other table), we see that Australia may be more or less likely to be affected by both NO$_X$ and pollution and high wind speeds TODO: this comparison sentence would be good to tie up tables and be copied to conclusions.
       
       
   \subsection{Emissions comparisons}
     \label{BioIsop:Results:Emissions}
-  
-    Some global numbers (TODO: where do I throw these?)
+    
     \textcite{Guenther2012} Estimate global biogenic isoprene emissions at roughly 535\tgpyr, using MEGAN.
     \textcite{Sindelarova2014} Estimate around 594\tgpyr using MEGAN with MACC, showing isoprene as 69.2\% of the total BVOC emissions, with monoterpenes at 10.9\tgpyr (10.9\%).
     They show 41\tgpyr decrease in Australia when introducing soil moisture parameterisation.
     When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease over TODO: locations and seasons.
-    TODO: table or figure showing summary of isoprene emissions changes over the whole of our time domain.
+    Table \ref{BioIsop:Results:Emissions:tab_emissions_Tg} shows yearly isoprene emissions from this work and some other works for Australia and globally.
+    
+    \begin{table}\begin{threeparttable}
+      \caption{Yearly emissions (Tg)}
+      \begin{tabular}{ l  c  l } 
+        \toprule
+        Australia & Global & notes \\
+        \midrule
+        &  & MEGAN 2005-2012 \\
+        &  & top-down 2005-2012 \\
+        \bottomrule
+      \end{tabular}
+      \begin{tablenotes} 
+        \item a: ...%\parencite{}
+        \item b: ...
+      \end{tablenotes}
+      \label{BioIsop:Results:Emissions:tab_emissions_Tg}
+    \end{threeparttable}\end{table}
     
     Recently \textcite{Bauwens2016} estimated isoprene emissions with this technique using the IMAGESv2 global CTM.
     They calculate emissions which create the closest match between model and satellite vertical columns, and compare these a postiori data with the a priori (satellite data) and independent data sets.
     They found TODO: what they found and how this analysis differs from my own.
     (TODO: simple outline of what they did and how my focus is different)
     
-    Satellite measured HCHO has been found to be biased low in several studies \parencite[eg.][]{Zhu2016,DeSmedt2015,Barkley2013}.
-    These papers use in-situ data to scale up the satellite HCHO columns for their areas of interest, however Australia lacks sufficient HCHO measurements to do this.
-    Satellite bias is seen to be as high as 40\%, which we use as a simplistic method of quantifying satellite uncertainty.
-    By scaling satellite HCHO up by 40\% we increase our isoprene emissions estimates by the same, as our estimate is proportional to satellite HCHO.
-    The 'Scaled' column refers to the calculations when using the 40\% scaled up OMI HCHO columns. %TODO: make table, add that column.
-    
-    Figure \ref{BioIsop:Results:Emissions:fig_time_series_vs_megan} shows emissions over Australia calculated using the OMI top down estimate (column 1: E$_{new}$) and MEGAN (column 2: E$_{MEGAN}$).
-    The first row shows the overall average emission rates, the second row shows the time series (daily midday averages) and the final row shows the relative differences as $\frac{E_{MEGAN} - E_{new}}{E_{MEGAN}}$.
+    Figure \ref{BioIsop:Results:Emissions:fig_time_series_vs_megan} shows emissions over Australia calculated using the OMI top down estimate (column 1: E$_{OMI}$) and GEOS-Chem simulated emissions (column 2: E$_{GC}$).
+    The first row shows the overall average emission rates, the second row shows the time series (daily midday averages) and the final row shows the relative differences as $\frac{E_{GC} - E_{OMI}}{E_{GC}}$.
     This figure is repeated using monthly medians in (of the daily midday estimates) in figure \ref{BioIsop:Results:Emissions:fig_time_series_vs_megan_monthly}.
+    
+    Figure \ref{BioIsop:Results:Emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and IQR of daily midday isoprene emissions estimates, averaged over several regions (see figure \ref{BioIsop:Results:fig_subregions}). 
+    Generally months outside of May to August show the a postiori lower than the a priori, except in the south eastern portion of Australia (SE).
+    
+     
     
     
     \mypic{Figures/OMI_link/Emiss/E_zones_PP_lr.png}{%
-      Emissions of isoprene estimates using OMI top down inversion (column 1: E$_{new}$) and MEGAN (column 2: E$_{MEGAN}$).
+      Emissions of isoprene estimates using OMI top down inversion (column 1: E$_{OMI}$) and MEGAN (column 2: E$_{GC}$).
       Row 1: overall averaged daily midday emission rates, from 1, Jan, 2005 to 1, May, 2013.
       Row 2: time series of daily midday averages for all of Australia along with several subregions (shown in row 1). 
       Row 3: relative differences: $\frac{E_{MEGAN} - E_{new}}{E_{MEGAN}}$.
       The black lines and grey areas show the Australian mean and inter-quartile range respectively, while the coloured lines show the mean within the rectangles (of matching colours) shown in the first row.
       }{\label{BioIsop:Results:Emissions:fig_time_series_vs_megan}}
-    \mypic{Figures/OMI_link/Emiss/E_zones_PP_monthly_lr.png}{ As figure \ref{BioIsop:Results:Emissions:fig_time_series_vs_megan} using monthly medians of the daily midday emissions estimates.}{\label{BioIsop:Results:Emissions:fig_time_series_vs_megan_monthly}}
+    \mypic{Figures/OMI_link/Emiss/E_zones_PP_monthly_lr.png}{ %
+      As figure \ref{BioIsop:Results:Emissions:fig_time_series_vs_megan} using monthly medians of the daily midday emissions estimates.
+      }{\label{BioIsop:Results:Emissions:fig_time_series_vs_megan_monthly}}
+    
+    \mypic{Figures/OMI_link/Emiss/E_zones_multiyear_PP_lr.png}{ %
+      The multi-year monthly mean (lines) and IQR (shaded) of midday (13:00-14-00~LT) isoprene emissions estimates. 
+      Estimates come from MEGAN run by GEOS-Chem (E$_{GC}$), and the OMI top-down technique (E$_{OMI}$).
+      The mean E$_{GC}$ is shown by the dashed lines and hatched shaded areas show the IQR.
+      E$_{OMI}$ means are shown using the solid lines, with IQR shown by unhatched shaded areas.
+      Colours denote the region over which the monthly average was taken, as shown in Figure \ref{BioIsop:Results:fig_subregions}.
+      }{\label{BioIsop:Results:Emissions:fig_megan_vs_Enew_regional_mya}}
   
   \subsection{Comparison with measurements}
     
@@ -820,8 +912,14 @@
     
     TODO: uncertainty calculation on remote pacific OMI.
     
+    Satellite measured HCHO has been found to be biased low in several studies \parencite[eg.][]{Zhu2016,DeSmedt2015,Barkley2013}.
+    These papers use in-situ data to scale up the satellite HCHO columns for their areas of interest, however Australia lacks sufficient HCHO measurements to do this.
+    Satellite bias is seen to be as high as 40\%, which we use as a simplistic method of quantifying potential satellite uncertainty.
+    If satellite HCHO was scaled up by 40\% our isoprene emissions estimates would increase by the same, as our estimate is proportional to satellite HCHO.
+    
     OMI is scaled up by up to 40\% in several papers (cite) we consider HCHO scaled by 1 and 1.4 to be boundaries for modelled yield.
-    If we infer from this that there is 20\% bias and 20\% uncertainty in the S term, we find TODO increase or decrease in $\Delta{E_{new}}$ of some amound through changing $\Delta{S}=$ .
+    If we infer from this that there is 40\% bias and random uncertainty remains unchanged, then in the S term, we find TODO increase or decrease in $\Delta{E_{new}}$ of some amount through changing $\Delta{S}=$ .
+    
     
   \subsection{Satellite vertical column recalculation}
     
