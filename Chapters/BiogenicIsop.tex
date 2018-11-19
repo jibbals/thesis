@@ -480,24 +480,6 @@
       %The modelled slope multiplied by the column HCHO loss rate ($k_{HCHO} = 1/\tau$) should approximate the HCHO yield from isoprene \parencite{Palmer2003, Barkley2013}.
       
       
-      Using GEOS-Chem to approximate the daily average lifetime of HCHO has been performed, with results for 2005 shown in figure \ref{BioIsop:Method:Smearing:fig_tau_GC_2005}.
-      This lifetime is calculated using daily averaged surface loss rates and concentrations of HCHO:
-      \begin{equation*}
-        \tau = \frac{[HCHO]}{L}
-      \end{equation*}
-      The expected lifetime ($\tau$) of HCHO is determined by assuming loss is linear (first order) and dividing grid box daily averaged concentrations of GEOS-Chem HCHO ($[HCHO]$ in molecules cm$^{-3}$) by their modelled losses ($L$ in molecules cm$^{-3}$ s${-1}$).
-      For each grid square over Australia this daily averaged surface lifetime in summer (Jan., Feb.) and winter (JJA) is shown in figure \ref{BioIsop:Method:Smearing:fig_tau_GC_2005}.
-      Additionally lifetimes coloured by land grid squares (dots in top right panel) are shown over time in the bottom panel.
-      The problem with this approximation is that we are not interested in daily averaged lifetime, but the midday (13:00-14:00~LT) lifetime.
-      This figure highlights the seasonal nature of HCHO loss rates, although midday numbers are expected to be less extreme.
-      Another highlighted issue is the potential latitudinal dependence of HCHO lifetimes, since there is less total insolation leading to lower HCHO loss rates at higher latitudes.
-      
-      
-      \mypic{/Figures/OMI_link/Filters/tau_2005.png}{%
-        Top left, right: Summer (Jan., Feb.) and winter (JJA) averaged daily surface HCHO lifetime ($\tau$). Bottom panel: $\tau$ over the year, coloured by grid square (see dots in top right panel).
-        }{\label{BioIsop:Method:Smearing:fig_tau_GC_2005}}
-      
-      
       Similarly to smearing sensitivity calculations in \textcite{Marais2012}, we run GEOS-Chem with isoprene emissions halved, then calculate $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $.
       Here $\Delta$ represents the departure (daily over 1300-1400~LT) from default run values.
       If $\hat{S}$ is large, then you can infer sensitivity to non-local isoprene emissions.
@@ -527,7 +509,8 @@
       
       
       % TODO: figure out this paragraphs numbers, make plot
-      When limiting smearing ($\hat{S}$) to within 800-4600~s, GEOS-Chem correlation between isoprene emissions and HCHO columns improves (TODO show by how much). 
+      When limiting smearing ($\hat{S}$) to within 800-4600~s, GEOS-Chem correlation between isoprene emissions and HCHO columns should improve (TODO analysis). 
+      A problem arises due to the loss of datapoints used to create monthly gridsquare regressions, and a secondary filter is applied where the confidence interval of the slope exceeds 200\%.
       Figure TODO shows GEOS-Chem midday HCHO columns compared against GEOS-Chem emissions of isoprene, over land squares with (red) and without (grey) filtering for smearing.
       This smearing range captures isoprene to HCHO yields of around 0.16 to 0.32 C per C if HCHO lifetime is assumed to lie within 1.5 to 4 hours.
     
@@ -547,12 +530,31 @@
       with limiting values L$_{s,i} \rightarrow U/k_i$ for $k_i << k_{HCHO}$, and L$_{s,i} \rightarrow U/k_{HCHO}$ for $k_{HCHO} << k_i$.
       Figure TODO: shows a rough estimate of isoprene smearing length(L$_{isop}$) in Australia using wind speeds from TODO:, and reaction rates k$_{isop}$, k$_{HCHO}$ from GEOS-Chem.
       %TODO make this plot!
+      
+      GEOS-Chem daily averaged HCHO lifetime ($\tau$) is shown for 2005 in figure \ref{BioIsop:Method:Smearing:fig_tau_GC_2005}.
+      This lifetime is calculated using daily averaged surface loss rates and concentrations of HCHO:
+      \begin{equation*}
+      \tau = \frac{[HCHO]}{Loss}
+      \end{equation*}
+      The expected lifetime of HCHO is determined by assuming loss is linear (first order) and dividing grid box daily averaged concentrations of GEOS-Chem HCHO ($[HCHO]$ in molecules cm$^{-3}$) by their modelled losses ($Loss$ in molecules cm$^{-3}$ s${-1}$).
+      For each grid square over Australia this daily averaged surface lifetime in summer (Jan., Feb.) and winter (JJA) is shown in figure \ref{BioIsop:Method:Smearing:fig_tau_GC_2005}.
+      Additionally lifetimes coloured by land grid squares (dots in top right panel) are shown over time in the bottom panel.
+      The problem with this approximation is that we are not interested in daily averaged lifetime, but the midday (13:00-14:00~LT) lifetime.
+      This figure highlights the seasonal nature of HCHO loss rates, although midday numbers are expected to have less seasonality.
+      Another highlighted issue is the potential latitudinal dependence of HCHO lifetimes, since there is less total insolation leading to lower HCHO loss rates at higher latitudes.
+      
+      
+      \mypic{/Figures/OMI_link/Filters/tau_2005.png}{%
+        Top left, right: Summer (Jan., Feb.) and winter (JJA) averaged daily surface HCHO lifetime ($\tau$). Bottom panel: $\tau$ over the year, coloured by grid square (see dots in top right panel).
+      }{\label{BioIsop:Method:Smearing:fig_tau_GC_2005}}
+      
     
     \subsubsection{NOx dependence}
       
       Isoprene production of HCHO depends on several factors, importantly NO$_X$ levels directly affect the fate of VOCs in the atmosphere.
-      At higher NO mixing ratios (at least a few hundred pptv), organic peroxy radicals (RO$_2$) react mostly with NO. 
-      At low NO (less than 50~pptv), reaction with HO$_2$, other RO$_2$, and isomerisation dominate the fate of RO$_2$.
+      Isoprene first reacts with the hydroxy radical, producing an organic peroxy radical (RO$_2$).
+      At higher NO mixing ratios (at least a few hundred pptv), RO$_2$ react mostly with NO. 
+      At low NO (less than 50~pptv), RO$_2$ is more likely to either isomerise, or react with HO$_2$, or another RO$_2$.
       In low NO$_X$ environments, reported HCHO yields from isoprene are around 0.2 - 0.3 C per C, while in high NO$_X$ environments this value becomes two to three times higher \parencite{Palmer2003, Wolfe2016}.
       %\textcite{Wolfe2016} also see background HCHO doubling in high NO$_X$ regions.
       %\textcite{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
@@ -576,9 +578,11 @@
       
       The half-life of HCHO to photo-oxidation with hydroxyl radicals is around 1~hr depending on environmental conditions \parencite{WHO_hcho_guidelines_2010}.
       This would make the expected lifetime ($\tau = \text{half-life}/\ln{2}$) around 1.4 hours.
-      The estimated loss rate of HCHO in GEOS-Chem approximately ranges from 1e6 to 3e6 mol cm$^{-3}$ s${-1}$, with higher values in summer and along the north and eastern regions also associated with denser forest regions.
-      %Over the majority of Australia conditions are relatively clean (low NO$_X$ levels) which extends the expected lifetime.
-      Isoprene yields from various sources are shown in table \ref{BioIsop:Method:tab_VOCAusYields}.
+      Over the majority of Australia conditions are relatively clean (low NO$_X$ levels) which extends the expected lifetime.
+      The estimated loss rate of HCHO in GEOS-Chem %approximately ranges from 1e6 to 3e6 mol cm$^{-3}$ s${-1}$, 
+      is up to three times higher in summer and along the north and eastern regions associated with denser forest regions, when compared against other regions.
+      This is largely due to loss rates being proportional to concentrations.
+      %Isoprene yields from various sources are shown in table \ref{BioIsop:Method:tab_VOCAusYields}.
       %\textcite{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
       
       Conversions between HCHO per unit C yield and molar \% yield from species X are given by the equation $ Y_{molar \%} = 100 \times C_X \times Y_{HCHO \,C^{-1}}$, where $C_X$ is how many carbon are within species X (5 for isoprene).
@@ -620,20 +624,20 @@
       
       % molar HCHO yield per unit carbon equal to HCHO molar percent yield(per carbon)? or some conversion?
       \begin{table} \begin{threeparttable}
-          \caption{ HCHO yields from various species, and lifetime against oxidation by OH. }
-          \begin{tabular}{  l  l  l  l  l  }
+          \caption{ HCHO yields from isoprene, and lifetime against oxidation by OH. }
+          \begin{tabular}{  l  l  l  l  }
             \toprule
-            Species    & HCHO Yield    & Life vs OH   & NO$_X$ background & Source   \\
-            & (molar \% )   &              &                   &          \\
+             HCHO Yield    & Life vs OH   & NO$_X$ background & Source   \\
+            (molar \% )   &              &                   &          \\
             \midrule 
-            Isoprene	& 315$\pm$50      &            & High          & a        \\ 
-            & 285$\pm$30      &            & High          & a        \\ 
-            & 225             & 35 min     & High          & b        \\ % Done
-            & 150             &            & Low           & b        \\ % Done
-            & 150             &            & Low           & d        \\
-            & 450             &            & High          & d        \\
-            & 235             &            & 1~ppbv        & e        \\
-            & 150             &            & 0.1~ppbv      & e        \\
+             315$\pm$50      &            & High          & a        \\ 
+             285$\pm$30      &            & High          & a        \\ 
+             225             & 35 min     & High          & b        \\ % Done
+             150             &            & Low           & b        \\ % Done
+             150             &            & Low           & d        \\
+             450             &            & High          & d        \\
+             235             &            & 1~ppbv        & e        \\
+             150             &            & 0.1~ppbv      & e        \\
             %          $\alpha$-Pinene & 28$\pm$3        &        & Low                & c        \\ 
             %          & X$\pm$3         &        & X                  & d        \\ 
             %          & 230$\pm$90      &        & High        & a        \\ 
@@ -675,8 +679,9 @@
     Having calculated the midday (13:00-14:00~LT) emission rates of isoprene, a new run of GEOS-Chem is performed after scaling the MEGAN emissions to match the new top-down estimate.
     This is performed using a monthly scale factor (at 2x2.5\degr) based on the difference between midday MEGAN emissions and the top-down estimate multi-year monthly average.
     Figure \ref{BioIsop:ScaledRun:megan_diurnal} shows the multi-year monthly mean daily cycle of isoprene emissions from GEOS-Chem, along with the top-down midday estimate, for an example grid box located 2.5\degr west of Sydney.
-    Initially a run of GEOS-Chem using no chemistry it performed in order to quickly retrieve hourly averaged isoprene emissions.
-    Then these emissions at midday for each month per gridbox are averaged (see figure TODO) and the multi-year average of these is compared against the top-down estimate.
+    %Initially a run of GEOS-Chem using no chemistry it performed is order to quickly retrieve hourly averaged isoprene emissions.
+    First hourly biogenic isoprene emissions are retrieved from GEOS-Chem (estimated using the MEGAN model).
+    Then the midday emissions for each month per gridbox are averaged (see figure TODO) and the multi-year average of these is compared against the top-down estimate.
     
     \mypic{Figures/OMI_link/Emiss/MEGAN_monthly_daycycle.png}{ %
       The diurnal cycle of MEGAN emissions averaged by month over 1, Jan, 2005 to TODO, 2013 are shown with lines, while top-down emissions estimates are shown with plus symbols.
@@ -685,7 +690,7 @@
       Rows 1-4 match seasons from austral summer (DJF) through to spring (SON).
       }{\label{BioIsop:ScaledRun:megan_diurnal}}
     
-    A scaling factor $\alpha$ is derived which when multiplied with MEGAN midday emission monthly averages $E_{MEGAN}$ produces the top down emissions estimate $E_{OMI}$ : $\alpha = \frac{E_{MEGAN}}{E_{OMI}}$.
+    A scaling factor $\alpha$ is derived which when multiplied with $E_{GC}$ produces the top down emissions estimate $E_{OMI}$ : $\alpha = \frac{E_{GC}}{E_{OMI}}$.
     This is performed through a small modification of GEOS-chem source code which applies $\alpha$ after calculating emissions for each grid-square based on the default emission factors and meteorology.
     This scale factor is set to one wherever top-down emissions are not calculated.
 
