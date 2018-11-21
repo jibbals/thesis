@@ -226,14 +226,14 @@
         \end{enumerate}
       %\item For each of the corrected vertical columns (VCC$_{OMI}$, VCC$_{GC}$, and VCC$_{PP}$; see section \ref{Model:omiRecalc}), a top down estimate of biogenic isoprene emissions (E$_{new}$; atoms C cm$^{-2}$ s$^{-1}$) is calculated
       \item 
-        $\Omega$ are used to create a top-down estimate of biogenic isoprene emissions ($E_{new}$~atoms C cm$^{-2}$ s$^{-1}$)
+        $\Omega$ are used to create a top-down estimate of biogenic isoprene emissions ($E_{OMI}$~atoms C cm$^{-2}$ s$^{-1}$)
       \begin{enumerate}
         \item 
           Background total columns ($\Omega_{0}$) are calculated by averaging longitudinally the $\Omega$ between 180 and 120\degr W
         \item
           Emissions are calculated using 
           \begin{equation} \label{BioIsop:Method:eqn_Enew}
-            E_{new} = \frac{\Omega - \Omega{0}}{S}
+            E_{OMI} = \frac{\Omega - \Omega{0}}{S}
           \end{equation}
       \end{enumerate}
       \item
@@ -244,7 +244,7 @@
         The acceptable range for $\hat{S}$ over Australia is determined as 800 - 4600~s.
         A full description of the creation of this smearing filter is given in section \ref{BioIsop:Method:Smearing}
       \item 
-        Top-down emissions $E_{new}$ are compared against MEGAN estimated emissions, as well as analysed in conjunction with concentration measurement campaigns (MUMBA, SPS, and one set of airplane measurements (HIPPO)).
+        Top-down emissions $E_{OMI}$ are compared against MEGAN estimated emissions, as well as analysed in conjunction with concentration measurement campaigns (MUMBA, SPS, and one set of airplane measurements (HIPPO)).
         TODO: do these things
       \begin{enumerate}
         \item 
@@ -370,11 +370,11 @@
     We also assume that isoprene is the only compound enhancing the HCHO levels, which requires that we filter out influence from fires, smoke, and anthropogenic emissions.
     Emissions of precursors are easy to calculate using the slope $S$ calculated in the prior section from modelled HCHO and isoprene columns:
     \begin{equation*}
-    \Omega = S \times E_{new} + \Omega_0
+    \Omega = S \times E_{OMI} + \Omega_0
     \end{equation*}
     This is the same equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}, except now we use the modelled slope along with satellite HCHO ($\Omega$, and $\Omega_0$).
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude as $\Omega$.
-    This leaves $E_{new}$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
+    This leaves $E_{OMI}$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
     Figure \ref{BioIsop:Calculation:fig_E_isop_200501} shows the emissions calculated this way along with the modelled emissions output by GEOS-Chem $E_{GC}$ averaged over January, 2005.
     \begin{figure}
       % Figure from Analyse_E_new.MEGAN_vs_E_new()
@@ -392,7 +392,7 @@
     This is gives us a background which is appropriate for any latitude.
     Figure TODO: figure with background region highlighted and a time series of background values.
     One potential issue is the low number of valid measurements at high latitudes (especially during winter).
-    When calculating the $E_{isop}$ from our modelled slope, negative emissions result when using OMI measured columns are lower than the background amounts (as $E_{new} = \frac{\Omega - \Omega_0}{S}$).
+    When calculating the $E_{isop}$ from our modelled slope, negative emissions result when using OMI measured columns are lower than the background amounts (as $E_{OMI} = \frac{\Omega - \Omega_0}{S}$).
     These are set to zero, which increases the average by TODO: $\sim$X~\%.
     
   
@@ -714,26 +714,21 @@
     First generation HCHO yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, while total (or molar) yield refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
     \textcite{Wolfe2016} define prompt yield as the change in formaldehyde per unit change in initial isoprene emissions.
     %$[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
-    In this work yield ($Y_{isop}$) is approximately the total yield within 1.5-4 hours.
+    In this work yield ($Y_{isop}$) is approximately the total yield within 4 hours.
     
-    Figure \ref{BioIsop:Results:HCHOYield:fig_Yield_Lifetime}: shows the GEOS-Chem Y$_{isop}$ and lifetime of HCHO estimations throughout the year.
+    Figure \ref{BioIsop:Results:HCHOYield:fig_Yield_Lifetime}: shows the GEOS-Chem Y$_{isop}$ and lifetime ($\tau$) of HCHO estimations throughout the year.
     By using an assumed constant $Y_{isop}$ of 0.4, we estimate the midday lifetimes of HCHO using $S = \frac{Y_{isop}}{k_{HCHO}}$ from equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
     Then dividing the slope by this monthly mean lifetime returns an estimate of the Yield.
     Both of these terms are heavily influenced by the assumed yield, and should not be taken as results, however this technique shows the seasonal cycle and spread of the HCHO yield and lifetime.
     A clear June (and sometimes March, July and August) increase in HCHO lifetimes is shown, with a matching drop in yield. 
     These are the winter months, when midday temperature and insolation is reduced.
-    The noise in the southwest region may be indicative of heavy filtering and due to westerly winds, which can lead to both smearing and transported pollution.
+    Noise in the southwest region may be indicative of heavy filtering, potentially driven by westerly winds which can lead to both smearing and transported pollution.
     
     \mypic{Figures/OMI_link/GC/Yield_lifetime_monthly.png}{ %
       Monthly area averaged isoprene to HCHO midday yield, and HCHO lifetime.
       Coloured by regions shown in figure \ref{BioIsop:Results:fig_subregions}
       Shaded areas show the yield (plain) and lifetime (hatched) IQR.
-    }{\label{BioIsop:Results:HCHOYield:fig_Yield_Lifetime}}    
-    
-    Modelled daily averaged yields can be qualitatively derived from the $slope$ using the daily averaged modelled loss rates ($L$) in $k_{hcho} = \frac{L}{[HCHO]}$ since $slope = \frac{Y_{isop}}{k_{HCHO}}$ from equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
-    Figures TODO: and TODO show the daily averaged lifetime ($\tau = \frac{1}{k_{HCHO}}$) and yield ($Y_{isop}$) modelled by GEOS-Chem.
-    Model output of loss rates are only available on a daily time scale, which limits us to an overview of modelled seasonality in this metric.
-    
+    }{\label{BioIsop:Results:HCHOYield:fig_Yield_Lifetime}}
       
       
   \subsection{Emissions comparisons}
@@ -781,7 +776,7 @@
       Emissions of isoprene estimates using OMI top down inversion (column 1: E$_{OMI}$) and MEGAN (column 2: E$_{GC}$).
       Row 1: overall averaged daily midday emission rates, from 1, Jan, 2005 to 1, May, 2013.
       Row 2: time series of daily midday averages for all of Australia along with several subregions (shown in row 1). 
-      Row 3: relative differences: $\frac{E_{MEGAN} - E_{new}}{E_{MEGAN}}$.
+      Row 3: relative differences: $\frac{E_{MEGAN} - E_{OMI}}{E_{MEGAN}}$.
       The black lines and grey areas show the Australian mean and inter-quartile range respectively, while the coloured lines show the mean within the rectangles (of matching colours) shown in the first row.
       }{\label{BioIsop:Results:Emissions:fig_time_series_vs_megan}}
     \mypic{Figures/OMI_link/Emiss/E_zones_PP_monthly_lr.png}{ %
@@ -844,12 +839,12 @@
     \label{BioIsop:Uncertainty:tab_uncertainties}
   \end{threeparttable}\end{table}
   
-  In order to quantify uncertainty in $\Delta{E_{new}}$ we need the uncertainties in the underlying terms: $\Delta{S}$, $\Delta{\Omega}$, and $\Delta{\Omega_0}$. 
+  In order to quantify uncertainty in $\Delta{E_{OMI}}$ we need the uncertainties in the underlying terms: $\Delta{S}$, $\Delta{\Omega}$, and $\Delta{\Omega_0}$. 
   For $\Delta{S}$ ($\Omega_{GC} = S \times E_{isop} + \Omega_0$ from equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}) we examine related GEOS-Chem output in section \ref{BioIsop:Uncertainty:Model}, since $S$ comes directly from the monthly linear regression of modelled isoprene emissions and column HCHO.
   Uncertainty in terms $\Omega$, and $\Omega_0$ come from both the OMHCHO slant columns ($SC$) and the AMFs calculated to transform them into vertical columns ($VC = SC/AMF$ from equation \ref{Model:AMF:eqn_AMFFrac}).
   Section \ref{BioIsop:Uncertainty:VCC} describes these calculations.
   
-  The summation of these uncertainties through standard quadrature rules provides an estimate of random error in the calculation of $E_{new}$.
+  The summation of these uncertainties through standard quadrature rules provides an estimate of random error in the calculation of $E_{OMI}$.
   In order to calculate the bias or systematic error, an understanding of biases in the underlying terms is required, since there is little in the way of comparable measurements.
   Known biases: 
   \begin{description}
@@ -925,7 +920,7 @@
     If satellite HCHO was scaled up by 40\% our isoprene emissions estimates would increase by the same, as our estimate is proportional to satellite HCHO.
     
     OMI is scaled up by up to 40\% in several papers (cite) we consider HCHO scaled by 1 and 1.4 to be boundaries for modelled yield.
-    If we infer from this that there is 40\% bias and random uncertainty remains unchanged, then in the S term, we find TODO increase or decrease in $\Delta{E_{new}}$ of some amount through changing $\Delta{S}=$ .
+    If we infer from this that there is 40\% bias and random uncertainty remains unchanged, then in the S term, we find TODO increase or decrease in $\Delta{E_{OMI}}$ of some amount through changing $\Delta{S}=$ .
     
     
   \subsection{Satellite vertical column recalculation}
