@@ -346,7 +346,7 @@
     %    Both series are daily averages over Australia.
     %    Bottom panel: (RMA) linear regressions from between emissions of isoprene and tropospheric hcho columns, sampled randomly from the 2$^{\circ}$ by 2.5$^{\circ}$ latitude longitude gridboxes over Australia for the month of January (2005).
     %  }
-    %  \label{BioIsop:Calculation:fig_E_isop_vs_hcho_model_sample}
+    %  \label{BioIsop:Method:calculation:fig_E_isop_vs_hcho_model_sample}
     %\end{figure}
     
     %% BACKGROUND calculation(s)
@@ -363,7 +363,7 @@
     
     
   \subsection{Calculation of Emissions}
-    \label{BioIsop:Calculation}
+    \label{BioIsop:Method:calculation}
    
     % First: outline of what we do
     As is done in \textcite{Palmer2003, Millet2006, Bauwens2016}, we assume that HCHO and isoprene columns are in a steady state, with no horizontal transport.
@@ -375,7 +375,7 @@
     This is the same equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}, except now we use the modelled slope along with satellite HCHO ($\Omega$, and $\Omega_0$).
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude as $\Omega$.
     This leaves $E_{OMI}$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
-    Figure \ref{BioIsop:Calculation:fig_E_isop_200501} shows the emissions calculated this way along with the modelled emissions output by GEOS-Chem $E_{GC}$ averaged over January, 2005.
+    Figure \ref{BioIsop:Method:calculation:fig_E_isop_200501} shows the emissions calculated this way along with the modelled emissions output by GEOS-Chem $E_{GC}$ averaged over January, 2005.
     \begin{figure}
       % Figure from Analyse_E_new.MEGAN_vs_E_new()
       \includegraphics[width=\textwidth]{Figures/OMI_link/Emiss/MEGAN_vs_E_VCC_PP_lr_20050101-20051231.png}
@@ -383,7 +383,7 @@
         Top row is isoprene emissions for the month of January, in 2005, from GEOS-Chem and estimated from OMI respectively.
         Bottom row shows the absolute and relative differences between the two.
       }
-      \label{BioIsop:Calculation:fig_E_isop_200501}
+      \label{BioIsop:Method:calculation:fig_E_isop_200501}
     \end{figure}
     
     %% How we use the background..
@@ -395,6 +395,15 @@
     When calculating the $E_{isop}$ from our modelled slope, negative emissions result when using OMI measured columns are lower than the background amounts (as $E_{OMI} = \frac{\Omega - \Omega_0}{S}$).
     These are set to zero, which increases the average by TODO: $\sim$X~\%.
     
+    Top-down emission rates calculated in this work are in units of molecules cm$^{-2}$ s$^{-1}$.
+    In order to calculate the emissions in kg, each gridsquare is multiplied by the area, and then daily emissions are assumed to follow a sine wave peaking at the estimated rate.
+    Figure \ref{BioIsop:Method:calculation:fig_daily_emissions_kg} shows how the daily approximation of total emitted isoprene per grid square is calculated. 
+    Daytime hours are estimated per month, from 14~hrs (Jan) to 10~hrs(Jul).
+    
+    
+    \mypicw{0.5\textwidth}{Figures/Emissions_per_day.png}{%
+      How daily isoprene emissions (in kg) are calculated.
+    }{\label{BioIsop:Method:calculation:fig_daily_emissions_kg}}
   
   \subsection{Accounting for smearing}
     \label{BioIsop:Method:Smearing}
@@ -701,6 +710,7 @@
   The results presented in this section are frequently split into five regions which are differentiated by colour.
   Figure \ref{BioIsop:Results:fig_subregions} shows Australia along with coloured rectangles which show the regions belonging to each colour.
   
+  % figure from Analysis_E_isop.py.show_subregions()
   \mypic{Figures/OMI_link/subregions.png}{%
     Sub-regions used in subsequent figures.
     Averages taken within Australia will be black or grey, while averages from within the coloured rectangles will match the colour shown here.
@@ -709,14 +719,13 @@
   \subsection{HCHO Products and yield}
     \label{BioIsop:Results:HCHOYield}
     
-    Isoprene forms many products, with many reactions, most of which have some yield of HCHO.
-    This production occurs over several steps, with yields often classed into at least two categories.
-    First generation HCHO yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, while total (or molar) yield refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
+    Isoprene reaction chains are diverse, with many branches forming HCHO.
+    HCHO production yields are often classed into at least two categories: First generation HCHO yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, while total (or molar) yield refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
     \textcite{Wolfe2016} define prompt yield as the change in formaldehyde per unit change in initial isoprene emissions.
     %$[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
     In this work yield ($Y_{isop}$) is approximately the total yield within 4 hours.
     
-    Figure \ref{BioIsop:Results:HCHOYield:fig_Yield_Lifetime}: shows the GEOS-Chem Y$_{isop}$ and lifetime ($\tau$) of HCHO estimations throughout the year.
+    Figure \ref{BioIsop:Results:HCHOYield:fig_Yield_Lifetime}: shows the GEOS-Chem Y$_{isop}$ and HCHO lifetime ($\tau$) estimated throughout the year.
     By using an assumed constant $Y_{isop}$ of 0.4, we estimate the midday lifetimes of HCHO using $S = \frac{Y_{isop}}{k_{HCHO}}$ from equation \ref{BioIsop:Method:slope:eqn_isop_to_hcho}.
     Then dividing the slope by this monthly mean lifetime returns an estimate of the Yield.
     Both of these terms are heavily influenced by the assumed yield, and should not be taken as results, however this technique shows the seasonal cycle and spread of the HCHO yield and lifetime.
@@ -737,8 +746,20 @@
     \textcite{Guenther2012} Estimate global biogenic isoprene emissions at roughly 535\tgpyr, using MEGAN.
     \textcite{Sindelarova2014} Estimate around 594\tgpyr using MEGAN with MACC, showing isoprene as 69.2\% of the total BVOC emissions, with monoterpenes at 10.9\tgpyr (10.9\%).
     They show 41\tgpyr decrease in Australia when introducing soil moisture parameterisation.
-    When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease over TODO: locations and seasons.
+    When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease of around 29\tgpyr, $\sim 66\%$.
     Table \ref{BioIsop:Results:Emissions:tab_emissions_Tg} shows yearly isoprene emissions from this work and some other works for Australia and globally.
+    Figure \ref{BioIsop:Results:Emissions:fig_tga_comparison_map} shows how this decrease is distributed spatially, with $E_{GC}$ and $E_{OMI}$ in \tgpyr calculated as a multi-year mean.
+    There are decreases across Australia, every region showing large reductions of total emissions using the new top-down estimate.
+    
+    \mypic{Figures/OMI_link/Emiss/tga_map.png}{%
+      Top row: multiyear mean emissions in \tgpyr from GEOS-Chem (running MEGAN) $E_{GC}$ and top-down emissions (assuming sinusoidal daily cycle: see section \ref{BioIsop:Method:calculation}) respectively.
+      Bottom left and right shows the absolute and relative differences respectively.}{\label{BioIsop:Results:Emissions:fig_tga_comparison_map}}
+    
+    
+    %TODO: Update with 2005-2013 rather than just 2005-2007
+    %global MEGAN: 471.518577725
+    %aus MEGAN: 45.4326831613
+    %aus OMI  : 16.4731027389
     
     \begin{table}\begin{threeparttable}
       \caption{Yearly emissions (Tg)}
@@ -746,14 +767,14 @@
         \toprule
         Australia & Global & notes \\
         \midrule
-        &  & MEGAN 2005-2012 \\
-        &  & top-down 2005-2012 \\
+        43(2) & 445(18) & GEOS-Chem 2005-2012 \\
+        19(2) &  & top-down 2005-2012 \\
         \bottomrule
       \end{tabular}
-      \begin{tablenotes} 
-        \item a: ...%\parencite{}
-        \item b: ...
-      \end{tablenotes}
+      %\begin{tablenotes} 
+      %  \item a: 
+      %  \item b: ...
+      %\end{tablenotes}
       \label{BioIsop:Results:Emissions:tab_emissions_Tg}
     \end{threeparttable}\end{table}
     
@@ -771,7 +792,7 @@
     
      
     
-    
+    % Figure from Analyse_E_new.py -> ??
     \mypic{Figures/OMI_link/Emiss/E_zones_PP_lr.png}{%
       Emissions of isoprene estimates using OMI top down inversion (column 1: E$_{OMI}$) and MEGAN (column 2: E$_{GC}$).
       Row 1: overall averaged daily midday emission rates, from 1, Jan, 2005 to 1, May, 2013.
@@ -796,7 +817,10 @@
     TODO: % TODO: campaign analysis compared to GEOS-Chem
     Analyse comparison of gridbox with campaigns of measurements
     
-  
+    Comparison between ground-based measurements and large (2x2.5\degr) averaged grid squares suffers from representational error.
+    Due to high uncertainty in components of the top-down emissions estimate, temporal resolution is also limited.
+    MUMBA, SPS1 and SPS2 each provide only a couple of comparable data points.
+    
     Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (section \ref{Model:Datasets:MUMBA}, \ref{Model:Datasets:SPS}) both before and after scaling isoprene emissions to match the top-down estimation.
     TODO: discuss results and differences, does isoprene improve?
     
