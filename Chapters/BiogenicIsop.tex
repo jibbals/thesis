@@ -311,13 +311,13 @@
     Now instead of concentrations we use total column amounts for HCHO, with emissions being in units of molecules cm$^{-2}$ s$^{-1}$.
     And then lumping together non-isoprene precursors, and assuming that enhancements above the background are only due to isoprene emissions we have: 
     \begin{eqnarray*}
-    k_{HCHO} \Omega_{HCHO} & = Y_{isop} E_{isop} + \Sigma_{i \ne isop} Y_{i} VOC_{i} \\
-    \Omega_{HCHO} & = S E_{isop} + \Omega_{0}
+    k_{HCHO} \Omega_{HCHO} & = Y_{isop} E_{OMI} + \Sigma_{i \ne isop} Y_{i} VOC_{i} \\
+    \Omega_{HCHO} & = S E_{OMI} + \Omega_{0}
     \end{eqnarray*}
     
     
     Estimates of $Y_{isop}$ or $S$ can be attained through modelling \parencite[e.g.][]{Millet2006}.
-    We look at each $2\times2.5$~\degr grid box from daily GEOS-Chem (biogenic only) output of $\Omega_{HCHO} \equiv \Ogc$ and $E_{isop} \equiv E_{GC}$ within Australia, and calculate the (RMA) correlation for each month.
+    We look at each $2\times2.5$~\degr grid box from daily GEOS-Chem (biogenic only) output of $\Omega_{HCHO} \equiv \Ogc$ and $E_{OMI} \equiv E_{GC}$ within Australia, and calculate the (RMA) correlation for each month.
     Modelled background concentrations can be ignored here as they do not affect slope calculation.
     This effectively gives us monthly gridded isoprene to HCHO slope ($S$) in units of molecules HCHO $/$ atom C $\times$ seconds (seconds).
     Figure \ref{BioIsop:Method:slope:fig_regressions} (top left) shows the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid square over January 2005, averaged between 1300-1400~LT each day.
@@ -392,7 +392,7 @@
     This is gives us a background which is appropriate for any latitude.
     Figure TODO: figure with background region highlighted and a time series of background values.
     One potential issue is the low number of valid measurements at high latitudes (especially during winter).
-    When calculating the $E_{isop}$ from our modelled slope, negative emissions result when using OMI measured columns are lower than the background amounts (as $E_{OMI} = \frac{\Omega - \Omega_0}{S}$).
+    When calculating the $E_{OMI}$ from our modelled slope, negative emissions result when using OMI measured columns are lower than the background amounts (as $E_{OMI} = \frac{\Omega - \Omega_0}{S}$).
     These are set to zero, which increases the average by TODO: $\sim$X~\%.
     
     Top-down emission rates calculated in this work are in units of molecules cm$^{-2}$ s$^{-1}$.
@@ -832,15 +832,15 @@
   Things with their own inherent uncertainty include the modelled a-priori, modelled relationship between HCHO and isoprene, and satellite measurements.
   Important factors which need to be analysed for confidence in results include the steady state assumptions, filtering techniques for fire and human influences, and the regression model for determining the isoprene to HCHO yield.
   
-  Uncertainty in satellite HCHO, along with top down emissions estimates $E_{isop}$ is listed in table \ref{BioIsop:Uncertainty:tab_uncertainties}.
-  The final determination of top-down emissions comes from equation \ref{BioIsop:Method:eqn_Enew}: $E_{isop}=\frac{\Omega - \Omega_{0}}{S}$.
-  Assuming each term is independent, we use the following equations to estimate random error in $E_{isop}$:
+  Uncertainty in satellite HCHO, along with top down emissions estimates $E_{OMI}$ is listed in table \ref{BioIsop:Uncertainty:tab_uncertainties}.
+  The final determination of top-down emissions comes from equation \ref{BioIsop:Method:eqn_Enew}: $E_{OMI}=\frac{\Omega - \Omega_{0}}{S}$.
+  Assuming each term is independent, we use the following equations to estimate random error in $E_{OMI}$:
   \begin{align*}
     \mathtt{z=x+y:} \, \Delta{z} & = \sqrt{(\Delta{x})^2 + (\Delta{y})^2} \\
     \mathtt{z=x/y:} \, \Delta{z} & = z \sqrt{(\frac{\Delta{x}}{x})^2 + (\frac{\Delta{y}}{y})^2} \\
     \Omega - \Omega_{0} & = \Phi \\
     \Delta{\Phi} & = \sqrt{(\Delta{\Omega})^2 + (\Delta{\Omega_{0}})^2} \\
-    \Delta{E_{isop}} &= E_{isop} \times \sqrt{(\frac{\Delta{\Phi}}{\Phi})^2 + (\frac{\Delta{S}}{S})^2}
+    \Delta{E_{OMI}} &= E_{OMI} \times \sqrt{(\frac{\Delta{\Phi}}{\Phi})^2 + (\frac{\Delta{S}}{S})^2}
   \end{align*}
   %\textcite{Millet2006, Palmer2006} both examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
   \begin{table}\begin{threeparttable}
@@ -851,7 +851,7 @@
       \midrule
       satellite HCHO & 40\% & North America & (a) mostly due to cloud interference \\
        & X\% & where & (b) \\
-      top-down $E_{isop}$ & Y\% & where & (c) \\
+      top-down $E_{OMI}$ & Y\% & where & (c) \\
        & X\% & Australia & accumulated uncertainty in calculation \\
        & X\% & Australia & range found when scaling satellite HCHO \\
       \bottomrule
@@ -906,12 +906,14 @@
     \end{description}
     a) is available in the OMI product and reduced through spatial and temporal averaging.
     Taking the eight day gridded average with horizontal resolution of 0.25 by 0.3125 degrees (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
-    b) is determined through an analysis of GEOS-Chem output, validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
-    \textcite{Palmer2006} calculate the error in AMF through combining estimates of error in the UV albedo database ($\sim 8$\%), model error based on in-situ measurements, cloud error  ($20-30$\%) \parencite{Martin2003}, and aerosol errors ($<20$\%), totalling AMF error of around $\sim 30$\%.
-    It is worth noting here that independent error estimates are added in quadrature, which means total error equals the root of the sum of the independent errors each squared ($e_{Total}=\sqrt{\Sigma_i e_i^2}$).
+    b) could be determined through comparison of GEOS-Chem output to measured HCHO columns, if they existed.
+    %validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
+    \textcite{Palmer2006} calculate the error in AMF through combining estimates of error in the UV albedo database ($\sim 8$\%), model error based on in-situ measurements, cloud error  ($20-30$\%) \parencite{Martin2003}, and aerosol errors ($<20$\%), totalling AMF error of around $\sim 30$\% (calculated in quadrature).
+    Here we use 30\% as a rough estimate of error in this term.
+    %It is worth noting here that independent error estimates are added in quadrature, which means total error equals the root of the sum of the independent errors each squared ($e_{Total}=\sqrt{\Sigma_i e_i^2}$).
     TODO:Paul palmer calculation and combination for overall Satellite VC uncertainty per pixel and gridded.
-    TODO: Millet2008?
-    c) is also determined through a study of GEOS-Chem output, in relation to in-situ measurements.
+    c) is also determined through a study of GEOS-Chem output, in relation to in-situ measurements. 
+    Since we expect oceanic background HCHO to be invariant, then variance in remote ocean HCHO can be used as a rough estimate of background uncertainty.
     TODO: calculate this uncertainty.
     Compare this error estimate with that of \textcite{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
     \textcite{Millet2008} also examine this uncertainty and determine an overall uncertainty ($1\sigma$) of $25-27\%$ in HCHO vertical columns with calculated AMFs where cloud fraction $< 0.2$.
