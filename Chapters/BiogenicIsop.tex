@@ -709,6 +709,8 @@
   Australia is a large country with heterogeneous environmental conditions.
   The results presented in this section are frequently split into five regions which are differentiated by colour.
   Figure \ref{BioIsop:Results:fig_subregions} shows Australia along with coloured rectangles which show the regions belonging to each colour.
+  Top-down emissions estimates ($E_{OMI}$) shown in this section are calculated using OMHCHO (see section \ref{Model:omhcho}) slant columns and an updated AMF calculated using code from Paul Palmer's group (see section \ref{Model:omiRecalc:ppcode}). 
+  %Sensitivity to (section \ref{BioIsop:Uncertainty:Satellite:AMF}).
   
   % figure from Analysis_E_isop.py.show_subregions()
   \mypic{Figures/OMI_link/subregions.png}{%
@@ -752,7 +754,8 @@
     There are decreases across Australia, every region showing large reductions of total emissions using the new top-down estimate.
     
     \mypic{Figures/OMI_link/Emiss/tga_map.png}{%
-      Top row: multiyear mean emissions in \tgpyr from GEOS-Chem (running MEGAN) $E_{GC}$ and top-down emissions (assuming sinusoidal daily cycle: see section \ref{BioIsop:Method:calculation}) respectively.
+      Top row: multiyear mean emissions in \tgpyr from $E_{GC}$ (GEOS-Chem; running MEGAN) and $E_{OMI}$ (top-down emissions) respectively.
+      $E_{OMI}$ uses an assumed sinusoidal daily cycle, with daylight hours perscribed for each month: see section \ref{BioIsop:Method:calculation}) .
       Bottom left and right shows the absolute and relative differences respectively.}{\label{BioIsop:Results:Emissions:fig_tga_comparison_map}}
     
     
@@ -762,19 +765,21 @@
     %aus OMI  : 16.4731027389
     
     \begin{table}\begin{threeparttable}
-      \caption{Yearly emissions (Tg)}
+      \caption{Emissions (and temporal standard deviation) (Tg/yr)}
       \begin{tabular}{ l  c  l } 
         \toprule
         Australia & Global & notes \\
         \midrule
-        43(2) & 445(18) & GEOS-Chem 2005-2012 \\
-        19(2) &  & top-down 2005-2012 \\
+        43(2) & 445(18) & GEOS-Chem$^a$ 2005-2012 \\
+        19(2) &  & top-down$^b$ 2005-2012 \\
+         &  535 & \parencite{Guenther2012}: \\
+         &  594 & \parencite{Sindelarova2014}: \\
         \bottomrule
       \end{tabular}
-      %\begin{tablenotes} 
-      %  \item a: 
-      %  \item b: ...
-      %\end{tablenotes}
+      \begin{tablenotes} 
+        \item a: MEGAN diagnostics based on 3-hourly averages
+        \item b: Based on daily peak emissions integrated over a sinusoidal daily curve
+      \end{tablenotes}
       \label{BioIsop:Results:Emissions:tab_emissions_Tg}
     \end{threeparttable}\end{table}
     
@@ -792,7 +797,7 @@
     
      
     
-    % Figure from Analyse_E_new.py -> ??
+    % Figure from Analyse_E_new.py -> E_regional_time_series()
     \mypic{Figures/OMI_link/Emiss/E_zones_PP_lr.png}{%
       Emissions of isoprene estimates using OMI top down inversion (column 1: E$_{OMI}$) and MEGAN (column 2: E$_{GC}$).
       Row 1: overall averaged daily midday emission rates, from 1, Jan, 2005 to 1, May, 2013.
@@ -928,6 +933,9 @@
     This region should be relatively invariant throughout any month so each month the standard deviation of the midday total column HCHO amounts from 15\degr S to 15\degr N, and 180\degr W to 120\degr W.
     Other literature has found satellite HCHO columns to be up to 40\% too low, so scaling them up 40\% is another way of quickly analysing how sensitive our calculations are to the satellite HCHO columns.
     
+    
+    \subsubsection{OMI Retrieval}
+      \label{BioIsop:Uncertainty:Satellite:retrieval}
     TODO: Calculate remote pacific variance (also bin by latitudes) and plot over time. 
     
     
@@ -949,18 +957,18 @@
     If we infer from this that there is 40\% bias and random uncertainty remains unchanged, then in the S term, we find TODO increase or decrease in $\Delta{E_{OMI}}$ of some amount through changing $\Delta{S}=$ .
     
     
-  \subsection{Satellite vertical column recalculation}
-    
-    OMI HCHO vertical columns are recalculated using GEOS-Chem V10.01 a priori HCHO and air density profiles (see chapter \ref{Model}).
-    The recalculation is considered assumed to be no more or less uncertain than that used to calculate the default AMF, and uncertainty in the AMF recalculation is not used to alter the pixel uncertainty from the OMHCHO product.
-    Here we examine the sensitivity of the isoprene emissions estimation technique to the AMF recalculation method.
-    Through looking at how the emissions change based on whether we use the AMF provided (AMF$_{OMI}$), the AMF with shape factor recalculated but the default scattering weights (AMF$_{GC}$), or the fully recalculated AMF (AMF$_{PP}$).
-    
-    Figure todo shows the emissions over Australia averaged within January 2005.
-    This figure shows estimates from MEGAN (top), and top down estimates using OMHCHO $\Omega$s (row 1: OMI), $\Omega$ recalculated using GEOS-Chem shape factors (row 2: GC), and using the code from Paul Palmer's group (row 3: PP).
-    Column 2 is emissions without applying anthropogenic or pyrogenic filters, Column 3 is calculated at the lower resolution of 2x2.5\degr.
-    
-    Figure todo shows emissions over time from a single grid square, estimated by MEGAN (black) and the three top-down estimates, using 2x2.5\degr horizontal resolution.
+    \subsubsection{Satellite vertical column recalculation}
+      \label{BioIsop:Uncertainty:Satellite:AMF}
+      OMI HCHO vertical columns are recalculated using GEOS-Chem V10.01 a priori HCHO and air density profiles (see chapter \ref{Model}).
+      The recalculation is considered assumed to be no more or less uncertain than that used to calculate the default AMF, and uncertainty in the AMF recalculation is not used to alter the pixel uncertainty from the OMHCHO product.
+      Here we examine the sensitivity of the isoprene emissions estimation technique to the AMF recalculation method.
+      Through looking at how the emissions change based on whether we use the AMF provided (AMF$_{OMI}$), the AMF with shape factor recalculated but the default scattering weights (AMF$_{GC}$), or the fully recalculated AMF (AMF$_{PP}$).
+      
+      Figure todo shows the emissions over Australia averaged within January 2005.
+      This figure shows estimates from MEGAN (top), and top down estimates using OMHCHO $\Omega$s (row 1: OMI), $\Omega$ recalculated using GEOS-Chem shape factors (row 2: GC), and using the code from Paul Palmer's group (row 3: PP).
+      Column 2 is emissions without applying anthropogenic or pyrogenic filters, Column 3 is calculated at the lower resolution of 2x2.5\degr.
+      
+      Figure todo shows emissions over time from a single grid square, estimated by MEGAN (black) and the three top-down estimates, using 2x2.5\degr horizontal resolution.
   
   \subsection{Fire Filtering}
     
