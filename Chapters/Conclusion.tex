@@ -33,3 +33,20 @@ TODO: Wrap up aims and answer each one
   
 \section{Potential future work}
 \label{Conclusions:future}
+  
+  % Soil moisture improvement
+  One of the important parameters in Australia is the soil moisture activity factor($\gamma_{SM}$), which can have large regional effects on the isoprene emissions \parencite{Sindelarova2014,Bauwens2016}.
+  Generally if soil moisture is too low, isoprene emissions stop \parencite{Pegoraro2004,Niinemets2010}, however in many Australian regions the plants may be more adapted to lower moisture levels. (TODO: Find cites for this - talk from K Emerson at Stanley indicated this)
+  GEOS-Chem runs MEGANv2.1, which has three possible states for isoprene emissions based on the soil moisture ($\theta$):
+  \begin{align*}
+  \gamma_\mathrm{SM} & = 1 && \theta > \theta_1 \\
+  \gamma_\mathrm{SM} & = (\theta-\theta_w)/\Delta\theta_1  && \theta_w < \theta < \theta_1 \\
+  \gamma_\mathrm{SM} & = 0 && \theta < \theta_w \\
+  \end{align*}
+  where $\theta_w$ is the wilting point, and $\theta_1$ determines when plants are near the wilting point.
+  The wilting point is set by a land based database from \textcite{Chen2001}, while $\theta_1$ is set globally based on \textcite{Pegoraro2004}.
+  Potentially importantly, these moisture states are disabled in GEOS-Chem V10.01, which is partly because accurate maps of soil moisture are not available.
+  
+  Improved isoprene emissions modelling requires this soil moisture problem to be handled.
+  Simply enabling the parameter in its current form is not quite good enough for Australia, due to both the unknown soil moisture and the poorly understood plant responses in this country.
+  TODO: cite the paper which could update MEGAN soil moisture parameterisation.
