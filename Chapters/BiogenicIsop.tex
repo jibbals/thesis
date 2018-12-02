@@ -83,11 +83,16 @@
     Palmer's method improved biogenic isoprene emissions estimates (compared with in-situ measurements) over two available inventories: the U.S. EPA Biogenic Emissions Inventory System (BEIS2) and the Global Emissions Inventory Activity (GEIA).
     Here we try to improve MEGAN emissions estimates over Australia and analyse some of the technique sensitivities.
     
-    Top-down emission estimation is an in-depth process, and a couple of examples are provided here.
-    \textcite{Marais2014} compare OMI based isoprene emission estimates against relaxed eddy accumulation measurements from African field campaigns in order to improve MEGAN emission factors in the region.
-    \textcite{Dufour2009} use HCHO from SCIAMACHY, and examine Europe using CHIMERE as the chemical model, showing that satellite measurements can reduce source emission uncertainty by a factor of two, where emissions are relatively large.
-    There are two main methods of estimating isoprene emissions using satellite measurements of child products, here I describe them and briefly compare the pros and cons of each.
+    Recently \textcite{Bauwens2016} estimated isoprene emissions with a top-down technique using the IMAGESv2 global CTM.
+    They calculate emissions which create the closest match between model and satellite vertical columns, and compare these a posteriori data with their a priori (satellite data) and independent data sets.
+    They examine global emissions seen by three models and a top-down inversion, showing a wide range of estimated values for Australia.
+    In this thesis we prioritise the analysis of a top-down emissions estimate compared against MEGAN, along with flow on effect of changed emissions on modelled ozone levels.
     
+    %    Top-down emission estimation is an in-depth process, and a couple of examples are provided here.
+    %    \textcite{Marais2014} compare OMI based isoprene emission estimates against relaxed eddy accumulation measurements from African field campaigns in order to improve MEGAN emission factors in the region.
+    %    \textcite{Dufour2009} use HCHO from SCIAMACHY, and examine Europe using CHIMERE as the chemical model, showing that satellite measurements can reduce source emission uncertainty by a factor of two, where emissions are relatively large.
+    %    There are two main methods of estimating isoprene emissions using satellite measurements of child products, here I describe them and briefly compare the pros and cons of each.
+    %    
     \subsubsection{Bayesian}
     
       % Top down emissions estimation methods:
@@ -708,8 +713,7 @@
   \label{BioIsop:results}
   
   Australia is a large country - roughly 7.7~ million km$^{2}$, with heterogeneous environmental conditions.
-  The results presented in this section are frequently split into five regions which are differentiated by colour.
-  Figure \ref{BioIsop:results:fig_subregions} shows Australia along with coloured rectangles which show the regions belonging to each colour.
+  The results presented in this section are frequently split into five regions which are differentiated by colour, as shown in figure \ref{BioIsop:results:fig_subregions}.
   Top-down emissions estimates ($E_{OMI}$) shown in this section are calculated using OMHCHO (see section \ref{Model:omhcho}) slant columns and an updated AMF calculated using code from Paul Palmer's group (see section \ref{Model:omiRecalc:ppcode}). 
   %Sensitivity to (section \ref{BioIsop:uncertainty:Satellite:AMF}).
   
@@ -749,10 +753,10 @@
     \textcite{Guenther2012} Estimate global biogenic isoprene emissions at roughly 535\tgpyr, using MEGAN.
     \textcite{Sindelarova2014} Estimate around 594\tgpyr using MEGAN with MACC, showing isoprene as 69.2\% of the total BVOC emissions, with monoterpenes at 10.9\tgpyr (10.9\%).
     They show 41\tgpyr decrease in Australia when introducing soil moisture parameterisation.
-    When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease of around 29\tgpyr, $\sim 66\%$.
+    When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease of around 29\tgpyr ($66\%)$.
     Table \ref{BioIsop:results:Emissions:tab_emissions_Tg} shows yearly isoprene emissions from this work and some other works for Australia and globally.
     Figure \ref{BioIsop:results:Emissions:fig_tga_comparison_map} shows how this decrease is distributed spatially, with $E_{GC}$ and $E_{OMI}$ in \tgpyr calculated as a multi-year mean.
-    There are decreases across Australia, every region showing large reductions of total emissions using the new top-down estimate.
+    Across all of Australia we see large reductions of total emissions using the new top-down estimate.
     
     \mypic{Figures/OMI_link/Emiss/tga_map.png}{%
       Top row: multiyear mean emissions in \tgpyr from $E_{GC}$ (GEOS-Chem; running MEGAN) and $E_{OMI}$ (top-down emissions) respectively.
@@ -785,24 +789,21 @@
       \end{tablenotes}
       \label{BioIsop:results:Emissions:tab_emissions_Tg}
     \end{threeparttable}\end{table}
-    
-    Recently \textcite{Bauwens2016} estimated isoprene emissions with this technique using the IMAGESv2 global CTM.
-    They calculate emissions which create the closest match between model and satellite vertical columns, and compare these a posteriori data with the a priori (satellite data) and independent data sets.
-    They examine global emissions seen by three models and a top-down inversion, showing a wide range of estimated values for Australia.
-    In this thesis a top-down estimation its sensitivities is prioritised, along with flow on effect of changed emissions on modelled ozone levels. 
+     
     
     Figure \ref{BioIsop:results:Emissions:fig_time_series_vs_megan} shows emissions over Australia calculated using the OMI top down estimate (column 1: E$_{OMI}$) and GEOS-Chem simulated emissions (column 2: E$_{GC}$).
-    The first row shows the overall average emission rates, the second row shows the time series (daily midday averages) and the final row shows the relative differences as $\frac{E_{GC} - E_{OMI}}{E_{GC}}$.
-    This figure is repeated using monthly medians in (of the daily midday estimates) in figure \ref{BioIsop:results:Emissions:fig_time_series_vs_megan_monthly}.
+    The first row shows the time series (daily midday averages) and the final row shows the absolute differences ($E_{GC} - E_{OMI}$). %($\frac{E_{GC} - E_{OMI}}{E_{GC}}$).
+    This figure is repeated using monthly means (of the daily midday estimates) in figure \ref{BioIsop:results:Emissions:fig_time_series_vs_megan_monthly}.
     
     Figure \ref{BioIsop:results:Emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and IQR of daily midday isoprene emissions estimates, averaged over several regions (see figure \ref{BioIsop:results:fig_subregions}). 
-    Generally months outside of May to August show the a posteriori lower than the a priori, except in the south eastern portion of Australia (SE).
+    Generally months outside of May to August show the a posteriori lower than the a priori, except in the south eastern portion of Australia.
     
     Figures \ref{BioIsop:results:Emissions:fig_daily_egressions} and \ref{BioIsop:results:Emissions:fig_monthly_egressions} show how the distributions of top-down emissions compare to those of MEGAN in each region during summer months (DJF) with zeros and negatives removed from both distributions. 
     Figure \ref{BioIsop:results:Emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally to show data-point frequency.
-    There is only weak correlation apparent between daily top down and MEGAN estimations. 
+    There is only weak correlation apparent between daily top down and MEGAN estimations, however daily values suffer from large uncertainty. 
     Figure \ref{BioIsop:results:Emissions:fig_monthly_egressions} displays the regressions between monthly averages of the same data. 
-    In the monthly averages more correlation is apparent, likely from seasonality. 
+    In the monthly averages more correlation is apparent, with regression coefficients ranging from 0.48 to 0.78 across regions.
+    The portion of this correlation due to seasonality is examined by re-running the regression after subtracting the multi-year monthly average from each dataset.
     %TODO
     TODO: run regression after removing seasonal average and see how r and slope are affected.
     
@@ -853,7 +854,7 @@
     %figure from tests.campaign_gridsquare() could be better.
     \mypic{Figures/OMI_link/campaign_grid.png}{}{\label{BioIsop:results:measurements:fig_gridbox}}
     
-    Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (section \ref{Model:Datasets:MUMBA}, \ref{Model:Datasets:SPS}) both before and after scaling isoprene emissions to match the top-down estimation.
+    Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (described in section \ref{Model:Datasets}) both before and after scaling isoprene emissions to match the top-down estimation.
     TODO: discuss results and differences, does isoprene improve?
     
 
@@ -1027,6 +1028,8 @@
     
 \section{Conclusions and implications}
   \label{BioIsop:conclusions}
+  
+  
   
   \subsection{Effects from scaling emissions}
     \label{BioIsop:conclusions:scaled}
