@@ -31,7 +31,7 @@
   Measurement techniques used to retrieve the most utilised satellite dataset are outlined in Section \ref{Model:omhcho}.
   Section \ref{Model:GC} describes the GEOS-Chem model, how it is run and what setup and outputs are used in this thesis.
   In Section \ref{Model:AMF} the process of using model outputs to recalculate satellite vertical columns is defined and analysed.
-  In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[eg.][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
+  In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[e.g.,][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
   One key step is to recalculate the satellite information using modelled data, detailed in section \ref{Model:omiRecalc}.
   The effects of these recalculations on satellite HCHO is also examined.
   The creation and effects of filters used to remove non-biogenic influences are described in section \ref{Model:Filter}.
@@ -75,7 +75,7 @@
     Level 3 data is a temporally aggregated subset of level 2 data, for instance monthly or yearly averages.
     
     % Satellites use DOAS for trace gases which we are interested in
-    Satellites record near nadir (vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO \parencite[eg.][]{Leue2001}.
+    Satellites record near nadir (vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO \parencite[e.g.,][]{Leue2001}.
     Satellite measurements are generally performed using spectral fitting followed by conversion to vertical column densities.
     %The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \textcite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
     Several public data servers are available which include products from satellites, including NASAs Earthdata portal (\url{https://earthdata.nasa.gov/}) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (\url{http://h2co.aeronomie.be/}).
@@ -85,9 +85,9 @@
     Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the scattered light.
     Mie scattering more generally involves larger particles, and has less wavelength dependence.
     The effects of scattering are what gives us the information about substances in the atmosphere.
-    The different particles and gases in the air have measurable properties seen by remote sensing devices such as a satellite. Although instruments will be more or less sensitive to various properties depending on altitude, radiation, and other parameters \parencite[e.g.][]{Martin2002}.
+    The different particles and gases in the air have measurable properties seen by remote sensing devices such as a satellite. Although instruments will be more or less sensitive to various properties depending on altitude, radiation, and other parameters \parencite[e.g.,][]{Martin2002}.
     
-    Difficulties can arise when aerosols interfere with recorded spectra (eg. clouds, smoke, dust), however some of these can be detected and filtered out.
+    Difficulties can arise when aerosols interfere with recorded spectra (e.g., clouds, smoke, dust), however some of these can be detected and filtered out.
     Instruments including MODIS on board the Aqua and Terra satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
     An AOD under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
     This is important in order to determine where measurements from other instruments may be compromised by high interference.
@@ -99,15 +99,16 @@
     %\textcite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.
     Geostationary satellites can provide temporally rich measurements over an area, as they are not sweeping around the earth but fixed relative to one latitude and longitude.
     
-    \subsubsection{OMHCHO}
+    \subsubsection{Formaldehyde}
       
       OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
+      Satellite based formaldehyde measurements from the OMI instrument on board AURA are stored in the OMHCHO product.
       OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section \ref{Model:omhcho}.
       Calculation of column density and AMF are discussed respectively in sections \ref{Model:omhcho:DOAS} and \ref{Model:omhcho:amf}.
   
-    \subsubsection{OMNO2d}
+    \subsubsection{Nitrogen dioxide}
       \label{Model:Datasets:OMNO2d}
-      OMNO2d is a gridded daily level three product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
+      OMNO2d is a gridded daily level three NO$_2$ product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
       An example figure from Jan 29, 2005 is shown in figure \ref{Model:Datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in figure \ref{Model:Datasets:OMNO2d:fig_omno2d_2005}.
       OMNO2 pixel resolution is 40~km by 130~km.
       NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (see section \ref{Model:GC:NOx} for the comparison between this product and GEOS-Chem calculations).
@@ -124,7 +125,7 @@
       These models are generally low resolution ($\sim$ 110~km by 110~km), which leads to column smearing and difficulty detecting point sources of high NO emissions \parencite{Goldberg2018}.
       Uncertainty in this product arises mostly from the calculation of the AMF (up to 50\% of total error) \parencite{Lorente2017}.
     
-    \subsubsection{OMAERUVd}
+    \subsubsection{Aerosol optical depth}
       \label{Model:Datasets:OMAERUVd}
       
       % smoke aaod outline
@@ -144,7 +145,7 @@
       The AAOD at 500~nm wavelength is used to determine smoke influence, although any of the provided wavelengths would be affected by smoke plumes and could also be used.
       This daily AAOD is compared to a threshold to create a daily smoke filter, any areas with AAOD$>0.03$ are considered to be potentially smoke plume affected (see section \ref{Model:Filter:fire}).
     
-    \subsubsection{MOD14A1}
+    \subsubsection{Active fires}
       \label{Model:Datasets:MOD14A1}
       MOD14A1 is a gridded daily satellite based dataset of fire counts at 1x1~km$^2$ horizontal resolution.
       Fire observations are performed four times daily from Terra (10:30~LT, 22:30~LT) and Aqua (01:30~LT, 13:30~LT).
@@ -152,7 +153,7 @@
       The dataset is obtained from NASA Earth Observations (NEO) that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
       This product is downloaded and binned into a lower resolution (using the sum of fire pixels) to create an active fire influence mask (see section \ref{Model:Filter:fire}).
       
-    \subsubsection{AIRS CO columns}
+    \subsubsection{Carbon monoxide}
       \label{Model:Datasets:AIRS}
       
       In chapter \ref{Ozone}, potential biomass burning plumes are identified using satellite observations of CO from the AIRS (Atmospheric Infra-red Sounder) instrument aboard the Aqua satellite \parencite{AIRS3STD}.
@@ -181,13 +182,13 @@
       %They examine HCHO in Europe, which is low; near the detection limit of satellite measurements.
       
       %% SURFACE CONDITIONS AND CLOUDS
-      In cloudy, hazy or polluted areas measurements are more difficult to analyse \parencite[e.g.][]{Palmer2003,Marais2014}.
+      In cloudy, hazy or polluted areas measurements are more difficult to analyse \parencite[e.g.,][]{Palmer2003,Marais2014}.
       Recent work by \textcite{Vasilkov2017} showed that updating how the surface reflectivity is incorporated into satellite measurements can change the retrievals by 50~\% in polluted areas.
       
       
   \subsection{Model datasets}
     
-    \subsubsection{CTM output}
+    \subsubsection{GEOS-Chem output}
       
       GEOS-Chem model output is used extensively in this thesis and is discussed in more detail in section \ref{Model:GC}.
       Section \ref{Model:GC:simulations:outputs} specifically describes the model outputs used in this thesis.
@@ -200,14 +201,14 @@
       These are used in chapter \ref{Ozone} to determine typical weather systems for stratospheric ozone intrusions.
       The version used was ERA-Interim, which was the most up to date at the time (2016) but has since been superseded by ERA5.
     
-    \subsubsection{CPC temperatures}
+    \subsubsection{Surface temperatures}
       The Climate Prediction Center (CPC) provides a product with maximum daily land-surface temperature at 0.5x0.5\degr  horizontal resolution. 
       This data is used to check the correlation between HCHO and temperature at a higher resolution than is provided by GEOS-Chem output.
       A full description of the data can be found at \url{https://www.esrl.noaa.gov/psd/data/gridded/data.cpc.globaltemp.html}.
       CPC Global Temperature data is provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their web site at \url{https://www.esrl.noaa.gov/psd/}.
       An example of one day of land temperature output is shown in figure \ref{Model:Datasets:fig_CPC_EG}.
       
-      \mypicw{.5\textwidth}{Figures/CPC_Temperature_EG.png}{CPC daily maximum temperature dataset output for 1, Jan, 2005.}{\label{Model:Datasets:fig_CPC_EG}}
+      \mypicw{.5\textwidth}{Figures/CPC_Temperature_eg.png}{CPC daily maximum temperature dataset output for 1, Jan, 2005.}{\label{Model:Datasets:fig_CPC_EG}}
   
   \subsection{Campaign datasets}
   
@@ -309,11 +310,11 @@
       
       % Measurement difficulties
       In situ measurements contain errors, and depending on the device used and chemical being measured this error can be significant.
-      The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting \parencite[eg.][]{Dunne2018,Guerette2018}.
+      The major sources of uncertainty in measurement techniques included interference from non-target compounds and under-reporting \parencite[e.g.,][]{Dunne2018,Guerette2018}.
       Overall isoprene uncertainty in measurements analysed by \textcite{Dunne2018} was a factor of 1.5 to 2.
       This can feed into uncertainties in modelling and satellite retrievals, as verification and correlations are affected.
 
-\section{OMHCHO}
+\section{Satellite formaldehyde}
 \label{Model:omhcho}
   
   % Aura satellite trace gas measurements
@@ -322,7 +323,7 @@
   % omi instrument on board aura
   Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
   The OMI instrument on board AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
-  This band of wavelengths allows measurements of trace gases (among other quantities).
+  This band of wavelengths allows measurements of trace gases (among other quantities) and the formaldehyde product is detailed here.
   
   
   From here on the word pixel is used to describe one data point retrieved by OMI, each pixel includes a latitude and longitude within OMI's data product.
@@ -473,7 +474,7 @@
     To convert the trace gas profile from a reflected solar radiance column (slanted along the light path) into a purely vertical column requires calculations of an air mass factor (AMF).
     In satellite data, the AMF is typically a scalar value for each horizontal grid point which will equal the ratio of the total vertical column density to the total slant column density.
     This value requires calculations to account for instrument sensitivities to various wavelengths over resolved altitudes, and is unique for each trace gas under consideration.
-    An AMF characterises measurement sensitivity to a trace gas at various altitudes \cite[e.g.]{Palmer2001}.
+    An AMF characterises measurement sensitivity to a trace gas at various altitudes \cite[e.g.,]{Palmer2001}.
     \textcite{Lorente2017} show that AMF calculations can be the largest source of uncertainty in satellite measurements.
     Another way of describing AMFs are as measures of how radiance at the top of the atmosphere (TOA) changes with trace gas optical depths at specific altitudes \parencite{Lorente2017}.
     Calculation of the AMF is important as it is multiplied against the estimated slant columns in order to give vertical column amounts.
@@ -504,7 +505,7 @@
     %http://www.rtslidort.com/about_publications.html
     LIDORT is a model of LInearized Discrete Ordinate Radiative Transfer, used to determine backscatter intensities and weighting functions at arbitrary elevation angles \parencite{Spurr2001}.
     The model solves radiative transfer equations and can be used to determine various atmospheric column measurement attributes such as optical depth, ring effects, and scattering.
-    These radiative properties (or at least estimates thereof) are required when measuring trace gases in the atmosphere through a long path such as seen by satellites \parencite[eg.][]{Palmer2001,Martin2002a,DeSmedt2015,Abad2015}.
+    These radiative properties (or at least estimates thereof) are required when measuring trace gases in the atmosphere through a long path such as seen by satellites \parencite[e.g.,][]{Palmer2001,Martin2002a,DeSmedt2015,Abad2015}.
   
   \subsection{Uncertainty}
     Uncertainty in a single pixel for OMHCHO is roughly the same magnitude as HCHO background levels.
@@ -517,7 +518,7 @@
     Row two shows uncertainty of the satellite data after averaging.
     It is clear that one day of satellite data is too uncertain when binned at 0.25x0.3125\degr horizontal resolution, however after a month (with or without filtering) the uncertainties become manageable.
     If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
-    High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[eg.][]{Zhu2014}.
+    High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[e.g.,][]{Zhu2014}.
     Uncertainty in satellite recalculations, along with other factors is analysed in section \ref{BioIsop:Uncertainty}.
     %A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
     
@@ -567,9 +568,9 @@
 
   \subsection{Overview}
     % Geos chem is a box model with chemistry and meteorology
-    GEOS-Chem is a well supported global, Eulerian CTM with a state of the science chemical mechanism, with transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
+    GEOS-Chem is a well supported global, Eulerian CTM (see section \ref{LR:Models:ctm}) with a state of the science chemical mechanism, with transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
     Chemistry, transport, and meteorology are simulated at 15 minute time steps within a global set of 3-D boxes.
-    Emissions are either prescribed by inventories or modelled (eg. biogenic emissions are created using the Model of Emissions of Gases and Aerosols from Nature (MEGAN)).
+    Emissions are either prescribed by inventories or modelled (e.g., biogenic emissions are created using the Model of Emissions of Gases and Aerosols from Nature (MEGAN)).
     % It uses GEOS, from GMAO
     
     % This thesis uses 10.01 at 2x2.5 model output
@@ -583,31 +584,32 @@
     Meteorological fields are taken from NASA's GEOS-5 dataset (0.5\degr x 0.666\degr) \parencite{Chen2009}, which exists up to April 2013.
     GEOS-5 meteorological fields are used as the boundary conditions driving transport.
     % Emissions models used for boundary conditions
-    Fire emissions come from the GFED4 product \parencite{Giglio2013}. 
-    Anthropogenic VOC emissions come from the EDGAR inventory, while biogenic VOC emissions are simulated using the MEGAN model (see section \ref{Model:GC:MEGAN}).
+    Fire emissions come from the global fire emissions database (GFED4) product \parencite{Giglio2013}. 
+    Anthropogenic VOC emissions come from the Emission Database for Global Atmospheric Research (EDGAR) inventory, while biogenic VOC emissions are simulated using the MEGAN model (see section \ref{Model:GC:MEGAN}).
     MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation.
     The estimated biogenic VOC emissions are important for accurately simulating chemistry within models, as discussed in Section \ref{LR:Atmos:Chem}.
     
   
-  \subsection{Running GEOS-Chem}
+  \subsection{Installing and running GEOS-Chem}
     \label{Model:GC:running}
-    \subsubsection{Installation and requirements}
-      GEOS-Chem instructions for download, compilation, and running can be found in the user guide provided by Harvard: \url{http://acmg.seas.harvard.edu/geos/doc/man/}.
-      In order to build and run GEOS-Chem a high-speed computing system is optimal, as globally gridded chemical calculations can take a long time to perform.
-      I installed GEOS-Chem onto a suitably configured workspace on the National Computational Infrastructure (NCI, \url{http://nci.org.au/}). 
-      This workspace included access to compilers and libraries which are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
-      After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
+    GEOS-Chem instructions for download, compilation, and running can be found in the user guide provided by Harvard: \url{http://acmg.seas.harvard.edu/geos/doc/man/}.
+    In order to build and run GEOS-Chem a high-speed computing system is optimal, as globally gridded chemical calculations can take a long time to perform (for us $\sim 70$ computation hours per month).
+    I installed GEOS-Chem onto a suitably configured workspace on the Raijin supercomputer at the National Computational Infrastructure (NCI, \url{http://nci.org.au/}).
+    This workspace included access to compilers and libraries which are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
+    After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
   
+  %UP TO HERE JENNY FEEDBACK 
   \subsection{Chemical Mechanism}
     \label{Model:GC:Mechanisms}
-    Chemical reactions are turned into systems of differential equations (DEs) to be solved by the CPU for each gridbox in GEOS-Chem.
-    A chemical mechanisms is the name for a closed system of chemical reactions and the rates of each reaction.
+    A chemical mechanism is the name for a closed system of chemical reactions and the rates of each reaction.
+    Chemical reactions are represented by systems of differential equations to be solved for each gridbox in GEOS-Chem.
     Simplifications are required due to the massive amount of reactions which occur in the atmosphere, and the coupled and stiff nature of these reactions which serve to slow down computation of the solutions \parencite{BrasseurJacob2017}.
-    Stiffness in chemical systems of differential equations is due to the massively differing reaction rate time scales - for instance hydroxy radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
+    Stiffness in chemical systems of differential equations is due to the massively differing reaction rate time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
     
-    Some of the important reactions involving isoprene are copied here, including reaction rates in the form $ k = A \exp{-ER/T}$.
-    Some tracers have multiple names in order to allow the model to keep track of extra information such as the tracers source.
-    For instance INO$_2$ is RO$_2$ specifically created by the ISOP $+$ NO$_3$ reactions.
+    Some of the important reactions involving isoprene are reproduced here, including reaction rates (k) in the form $ k = A \exp{-ER/T}$, where T is temperature, TODO find definition again.
+    Equation \ref{Model:GC:Mechanisms:eqn_mechanisms} lists the main isoprene and sundry reactions, with terms defined in \ref{Model:GC:Mechanisms:tab_species}.
+    Some tracers are defined in order to allow the model to keep track of extra information such as the tracers source.
+    For instance LISOPOH keeps track of how isoprene lost to OH reactions.
     The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
     
     %globchem.dat in the run directory.
@@ -615,7 +617,7 @@
     %Isoprene is ISOP. 
     %% LISOPOH is isop lost to OH reactions
     %% RIO2 is the isoprene peroxy radical ISOPOO
-    %% INO2 is RO2 formed from Isop and NO3
+    %% INO2 is a class of products formed from Isop and NO3
     %% ISOPNB is ISOPN-beta
     %% ISOPNBO2 is ISOPNB+OH products
     %% ISNP is an ISOPN 
@@ -628,27 +630,48 @@
     \label{Model:GC:Mechanisms:eqn_mechanisms}
     \ce{
       % A 587 Isop oxidation by OH
-      ISOP + OH ->[3.1*10^{-11} \exp{350/T}] & RIO2 \\ 
+      ISOP + OH ->[3.1*10^{-11} \exp{(350/T})] & RIO2 \\ 
       % A606 Isoprene ozonolysis
-      ISOP + O3 ->[1*10^{-14} \exp{-1970/T}] & 0.244MVK + .325MACR + 0.845HCHO \\
+      ISOP + O3 ->[1*10^{-14} \exp{(-1970/T})] & 0.244MVK + .325MACR + 0.845HCHO \\
       & + .11H2O2 + .522CO + .204HCOOH \\
       & + .199MCO3 +.026HO2 + .27OH \\
       & + .128PRPE + .051MO2 \\ 
       % A621 Isoprene NO3 oxidation
-      ISOP + NO3 ->[3.3*10^{-12} \exp{-450/T}] & INO2 \\
+      ISOP + NO3 ->[3.3*10^{-12} \exp{(-450/T)}] & INO2 \\
       % products from ISOPOO + NO
-      RIO2 + NO ->[2.7*10^{-12} \exp{350/T}] & .883NO2 + .783HO2 + .66CH2O \\
+      RIO2 + NO ->[2.7*10^{-12} \exp{(350/T)}] & .883NO2 + .783HO2 + .66CH2O \\
       & + .4MVK + .26MACR + .07ISOPND \\
       & + .123HC5 + .1DIBOO \\
-      RIO2 ->[4.07*10^{8} \exp{-7694/T}] & 2HO2 + CH2O + .5MGLY + .5GLYC \\
+      RIO2 ->[4.07*10^{8} \exp{(-7694/T)}] & 2HO2 + CH2O + .5MGLY + .5GLYC \\
       & + .5GLYX + .5HAC + OH
     }
     %     % k1=2.7*10^{-12} \exp{350/T}
     %     % k2=4.07*10^{8} \exp{-7694/T}
     %      
     \end{split} \end{align}
-    In these reactions T is temperature, INO$_2$ is RO$_2$ formed from isoprene and NO$_3$, ISOPNB and ISOPND are $\beta$ and $\delta$ isoprene nitrates respectively.
-  
+    
+    TODO: Finish this table after finishing above meechanisms
+    \begin{table}
+      \caption{Species or classes from the GEOS-Chem mechanism.}
+      \begin{tabular}{ c l }
+        \textbf{Name} & \textbf{Definition} 
+        \\ \hline
+        GLYC & glyoxal?? \\
+        GLYX & glyoxyl? \\
+        HAC & ??? \\
+        INO2   &  class of products formed from Isop and NO3    \\  
+        ISOPNB  &   $\beta$ isoprene nitrates     \\
+        ISOPND  &   $\delta$ isoprene nitrates    \\
+        ISNP & an isoprene nitrate \\
+        MACR & methacrolein (TODO spelling??) \\
+        MGLY & ?? \\
+        MVK & methyl venylketone?? \\
+        PRPE & >C3 alkenes (C3H6, ...) \\
+        RIO2 & isoprene peroxy radical \roo  \\
+      \end{tabular}
+      \label{Model:GC:Mechanisms:tab_species}
+    \end{table}
+    
   \subsection{GEOS-Chem isoprene modelling}
     \label{Model:GC:Isop}
     
@@ -840,7 +863,7 @@
         is output from averaging over a window of local time for each gridbox. 
         Output averaged between 1300-1400 LT is saved to match with Aura satellite measurements, as Aura overpasses at $\sim$1330 LT each day.
         Satellite output is saved both for comparison with, and recalculation of, satellite measurements.
-        %This has been performed by others \parencite[eg.][]{Jin2017}.
+        %This has been performed by others \parencite[e.g.,][]{Jin2017}.
         \item[HEMCO diagnostics]%
         are output by the HEMCO module, which deals with emissions inventories used in GEOS-Chem.
         % Local time offsets
@@ -1183,7 +1206,7 @@
           corr[lat,track] = SC[lat,track] - MRSC[lat]
         \end{equation*}
         \item These corrections are binned by satellite detector (track: 1-60), and latitude (0.36\degr; 500 latitudes from 90{\degr}S to 90{\degr}N)
-        \item The median entry of each bin is determined and this forms the RSC[lat,track] (eg. figure \ref{Model:omiRecalc:RSC:fig_track_correction_interpolations})
+        \item The median entry of each bin is determined and this forms the RSC[lat,track] (e.g., figure \ref{Model:omiRecalc:RSC:fig_track_correction_interpolations})
       \end{enumerate}
       \item VCC are determined using $VCC = (SC - RSC[lat,track] )/AMF$ for each measured SC and using each AMF, with the RSC linearly interpolated to the latitude of the satellite pixel
       \item The VCC (along with most of the pixel and GEOS-Chem data) are binned onto a 0.25\degr by 0.3125\degr grid along with how many pixels have been binned, and the average pixel uncertainty in product OMHCHORP
@@ -1238,7 +1261,7 @@
     When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
     The process is outlined in figure  \ref{Model:omiRecalc:fig_flow_omhchorp} for a single day.
     First all \textit{good} pixels (those with QA flag equal to 0) are read into a long list (roughly 1 million per day).
-    These are then filtered by solar zenith angle (SZA) and latitude, similarly to other works \parencite[eg.]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
+    These are then filtered by solar zenith angle (SZA) and latitude, similarly to other works \parencite[e.g.,]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
     This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see section \ref{Model:Datasets:OMHCHO}) may have affected.
     
     % Actual filtering done
@@ -1324,7 +1347,7 @@
     \begin{equation*}
       VCC = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
     \end{equation*}
-    This method is used in several works, including \textcite[eg.][]{DeSmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013, Bauwens2016}.
+    This method is used in several works, including \textcite[e.g.,][]{DeSmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013, Bauwens2016}.
     Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \textcite{Abad2015}.
     
     % How my RSC is defined
@@ -1457,7 +1480,7 @@
   In GEOS-Chem we can simply turn off pyrogenic and anthropogenic emissions, however in satellite datasets we need to mask potentially affected pixels.
   
   % How other people have filtered fires
-  Influence from biomass burning can be removed through measurements of acetonitrile and CO \parencite[eg.][]{Wolfe2016, Miller2017}, or else removal of scenes coincident with satellite detected fire counts and aerosol absorption optical depth as done in \textcite{Marais2014}.
+  Influence from biomass burning can be removed through measurements of acetonitrile and CO \parencite[e.g.,][]{Wolfe2016, Miller2017}, or else removal of scenes coincident with satellite detected fire counts and aerosol absorption optical depth as done in \textcite{Marais2014}.
   \textcite{Marais2012} remove pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1 x 1\degr resolution.
   \textcite{Barkley2013} use fires from the preceding and concurrent day, within local or adjacent grid squares, with grid resolution of 0.25 x 0.3125\degr.
   \textcite{Wolfe2016} disregard HCHO measurements when acetonitrile > 210~pptv and CO > 300~ppbv, while acetonitrile > 200~pptv is used to determine fire influence in \textcite{Miller2017}.
