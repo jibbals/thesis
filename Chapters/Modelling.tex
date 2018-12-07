@@ -208,7 +208,7 @@
       CPC Global Temperature data is provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their web site at \url{https://www.esrl.noaa.gov/psd/}.
       An example of one day of land temperature output is shown in figure \ref{Model:Datasets:fig_CPC_EG}.
       
-      \mypicw{.5\textwidth}{Figures/CPC_Temperature_eg.png}{CPC daily maximum temperature dataset output for 1, Jan, 2005.}{\label{Model:Datasets:fig_CPC_EG}}
+      \mypicw{.5\textwidth}{Figures/CPC_Temperature_EG.png}{CPC daily maximum temperature dataset output for 1, Jan, 2005.}{\label{Model:Datasets:fig_CPC_EG}}
   
   \subsection{Campaign datasets}
   
@@ -630,20 +630,29 @@
     \label{Model:GC:Mechanisms:eqn_mechanisms}
     \ce{
       % A 587 Isop oxidation by OH
-      ISOP + OH ->[3.1*10^{-11} \exp{(350/T})] & RIO2 \\ 
+      ISOP + OH ->[3.1*10^{-11} \exp{(350/T})] & RIO2 (+LISOPOH) \\ 
       % A606 Isoprene ozonolysis
-      ISOP + O3 ->[1*10^{-14} \exp{(-1970/T})] & 0.244MVK + .325MACR + 0.845HCHO \\
-      & + .11H2O2 + .522CO + .204HCOOH \\
-      & + .199MCO3 +.026HO2 + .27OH \\
-      & + .128PRPE + .051MO2 \\ 
+      ISOP + O3 ->[1*10^{-14} \exp{(-1970/T})] & 0.244MVK + .325MACR + \highlight{0.845HCHO} \\
+        & + .11H2O2 + .522CO + .204HCOOH \\
+        & + .199MCO3 +.026HO2 + .27OH \\
+        & + .128PRPE + .051MO2 \\ 
       % A621 Isoprene NO3 oxidation
       ISOP + NO3 ->[3.3*10^{-12} \exp{(-450/T)}] & INO2 \\
       % products from ISOPOO + NO
-      RIO2 + NO ->[2.7*10^{-12} \exp{(350/T)}] & .883NO2 + .783HO2 + .66CH2O \\
-      & + .4MVK + .26MACR + .07ISOPND \\
-      & + .123HC5 + .1DIBOO \\
-      RIO2 ->[4.07*10^{8} \exp{(-7694/T)}] & 2HO2 + CH2O + .5MGLY + .5GLYC \\
-      & + .5GLYX + .5HAC + OH
+      RIO2 ->[4.07*10^{8} \exp{(-7694/T)}] & 2HO2 + \highlight{HCHO} + .5MGLY + .5GLYC \\
+        & + .5GLYX + .5HAC + OH \\
+      RIO2 + NO ->[2.7*10^{-12} \exp{(350/T)}] & .883NO2 + .783HO2 + \highlight{.66HCHO} \\
+        & + .4MVK + .26MACR + .07ISOPND \\
+        & + .123HC5 + .1DIBOO + .047ISOPNB \\
+      RIO2 + HO2 ->[2.91*10^{-13} \exp{(1300/T)}] & .88RIP + .12OH + .047 MACR \\
+        & + .073MVK + .12HO2 + \highlight{.12HCHO} \\
+      RIO2 + MO2 ->[8.37*10^{-14}] & 1.1HO2 + \highlight{1.22HCHO} + .28MVK \\
+        & + .18MACR + .3HC5 + .24MOH + .24ROH \\
+      RIO2 + RIO2 -> [1.54*10^{-13}] & 1.28HO2 + \highlight{.92HCHO} + .56MVK + \\
+        & .36MACR + .48ROH + .5HC5 \\
+      RIO2 + MCO3 -> [1.68*10^{-12} \exp{(500/T)}] & .887HO2 + \highlight{.747HCHO} + .453MVK \\
+        & +.294MACR + .14HC5 + .113DIBOO \\
+        & + CO2 + MO2 
     }
     %     % k1=2.7*10^{-12} \exp{350/T}
     %     % k2=4.07*10^{8} \exp{-7694/T}
@@ -656,18 +665,19 @@
       \begin{tabular}{ c l }
         \textbf{Name} & \textbf{Definition} 
         \\ \hline
-        GLYC & glyoxal?? \\
-        GLYX & glyoxyl? \\
-        HAC & ??? \\
-        INO2   &  class of products formed from Isop and NO3    \\  
+        GLYC & Glycoaldehyde: HOCH2CHO \\
+        GLYX & Glyoxal: CHOCHO \\
+        HAC & Hydroxyacetone: HOCH2C(O)CH3 \\
+        INO2   &  RO2 from ISOP+NO3    \\  
         ISOPNB  &   $\beta$ isoprene nitrates     \\
         ISOPND  &   $\delta$ isoprene nitrates    \\
         ISNP & an isoprene nitrate \\
-        MACR & methacrolein (TODO spelling??) \\
-        MGLY & ?? \\
-        MVK & methyl venylketone?? \\
-        PRPE & >C3 alkenes (C3H6, ...) \\
-        RIO2 & isoprene peroxy radical \roo  \\
+        MACR & Methacrolein: CH2=C(CH3)CHO \\
+        MGLY & Methylglyoxyal: CH3COCHO \\
+        MVK & Methylvinylketone: CH2=CHC(=O)CH3 \\
+        PRPE & >C3 alkenes: C3H6, ... \\
+        RIO2 & isoprene peroxy radical   \\
+        ROH & >C2 alcohols \\
       \end{tabular}
       \label{Model:GC:Mechanisms:tab_species}
     \end{table}
