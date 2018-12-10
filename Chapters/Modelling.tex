@@ -679,23 +679,25 @@
         MOH & Methanol: CH3OH \\
         MVK & Methylvinylketone: CH2=CHC(=O)CH3 \\
         PRPE & >C3 alkenes: C3H6, ... \\
-        RIO2 & isoprene peroxy radical   \\
+        RIO2 & isoprene peroxy radical: \roo   \\
         ROH & >C2 alcohols \\
       \end{tabular}
       \label{Model:GC:Mechanisms:tab_species}
     \end{table}
     
-  \subsection{GEOS-Chem isoprene modelling}
+  \subsection{GEOS-Chem isoprene}
     \label{Model:GC:Isop}
     
     The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
-    This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed NMHC chemistry with isoprene reactions and products.
-    The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrates yields and add products based on current understanding as laid out in \textcite{Paulot2009a, Paulot2009b}.
+    %This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed (for 1998) NMHC chemistry with isoprene reactions and products.
+    The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrate yields and add products based on \textcite{Paulot2009a, Paulot2009b}.
     Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009, Peeters2010, Crounse2011, Crounse2012}.
+    
+    
     % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
     
     % hpald: hydroperoxyenal, hydroperoxyaldehyde, hydroperoxy-methyl-butenals
-    \textcite{Crounse2011} examines the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen through $ISOP + OH \to ISOPOO$.
+    \textcite{Crounse2011} examined the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen through $ISOP + OH \to ISOPOO$.
     They determine rates and uncertainties involved in these reactions, and study the rate of formation of C$_5$-hydroperoxyenals (C5-HPALD) by isomerisation.
     Prior to 2012 oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012,Wolfe2012}.
     In most environments NO and HO$_2$ concentrations are not so high, GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Crounse2012}.
@@ -703,7 +705,7 @@
     Photolysis of photolabile peroxy-acid-aldehydes creates OH and improved model agreement with continental observations.
     OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and a sink of OH \parencite{Peeters2010,Taraborrelli2012}.
     
-    Formation of isoprene nitrates (ISOPN) have an effect on ozone levels through NO$_X$ sequestration, and the yields and destinies of these nitrates is analysed in \textcite{Paulot2009a}.
+    Formation of isoprene nitrates (ISOPN) affect ozone levels through NO$_X$ sequestration, and the yields and fate of these nitrates was analysed in \textcite{Paulot2009a}.
     %% ISOPN can be oxidised (by OH) to form nitrated organic products \parencite{Paulot2009a}.
     In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
     GEOS-Chem uses these the yields of various positional isomers of isoprene nitrates, and pathways of their oxidation products, and reactions within its suite of chemical mechanisms determined by \textcite{Paulot2009a,Mao2013}.
