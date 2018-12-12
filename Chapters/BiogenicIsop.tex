@@ -321,7 +321,7 @@
     \end{eqnarray*}
     
     
-    Estimates of $Y_{isop}$ or $S$ can be attained through modelling \parencite[e.g.][]{Millet2006}.
+    Estimates of $Y_{isop}$ or $S$ are attained through modelling \parencite[e.g.][]{Millet2006}.
     We look at each $2\times2.5$~\degr grid box from daily GEOS-Chem (biogenic only) output of $\Omega_{HCHO} \equiv \Ogc$ and $E_{OMI} \equiv E_{GC}$ within Australia, and calculate the (RMA) correlation for each month.
     Modelled background concentrations can be ignored here as they do not affect slope calculation.
     This effectively gives us monthly gridded isoprene to HCHO slope ($S$) in units of molecules HCHO $/$ atom C $\times$ seconds (seconds).
@@ -341,6 +341,21 @@
     }
     {\label{BioIsop:method:slope:fig_regressions}}
     
+    One issue with slope calculation is the potential transport of isoprene emissions before the resulting HCHO is formed.
+    The effects of this are dealt with by forming a smearing filter (see section \fullref{BioIsop:method:Smearing}).
+    In order to decide if this filter should be applied before or after calculating the monthly slope, a quick analysis is performed on how the filter affects monthly slope, correlation, and uncertainty.
+    Figure \ref{BioIsop:method:slope:fig_smear_filter_prior} shows the calculated monthly slope for 2005-2012, along with its 95\% confidence interval over Sydney.
+    The difference between the left and right columns is application of the smearing filter.
+    The bottom two rows show how the slope calculation looks when using multiple years of data for each month.
+    This plot has been repeated for several grid squares over Australia (not shown).
+    
+    
+    \mypic{Figures/OMI_link/GC/slope_series_20050101-20121231.png}{%
+      Row 1: monthly slope along with 95\% confidence interval both with (left) and without (right) applying the smear filter for the model grid square containing Sydney over 2005-2012.
+      Row 2: regression coefficient and data-point counts for row 1.
+      Row 3: slope and confidence interval using the multi-year dataset for each month.
+      Row 4: regression coefficient and data-point counts for row 3.
+      }{\label{BioIsop:method:slope:fig_smear_filter_prior}}
     
     %%A nested version of GEOS-Chem would allow better analysis of coastal regions, at 0.25 by 0.3125$^{\circ}$ resolution, however this may require more explicit handling of smearing.
     %\begin{figure}
