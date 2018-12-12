@@ -606,7 +606,7 @@
     Simplifications are required due to the massive amount of reactions which occur in the atmosphere, and the coupled and stiff nature of these reactions which serve to slow down computation of the solutions \parencite{BrasseurJacob2017}.
     Stiffness in chemical systems of differential equations is due to the massively differing reaction rate time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
     
-    Some of the important reactions involving isoprene are reproduced here, including reaction rates (k) in the form $ k = A \exp{-ER/T}$, where T is temperature, TODO find definition again.
+    Some of the important reactions involving isoprene are reproduced here, including reaction rates (k) in the form $ k = A \exp{-E/RT}$, where T is temperature, E is activation energy, and R is the gas constant, $A$, $E$, and $R$ is defined for each reaction.
     Equation \ref{Model:GC:Mechanisms:eqn_mechanisms} lists the main isoprene and sundry reactions, with terms defined in \ref{Model:GC:Mechanisms:tab_species}.
     Some tracers are defined in order to allow the model to keep track of extra information such as the tracers source.
     For instance LISOPOH keeps track of how isoprene lost to OH reactions.
@@ -652,7 +652,8 @@
         & .36MACR + .48ROH + .5HC5 \\
       RIO2 + MCO3 ->[1.68*10^{-12} \exp{(500/T)}] & .887HO2 + \highlight{.747HCHO} + .453MVK \\
         & +.294MACR + .14HC5 + .113DIBOO \\
-        & + CO2 + MO2 
+        & + CO2 + MO2 \\
+      RIO2 + MCO3 ->[1.87*10^{-13} \exp{(500/T)}] & MEK + ACTA \\
     }
     %     % k1=2.7*10^{-12} \exp{350/T}
     %     % k2=4.07*10^{8} \exp{-7694/T}
@@ -664,23 +665,25 @@
       \begin{tabular}{ c l }
         \textbf{Name} & \textbf{Definition} 
         \\ \hline
-        DIBOO & Dibble peroxy radical \\
-        GLYC & Glycoaldehyde: HOCH2CHO \\
-        GLYX & Glyoxal: CHOCHO \\
-        HAC & Hydroxyacetone: HOCH2C(O)CH3 \\
-        INO2   &  RO2 from ISOP+NO3    \\  
-        ISNP & an isoprene nitrate \\
-        ISOPNB  &   $\beta$ isoprene nitrates     \\
-        ISOPND  &   $\delta$ isoprene nitrates    \\
-        MACR & Methacrolein: CH2=C(CH3)CHO \\
-        MCO3 & Peroxyacetyl radical: CH3C(O)OO \\
-        MGLY & Methylglyoxyal: CH3COCHO \\
-        MO2 & Methylperoxy radical: CH3O2 \\
-        MOH & Methanol: CH3OH \\
-        MVK & Methylvinylketone: CH2=CHC(=O)CH3 \\
-        PRPE & >C3 alkenes: C3H6, ... \\
-        RIO2 & isoprene peroxy radical: \roo   \\
-        ROH & >C2 alcohols \\
+        ACTA    & Acetic acid: CH3C(O)OH \\
+        DIBOO   & Dibble peroxy radical \\
+        GLYC    & Glycoaldehyde: HOCH2CHO \\
+        GLYX    & Glyoxal: CHOCHO \\
+        HAC     & Hydroxyacetone: HOCH2C(O)CH3 \\
+        INO2    &  RO2 from ISOP+NO3    \\  
+        ISNP    & an isoprene nitrate \\
+        ISOPNB  & $\beta$ isoprene nitrates     \\
+        ISOPND  & $\delta$ isoprene nitrates    \\
+        MACR    & Methacrolein: CH2=C(CH3)CHO \\
+        MCO3    & Peroxyacetyl radical: CH3C(O)OO \\
+        MEK     & Methyl ethyl ketone: RC(O)R \\
+        MGLY    & Methylglyoxyal: CH3COCHO \\
+        MO2     & Methylperoxy radical: CH3O2 \\
+        MOH     & Methanol: CH3OH \\
+        MVK     & Methylvinylketone: CH2=CHC(=O)CH3 \\
+        PRPE    & >C3 alkenes: C3H6, ... \\
+        RIO2    & isoprene peroxy radical: \roo   \\
+        ROH     & >C2 alcohols \\
       \end{tabular}
       \label{Model:GC:Mechanisms:tab_species}
     \end{table}
@@ -688,18 +691,20 @@
   \subsection{GEOS-Chem isoprene}
     \label{Model:GC:Isop}
     
+    % outline of papers making up isoprene mechanisms
     The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
     %This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed (for 1998) NMHC chemistry with isoprene reactions and products.
     The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrate yields and add products based on \textcite{Paulot2009a, Paulot2009b}.
-    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009, Peeters2010, Crounse2011, Crounse2012}.
-    
-    
+    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009, Peeters2010, Crounse2011, Crounse2012}.    
     % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
-    
     % hpald: hydroperoxyenal, hydroperoxyaldehyde, hydroperoxy-methyl-butenals
-    \textcite{Crounse2011} examined the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen through $ISOP + OH \to ISOPOO$.
+    
+    % roo production, rate and cites
+    \textcite{Crounse2011} examined the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen.
+    The primary oxidation pathway of isoprene is reaction with the OH radical ($ISOP + OH \to ISOPOO$).
+    Following are seven potential \roo reactions (RIO2 in \ref{Model:GC:Mechanisms:eqn_mechanisms}), depending on reactant concentrations and local temperature.
     They determine rates and uncertainties involved in these reactions, and study the rate of formation of C$_5$-hydroperoxyenals (C5-HPALD) by isomerisation.
-    Prior to 2012 oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012,Wolfe2012}.
+    Prior to 2012, oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012,Wolfe2012}.
     In most environments NO and HO$_2$ concentrations are not so high, GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Crounse2012}.
     OH regeneration through photolysis of HPALDs in areas with high isoprene emissions are included from \textcite{Peeters2010}.
     Photolysis of photolabile peroxy-acid-aldehydes creates OH and improved model agreement with continental observations.
