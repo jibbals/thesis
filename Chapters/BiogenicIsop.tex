@@ -309,15 +309,15 @@
     Then we assume that loss is only due to photolysis and oxidation (first order, $k_{HCHO} = 1/\tau_{HCHO}$).
     Production of HCHO above a background is due to the sum of the precursor emissions ($E_i$) multiplied by their yields to HCHO ($Y_i$).
     \begin{eqnarray*}
-      \frac{d [ HCHO ] }{dt} & = 0 = Prod(HCHO) - Loss(HCHO) \\
-      Loss(HCHO)  & = k_{HCHO} [ HCHO ] \\
-      Prod(HCHO)  & = \Sigma_i Y_i E_i  \\
+      \frac{d [ HCHO ] }{dt} = 0 = & Prod(HCHO) - Loss(HCHO) \\
+      Loss(HCHO)  = & k_{HCHO} [ HCHO ] \\
+      Prod(HCHO)  = & \Sigma_i Y_i E_i  \\
     \end{eqnarray*}
     Now instead of concentrations we use total column amounts for HCHO, with emissions being in units of molecules cm$^{-2}$ s$^{-1}$.
     And then lumping together non-isoprene precursors, and assuming that enhancements above the background are only due to isoprene emissions we have: 
     \begin{eqnarray*}
-    k_{HCHO} \Omega_{HCHO} & = Y_{isop} E_{OMI} + \Sigma_{i \ne isop} Y_{i} VOC_{i} \\
-    \Omega_{HCHO} & = S E_{OMI} + \Omega_{0}
+    k_{HCHO} \Omega_{HCHO} = & Y_{isop} E_{OMI} + \Sigma_{i \ne isop} Y_{i} VOC_{i} \\
+    \Omega_{HCHO} = & S E_{OMI} + \Omega_{0}
     \end{eqnarray*}
     
     
@@ -348,11 +348,16 @@
     The difference between the left and right columns is application of the smearing filter.
     The bottom two rows show how the slope calculation looks when using multiple years of data for each month.
     This plot has been repeated for several grid squares over Australia (not shown).
+    When calculating top-down emissions the smear filtered slope ($S$) is used for each grid square month.
+    The multiple year monthly averaged slope is used instead when the regression coefficient ($r$) is less than 0.4, or number of datapoints used in the regression ($n$) is less than 10.
+    When $r$ for the multiple year slope is also lower than 0.4, no estimation is performed, this is also true for negative values of $S$.
     
     % TODO update figure to sydney 2005-2012 figure
-    \mypic{Figures/OMI_link/GC/slope_series_20050101-20050531.png}{%
-      Row 1: monthly slope along with 95\% confidence interval both with (left) and without (right) applying the smear filter for the model grid square containing Sydney over 2005-2012.
-      Row 2: regression coefficient and data-point counts for row 1.
+    \mypic{Figures/OMI_link/slope_series_-34.000,150.000_20050101-20121231.png}{%
+      Row 1: monthly slope along with 95\% confidence interval both before (left) and after (right) applying the smear filter for the model grid square containing Sydney over 2005-2012. 
+      Limits used in creation of the smear filter are shown with dashed lines.
+      Row 2: regression coefficient and data-point counts for slope shown in row 1.
+      Additionally limits for r and n used in slope utilisation (see text) are shown with dashed lines.
       Row 3: slope and confidence interval using the multi-year dataset for each month.
       Row 4: regression coefficient and data-point counts for row 3.
       }{\label{BioIsop:method:slope:fig_smear_filter_prior}}
@@ -396,6 +401,7 @@
     The background HCHO is calculated using measurements in the remote pacific at the same time and latitude as $\Omega$.
     This leaves $E_{OMI}$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
     Figure \ref{BioIsop:method:calculation:fig_E_isop_200501} shows the emissions calculated this way along with the modelled emissions output by GEOS-Chem $E_{GC}$ averaged over January, 2005.
+    
     \begin{figure}
       % Figure from Analyse_E_new.MEGAN_vs_E_new()
       \includegraphics[width=\textwidth]{Figures/OMI_link/Emiss/MEGAN_vs_E_VCC_PP_lr_20050101-20051231.png}
