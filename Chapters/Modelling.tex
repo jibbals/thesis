@@ -570,7 +570,7 @@
     % Geos chem is a box model with chemistry and meteorology
     GEOS-Chem is a well supported global, Eulerian CTM (see section \ref{LR:Models:ctm}) with a state of the science chemical mechanism, with transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
     Chemistry, transport, and meteorology are simulated at 15 minute time steps within a global set of 3-D boxes.
-    Emissions are either prescribed by inventories or modelled (e.g., biogenic emissions are created using the Model of Emissions of Gases and Aerosols from Nature (MEGAN)).
+    Emissions are either prescribed by inventories or modelled (e.g., fire emissions are pulled from the global fire emissions database GFED4).
     % It uses GEOS, from GMAO
     
     % This thesis uses 10.01 at 2x2.5 model output
@@ -606,10 +606,10 @@
     Simplifications are required due to the massive amount of reactions which occur in the atmosphere, and the coupled and stiff nature of these reactions which serve to slow down computation of the solutions \parencite{BrasseurJacob2017}.
     Stiffness in chemical systems of differential equations is due to the massively differing reaction rate time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
     
-    Some of the important reactions involving isoprene are reproduced here, including reaction rates (k) in the form $ k = A \exp{-E/RT}$, where T is temperature, E is activation energy, and R is the gas constant, $A$, $E$, and $R$ is defined for each reaction.
+    Some of the important reactions involving isoprene are reproduced here, including reaction rates ($k$) in the form $ k = A \exp{-E/RT}$, where T is temperature, E is activation energy, and R is the gas constant, $A$, $E$, and $R$ are predefined for each reaction.
     Equation \ref{Model:GC:mechanisms:eqn_mechanisms} lists the main isoprene and sundry reactions, with terms defined in \ref{Model:GC:mechanisms:tab_species}.
-    LISOPOH is defined in order to allow the model to keep track of how much isoprene is lost specifically to oxidation by OH.
-    The full current mechanism is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/New_isoprene_scheme}.
+    LISOPOH is added in order to allow the model to keep track of how much isoprene is oxidised by OH.
+    The mechanisms used in version 10.01 (and its history) are described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/NOx-Ox-HC-Aer-Br_chemistry_mechanism}.
     
     %globchem.dat in the run directory.
     % species in http://wiki.seas.harvard.edu/geos-chem/index.php/Species_in_GEOS-Chem#Aerosol-only
@@ -698,7 +698,7 @@
     %This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed (for 1998) NMHC chemistry with isoprene reactions and products.
     The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrate yields and add products based on \textcite{Paulot2009a, Paulot2009b}.
     %They used anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
-    They use the yields and reactions of various positional isomers of isoprene nitrates, and their oxidation products, within GEOS-Chems suite of chemical mechanisms.
+    They used the yields and reactions of various positional isomers of isoprene nitrates, and their oxidation products, within GEOS-Chems suite of chemical mechanisms.
     Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009, Peeters2010, Crounse2011, Crounse2012}.    
     % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
     % hpald: hydroperoxyenal, hydroperoxyaldehyde, hydroperoxy-methyl-butenals
@@ -720,10 +720,10 @@
     
     \subsubsection{Oxidation}
     
-    % roo production, rate and cites
-    \textcite{Crounse2011} examined the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen.
-    The primary oxidation pathway of isoprene is reaction with the OH radical ($ISOP + OH \to ISOPOO$) shown in equation \ref{mech_1}.
-    
+      % roo production, rate and cites
+      \textcite{Crounse2011} examined the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen.
+      The primary oxidation pathway of isoprene is reaction with the OH radical ($ISOP + OH \to ISOPOO$) shown in equation \ref{mech_1}.
+      
     
     
     
@@ -731,7 +731,7 @@
     
     
       Following isoprene oxidation, seven potential \roo reactions (RIO2 in \ref{Model:GC:mechanisms:eqn_mechanisms}), can occur depending on reactant concentrations and local temperature.
-      \textcite{Crounse2011} determine rates and uncertainties involved in these reactions, and study the rate of formation of C$_5$-hydroperoxyenals (C5-HPALD) by isomerisation.
+      \textcite{Crounse2011} determined rates and uncertainties involved in these reactions, and studied the rate of formation of C$_5$-hydroperoxyenals (C5-HPALD) by isomerisation.
     
     \subsubsection{Nitrogen oxide impacts}
     
@@ -751,7 +751,7 @@
     OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and sink of OH \parencite{Peeters2010,Taraborrelli2012}.
     Isoprene chemistry in GEOS-Chem includes OH regeneration from oxidation of epoxydiols (not shown in Equation \ref{Model:GC:Mechanisms:eqn_mechanisms}) and slow isomerisation of \roo (Equation \ref{mech_4}) \parencite{Mao2013}.
     This regeneration dealt with the problem seen in older models where ISOPOOH production titrated OH, which was not backed up by measurements \parencite{Paulot2009b,Mao2013}.
-    \textcite{Mao2013} showed that drastically lowering (by a factor of 50) the rate constant for \roo isomerisation lead to better organic nitrate agreements with ICARTT.
+    \textcite{Mao2013} showed that drastically lowering (by a factor of 50) the rate constant for \roo isomerisation lead to better organic nitrate agreements with measurements.% (ICARTT).
     These chemical updates led to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
     The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last before GEOS-Chem version 11.
 
@@ -759,11 +759,17 @@
   
   \subsection{Emissions from MEGAN}
     \label{Model:GC:MEGAN}
-
-    MEGAN is a global model with resolution of around 1~km, and is used to generate the BVOC emissions used in various global chemistry models such as GEOS-Chem.
-    MEGAN uses leaf area index, global meteorological data, and plant functional types (PFTs) to simulate terrestrial isoprene emissions.
-    The model includes global measurements of leaf area index, plant functional type, and photosynthetic photon flux density, from remote sensing databases \parencite{Kefauver2014}.
-    The various PFTs are used to generate emission factors which represent quantities of a compound released to the atmosphere through an associated activity.
+  
+    GEOS-Chem runs the Model of Emissions of Gases and Aerosols from Nature (MEGAN) to determine biogenic emissions globally.
+    GEOS-Chem V10.01 uses MEGAN V2.1 with biogenic emissions from \textcite{Guenther2012}.
+    GEOS-Chem computes some emissions using predefined emission factor (EF) maps from MEGAN source code, and others using PFT maps and associated EF.
+    MEGAN ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions'' \parencite{Guenther2012}.
+    It allows parameterisation of various BVOC emissions, with descriptions given in \textcite{Guenther2012}.
+    
+    MEGAN is itself a global model with resolution of around 1~km, which uses various inventories of parameters to estimate emissions.
+    MEGAN uses leaf area index (LAI), global meteorological data, plant functional types (PFT), and photosynthetic photon flux density to simulate terrestrial isoprene emissions \parencite{Kefauver2014}.
+    These parameters are globally estimated or measured using datasets including remote sensed satellite data.
+    The various PFT and LAI are used to generate EF which represent quantities of a compound released to the atmosphere through an associated activity.
     For example, the emission factor for isoprene is tied to available sunshine, suitable temperature, etc.
     The schematic for MEGAN, taken from \textcite{Megan_Website}, is shown in figure \ref{Models:GC:Isop:MEGAN:fig_megan_schematic}
     
@@ -773,10 +779,6 @@
       \label{Models:GC:Isop:MEGAN:fig_megan_schematic}
     \end{figure}
     
-    GEOS-Chem V10.01 uses MEGAN V2.1 with biogenic emissions from \textcite{Guenther2012}.
-    It computes some emissions using predefined EF maps from MEGAN source code, and others using PFT maps and associated EFs.
-    MEGAN ``is a modelling framework for estimating fluxes of biogenic compounds between terrestrial ecosystems and the atmosphere to account for the major known processes controlling biogenic emissions'' \parencite{Guenther2012}.
-    It allows parameterisation of various BVOC emissions, with descriptions given in \textcite{Guenther2012}.
     
     MEGAN was developed as a replacement for two earlier canopy-environment emission models (BIES and GEIA), and initially included a simple canopy radiative transfer model, which parameterised sun-lit and shaded conditions through a canopy.
     Early models did not account for abiotic stresses, such as drought, prior rainfall and development processes. These stresses influenced species-specific emissions by more than an order of magnitude \parencite{Niinemets1999}.
