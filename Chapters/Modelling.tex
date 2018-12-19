@@ -598,7 +598,6 @@
     This workspace included access to compilers and libraries which are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
     After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
   
-  %UP TO HERE JENNY FEEDBACK 
   \subsection{Chemical Mechanism}
     \label{Model:GC:mechanisms}
     A chemical mechanism is the name for a closed system of chemical reactions and the rates of each reaction.
@@ -640,9 +639,11 @@
       % A621 Isoprene NO3 oxidation
       ISOP + NO3 ->[3.3*10^{-12} \exp{(-450/T)}] & INO2 \label{mech_3} \\
       % products from ISOPOO + NO
-      RIO2 ->[4.07*10^{8} \exp{(-7694/T)}] & 2HO2 + \highlight{HCHO} + .5MGLY + .5GLYC \notag \\
+      RIO2 ->[4.07*10^{8} \exp{(-7694/T)}] 
+        & 2HO2 + \highlight{HCHO} + .5MGLY + .5GLYC \notag \\
         & + .5GLYX + .5HAC + OH \label{mech 4} \\
-      RIO2 + NO ->[2.7*10^{-12} \exp{(350/T)}] & .883NO2 + .783HO2 + \highlight{.66HCHO} \notag \\
+      RIO2 + NO ->[2.7*10^{-12} \exp{(350/T)}] 
+        & .883NO2 + .783HO2 + \highlight{.66HCHO} \notag \\
         & + .4MVK + .26MACR + .07ISOPND \notag \\
         & + .123HC5 + .1DIBOO + .047ISOPNB \label{mech_5} \\
       RIO2 + HO2 ->[2.91*10^{-13} \exp{(1300/T)}] & .88RIP + .12OH + .047 MACR \notag \\
@@ -703,43 +704,50 @@
     % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
     % hpald: hydroperoxyenal, hydroperoxyaldehyde, hydroperoxy-methyl-butenals
     
-    % TODO split/fix/move this paragraph to following subsubsections
-    % First steps in GC: LOW NOx
-    GEOS-Chem models both high and low NO$_X$ scenarios using NO$_X$ dependent reactions as derived by \textcite{Paulot2009a,Mao2013}.
-    In low NO$_X$ ISOPOO reacts with HO$_2$ ($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), RO$_2$ (producing mainly MACR, MVK, and HCHO), or isomerises (1,5-H shift producing MACR, MVK, HCHO, or 1,6-H shift producing HPALDs). 
-    ISOPOOH can be oxidised (by OH) to produce epoxydiols, recycling OH \parencite{Paulot2009b}. 
-    HPALDs can photolyse to regenerate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
-    Under low NO$_X$ conditions production of HCHO , MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
-    Refer to section \ref{LR:VOCs:IsopCascade} for more information.
-    % High nox chemistry
-    Under high NO$_X$ conditions, isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) hydroxyl peroxy radicals (ISOPO$_2$). 
-    The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
-    The $\delta$-hydroxyl reacts with NO to form $\delta$-hydroxyl nitrates (24\%) (ISOPND), and ISOPNB (6.7\%).
-    ISOPNB and ISOPND yield first generation isoprene at 4.7\% and 7\% respectively.
-    
     
     \subsubsection{Oxidation}
     
       % roo production, rate and cites
       \textcite{Crounse2011} examined the isomerisations associated with the oxidation of isoprene to six different isomers of ISOPOO formed in the presence of oxygen.
       The primary oxidation pathway of isoprene is reaction with the OH radical ($ISOP + OH \to ISOPOO$) shown in equation \ref{mech_1}.
-      
+      Secondary oxidative pathways are from ozonolysis (Equation \ref{mech_2} and reaction with NO$_3$ (Equation \ref{mech_3}).
+      These pathways are much slower but can be important in particular scenarios such as inside a pollution plume or after at night when NO$_3$ radicals can build up.
     
-    
-    
-    \subsubsection{Further oxidation}
-    
-    
-      Following isoprene oxidation, seven potential \roo reactions (RIO2 in \ref{Model:GC:mechanisms:eqn_mechanisms}), can occur depending on reactant concentrations and local temperature.
+      Following isoprene oxidation, seven potential \roo reactions (RIO2 in Equation \ref{Model:GC:mechanisms:eqn_mechanisms}), can occur depending on reactant concentrations and local temperature.
       \textcite{Crounse2011} determined rates and uncertainties involved in these reactions, and studied the rate of formation of C$_5$-hydroperoxyenals (C5-HPALD) by isomerisation.
+      Reactions \ref{mech_4} - \ref{mech_10} compete to determine the fate of \roo, which is often grouped into high or low NO$_X$ concentration pathways.
+      
     
     \subsubsection{Nitrogen oxide impacts}
     
-    In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
-    Formation of isoprene nitrates (ISOPN) affect ozone levels through NO$_X$ sequestration, the yields and fate of these nitrates was analysed in \textcite{Paulot2009a}.
-    %% ISOPN can be oxidised (by OH) to form nitrated organic products \parencite{Paulot2009a}.
-    Prior to 2012, oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012,Wolfe2012}.
-    In most environments NO and HO$_2$ concentrations are not so high, GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Crounse2012}.
+      % TODO split/fix/move this paragraph to following subsubsections
+      GEOS-Chem reactions account for high and low NO$_X$ scenarios as determined in \textcite{Mao2013}, based on \textcite{Paulot2009a}.
+      High NO$_X$ has been defined as conditions where NO reactions are the main cause of losses for \roo (Reaction \ref{mech_5}) \parencite{Palmer2003}.
+      High NO$_X$ concentrations are roughly 1~ppb, while low NO$_X$ concentrations are around 0.1~ppb.
+      
+      % Low nox mechanism pathways
+      In low NO$_X$ \roo losses occur from isomerisation or reaction with several potential compounds.
+      NO$_X$ + HO$_2$ (Reaction \ref{mech_6}) produces mostly hydroxy hydroperoxides (RIP), and some HCHO.
+      RIP can be oxidised (by OH) to produce epoxydiols, recycling OH \parencite{Paulot2009b}. 
+      %($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), 
+      Isomerisation of \roo (Reaction \ref{mech_4}) largely produces HCHO, while recycling OH and producing HO$_2$.
+      This isomerisation accounts for 1,5-H shifts producing MACR, MVK, HCHO, or 1,6-H shifts producing HPALDs.
+      HPALDs can photolyse to regenerate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
+      Under low NO$_X$ conditions the expected production of HCHO , MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
+      Refer to section \ref{LR:VOCs:IsopCascade} for more information.
+      
+      % UP TO HERE JENNY
+      % High nox chemistry
+      Under high NO$_X$ conditions, isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) \roo, although these are not distinguished in the GEOS-Chem mechanism. 
+      The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
+      The $\delta$-hydroxyl reacts with NO to form $\delta$-hydroxyl nitrates (24\%) (ISOPND), and ISOPNB (6.7\%).
+      ISOPNB and ISOPND yield first generation isoprene at 4.7\% and 7\% respectively.
+      
+      In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
+      Formation of isoprene nitrates (ISOPN) affect ozone levels through NO$_X$ sequestration, the yields and fate of these nitrates was analysed in \textcite{Paulot2009a}.
+      %% ISOPN can be oxidised (by OH) to form nitrated organic products \parencite{Paulot2009a}.
+      Prior to 2012, oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012,Wolfe2012}.
+      In most environments NO and HO$_2$ concentrations are not so high, GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Crounse2012}.
     
     
     \subsubsection{OH}
