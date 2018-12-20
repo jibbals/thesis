@@ -31,18 +31,25 @@
   % %Soil moisture plays an important role in VOC emissions, as trees under stress may stop emitting various chemicals. 
   % %This is especially true for Australia due to frequent droughts and wildfires.
   % %The argument for improved understanding of land surface properties, specifically soil moisture, is an old one\parencite{Mintz1982, Rowntree1983, Chen2001}.
-  
+  HCHO from OMI on board the AURA satellite (see Section \ref{Model:omhcho}) is read pixel by pixel and examined in Chapter \ref{Model}, where influence of the air mass factor (AMF) is discussed in detail (Section \ref{Model:AMF}).
+  This AMF was created using an older version of GEOS-Chem with out-of-date HCHO chemistry.
+  Recalculation, binning, and analysis of the satellite HCHO vertical columns is performed using GEOS-Chem v10.01, outlined in Section \ref{Model:omiRecalc:outline}.
+  This is performed using my own partial AMF recalculation code, along with full recalculation code set up in collaboration with Prof. Palmer and Dr. Surl.
+  Subsequent use of the data makes further use of the recalculation as a basic sensitivity analysis of top-down emissions estimations to apriori satellite information.
    
   % % Aim for Chapter 3: Biogenic emissions estimation
   % The technique of determining isoprene emissions from satellite detected HCHO is called satellite inversion.
-  \textbf{I aim to determine isoprene emissions in Australia using a top-down inversion of satellite HCHO, through an estimated yield from isoprene to HCHO}
+  \textbf{I aim to determine biogenic isoprene emissions in Australia using a top-down inversion of satellite HCHO, through an estimated yield from isoprene to HCHO}
   % Hcho amounts and the yield of isoprene to HCHO over Australia is required to create top-down estimates.
   % This process also requires careful examination of when the assumptions required within the inversion process are not valid.
   % Due to the low availability of in-situ data over most of the Australian continent, a combination of modelled and satellite data could reduce the uncertainties of isoprene emissions from Australian landscapes.
   % Improved emissions estimates will in turn improve the accuracy of CTMs, providing better predictions of atmospheric composition and its response to ongoing environmental change.
   % The work towards fulfilling this aim is in Chapter \ref{BioIsop}.
-  How models respond to updated isoprene emissions estimates and how these are sensitive to parameters such as HCHO yields is examined.
-  The uncertainty and limitations of top-down estimates due to satellite and model uncertainty, along with temporal and horizontal resolution of available data is likewise studied
+  In Chapter \ref{BioIsop} I determine the linear relationship between total column HCHO and biogenic isoprene emissions over Australia using the global CTM GEOS-Chem.
+  Applying this relationship to satellite based HCHO measurements creates the desired top-down isoprene emissions estimate.
+  This process is described in Section \ref{BioIsop:method}, and requires intensive filtering of both satellite data (to exclude non-biogenic HCHO sources) and model yield (to minimise spatial smearing).
+  The uncertainty and limitations of top-down estimates due to satellite and model uncertainty, along with temporal and horizontal resolution of available data is examined in Section \ref{BioIsop:uncertainty}.
+  Furthermore, this top-down estimation is used to scale a new simulation of HCHO, and O$_3$ over Australia, described in Section \ref{BioIsop:method:scaled}.
    
   % % Aim for Chapter 4: STT Ozone
   \textbf{To improve understanding of ozone transported to the troposphere from the stratosphere in Australia and the southern ocean.}
