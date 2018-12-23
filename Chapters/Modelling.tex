@@ -600,10 +600,10 @@
   
   \subsection{Chemical Mechanism}
     \label{Model:GC:mechanisms}
-    A chemical mechanism is the name for a closed system of chemical reactions and the rates of each reaction.
+    A chemical mechanism is a closed system of chemical reactions and their associated rate constants.
     Chemical reactions are represented by systems of differential equations to be solved for each gridbox in GEOS-Chem.
-    Simplifications are required due to the massive amount of reactions which occur in the atmosphere, and the coupled and stiff nature of these reactions which serve to slow down computation of the solutions \parencite{BrasseurJacob2017}.
-    Stiffness in chemical systems of differential equations is due to the massively differing reaction rate time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
+    Simplifications are required due to the large number of reactions which occur in the atmosphere, and the coupled and stiff nature of these reactions which slow down computation of the solutions \parencite{BrasseurJacob2017}.
+    Stiffness in chemical systems of differential equations is due to the massively differing reaction time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
     
     Some of the important reactions involving isoprene are reproduced here, including reaction rates ($k$) in the form $ k = A \exp{-E/RT}$, where T is temperature, E is activation energy, and R is the gas constant, $A$, $E$, and $R$ are predefined for each reaction.
     Equation \ref{Model:GC:mechanisms:eqn_mechanisms} lists the main isoprene and sundry reactions, with terms defined in \ref{Model:GC:mechanisms:tab_species}.
@@ -705,10 +705,10 @@
     % outline of papers making up isoprene mechanisms
     The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
     %This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed (for 1998) NMHC chemistry with isoprene reactions and products.
-    The mechanism was subsequently updated by \textcite{Mao2013}, who change the isoprene nitrate yields and add products based on \textcite{Paulot2009a, Paulot2009b}.
+    The mechanism was subsequently updated by \textcite{Mao2013}, who changed the isoprene nitrate yields and added products based on \textcite{Paulot2009a, Paulot2009b}.
     %They used anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
-    They used the yields and reactions of various positional isomers of isoprene nitrates, and their oxidation products, within GEOS-Chems suite of chemical mechanisms.
-    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \parencite{Peeters2009, Peeters2010, Crounse2011, Crounse2012}.    
+    They used the yields and reactions of various positional isomers of isoprene nitrates, and their oxidation products. %, within GEOS-Chem's suite of chemical mechanisms.
+    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \textcite{Peeters2009, Peeters2010, Crounse2011, Crounse2012}.    
     % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
     % hpald: hydroperoxyenal, hydroperoxyaldehyde, hydroperoxy-methyl-butenals
     
@@ -725,7 +725,7 @@
       The primary oxidation pathway of isoprene is reaction with the OH radical ($ ISOP + OH \to RIO_2 $) shown in equation \ref{mech1}.
       Isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) \roo, although these are not distinguished in the GEOS-Chem mechanism. 
       Secondary oxidative pathways are from ozonolysis (Equation \ref{mech2} and reaction with NO$_3$ (Equation \ref{mech3}).
-      These pathways are much slower but can be important in particular scenarios such as inside a pollution plume or after at night when NO$_3$ radicals can build up.
+      These pathways are much slower but can be important in particular scenarios such as inside a pollution plume or at night when NO$_3$ radicals can build up.
     
       Following isoprene oxidation, seven potential \roo reactions (RIO2 in Equation \ref{Model:GC:mechanisms:eqn_mechanisms}), can occur depending on reactant concentrations and local temperature.
       \textcite{Crounse2011} determined rates and uncertainties involved in these reactions, and studied the rate of formation of C$_5$-hydroperoxyenals (C5-HPALD) by isomerisation.
@@ -748,7 +748,7 @@
       HPALDs can photolyse to regenerate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
       Under low NO$_X$ conditions the expected production of HCHO, MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
       Refer to section \ref{LR:VOCs:IsopCascade} for more information.
-      Less frequently \roo reacts with itself, MO$_2$, or MCO$_3$.
+      Less frequently, \roo reacts with itself, MO$_2$, or MCO$_3$.
       
       % High nox chemistry
       Under high NO$_X$ conditions, the fate of \roo differs depending on how it was formed.
@@ -759,12 +759,12 @@
       
     \subsubsection{OH}
     
-      Until recently models struggled to represent OH in the atmosphere, due to missing chemistry and issues in measurement techniques.
+      Until recently, models struggled to represent OH in the atmosphere, due to missing chemistry and issues in measurement techniques.
       Prior to \textcite{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside the instrument.
       OH regeneration through photolysis of HPALDs in areas with high isoprene emissions are included from \textcite{Peeters2010}.
       Photolysis of photolabile peroxy-acid-aldehydes generates OH, improving model agreement with continental observations.
       OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and sink of OH \parencite{Peeters2010,Taraborrelli2012}.
-      Isoprene chemistry in GEOS-Chem includes OH regeneration from oxidation of epoxydiols (not shown in Equation \ref{Model:GC:Mechanisms:eqn_mechanisms}) and slow isomerisation of \roo (Equation \ref{mech4}) \parencite{Mao2013}.
+      Isoprene chemistry in GEOS-Chem includes OH regeneration from oxidation of epoxydiols (not shown in Equation \ref{Model:GC:mechanisms:eqn_mechanisms}) and slow isomerisation of \roo (Equation \ref{mech4}) \parencite{Mao2013}.
       This regeneration dealt with the problem seen in older models where ISOPOOH production titrated OH, which was not backed up by measurements \parencite{Paulot2009b,Mao2013}.
       \textcite{Mao2013} showed that drastically lowering (by a factor of 50) the rate constant for \roo isomerisation lead to better organic nitrate agreements with measurements.% (ICARTT).
       These chemical updates led to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
