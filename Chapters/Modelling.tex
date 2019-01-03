@@ -956,7 +956,7 @@
       \label{Model:GC:simulations:outputs}
       There are various outputs available when running GEOS-Chem, some of which require manipulation in order to compare against observations.
       % Default time step and resolution of GC outputs
-      GEOS-Chem in this thesis is run with a 15 minute time step for chemistry and 30 minutes for transport (TODO: check input.geos), at \lowhr horizontal resolution over 47 vertical levels.
+      GEOS-Chem in this thesis is run with a 15 minute time step for transport and 30 minutes for chemistry, at \lowhr horizontal resolution over 47 vertical levels.
       Output is the average of these time steps.
       Optionally one can save high temporally resolved data for a single (or list of) column(s).
       This has been used here to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
@@ -1078,12 +1078,6 @@
       \end{figure}
       
 
-      %TODO Figure showing OH differences..
-      % Gc_tests.py -> compare_tc_ucx(...)
-      \mypic{Figures/OMI_link/GC/UCX_vs_trp_middaysurf_20070101-20070228_OH.png}{%
-        Midday (1300-1400~LT) surface OH concentrations averaged over Jan-Feb, 2007. 
-        Absolute and relative differences are shown on the bottom row.}
-        {\label{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday}}
       
       % UP TO HERE JENNY COMMENTS
       
@@ -1098,50 +1092,57 @@
       \begin{figure}
         \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_isop.png}
         \caption{ %
-          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except looking at isoprene. 
+          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing isoprene surface concentrations. 
         }      
         \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}
       \end{figure}
       \begin{figure}
         \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_isop.png}
         \caption{ %
-          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}, except looking at isoprene total column amounts. 
+          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}, except showing isoprene total column amounts. 
         }      
         \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_totcol_fullday}
       \end{figure}
       
       
       The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
-      With higher stratospheric ozone levels, less radiation would reach the troposphere, changing the photochemistry.
-      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday} shows how OH at midday is changed between runs.
-      This figure shows a marked striping which is due to how OH is handled in GEOS-Chem.
-      The most notable difference is again over northern Africa into eastern Europe, with some small decrease in the UCX OH over Australia everywhere except the east coast.
-      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX runs, using full day averages.
+      Figure TODO \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX run.
       This shows that UCX ozone is lower everywhere except for a thin band just north and south of the equator.
-      Decreased O$_3$ could lead to lower OH and the other differences between the runs over Australia.
+      With higher stratospheric ozone levels, less radiation would reach the troposphere.
+      This would slow photolysis limited reactions, such as the splitting of Ozone which leads to OH production in the troposphere, in turn slowing the isoprene loss to OH reactions.
+      % hydroxyl radical plot used to be mentioned here
+      % is this correct??
+      %Decreased O$_3$ could lead to lower OH and the other differences between the runs over Australia.
       
-      
-      % TODO: RERUN THIS PLOT
-      \begin{figure}
-        % Figure from GC_tests.py -> ucx vs tropchem function
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_O3.png}
-        \caption{%
-          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except looking at ozone. 
-        }
-        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3_surf_fullday}
-      \end{figure}
       
       % Wrap up of UCX vs Tropchem differences and explanation of tropchem usage
-      The differences are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
-  
-  \subsection{Comparisons with campaign data}
-          
-    Figure \ref{Model:Datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the gridsquare containing Sydney overlaid on SPS measurement data.
-    Superficially the comparison is not too bad between these two datasets, however GEOS-Chem output is the daily average over 2x2.5\degr (latitude by longitude).
-    The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high since the daily average should not match the peak of the measurements.
+      Overall the UCX mechanism and increased vertical resolution lead to slightly higher isoprene and HCHO, and slightly lower ozone in the near the surface over Australia.
+      These differences are on the order of 0-10\% and as shown later (see Section \ref{BioIsop:uncertainty}) are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
+      Running UCX requires roughly twice the computation (and real) hours, and for the majority of this thesis the normal tropchem runs are used.
       
-    \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:Datasets:SPS:fig_GC_comparison}}
-    
+      
+      %% Ozone surface plot, not useful to explain column 
+      %\begin{figure}
+      %  % Figure from GC_tests.py -> ucx vs tropchem function
+      %  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_O3.png}
+      %  \caption{%
+      %    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing ozone. 
+      %  }
+      %  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3_surf_fullday}
+      %\end{figure}
+      
+      %      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday} shows how OH at midday is changed between runs.
+      %      This figure shows a marked striping which is due to how OH is handled in GEOS-Chem.
+      %      The most notable difference is again over northern Africa into eastern Europe, with some small decrease in the UCX OH over Australia everywhere except the east coast.
+      %% Gc_tests.py -> compare_tc_ucx(...)
+      %\mypic{Figures/OMI_link/GC/UCX_vs_trp_middaysurf_20070101-20070228_OH.png}{%
+      %  Midday (1300-1400~LT) surface OH concentrations averaged over Jan-Feb, 2007. 
+      %  Absolute and relative differences are shown on the bottom row.}
+      %{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday}}
+  
+  % UP TO HERE JENNY COMMENTS
+  
+  %TODO Move this stuff to AMF calculation or FTIR calculation section? or somewhere better  
     
     Figure TODO: shows Wollongong FTIR measurement profiles of HCHO with an assumed averaging kernal and then one calculated from GEOS-Chem, along with the two averaging kernal mean and standard deviation.
     TODO: Discuss this conversion and results seen here...
@@ -1149,9 +1150,9 @@
     
     % TODO Figure goes here
     
-    MUMBA data captured concentration at the surface in Wollongong, and is compared in figure TODO against simulated HCHO concentrations at the first level ($\sim$0 - 150~metres) over corresponding dates. GEOS-Chem midday and day average concentrations are shown, along with Wollongong bottom-level FTIR measurements to compare against the MUMBA data.
-    TODO Discussion of comparison.
-      
+    
+    
+
 \section{Calculating an AMF}
   \label{Model:AMF}
   
