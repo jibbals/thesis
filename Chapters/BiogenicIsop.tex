@@ -151,7 +151,7 @@
       Horizontal transport \textit{smears} the HCHO signal so that source location would need to be calculated using wind speeds and loss rates \parencite{Palmer2001,Palmer2003}.
       Smearing requires analysis and filtering due to the importance of transport and NO$_X$ on forming robust and accurate estimates.
       Over Australia NO$_X$ levels are generally not high enough to ensure quick HCHO formation and we must take care to account for resultant smearing.
-      Details on smearing analysis and filtering are in Section \ref{BioIsop:method:Smearing}.
+      Details on smearing analysis and filtering are in Section \ref{BioIsop:method:smearing}.
     
       
   \subsection{MEGAN emission model}
@@ -247,7 +247,7 @@
         This is determined by calculating smearing over Australia using two model runs with differing isoprene emissions.
         This smearing value is determined as $\hat{S}=\Delta \Omega_{GC}/ \Delta E_{GC}$: the ratio of the differences between model runs of HCHO columns and isoprene emissions.
         The acceptable range for $\hat{S}$ over Australia is determined as 800 - 4600~s.
-        A full description of the creation of this smearing filter is given in Section \ref{BioIsop:method:Smearing}
+        A full description of the creation of this smearing filter is given in Section \ref{BioIsop:method:smearing}
       \item 
         Top-down emissions $E_{OMI}$ are compared against MEGAN estimated emissions, as well as analysed in conjunction with concentration measurement campaigns (MUMBA, SPS, and one set of airplane measurements (HIPPO)).
         TODO: do these things
@@ -328,7 +328,7 @@
     Figure \ref{BioIsop:method:slope:fig_regressions} (top left) shows the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid square over January 2005, averaged between 1300-1400~LT each day.
     Also shown are the regression coefficients (bottom left), Australia averaged $E_{GC}$ and $\Ogc$ time series (top right), and a sample of the regressions (bottom right).
     Each regression is for a single grid box, over the course of one month, and is coloured by location (matching dots shown in the bottom left panel).
-    The slopes shown in the bottom right panel can range widely due to differences in emission and yield parameters, which plays a role in the smearing filters applied in Section \ref{BioIsop:method:Smearing}.
+    The slopes shown in the bottom right panel can range widely due to differences in emission and yield parameters, which plays a role in the smearing filters applied in Section \ref{BioIsop:method:smearing}.
     Due to the low horizontal resolution of GEOS-Chem (2 by 2.5\degr, latitude by longitude), calculations from grid boxes on the coast which are largely oceanic need to be discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}.
     
     
@@ -342,7 +342,7 @@
     {\label{BioIsop:method:slope:fig_regressions}}
     
     One issue with slope calculation is the potential transport of isoprene emissions before the resulting HCHO is formed.
-    The effects of this are dealt with by forming a smearing filter (see section \fullref{BioIsop:method:Smearing}).
+    The effects of this are dealt with by forming a smearing filter (see section \fullref{BioIsop:method:smearing}).
     In order to decide if this filter should be applied before or after calculating the monthly slope, a quick analysis is performed on how the filter affects monthly slope, correlation, and uncertainty.
     Figure \ref{BioIsop:method:slope:fig_smear_filter_prior} shows the calculated monthly slope for 2005-2012, along with its 95\% confidence interval over Sydney.
     The difference between the left and right columns is application of the smearing filter.
@@ -432,7 +432,7 @@
     }{\label{BioIsop:method:calculation:fig_daily_emissions_kg}}
   
   \subsection{Accounting for smearing}
-    \label{BioIsop:method:Smearing}
+    \label{BioIsop:method:smearing}
     
     Accounting for transport of the precursors is important, especially in low NO$_X$ conditions in which isoprene has a longer lifetime (hours-days).
     When estimating emissions of isoprene using one of its products, it is often assumed that isoprene has a short lifetime.
@@ -456,7 +456,7 @@
     A better approximation of lifetimes for HCHO is required to properly account for seasonality and regional NO$_X$ concentrations.
     TODO: Figure todo shows $\hat{S}$ over Australia for one year, along with where and when the filter has most impact.
     %Todo?: Show yield and lifetimes from caaba/mecca if possible
-    Table \ref{BioIsop:method:Smearing:tab_smearing_ranges} shows the smearing filters or typical slopes seen in other works.
+    Table \ref{BioIsop:method:smearing:tab_smearing_ranges} shows the smearing filters or typical slopes seen in other works.
     
     \begin{table}\begin{threeparttable}
       \caption{Smearing filters or slopes ($S$) seen in literature.}
@@ -475,14 +475,14 @@
         \item a: Assumed HCHO lifetime of 2.5 hours implies yields from 0.14 to 0.2 per C, consistent with box modelling.
         %\item b: In this work the slopes are shown 
       \end{tablenotes}
-      \label{BioIsop:method:Smearing:tab_smearing_ranges}
+      \label{BioIsop:method:smearing:tab_smearing_ranges}
     \end{threeparttable}\end{table}
     
     
     %\textcite{Marais2012} additionally use airborn isoprene, MVK $+$ MACR (isoprene oxidation products), and HCHO measurements to check smearing in Africa where there is a sharp gradient of isoprene emitting vegetation from north to south.
     
     \subsubsection{Calculation of smearing}
-      \label{BioIsop:method:Smearing:calculation}
+      \label{BioIsop:method:smearing:calculation}
       
       % slope and yields
       In order to understand the smearing calculation the underlying equations and assumptions must first be understood.
@@ -490,23 +490,23 @@
       % smearing defined from two runs of geos chem
       Using two runs of GEOS-Chem with isoprene emissions being the only difference we have:
       \begin{eqnarray}
-        \label{BioIsop:method:Smearing:calculation:eqn_runs}
+        \label{BioIsop:method:smearing:calculation:eqn_runs}
         \begin{split}
         Run_1 :&  \Omega_{HCHO} = S E_{isop} + \Omega_0 \\
         Run_2 :&  \Omega_{HCHO}' = S' E_{isop}' + \Omega_0' 
         \end{split}
       \end{eqnarray}
       There are several assumptions which need to be understood, as these are what is tested by the smearing calculation.
-      The initial assumption is that the system is in a steady state, with no transport of isoprene affecting HCHO columns, this is the basis for equations \ref{BioIsop:method:Smearing:calculation:eqn_runs}.
+      The initial assumption is that the system is in a steady state, with no transport of isoprene affecting HCHO columns, this is the basis for equations \ref{BioIsop:method:smearing:calculation:eqn_runs}.
       It is assumed that background values ($\Omega_0$) are from oxidation of methane and other long lived VOCs, so that $\Omega_0 = \Omega_0'$.
       Between these two runs we are only changing the $E$ term, we do not change any chemistry and so we can expect that the yield and loss rate is not changing between the two runs $S = S' = \frac{Y_{isop}}{k_{HCHO}}$
       %    \begin{eqnarray*}
       %      S = S' & = \frac{Y_{isop}}{k_{HCHO}} \\
       %      \Omega_0 & = \Omega_0'
       %    \end{eqnarray*}
-      which leads to us being able to combine the runs in equation \ref{BioIsop:method:Smearing:calculation:eqn_runs} as follows:
+      which leads to us being able to combine the runs in equation \ref{BioIsop:method:smearing:calculation:eqn_runs} as follows:
       \begin{eqnarray}
-        \label{BioIsop:method:Smearing:calculation:eqn_hats}
+        \label{BioIsop:method:smearing:calculation:eqn_hats}
         Run_1-Run_2 :& \Omega_{HCHO} - \Omega_{HCHO}' = S E_{isop} - S' E_{isop}' +\Omega_0 - \Omega_0' \\
         & \Delta \Omega_{HCHO} = S \Delta E_{isop} \\
         & \hat{S} \equiv \frac{\Delta{\Omega_{HCHO}}}{\Delta E_{isop}} \approx \frac{Y_{isop}}{k_{HCHO}}
@@ -521,12 +521,12 @@
       A relatively large change in $\Omega_{HCHO}$ compared to local emissions suggests that HCHO is being formed from non-local isoprene emissions.
       Alternatively a relatively low value of $\hat{S}$ infers that emissions from a particular grid square are being exported before they form HCHO, which also informs us that local HCHO levels are not due to local emissions.
       
-      Smearing is sensitive to how E$_{isop}$ is determined, Figure \ref{BioIsop:method:Smearing:fig_smearing_def_2005} shows smearing over two seasons defining E$_{isop}$ as the daily averaged (left column) and midday (1300-1400~LT) isoprene emissions (right column). 
+      Smearing is sensitive to how E$_{isop}$ is determined, Figure \ref{BioIsop:method:smearing:fig_smearing_def_2005} shows smearing over two seasons defining E$_{isop}$ as the daily averaged (left column) and midday (1300-1400~LT) isoprene emissions (right column). 
       Essentially the midday isoprene emissions are at the peak of their daily cycle (shown later in Figure \ref{BioIsop:method:scaled:megan_diurnal}) which means the effect of smearing is relatively smaller during these hours.
       Figure TODO: shows averaged isoprene emissions with added markers showing when the threshold of 800-5200 affects at least one day within the season (cyan or pink diamonds) and where it removes all data for that gridbox (blue or red x).
       
       
-      \mypic{/Figures/OMI_link/Filters/smearing_definitions_2005.png}{Smearing ($\hat{S}$, see text) in summer (DJF, top row) and winter (JJA, bottom row) using averaged isoprene emissions daily (left column) and 1300-1400~LT (right column). The scale changes between left and right columns.}{\label{BioIsop:method:Smearing:fig_smearing_def_2005}}
+      \mypic{/Figures/OMI_link/Filters/smearing_definitions_2005.png}{Smearing ($\hat{S}$, see text) in summer (DJF, top row) and winter (JJA, bottom row) using averaged isoprene emissions daily (left column) and 1300-1400~LT (right column). The scale changes between left and right columns.}{\label{BioIsop:method:smearing:fig_smearing_def_2005}}
       
       
       % Marais 2012 also look at average windspeed and best hcho-isop corelation when hcho is shifted by 0.5 degrees, don't think I can do that with 2.5 degree resolution
@@ -566,13 +566,13 @@
       Figure TODO: shows a rough estimate of isoprene smearing length(L$_{isop}$) in Australia using wind speeds from TODO:, and reaction rates k$_{isop}$, k$_{HCHO}$ from GEOS-Chem.
       %TODO make this plot!
       
-      GEOS-Chem daily averaged HCHO lifetime ($\tau$) is shown for 2005 in Figure \ref{BioIsop:method:Smearing:fig_tau_GC_2005}.
+      GEOS-Chem daily averaged HCHO lifetime ($\tau$) is shown for 2005 in Figure \ref{BioIsop:method:smearing:fig_tau_GC_2005}.
       This lifetime is calculated using daily averaged surface loss rates and concentrations of HCHO:
       \begin{equation*}
       \tau = \frac{[HCHO]}{L_{HCHO}}
       \end{equation*}
       The expected lifetime of HCHO is determined by assuming loss is linear (first order) and dividing grid box daily averaged concentrations of GEOS-Chem HCHO ($[HCHO]$ in molecules cm$^{-3}$) by their modelled losses ($Loss$ in molecules cm$^{-3}$ s${-1}$).
-      For each grid square over Australia this daily averaged surface lifetime in summer (Jan., Feb.) and winter (JJA) is shown in Figure \ref{BioIsop:method:Smearing:fig_tau_GC_2005}.
+      For each grid square over Australia this daily averaged surface lifetime in summer (Jan., Feb.) and winter (JJA) is shown in Figure \ref{BioIsop:method:smearing:fig_tau_GC_2005}.
       Additionally lifetimes coloured by land grid squares (dots in top right panel) are shown over time in the bottom panel.
       The problem with this approximation is that we are not interested in daily averaged lifetime, but the midday (13:00-14:00~LT) lifetime.
       This figure highlights the seasonal nature of HCHO loss rates, although midday numbers are expected to have less seasonality.
@@ -581,7 +581,7 @@
       
       \mypic{/Figures/OMI_link/Filters/tau_2005.png}{%
         Top left, right: Summer (Jan., Feb.) and winter (JJA) averaged daily surface HCHO lifetime ($\tau$). Bottom panel: $\tau$ over the year, coloured by grid square (see dots in top right panel).
-      }{\label{BioIsop:method:Smearing:fig_tau_GC_2005}}
+      }{\label{BioIsop:method:smearing:fig_tau_GC_2005}}
       
     
     \subsubsection{NOx dependence}

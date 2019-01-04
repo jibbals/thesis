@@ -24,7 +24,7 @@
   In this chapter several satellite datasets are combined to estimate biogenic HCHO amounts over Australia.
   
   The first goal is to analyse Australia-specific HCHO concentrations measured by satellite, and determine isoprene sensitivity and any model bias.
-  This leads into chapter \ref{BioIsop} where biogenic HCHO columns are used to estimate isoprene emissions.
+  This leads into Chapter \ref{BioIsop} where biogenic HCHO columns are used to estimate isoprene emissions.
   The second goal is to quantify ozone transported from the stratosphere down into the troposphere (Chapter \ref{Ozone}).
   The focus in this chapter is to describe and analyse model outputs and measurements along with how they are recalculated and compared.
   Section \ref{Model:Datasets} details satellite and campaign datasets, and additionally describes model outputs.
@@ -32,9 +32,9 @@
   Section \ref{Model:GC} describes the GEOS-Chem model, how it is run and what setup and outputs are used in this thesis.
   In Section \ref{Model:AMF} the process of using model outputs to recalculate satellite vertical columns is defined and analysed.
   In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[e.g.,][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
-  One key step is to recalculate the satellite information using modelled data, detailed in section \ref{Model:omiRecalc}.
+  One key step is to recalculate the satellite information using modelled data, detailed in Section \ref{Model:omiRecalc}.
   The effects of these recalculations on satellite HCHO is also examined.
-  The creation and effects of filters used to remove non-biogenic influences are described in section \ref{Model:Filter}.
+  The creation and effects of filters used to remove non-biogenic influences are described in Section \ref{Model:Filter}.
   
   
 % put OMHCHO relevant stuff all into 2.3
@@ -50,7 +50,7 @@
     \item Model output validation in this chapter
     \item Calculation of biogenic HCHO distribution over Australia in this chapter
     \item Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}
-    \item Extrapolation of ozone transport in chapter \ref{Ozone}
+    \item Extrapolation of ozone transport in Chapter \ref{Ozone}
   \end{enumerate}
   I will also give details on filtering and interpolations which are undertaken when reading data, as each dataset has its own resolution.
   While I have not made any measurements myself, it is important to understand the techniques used in datasets I have utilised in order to understand possible anomalous datapoints or trends.
@@ -111,8 +111,8 @@
       OMNO2d is a gridded daily level three NO$_2$ product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
       An example figure from Jan 29, 2005 is shown in Figure \ref{Model:Datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in Figure \ref{Model:Datasets:OMNO2d:fig_omno2d_2005}.
       OMNO2 pixel resolution is 40~km by 130~km.
-      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (see section \ref{Model:GC:NOx} for the comparison between this product and GEOS-Chem calculations).
-      It is also used to form the anthropogenic influence filter for OMHCHO (See section \ref{Model:Filter:NOx}).
+      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (see Section \ref{Model:GC:NOx} for the comparison between this product and GEOS-Chem calculations).
+      It is also used to form the anthropogenic influence filter for OMHCHO (See Section \ref{Model:Filter:NOx}).
       
       
       \mypic{Figures/OMNO2d_2005m0129.png}{Example of NO$_2$ tropospheric columns taken from the OMNO2d product.}{\label{Model:Datasets:OMNO2d:fig_eg_omno2d}}
@@ -130,7 +130,7 @@
       
       % smoke aaod outline
       Aerosols in the atmosphere can be seen through their affects on light. 
-      Smoke and dust can be seen as an increase in aerosol optical depth (AOD) (see section \ref{Model:omhcho:DOAS}).
+      Smoke and dust can be seen as an increase in aerosol optical depth (AOD) (see Section \ref{Model:omhcho:DOAS}).
       This is due these particles scattering and absorbing UV radiation \parencite{Ahn2008}.
       A data product provided by Earthdata (\url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}) called OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) is used in this thesis. 
       
@@ -143,7 +143,7 @@
       % How I read the AAOD
       In this work AAOD is mapped from 1x1\degr horizontal resolution to 0.25x0.3125\degr using nearest value mapping.
       The AAOD at 500~nm wavelength is used to determine smoke influence, although any of the provided wavelengths would be affected by smoke plumes and could also be used.
-      This daily AAOD is compared to a threshold to create a daily smoke filter, any areas with AAOD$>0.03$ are considered to be potentially smoke plume affected (see section \ref{Model:Filter:fire}).
+      This daily AAOD is compared to a threshold to create a daily smoke filter, any areas with AAOD$>0.03$ are considered to be potentially smoke plume affected (see Section \ref{Model:Filter:fire}).
     
     \subsubsection{Active fires}
       \label{Model:Datasets:MOD14A1}
@@ -151,13 +151,13 @@
       Fire observations are performed four times daily from Terra (10:30~LT, 22:30~LT) and Aqua (01:30~LT, 13:30~LT).
       The fire pixels are detected based on parameters including apparent pixel temperature and the nearby background temperature.
       The dataset is obtained from NASA Earth Observations (NEO) that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
-      This product is downloaded and binned into a lower resolution (using the sum of fire pixels) to create an active fire influence mask (see section \ref{Model:Filter:fire}).
+      This product is downloaded and binned into a lower resolution (using the sum of fire pixels) to create an active fire influence mask (see Section \ref{Model:Filter:fire}).
       
     \subsubsection{Carbon monoxide}
       \label{Model:Datasets:AIRS}
       
-      In chapter \ref{Ozone}, potential biomass burning plumes are identified using satellite observations of CO from the AIRS (Atmospheric Infra-red Sounder) instrument aboard the Aqua satellite \parencite{AIRS3STD}.
-      CO is used as a proxy for biomass burning plumes, and used to qualitatively attribute ozone intrusion events as explained in section \ref{Ozone:WeatherClassifications}.
+      In Chapter \ref{Ozone}, potential biomass burning plumes are identified using satellite observations of CO from the AIRS (Atmospheric Infra-red Sounder) instrument aboard the Aqua satellite \parencite{AIRS3STD}.
+      CO is used as a proxy for biomass burning plumes, and used to qualitatively attribute ozone intrusion events as explained in Section \ref{Ozone:WeatherClassifications}.
       This is a separate method of detecting fire influence near specific sites through visual analysis.
       
   
@@ -190,7 +190,7 @@
     
     \subsubsection{GEOS-Chem output}
       
-      GEOS-Chem model output is used extensively in this thesis and is discussed in more detail in section \ref{Model:GC}.
+      GEOS-Chem model output is used extensively in this thesis and is discussed in more detail in Section \ref{Model:GC}.
       Section \ref{Model:GC:simulations:outputs} specifically describes the model outputs used in this thesis.
       These are generally resolved to 47 vertical levels from the ground up to 0.01~hPa, at 2x2.5\degr horizontal resolution.
     
@@ -198,7 +198,7 @@
       \label{Model:Datasets:ERAI}
       
       Synoptic scale weather patterns are taken from the European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}.
-      These are used in chapter \ref{Ozone} to determine typical weather systems for stratospheric ozone intrusions.
+      These are used in Chapter \ref{Ozone} to determine typical weather systems for stratospheric ozone intrusions.
       The version used was ERA-Interim, which was the most up to date at the time (2016) but has since been superseded by ERA5.
     
     \subsubsection{Surface temperatures}
@@ -277,7 +277,7 @@
       This includes significant differences between measurement devices when detecting isoprene, potentially due to interfering compounds in the PTR-MS \parencite{Dunne2018}.
       
       Figure \ref{Model:Datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. 
-      In order to compare with GEOS-Chem output (see section \ref{Model:GC}) a daily average and an midday time (13:00-14:00~LT) average are both created from these data.
+      In order to compare with GEOS-Chem output (see Section \ref{Model:GC}) a daily average and an midday time (13:00-14:00~LT) average are both created from these data.
       In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in \textcite{Lawson2015}. 
       This should minimise any introduced bias.
       
@@ -302,7 +302,7 @@
       Actual releases are north of the central business district in the Broadmeadows suburb.
       Macquarie Island is in the remote Southern Ocean and unlikely to be affected by any local pollution events.
       Davis (on the coast of Antarctica) is also unlikely to experience the effects of anthropogenic pollution.
-      More information on this dataset is given in section \ref{Ozone:DataMethods}.
+      More information on this dataset is given in Section \ref{Ozone:DataMethods}.
     
     
     \subsubsection{Uncertainties}
@@ -348,18 +348,18 @@
   % How omi gets its AMF
   The latest OMHCHO algorithm uses a shape factor determined from GEOS-Chem using 47 vertical levels at monthly temporal resolution and 2$^{\circ}$ latitude by 2.5$^{\circ}$ longitude horizontal resolution \parencite{Abad2015}.
   The GEOS-Chem model has been substantially updated since then
-  In this thesis the more recent version $V10.01$ is used to recalculate the vertical column HCHO (details are shown in section \ref{Model:omiRecalc}).
+  In this thesis the more recent version $V10.01$ is used to recalculate the vertical column HCHO (details are shown in Section \ref{Model:omiRecalc}).
   
   OMI uses a Differential Optical Absorption Spectroscopy (DOAS) based technique to read HCHO along the path of light which reaches the satellite instrument.
   The first step is to determine how much HCHO is in the path of light between the sun and detector.
-  Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT (see section \ref{Model:Meas:sat:LIDORT}) in order to determine a trace gas' radiative properties at various altitudes.
+  Measurements done using DOAS often apply a forward radiative transfer model (RTM) such as LIDORT (see Section \ref{Model:Meas:sat:LIDORT}) in order to determine a trace gas' radiative properties at various altitudes.
   The forward RTM used for satellite data products also involve functions representing extinction from Mie and Rayleigh scattering, and the effect of these on spectra.
   These RTM are also required to account for (often estimated) atmospheric parameters such as albedo.
   The next step is to transform the calculated amounts along the non-vertical light path into vertical column amounts.
   This is done by applying an AMF.
   In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
   The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
-  However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see section \ref{Model:omhcho:DOAS}) must be accounted for.
+  However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see Section \ref{Model:omhcho:DOAS}) must be accounted for.
   
   
   \begin{figure}\begin{center}
@@ -376,7 +376,7 @@
   The algorithm used is based on direct fitting of radiances, and accounts for competing absorbers, under-sampling, and Ring effects.
   An OMI radiance measurement over the remote Pacific ocean is used instead of an irradiance measurement.
   This means that the slant columns ($\Omega_S$) are formed from the spectra differential with respect to the radiance reference column over the Pacific.
-  The full method details for slant column retrieval by OMI are outlined in supplemental section \ref{SuppNotes:Satellite:OMI_BOAS}, or in the technical document (DOI: 10.5067/Aura/OMI/DATA2015).
+  The full method details for slant column retrieval by OMI are outlined in supplemental Section \ref{SuppNotes:Satellite:OMI_BOAS}, or in the technical document (DOI: 10.5067/Aura/OMI/DATA2015).
   Slant columns range from $\sim 4\times 10^{15} $ to $\sim 6 \times 10^{16}$~molec cm$^{-2}$, with uncertainties from 30\% (larger columns) to over 100\% (smaller columns) \parencite{Abad2015}.
   
   \subsection{Pixel filtering}
@@ -519,7 +519,7 @@
     It is clear that one day of satellite data is too uncertain when binned at 0.25x0.3125\degr horizontal resolution, however after a month (with or without filtering) the uncertainties become manageable.
     If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
     High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[e.g.,][]{Zhu2014}.
-    Uncertainty in satellite recalculations, along with other factors is analysed in section \ref{BioIsop:Uncertainty}.
+    Uncertainty in satellite recalculations, along with other factors is analysed in Section \ref{BioIsop:Uncertainty}.
     %A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
     
     % Figure from tests.py
@@ -568,7 +568,7 @@
 
   \subsection{Overview}
     % Geos chem is a box model with chemistry and meteorology
-    GEOS-Chem is a well supported global, Eulerian CTM (see section \ref{LR:Models:ctm}) with a state of the science chemical mechanism, with transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
+    GEOS-Chem is a well supported global, Eulerian CTM (see Section \ref{LR:Models:ctm}) with a state of the science chemical mechanism, with transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
     Chemistry, transport, and meteorology are simulated at 15 minute time steps within a global set of 3-D boxes.
     Emissions are either prescribed by inventories or modelled (e.g., fire emissions are pulled from the global fire emissions database GFED4).
     % It uses GEOS, from GMAO
@@ -585,7 +585,7 @@
     GEOS-5 meteorological fields are used as the boundary conditions driving transport.
     % Emissions models used for boundary conditions
     Fire emissions come from the global fire emissions database (GFED4) product \parencite{Giglio2013}. 
-    Anthropogenic VOC emissions come from the Emission Database for Global Atmospheric Research (EDGAR) inventory, while biogenic VOC emissions are simulated using the MEGAN model (see section \ref{Model:GC:MEGAN}).
+    Anthropogenic VOC emissions come from the Emission Database for Global Atmospheric Research (EDGAR) inventory, while biogenic VOC emissions are simulated using the MEGAN model (see Section \ref{Model:GC:MEGAN}).
     MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation.
     The estimated biogenic VOC emissions are important for accurately simulating chemistry within models, as discussed in Section \ref{LR:Atmos:Chem}.
     
@@ -747,7 +747,7 @@
       This isomerisation accounts for 1,5-H shifts producing MACR, MVK, HCHO, or 1,6-H shifts producing HPALDs.
       HPALDs can photolyse to regenerate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
       Under low NO$_X$ conditions the expected production of HCHO, MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
-      Refer to section \ref{LR:VOCs:IsopCascade} for more information.
+      Refer to Section \ref{LR:VOCs:IsopCascade} for more information.
       Less frequently, \roo reacts with itself, MO$_2$, or MCO$_3$.
       
       % High nox chemistry
@@ -948,9 +948,9 @@
     \label{Model:GC:simulations}
     
     GEOS-Chem is run five times independently in this thesis, with different outputs from each simulation used to determine specific information. 
-    The different output types are first described in section \ref{Model:GC:simulations:outputs}.
-    Following this is the list of model runs, including a summary of the run, outputs created, and a summary of how they are used (section \ref{Model:GC:simulations:runs}).
-    Finally a brief comparison between a subset of the runs is performed (section \ref{Model:GC:simulations:comparison}).
+    The different output types are first described in Section \ref{Model:GC:simulations:outputs}.
+    Following this is the list of model runs, including a summary of the run, outputs created, and a summary of how they are used (Section \ref{Model:GC:simulations:runs}).
+    Finally a brief comparison between a subset of the runs is performed (Section \ref{Model:GC:simulations:comparison}).
     
     \subsubsection{GEOS-Chem outputs}
       \label{Model:GC:simulations:outputs}
@@ -999,18 +999,18 @@
             \item The Midday output is used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry. 
             TODO: Make a plot of AMF with and without 72 vertical levels
             \item This run shows what influence the stratospheric chemistry additions have over tropospheric isoprene or HCHO concentrations.
-            \item The daily tracer averages are used to determine ozone intrusion quantification (section \ref{Ozone:fluxcalc}), and ozone concentration seasonality (section \ref{Ozone:ModelComparison}).
-            \item Time series outputs are compared against ozonesonde releases (section \ref{Ozone:ModelComparison}) both over time and vertically.
+            \item The daily tracer averages are used to determine ozone intrusion quantification (Section \ref{Ozone:fluxcalc}), and ozone concentration seasonality (Section \ref{Ozone:ModelComparison}).
+            \item Time series outputs are compared against ozonesonde releases (Section \ref{Ozone:ModelComparison}) both over time and vertically.
           \end{enumerate}
         
         \item [Tropchem (standard)]%
           default settings for GEOS-Chem 10.01, using 47 vertical levels at \lowhr horizontal resolution.
-          Additional midday output is created to allow AMF recalculation code to run on OMI satellite measurements (section \ref{Model:omiRecalc:ppcode}).
+          Additional midday output is created to allow AMF recalculation code to run on OMI satellite measurements (Section \ref{Model:omiRecalc:ppcode}).
           \begin{enumerate}
             \item Outputs: Midday output, daily tracer averages, and HEMCO diagnostics
-            \item These are used in recalculation of the satellite AMF (section \ref{Model:AMF}), and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (section \ref{Model:omiRecalc:RSC}).
+            \item These are used in recalculation of the satellite AMF (Section \ref{Model:AMF}), and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (Section \ref{Model:omiRecalc:RSC}).
               Additional diagnostic outputs are used hard coded to allow AMF recalculation.
-            \item Midday output is combined from two different runs in order to determine smearing (section \ref{BioIsop:Method:Smearing})
+            \item Midday output is combined from two different runs in order to determine smearing (Section \ref{BioIsop:method:smearing})
             \item Total yearly ozone concentrations are compared before and after scaling isoprene emissions using the top-down estimate.
           \end{enumerate}
         
@@ -1019,22 +1019,22 @@
           \begin{enumerate}
             \item Outputs: Midday output, and monthly tracer averages 
             \item Check modelled ozone sensitivity to isoprene emissions TODO: plot ozone between the two runs and reference here
-            \item Combined with standard run to determine model sensitivity transport (section \ref{BioIsop:Method:Smearing})
+            \item Combined with standard run to determine model sensitivity transport (Section \ref{BioIsop:method:smearing})
           \end{enumerate}
         
         \item [Tropchem (biogenic emissions only)]%
           identical to standard tropchem except all non-biogenic emissions inventories are disabled.
           \begin{enumerate}
             \item Outputs: Midday output, and hourly biogenic emissions from MEGAN
-            \item Midday and HEMCO outputs are used to determine isoprene to HCHO yield, after removing days with high smearing (section \ref{BioIsop:Method:slope})
-            \item HEMCO diagnostics are compared against top-down estimations of isoprene emissions (section \ref{BioIsop:results:emissions})
+            \item Midday and HEMCO outputs are used to determine isoprene to HCHO yield, after removing days with high smearing (Section \ref{BioIsop:method:slope})
+            \item HEMCO diagnostics are compared against top-down estimations of isoprene emissions (Section \ref{BioIsop:results:emissions})
           \end{enumerate}
         
         \item [Tropchem (altered MEGAN scaling factor)]%
           Identical to standard tropchem except isoprene emissions are scaled to match multi-year monthly averaged top-down estimates.
           \begin{enumerate}
             \item Midday output, time series, daily averaged tracers
-            \item Compare to campaign datasets after altering isoprene emissions (see chapter \ref{BioIsop})
+            \item Compare to campaign datasets after altering isoprene emissions (see Chapter \ref{BioIsop})
             \item Compare against satellite column HCHO as a sanity check on improving isoprene emissions
           \end{enumerate}
       \end{description}
@@ -1106,7 +1106,7 @@
       
       
       The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
-      Figure TODO \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX run.
+      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX run.
       This shows that UCX ozone is lower everywhere except for a thin band just north and south of the equator.
       With higher stratospheric ozone levels, less radiation would reach the troposphere.
       This would slow photolysis limited reactions, such as the splitting of Ozone which leads to OH production in the troposphere, in turn slowing the isoprene loss to OH reactions.
@@ -1114,6 +1114,11 @@
       % is this correct??
       %Decreased O$_3$ could lead to lower OH and the other differences between the runs over Australia.
       
+      % Figure from GC_tests->UCX_vs_...
+      \mypic{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_O3.png}{%
+        Total column ozone simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences (bottom left, right respectively).
+        Amounts are the average of all times between 1 Jan and 28 Feb 2007.
+      }{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}}
       
       % Wrap up of UCX vs Tropchem differences and explanation of tropchem usage
       Overall the UCX mechanism and increased vertical resolution lead to slightly higher isoprene and HCHO, and slightly lower ozone in the near the surface over Australia.
@@ -1165,7 +1170,7 @@
   
   
   The OMI instrument records spectra of light which enters the viewing lens on board the Aura satellite.
-  The spectra provide backscattered intensity ($I_B$) at various wavelengths (see section \ref{Model:omhcho}), with the light source ($I_{B_0}$) being the sun. 
+  The spectra provide backscattered intensity ($I_B$) at various wavelengths (see Section \ref{Model:omhcho}), with the light source ($I_{B_0}$) being the sun. 
   Using the log of Beers law (equation \ref{Model:omhcho:DOAS:eqn_beerslaw}) we get 
   $$ \tau_s = \ln{I_{B_0}} - \ln{I_B} $$
   which can be subbed into equation \ref{Model:AMF:eqn_AMFFrac} to give an expression for the AMF which includes scattering:
@@ -1195,7 +1200,7 @@
     AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
   \end{equation}
   where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. 
-  This uses the attenuation cross section relationship to optical depth (see section \ref{Model:omhcho:DOAS}).
+  This uses the attenuation cross section relationship to optical depth (see Section \ref{Model:omhcho:DOAS}).
   
   To represent an average cross section weighted by the absorbing species' vertical distribution, the effective cross section ($\alpha_e$) is used.
   This is to account for temperature and pressure dependence of $\alpha(z)$, and is defined as:
@@ -1261,7 +1266,7 @@
   \end{equation}
   A slant or vertical column is expressed in molecules cm$^{-2}$.
   % Reiteration of why we recalculate AMFs
-  OMI HCHO vertical columns are calculated using modelled a priori HCHO profiles (see section \ref{Model:Datasets:OMHCHO}).
+  OMI HCHO vertical columns are calculated using modelled a priori HCHO profiles (see Section \ref{Model:Datasets:OMHCHO}).
   When comparing satellite measurements against models it is important to recognise the impact of this a priori on the total column values.
   This is complicated by how OMI is differently sensitive to HCHO (and other trace gases) vertically throughout the atmosphere.
   When comparing OMI vertical columns ($\Oo$) to GEOS-Chem ($\Og$), the satellite AMF needs to be recalculated using GEOS-Chem modelled vertical gas profiles as the a prioris.
@@ -1271,7 +1276,7 @@
   Here, two new AMFs are calculated, both using GEOS-Chem HCHO profiles as the new a priori. 
   The first (AMF$_{GC}$) uses the original satellite scattering weights while recalculating the shape factor, whereas the second (AMF$_{PP}$) also recalculates scattering weights.
   AMF$_{PP}$ is created using code initially written by Professor P. Palmer (see sections \ref{Model:omiRecalc:ShapeFactor} and \ref{Model:omiRecalc:ppcode} for more details).
-  A reference sector correction is determined using the method described in \textcite{Abad2016}, (see section \ref{Model:omiRecalc:RSC}).
+  A reference sector correction is determined using the method described in \textcite{Abad2016}, (see Section \ref{Model:omiRecalc:RSC}).
   This correction is unique for each of the 60 \textit{measurement tracks} used by OMI.
   Finally the correction is applied to each pixel to create the corrected vertical column. 
   The end product is three sets of corrected vertical columns: the original ($\Ooc$), one using GEOS-Chem shape factors ($\Ogc$), and one from Palmer's code ($\Opc$).
@@ -1282,7 +1287,7 @@
     % Summary of actual actions taken:
     An outline in computational order of what takes place when recalculating the $\Omega$ from OMI follows:
     \begin{enumerate}
-      \item GEOS-Chem satellite overpass output (see section \ref{Model:GC:simulations:outputs}) is used to create new shape factors (S$_z$ and S$_\sigma$).
+      \item GEOS-Chem satellite overpass output (see Section \ref{Model:GC:simulations:outputs}) is used to create new shape factors (S$_z$ and S$_\sigma$).
       \begin{enumerate}
         \item Pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
         \item Number density and mixing ratio of HCHO ($n_{HCHO}$, $C_{HCHO}$ respectively) are taken or created from model outputs HCHO(ppb), air density (molec cm$^{-3}$), and box heights (\textit{H(z)})
@@ -1324,7 +1329,7 @@
     PP code is run on a subset of the globe covering Australia and the pacific ocean, producing AMF$_{PP}$.
     The output keeps the original AMF as well as those recalculated using GEOS-Chem (AMF$_{OMI}$, AMF$_{GC}$, and AMF$_{PP}$).
     Additionally, MOD14A1, OMAERUVd and OMNO2d data are used to create masks which are also stored in the OMHCHORP dataset.
-    The creation of fire, smoke, and anthropogenic influence masks is described in section \ref{Model:Filter}.
+    The creation of fire, smoke, and anthropogenic influence masks is described in Section \ref{Model:Filter}.
     
     \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:omiRecalc:fig_flow_omhchorp}}
       
@@ -1332,10 +1337,10 @@
   \subsection{Creating new shape factors}
     % Reminder of AMF -> leading to what is the shapefactor
     In order to visualise and analyse OMI HCHO columns, slant columns are transformed into vertical columns using the AMF.
-    The shape factor (\textit{S}) is one of the key components in creation of the AMF (see section \ref{Model:AMF}, equation \ref{Model:AMF:eqn_AMF_intwSdz}).
-    The shape factor is calculated using GEOS-Chem midday output (see section \ref{Model:GC:simulations:outputs}) which provide simulated HCHO concentration profiles ($\eta(z)$) and total columns ($\Omega$) at 2x2.5\degr horizontal resolution.
+    The shape factor (\textit{S}) is one of the key components in creation of the AMF (see Section \ref{Model:AMF}, equation \ref{Model:AMF:eqn_AMF_intwSdz}).
+    The shape factor is calculated using GEOS-Chem midday output (see Section \ref{Model:GC:simulations:outputs}) which provide simulated HCHO concentration profiles ($\eta(z)$) and total columns ($\Omega$) at 2x2.5\degr horizontal resolution.
     Using equation \ref{Model:AMF:eqn_shapefactor} to determine the shape factor is straightforwards $S(z) = \frac{\eta(z)}{\Omega}$.
-    The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in section \ref{Model:omiRecalc:ppcode}).
+    The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in Section \ref{Model:omiRecalc:ppcode}).
     
     Model output is in molecules per billion molecules of air (ppb), and is converted before being used in the shape factor calculation.
     The following equation converts model profile output from ppb into number densities:
@@ -1361,18 +1366,18 @@
   \subsection{Reading satellite data}
     
     % Downloading the data
-    First satellite slant columns of formaldehyde for the years January 1st, 2005 - April 1st, 2013 are downloaded (see section \ref{Model:Datasets:OMHCHO}).
+    First satellite slant columns of formaldehyde for the years January 1st, 2005 - April 1st, 2013 are downloaded (see Section \ref{Model:Datasets:OMHCHO}).
     The data set used is from the Ozone Monitoring Instrument (OMI) on board the Aura satellite, as it has data for the entire time line and sufficiently covers the southern hemisphere.
     % Filters applied when reading
     When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
     The process is outlined in figure  \ref{Model:omiRecalc:fig_flow_omhchorp} for a single day.
     First all \textit{good} pixels (those with QA flag equal to 0) are read into a long list (roughly 1 million per day).
     These are then filtered by solar zenith angle (SZA) and latitude, similarly to other works \parencite[e.g.,]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
-    This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see section \ref{Model:Datasets:OMHCHO}) may have affected.
+    This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see Section \ref{Model:Datasets:OMHCHO}) may have affected.
     
     % Actual filtering done
     Satellite measurements polewards of 60\degr north or south are removed as well as measurements with SZA greater than 60\degr.
-    Pixels with cloud fraction greater than 40\% are removed after being used in determining the reference sector correction (see section \ref{Model:omiRecalc:RSC}), as is done in \textcite{Abad2015, DeSmedt2015}.
+    Pixels with cloud fraction greater than 40\% are removed after being used in determining the reference sector correction (see Section \ref{Model:omiRecalc:RSC}), as is done in \textcite{Abad2015, DeSmedt2015}.
     Further filtering is performed to remove the measurements which are most likely to be unrealistic: those with column density outside the range $-0.5 \times 10^{16}$ to $10^{17} $\moleccm, as is performed by\textcite{Zhu2016}.
     This filter is required due to currently unexplained large negative values which occur in the OMI HCHO product increasingly over time.
     Figure \ref{Model:omiRecalc:fig_OMI_negative_hist} shows how unfiltered HCHO columns are affected by a small set of highly negative values which heavily affect the mean column amount over any region.
@@ -1647,7 +1652,7 @@
   
     % Smoke AAOD filtering:
     Determining the AAOD due to smoke can be difficult since both smoke and dust absorb UV radiation \parencite{Ahn2008,Marais2012}.
-    AAOD is less sensitive to cloud contamination than AOD, and I use AAOD from the daily gridded level 3 satellite product OMAERUVd \parencite{Ahn2008} described in section \ref{Model:Datasets:OMAERUVd} to provide a filter for smoke plumes.
+    AAOD is less sensitive to cloud contamination than AOD, and I use AAOD from the daily gridded level 3 satellite product OMAERUVd \parencite{Ahn2008} described in Section \ref{Model:Datasets:OMAERUVd} to provide a filter for smoke plumes.
     Although removing gridsquares with dust reduces how much data is available to analyse, dust in Australia is highly episodic and should not affect more than a few days per year, especially over regions with high tree coverage \parencite{Shao2007}.
     
     % Threshold for AAOD determination
