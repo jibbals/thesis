@@ -27,7 +27,7 @@
   This leads into Chapter \ref{BioIsop} where biogenic HCHO columns are used to estimate isoprene emissions.
   The second goal is to quantify ozone transported from the stratosphere down into the troposphere (Chapter \ref{Ozone}).
   The focus in this chapter is to describe and analyse model outputs and measurements along with how they are recalculated and compared.
-  Section \ref{Model:Datasets} details satellite and campaign datasets, and additionally describes model outputs.
+  Section \ref{Model:datasets} details satellite and campaign datasets, and additionally describes model outputs.
   Measurement techniques used to retrieve the most utilised satellite dataset are outlined in Section \ref{Model:omhcho}.
   Section \ref{Model:GC} describes the GEOS-Chem model, how it is run and what setup and outputs are used in this thesis.
   In Section \ref{Model:AMF} the process of using model outputs to recalculate satellite vertical columns is defined and analysed.
@@ -41,7 +41,7 @@
 % ADD MORE DESCRIPTIVE PICTURES TO SATELLITE DESCRIPTIONS
 
 \section{Datasets}
-  \label{Model:Datasets}
+  \label{Model:datasets}
   
   This section describes the datasets used in this thesis, along with an overview of the measurement techniques used for each.
   This includes modelled output, satellite measurements, and measurement campaigns.
@@ -67,7 +67,7 @@
   Temporal and/or spatial averaging decreases uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
   
   \subsection{Satellite}
-  \label{Model:Datasets:satellite}
+  \label{Model:datasets:satellite}
     % Satellite data product levels
     Satellite data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. 
     Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
@@ -105,28 +105,32 @@
       Satellite based formaldehyde measurements from the OMI instrument on board AURA are stored in the OMHCHO product.
       OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section \ref{Model:omhcho}.
       Calculation of column density and AMF are discussed respectively in sections \ref{Model:omhcho:DOAS} and \ref{Model:omhcho:amf}.
-  
+      
+      HCHO products can be found in four satellite instruments: GOME on ERS-2, SCIAMACHY on ENVI-SAT, OMI on EOS AURA, and GOME2 on MetOp-A.
+      These satellites have slightly different spectral and spatial resolutions, as well as using varied processes to estimate HCHO from detected radiances.
+      This leads to different estimates between instruments as described in \textcite{Lorente2017}, and both validation and comparison become more important when using these remotely sensed data.
+      
     \subsubsection{Nitrogen dioxide}
-      \label{Model:Datasets:OMNO2d}
+      \label{Model:datasets:OMNO2d}
       OMNO2d is a gridded daily level three NO$_2$ product with good satellite pixels averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
-      An example figure from Jan 29, 2005 is shown in Figure \ref{Model:Datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in Figure \ref{Model:Datasets:OMNO2d:fig_omno2d_2005}.
+      An example figure from Jan 29, 2005 is shown in Figure \ref{Model:datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in Figure \ref{Model:datasets:OMNO2d:fig_omno2d_2005}.
       OMNO2 pixel resolution is 40~km by 130~km.
       NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (see Section \ref{Model:GC:NOx} for the comparison between this product and GEOS-Chem calculations).
       It is also used to form the anthropogenic influence filter for OMHCHO (See Section \ref{Model:Filter:NOx}).
       
       
-      \mypic{Figures/OMNO2d_2005m0129.png}{Example of NO$_2$ tropospheric columns taken from the OMNO2d product.}{\label{Model:Datasets:OMNO2d:fig_eg_omno2d}}
+      \mypic{Figures/OMNO2d_2005m0129.png}{Example of NO$_2$ tropospheric columns taken from the OMNO2d product.}{\label{Model:datasets:OMNO2d:fig_eg_omno2d}}
       
       \mypic{Figures/OMNO2d_avg2005.png}
       {Average 2005 tropospheric NO$_2$ from OMNO2d with pixels screened for $<30\%$ cloud cover.}
-      {\label{Model:Datasets:OMNO2d:fig_omno2d_2005}}
+      {\label{Model:datasets:OMNO2d:fig_omno2d_2005}}
       
       Like other satellite products, OMNO2d is influenced by a priori modelling which is required to convert slant path radiance to vertical columns.
       These models are generally low resolution ($\sim$ 110~km by 110~km), which leads to column smearing and difficulty detecting point sources of high NO emissions \parencite{Goldberg2018}.
       Uncertainty in this product arises mostly from the calculation of the AMF (up to 50\% of total error) \parencite{Lorente2017}.
     
     \subsubsection{Aerosol optical depth}
-      \label{Model:Datasets:OMAERUVd}
+      \label{Model:datasets:OMAERUVd}
       
       % smoke aaod outline
       Aerosols in the atmosphere can be seen through their affects on light. 
@@ -146,7 +150,7 @@
       This daily AAOD is compared to a threshold to create a daily smoke filter, any areas with AAOD$>0.03$ are considered to be potentially smoke plume affected (see Section \ref{Model:Filter:fire}).
     
     \subsubsection{Active fires}
-      \label{Model:Datasets:MOD14A1}
+      \label{Model:datasets:MOD14A1}
       MOD14A1 is a gridded daily satellite based dataset of fire counts at 1x1~km$^2$ horizontal resolution.
       Fire observations are performed four times daily from Terra (10:30~LT, 22:30~LT) and Aqua (01:30~LT, 13:30~LT).
       The fire pixels are detected based on parameters including apparent pixel temperature and the nearby background temperature.
@@ -154,7 +158,7 @@
       This product is downloaded and binned into a lower resolution (using the sum of fire pixels) to create an active fire influence mask (see Section \ref{Model:Filter:fire}).
       
     \subsubsection{Carbon monoxide}
-      \label{Model:Datasets:AIRS}
+      \label{Model:datasets:AIRS}
       
       In Chapter \ref{Ozone}, potential biomass burning plumes are identified using satellite observations of CO from the AIRS (Atmospheric Infra-red Sounder) instrument aboard the Aqua satellite \parencite{AIRS3STD}.
       CO is used as a proxy for biomass burning plumes, and used to qualitatively attribute ozone intrusion events as explained in Section \ref{Ozone:WeatherClassifications}.
@@ -195,7 +199,7 @@
       These are generally resolved to 47 vertical levels from the ground up to 0.01~hPa, at 2x2.5\degr horizontal resolution.
     
     \subsubsection{Meteorological reanalysis}
-      \label{Model:Datasets:ERAI}
+      \label{Model:datasets:ERAI}
       
       Synoptic scale weather patterns are taken from the European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}.
       These are used in Chapter \ref{Ozone} to determine typical weather systems for stratospheric ozone intrusions.
@@ -206,38 +210,38 @@
       This data is used to check the correlation between HCHO and temperature at a higher resolution than is provided by GEOS-Chem output.
       A full description of the data can be found at \url{https://www.esrl.noaa.gov/psd/data/gridded/data.cpc.globaltemp.html}.
       CPC Global Temperature data is provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their web site at \url{https://www.esrl.noaa.gov/psd/}.
-      An example of one day of land temperature output is shown in Figure \ref{Model:Datasets:fig_CPC_EG}.
+      An example of one day of land temperature output is shown in Figure \ref{Model:datasets:fig_CPC_EG}.
       
-      \mypicw{.5\textwidth}{Figures/CPC_Temperature_EG.png}{CPC daily maximum temperature dataset output for 1, Jan, 2005.}{\label{Model:Datasets:fig_CPC_EG}}
+      \mypicw{.5\textwidth}{Figures/CPC_Temperature_EG.png}{CPC daily maximum temperature dataset output for 1, Jan, 2005.}{\label{Model:datasets:fig_CPC_EG}}
   
   \subsection{Campaign datasets}
   
     In this thesis data from several measurement campaigns are used to examine accuracy of modelled data at specific sites.
-    Figure \ref{Model:Datasets:fig_locations} shows the locations of BVOC measurement sites in the top panel, and release sites for ozonesondes in the bottom panel.
+    Figure \ref{Model:datasets:fig_locations} shows the locations of BVOC measurement sites in the top panel, and release sites for ozonesondes in the bottom panel.
     These took place over disparate times, and are in situ measurements which are hard to directly compare against GEOS-Chem output which is averaged over a large horizontal space.
     
-    \mypic{Figures/campaigns/campaign_locations.png}{Locations of VOC measurements (top panel) and ozonesonde release sites (bottom panel). Inlaid in top panel is the flight paths over Australia of the HIPPO campaign.}{\label{Model:Datasets:fig_locations}}
+    \mypic{Figures/campaigns/campaign_locations.png}{Locations of VOC measurements (top panel) and ozonesonde release sites (bottom panel). Inlaid in top panel is the flight paths over Australia of the HIPPO campaign.}{\label{Model:datasets:fig_locations}}
     
     The campaign datasets provide three separate time series for brief periods of both isoprene and formaldehyde.
-    Figure \ref{Model:Datasets:fig_campaigns_compared} shows these along with the detection limits and also shows isoprene measurements superimposed over a single year.
+    Figure \ref{Model:datasets:fig_campaigns_compared} shows these along with the detection limits and also shows isoprene measurements superimposed over a single year.
     It is apparent that more measurements are required to see more than the daily cycles.
     
     
     \mypic{Figures/OMI_link/campaigns_compared.png}{ %
       Top: MUMBA, SPS1, and SPS2 time-series for HCHO (orange) and isoprene (magenta), along with detection limits (dashed).
       Bottom: isoprene measurements superimposed onto a single year.
-      }{\label{Model:Datasets:fig_campaigns_compared}}
+      }{\label{Model:datasets:fig_campaigns_compared}}
     
 
     
     \subsubsection{Measurements of Urban, Marine and Biogenic Air (MUMBA)}
-    \label{Model:Datasets:MUMBA}
+    \label{Model:datasets:MUMBA}
     
       The MUMBA campaign \parencite{PatonWalsh2017} measured various compound abundances including isoprene, formaldehyde, and ozone from 21 December 2012 to 15 February 2013.
       These measurements took place in Wollongong, 10~m above ground level (40~m above sea level).
       Ozone was measured by Thermo UV absorption with 1-minute time resolution averaged into hourly outputs.
       Isoprene and HCHO were measured by Ionicon Proton-Transfer-Reaction Mass spectrometer (PTR-MS), with a time resolution of 3-minutes, averaged each hour.
-      Detection limits varied due to instrument conditions, and are listed in Table \ref{Model:Datasets:MUMBA:tab_detectionlimits}.
+      Detection limits varied due to instrument conditions, and are listed in Table \ref{Model:datasets:MUMBA:tab_detectionlimits}.
       The full dataset has been published on PANGAEA (DOI:10.1594/PANGAEA.871982) \parencite{Guerette2018}.
       
       
@@ -251,7 +255,7 @@
           29/Dec/2012 - 18/Jan/2013 & 0.105 & 0.005 & 0.5 \\
           19/Jan/2013 - 15/Feb/2013 & 0.186 & 0.003 & 0.5 \\
         \end{tabular}
-        \label{Model:Datasets:MUMBA:tab_detectionlimits}
+        \label{Model:datasets:MUMBA:tab_detectionlimits}
       \end{table}
       
       In this thesis we assume uncertainty in this product is as estimated by \textcite{Dunne2018} at (50\%).
@@ -260,7 +264,7 @@
       Measurements below the detection limit are set to half of the detection limit when reading this dataset.
     
     \subsubsection{Sydney Particle Studies (SPS1, SPS2)}
-    \label{Model:Datasets:SPS}
+    \label{Model:datasets:SPS}
       Two trace gas measurement campaigns took place at the Westmead air quality station. %with scientists from CSIRO, OEH, and ANSTO 
       Stage 1 (SPS1) from 5 February to 7 March, 2011 and stage 2 (SPS2) from 16 April to 14 May, 2012.
       Two instruments measured VOC concentrations: a PTR-MS, and a gas chromatographer (GC) with a flame ionisation detector (FID).
@@ -276,7 +280,7 @@
       GC-FID data is averaged from 0500-1000~LT, and 1100-1900~LT, while PTR-MS data is averaged hourly.
       This includes significant differences between measurement devices when detecting isoprene, potentially due to interfering compounds in the PTR-MS \parencite{Dunne2018}.
       
-      Figure \ref{Model:Datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. 
+      Figure \ref{Model:datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. 
       In order to compare with GEOS-Chem output (see Section \ref{Model:GC}) a daily average and an midday time (13:00-14:00~LT) average are both created from these data.
       In averaging, any measurements below the machine detection limit are set to half of the detection limit, as done in \textcite{Lawson2015}. 
       This should minimise any introduced bias.
@@ -285,12 +289,12 @@
         SPS HCHO (yellow) and isoprene (green) time series, along with detection limits (dashed).
         SPS 1 (left) took place in late summer 2011, while SPS 2 (right) occurred during autumn 2012.
       }
-      {\label{Model:Datasets:SPS:fig_series}}
+      {\label{Model:datasets:SPS:fig_series}}
     
     
     
     \subsubsection{Ozonesondes}
-    \label{Model:Datasets:ozonesondes}
+    \label{Model:datasets:ozonesondes}
     
       Ozonesonde data come from the World Ozone and Ultraviolet Data Centre (WOUDC).
       Ozonesondes are weather balloons which measure from the surface to around 35km.
@@ -304,9 +308,18 @@
       Davis (on the coast of Antarctica) is also unlikely to experience the effects of anthropogenic pollution.
       More information on this dataset is given in Section \ref{Ozone:DataMethods}.
     
+    \subsubsection{Wollongong}
+    \label{Model:datasets:wollongong_ftir}
+    
+      Upon the roof of the Chemistry building in Wollongong lies a solar Fourier transform infra-red spectrometer (FTIR) which measures HCHO (amongst other gases) on the path of light between the instrument and the sun.
+      TODO: details about these measurements.
+      
+      Figure TODO: shows Wollongong FTIR measurement profiles of HCHO with an assumed averaging kernal and then one calculated from GEOS-Chem, along with the two averaging kernal mean and standard deviation.
+      TODO: Discuss this conversion and results seen here...
+      The bottom panel shows the time series of total column HCHO of both GEOS-Chem and the FTIR instrument in molecules cm$^{-2}$.
     
     \subsubsection{Uncertainties}
-    \label{Model:Datasets:uncertainties}
+    \label{Model:datasets:uncertainties}
       
       % Measurement difficulties
       In situ measurements contain errors, and depending on the device used and chemical being measured this error can be significant.
@@ -387,7 +400,7 @@
   OMHCHO level two data includes 14-15 daily swaths of measurements.
   Each swath contains roughly $9 \times 10^4$ pixels, each of which includes latitude, longitude vertical column HCHO, along with all the ancillary data required to make the vertical column and several data quality metrics.
   The OMHCHO dataset has a quality flag which can be used to remove unlikely or poor satellite measurements.
-  The states represented by this quality flag are shown in Table \ref{Model:Datasets:OMHCHO:tab_qflag} which is taken from \textcite{Kurosu2014}.
+  The states represented by this quality flag are shown in Table \ref{Model:datasets:OMHCHO:tab_qflag} which is taken from \textcite{Kurosu2014}.
   Filtering bad or missing measurement pixels is performed prior to any other filtering, this includes the datapoints affected by the row anomaly.
   This anomaly \parencite{rowanomaly_url} affects radiance data at particular viewing angles, corresponding to a row on the CCD detectors, and is dynamic over time.
   The slant columns affected are flagged and removed before any further processing.
@@ -417,7 +430,7 @@
       $<0$ & Missing & No column values have been computed; entries are missing
       \\ \hline
     \end{tabular}
-    \label{Model:Datasets:OMHCHO:tab_qflag}
+    \label{Model:datasets:OMHCHO:tab_qflag}
   \end{table}
   
   Each $\sim90$ minutes the AURA satellite sweeps over the sunny side of the planet of which around 50~k -- 80~k of the roughly 90~k pixels are classified as good.
@@ -835,7 +848,7 @@
     In order to determine the accuracy of GEOS-Chem simulated NO$_X$ over Australia, modelled NO$_2$ amounts are compared to satellite data (where available) for 2005.
     Figure \ref{Model:analysis:NOx:fig_NO_maps_2005} shows tropospheric NO$_2$ columns from GEOS-Chem, OMNO2d, and their differences over four seasons in 2005.
     % Geos chem vs tropno2 from omno2d
-    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 13:00-14:00 local time (LT) are compared against OMNO2d data which are averaged into seasonal \lowhr bins. %(Sec. \ref{Model:Datasets:OMNO2d}). 
+    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 13:00-14:00 local time (LT) are compared against OMNO2d data which are averaged into seasonal \lowhr bins. %(Sec. \ref{Model:datasets:OMNO2d}). 
     Both data sets show Sydney and Melbourne as NO$_2$ hotspots, however Sydney itself is underestimated by GEOS-Chem throughout the year, likely due to low or poorly aligned emission maps (shown in Figure \ref{Model:analysis:NOx:fig_NO_emiss_maps_2005}).
     Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in the northern areas where up to 50\% underestimation occurs in Summer.
     An underestimation in southern NSW can also be seen in the later half of the year.
@@ -1078,9 +1091,6 @@
       \end{figure}
       
 
-      
-      % UP TO HERE JENNY COMMENTS
-      
       % Differences between run isoprene amounts described and analysed here
       Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
       Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
@@ -1121,7 +1131,7 @@
       }{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}}
       
       % Wrap up of UCX vs Tropchem differences and explanation of tropchem usage
-      Overall the UCX mechanism and increased vertical resolution lead to slightly higher isoprene and HCHO, and slightly lower ozone in the near the surface over Australia.
+      Overall the UCX mechanism and increased vertical resolution lead to slightly higher isoprene and HCHO, and slightly lower ozone over Australia.
       These differences are on the order of 0-10\% and as shown later (see Section \ref{BioIsop:uncertainty}) are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
       Running UCX requires roughly twice the computation (and real) hours, and for the majority of this thesis the normal tropchem runs are used.
       
@@ -1145,18 +1155,7 @@
       %  Absolute and relative differences are shown on the bottom row.}
       %{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday}}
   
-  % UP TO HERE JENNY COMMENTS
-  
-  %TODO Move this stuff to AMF calculation or FTIR calculation section? or somewhere better  
-    
-    Figure TODO: shows Wollongong FTIR measurement profiles of HCHO with an assumed averaging kernal and then one calculated from GEOS-Chem, along with the two averaging kernal mean and standard deviation.
-    TODO: Discuss this conversion and results seen here...
-    The bottom panel shows the time series of total column HCHO of both GEOS-Chem and the FTIR instrument in molecules cm$^{-2}$.
-    
-    % TODO Figure goes here
-    
-    
-    
+  % UP TO HERE JENNY COMMENTS    
 
 \section{Calculating an AMF}
   \label{Model:AMF}
@@ -1266,7 +1265,7 @@
   \end{equation}
   A slant or vertical column is expressed in molecules cm$^{-2}$.
   % Reiteration of why we recalculate AMFs
-  OMI HCHO vertical columns are calculated using modelled a priori HCHO profiles (see Section \ref{Model:Datasets:OMHCHO}).
+  OMI HCHO vertical columns are calculated using modelled a priori HCHO profiles (see Section \ref{Model:datasets:OMHCHO}).
   When comparing satellite measurements against models it is important to recognise the impact of this a priori on the total column values.
   This is complicated by how OMI is differently sensitive to HCHO (and other trace gases) vertically throughout the atmosphere.
   When comparing OMI vertical columns ($\Oo$) to GEOS-Chem ($\Og$), the satellite AMF needs to be recalculated using GEOS-Chem modelled vertical gas profiles as the a prioris.
@@ -1366,14 +1365,14 @@
   \subsection{Reading satellite data}
     
     % Downloading the data
-    First satellite slant columns of formaldehyde for the years January 1st, 2005 - April 1st, 2013 are downloaded (see Section \ref{Model:Datasets:OMHCHO}).
+    First satellite slant columns of formaldehyde for the years January 1st, 2005 - April 1st, 2013 are downloaded (see Section \ref{Model:datasets:OMHCHO}).
     The data set used is from the Ozone Monitoring Instrument (OMI) on board the Aura satellite, as it has data for the entire time line and sufficiently covers the southern hemisphere.
     % Filters applied when reading
     When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
     The process is outlined in figure  \ref{Model:omiRecalc:fig_flow_omhchorp} for a single day.
     First all \textit{good} pixels (those with QA flag equal to 0) are read into a long list (roughly 1 million per day).
     These are then filtered by solar zenith angle (SZA) and latitude, similarly to other works \parencite[e.g.,]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
-    This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see Section \ref{Model:Datasets:OMHCHO}) may have affected.
+    This filtering removes highly uncertain pixels, along with those for which instrument problems such as the OMI row anomaly (see Section \ref{Model:datasets:OMHCHO}) may have affected.
     
     % Actual filtering done
     Satellite measurements polewards of 60\degr north or south are removed as well as measurements with SZA greater than 60\degr.
@@ -1652,7 +1651,7 @@
   
     % Smoke AAOD filtering:
     Determining the AAOD due to smoke can be difficult since both smoke and dust absorb UV radiation \parencite{Ahn2008,Marais2012}.
-    AAOD is less sensitive to cloud contamination than AOD, and I use AAOD from the daily gridded level 3 satellite product OMAERUVd \parencite{Ahn2008} described in Section \ref{Model:Datasets:OMAERUVd} to provide a filter for smoke plumes.
+    AAOD is less sensitive to cloud contamination than AOD, and I use AAOD from the daily gridded level 3 satellite product OMAERUVd \parencite{Ahn2008} described in Section \ref{Model:datasets:OMAERUVd} to provide a filter for smoke plumes.
     Although removing gridsquares with dust reduces how much data is available to analyse, dust in Australia is highly episodic and should not affect more than a few days per year, especially over regions with high tree coverage \parencite{Shao2007}.
     
     % Threshold for AAOD determination
@@ -1710,7 +1709,7 @@
       The left column in Figure \ref{Model:Filter:fire:fig_HCHO_vs_GC_temperature} shows scatter and RMA correlation within a single gridbox over 2 months from Jan 1 to Feb 28, 2005, without having applied either the fire nor anthropogenic masks to OMI HCHO columns. 
       The right column shows the same correlation after applying the fire filter, affected datapoints are marked in teal (matching the red marked points in the left column).
       The analysis is repeated for Sydney, Canberra, and three gridsquares to the north-west, west, and southwest of Sydney (w1, w2, w3 respectively).
-      Figure \ref{Model:Filter:fire:fig_HCHO_vs_CPC} shows the same analysis at higher resolution using CPC daily maximum temperatures (see \ref{Model:Datasets}).
+      Figure \ref{Model:Filter:fire:fig_HCHO_vs_CPC} shows the same analysis at higher resolution using CPC daily maximum temperatures (see \ref{Model:datasets}).
       
       \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_20050101-20050228.png}{HCHO vs GEOS-Chem daily midday temperatures TODO add longer caption}{\label{Model:Filter:fire:fig_HCHO_vs_GC_temperature}}
       

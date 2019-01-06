@@ -20,32 +20,28 @@
   
   
   % isoprene and Australia
-  Australian forests are strong emitters of both isoprene and monoterpenes.
-  However emissions are poorly understood due to poor measurement coverage.
-  The lack of measurements makes it difficult to estimate important subsequent processes such as ozone and secondary organic aerosol (SOA) formation.
-  Isoprene has a large impact on the oxidative properties of the atmosphere, as it reacts quickly with the OH radical.
-  One frequently used model of biogenic volatile organic compound (BVOC) emissions is MEGAN \parencite{Guenther2000} which estimates $\sim 1150$\tgpyr globally.
-  The primary BVOC emission is isoprene, globally modelled at $\sim$465-500\tgcpyr \parencite{Guenther2006, Messina2016}. 
-  The emission models used to derive these estimates are estimate fluxes from different plant species (phenotypes), which are seldom well understood within Australian forests.
-  Isoprene emissions may be overestimated in Australia since they are based on measurements of taken from a few heavily emitting young eucalyptus trees which are not representative \parencite{Winters2009, FortemsCheiney2012,}.
-  
-  Satellite based emissions estimates allow us to improve the models without requiring other expensive measurements over the large data sparse continent of Australia.
-  %%BVOC emissions are rising globally, and improving estimates for Australia is a priority since they affect such important processes in the atmosphere.
-  \textcite{Kefauver2014} reviews remote sensing of BVOC emissions, examining the last 20 years of data and analysis of the satellite products.
-  Their review reinforces the message that BVOCs affect the oxidative capacity of the atmosphere and are largely driven by and sensitive to vegetation.
+  Biogenic volatile organic compounds (BVOC) affect the oxidative capacity of the atmosphere and are largely driven by and sensitive to what type of vegetation is in the area \parencite{Kefauver2014}.
   In the troposphere, BVOC emissions affect the hydroxyl radical (OH) cycling, ozone (O$_3$) and secondary organic aerosol (SOA) production, and methane longevity.
-  The chemistry involved is complex and still suffers from relatively large uncertainties in both measurement and chemistry mechanisms.
+  Australian forests are strong emitters of isoprene, the primary BVOC emitted globally \parencite{Guenther2006,Messina2016}. % and monoterpenes.
+  However; emissions are poorly understood due to poor measurement coverage.
+  The lack of measurements makes it difficult to estimate the subsequent atmospheric processes.% such as ozone and secondary organic aerosol (SOA) formation.
+  Isoprene has a large impact on the oxidative properties of the atmosphere, as it reacts quickly with the OH radical.
   
-  In this chapter the we use and describe a technique using satellite measurements of HCHO to estimate surface isoprene emissions.
+  Emission models used to derive these an estimate of isoprene fluxes are based understanding of different plant species (phenotypes) in varying conditions, however these are seldom well understood within Australian forests.
+  The chemistry involved is complex and still suffers from relatively large uncertainties in both measurement and chemistry mechanisms.
+  Isoprene emissions may be overestimated in Australia since they are based on measurements taken from a few heavily emitting young eucalyptus trees which are not representative \parencite{Winters2009, FortemsCheiney2012,}.
+  Emissions estimates can improve boundary conditions for atmospheric chemistry models without requiring expensive measurement campaigns over the large data sparse continent of Australia.
+  %%BVOC emissions are rising globally, and improving estimates for Australia is a priority since they affect such important processes in the atmosphere.
+  %\textcite{Kefauver2014} reviews remote sensing of BVOC emissions, examining the last 20 years of data and analysis of the satellite products.
+  
+  
+  In this chapter the we describe and use a technique using satellite measurements of HCHO to calculate surface isoprene emissions.
+  HCHO is the dominant product of most BVOCs and is measured by satellites via remote sensing techniques.
   In situ isoprene concentration measurements are costly and sparse within Australia, while satellite HCHO data are plentiful and freely available, making this technique very attractive.
   Such techniques have informed isoprene emission inventories in North America \parencite{Abbot2003,Palmer2003,Palmer2006,Millet2006,Millet2008}, South America \parencite{Barkley2013}, Europe \parencite{Dufour2009,Curci2010}, Africa \parencite{Marais2012}, Asia \parencite{Fu2007,Stavrakou2014}, India \parencite{Surl2018}, and even globally \parencite{Shim2005,FortemsCheiney2012,Bauwens2016}.
-  HCHO is the dominant product of most BVOCs and is measured by remote sensing.
-  HCHO products can be found in four satellite instruments: GOME on ERS-2, SCIAMACHY on ENVI-SAT, OMI on EOS AURA, and GOME2 on MetOp-A.
-  These satellites have slightly different spectral and spatial resolutions, as well as using varied processes to estimate HCHO from detected radiances.
-  This leads to different estimates between instruments as described in \textcite{Lorente2017}, and both validation and comparison become more important when using these remotely sensed data.
   In this thesis the OMHCHO dataset from the OMI instrument (see Section \ref{Model:omhcho}) is used as the basis for HCHO amounts.
   
-  
+  %UP TO HERE JENNY COMMENTS
   \subsection{Aims}
     
     In a prior chapter (Chapter \ref{Model}), the OMI HCHO total columns are recalculated using an updated estimate of HCHO profiles from GEOS-Chem v10.01 .
@@ -886,7 +882,7 @@
     %figure from tests.campaign_gridsquare() could be better.
     \mypic{Figures/OMI_link/campaign_grid.png}{}{\label{BioIsop:results:measurements:fig_gridbox}}
     
-    Figure \ref{Model:Datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the gridsquare containing Sydney overlaid on SPS measurement data.
+    Figure \ref{Model:datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the gridsquare containing Sydney overlaid on SPS measurement data.
     Superficially the comparison is not too bad between these two datasets.
     %, however GEOS-Chem output is the daily average over 2x2.5\degr (latitude by longitude).
     This figure shows at a glance how the measurements compare to modelled data, and also the limited nature of the temporal and spatial scale of available measurements.
@@ -895,9 +891,9 @@
     
     % TODO Update with comparison before and after scaling isoprene emissions
     \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{%
-      Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:Datasets:SPS:fig_GC_comparison}}
+      Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:datasets:SPS:fig_GC_comparison}}
     
-    Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (described in Section \ref{Model:Datasets}) both before and after scaling isoprene emissions to match the top-down estimation.
+    Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (described in Section \ref{Model:datasets}) both before and after scaling isoprene emissions to match the top-down estimation.
     TODO: discuss results and differences, does isoprene improve?
     
     
@@ -1095,7 +1091,7 @@
       The resulting simulation output shows that HCHO was reduced by X\%
       % didn't end up boosting monoterpenes... , although if we boost monoterpenes by X\% where the isoprene emissions were lowered then 
       
-      Wollongong FTIR measurements (see Section \ref{Model:Datasets:Wollongong}) provide vertical profiles of HCHO which can be converted to total column amounts using modelled air densities.
+      Wollongong FTIR measurements (see Section \ref{Model:datasets:wollongong_ftir}) provide vertical profiles of HCHO which can be converted to total column amounts using modelled air densities.
       This is the only non-satellite long-term record of vertical profile HCHO available in Australia and we use it here to examine trends and seasonality.
       The time series for HCHO is shown in figure TODO, along with GEOS-Chem output before and after updating isoprene emissions.
       TODO: discuss plot here
