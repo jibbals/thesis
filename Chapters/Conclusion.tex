@@ -39,7 +39,7 @@
    
   % % Aim for Chapter 3: Biogenic emissions estimation
   % The technique of determining isoprene emissions from satellite detected HCHO is called satellite inversion.
-  \textbf{I aim to determine biogenic isoprene emissions in Australia using a top-down inversion of satellite HCHO, through an estimated yield from isoprene to HCHO}
+  \textbf{I aim to determine biogenic isoprene emissions in Australia using a top-down inversion of satellite HCHO, through an estimated yield from GEOS-Chem.}
   % Hcho amounts and the yield of isoprene to HCHO over Australia is required to create top-down estimates.
   % This process also requires careful examination of when the assumptions required within the inversion process are not valid.
   % Due to the low availability of in-situ data over most of the Australian continent, a combination of modelled and satellite data could reduce the uncertainties of isoprene emissions from Australian landscapes.
@@ -75,25 +75,24 @@
   Tropospheric ozone is enhanced through VOC chemistry, stratospheric transport, and pollution, of which the first two are highly uncertain.
   Of these ozone sources, VOC chemistry uncertainty is dominated by a lack of understanding of biogenic emissions (mainly) of isoprene.
   BVOC emissions of isoprene are globally modelled at $\sim$465-500\tgcpyr \parencite{Guenther2006, Messina2016}. 
-  However these appear to be overestimated in Australia, as seen here with top-down estimates at TODO \tgcpyr compared to MEGANs TODO \tgcpyr.
+  However these appear to be overestimated in Australia, as seen here with top-down estimates at $\sim 19$ \tgcpyr compared to $\sim 43$ \tgcpyr using GEOS-Chem (which implements MEGAN).
   
-   
-  TODO: ozone production using MEGAN/TOP-Down vs southern ocean estimates
+  TODO: ozone concentrations using emissions from MEGAN/TOP-Down, also how these compare to estimated STT:
   Ozone production in the tropospheric is estimated using the global CTM GEOS-Chem before and after scaling isoprene emissions based on top-down satellite data. 
-  The results are tabulated for each of five regions, and all of Australia, and shown here in Table TODO: table.
+  The results are tabulated for each of five regions, and all of Australia, and shown here in Table \ref{Conclusions:ozone:tab_emissions_vs_ozone}.
   TODO discuss: This table also shows the change in isoprene emissions scaling, which shows us that a XX\% change causes YY\% reduced ozone concentration.
   TODO: extra discuss: In contrast to the south eastern region, where an XX\% ozone change is observed, STT analysis over Melbourne suggests up to YY\% of the tropospheric column is due to stratospheric influx.
 
   \begin{table}\begin{threeparttable}
-    \caption{Isoprene emissions from MEGAN and top-down estimation in Tg a$^{-1}$, along with ozone tropospheric column amounts in NO$_2$ cm$^{-2}$.}
+    \caption{Isoprene emissions from MEGAN and top-down estimation in Tg a$^{-1}$, along with ozone tropospheric column amounts in O$_3$ cm$^{-2}$.}
     \begin{tabular}{ l c c c c c c } 
       \toprule
       Metric & AUS & SEA & NEA & NA & SWA & MID \\
       \midrule
-      MEGAN & 43(2) & 445(18) & 19(2) &  & & \\
+      MEGAN & 43(2) & blah &  &  & & \\
       Ozone & & & & & & \\
       \midrule
-      Top-Down & & & & & & \\
+      Top-Down & 19(2) & & & & & \\
       Ozone & & & & & & \\
       \bottomrule
     \end{tabular}
@@ -102,6 +101,8 @@
     \end{tablenotes}
     \label{Conclusions:ozone:tab_emissions_vs_ozone}
   \end{threeparttable}\end{table}
+
+
 
 \section{Isoprene link to ozone}
 \label{Conclusions:isoprene}
@@ -141,10 +142,11 @@
   \end{align*}
   where $\theta_w$ is the wilting point, and $\theta_1$ determines when plants are near the wilting point.
   The wilting point is set by a land based database from \textcite{Chen2001}, while $\theta_1$ is set globally based on \textcite{Pegoraro2004}.
-  Potentially importantly, these moisture states are disabled in GEOS-Chem V10.01, which is partly because accurate maps of soil moisture are not available.
-  
+  These moisture states are disabled in GEOS-Chem V10.01.
   Improved isoprene emissions modelling requires this soil moisture problem to be handled.
   Simply enabling the parameter in its current form is not quite good enough for Australia, due to both the unknown soil moisture and the poorly understood plant responses in this country.
   TODO: cite the paper which could update MEGAN soil moisture parameterisation.
+  
   Using satellite data to improve isoprene emission estimates such as done in this thesis must be used to analyse model improvements, since fully independent measurements are lacking.
+  Measurements of isoprene emissions in Australia would provide a valuable opportunity to verify improvements in emission estimates.
   Emissions measurement would be greatly valuable however they remain expensive and difficult, especially over the large sparse environment which makes up the Australia outback.
