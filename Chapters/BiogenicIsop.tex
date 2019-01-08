@@ -33,7 +33,8 @@
   Emissions estimates can improve boundary conditions for atmospheric chemistry models without requiring expensive measurement campaigns over the large data sparse continent of Australia.
   %%BVOC emissions are rising globally, and improving estimates for Australia is a priority since they affect such important processes in the atmosphere.
   %\textcite{Kefauver2014} reviews remote sensing of BVOC emissions, examining the last 20 years of data and analysis of the satellite products.
-  
+  \textcite{Guenther2012} Estimated global biogenic isoprene emissions at roughly 535\tgpyr, while \textcite{Sindelarova2014} estimated around 411\tgpyr.
+  %Guenther used MEGAN, \textcite{Sindelarova2014} estimated around 594\tgpyr using MEGAN with MACC, showing isoprene as 69.2\% of the total BVOC emissions, with monoterpenes at 10.9\tgpyr (10.9\%).
   
   In this chapter the we describe and use a technique using satellite measurements of HCHO to calculate surface isoprene emissions.
   HCHO is the dominant product of most BVOCs and is measured by satellites via remote sensing techniques.
@@ -395,6 +396,9 @@
   \subsection{Calculation of Emissions}
     \label{BioIsop:method:calculation}
    
+    Top-down emissions estimates are calculated using OMHCHO (see Section \ref{Model:omhcho}) slant columns and an updated AMF calculated using code from Paul Palmer's group (see Section \ref{Model:omiRecalc:ppcode}).
+    These emissions are referred to as the a posteriori from here onwards, or $E_{OMI}$ in formulae.
+   
     % First: outline of what we do
     As is done in \textcite{Palmer2003, Millet2006, Bauwens2016}, we assume that HCHO and isoprene columns are in a steady state, with no horizontal transport.
     We also assume that isoprene is the only compound enhancing the HCHO levels, which requires that we filter out influence from fires, smoke, and anthropogenic emissions.
@@ -726,9 +730,8 @@
     
     \mypic{Figures/OMI_link/Emiss/MEGAN_monthly_daycycle.png}{ %
       The diurnal cycle of MEGAN emissions averaged by month over 1, Jan, 2005 to TODO, 2013 are shown with lines, while top-down emissions estimates are shown with plus symbols.
-      MEGAN emissions are estimated hourly per 2x2.5\degr horizontal grid box, shown here are the averages within several areas (denoted by colour, see figure todo).
+      MEGAN emissions are estimated hourly per 2x2.5\degr horizontal grid box, shown here are the area averages (denoted by colour, see Figure \ref{BioIsop:results:fig_subregions}).
       Top-down estimates are similarly grouped by colour, and shown at the 13:00~LT mark for each month.
-      Rows 1-4 match seasons from austral summer (DJF) through to spring (SON).
       }{\label{BioIsop:method:scaled:megan_diurnal}}
     
     The scaling factor $\alpha$ is derived which when multiplied with $E_{GC}$ produces the top down emissions estimate $E_{OMI}$ : 
@@ -738,41 +741,160 @@
     This is performed through a small modification of GEOS-chem source code which applies $\alpha$ after calculating emissions for each grid-square based on the default emission factors and meteorology.
     Initially $\alpha$ is uniformly set to 1 globally.
     Where we have top down emissions and $E_{GC}$ is non-zero, we can set $\alpha$ using Equation \ref{BioIsop:method:scaled:eqn_alpha}.
-    Missing values for alpha when $E_{GC}$ are zero is a relatively negligible problem since the main issues occur during summer when high emission rates are overestimated.
-    Figure \ref{BioIsop:method:scaled:fig_alpha_mya_series} shows alpha for the average January and June over 2005-2012, along with a time series of $E_{GC}$ and $E_{OMI}$ and alpha calculated for Sydney, and their multi-year seasonal average.
+    Missing values for $\alpha$ when $E_{GC}$ are zero is a relatively negligible problem since the main issues occur during summer when high emission rates are overestimated.
+    Figure \ref{BioIsop:method:scaled:fig_alpha_mya_series} shows $\alpha$ for the average January and June over 2005-2012, along with a time series of $E_{GC}$ and $E_{OMI}$ and $\alpha$ calculated for Sydney, and their multi-year seasonal average.
     
     \mypic{Figures/OMI_link/new_emiss/alpha_mya.png}{%
-      Row 1: Alpha for the average January (left) and June (right) over 2005-2012.
-      Row 2: $E_{GC}$ (xxx, left axis), $E_{OMI}$ (xxx, left axis), and alpha (black, right axis) multi-year monthly averages calculated for Sydney.
+      Row 1: $\alpha$ for the average January (left) and June (right) over 2005-2012.
+      Row 2: $E_{GC}$ (xxx, left axis), $E_{OMI}$ (xxx, left axis), and  $\alpha$(black, right axis) multi-year monthly averages calculated for Sydney.
       Row 3: Monthly averages of the same terms in Row 2.}{\label{BioIsop:method:scaled:fig_alpha_mya_series}}
 
 \section{Results}
   \label{BioIsop:results}
   
-  \subsection{Updated emissions}
-  
-  \subsection{Emissions comparisons}
-  
-  
-  
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% MOVE STUFF TO NEW RESULTS %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
-  
-\section{OLD results - to be moved}
-  
-  Australia is a large country - roughly 7.7~ million km$^{2}$, with heterogeneous environmental conditions.
+  Australia is roughly 7.7~ million km$^{2}$, with heterogeneous environmental conditions.
   The results presented in this section are frequently split into five regions which are differentiated by colour, as shown in Figure \ref{BioIsop:results:fig_subregions}.
-  Top-down emissions estimates ($E_{OMI}$) shown in this section are calculated using OMHCHO (see Section \ref{Model:omhcho}) slant columns and an updated AMF calculated using code from Paul Palmer's group (see Section \ref{Model:omiRecalc:ppcode}). 
-  %Sensitivity to (Section \ref{BioIsop:uncertainty:Satellite:AMF}).
   
   % figure from Analysis_E_isop.py.show_subregions()
   \mypic{Figures/OMI_link/subregions.png}{%
     Sub-regions used in subsequent figures.
-    Averages taken within Australia will be black or grey, while averages from within the coloured rectangles will match the colour shown here.
+    Australia-wide averages will be black or grey, while averages from within the coloured rectangles will match the colour shown here.
   }{\label{BioIsop:results:fig_subregions}}
   
+  %\subsection{Yield}
+  
+  \subsection{Updated emissions}
+    \label{BioIsop:results:emissions}
+    
+    Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows emissions over Australia calculated using the OMI top down estimate (column 1: E$_{OMI}$) and GEOS-Chem simulated emissions (column 2: E$_{GC}$).
+    The first row shows the time series (daily midday averages) and the final row shows the absolute differences ($E_{GC} - E_{OMI}$). %($\frac{E_{GC} - E_{OMI}}{E_{GC}}$).
+    This figure is repeated using monthly means (of the daily midday estimates) in Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan_monthly}.
+    TODO: Analaysis of these time series
+    
+    % Figure from Analyse_E_new.py -> E_regional_time_series()
+    \mypic{Figures/OMI_link/Emiss/E_zones_PP_lr.png}{%
+      Emissions of isoprene estimates using OMI top down inversion (column 1: E$_{OMI}$) and MEGAN (column 2: E$_{GC}$).
+      Row 1: overall averaged daily midday emission rates, from 1, Jan, 2005 to 1, May, 2013.
+      Row 2: time series of daily midday averages for all of Australia along with several subregions (shown in row 1). 
+      Row 3: relative differences: $\frac{E_{MEGAN} - E_{OMI}}{E_{MEGAN}}$.
+      The black lines and grey areas show the Australian mean and inter-quartile range respectively, while the coloured lines show the mean within the rectangles (of matching colours) shown in the first row.
+    }{\label{BioIsop:results:emissions:fig_time_series_vs_megan}}
+    
+    \mypic{Figures/OMI_link/Emiss/E_zones_PP_monthly_lr.png}{ %
+      As Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} using monthly medians of the daily midday emissions estimates.
+    }{\label{BioIsop:results:emissions:fig_time_series_vs_megan_monthly}}
+    
+    Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and IQR of daily midday isoprene emissions estimates, averaged regionally (see Figure \ref{BioIsop:results:fig_subregions}). 
+    Generally months outside of May to August show the a posteriori lower than the a priori, except in the south eastern portion of Australia.
+    
+    \mypic{Figures/OMI_link/Emiss/E_zones_multiyear_PP_lr.png}{ %
+      The multi-year monthly mean (lines) and IQR (shaded) of midday (13:00-14-00~LT) isoprene emissions estimates. 
+      Estimates come from MEGAN run by GEOS-Chem (E$_{GC}$), and the OMI top-down technique (E$_{OMI}$).
+      The mean E$_{GC}$ is shown by the dashed lines and hatched shaded areas show the IQR.
+      E$_{OMI}$ means are shown using the solid lines, with IQR shown by unhatched shaded areas.
+      Colours denote the region over which the monthly average was taken, as shown in Figure \ref{BioIsop:results:fig_subregions}.
+    }{\label{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya}}
+    
+    Figures \ref{BioIsop:results:emissions:fig_daily_egressions} and \ref{BioIsop:results:emissions:fig_monthly_egressions} show how the distributions of top-down emissions compare to those of MEGAN in each region during summer months (DJF) with zeros and negatives removed from both distributions. 
+    Figure \ref{BioIsop:results:emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally to show data-point frequency.
+    There is only weak correlation apparent between daily top down and MEGAN estimations, however daily values suffer from large uncertainty. 
+    Figure \ref{BioIsop:results:emissions:fig_monthly_egressions} displays the regressions between monthly averages of the same data. 
+    In the monthly averages more correlation is apparent, with regression coefficients ranging from 0.48 to 0.78 across regions.
+    The portion of this correlation due to seasonality is examined by re-running the regression after subtracting the multi-year monthly average from each dataset.
+    TODO: run regression after removing seasonal average and see how r and slope are affected.
+    
+    \mypic{Figures/OMI_link/Emiss/daily_Egressions.png}{%
+      Scatter plot (binned hexagonally to show data-point frequency) along with the distributions of MEGAN (y axis) and the top down estimate (x axis).
+      This figure is based on summer (DJF) midday values over multiple years.
+      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
+    }{\label{BioIsop:results:emissions:fig_daily_egressions}}
+    
+    \mypic{Figures/OMI_link/Emiss/monthly_Egressions.png}{%
+      Scatter plot of MEGAN emissions against top down emissions using monthly averaged gridsquares as regression datapoints.
+      Figures use multiple years of summer (DJF) midday values averaged monthly within each region shown.
+      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
+    }{\label{BioIsop:results:emissions:fig_monthly_egressions}}
+  
+  \subsection{Literature comparisons}
+    
+    % 
+    When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease of around 29\tgpyr ($66\%)$.
+    \textcite{Sindelarova2014} see a 41\tgpyr decrease in Australia when introducing soil moisture parameterisation.
+    Table \ref{BioIsop:results:emissions:tab_emissions_Tg} shows yearly isoprene emissions from this work and some other works for Australia.
+    Figure \ref{BioIsop:results:emissions:fig_tga_comparison_map} shows how this decrease is distributed spatially, with $E_{GC}$ and $E_{OMI}$ in \tgpyr calculated as a multi-year mean.
+    Across all of Australia we see large reductions of total emissions using the new top-down estimate.
+    
+    \mypic{Figures/OMI_link/Emiss/tga_map.png}{%
+      Top row: multi-year mean emissions in \tgpyr from $E_{GC}$ (GEOS-Chem; running MEGAN) and $E_{OMI}$ (top-down emissions) respectively.
+      $E_{OMI}$ uses an assumed sinusoidal daily cycle, with daylight hours perscribed for each month: see Section \ref{BioIsop:method:calculation}).
+      Bottom left and right shows the absolute and relative differences respectively.}{\label{BioIsop:results:emissions:fig_tga_comparison_map}}
+    
+    
+    %TODO: Update with 2005-2013 rather than just 2005-2007
+    %global MEGAN: 471.518577725
+    %aus MEGAN: 45.4326831613
+    %aus OMI  : 16.4731027389
+    
+    \begin{table}\begin{threeparttable}
+      \caption{Isoprene emissions (Tg/yr)}
+      \begin{tabular}{ l  c  >{\arraybackslash}p{10cm} } 
+        \toprule
+        Australia & notes \\
+        \midrule
+        43(2) & a) GEOS-Chem: 2005-2010 \\ % 445(18) globally
+        19(2) & b) Top-down: 2005-2010 \\
+        26-94 & c) \textcite{Bauwens2016}: 2005-2013\\
+        %&  535 & \textcite{Guenther2012}: \\
+        %&  594 & \textcite{Sindelarova2014}: \\
+        %26-94 & 272-570 & c) \textcite{Bauwens2016}: 2005-2013\\
+        \bottomrule
+      \end{tabular}
+      \begin{tablenotes} 
+        \item a: MEGAN diagnostics based on 3-hourly averages
+        \item b: Based on daily peak emissions integrated over a sinusoidal daily curve
+        \item c: Range shown here based on 3 different models and one top-down inversion
+      \end{tablenotes}
+      \label{BioIsop:results:emissions:tab_emissions_Tg}
+    \end{threeparttable}\end{table}
+  
+  \subsection{Comparison with available measurements}
+    \label{BioIsop:results:measurements}
+    TODO: % TODO: campaign analysis compared to GEOS-Chem
+    Analyse comparison of gridbox with campaigns of measurements
+    
+    Comparison between ground-based measurements and large (2x2.5\degr) averaged grid squares suffers from heavy representational error.
+    Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement sites, along with an outline of the \lowhr model gridbox. 
+    The urban footprint of Sydney and Wollongong are clearly shown, along with some ocean, forest, and rural regions, which are all averaged within calculations made here.
+    Due to high uncertainty in components of the top-down emissions estimate, temporal resolution is also limited.
+    MUMBA, SPS1 and SPS2 each provide only a couple of comparable data points, and these campaigns measured isoprene concentrations while our estimate is of emissions.
+    
+    %figure from tests.campaign_gridsquare() could be better.
+    \mypic{Figures/gridmapsmall_sites.png}{% 
+      Gridbox at \lowhr containing SPS, and MUMBA campaign data.}{\label{BioIsop:results:measurements:fig_gridbox}}
+    
+    Figure \ref{Model:datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the gridsquare containing Sydney overlaid on SPS measurement data.
+    Superficially the comparison is not too bad between these two datasets.
+    %, however GEOS-Chem output is the daily average over 2x2.5\degr (latitude by longitude).
+    This figure shows at a glance how the measurements compare to modelled data, and also the limited nature of the temporal and spatial scale of available measurements.
+    TODO: if possible use midday isoprene multi-year averages, and error bars? then update discussion.
+    The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high since the daily average should not match the peak of the measurements.
+    
+    % TODO Update with comparison before and after scaling isoprene emissions
+    \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{%
+      Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:datasets:SPS:fig_GC_comparison}}
+    
+    Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (described in Section \ref{Model:datasets}) both before and after scaling isoprene emissions to match the top-down estimation.
+    TODO: discuss results and differences, does isoprene improve?
+    
+    
+    MUMBA data captured concentration at the surface in Wollongong, and is compared in figure TODO against simulated HCHO concentrations at the first level ($\sim$0 - 150~metres) over corresponding dates.
+    GEOS-Chem midday and day average concentrations are shown, along with Wollongong bottom-level FTIR measurements to compare against the MUMBA data.
+    TODO Discussion of comparison.
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% MOVE STUFF TO METHODS MAYBE %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
   \subsection{HCHO Products and yield}
     \label{BioIsop:results:HCHOYield}
     
@@ -795,135 +917,6 @@
       Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}
       Shaded areas show the yield (plain) and lifetime (hatched) IQR.
     }{\label{BioIsop:results:HCHOYield:fig_Yield_Lifetime}}
-      
-      
-  \subsection{Emissions comparisons}
-    \label{BioIsop:results:emissions}
-    
-    \textcite{Guenther2012} Estimate global biogenic isoprene emissions at roughly 535\tgpyr, using MEGAN.
-    \textcite{Sindelarova2014} Estimate around 594\tgpyr using MEGAN with MACC, showing isoprene as 69.2\% of the total BVOC emissions, with monoterpenes at 10.9\tgpyr (10.9\%).
-    They show 41\tgpyr decrease in Australia when introducing soil moisture parameterisation.
-    When comparing the GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease of around 29\tgpyr ($66\%)$.
-    Table \ref{BioIsop:results:emissions:tab_emissions_Tg} shows yearly isoprene emissions from this work and some other works for Australia and globally.
-    Figure \ref{BioIsop:results:emissions:fig_tga_comparison_map} shows how this decrease is distributed spatially, with $E_{GC}$ and $E_{OMI}$ in \tgpyr calculated as a multi-year mean.
-    Across all of Australia we see large reductions of total emissions using the new top-down estimate.
-    
-    \mypic{Figures/OMI_link/Emiss/tga_map.png}{%
-      Top row: multi-year mean emissions in \tgpyr from $E_{GC}$ (GEOS-Chem; running MEGAN) and $E_{OMI}$ (top-down emissions) respectively.
-      $E_{OMI}$ uses an assumed sinusoidal daily cycle, with daylight hours perscribed for each month: see Section \ref{BioIsop:method:calculation}) .
-      Bottom left and right shows the absolute and relative differences respectively.}{\label{BioIsop:results:emissions:fig_tga_comparison_map}}
-    
-    
-    %TODO: Update with 2005-2013 rather than just 2005-2007
-    %global MEGAN: 471.518577725
-    %aus MEGAN: 45.4326831613
-    %aus OMI  : 16.4731027389
-    
-    \begin{table}\begin{threeparttable}
-      \caption{Isoprene emissions (Tg/yr)}
-      \begin{tabular}{ l  c  >{\arraybackslash}p{10cm} } 
-        \toprule
-        Australia & Global & notes \\
-        \midrule
-        43(2) & 445(18) & a) GEOS-Chem: 2005-2010 \\
-        19(2) &  & b) Top-down: 2005-2010 \\
-         &  535 & \textcite{Guenther2012}: \\
-         &  594 & \textcite{Sindelarova2014}: \\
-        26-94 & 272-570 & c) \textcite{Bauwens2016}: 2005-2013\\
-        \bottomrule
-      \end{tabular}
-      \begin{tablenotes} 
-        \item a: MEGAN diagnostics based on 3-hourly averages
-        \item b: Based on daily peak emissions integrated over a sinusoidal daily curve
-        \item c: Range shown here based on 3 different models and one top-down inversion
-      \end{tablenotes}
-      \label{BioIsop:results:emissions:tab_emissions_Tg}
-    \end{threeparttable}\end{table}
-     
-    
-    Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows emissions over Australia calculated using the OMI top down estimate (column 1: E$_{OMI}$) and GEOS-Chem simulated emissions (column 2: E$_{GC}$).
-    The first row shows the time series (daily midday averages) and the final row shows the absolute differences ($E_{GC} - E_{OMI}$). %($\frac{E_{GC} - E_{OMI}}{E_{GC}}$).
-    This figure is repeated using monthly means (of the daily midday estimates) in Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan_monthly}.
-    
-    Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and IQR of daily midday isoprene emissions estimates, averaged over several regions (see Figure \ref{BioIsop:results:fig_subregions}). 
-    Generally months outside of May to August show the a posteriori lower than the a priori, except in the south eastern portion of Australia.
-    
-    Figures \ref{BioIsop:results:emissions:fig_daily_egressions} and \ref{BioIsop:results:emissions:fig_monthly_egressions} show how the distributions of top-down emissions compare to those of MEGAN in each region during summer months (DJF) with zeros and negatives removed from both distributions. 
-    Figure \ref{BioIsop:results:emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally to show data-point frequency.
-    There is only weak correlation apparent between daily top down and MEGAN estimations, however daily values suffer from large uncertainty. 
-    Figure \ref{BioIsop:results:emissions:fig_monthly_egressions} displays the regressions between monthly averages of the same data. 
-    In the monthly averages more correlation is apparent, with regression coefficients ranging from 0.48 to 0.78 across regions.
-    The portion of this correlation due to seasonality is examined by re-running the regression after subtracting the multi-year monthly average from each dataset.
-    %TODO
-    TODO: run regression after removing seasonal average and see how r and slope are affected.
-    
-    \mypic{Figures/OMI_link/Emiss/daily_Egressions.png}{%
-      Scatter plot (binned hexagonally to show data-point frequency) along with the distributions of MEGAN (y axis) and the top down estimate (x axis).
-      This figure is based on summer (DJF) midday values over multiple years.
-      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
-      }{\label{BioIsop:results:emissions:fig_daily_egressions}}
-    
-    \mypic{Figures/OMI_link/Emiss/monthly_Egressions.png}{%
-      Scatter plot of MEGAN emissions against top down emissions using monthly averaged gridsquares as regression datapoints.
-      Figures use multiple years of summer (DJF) midday values averaged monthly within each region shown.
-      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
-      }{\label{BioIsop:results:emissions:fig_monthly_egressions}}
-     
-    
-    % Figure from Analyse_E_new.py -> E_regional_time_series()
-    \mypic{Figures/OMI_link/Emiss/E_zones_PP_lr.png}{%
-      Emissions of isoprene estimates using OMI top down inversion (column 1: E$_{OMI}$) and MEGAN (column 2: E$_{GC}$).
-      Row 1: overall averaged daily midday emission rates, from 1, Jan, 2005 to 1, May, 2013.
-      Row 2: time series of daily midday averages for all of Australia along with several subregions (shown in row 1). 
-      Row 3: relative differences: $\frac{E_{MEGAN} - E_{OMI}}{E_{MEGAN}}$.
-      The black lines and grey areas show the Australian mean and inter-quartile range respectively, while the coloured lines show the mean within the rectangles (of matching colours) shown in the first row.
-      }{\label{BioIsop:results:emissions:fig_time_series_vs_megan}}
-    \mypic{Figures/OMI_link/Emiss/E_zones_PP_monthly_lr.png}{ %
-      As Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} using monthly medians of the daily midday emissions estimates.
-      }{\label{BioIsop:results:emissions:fig_time_series_vs_megan_monthly}}
-    
-    \mypic{Figures/OMI_link/Emiss/E_zones_multiyear_PP_lr.png}{ %
-      The multi-year monthly mean (lines) and IQR (shaded) of midday (13:00-14-00~LT) isoprene emissions estimates. 
-      Estimates come from MEGAN run by GEOS-Chem (E$_{GC}$), and the OMI top-down technique (E$_{OMI}$).
-      The mean E$_{GC}$ is shown by the dashed lines and hatched shaded areas show the IQR.
-      E$_{OMI}$ means are shown using the solid lines, with IQR shown by unhatched shaded areas.
-      Colours denote the region over which the monthly average was taken, as shown in Figure \ref{BioIsop:results:fig_subregions}.
-      }{\label{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya}}
-  
-  \subsection{Comparison with measurements}
-    \label{BioIsop:results:measurements}
-    TODO: % TODO: campaign analysis compared to GEOS-Chem
-    Analyse comparison of gridbox with campaigns of measurements
-    
-    Comparison between ground-based measurements and large (2x2.5\degr) averaged grid squares suffers from heavy representational error.
-    Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement sites, along with an outline of the \lowhr model gridbox. 
-    The urban footprint of Sydney and Wollongong are clearly shown, along with some ocean, forest, and rural regions, which are all averaged within calculations made here.
-    Due to high uncertainty in components of the top-down emissions estimate, temporal resolution is also limited.
-    MUMBA, SPS1 and SPS2 each provide only a couple of comparable data points, and these campaigns measured isoprene concentrations while our estimate is of emissions.
-    
-    %figure from tests.campaign_gridsquare() could be better.
-    \mypic{Figures/OMI_link/campaign_grid.png}{}{\label{BioIsop:results:measurements:fig_gridbox}}
-    
-    Figure \ref{Model:datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the gridsquare containing Sydney overlaid on SPS measurement data.
-    Superficially the comparison is not too bad between these two datasets.
-    %, however GEOS-Chem output is the daily average over 2x2.5\degr (latitude by longitude).
-    This figure shows at a glance how the measurements compare to modelled data, and also the limited nature of the temporal and spatial scale of available measurements.
-    TODO: if possible use midday isoprene multi-year averages, and error bars? then update discussion.
-    The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high since the daily average should not match the peak of the measurements.
-    
-    % TODO Update with comparison before and after scaling isoprene emissions
-    \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{%
-      Comparison between GEOS-Chem HCHO concentrations in the gridsquare containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:datasets:SPS:fig_GC_comparison}}
-    
-    Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (described in Section \ref{Model:datasets}) both before and after scaling isoprene emissions to match the top-down estimation.
-    TODO: discuss results and differences, does isoprene improve?
-    
-    
-    
-    
-    MUMBA data captured concentration at the surface in Wollongong, and is compared in figure TODO against simulated HCHO concentrations at the first level ($\sim$0 - 150~metres) over corresponding dates.
-    GEOS-Chem midday and day average concentrations are shown, along with Wollongong bottom-level FTIR measurements to compare against the MUMBA data.
-    TODO Discussion of comparison.
     
 
 \section{Uncertainty}
