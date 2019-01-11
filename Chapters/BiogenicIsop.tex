@@ -259,33 +259,50 @@
     Isoprene emissions from the default tropchem simulation are referred to as the a priori emissions.
     
   
-  \subsection{Calculating modelled slope}
+  % UP TO HERE Jenny Comments  
+  \subsection{Relationship between isoprene emissions and formaldehyde}
     \label{BioIsop:method:slope}
     
-    % determination of HCHO = S E_isop + HCHO_BG
-    To determine the link between biogenic isoprene and midday column HCHO we use GEOS-Chem.
-    The method follows roughly the following three stages: 
-    \begin{enumerate}
-      \item 
-        Hourly gridded model output $E_{GC}$~atoms C cm$^{-2}$ s$^{-1}$ at 13:00~LT daily are extracted, along with $\Omega_{GC}$\moleccm output.
-      \item
-        Grid square days which are likely to be affected by smearing are removed (see Section \ref{BioIsop:method:smearing}).
-      \item 
-        A reduced major axis regression slope is determined between $\Omega_{GC}$ and E$_{GC}$ using a month of modelled output (one value per day) for each grid square (e.g. see Figure \ref{BioIsop:method:slope:fig_regressions})
-    \end{enumerate}
+    % First a Summary of the idea that column HCHO is linearly related to E_isoprene
+    In specific conditions, HCHO total columns ($\Omega$\moleccm) are linearly related to isoprene emissions.
+    This is derived using several assumptions that are important to understand.
+    The first assumption is that HCHO is at steady state, which implies productions ($P_{HCHO}$) and losses ($L_{HCHO}$) are equivalent.
+    \begin{equation}
+      \label{BioIsop:method:slope:eqn_steady_state]}
+      \frac{d \Omega }{dt} = 0 = P_{HCHO} - L_{HCHO}
+    \end{equation}
+    This is reasonable during midday when isoprene emissions are steady and $\Omega$ has had time to stabilise.
     
-    Assuming HCHO is produced quickly from short-lived intermediates:
+    The second assumption is that loss ($k_{HCHO}$) is only due to photolysis and oxidation which is first order.% ($k_{HCHO} = 1/\tau_{HCHO}$).
+    \begin{equation}
+      \label{BioIsop:method:slope:eqn_loss}
+      L_{HCHO}  = & k_{HCHO} [ HCHO ]
+    \end{equation}
+    Loss due to transport depends on grid box size and wind speed.
+    This assumption is reasonable for large enough grid boxes as transport becomes negligible in relation to the linear (first order) terms.
+    Production and loss are on the order of minutes, and grid box sizes in this work are rectangular with $\sim 200$~km edge lengths. 
+    Transport can still be an issue however, and is handled in Section \ref{BioIsop:method:smearing}.
+    
+    The third assumption is that HCHO is produced quickly from short-lived intermediates:
     \begin{eqnarray*}
       VOC_i + X \overset{k_i}{\rightarrow} Y_i HCHO
     \end{eqnarray*}
     Where $VOC_i$ is a VOC, $Y_i$ is HCHO yield per C atom, and $k_i$ is the reaction rate.
-    Then assuming a steady state of atmospheric HCHO (total column HCHO: $\Omega$\moleccm) produced by oxidation of VOC$_i$ without horizontal transport:
+    Production of HCHO above a background is due to the sum of the precursor emissions ($E_i$) multiplied by their yields to HCHO ($Y_i$).
+    \begin{equation}
+      \label{BioIsop:method:slope:eqn_prod}
+      P_{HCHO}  = \Sigma_i Y_i E_i 
+    \end{equation}
+    
     \begin{eqnarray*}
       \Omega = \frac{1}{k_{HCHO}} \sum_{i} Y_i E_i
     \end{eqnarray*}
+    
+    %Then assuming a steady state of atmospheric HCHO (total column HCHO: $\Omega$) produced by oxidation of VOC$_i$ without horizontal transport:
+    
+    
     Where $k_{HCHO}$ is the HCHO loss rate due to OH and photolysis, Y$_i$ is the molar HCHO yield from oxidation (of $VOC_i$), and $E_i$ is emission flux (C atoms $cm^{-2} s^{-1}$).
     We assume isoprene emissions are driving changes in $\Omega$ \parencite{Palmer2003,Millet2008,Marais2014,Stavrakou2015} and lump other terms into the background $\Omega_0$ so that our equation becomes:
-    % UP TO HERE Jenny Comments  
     \begin{eqnarray} 
     \label{BioIsop:method:slope:eqn_isop_to_hcho}
     \begin{split}
@@ -295,28 +312,41 @@
     \end{split} \end{eqnarray}
     Here $S$ is the slope $\equiv \frac{Y_{isop}}{k_{HCHO}}$.
     
-    The equations above come from several assumptions that are important to understand.
-    The first assumption is that HCHO %and isoprene ($I$)?
-    is at steady state, which implies productions and losses are equivalent.
-    Then we assume that loss is only due to photolysis and oxidation (first order, $k_{HCHO} = 1/\tau_{HCHO}$).
-    Production of HCHO above a background is due to the sum of the precursor emissions ($E_i$) multiplied by their yields to HCHO ($Y_i$).
+    
+    
+    
+    Lumping non-isoprene precursors, and assuming that enhancements above the background are only due to isoprene emissions we have: 
     \begin{eqnarray*}
-      \frac{d [ HCHO ] }{dt} = 0 = & Prod(HCHO) - Loss(HCHO) \\
-      Loss(HCHO)  = & k_{HCHO} [ HCHO ] \\
-      Prod(HCHO)  = & \Sigma_i Y_i E_i  \\
-    \end{eqnarray*}
-    Now instead of concentrations we use total column amounts for HCHO, with emissions being in units of molecules cm$^{-2}$ s$^{-1}$.
-    And then lumping together non-isoprene precursors, and assuming that enhancements above the background are only due to isoprene emissions we have: 
-    \begin{eqnarray*}
-    k_{HCHO} \Omega_{HCHO} = & Y_{isop} E_{OMI} + \Sigma_{i \ne isop} Y_{i} VOC_{i} \\
+    k_{HCHO} \Omega_{HCHO} = & Y_{isop} E_{OMI} + \sum_{i \ne isop} Y_{i} VOC_{i} \\
     \Omega_{HCHO} = & S E_{OMI} + \Omega_{0}
     \end{eqnarray*}
     
     
-    Estimates of $Y_{isop}$ or $S$ are attained through modelling \parencite[e.g.][]{Millet2006}.
-    We look at each $2\times2.5$~\degr grid box from daily GEOS-Chem (biogenic only) output of $\Omega_{HCHO} \equiv \Ogc$ and $E_{OMI} \equiv E_{GC}$ within Australia, and calculate the (RMA) correlation for each month.
+    
+    
+    
+    %Now instead of concentrations we use total column amounts for HCHO, with emissions being in units of molecules cm$^{-2}$ s$^{-1}$.
+    And then lumping together non-isoprene precursors, and assuming that enhancements above the background are only due to isoprene emissions we have: 
+    \begin{eqnarray*}
+      k_{HCHO} \Omega_{HCHO} = & Y_{isop} E_{OMI} + \Sigma_{i \ne isop} Y_{i} VOC_{i} \\
+      \Omega_{HCHO} = & S E_{OMI} + \Omega_{0}
+    \end{eqnarray*}
+    
+    % determination of HCHO = S E_isop + HCHO_BG
+    To determine $S$; the link between biogenic isoprene and midday column HCHO, we use GEOS-Chem.
+    The method follows roughly the following three stages: 
+    \begin{enumerate}
+      \item 
+      Hourly gridded model output $E_{GC}$~atoms C cm$^{-2}$ s$^{-1}$ at 13:00~LT daily are extracted, along with $\Omega_{GC}$\moleccm output.
+      \item
+      Grid square days which are likely to be affected by smearing are removed (see Section \ref{BioIsop:method:smearing}).
+      \item 
+      A reduced major axis regression slope is determined between $\Omega_{GC}$ and E$_{GC}$ using a month of modelled output (one value per day) for each grid square (e.g. see Figure \ref{BioIsop:method:slope:fig_regressions})
+    \end{enumerate}
+    
+    We look at each $2\times2.5$~\degr grid box from daily GEOS-Chem (biogenic only) output of $\Omega_{HCHO} \equiv \Ogc$ and $E_{OMI} \equiv E_{GC}$ within Australia, and calculate the (RMA) slope for each month.
     Modelled background concentrations can be ignored here as they do not affect slope calculation.
-    This effectively gives us monthly gridded isoprene to HCHO slope ($S$) in units of molecules HCHO $/$ atom C $\times$ seconds (seconds).
+    This effectively gives us monthly gridded isoprene to HCHO slope ($S$) in units of molecules HCHO C$^{-1}$ s.
     Figure \ref{BioIsop:method:slope:fig_regressions} (top left) shows the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid square over January 2005, averaged between 1300-1400~LT each day.
     Also shown are the regression coefficients (bottom left), Australia averaged $E_{GC}$ and $\Ogc$ time series (top right), and a sample of the regressions (bottom right).
     Each regression is for a single grid box, over the course of one month, and is coloured by location (matching dots shown in the bottom left panel).
@@ -370,6 +400,7 @@
     There are a couple of ways to determine the modelled background HCHO concentration, one of which involves running the model with isoprene emissions turned off, which allows us to see exactly how much the modelled isoprene emissions alter each vertical column of HCHO.
     This is effective since we have assumed variation in HCHO columns only depends on isoprene emissions, so our background term is theoretically identical to the emission free simulated HCHO.
     The other way involves looking at HCHO over the remote Pacific at matching latitudes and times, which emulates how the background is determined for the satellite measured HCHO.
+    The difference between these two methods is negligible, so for consistency with satellite data, we determine backgrounds using the remote Pacific.
     Figure \ref{BioIsop:method:fig_background_hcho} shows GEOS-Chem total column HCHO with and without isoprene emissions along with amounts over the remote Pacific at the same latitudes.
     Background HCHO for any latitude in this thesis are calculated by averaging longitudinally (140\degr W to 160\degr W) the matching latitudes over the remote Pacific.
     %These backgrounds are used when creating the reference sector corrections for satellite measurements (in Section \ref{Model:omiRecalc:RSC}).
