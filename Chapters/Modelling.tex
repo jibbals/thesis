@@ -34,7 +34,7 @@
   In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[e.g.,][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
   One key step is to recalculate the satellite information using modelled data, detailed in Section \ref{Model:omiRecalc}.
   The effects of these recalculations on satellite HCHO is also examined.
-  The creation and effects of filters used to remove non-biogenic influences are described in Section \ref{Model:Filter}.
+  The creation and effects of filters used to remove non-biogenic influences are described in Section \ref{Model:filter}.
   
   
 % put OMHCHO relevant stuff all into 2.3
@@ -117,7 +117,7 @@
       An example figure from Jan 29, 2005 is shown in Figure \ref{Model:datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in Figure \ref{Model:datasets:OMNO2d:fig_omno2d_2005}.
       OMNO2 pixel resolution is 40~km by 130~km.
       NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (see Section \ref{Model:GC:NOx} for the comparison between this product and GEOS-Chem calculations).
-      It is also used to form the anthropogenic influence filter for OMHCHO (See Section \ref{Model:Filter:NOx}).
+      It is also used to form the anthropogenic influence filter for OMHCHO (See Section \ref{Model:filter:NOx}).
       
       
       \mypic{Figures/OMNO2d_2005m0129.png}{Example of NO$_2$ tropospheric columns taken from the OMNO2d product.}{\label{Model:datasets:OMNO2d:fig_eg_omno2d}}
@@ -148,7 +148,7 @@
       % How I read the AAOD
       In this work AAOD is mapped from 1x1\degr horizontal resolution to \highhr using nearest value mapping.
       The AAOD at 500~nm wavelength is used to determine smoke influence, although any of the provided wavelengths would be affected by smoke plumes and could also be used.
-      This daily AAOD is compared to a threshold to create a daily smoke filter, any areas with AAOD$>0.03$ are considered to be potentially smoke plume affected (see Section \ref{Model:Filter:fire}).
+      This daily AAOD is compared to a threshold to create a daily smoke filter, any areas with AAOD$>0.03$ are considered to be potentially smoke plume affected (see Section \ref{Model:filter:fire}).
     
     \subsubsection{Active fires}
       \label{Model:datasets:MOD14A1}
@@ -156,7 +156,7 @@
       Fire observations are performed four times daily from Terra (10:30~LT, 22:30~LT) and Aqua (01:30~LT, 13:30~LT).
       The fire pixels are detected based on parameters including apparent pixel temperature and the nearby background temperature.
       The dataset is obtained from NASA Earth Observations (NEO) that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
-      This product is downloaded and binned into a lower resolution (using the sum of fire pixels) to create an active fire influence mask (see Section \ref{Model:Filter:fire}).
+      This product is downloaded and binned into a lower resolution (using the sum of fire pixels) to create an active fire influence mask (see Section \ref{Model:filter:fire}).
       
     \subsubsection{Carbon monoxide}
       \label{Model:datasets:AIRS}
@@ -1330,7 +1330,7 @@
     PP code is run on a subset of the globe covering Australia and the pacific ocean, producing AMF$_{PP}$.
     The output keeps the original AMF as well as those recalculated using GEOS-Chem (AMF$_{OMI}$, AMF$_{GC}$, and AMF$_{PP}$).
     Additionally, MOD14A1, OMAERUVd and OMNO2d data are used to create masks which are also stored in the OMHCHORP dataset.
-    The creation of fire, smoke, and anthropogenic influence masks is described in Section \ref{Model:Filter}.
+    The creation of fire, smoke, and anthropogenic influence masks is described in Section \ref{Model:filter}.
     
     \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:omiRecalc:fig_flow_omhchorp}}
       
@@ -1582,7 +1582,7 @@
     This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
     
 \section{Filtering Data}
-  \label{Model:Filter}
+  \label{Model:filter}
   
   % Why filter data
   In order to examine only biogenic processes, pyrogenic and anthropogenic influences need to be removed from modelled and measured data.
@@ -1607,7 +1607,7 @@
   These masks negatively affect uncertainty,  as fewer measurements are available to be averaged.
   This section describes the creation and effects of filters used on satellite data.
   
-  A quick summary of how much data is filtered over Australian land squares is provided in Table \ref{Model:Filter:tab_summary_pixels_masked}, and an quick check of how many pixels are filtered in January 2006 can be seen in Figure \ref{Model:Filter:fig_pixel_loss_Jan06}.
+  A quick summary of how much data is filtered over Australian land squares is provided in Table \ref{Model:filter:tab_summary_pixels_masked}, and an quick check of how many pixels are filtered in January 2006 can be seen in Figure \ref{Model:filter:fig_pixel_loss_Jan06}.
   The anthropogenic filter completely removes grid squares over Sydney and Melbourne, and high removal rates over Brisbane. 
   Other major cities in Australia either do not emit enough NO$_2$ or are too spread out and do not breach the threshold to be filtered as anthropogenic.
   
@@ -1624,14 +1624,14 @@
       TODO &  &  &  \\
       TODO &  &  &  \\
     \end{tabular}
-    \label{Model:Filter:tab_summary_pixels_masked}
+    \label{Model:filter:tab_summary_pixels_masked}
   \end{table}
   
-  \mypic{Figures/OMI_link/Filters/PixelsFiltered_20060101-20060131.png}{Top row shows grid squares filtered out by pyrogenic(left) and anthropogenic(right) influence masks during January 2006. Along the bottom is the time series of total pixels over Australian land squares with and without filtering the data.}{\label{Model:Filter:fig_pixel_loss_Jan06}}
+  \mypic{Figures/OMI_link/Filters/PixelsFiltered_20060101-20060131.png}{Top row shows grid squares filtered out by pyrogenic(left) and anthropogenic(right) influence masks during January 2006. Along the bottom is the time series of total pixels over Australian land squares with and without filtering the data.}{\label{Model:filter:fig_pixel_loss_Jan06}}
   
   
   \subsection{Fire and smoke}
-    \label{Model:Filter:fire}
+    \label{Model:filter:fire}
     
     
     The method used in this thesis follows that of \textcite{Marais2012}, and \textcite{Barkley2013}, with active fires filtered using fire counts, and smoke filtered out using smoke AAOD.
@@ -1647,7 +1647,7 @@
       \item A rolling mask is formed which removes $\Omega$ if one or more fires are detected in a grid square, or in the adjacent grid square, up to 2 days previously.
       This includes the current day, making 3 days of fires in total being filtered out on each day.
       \item AAOD at 500~nm is mapped from OMAERUVd (1x1\degr resolution) onto the \highhr resolution.
-      \item An AAOD threshold of 0.03 is determined through visual analysis of AAOD distributions over several days, including days with and without influence from active fires, dust, and transported smoke plumes (see Figure \ref{Model:Filter:fire:fig_typicalAAOD}).
+      \item An AAOD threshold of 0.03 is determined through visual analysis of AAOD distributions over several days, including days with and without influence from active fires, dust, and transported smoke plumes (see Figure \ref{Model:filter:fire:fig_typicalAAOD}).
       \item Grid squares with AAOD over this threshhold are considered potentially affected by transported fire smoke.
     \end{enumerate}
   
@@ -1659,26 +1659,26 @@
     % Threshold for AAOD determination
     Filtering fire smoke using AAOD is done by removing OMHCHO gridsquares where the AAOD is above a 0.03, after the AAOD is mapped from 1x1\degr to the same \highhr resolution as our OMHCHO gridded product.
     The threshhold is determined through analysing AAOD over Australia in 4 scenarios: normal conditions, active local fires, during influence from transported fire smoke, and large scale dust storms.
-    Figure \ref{Model:Filter:fire:fig_typicalAAOD} shows AAOD (columns 1 and 2), with AAOD distribution in column 3, along with satellite imagery on the same day in column 4 (from \url{https://worldview.earthdata.nasa.gov/}).
+    Figure \ref{Model:filter:fire:fig_typicalAAOD} shows AAOD (columns 1 and 2), with AAOD distribution in column 3, along with satellite imagery on the same day in column 4 (from \url{https://worldview.earthdata.nasa.gov/}).
     The scenarios listed are shown from row 1 to 4, and AAOD $=$ 0.03 is demarked by a horizontal line in the density plots in column 3.
-    Figure \ref{Model:Filter:fire:fig_smokefilter} shows how the smoke filter compares to the fire filter over 2005.
+    Figure \ref{Model:filter:fire:fig_smokefilter} shows how the smoke filter compares to the fire filter over 2005.
     The left panel shows how many days are filtered using the AAOD threshhold, while the right panel shows how many are filtered using the combined smoke and active fire masks.
     The time series shows pixels available for analysis before being filtered (black), after smoke filtering (cyan) and after the full fire filter is applied (magenta).
     The Ayre basin is the dominant area filtered by smoke detection, likely due to dust influence in the arid region.
     
     \mypic{Figures/OMI_link/typical_AAODs.png}
       {AAOD from OMAERUVd (columns 1, 2, 3) over Australia for four different scenarios (rows 1-4). Scenes from the same day are taken from the EOS Worldview website \url{https://worldview.earthdata.nasa.gov/}.}
-      {\label{Model:Filter:fire:fig_typicalAAOD}}
+      {\label{Model:filter:fire:fig_typicalAAOD}}
     
-    \mypic{Figures/OMI_link/Filters/SmokeFilter_20050101-20051231.png}{Smoke (top left) filtered days using AAOD$>0.03$ compared to the combined (smoke and active fires) fire filter (top left). Time series shows how many pixels are available for analysis before and after filtering.}{\label{Model:Filter:fire:fig_smokefilter}}
+    \mypic{Figures/OMI_link/Filters/SmokeFilter_20050101-20051231.png}{Smoke (top left) filtered days using AAOD$>0.03$ compared to the combined (smoke and active fires) fire filter (top left). Time series shows how many pixels are available for analysis before and after filtering.}{\label{Model:filter:fire:fig_smokefilter}}
     
     %
-    Figure \ref{Model:Filter:fire:fig_portion_filtered_2005} shows what portion of pixels are filtered out by the pyrogenic filter. 
+    Figure \ref{Model:filter:fire:fig_portion_filtered_2005} shows what portion of pixels are filtered out by the pyrogenic filter. 
     The top panel shows the spatial distribution of fire masks, with most pixels removed along the northern and eastern coastlines.
-    A large portion of the filtered areas appear to correspond with forested areas (see Figure \ref{Model:Filter:fire:fig_forest_coverage}), which suggests that forest fires are being masked properly.
+    A large portion of the filtered areas appear to correspond with forested areas (see Figure \ref{Model:filter:fire:fig_forest_coverage}), which suggests that forest fires are being masked properly.
     Central Australia is largely unmasked, which could be due to a lack of sufficient vegetation to create a large enough fire to be seen by satellite.
     %Even though transported smoke plumes from South America and southern Africa would influence the measurements in the area.
-    The other potential cause of pyrogenic filtering is the proliferation of petrol or gas wells (see Figure \ref{Model:Filter:fire:fig_petrol_wells} and Figure \ref{Model:Filter:fire:fig_gas_lands}).
+    The other potential cause of pyrogenic filtering is the proliferation of petrol or gas wells (see Figure \ref{Model:filter:fire:fig_petrol_wells} and Figure \ref{Model:filter:fire:fig_gas_lands}).
     The filtering shown here is for 2005, when 388 gas wells existed in Queensland, however more than 2000 wells (cumulative) were approved by 2013, so this may cause more filtering over the course of this thesis' timeline \parencite{Carlisle2012}.
     To check this the filtering portion for 2012 is also plotted in Figure TODO: plot map of filtered squares for 2012 when it has been run by NCI.
     One clear hotspot is located over port Kembla (south of Sydney), most likely due to the flame which burns over the blast furnace stack throughout the year.
@@ -1688,13 +1688,13 @@
     
     
     \mypic{Figures/OMI_link/Filters/Pyrogenic_filter_annotated_2.png}
-    {Top: Portion of 2005 filtered out by fire and smoke masks. Bottom: portion filtered out each day from land squares in Australia.}{\ref{Model:Filter:fire:fig_portion_filtered_2005}}
+    {Top: Portion of 2005 filtered out by fire and smoke masks. Bottom: portion filtered out each day from land squares in Australia.}{\ref{Model:filter:fire:fig_portion_filtered_2005}}
     
-    \mypic{Figures/Wells_AUS.png}{Petrol Well locations over Australia (current-2018) (\url{http://dbforms.ga.gov.au/www/npm.well.search})}{\label{Model:Filter:fire:fig_petrol_wells}}
+    \mypic{Figures/Wells_AUS.png}{Petrol Well locations over Australia (current-2018) (\url{http://dbforms.ga.gov.au/www/npm.well.search})}{\label{Model:filter:fire:fig_petrol_wells}}
     
-    \mypic{Figures/Gas_AUS.jpg}{Gas fields and pipelines (2018) for Australia (\url{http://www.ga.gov.au/scientific-topics/energy/resources/petroleum-resources/gas})}{\label{Model:Filter:fire:fig_gas_lands}}
+    \mypic{Figures/Gas_AUS.jpg}{Gas fields and pipelines (2018) for Australia (\url{http://www.ga.gov.au/scientific-topics/energy/resources/petroleum-resources/gas})}{\label{Model:filter:fire:fig_gas_lands}}
     
-    \mypic{Figures/Australiasforests_2016.png}{Forest coverage, coloured by predominant tree species.}{\ref{Model:Filter:fire:fig_forest_coverage}}
+    \mypic{Figures/Australiasforests_2016.png}{Forest coverage, coloured by predominant tree species.}{\ref{Model:filter:fire:fig_forest_coverage}}
   
     \subsubsection{Checking that fire masks are influencing pyrogenic HCHO}
       
@@ -1706,16 +1706,16 @@
       This gives us the exponential fit as shown, with the correlation coefficient between $\ln{HCHO}$ and temperature.
       The distributions of exponential correlation coefficients and $m$ terms is shown in the embedded plot, with one datapoint available for each grid square where the regression is performed.
       
-      Figures \ref{Model:Filter:fire:fig_HCHO_vs_GC_temperature} and \ref{Model:Filter:fire:fig_HCHO_vs_CPC} show the regressions between OMI HCHO total columns and temperature from GEOS-Chem output and CPC daily maximum temperatures respectively.
+      Figures \ref{Model:filter:fire:fig_HCHO_vs_GC_temperature} and \ref{Model:filter:fire:fig_HCHO_vs_CPC} show the regressions between OMI HCHO total columns and temperature from GEOS-Chem output and CPC daily maximum temperatures respectively.
       Comparing against GEOS-Chem modelled surface temperatures first requires deresolution from \highhr to \lowhr latitude by longitude resolution.
-      The left column in Figure \ref{Model:Filter:fire:fig_HCHO_vs_GC_temperature} shows scatter and RMA correlation within a single gridbox over 2 months from Jan 1 to Feb 28, 2005, without having applied either the fire nor anthropogenic masks to OMI HCHO columns. 
+      The left column in Figure \ref{Model:filter:fire:fig_HCHO_vs_GC_temperature} shows scatter and RMA correlation within a single gridbox over 2 months from Jan 1 to Feb 28, 2005, without having applied either the fire nor anthropogenic masks to OMI HCHO columns. 
       The right column shows the same correlation after applying the fire filter, affected datapoints are marked in teal (matching the red marked points in the left column).
       The analysis is repeated for Sydney, Canberra, and three gridsquares to the north-west, west, and southwest of Sydney (w1, w2, w3 respectively).
-      Figure \ref{Model:Filter:fire:fig_HCHO_vs_CPC} shows the same analysis at higher resolution using CPC daily maximum temperatures (see \ref{Model:datasets}).
+      Figure \ref{Model:filter:fire:fig_HCHO_vs_CPC} shows the same analysis at higher resolution using CPC daily maximum temperatures (see \ref{Model:datasets}).
       
-      \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_20050101-20050228.png}{HCHO vs GEOS-Chem daily midday temperatures TODO add longer caption}{\label{Model:Filter:fire:fig_HCHO_vs_GC_temperature}}
+      \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_20050101-20050228.png}{HCHO vs GEOS-Chem daily midday temperatures TODO add longer caption}{\label{Model:filter:fire:fig_HCHO_vs_GC_temperature}}
       
-      \mypic{Figures/OMI_link/Filters/HCHO_vs_CPCtemp_20050101-20050228.png}{HCHO vs CPC daily maximum temperatures TODO add longer caption}{\label{Model:Filter:fire:fig_HCHO_vs_CPC}}
+      \mypic{Figures/OMI_link/Filters/HCHO_vs_CPCtemp_20050101-20050228.png}{HCHO vs CPC daily maximum temperatures TODO add longer caption}{\label{Model:filter:fire:fig_HCHO_vs_CPC}}
       
       
       One cause of high HCHO at lower temperatures is direct or transported emissions and subsequent products from biomass burning.
@@ -1758,7 +1758,7 @@
         \end{figure}
   
   \subsection{NOx}
-    \label{Model:Filter:NOx}
+    \label{Model:filter:NOx}
     
     % Why filter high NO? Anthro influence
     Enhanced NO$_2$ concentrations can indicate anthropogenic influence over Australia.
@@ -1766,12 +1766,12 @@
     
     % Nox analysis from OMNO2d
     OMNO2d from 2005 is used to determine a suitable threshhold for anthropogenic influence by looking at NO$_2$ columns near several major cities in the south eastern sector of Australia.
-    The mean, standard deviation, and time series over Australia of tropospheric NO$_2$ seen by Aura is shown in Figure \ref{Model:Filter:NOx:fig_omno2_timeseries}.
-    The average tropospheric NO$_2$ column averaged within all of Australia and then each region shown in this figure is listed in table TODO \ref{Model:Filter:NOx:tab_summary}.
+    The mean, standard deviation, and time series over Australia of tropospheric NO$_2$ seen by Aura is shown in Figure \ref{Model:filter:NOx:fig_omno2_timeseries}.
+    The average tropospheric NO$_2$ column averaged within all of Australia and then each region shown in this figure is listed in table TODO \ref{Model:filter:NOx:tab_summary}.
     
     \mypic{Figures/OMI_link/OMNO2_timeseries_2005.png}
     {Mean (top left) and standard deviation (top right) of OMNO2d daily 0.25x0.25\degr tropospheric cloud filtered NO$_2$ columns. Time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right. A grey shaded area depicts the 25th to 75th percentiles of Australia averaged NO$_2$ columns for each day in the time series, with a thicker black line showing the Australia-wide mean value.}
-    {\label{Model:Filter:NOx:fig_omno2_timeseries}}
+    {\label{Model:filter:NOx:fig_omno2_timeseries}}
     
     % Filters and Threshhold determination and reasoning
     Anthropogenic influences on the NO$_2$ columns are clearly visible near major cities in Australia.
@@ -1781,20 +1781,20 @@
       \item After taking the yearly average over Australia, any gridsquares greater than $1.5 \times 10^{15}$\moleccm are flagged for the whole year.
     \end{enumerate}
     This removes both the gridsquares close enough to cities to be affected by their emissions year round, as well as effects from transported pollution plumes.
-    The affects of applying this filter to the OMNO2d product itself can be seen in Figure \ref{Model:Filter:NOx:fig_omno2_threshaffect}
+    The affects of applying this filter to the OMNO2d product itself can be seen in Figure \ref{Model:filter:NOx:fig_omno2_threshaffect}
     
     \mypic{Figures/OMI_link/OMNO2_threshaffect_2005.png}
     {2005 OMNO2d NO$_2$ column mean before (left) and after (right) applying the threshhold filters as described in the text. Time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right.}
-    {\label{Model:Filter:NOx:fig_omno2_threshaffect}}
+    {\label{Model:filter:NOx:fig_omno2_threshaffect}}
     
     % Threshhold analysis
-    The same regions as in Figure \ref{Model:Filter:NOx:fig_omno2_timeseries} are shown again in Figure \ref{Model:Filter:NOx:fig_omno2_densities}, with NO$_2$ pixels densities for each region shown, along with the threshold of $1 \times 10^{15}$\moleccm.
+    The same regions as in Figure \ref{Model:filter:NOx:fig_omno2_timeseries} are shown again in Figure \ref{Model:filter:NOx:fig_omno2_densities}, with NO$_2$ pixels densities for each region shown, along with the threshold of $1 \times 10^{15}$\moleccm.
     This led to a reduction of TODO gridsquares from the total available measurement space over Australia.
     The removal of gridsquares which went above the yearly averaged limit of 1.5e15\moleccm further reduced the available data by TODO gridsquares.
     
     \mypic{Figures/OMI_link/OMNO2_densities_2005.png}
     {2005 OMNO2d NO$_2$ column means (top left), along with column amount distributions for Australia (top right) and each region shown in the area map (by colour)}
-    {\label{Model:Filter:NOx:fig_omno2_densities}}
+    {\label{Model:filter:NOx:fig_omno2_densities}}
     
     \begin{table}
       \caption{NO$_2$ averages by region before and after filtering for anthropogenic emissions using 2005 data from the OMNO2d product.}
@@ -1809,7 +1809,7 @@
         Adel & 1 & 2 & 3 \\
         \hline
       \end{tabular}
-      \label{Model:Filter:NOx:tab_summary}
+      \label{Model:filter:NOx:tab_summary}
     \end{table}
     
     % Affects of filtering
