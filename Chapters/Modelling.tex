@@ -467,14 +467,14 @@
     \tau = \int \alpha(s) \eta(s) \mathrm{d}s
     \end{equation}
     $\tau$ through a medium is the sum of optical thicknesses of each absorber within the measured path (s)
-    substituting equation \ref{Model:omhcho:DOAS:eqn_tau} into equation \ref{Model:omhcho:DOAS:eqn_backscatterextinction} leads to
+    substituting Equation \ref{Model:omhcho:DOAS:eqn_tau} into Equation \ref{Model:omhcho:DOAS:eqn_backscatterextinction} leads to
     \begin{equation*}
       I = I_0 \exp { \left( \Sigma_i \int \eta_i \alpha_i ds \right) }
     \end{equation*}
     Where \textit{i} represents a chemical species index, and the integral over ds represents integration over the path from light source to instrument.
     
     % Optical depth through the atmosphere
-    Another way of describing optical depth (also called optical thickness) is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material (from equation \ref{Model:omhcho:DOAS:eqn_backscatterextinction}).
+    Another way of describing optical depth (also called optical thickness) is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material (from Equation \ref{Model:omhcho:DOAS:eqn_backscatterextinction}).
     In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
     The difference between solar radiation at the top of the atmosphere and the earth's surface defines the atmospheric optical depth along the path of observation.
     \begin{equation*}
@@ -555,12 +555,12 @@
     The most likely cause is some instrument insulation partially obscuring the radiance port \parencite{Schenkeveld2017}.
     
     %% BACKGROUND MEASUREMENTS
-    In satellite HCHO products, concentrations over the remote pacific ocean are sometimes used to analyse faulty instrument readings.
+    In satellite HCHO products, concentrations over the remote Pacific ocean are sometimes used to analyse faulty instrument readings.
     This is due to the expected invariance of HCHO over this region.
-    For instance GOME (an instrument which measures trace gases on board the ERS-2) corrects for an instrument artefact using modelled HCHO over the remote pacific \parencite{Shim2005}.
+    For instance GOME (an instrument which measures trace gases on board the ERS-2) corrects for an instrument artefact using modelled HCHO over the remote Pacific \parencite{Shim2005}.
     OMI HCHO products use a similar technique to account for sensor plate drift and changing bromine sensitivity \parencite{Abad2015}.
     Uncertainty in the OMI satellite instrument is calculated by the Smithsonian Astrophysical Observatory (SAO) group using the uncertainty in backscattered radiation retrievals \parencite{Abad2015, Abad2016}.
-    Another method of calculating the uncertainty is used by the Belgian Institute for Space Aeronomy (BIRA) group, who determine uncertainty from the standard deviation of HCHO over the remote pacific ocean \parencite{DeSmedt2012, DeSmedt2015}.
+    Another method of calculating the uncertainty is used by the Belgian Institute for Space Aeronomy (BIRA) group, who determine uncertainty from the standard deviation of HCHO over the remote Pacific ocean \parencite{DeSmedt2012, DeSmedt2015}.
     
     %% LOW BIAS IN SATELLITE HCHO EXAMPLES
     For many places the tropospheric column HCHO measured by satellite is biased low, \textcite{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over south east USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
@@ -737,7 +737,7 @@
     
       % roo production, rate and cites
       \textcite{Crounse2011} examined the isomerisations associated with the oxidation of isoprene to six different isomers of \roo formed in the presence of oxygen.
-      The primary oxidation pathway of isoprene is reaction with the OH radical ($ ISOP + OH \to RIO_2 $) shown in equation \ref{mech1}.
+      The primary oxidation pathway of isoprene is reaction with the OH radical ($ ISOP + OH \to RIO_2 $) shown in Equation \ref{mech1}.
       Isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) \roo, although these are not distinguished in the GEOS-Chem mechanism. 
       Secondary oxidative pathways are from ozonolysis (Equation \ref{mech2} and reaction with NO$_3$ (Equation \ref{mech3}).
       These pathways are much slower but can be important in particular scenarios such as inside a pollution plume or at night when NO$_3$ radicals can build up.
@@ -1023,7 +1023,7 @@
           Additional midday output is created to allow AMF recalculation code to run on OMI satellite measurements (Section \ref{Model:omiRecalc:ppcode}).
           \begin{enumerate}
             \item Outputs: Midday output, daily tracer averages, and HEMCO diagnostics
-            \item These are used in recalculation of the satellite AMF (Section \ref{Model:AMF}), and the modelled background HCHO over the remote pacific which is used in the reference sector correction for OMI column retrievals (Section \ref{Model:omiRecalc:RSC}).
+            \item These are used in recalculation of the satellite AMF (Section \ref{Model:AMF}), and the modelled background HCHO over the remote Pacific which is used in the reference sector correction for OMI column retrievals (Section \ref{Model:omiRecalc:RSC}).
               Additional diagnostic outputs are used hard coded to allow AMF recalculation.
             \item Midday output is combined from two different runs in order to determine smearing (Section \ref{BioIsop:method:smearing})
             \item Total yearly ozone concentrations are compared before and after scaling isoprene emissions using the top-down estimate.
@@ -1162,7 +1162,9 @@
 \section{Calculating an AMF}
   \label{Model:AMF}
   
+  % JENNY COMMENT: Spell out here to remind reader. Also start with a reminder of where/why the AMF is needed (remember you have just been talking about modelling, so it's not clear that you are switching back into describing satellite product stuff)
   % What is AMF again?
+  The air mass factor (AMF) is needed to transform slant columns (SC) viewed by a satellite into vertical columns ($\Omega$ in molecules cm$^{-2}$):
   The AMF is the ratio of the slant column ($\Omega_s$) to the vertical column ($\Omega_v$)
   \begin{equation} \label{Model:AMF:eqn_AMFFrac}
     AMF=\frac{\Omega_s}{\Omega_v} = \frac{\tau_s}{\tau_v}
@@ -1170,11 +1172,11 @@
   with $\tau$ being the optical depth or thickness of the absorber through the slant (\textit{s}) or vertical (\textit{v}) path of light.
   
   
-  The OMI instrument records spectra of light which enters the viewing lens on board the Aura satellite.
+  The OMI instrument records spectra of light which enters the viewing lens on the Aura satellite.
   The spectra provide backscattered intensity ($I_B$) at various wavelengths (see Section \ref{Model:omhcho}), with the light source ($I_{B_0}$) being the sun. 
-  Using the log of Beers law (equation \ref{Model:omhcho:DOAS:eqn_beerslaw}) we get 
+  Using the log of Beers law (Equation \ref{Model:omhcho:DOAS:eqn_beerslaw}) we get 
   $$ \tau_s = \ln{I_{B_0}} - \ln{I_B} $$
-  which can be subbed into equation \ref{Model:AMF:eqn_AMFFrac} to give an expression for the AMF which includes scattering:
+  which can be subbed into Equation \ref{Model:AMF:eqn_AMFFrac} to give an expression for the AMF which includes scattering:
   \begin{equation} \label{Model:AMF:eqn_amfscattering}
     AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
   \end{equation}
@@ -1192,11 +1194,11 @@
     \nabla I &= \int_0^{\tau_v}{\frac{\partial I_B}{\partial \tau} \mathrm{d}\tau}
     \frac{\nabla I}{I_B} & = \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
   \end{eqnarray*}
-  which can be placed into equation \ref{Model:AMF:eqn_AMFthin} leading to
+  which can be placed into Equation \ref{Model:AMF:eqn_AMFthin} leading to
   \begin{equation*}
     AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
   \end{equation*}
-  We can then convert $\text{d}\tau$ to our path using equation \ref{Model:omhcho:DOAS:eqn_tau} leading to
+  We can then convert $\text{d}\tau$ to our path using Equation \ref{Model:omhcho:DOAS:eqn_tau} leading to
   \begin{equation} \label{Model:AMF:eqn_AMFcross}
     AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
   \end{equation}
@@ -1209,11 +1211,11 @@
     \alpha_e &= \frac{1}{\Omega_v} \int_0^\infty \alpha(z) \eta(z) \mathrm{d}z \\
      &= \frac{\tau_v}{\Omega_v}
   \end{align*}
-  Then replacing the $\tau_v$ in equation \ref{Model:AMF:eqn_AMFcross} we obtain:
+  Then replacing the $\tau_v$ in Equation \ref{Model:AMF:eqn_AMFcross} we obtain:
   \begin{equation} \label{Model:AMF:eqn_AMFpreomega}
     AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
   \end{equation}
-  Often the integrand of this AMF formula (equation \ref{Model:AMF:eqn_AMFpreomega}) is broken apart into two defining terms: the scattering weights $\omega(z)$ and the shape factor $S(z)$, described here:
+  Often the integrand of this AMF formula (Equation \ref{Model:AMF:eqn_AMFpreomega}) is broken apart into two defining terms: the scattering weights $\omega(z)$ and the shape factor $S(z)$, described here:
   \begin{description}
     \item[$\omega$] The scattering weights describing sensitivity of the backscattered spectrum to the abundance of an absorber at altitude z:
     \begin{equation} \label{Model:AMF:eqn_omega}
@@ -1227,15 +1229,16 @@
     \end{equation}
   \end{description}
   
-  Plugging equations \ref{Model:AMF:eqn_omega} and \ref{Model:AMF:eqn_shapefactor} into equation \ref{Model:AMF:eqn_AMFpreomega} gives us:
+  Plugging Equations \ref{Model:AMF:eqn_omega} and \ref{Model:AMF:eqn_shapefactor} into Equation \ref{Model:AMF:eqn_AMFpreomega} gives us:
   \begin{equation} \label{Model:AMF:eqn_AMF_amfgintwSdz}
     AMF = AMF_G\int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
   \end{equation}
-  Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation as it is not part equation \ref{Model:AMF:eqn_omega} leading to 
+  Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation as it is not part Equation \ref{Model:AMF:eqn_omega} leading to 
   \begin{equation} \label{Model:AMF:eqn_AMF_intwSdz}
     AMF = \int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
   \end{equation}
   
+  % JENNY COMMENT: Would be better to introduce the vertical coordinate systems when you discuss the model (including this statement), then just briefly remind the reader here what the coordinate system is
   Additionally the AMF can be determined using the sigma ($\sigma$) coordinate system.
   A conversion to the $\sigma$ vertical coordinate is performed using $P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
   This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
@@ -1246,7 +1249,7 @@
     S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
   \end{equation}
   where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
-  The hydrostatic relation $P = - \rho_a g z$, with $\rho_a$, \textit{g}, being density of air, and gravity respectively lets us integrate over the sigma coordinates:
+  We can integrate over the sigma coordinates using the hydrostatic relation $P = - \rho_a g z$, with $\rho_a$ being air density, and $g$ the gravitational acceleration:
   \begin{align*}
     \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
     \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
@@ -1259,15 +1262,13 @@
 \section{Recalculation of OMI HCHO}
   \label{Model:omiRecalc}
   
-  % what is AMF, Omega_V and Omega_S
-  The AMF is needed to transform the slant column (SC) viewed by the satellite into a vertical column ($\Omega$):
-  \begin{equation}
-    \label{Model:omiRecalc:eqn_AMFratio}
-    AMF = \frac{SC}{\Omega} %= \frac{\tau_s}{\tau_v}
-  \end{equation}
-  A slant or vertical column is expressed in molecules cm$^{-2}$.
+  
   % Reiteration of why we recalculate AMFs
-  OMI HCHO vertical columns are calculated using modelled a priori HCHO profiles (see Section \ref{Model:datasets:OMHCHO}).
+  %from Equation \ref{Model:AMF:eqn_AMFFrac}:
+  %\begin{equation*} %\label{Model:omiRecalc:eqn_AMFratio}
+  %%  AMF = \frac{SC}{\Omega} %= \frac{\tau_s}{\tau_v}
+  %\end{equation*}
+  OMI HCHO vertical columns are calculated using modelled a priori HCHO profiles (see Section \ref{Model:omhcho}).
   When comparing satellite measurements against models it is important to recognise the impact of this a priori on the total column values.
   This is complicated by how OMI is differently sensitive to HCHO (and other trace gases) vertically throughout the atmosphere.
   When comparing OMI vertical columns ($\Oo$) to GEOS-Chem ($\Og$), the satellite AMF needs to be recalculated using GEOS-Chem modelled vertical gas profiles as the a prioris.
@@ -1309,7 +1310,7 @@
       \end{enumerate}
       \item These two AMFs represent the same thing using different coordinates, and either one can be used as the AMF$_{GC}$
       \item The AMF$_{PP}$ (created separately) and AMF$_{GC}$ are used to determine the new vertical columns ($\Op$, $\Og$ respectively): $\Omega = SC/AMF$
-      \item A reference sector correction (RSC) is defined each day using these AMFs along with modelled HCHO over the remote pacific:
+      \item A reference sector correction (RSC) is defined each day using these AMFs along with modelled HCHO over the remote Pacific:
       \begin{enumerate}
         \item GEOS-Chem satellite overpass output ($\Omega_{GEOS-Chem}$ from 140{\degr}W to 160{\degr}W) are averaged monthly and longitudinally to provide a modelled reference sector $\Omega_0[lat]$
         \item The modelled reference slant columns (\textit{MRSC}) are calculated using $MRSC = \Omega_0 \times AMF$ for each AMF
@@ -1327,7 +1328,7 @@
     
     Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how these profiles are used in this thesis.
     Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem a prioris.
-    PP code is run on a subset of the globe covering Australia and the pacific ocean, producing AMF$_{PP}$.
+    PP code is run on a subset of the globe covering Australia and the Pacific ocean, producing AMF$_{PP}$.
     The output keeps the original AMF as well as those recalculated using GEOS-Chem (AMF$_{OMI}$, AMF$_{GC}$, and AMF$_{PP}$).
     Additionally, MOD14A1, OMAERUVd and OMNO2d data are used to create masks which are also stored in the OMHCHORP dataset.
     The creation of fire, smoke, and anthropogenic influence masks is described in Section \ref{Model:filter}.
@@ -1338,9 +1339,9 @@
   \subsection{Creating new shape factors}
     % Reminder of AMF -> leading to what is the shapefactor
     In order to visualise and analyse OMI HCHO columns, slant columns are transformed into vertical columns using the AMF.
-    The shape factor (\textit{S}) is one of the key components in creation of the AMF (see Section \ref{Model:AMF}, equation \ref{Model:AMF:eqn_AMF_intwSdz}).
+    The shape factor (\textit{S}) is one of the key components in creation of the AMF (see Section \ref{Model:AMF}, Equation \ref{Model:AMF:eqn_AMF_intwSdz}).
     The shape factor is calculated using GEOS-Chem midday output (see Section \ref{Model:GC:simulations:outputs}) which provide simulated HCHO concentration profiles ($\eta(z)$) and total columns ($\Omega$) at \lowhr horizontal resolution.
-    Using equation \ref{Model:AMF:eqn_shapefactor} to determine the shape factor is straightforwards $S(z) = \frac{\eta(z)}{\Omega}$.
+    Using Equation \ref{Model:AMF:eqn_shapefactor} to determine the shape factor is straightforwards $S(z) = \frac{\eta(z)}{\Omega}$.
     The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in Section \ref{Model:omiRecalc:ppcode}).
     
     Model output is in molecules per billion molecules of air (ppb), and is converted before being used in the shape factor calculation.
@@ -1356,8 +1357,8 @@
     where H(z) is the box height for level z.
     In effect this equation sums over the molecules per cm$^2$ in each altitude level.
     
-    As a sanity check $S_\sigma$ is calculated (through equation \ref{Model:AMF:eqn_ShapeFactorSigma}) to confirm that these shape factors are equivalent.
-    Comparing the resulting AMFs created by equations \ref{Model:AMF:eqn_AMFintwSdsigma} and \ref{Model:AMF:eqn_AMF_intwSdz} for each pixel provides confidence in the unit conversions (and other factors) applied.
+    As a sanity check $S_\sigma$ is calculated (through Equation \ref{Model:AMF:eqn_ShapeFactorSigma}) to confirm that these shape factors are equivalent.
+    Comparing the resulting AMFs created by Equations \ref{Model:AMF:eqn_AMFintwSdsigma} and \ref{Model:AMF:eqn_AMF_intwSdz} for each pixel provides confidence in the unit conversions (and other factors) applied.
     %TODO: Shape factor plot sigma vs z
     For example see figure TODO: plot showing correlation between AMFz and AMFs - or state that these are exactly one to one if that is the case..
     
@@ -1400,7 +1401,7 @@
   \subsection{Creating the new AMF}
     \label{Model:omiRecalc:AMFgc}
     
-    From equation \ref{Model:AMF:eqn_AMF_intwSdz} we have:
+    From Equation \ref{Model:AMF:eqn_AMF_intwSdz} we have:
     $$ AMF = \int_0^\infty \omega(z) S(z) \mathrm{d}z $$
     then using the $\omega(z)$ from satellite data, along with our calculated $S_z$ interpolated linearly onto the same vertical grid as $\omega(z)$, the AMF can be determined through integration.
     The integration is performed using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum for each vertical box.
@@ -1432,7 +1433,7 @@
     
     All that remains for recalculating the total vertical column using our new a priori shape factor is to apply the new AMF to the slant columns and grid them onto our chosen resolution.
     Each satellite pixel at this stage has an associated SC along with three AMFs: the original (AMF$_O$), one with recalculated shape factors (AMF$_G$), and one completely recalculated using PP code (AMF$_{PP}$).
-    These are used to create vertical columns ($\Omega$) through equation \ref{Model:AMF:eqn_AMFFrac}: $\Omega = SC/AMF$.
+    These are used to create vertical columns ($\Omega$) through Equation \ref{Model:AMF:eqn_AMFFrac}: $\Omega = SC/AMF$.
     
     Figure TODO shows a comparison between the three $\Omega$ over Australia for 2005. 
     The first row shows the yearly average column amounts, as well as coloured rectangles describing regions which are averaged over time in row 3.
@@ -1440,10 +1441,13 @@
     TODO: Add this plot here.
     
   \subsection{Reference sector correction}
+  
+    % JENNY COMMENT: I think this section needs a bit more justification/clarity for why it is ok to correct the satellite data using the modelled values. Basically I think you need to point out that at the end of the day you are only interested in the contribution to HCHO from NMVOC oxidation, and so adjusting the background (which is solely from CH4) does not introduce bias into the satellite data (right?).
+    
     \label{Model:omiRecalc:RSC}
     % where we apply the RSC
     Each satellite slant column measurement is corrected by its divergence from a modelled reference sector.
-    HCHO products from OMI and SCIAMACHY both use a median daily remote pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \parencite{DeSmedt2008,Barkley2013,Kurosu2014}.
+    HCHO products from OMI and SCIAMACHY both use a median daily remote Pacific ocean radiance reference spectrum, over 15$^{\circ}$S-15$^{\circ}$N, 140$^{\circ}$-160$^{\circ}$W where it is assumed that the only significant source of HCHO is methane oxidation \parencite{DeSmedt2008,Barkley2013,Kurosu2014}.
     
     % What RSC does
     The RSC method corrects for several problems, however it introduces some a priori model influence.
@@ -1453,8 +1457,8 @@
     
     % How Vertical columns use reference sector corrections
     %Vertical columns in OMI use an oceanic background instead of a solar irradiance spectrum when calculating trace gas interference with DOAS calculations.
-    Here a new reference sector correction (\textit{RSC}) is created using modelled and measured HCHO columns over the remote pacific, to produce corrected vertical columns (\textit{VCC}).
-    This follows \textcite{Abad2016}, and defines the remote pacific as the band between 140{\degr}W to 160{\degr}W.
+    Here a new reference sector correction (\textit{RSC}) is created using modelled and measured HCHO columns over the remote Pacific, to produce corrected vertical columns (\textit{VCC}).
+    This follows \textcite{Abad2016}, and defines the remote Pacific as the band between 140{\degr}W to 160{\degr}W.
     It uses the difference between slant columns ($\Omega_S$) and reference slant columns ($\Omega_{S_0}$) divided by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
     \begin{equation*}
       VCC = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
@@ -1463,27 +1467,27 @@
     Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \textcite{Abad2015}.
     
     % How my RSC is defined
-    To get the modelled slant columns, each of the AMFs (calculated in prior sections) is applied to the modelled vertical columns using equation \ref{Model:omiRecalc:eqn_AMFratio}.
+    To get the modelled slant columns, each of the AMFs (calculated in prior sections) is applied to the modelled vertical columns using Equation \ref{Model:omiRecalc:eqn_AMFratio}.
     % Then RSC Longitudinally averaged, binned into 500 lats
-    The longitudinal average is taken within the remote pacific, as corrections are assumed to be longitudinally invariant.
+    The longitudinal average is taken within the remote Pacific, as corrections are assumed to be longitudinally invariant.
     The modelled reference sector is averaged over the month and interpolated latitudinally to 500 equidistant bins.
     Figure \ref{Model:omiRecalc:RSC:fig_RSCeg} shows the simulated reference sector VCs as an example, calculated for January 1st 2005.
     In this figure the vertical resolution is increased from 2\degr to 0.36\degr, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
-    Each day, satellite measurements (pixels) over the remote pacific are used to determine a correction array.
+    Each day, satellite measurements (pixels) over the remote Pacific are used to determine a correction array.
     The model does not produce slant columns associated with each measurement, however one is created by multiplying the vertical column with the associated slant columns AMF.
     
     % This picture was made where?!
     \mypicw{0.7\textwidth}
     {Figures/HCHO/Summary_RSC_Effect8d_20050101.png}
     {%
-      Example of remote pacific RSC using 8-day average measurements and one month modelled data.
+      Example of remote Pacific RSC using 8-day average measurements and one month modelled data.
       $\Omega_{VC}$ shows the uncorrected vertical columns, while $\Omega_{VCC}$ shows the corrected vertical columns.
       OMI corrections shows the correction applied globally based on latitude and OMI track number(sensor).
       $\Omega_{GC}$ shows the GEOS-Chem modelled HCHO VC over the RSC, with $\Omega_{VCC}$ showing the corrected VC over the same area.
     }
     {\label{Model:omiRecalc:RSC:fig_RSCeg}}
     
-    % UP TO HERE draft
+    
     % Swath RSC corrections are done 'per track'
     For OMI swaths, each row of measured data contains 60 ``Across track''(track) measurements.
     The track index (i) relates the measurement to one of the 60 columns of data.
@@ -1498,9 +1502,9 @@
     
     % Interpolated daily RSC to cover missing latitudes
     Due to incomplete latitudinal coverage, the correction for each track is interpolated linearly between measurements, with corrections outside of the highest measured latitudes being equal to the corrections at the highest measured latitudes.
-    Figure \ref{Model:omiRecalc:RSC:fig_track_correction_interpolations} shows an example of the 60 track corrections for January 1st 2005, the points are satellite measurements longitudinally averaged over the remote pacific, coloured by track number.
+    Figure \ref{Model:omiRecalc:RSC:fig_track_correction_interpolations} shows an example of the 60 track corrections for January 1st 2005, the points are satellite measurements longitudinally averaged over the remote Pacific, coloured by track number.
     \mypicw{0.7\textwidth}{Figures/OMI_link/RSC_track_corrections20050101.png}
-      {Example of track correction interpolations for January 1st 2005, points represent the difference between satellite slant column measurements and modelled slant columns over the remote pacific.}
+      {Example of track correction interpolations for January 1st 2005, points represent the difference between satellite slant column measurements and modelled slant columns over the remote Pacific.}
       {\label{Model:omiRecalc:RSC:fig_track_correction_interpolations}}
     % Visualisation of RSC refering to plot and 8-day averaged corrections
     Another way to look at this correction is given in the OMI corrections panel of Figure \ref{Model:omiRecalc:RSC:fig_RSCeg}, which has the sensors along the x axis, and latitude on the y axis, and shows how for this example 8-day period, the corrections are distributed with more negative values towards the left or right sensors, especially in the tropics.
@@ -1583,6 +1587,9 @@
     
 \section{Filtering Data}
   \label{Model:filter}
+  
+  
+  
   
   % Why filter data
   In order to examine only biogenic processes, pyrogenic and anthropogenic influences need to be removed from modelled and measured data.
@@ -1697,6 +1704,8 @@
     \mypic{Figures/Australiasforests_2016.png}{Forest coverage, coloured by predominant tree species.}{\ref{Model:filter:fire:fig_forest_coverage}}
   
     \subsubsection{Checking that fire masks are influencing pyrogenic HCHO}
+      
+      % JENNY COMMENT: I'm confused - is this the stuff you are showing in Figs. 2.42-2.44 that were discussed above? In general this whole section (although I'm suggesting it not be a subsection) needs to be re-worked. The order is funny and it is hard to understand.
       
       Looking at temperature can provide evidence of pyrogenic HCHO.
       HCHO precursors are heavily tied to temperature (TODO:cite), and model output shows how higher temperature leads to an increase in HCHO levels.
