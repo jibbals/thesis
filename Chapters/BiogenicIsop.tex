@@ -713,8 +713,11 @@
       %% FIGURE SHOWS SMEARING BINNED BY NOX
       % Figure made in test_filters.smearing_nox() 
       \mypic{Figures/OMI_link/Filters/smearing_nox_200501.png}{%
-        Top left: OMNO2d tropospheric NO$_2$ columns (NO$_2$: molec cm$^{-2}$) averaged into \lowhr horizontal bins for over Jan, 2005.
-        Right: Scatter plot of NO$_2$ against smearing calculations from GEOS-Chem ($\hat{S}$), with points above and below the smearing threshold range of 900-5200~s coloured red and blue respectively. Points are binned by NO$_2$ with and without having the smearing filter applied (orange and magenta respectively). Overplotted is the mean and standard deviation (error bars) within each bin. Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
+        Top left: OMNO2d tropospheric NO$_2$ columns (NO$_2$: molec cm$^{-2}$) averaged into \lowhr horizontal bins for Jan, 2005.
+        Right: Scatter plot of NO$_2$ against smearing calculations from GEOS-Chem ($\hat{S}$), with points above and below the smearing threshold range of 900-5200~s coloured red and blue respectively. 
+        Points are binned by NO$_2$ with and without the smearing filter applied (orange and magenta respectively).
+        Overplotted is the mean and standard deviation (error bars) within each bin. 
+        Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
         Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}
       
@@ -724,13 +727,12 @@
   \label{BioIsop:method:scaled}
     
     After creating $E_{isop}$, the top-down estimate of isoprene emissions, we run GEOS-Chem again with biogenic emissions scaled to match the new estimate. 
-    First all the new midday (13:00-14:00~LT) emissions (per grid box) and forming a multi-year monthly mean, which can be compared to the GEOS-Chem equivalent.
-    A monthly factor ($\alpha$ at \lowhr) that scales MEGAN to match our top-down estimate is then read by the emissions module in GEOS-Chem, and applied whenever isoprene emissions are calculated.
+    First all the new midday (13:00-14:00~LT) emissions (per grid box) and forming a multi-year monthly mean, which can be compared to the unaltered GEOS-Chem equivalent.
+    A monthly factor ($\alpha$ at \lowhr) that scales MEGAN towards our top-down estimate is then read by the emissions module in GEOS-Chem, and applied whenever isoprene emissions are calculated.
     %Initially a run of GEOS-Chem using no chemistry it performed is order to quickly retrieve hourly averaged isoprene emissions.
-    First hourly biogenic isoprene emissions are retrieved from GEOS-Chem (estimated using the MEGAN model).
-    Then the midday emissions for each month per gridbox are averaged and the multi-year average of these is compared against the top-down estimate.
+    This scaling allows the shorter time-scale variability and dependencies to be retained, while moving the monthly mean value towards the multi-year monthly averaged a postiori.
+    Short time-scale variability is largely due to meteorological parameters such as temperature and light, etc..
     TODO: Figure X shows an example of this process for January: with the multi-year average emissions mapped over Australia (rows one and two) being used to create the $\alpha$ in the third row.
-    
     
     
     The scaling factor $\alpha$ is the ratio between the multi-year averaged monthly emissions from GEOS-Chem $E_{GC}$ and the a postiori $E_{OMI}$: 
@@ -751,7 +753,7 @@
 \section{Results}
   \label{BioIsop:results}
   
-  Australia is roughly 7.7~ million km$^{2}$, with heterogeneous environmental conditions.
+  Australia is roughly $7.7 \times 10^6$ km$^{2}$, with heterogeneous environmental conditions.
   The results presented in this section are frequently split into five regions which are differentiated by colour, as shown in Figure \ref{BioIsop:results:fig_subregions}.
   
   % figure from Analysis_E_isop.py.show_subregions()
@@ -760,7 +762,6 @@
     Australia-wide averages will be black or grey, while averages from within the coloured rectangles will match the colour shown here.
   }{\label{BioIsop:results:fig_subregions}}
   
-  %\subsection{Yield}
   
   \subsection{Updated emissions}
     \label{BioIsop:results:emissions}
@@ -768,7 +769,7 @@
     Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows emissions over Australia calculated using the OMI top down estimate (column 1: E$_{OMI}$) and GEOS-Chem simulated emissions (column 2: E$_{GC}$).
     The first row shows the time series (daily midday averages) and the final row shows the absolute differences ($E_{GC} - E_{OMI}$). %($\frac{E_{GC} - E_{OMI}}{E_{GC}}$).
     This figure is repeated using monthly means (of the daily midday estimates) in Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan_monthly}.
-    TODO: Analaysis of these time series
+    TODO: Analysis of these time series
     
     % Figure from Analyse_E_new.py -> E_regional_time_series()
     \mypic{Figures/OMI_link/Emiss/E_zones_PP_lr.png}{%
@@ -783,7 +784,7 @@
       As Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} using monthly medians of the daily midday emissions estimates.
     }{\label{BioIsop:results:emissions:fig_time_series_vs_megan_monthly}}
     
-    Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and IQR of daily midday isoprene emissions estimates, averaged regionally (see Figure \ref{BioIsop:results:fig_subregions}). 
+    Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and inter-quartile range (IQR) of daily midday isoprene emissions estimates, averaged regionally (see Figure \ref{BioIsop:results:fig_subregions}). 
     Generally months outside of May to August show the a postiori lower than the a priori, except in the south eastern portion of Australia.
     
     \mypic{Figures/OMI_link/Emiss/E_zones_multiyear_PP_lr.png}{ %
@@ -920,24 +921,32 @@
     \label{BioIsop:results:HCHOYield}
     
     Isoprene reaction chains are diverse, with many branches forming HCHO.
-    HCHO production yields are often classed into at least two categories: first generation HCHO yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation, while total (or molar) yield refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
+    HCHO production yields are often classed into two categories: first generation HCHO yield and total (or molar) yield.
+    First generation yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation.
+    Total yield refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
     %\textcite{Wolfe2016} define prompt yield as the change in formaldehyde per unit change in initial isoprene emissions.
     %$[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
     In this work yield ($Y_{isop}$) is not calculated as the slope ($S = Y_{isop}/k_{HCHO}$) can be used instead.
     
-    Figure \ref{BioIsop:results:HCHOYield:fig_Yield_Lifetime}: shows the GEOS-Chem Y$_{isop}$ and HCHO lifetime ($\tau$) estimated throughout the year.
-    By using an assumed constant $Y_{isop}$ of 0.4, we estimate the midday lifetimes of HCHO using $S = \frac{Y_{isop}}{k_{HCHO}}$ from equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}.
-    Then dividing the slope by this monthly mean lifetime returns an estimate of the Yield.
-    Both of these terms are heavily influenced by the assumed yield, and should not be taken as results, however this technique shows the seasonal cycle and spread of the HCHO yield and lifetime.
-    A clear June (and sometimes March, July and August) increase in HCHO lifetimes is shown, with a matching drop in yield. 
-    These are the winter months, when midday temperature and insolation is reduced.
-    Noise in the southwest region may be indicative of heavy filtering, potentially driven by westerly winds which can lead to both smearing and transported pollution.
+    By assuming yield $Y_{isop}$ lies between 0.2 and 0.4, we find a range for midday lifetimes of HCHO using equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}:
+    \begin{eqnarray*}
+      S = & \frac{Y_{isop}}{k_{HCHO}} \\
+      \tau \equiv & \frac{1}{k_{HCHO}} \\
+      \tau = & \frac{S}{Y_{isop}}
+    \end{eqnarray*}
+    The $\tau$ is heavily influenced by the assumed yield, and improved methods of estimating yield over Australia are required to improve this estimate.
+    Figure \ref{BioIsop:results:HCHOYield:fig_Lifetime}: shows the GEOS-Chem HCHO lifetime estimated throughout the year.
+    There is a clear seasonal cycle with longer lifetimes in winter months.
+    A clear June (and sometimes March, July and August) increase in HCHO lifetimes is shown, suggesting midday temperature and insolation (which is reduced in winter months) may limit the utility of this top-down emissions estimation technique.
+    The figure is produced using filtered slope information from 2005, and outliers along with low data availability in some months is an issue.
+    Noise in the southwest and middle regions may be indicative of heavy filtering, potentially driven by westerly winds which can lead to both smearing and transported pollution.
     
-    \mypic{Figures/OMI_link/GC/Yield_lifetime_monthly.png}{ %
-      Monthly area averaged isoprene to HCHO midday yield, and HCHO lifetime.
-      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}
-      Shaded areas show the yield (plain) and lifetime (hatched) IQR.
-    }{\label{BioIsop:results:HCHOYield:fig_Yield_Lifetime}}
+    % Plot/calculation from GC_tests.yield_and_lifetime()
+    \mypic{Figures/OMI_link/GC/HCHO_lifetime.png}{ %
+      Monthly area averaged HCHO lifetime ($\tau$ in hours), with IQR shaded.
+      Solid lines show lifetime assuming yield is 0.2, and 0.4 (higher and lower lines respectively).
+      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
+    }{\label{BioIsop:results:HCHOYield:fig_Lifetime}}
     
 
 \section{Uncertainty}
