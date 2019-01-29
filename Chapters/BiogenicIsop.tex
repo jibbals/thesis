@@ -721,12 +721,11 @@
         Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}
       
-      % UP TO HERE JENNY
 
   \subsection{Running GEOS-Chem using a postiori emissions}
   \label{BioIsop:method:scaled}
     
-    After creating $E_{isop}$, the top-down estimate of isoprene emissions, we run GEOS-Chem again with biogenic emissions scaled to match the new estimate. 
+    After creating $E_{isop}$, our a postiori isoprene emissions estimate, we run GEOS-Chem again with biogenic emissions scaled to match the new estimate. 
     First all the new midday (13:00-14:00~LT) emissions (per grid box) and forming a multi-year monthly mean, which can be compared to the unaltered GEOS-Chem equivalent.
     A monthly factor ($\alpha$ at \lowhr) that scales MEGAN towards our top-down estimate is then read by the emissions module in GEOS-Chem, and applied whenever isoprene emissions are calculated.
     %Initially a run of GEOS-Chem using no chemistry it performed is order to quickly retrieve hourly averaged isoprene emissions.
@@ -750,6 +749,8 @@
       Row 2: $E_{GC}$ (xxx, left axis), $E_{OMI}$ (xxx, left axis), and  $\alpha$(black, right axis) multi-year monthly averages calculated for Sydney.
       Row 3: Monthly averages of the same terms in Row 2.}{\label{BioIsop:method:scaled:fig_alpha_mya_series}}
 
+
+% UP TO HERE JENNY
 \section{Results}
   \label{BioIsop:results}
   
@@ -769,7 +770,12 @@
     Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows emissions over Australia calculated using the OMI top down estimate (column 1: E$_{OMI}$) and GEOS-Chem simulated emissions (column 2: E$_{GC}$).
     The first row shows the time series (daily midday averages) and the final row shows the absolute differences ($E_{GC} - E_{OMI}$). %($\frac{E_{GC} - E_{OMI}}{E_{GC}}$).
     This figure is repeated using monthly means (of the daily midday estimates) in Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan_monthly}.
-    TODO: Analysis of these time series
+    Over the entirety of Australia the seasonal cycle of emissions is shown to be overestimated by the a priori.
+    The difference between a priori and a postiori estimates differs between regions, and some noise can be seen in the monthly time series due to data loss (TODO: check data counts).
+    While most regions generally adhere to this behaviour of overestimation, the northern region of Australia follows a different cycle of bias.
+    Northern Australia appears to be overestimated throughout the year, however occasional low points occur in summer in which the a priori is near or lower than the a postiori.
+    One potential reason is the onset of the wet season (November-April) which both disrupts the ecosystems and limits satellite measurement (due to cloud coverage).
+    
     
     % Figure from Analyse_E_new.py -> E_regional_time_series()
     \mypic{Figures/OMI_link/Emiss/E_zones_PP_lr.png}{%
@@ -836,7 +842,31 @@
       MEGAN emissions are estimated hourly per \lowhr horizontal grid box, shown here are the area averages (denoted by colour, see Figure \ref{BioIsop:results:fig_subregions}).
       Top-down estimates are similarly grouped by colour, and shown at the 13:00~LT mark for each month.
       }{\label{BioIsop:method:scaled:megan_diurnal}}
+      
+    TODO: how isoprene is linked to ozone in modelling 
+    Figure \ref{Conclusions:ozone:fig_new_emiss_series_O3} shows surface level (up to $\sim 150$~m altitude) ozone concentration over 2005 before and after scaling modelled isoprene emissions.
+    Reducing isoprene emissions lowers surface ozone concentrations by TODO: XX to YY \% in summer, and XX to YY \% in winter.
+    The direct correlation between reduced emissions and surface ozone (Figure TODO) is more or less clear monthly, and using multiple years enhances/reduces the relationship.
+    A look at the regression using only summer data reveals a stronger/weaker relationship, analyse per region (TODO).
+  
+  \subsection{Trends}
+    \label{BioIsop:results:trends}
     
+    TODO: Summary of how the VOC NOX Ozone dynamic is changing over time, including how they are linked
+    
+    
+    TODO: how isoprene emissions are changing over the period
+    Plot time series of isoprene emissions for each region pre and post change
+    subtract seasonal mya cycle and show trend and p value for trend being non-zero.
+    
+    TODO: how HCHO is changing over the period
+    Plot: time series pre and post isoprene changes as well as OMI for each region.
+    subtract seasonal mya cycle and show trend and p value for trend being non-zero.
+    
+    TODO: how surface ozone is changing over the period
+    plot: time series of ozone pre and post isop change
+    subtract seasonal mya cycle and show trend and p value for trend being non-zero.
+  
   \subsection{Literature comparisons}
     
     % 
@@ -927,6 +957,7 @@
     %\textcite{Wolfe2016} define prompt yield as the change in formaldehyde per unit change in initial isoprene emissions.
     %$[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
     In this work yield ($Y_{isop}$) is not calculated as the slope ($S = Y_{isop}/k_{HCHO}$) can be used instead.
+    This section shows a brief analysis of HCHO lifetimes ($\tau$) at midday.
     
     By assuming yield $Y_{isop}$ lies between 0.2 and 0.4, we find a range for midday lifetimes of HCHO using equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}:
     \begin{eqnarray*}

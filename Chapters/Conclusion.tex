@@ -9,9 +9,10 @@
   % The two largest contributors to tropospheric ozone concentrations are chemical production (driven by precursor emissions) and stratospheric transport.
   % I aim to improve understanding of both of these sources using existing satellite and ground-based datasets along with GEOS-Chem modelled outputs.
   \textbf{In this thesis I aim to improve understanding of natural contributions to ozone over Australia and the southern ocean.}
-  Chapter \ref{LR} examines processes leading to ozone creation in the troposphere, primarily starting with isoprene emissions.
-  Processes involved after emissions are explained and a summary of how the lack of information available over Australia affects modelling and forecasting is provided.
+  Chapter \fullref{LR} examines processes leading to ozone creation in the troposphere, primarily isoprene emissions and subsequent chemistry.
+  A summary of how the lack of information available over Australia affects modelling and forecasting is provided.
   The secondary cause of ozone, stratosphere to troposphere transport (STT), is also outlined with associated processes and causes discussed.
+  Methodologies, tools and data-sets used throughout the thesis are detailed in Chapter \fullref{Model}.
   Chapter \fullref{BioIsop} shows how models are misrepresenting isoprene emissions by a large margin in Australia, along with the description and implementation of a relatively simple method of improvement.
   Chapter \fullref{Ozone} provides an estimate of stratospheric ozone influx to the troposphere, along with potential classifications and seasonality.
   
@@ -30,11 +31,12 @@
   % %Soil moisture plays an important role in VOC emissions, as trees under stress may stop emitting various chemicals. 
   % %This is especially true for Australia due to frequent droughts and wildfires.
   % %The argument for improved understanding of land surface properties, specifically soil moisture, is an old one\parencite{Mintz1982, Rowntree1983, Chen2001}.
-  HCHO from OMI on board the AURA satellite (see Section \ref{Model:omhcho}) is read pixel by pixel and examined in Chapter \ref{Model}, where influence of the air mass factor (AMF) is discussed in detail (Section \ref{Model:AMF}).
+  HCHO from OMI on board the AURA satellite %(see Section \ref{Model:omhcho}) is read pixel by pixel and 
+  is examined and recalculated in Chapter \ref{Model}, where influence of the air mass factor (AMF) is discussed in detail. %(Section \ref{Model:AMF}).
   This AMF was created using an older version of GEOS-Chem with out-of-date HCHO chemistry.
   Recalculation, binning, and analysis of the satellite HCHO vertical columns is performed using GEOS-Chem v10.01, outlined in Section \ref{Model:omiRecalc:outline}.
   This is performed using my own partial AMF recalculation code, along with full recalculation code set up in collaboration with Prof. Palmer and Dr. Surl.
-  Subsequent use of the data makes further use of the recalculation as a basic sensitivity analysis of top-down emissions estimations to apriori satellite information.
+  Subsequent use of the data makes further use of the recalculation as a basic sensitivity analysis of top-down emissions estimations to a priori satellite information.
    
   % % Aim for Chapter 3: Biogenic emissions estimation
   % The technique of determining isoprene emissions from satellite detected HCHO is called satellite inversion.
@@ -51,14 +53,15 @@
   Furthermore, this top-down estimation is used to scale a new simulation of HCHO, and O$_3$ over Australia, described in Section \ref{BioIsop:method:scaled}.
    
   % % Aim for Chapter 4: STT Ozone
-  \textbf{To improve understanding of ozone transported to the troposphere from the stratosphere in Australia and the southern ocean.}
+  \textbf{I aime to improve understanding of ozone transported to the troposphere from the stratosphere in Australia and the southern ocean.}
   % Stratospheric transport is the second largest driver of tropospheric ozone concentrations, and an improved understanding of transported ozone can be determined from ozonesonde measurements.
   % Ozonesondes provide a glimpse of the vertical ozone profile up to $\sim 30$~km, and we use a Fourier filter to determine how often stratospheric transport is occurring at three sites: Melbourne, Macquarie Island, and Davis Station. 
   % Combining transport event frequency analysis with modelled ozone distributions is used to derive a new method of detection and quantification of transported ozone in Chapter \ref{Ozone}.
   In Chapter \ref{Ozone} the seasonal cycle of STT events is characterised, and their contribution to the SH extra-tropical tropospheric ozone budget is quantified using GEOS-Chem to estimate ozone flux extrapolated from three measurement sites.
   Causal climatology and event seasonality are examined in Section \ref{Ozone:eventclimatologies}.
-  Section \ref{Ozone:STTevents} uses STT detection frequencies and modelled tropospheric ozone columns to estimate STT ozone flux near three sites. 
-  Findings are compared against relevant literature, and (in Section \ref{Ozone:sensitivity}) the uncertainties involved in STT event detection ozone flux estimation is studied.
+  STT detection frequencies and modelled tropospheric ozone columns are used to estimate STT ozone flux near three sites in Section \ref{Ozone:STTevents}. 
+  Findings are compared against relevant literature, and %(in Section \ref{Ozone:sensitivity}) 
+  the uncertainties involved in STT event detection and ozone flux estimation are studied.
   
   % 
   % 
@@ -67,24 +70,60 @@
   % I will describe how modelled ozone is affected by updated isoprene emissions, comparing changes in GEOS-Chem outputs.
   % Trends of isoprene emissions and their relationship to tropospheric ozone trends could provide new insight into the future of tropospheric ozone in Australia.
 
+  In the following sections, summaries of results over Australia are often split into regions shown in Figure \ref{Conclusions:fig_subregions}.
+  
+  % figure from Analysis_E_isop.py.show_subregions()
+  \mypic{Figures/OMI_link/subregions.png}{%
+    Sub-regions used in subsequent figures.
+    Australia-wide averages will be black or grey, while results from within the coloured rectangles will match the colours shown here.
+  }{\label{Conclusions:fig_subregions}}
+
+\section{Isoprene emissions}
+\label{Conclusions:isoprene}
+
+  % Compare overall isoprene apriori vs apostiori
+  Being a major driver of continental boundary ozone production, a new isoprene emissions estimate is created using OMI satellite measurements of HCHO.
+  This estimate is and compared against the bottom-up estimate from GEOS-Chem (running MEGAN).
+  % Taken from isoprene chapter:
+  Figure \ref{Conclusions:isoprene:fig_megan_vs_Enew_regional_mya} shows these emissions compared regionally. 
+  Generally months outside of May to August show the a postiori lower than the a priori, except in the south eastern portion of Australia where only February is notably reduced.
+  MEGAN estimates of isoprene emissions appear to be largely overestimated in Austral summer, suggesting poorly understood emission factors for Australian forests.
+  
+  \mypic{Figures/OMI_link/Emiss/E_zones_multiyear_PP_lr.png}{ %
+    The multi-year monthly mean (lines) and IQR (shaded) of midday (13:00-14-00~LT) isoprene emissions estimates. 
+    Estimates come from MEGAN run by GEOS-Chem (E$_{GC}$), and the OMI top-down technique (E$_{OMI}$).
+    The mean E$_{GC}$ is shown by the dashed lines and hatched shaded areas show the IQR.
+    E$_{OMI}$ means are shown using the solid lines, with IQR shown by unhatched shaded areas.
+    Colours denote the region over which the monthly average was taken, as shown in Figure \ref{Conclusions:fig_subregions}.
+  }{\label{Conclusions:isoprene:fig_megan_vs_Enew_regional_mya}}
+
 \section{Ozone over Australia}
 \label{Conclusions:ozone}
   
   Ozone production in the troposphere is a complex process involving various compounds.
-  Tropospheric ozone is enhanced through VOC chemistry, stratospheric transport, and pollution, of which the first two are highly uncertain.
-  Of these ozone sources, VOC chemistry uncertainty is dominated by a lack of understanding of biogenic emissions (mainly) of isoprene.
-  BVOC emissions of isoprene are globally modelled at $\sim$465-500\tgcpyr \parencite{Guenther2006, Messina2016}. 
+  Tropospheric ozone is enhanced through VOC chemistry, stratospheric transport, and pollution.
+  The first two of these processes are highly uncertain, with few studies performed on either topic within Australia.
+  Of these ozone sources, VOC chemistry uncertainty is dominated by poor understanding of biogenic emissions (mainly) of isoprene.
+  Emissions of isoprene are globally modelled at $\sim$465-500\tgcpyr \parencite{Guenther2006, Messina2016}. 
   However these appear to be overestimated in Australia, as seen here with top-down estimates at $\sim 19$ \tgcpyr compared to $\sim 43$ \tgcpyr using GEOS-Chem (which implements MEGAN).
-  Figure TODO shows how isoprene emissions regionally compare between GEOS-Chem and the new top-down estimate.
   
   TODO: ozone concentrations using emissions from MEGAN/TOP-Down, also how these compare to estimated STT:
   Tropospheric ozone production is estimated using GEOS-Chem before and after scaling isoprene emissions based on top-down satellite data.
   Figure \ref{Conclusions:ozone:fig_ozone_surf_summer} shows Australian summer surface level ozone with and without scaling isoprene emissions to match the multi-year top-down estimation.
-  Overall surface ozone drops $\sim 5\%$, with reduction in the tropospheric column totalling less than 1\% meaning that reduction is mostly at the surface.% (figure not shown).
+  Tropospheric column ozone reduces very minimally ($<1\%$), however surface ozone drops $\sim 5\%$.
+  This suggests that impacts from reduced isoprene emission do not propagate vertically.
   The results are tabulated for each of five regions, and all of Australia, and shown here in Table \ref{Conclusions:ozone:tab_emissions_vs_ozone}.
-  The reduction in isoprene emissions does not have much impact on modelled ozone, with each region experiencing $< 1\%$ reduction in tropospheric column ozone even though isoprene emissions are halved on average over Australia.
-  TODO: discuss: In contrast to the south eastern region, where an XX\% ozone change is observed, STT analysis over Melbourne suggests up to YY\% of the tropospheric column is due to stratospheric influx.
-  This table also shows the change in isoprene emissions scaling, which shows us that a XX\% change causes YY\% reduced ozone concentration.
+  Although isoprene emissions are halved on average over Australia, the reduction has only a small effect on ozone.
+  
+  Ozone transported from the stratosphere also may have some affect on surface ozone levels, although this is hard to detect with the methods used in this thesis.
+  We only compare the affect of the two disparate influences on the tropospheric ozone column.
+  STT analysis over Melbourne suggests up to $\sim 10\%$ of the tropospheric column is due to stratospheric influx, with the average increase caused by influx being $\sim 1$ to $3.5\%$.
+  We see that a relatively large drop in isoprene emissions causes $\sim 1\%$ reduced ozone concentration over summer.
+  Both of these sources become more important in summer, with more frequent STT and stronger isoprene emissions.
+  However the impacts are separated by altitude with most STT occurring in the free troposphere, while isoprene emission impacts are largely seen at the surface.
+  %Total uncertainty (shaded) is on the order of $100\%$ (see Sect. \ref{Ozone:fluxuncertainty}). 
+  %We calculate the annual amount based on the sum of the monthly values.  
+  %The regions over Davis, Macquarie Island, and Melbourne have estimated STT ozone contributions of $\sim 5.7 \times 10^{17}$, $\sim 5.7 \times 10^{17}$, and $\sim 8.7 \times 10^{17}$ molecules cm$^{-2}$ a$^{-1}$ respectively, or equivalently $\sim 2.0$, 2.1, and 3.3~Tg a$^{-1}$.
   
   \mypic{Figures/OMI_link/new_emiss/O3_surf_map_JanFeb05.png}{%
     Ozone maps before (left) and after (right) scaling isoprene emissions in GEOS-Chem for summer.
@@ -92,6 +131,7 @@
     }{\label{Conclusions:ozone:fig_ozone_surf_summer}}
   
   %TODO: UPDATE: CURRENTLY BASED ON JUST 2005 instead of 2005-2012 mya
+  % TODO UPDATE TO USE SURFACE PPB AVERAGES
   %Ozone currently output from tests/test_new_emissions.hcho_ozone_series()
   \begin{table}\begin{threeparttable}
     \caption{Isoprene emissions from MEGAN and top-down estimation in Tg a$^{-1}$, along with ozone tropospheric column amounts in O$_3$ cm$^{-2} \times 10^{17}$ .}
@@ -112,37 +152,23 @@
     \label{Conclusions:ozone:tab_emissions_vs_ozone}
   \end{threeparttable}\end{table}
 
-
-  WAITING: for conclusions after running updated isoprene GC
   
   TODO: how isoprene is linked to ozone in modelling 
-  Figure \ref{Conclusions:ozone:new_emiss_series} shows surface level (up to $\sim 150$~m altitude) ozone concentration over 2005 before and after scaling modelled isoprene emissions.
-  Reducing isoprene emissions lowers surface ozone concentrations by TODO: XX to YY \%.
+  Figure \ref{Conclusions:ozone:fig_new_emiss_series_O3} shows surface level (up to $\sim 150$~m altitude) ozone concentration over 2005 before and after scaling modelled isoprene emissions.
+  Reducing isoprene emissions lowers surface ozone concentrations by TODO: XX to YY \% in summer, and XX to YY \% in winter.
   The direct correlation between reduced emissions and surface ozone (Figure TODO) is more or less clear monthly, and using multiple years enhances/reduces the relationship.
   
   % plot from tests/hcho_ozone_series()
   \mypic{Figures/OMI_link/new_emiss/O3_surface_20050101_20051231.png}{%
-    Surface ozone concentrations (ppb) per region over 2005.}{\label{Conclusions:ozone:new_emiss_series}}
-  
-\section{Current trends}
-\label{Conclusions:trends}
-  
-  WAITING FOR updated GC
-  
-  TODO: Summary of how the VOC NOX Ozone dynamic is changing over time, including how they are linked
-  
-  TODO: how HCHO is changing over the period
-  Plot: time series pre and post isoprene changes as well as OMI for each region.
+    Surface ozone concentrations (ppb) per region over 2005.}{\label{Conclusions:ozone:fig_new_emiss_series_O3}}
 
-  TODO: how isoprene emissions are changing over the period
-  Plot time series of isoprene emissions for each region pre and post change
   
-  
-  TODO: how ozone is changing over the period
-  plot: time series of ozone pre and post isop change
-  
-\section{Potential future work}
+\section{Outputs and future work}
 \label{Conclusions:future}
+  
+  % may need to include \usepackage{bibentry}
+  Analysis of STT along with an estimate of ozone flux from the stratosphere over a portion of Australia and the southern ocean is published in \textcite{Greenslade2017}.
+  Ozone production using GEOS-Chem with updated top-down isoprene emissions is examined in this thesis and may form part of a new publication in the near future with the aim of updating MEGAN isoprene emission factors in Australia.
   
   % Soil moisture improvement
   One of the important parameters in Australia is the soil moisture activity factor($\gamma_{SM}$), which can have large regional effects on the isoprene emissions \parencite{Sindelarova2014,Bauwens2016}.
