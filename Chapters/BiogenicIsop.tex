@@ -749,8 +749,6 @@
       Row 2: $E_{GC}$ (xxx, left axis), $E_{OMI}$ (xxx, left axis), and  $\alpha$(black, right axis) multi-year monthly averages calculated for Sydney.
       Row 3: Monthly averages of the same terms in Row 2.}{\label{BioIsop:method:scaled:fig_alpha_mya_series}}
 
-
-% UP TO HERE JENNY
 \section{Results}
   \label{BioIsop:results}
   
@@ -795,6 +793,8 @@
     Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and IQR of daily midday isoprene emissions estimates, averaged regionally (see Figure \ref{BioIsop:results:fig_subregions}). 
     Generally months outside of May to August show the a postiori lower than the a priori, except in the south eastern region.
     Here the difference is only prominent during February, TODO check if this may be because of data point counts.
+    %JENNY COMMENT:
+    TODO: Which regions show best correlation? Worst? Why might that be, and what does it mean?
     
     % Figure from Analyse_E_isop.py -> E_regional_multiyear()
     % TODO update titles and add Y axis, update legend
@@ -821,10 +821,15 @@
       Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
     }{\label{BioIsop:results:emissions:fig_daily_egressions}}
     
+    % UP TO HERE JENNY
+    % UPDATE: fix Y axis labels -> a priori, X axis -> a postiori, add units, remove negative axes
+    % Figure from !?!?! TODO
     \mypic{Figures/OMI_link/Emiss/monthly_Egressions.png}{%
-      Scatter plot of MEGAN emissions against top down emissions using monthly averaged grid squares as regression datapoints.
+      Scatter plot of a priori emissions against a postiori using monthly averaged grid squares as regression datapoints.
       Figures use multiple years of summer (DJF) midday values averaged monthly within each region shown.
+      % JENNY COMMENT:So - each dot in the figure is one gridbox and one month (e.g. Jan) that has been averaged over all years? So if there were 20 grid boxes in the region you would end up with 60 points? Is that right? I think a bit of extra wording is needed for clarity.
       Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
+      Linear best fit regression is shown with line equation inset along with regression coefficient.
     }{\label{BioIsop:results:emissions:fig_monthly_egressions}}
     
     After running GEOS-Chem with isoprene emission scaled to match the a postiori, the first preliminary check on the modelled output checks total column HCHO ($\Omega_{HCHO}$) over January in 2005 in Figure \ref{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}.
@@ -840,6 +845,8 @@
   \label{BioIsop:results:new_emiss}
     
     This section describes how outputs from GEOS-Chem change after applying a scaling factor $\alpha$ (see Section \ref{BioIsop:method:scaled}) to biogenic isoprene emissions.
+    Here we need to be careful of notation, unscaled GEOS-Chem biogenic emissions are the a priori, top down midday emissions are the a postiori, and emissions from the scaled GEOS-Chem run are denoted E$^{\alpha}_{GC}$.
+    
     Figure \ref{BioIsop:method:scaled:megan_diurnal} shows the multi-year monthly mean daily cycle of isoprene emissions from GEOS-Chem, along with the top-down midday estimate, for an example grid box located 2.5~\degr~ W of Sydney.
     TODO: Analysis of this and lead into more analysis of differences
     
@@ -920,11 +927,13 @@
     TODO: % TODO: campaign analysis compared to GEOS-Chem
     Analyse comparison of gridbox with campaigns of measurements
     
-    Comparison between ground-based measurements and large (\lowhr) averaged grid squares suffers from heavy representational error.
-    Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement sites, along with an outline of the \lowhr model gridbox. 
-    The urban footprint of Sydney and Wollongong are clearly shown, along with some ocean, forest, and rural regions, which are all averaged within calculations made here.
+    Comparison between ground-based measurements and large (\lowhr) averaged grid squares suffers from representation error.
+    Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement sites, along with an outline of the \lowhr model grid box.
+    The grid box is the area over which GEOS-Chem outputs are averaged, a rectangle with edge lengths of roughly 200~km$^{2}$.
+    The urban footprint of Sydney and Wollongong are clearly shown, along with some ocean, forest, and rural regions, which will all affect the model output and other calculations averaged here.
     Due to high uncertainty in components of the top-down emissions estimate, temporal resolution is also limited.
-    MUMBA, SPS1 and SPS2 each provide only a couple of comparable data points, and these campaigns measured isoprene concentrations while our estimate is of emissions.
+    MUMBA, SPS1 and SPS2 each provide relatively few data points, which are compared against surface level concentrations from GEOS-Chem before and after scaling the biogenic emissions.
+    %campaigns measured isoprene concentrations while our estimate is of emissions.
     
     %figure from tests.campaign_gridsquare() could be better.
     \mypic{Figures/gridmapsmall_sites.png}{% 
