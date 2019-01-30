@@ -767,40 +767,44 @@
   \subsection{Updated emissions}
     \label{BioIsop:results:emissions}
     
-    Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows emissions over Australia calculated using the OMI top down estimate (column 1: E$_{OMI}$) and GEOS-Chem simulated emissions (column 2: E$_{GC}$).
-    The first row shows the time series (daily midday averages) and the final row shows the absolute differences ($E_{GC} - E_{OMI}$). %($\frac{E_{GC} - E_{OMI}}{E_{GC}}$).
+    Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows a priori emissions over Australia (todo column 1) and the updated emissions calculated using OMI (column 2: a postiori).
+    The first row shows the time series (daily midday averages) and the final row shows the absolute differences (a priori - a postiori).
     This figure is repeated using monthly means (of the daily midday estimates) in Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan_monthly}.
     Over the entirety of Australia the seasonal cycle of emissions is shown to be overestimated by the a priori.
     The difference between a priori and a postiori estimates differs between regions, and some noise can be seen in the monthly time series due to data loss (TODO: check data counts).
     While most regions generally adhere to this behaviour of overestimation, the northern region of Australia follows a different cycle of bias.
-    Northern Australia appears to be overestimated throughout the year, however occasional low points occur in summer in which the a priori is near or lower than the a postiori.
-    One potential reason is the onset of the wet season (November-April) which both disrupts the ecosystems and limits satellite measurement (due to cloud coverage).
+    Northern Australia appears to be overestimated throughout the year, however occasional low points occur in summer in which the a priori is near to or lower than the a postiori.
+    One potential reason is the onset of the wet season (November-April) which disrupts the ecosystems and limits satellite measurement through increased cloud coverage.
     
     
-    % Figure from Analyse_E_new.py -> E_regional_time_series()
+    % Figure from Analyse_E_isop.py -> E_regional_time_series()
     \mypic{Figures/OMI_link/Emiss/E_zones_PP_lr.png}{%
-      Emissions of isoprene estimates using OMI top down inversion (column 1: E$_{OMI}$) and MEGAN (column 2: E$_{GC}$).
-      Row 1: overall averaged daily midday emission rates, from 1, Jan, 2005 to 1, May, 2013.
-      Row 2: time series of daily midday averages for all of Australia along with several subregions (shown in row 1). 
-      Row 3: relative differences: $\frac{E_{MEGAN} - E_{OMI}}{E_{MEGAN}}$.
-      The black lines and grey areas show the Australian mean and inter-quartile range respectively, while the coloured lines show the mean within the rectangles (of matching colours) shown in the first row.
+      Biogenic emissions of isoprene from GEOS-Chem (running MEGAN), which is our a priori in column 1, and the emissions calculated using the OMI top down inversion, which is our a postiori in column 2.
+      %Row 1: overall averaged daily midday emission rates, from 1, Jan, 2005 to 1, May, 2013.
+      Row 1: time series of daily midday averages for all of Australia along with several subregions (shown in row 1). 
+      The black lines and grey areas show the Australian mean and inter-quartile range respectively, while the coloured lines show the mean within subregions as shown in Figure \ref{BioIsop:results:fig_subregions}.
+      The overall regional averages are shown at the end of the time series by horizontal lines.
+      Row 2: Absolute differences: a priori - a postiori.
+      TODO: remove spines along top and middle of top row
     }{\label{BioIsop:results:emissions:fig_time_series_vs_megan}}
     
     \mypic{Figures/OMI_link/Emiss/E_zones_PP_monthly_lr.png}{ %
       As Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} using monthly medians of the daily midday emissions estimates.
     }{\label{BioIsop:results:emissions:fig_time_series_vs_megan_monthly}}
     
-    Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and inter-quartile range (IQR) of daily midday isoprene emissions estimates, averaged regionally (see Figure \ref{BioIsop:results:fig_subregions}). 
+    Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and IQR of daily midday isoprene emissions estimates, averaged regionally (see Figure \ref{BioIsop:results:fig_subregions}). 
     Generally months outside of May to August show the a postiori lower than the a priori, except in the south eastern region.
     Here the difference is only prominent during February, TODO check if this may be because of data point counts.
     
-    
+    % Figure from Analyse_E_isop.py -> E_regional_multiyear()
+    % TODO update titles and add Y axis, update legend
+    % TODO run over 2005-2012
     \mypic{Figures/OMI_link/Emiss/E_zones_multiyear_PP_lr.png}{ %
       The multi-year monthly mean (lines) and IQR (shaded) of midday (13:00-14-00~LT) isoprene emissions estimates. 
-      Estimates come from MEGAN run by GEOS-Chem (E$_{GC}$), and the OMI top-down technique (E$_{OMI}$).
-      The mean E$_{GC}$ is shown by the dashed lines and hatched shaded areas show the IQR.
-      E$_{OMI}$ means are shown using the solid lines, with IQR shown by unhatched shaded areas.
-      Colours denote the region over which the monthly average was taken, as shown in Figure \ref{BioIsop:results:fig_subregions}.
+      %Estimates come from MEGAN run by GEOS-Chem (E$_{GC}$), and the OMI top-down technique (E$_{OMI}$).
+      A priori emissions are shown by the dashed lines and hatched shaded areas show the IQR.
+      A postiori emissions are shown using the solid lines, with IQR shown by unhatched shaded areas.
+      Colours denote the region over which the monthly average was taken, as in Figure \ref{BioIsop:results:fig_subregions}.
     }{\label{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya}}
     
     Figures \ref{BioIsop:results:emissions:fig_daily_egressions} and \ref{BioIsop:results:emissions:fig_monthly_egressions} show how the distributions of top-down emissions compare to those of MEGAN in each region during summer months (DJF) with zeros and negatives removed from both distributions. 
