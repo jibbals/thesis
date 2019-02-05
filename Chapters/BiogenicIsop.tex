@@ -870,14 +870,14 @@
     TODO: Summary of how the VOC NOX Ozone dynamic is changing over time, including how they are linked
     
     
-    Plot time series of isoprene emissions for each region pre and post change
-    subtract seasonal mya cycle and show trend and p value for trend being non-zero.
-    Figure \ref{BioIsop:results:trends:fig_emission_anomalies} shows a priori and a postiori midday emissions for each region, with the respective multiyear monthly mean subtracted to detect any trend over 2005 - 2012.
-    First each region is spatially averaged to form a daily time series of midday emission rates, this is re-sampled to a monthly average and then the multiyear monthly mean is subtracted from this before a linear regression is performed to look for any significant trend.
-    Additionally any anomaly which is greater than 3 standard deviations from the mean is removed (these points can be seen as crosses in Figure \ref{BioIsop:results:trends:fig_emission_anomalies}).
-    A trend is considered significant if the 95\% confidence interval of the gradient does not include 0.
-    We see the a priori trend is negative for all regions, which is the reverse of the a postiori in all but the south eastern region.
-    The trends in a postiori emissions suggest growth of $\sim 8-16\%$ of the annual average emission rate per year over the period, except in south eastern Australia where a $\sim 13\%$ decline is seen.
+    %Plot time series of isoprene emissions for each region pre and post change
+    % subtract seasonal mya cycle and show trend and p value for trend being non-zero.
+    Figure \ref{BioIsop:results:trends:fig_emission_anomalies} shows monthly deseasonalised a priori and a postiori midday emission anomalies for each region.
+    First the emissions are spatially averaged within each region to form a daily time series of midday emission rates, this is averaged into monthly data, and then the multiyear monthly mean is subtracted to form the anomaly series.
+    Any anomaly which is greater than 3 standard deviations from the mean is removed (these points can be seen as crosses in Figure \ref{BioIsop:results:trends:fig_emission_anomalies}).
+    An ordinary least squares linear regression is then performed to look for any significant trend.
+    A trend is considered significant if the p-value from a Wald test is less than 0.05.
+    The midday emissions show no significant trends over the 8 year period from 2005-2012.
     
     \mypic{Figures/OMI_link/Emiss/trend_E.png}{%
       A priori (row 1) and a postiori (row 2) emissions anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
@@ -892,22 +892,24 @@
     plot: time series of ozone pre and post isop change
     subtract seasonal mya cycle and show trend and p value for trend being non-zero.
     
+    % From tests/???
+    % a priori and a postiori showed no significant trends
     \begin{table}\begin{threeparttable}
-      \caption{Regional 95\% confidence interval of slope from linear regression of anomalies}
-      \begin{tabular}{ l  c  c  c} 
+      \caption{Regional deseasonalised trends}
+      \begin{tabular}{ l  c  c } 
         \toprule
-        region & midday isoprene emissions & ozone & hcho \\
+        region & ozone & HCHO \\
         \midrule
-        \textbf{a priori emissions}$^a$ & & & \\
-        Aus & [ X, Y] & [X, Y] & [X, Y] \\ 
+        \textbf{a priori emissions}$^a$ & & \\
+        Aus & [X, Y] & [X, Y] \\ 
         \midrule
-        \textbf{a postiori emissions}$^b$ & & & \\
-        Aus & [ X, Y] & [X, Y] & [X, Y] \\ 
+        \textbf{a postiori emissions}$^b$ & & \\
+        Aus & [X, Y] & [X, Y] \\ 
         \bottomrule
       \end{tabular}
       \begin{tablenotes} 
         \item a: GEOS-Chem output using default isoprene emissions
-        \item b: GEOS-Chem output (except for midday isoprene emissions) using scaled isoprene emissions
+        \item b: GEOS-Chem output using scaled isoprene emissions
       \end{tablenotes}
     \end{threeparttable}\end{table}
     
