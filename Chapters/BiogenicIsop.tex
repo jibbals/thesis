@@ -45,31 +45,30 @@
   Such techniques have informed isoprene emission inventories in North America \parencite{Abbot2003,Palmer2003,Palmer2006,Millet2006,Millet2008}, South America \parencite{Barkley2013}, Europe \parencite{Dufour2009,Curci2010}, Africa \parencite{Marais2012}, Asia \parencite{Fu2007,Stavrakou2014}, India \parencite{Surl2018}, and even globally \parencite{Shim2005,FortemsCheiney2012,Bauwens2016}.
   In this thesis the OMHCHO dataset from the OMI instrument (see Section \ref{Model:omhcho}) is used as the basis for HCHO amounts.
   
-  % JESSE UP TO HERE READTHROUGH
   \subsection{Aims}
-    
-    In Chapter \ref{Model}, the OMI HCHO total columns are recalculated using an updated estimate of HCHO profiles from GEOS-Chem v10.01 .
-    These estimates are compared to available datasets of isoprene or HCHO (SPS1, SPS2, MUMBA, Wollongong FTIR) in Section \ref{BioIsop:results:measurements} %, Daintree) 
-    Sensitivity satellite AMF calculation is examined and quantified for some scenarios.
-    In this chapter we outline why current isoprene emissions estimates are inadequate and how they can be improved.
-    We discuss literature which shows how the estimates may be too high, and describe how emissions may be calculated using satellite datasets.
-    Section \ref{BioIsop:method} lays out how new isoprene emissions are estimated, with results examined in Section \ref{BioIsop:results}. 
-    Uncertainties for each step along the way are quantified in Section \ref{BioIsop:uncertainty}.
-    In Section \ref{BioIsop:conclusions} we examine how these changes in emissions would affect ozone concentrations in Australia, along with some other chemical processes.
-    
+    \label{BioIsop:intro:aims}
     
     %% AIMs paragraph
     Recent work suggests that modelled emissions may be overestimated in Australia \parencite{Emmerson2016}.
     %, while emissions of monoterpenes (C$_{10}$H$_{16}$, two units of isoprene) appear to be underestimated . 
     %This could lead to the unique scenario of neither emission type dominating VOC chemistry over the forests.
     This work tries to improve the understanding of isoprene emissions over the whole of Australia, clarifying the spatial distribution of bias and how these biases impact modelled chemistry.
-    We estimate isoprene emissions in Australia using top-down estimates based on OMI HCHO measurements and modelled yields.
-    This a postiori top-down estimate is used to determine if model fit against sparse available ground-based measurements can be improved.
-    GEOS-Chem model output is examined before and after updating isoprene emissions which are used as inputs.
-    Wellness of fit between in situ (at Wollongong) HCHO, satellite (OMI), and modelled (GEOS-Chem) HCHO is determined with and without updated emissions estimates.
+    We estimate isoprene emissions in Australia using a top-down technique based on OMI HCHO measurements and GEOS-Chem modelled yields.
+    This a postiori top-down estimate is then checked against sparse available ground-based measurements.
+    The GEOS-Chem model is modified to run with updated isoprene emissions to determine potential impact on modelled chemistry.
+    Wellness of fit between in situ, satellite, and modelled HCHO is determined with and without updated emissions estimates.
+    
+    
+    In this chapter we outline why current isoprene emissions estimates are inadequate and how they can be improved.
+    We discuss literature which shows how the estimates may be too high, and describe how emissions may be calculated using satellite datasets.
+    Section \ref{BioIsop:method} lays out how new isoprene emissions are estimated, with results examined in Section \ref{BioIsop:results}. 
+    Updated satellite HCHO columns (Chapter \ref{Model}) are compared to available measurements in Section \ref{BioIsop:results:measurements}.
+    %(SPS1, SPS2, MUMBA, Wollongong FTIR)
+    Uncertainties for each step along the way are quantified in Section \ref{BioIsop:uncertainty}.
+    In Section \ref{BioIsop:conclusions} we examine how these changes in emissions would affect ozone concentrations in Australia, along with some other chemical processes.
+    
     
   \subsection{Existing emissions estimates}
-    
     
     % Overestimates from models
     The Model of Emissions of Gases and Aerosols from Nature (MEGAN) is one of the most popular emissions inventories for biogenic isoprene.
@@ -85,20 +84,20 @@
     
     Recently \textcite{Bauwens2016} estimated isoprene emissions with a top-down technique using the IMAGESv2 global CTM.
     They calculate emissions which create the closest match between model and satellite vertical columns, and compare these a postiori data with their a priori (satellite data) and independent data sets.
-    They examine global emissions seen by three models and a top-down inversion.
+    %They examine global emissions seen by three models and a top-down inversion. % this is just what they do, not results etc...
     For Australia they found emissions ranging from 26-94\tgcpyr.
     In this thesis we prioritise the analysis of a top-down emissions estimate compared against MEGAN, along with flow on effect of changed emissions on modelled ozone levels.
+  
   
   \subsection{Top-down isoprene emissions estimates}
     \label{BioIsop:intro:top_down_estimates}
     
     % Brief isoprene to hcho description
     In the remote troposphere HCHO production is dominated by methane oxidation, while in the continental boundary layer production is largely due to non-methane VOCs (NMVOCs) \parencite{Abbot2003, Kefauver2014}.
-    This leads to a causal relationship between enhanced HCHO concentrations and NMVOC emissions.
-    In the continental boundary layer, HCHO enhancement is generally driven by short lived ($<1$~hr) precursors (most importantly isoprene).
-    HCHO itself has a lifetime of a few hours \parencite{Kefauver2014}.
+    This leads to a causal relationship between enhanced HCHO concentrations and NMVOC emissions at low ($<1$~km) altitudes.
+    NMVOCs are generally short lived ($<1$~hr), and the most prominent of these is isoprene.
     Isoprene is emitted and enters the atmosphere in the gas phase, where it begins a complex series of reactions.
-    Formaldehyde is produced with high yield in many reactions beginning with isoprene oxidation, discussed in more detail in Section \ref{LR:VOCs:IsopCascade}.
+    HCHO is produced with high yield in many reactions beginning with isoprene oxidation, discussed in more detail in Section \ref{LR:VOCs:IsopCascade}, and has a lifetime of a few hours \parencite{Kefauver2014}.
     
     % Lead in to satellite inversion
     Top-down estimates look at how much of a chemical is in the atmosphere and try to work out how much of its major precursors were emitted.
@@ -106,13 +105,13 @@
     For isoprene this is done by looking at atmospheric HCHO enhancement, which can be largely attributed to isoprene emissions once transport and other factors are accounted for.
     %Even anthropogenic HCHO source estimates, which are accurate at the global scale, can be improved using satellite data to improve regional estimates by up to 25-40\% \parencite{Stavrakou2015}. 
     %Their study used the RETRO 2000 database for anthropogenic emission a prioris except for Asia in 2008 where REASv2 was used. 
-    Since 1997, when GOME measurements were first used to measure HCHO over Asia \parencite{Thomas1998}, satellites have been used to provided a total column measurement of HCHO, allowing isoprene emissions estimates by proxy \parencite{Palmer2001,Bauwens2016}.
-    Using satellite information to improve biogenic emissions is pinpointed as a valuable use of satellite derived datasets \parencite{Streets2013}.
-    In this work we use NASA's OMHCHO product, using measurements from OMI on board the AURA satellite (see Section \ref{Model:omhcho}).
+    Since 1997, when GOME measurements were first used to measure HCHO over Asia,  satellites have been used to provided a total column measurement of HCHO, allowing isoprene emissions estimation by proxy \parencite{Thomas1998,Palmer2001,Bauwens2016}.
+    Using satellite information to improve estimates of biogenic emissions has been highlighted as a valuable use of satellite derived datasets in a review by \textcite{Streets2013}.
+    In this thesis we use NASA's OMHCHO product, using measurements from OMI on board the AURA satellite (see Section \ref{Model:omhcho}) as the basis for a top down biogenic isoprene emission estimate over Australia.
     
     There are two top-down isoprene emission estimation techniques, Bayesian and linear, which are discussed briefly here.
     Both the linear and Bayesian techniques assume that modelled chemistry is accurate and only try to correct precursor emissions, which may be a problem if the chemistry is uncertain.
-    Uncertainties in the techniques are discussed in Section \ref{BioIsop:uncertainty:eomi}.
+    
     
     %    Top-down emission estimation is an in-depth process, and a couple of examples are provided here.
     %    \textcite{Marais2014} compare OMI based isoprene emission estimates against relaxed eddy accumulation measurements from African field campaigns in order to improve MEGAN emission factors in the region.
@@ -120,11 +119,13 @@
     %    There are two main methods of estimating isoprene emissions using satellite measurements of child products, here I describe them and briefly compare the pros and cons of each.
     %    
     
+    
     \subsubsection{Bayesian}
     
       % Top down emissions estimation methods:
-      Bayesian inversion corrects biased biogenic isoprene emissions by optimising emission parameters in order to reduce the differences between measured and modelled HCHO.
-      Inversions can be set up to account for effects from transport and allow source attribution \parencite{FortemsCheiney2012}.
+      Bayesian inversion optimises model parameters in order to minimise the difference between model output and some separate dataset.
+      Emissions of isoprene (and other precursors to HCHO) will form part of the set of model parameters which are tuned to make the model HCHO output most closely match satellite (for instance) measurements.
+      These inversions can be set up to account for effects from transport and allow source attribution \parencite[e.g.][]{Curci2010,FortemsCheiney2012}.
       
       In general a model (the forward model) is used to determine the relationship between HCHO ($y$) and the state variable \emph{x}, which represents isoprene and other variable parameters of interest:
       \begin{equation}
@@ -134,32 +135,38 @@
       where $\epsilon$ are the (assumed) independent errors in measurements.
       \emph{K} is the Jacobian matrix determined from the forward model representing the sensitivity of $y$ to the state variable \emph{x}.
       Essentially the \emph{K} matrix is the modelled estimation of how $y$ responds to each of the driving parameters represented by elements of \emph{x}
-      This \emph{K} matrix is used in conjunction with error covariance in \emph{x} to determine the most likely (maximum a postiori) solution to \emph{x}, given what we know about $y$. % ($\hat{x}$).
+      This \emph{K} matrix is used in conjunction with error covariance in \emph{x} to determine the most likely solution to \emph{x}, given what we know about $y$. % ($\hat{x}$).
       
-      For example this method is used by \textcite{Shim2005} who optimise GEOS-Chem isoprene emissions in areas with high HCHO concentrations to improve comparison against GOME HCHO observations. % They looking at areas with high signal to noise ratio (higher HCHO concentrations).
-      They show that the original model underestimates isoprene emissions and HCHO concentrations by 14-46\%, with the corrected VOC emissions reducing model biases to 3-25\%.
-      The Bayesian inversion is also used in \textcite{Curci2010}, where a regional CTM (CHIMERE) simulates HCHO (this is the forward model), which is compared against OMI observed HCHO and shown to be regionally biased.
+      % Some examples:
+      This method is used in \textcite{Shim2005} to optimise isoprene emissions in areas with high HCHO concentrations. 
+      % improve comparison against GOME HCHO observations.
+      They showed model underestimation of isoprene emissions by 14-46\%, which when corrected reduced bias between GOME HCHO measurements and GEOS-Chem model output by 3-25\%.
+      An example showing how regional anthropogenic VOC emissions estimates can be improved using OMI HCHO observations and the CHIMERE CTM can be found in \textcite{Curci2010}.
+      %The Bayesian inversion is also used in \textcite{Curci2010}, where a regional CTM (CHIMERE) simulates HCHO (this is the forward model), which is compared against OMI observed HCHO and shown to be regionally biased.
       %The CHIMERE model is used to derive yields of HCHO from the various local VOCs and these are then used in estimating local emissions.
-      The model is run initially with emissions of BVOCs and reactive anthropogenic VOCs turned off in order to work out the background ($b$) values of these compounds.
-      \textcite{Curci2010} uses CHIMERE as the forward model to determine the relationship between HCHO and \emph{x}, which in this case is isoprene and reactive anthropogenic VOCs, then they calculate the most likely values for \emph{x} given known measured HCHO and modelled \emph{K}.
+      %The model is run initially with emissions of BVOCs and reactive anthropogenic VOCs turned off in order to work out the background ($b$) values of these compounds.
+      %They use CHIMERE as the forward model to determine the relationship between HCHO and \emph{x}, which in this case is isoprene and reactive anthropogenic VOCs, then they calculate the most likely values for \emph{x} given known measured HCHO and modelled \emph{K}.
       
       
       An advantage of the Bayesian method is that it can account for pyrogenic and anthropogenic emissions rather than filtering them out.
-      Biases may still arise due to errors in modelled emission estimation \parencite{Curci2010}.
-      The Bayesian method is computationally expensive due to the requirement that model runs take place using many permutations of changed inputs.
+      However; biases may still arise due to errors in modelled emission estimation \parencite{Curci2010}.
+      Also the Bayesian method is computationally expensive due to the requirement that model runs take place using many permutations of changed inputs.
       In this work we do not use the Bayesian method due to the heavy computational costs involved.
       
         
-    
     \subsubsection{Linear}
       \label{BioIsop:intro:top_down_linear}
       
-      This technique is the simplest, and is performed in this thesis.
-      Using vertical columns of biogenic HCHO one can infer the local (grid space) isoprene emissions using effective molar formaldehyde yield (in other continents around 2-3, or 1 in low NO$_x$ conditions) \parencite{Palmer2003,Marais2012,Bauwens2016}.
-      If one assumes fast HCHO yield, so that the effect of transport is minimal, and that HCHO and isoprene are at steady states, then one may calculate local yield from a CTM.
+      % Technique summary
+      This technique is the less complicated of the two, and is performed in this thesis.
+      Using vertical columns of biogenic HCHO and its measured or modelled yield from isoprene, one can infer the local (grid space) isoprene emissions \parencite{Palmer2003, Millet2006,Marais2012,Bauwens2016}.
+      In Australia, effective molar HCHO yield from isoprene has not been extensively studied (in other continents this value varies from 1-3, depending on local NO$_x$ concentrations).
+      The linear inversion requires several assumptions, which limits the techniques utility in some regions or seasons.
+      The primary assumption is that HCHO and its precursors (primarily isoprene) in a linear steady state relationship
+      This allows one to link isoprene emissions to HCHO measurements using production and loss formulae.
       %This yield is derived from both HCHO and isoprene, such as was used by \textcite{Millet2006} who produced a molar HCHO yield of 2.3 in north eastern USA.
       
-      By assuming a simple linear steady-state relationship between HCHO and its precursors \parencite{Palmer2003, Palmer2006, Millet2006}, one may calculate isoprene emissions using measured HCHO.
+      % how palmer did it
       The calculation requires reaction rates and yields from isoprene to HCHO, which can be determined most readily using chemical modelling.
       The methodology for calculating isoprene emissions from HCHO is laid out in \textcite{Palmer2003}, and takes into account the expected lifetime and reaction rates of the precursor VOCs and HCHO.
       In their work isoprene emissions fluxes were derived using the Global Ozone Monitoring Experiment (GOME) satellite instrument.
@@ -168,11 +175,12 @@
       
       % Pros and cons:
       This technique assumes fast HCHO yield and no precursor transport, which is unrealistic in several scenarios; e.g. high winds can lead to transported precursors, or low NO$_x$ concentrations can slow down HCHO yield.
-      Filtering out potentially problematic scenarios can limit the utility of this technique depending on environmental factors.
-      As we are estimating biogenic emissions of isoprene, we must also filter out areas where HCHO may be coming from anthropogenic or pyrogenic sources.
+      Filtering out data which does not match assumptions is required but can limit the utility of this technique, and leads to some dependence on environmental factors.
+      As we are estimating biogenic emissions of isoprene, we must filter out areas where HCHO enhancements arise due to anthropogenic or pyrogenic sources.
+      Uncertainties in the technique are discussed in more detail in Section \ref{BioIsop:uncertainty:eomi}.
       On the plus side, the simple nature of the inversion requires very little computational power after acquiring satellite and model datasets, even over large amounts of gridded data.
       
-    
+    % JESSE UP TO HERE READTHROUGH
 \section{Methods}
   \label{BioIsop:method}
   
