@@ -597,25 +597,30 @@
       %potentially where the 95\% confidence interval min and max ratio is too high (too wide).
       %Figure TODO shows GEOS-Chem midday HCHO columns compared against GEOS-Chem emissions of isoprene, over land squares with (red) and without (grey) filtering for smearing.
       
-    % UP TO HERE JESSE READTHROUGH
     \subsubsection{Smearing length scale}
     
-      %TODO: Actually calculate smearing length
+      
       The expected horizontal transport (prior to reaction) of a precursor can be calculated using the smearing length \parencite{Palmer2003}.
       The distance travelled ($L$) downwind ($d$) by a precursor ($i$) before forming HCHO can be estimated through:
       \begin{equation*}
         L_{d,i} = \frac{U}{k_i - k_{HCHO}} \ln{ \left( \frac{k_i}{k_{HCHO}} \right) }
       \end{equation*}
       where $U$ is wind-speed.
-      \textcite{Palmer2003} further define a smearing length scale: $L_{s,i}$ as the distance downwind where a fraction (1 - $1/e$) of the precursor is completely transformed into HCHO.
-      This equation uses the initial VOC column concentration ($[VOC]_0$) at the point of emission and mass balance equations as follows:
-      %TODO: Add intermediate steps
-      \begin{equation}
-      \frac{1}{k_{HCHO}-k_i} \left( k_{HCHO} \exp{ \left[ \frac{-k_i L_{s,i}}{U} \right]} -k_i \exp{ \left[ \frac{-k_{HCHO} L_{s,i}}{U} \right]} \right) = \frac{1}{e} 
-      \end{equation}
-      with limiting values $L_{s,i} \rightarrow U/k_i$ for $k_i << k_{HCHO}$, and $L_{s,i} \rightarrow U/k_{HCHO}$ for $k_{HCHO} << k_i$.
-      Figure TODO: shows a rough estimate of isoprene smearing length($L_{isop}$) in Australia using wind speeds from TODO:, and reaction rates $k_{isop}$, $k_{HCHO}$ from GEOS-Chem.
-      %TODO make this plot!
+      \textcite{Palmer2003} further define a smearing length scale: $L_{s,i}$ as the distance downwind where most of the precursor is completely transformed into HCHO.
+      Here we use the simplification of $L_{s,isop} \approx \frac{U}{k_{HCHO}}$, as isoprene loss rates (2~h$^{-1}$) exceed those of HCHO (0.25-0.67~h$^{-1}$) by a factor of 3-8.
+      Throughout most of the year, monthly averaged wind speeds do not exceed 20~km h$^{-1}$ (\url{http://www.bom.gov.au/jsp/ncc/climate_averages/wind-velocity/}[accessed Feb, 2019]), although daily wind speeds will be highly variable.
+      This means that a reasonable smearing length scale is less than $25 / 0.25 = 100$~km over Australia.
+      Grid boxes used in top-down estimation of isoprene emissions describe rectangles with both side lengths approximately 200~km, so in this average case we do not expect to be overly impacted by smearing.
+      %Figure TODO: shows a rough estimate of isoprene smearing length($L_{s,isop}$) in Australia using wind speeds from TODO:, and reaction rates $k_{isop}$, $k_{HCHO}$ from GEOS-Chem.
+      %%TODO make this plot!
+       
+      %This equation uses the initial VOC column concentration ($[VOC]_0$) at the point of emission and mass balance equations as follows:
+      %%TODO: Add intermediate steps
+      %\begin{equation}
+      %\frac{1}{k_{HCHO}-k_i} \left( k_{HCHO} \exp{ \left[ \frac{-k_i L_{s,i}}{U} \right]} -k_i %\exp{ \left[ \frac{-k_{HCHO} L_{s,i}}{U} \right]} \right) = \frac{1}{e} 
+      %\end{equation}
+      %with limiting values $L_{s,i} \rightarrow U/k_i$ for $k_i << k_{HCHO}$, and $L_{s,i} \rightarrow U/k_{HCHO}$ for $k_{HCHO} << k_i$.
+      
       
       % Discussion of HCHO and isoprene lifetimes/yields 
       The half-life of HCHO %to photo-oxidation with hydroxyl radicals 
@@ -625,12 +630,12 @@
       The estimated loss rate of HCHO in GEOS-Chem %approximately ranges from 1e6 to 3e6 mol cm$^{-3}$ s${-1}$, 
       is up to three times higher in summer and along the north and eastern regions associated with denser forest regions, when compared against other regions.
       This is largely due to loss rates being proportional to concentrations.
-      % WHAT importance does hcho lifetime have in regards to smearing and scale length?
+      % WHAT importance does HCHO lifetime have in regards to smearing and scale length?
       
       % WHEN CALCULATING SMEARING LENGTH SCALE MAYBE ASSUME ONE OF THESE 
-      Isoprene yields can vary greatly, and are dependent on NO$_x$ levels, some prior literaature values are shown in Table \ref{BioIsop:method:tab_VOCLiteratureYields}.
-      Increasing NO$_x$ from 0.1~ppbv to 2.0~ppbv can triple the prompt yield of HCHO, %from 0.3 to 0.9 ppbv ppbv$^{-1}$
-      due to isoprene, and double background HCHO \parencite{Wolfe2016}.
+      Isoprene yields can vary greatly, and are dependent on NO$_x$ levels, some prior literature values are shown in Table \ref{BioIsop:method:tab_VOCLiteratureYields}.
+      Increasing NO$_x$ from 0.1~ppbv to 2.0~ppbv can triple the prompt isoprene yield of HCHO,  %from 0.3 to 0.9 ppbv ppbv$^{-1}$
+      and double background HCHO \parencite{Wolfe2016}.
       
       %Conversions between HCHO per unit C yield and molar \% yield from species X are given by the equation $ Y_{molar \%} = 100 \times C_X \times Y_{HCHO \,C^{-1}}$, where $C_X$ is how many carbon are within species X (5 for isoprene).
       %For instance a 200\% molar yield of HCHO from isoprene implies 1 mole of C$_5$H$_8$ becomes 2 mole HCHO which is a 0.4 HCHO per unit C yield.
@@ -688,8 +693,8 @@
             \item b \textcite{Palmer2003}: lifetimes assume [OH] is 1e15 mol cm$^{-3}$.
             \item c \parencite{Lee2006}: Calculated through change in concentration of parent and product linear least squares regression.
             Estimates assume 20$^\circ$~C conditions.
-            \item d \textcite{Wolfe2016}: ``prompt yield'': change in HCHO per change in ISOP$_0$.
-            $[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
+            \item d \textcite{Wolfe2016}: ``prompt yield'': change in HCHO per change in isop$_0$.
+            $[isop]_0=[isop]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
             Effectively relates HCHO abundance with isoprene emission strength.
             \item e \textcite{Dufour2009}: One-day yields from oxidation modelled by CHIMERE, using MCM reference scheme.
             %\item f Calculated using PTR-MS and iWAS on SENEX campaign data.
@@ -697,8 +702,7 @@
           \label{BioIsop:method:tab_VOCLiteratureYields}
         \end{threeparttable} \end{table}
       
-      GEOS-Chem daily averaged HCHO lifetime ($\tau$) is shown for 2005 in Figure \ref{BioIsop:method:smearing:fig_tau_GC_2005}.
-      This lifetime $\tau$ is calculated using daily averaged surface loss rates ($L_{HCHO}$) and concentrations of HCHO:
+      GEOS-Chem daily averaged HCHO lifetime ($\tau$) is calculated using daily averaged surface loss rates ($L_{HCHO}$) and concentrations of HCHO:
       \begin{equation*}
       \tau = \frac{[HCHO]}{L_{HCHO}}
       \end{equation*}
@@ -706,7 +710,7 @@
       For each grid square over Australia this daily averaged surface lifetime in summer (Jan., Feb.) and winter (Jul., Aug.) is shown in Figure \ref{BioIsop:method:smearing:fig_tau_GC_2005}.
       Additionally lifetimes coloured by land grid squares (dots in top right panel) are shown over time in the bottom panel.
       Note that this figure shows the daily averaged lifetime, but further analysis and calculations are based on mid-day (13:00-14:00~LT) values when the lifetime will be significantly shorter. 
-      This figure highlights the seasonal nature of HCHO lifetime, although midday numbers are expected to have less seasonality than shown here, since shorter days will not affect midday lifetimes.
+      This figure highlights the seasonal nature of HCHO lifetime, although midday numbers are expected to have less seasonality than shown here, since midday lifetime will be less affected by how long the daylight lasts.
       Another highlighted issue is the potential latitudinal dependence of HCHO lifetimes, since there is less total insolation leading to lower HCHO loss rates at higher latitudes.
       The overall takeaway is that the accuracy and utility of any top down HCHO precursor estimation technique will be limited by both season and potentially latitude.
       These limitations are due to both data availability (as satellite HCHO suffers from high zenith angles) and spatial smearing (from HCHO lifetimes which increase with lower insolation and temperature).
@@ -718,7 +722,7 @@
     
     \subsubsection{NOx dependence}
       
-      Isoprene production of HCHO depends on several factors, importantly NO$_x$ levels directly affect the fate of VOCs in the atmosphere.
+      Isoprene production of HCHO depends on several factors, one of the most important of these is NO$_x$, which directly affects the fate of VOCs in the atmosphere.
       Isoprene first reacts with the hydroxy radical, producing an organic peroxy radical (RO$_2$).
       At higher NO mixing ratios (at least a few hundred pptv), RO$_2$ react mostly with NO. 
       At low NO (less than 50~pptv), RO$_2$ is more likely to either isomerise, or react with HO$_2$, or another RO$_2$.
@@ -730,10 +734,10 @@
       NO$_2$ from the OMNO2d product provides daily mid-day measurements which we compare to output from GEOS-Chem NO$_2$ (see Section \ref{Model:GC:NOx}).
       %\textcite{Travis2016} show how NO$_x$ can be used to examine model bias in ozone (potentially due to NO$_2$ bias) over the USA.
       The effect of NO$_2$ on smearing can be seen in Figure \ref{BiogIsop:Method:smearing:fig_smearing_vs_nox}.
-      This plot shows how smearing over Australia compares to satellite NO$_2$, with smearing distributions binned by NO$_2$ both with and without applying a filter for smearing.
+      This plot shows how smearing over Australia compares to satellite NO$_2$, with smearing distributions binned by NO$_2$ both with and without filtering for smearing.
       At lower NO$_2$ levels the smearing is often 2-4 orders of magnitude above the upper threshold. 
       This abruptly decreases at around $5 \times 10^{14} $~molec cm$^{-2}$ NO$_2$.
-      There is also a higher number of data points below the lower threshold before that same NO$_2$ level, suggesting that transport is a bigger issue at NO$_2 < 5 \times 10^{14} $~molec cm$^{-2}$. 
+      There is also a higher number of data points below the lower threshold before that same NO$_2$ level, showing that transport is a bigger issue at NO$_2 < 5 \times 10^{14} $~molec cm$^{-2}$. 
       
       %% FIGURE SHOWS SMEARING BINNED BY NOX
       % Figure made in test_filters.smearing_nox() 
@@ -746,7 +750,7 @@
         Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}
       
-
+% UP TO HERE JESSE READTHROUGH
   \subsection{Running GEOS-Chem using a postiori emissions}
   \label{BioIsop:method:scaled}
     
