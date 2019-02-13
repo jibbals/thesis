@@ -1271,7 +1271,7 @@
   OMI HCHO vertical columns are calculated using modelled a priori HCHO profiles (see Section \ref{Model:omhcho}).
   When comparing satellite measurements against models it is important to recognise the impact of this a priori on the total column values.
   This is complicated by how OMI is differently sensitive to HCHO (and other trace gases) vertically throughout the atmosphere.
-  When comparing OMI vertical columns ($\Oo$) to GEOS-Chem ($\Og$), the satellite AMF needs to be recalculated using GEOS-Chem modelled vertical gas profiles as the a prioris.
+  When comparing OMI vertical columns ($\Oomi$) to GEOS-Chem ($\Ogc$), the satellite AMF needs to be recalculated using GEOS-Chem modelled vertical gas profiles as the a prioris.
   Without performing this step a bias between modelled and measured total column values may be due to the a priori rather than chemistry or measurements \parencite{Palmer2001, Lamsal2014}.
   
   % Very brief outline
@@ -1281,7 +1281,7 @@
   A reference sector correction is determined using the method described in \textcite{Abad2016}, (see Section \ref{Model:omiRecalc:RSC}).
   This correction is unique for each of the 60 \textit{measurement tracks} used by OMI.
   Finally the correction is applied to each pixel to create the corrected vertical column. 
-  The end product is three sets of corrected vertical columns: the original ($\Ooc$), one using GEOS-Chem shape factors ($\Ogc$), and one from Palmer's code ($\Opc$).
+  The end product is three sets of corrected vertical columns: the original, one using GEOS-Chem shape factors, and one from Palmer's code.
   
   \subsection{Outline}
     \label{Model:omiRecalc:outline}
@@ -1293,7 +1293,7 @@
       \begin{enumerate}
         \item Pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
         \item Number density and mixing ratio of HCHO ($n_{HCHO}$, $C_{HCHO}$ respectively) are taken or created from model outputs HCHO(ppb), air density (molec cm$^{-3}$), and box heights (\textit{H(z)})
-        \item Total column HCHO from GEOS-Chem ($\Og$) is calculated $\Og = \Sigma_z \left(n_{HCHO}(z) \times H(z) \right)$, along with total column air ($\Omega_{A}$, calculated similarly)
+        \item Total column HCHO from GEOS-Chem ($\Ogc$) is calculated $\Ogc = \Sigma_z \left(n_{HCHO}(z) \times H(z) \right)$, along with total column air ($\Omega_{A}$, calculated similarly)
         \item The shape factor S$_z(z)$ is calculated on each altitude $S_z(z) = n_{HCHO} / \Omega_{HCHO}$.
         \item Pressures (\textit{p})are used to create sigma coordinates $\sigma(z) = (p(z) - p_{TOA}) / (p(0)-p_{TOA})$
         \item S$_\sigma(z)$ is calculated on each altitude: $S_\sigma(z) = C_{HCHO}(z) \times \Omega_A / \Omega_{HCHO}$
@@ -1309,10 +1309,10 @@
         \end{align}
       \end{enumerate}
       \item These two AMFs represent the same thing using different coordinates, and either one can be used as the AMF$_{GC}$
-      \item The AMF$_{PP}$ (created separately) and AMF$_{GC}$ are used to determine the new vertical columns ($\Op$, $\Og$ respectively): $\Omega = SC/AMF$
+      \item The original AMF, AMF$_{PP}$ (created separately), and AMF$_{GC}$ are used to determine the new vertical columns: $\Omega = SC/AMF$
       \item A reference sector correction (RSC) is defined each day using these AMFs along with modelled HCHO over the remote Pacific:
       \begin{enumerate}
-        \item GEOS-Chem satellite overpass output ($\Omega_{GEOS-Chem}$ from 140{\degr}W to 160{\degr}W) are averaged monthly and longitudinally to provide a modelled reference sector $\Omega_0[lat]$
+        \item GEOS-Chem satellite overpass output ($\Ogc$ from 140{\degr}W to 160{\degr}W) are averaged monthly and longitudinally to provide a modelled reference sector $\Omega_0[lat]$
         \item The modelled reference slant columns (\textit{MRSC}) are calculated using $MRSC = \Omega_0 \times AMF$ for each AMF
         \item For each satellite pixel between 140{\degr}W and 160{\degr}W, the correction is calculated as the measured \textit{SC} minus the \textit{MRSC} at the nearest latitude:
         \begin{equation*}
@@ -1435,9 +1435,9 @@
     Each satellite pixel at this stage has an associated SC along with three AMFs: the original (AMF$_O$), one with recalculated shape factors (AMF$_G$), and one completely recalculated using PP code (AMF$_{PP}$).
     These are used to create vertical columns ($\Omega$) through Equation \ref{Model:AMF:eqn_AMFFrac}: $\Omega = SC/AMF$.
     
-    Figure TODO shows a comparison between the three $\Omega$ over Australia for 2005. 
+    Figure TODO shows a comparison between the three satellite $\Omega$ over Australia for 2005. 
     The first row shows the yearly average column amounts, as well as coloured rectangles describing regions which are averaged over time in row 3.
-    Row two from left to right shows the relative differences between $\Op$ and $\Og$, $\Oo$ and $\Og$, and $\Oo$ and $\Op$.
+    Row two from left to right shows the relative differences between $\Omega_{PP}$ and $\Omega_{GC}$, $\Omega_{orig}$ and $\Omega_{GC}$, and $\Omega_{orig}$ and $\Omega_{PP}$.
     TODO: Add this plot here.
     
   \subsection{Reference sector correction}
