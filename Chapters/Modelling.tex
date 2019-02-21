@@ -55,6 +55,16 @@
   I will also give details on filtering and interpolations which are undertaken when reading data, as each dataset has its own resolution.
   While I have not made any measurements myself, it is important to understand the techniques used in datasets I have utilised in order to understand possible anomalous datapoints or trends.
   
+  % Coordinate systems in use
+  Horizontal geographical coordinates are always discussed in terms of degrees north and east, from -180\degr to 180\degr spanning west to east around the globe and -90\degr to 90\degr spanning the latitudes from the Antarctic to the Arctic.
+  Vertical resolution is sometimes discussed in terms of metres, sometimes in terms of pressure (hPa), and sometimes in terms of sigma ($\sigma$) coordinates.
+  Sigma coordinates represent the fraction of the atmosphere vertically above, with $\sigma = 1$ being the surface and $\sigma = 0$ being the top of the atmosphere (TOA).
+  This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography.
+  Conversion between $\sigma$ and pressure (p) coordinates is as follows:
+  \begin{equation}
+    \sigma = \frac{p_{S} - p}{p_{S}-p_{T}}
+  \end{equation}
+  where $p_{S}$ and $p_{T}$ is surface pressure and pressure at the TOA respectively.
   
   Uncertainty (or error) is present in each dataset and where possible the causes are explained.
   There are two types of error: systematic and random.
@@ -88,7 +98,7 @@
     The different particles and gases in the air have measurable properties seen by remote sensing devices such as a satellite. Although instruments will be more or less sensitive to various properties depending on altitude, radiation, and other parameters \parencite[e.g.,][]{Martin2002}.
     
     Difficulties can arise when aerosols interfere with recorded spectra (e.g., clouds, smoke, dust), however some of these can be detected and filtered out.
-    Instruments including MODIS on board the Aqua and Terra satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
+    Instruments including MODIS onboard the Aqua and Terra satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
     An AOD under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
     This is important in order to determine where measurements from other instruments may be compromised by high interference.
     Cloud filtering is performed on several satellite products used in this thesis, due to the uncertainty introduces by cloud interference. 
@@ -102,7 +112,7 @@
     \subsubsection{Formaldehyde}
       
       OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
-      Satellite based formaldehyde measurements from the OMI instrument on board AURA are stored in the OMHCHO product.
+      Satellite based formaldehyde measurements from the OMI instrument onboard AURA are stored in the OMHCHO product.
       OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section \ref{Model:omhcho}.
       Calculation of column density and AMF are discussed respectively in sections \ref{Model:omhcho:DOAS} and \ref{Model:omhcho:amf}.
       
@@ -335,9 +345,9 @@
   % Aura satellite trace gas measurements
   One satellite product used extensively in this thesis is named OMHCHO: from NASA's Earth Observing System's ``Aura'', which provides several other useful datasets (products).
   Aura orbits the earth in a polar sun-synchronous pattern, circling the earth on a plane coincident with the sun and the poles.
-  % omi instrument on board aura
+  % omi instrument onboard aura
   Aura houses the Ozone Monitoring Instrument (OMI), a near-UV/Visible Charged Coupled Device (CCD) spectrometer.
-  The OMI instrument on board AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
+  The OMI instrument onboard AURA has been active since July 2005, it records spectra from 264-504~nm using an array of 60 detectors with mid-resolution (0.4-0.6~nm).
   This band of wavelengths allows measurements of trace gases (among other quantities) and the formaldehyde product is detailed here.
   
   
@@ -390,7 +400,7 @@
   I use the NASA OMHCHOv003 data product \parencite{Abad2015}, with HCHO determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
   The algorithm used is based on direct fitting of radiances, and accounts for competing absorbers, under-sampling, and Ring effects.
   An OMI radiance measurement over the remote Pacific ocean is used instead of an irradiance measurement.
-  This means that the slant columns ($\Omega_S$) are formed from the spectra differential with respect to the radiance reference column over the Pacific.
+  This means that the slant columns ($\Os$) are formed from the spectra differential with respect to the radiance reference column over the Pacific.
   The full method details for slant column retrieval by OMI are outlined in supplemental Section \ref{SuppNotes:Satellite:OMI_BOAS}, or in the technical document (DOI: 10.5067/Aura/OMI/DATA2015).
   Slant columns range from $\sim 4\times 10^{15} $ to $\sim 6 \times 10^{16}$~molec cm$^{-2}$, with uncertainties from 30\% (larger columns) to over 100\% (smaller columns) \parencite{Abad2015}.
   
@@ -557,7 +567,7 @@
     %% BACKGROUND MEASUREMENTS
     In satellite HCHO products, concentrations over the remote Pacific ocean are sometimes used to analyse faulty instrument readings.
     This is due to the expected invariance of HCHO over this region.
-    For instance GOME (an instrument which measures trace gases on board the ERS-2) corrects for an instrument artefact using modelled HCHO over the remote Pacific \parencite{Shim2005}.
+    For instance GOME (an instrument which measures trace gases onboard the ERS-2) corrects for an instrument artefact using modelled HCHO over the remote Pacific \parencite{Shim2005}.
     OMI HCHO products use a similar technique to account for sensor plate drift and changing bromine sensitivity \parencite{Abad2015}.
     Uncertainty in the OMI satellite instrument is calculated by the Smithsonian Astrophysical Observatory (SAO) group using the uncertainty in backscattered radiation retrievals \parencite{Abad2015, Abad2016}.
     Another method of calculating the uncertainty is used by the Belgian Institute for Space Aeronomy (BIRA) group, who determine uncertainty from the standard deviation of HCHO over the remote Pacific ocean \parencite{DeSmedt2012, DeSmedt2015}.
@@ -591,7 +601,7 @@
     % This thesis uses 10.01 at 2x2.5 model output
     GEOS-Chem simulates more than 100 chemical species from the earth's surface up to the edge of space (0.01~hPa) and can be used in combination with remote and in situ sensing data to give a verifiable estimate of atmospheric gases and aerosols.
     It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide.
-    In this thesis I use version 10.01 of GEOS-Chem, which outputs up to 66 chemical species (tracers) in the standard run, at \lowhr horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa). 
+    In this thesis I use version 10.01 of GEOS-Chem, which outputs up to 66 chemical species (tracers) in the standard run, at \lowhr horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa).
     
     
     Global CTMs are often run using one or several emission models (or the output from them) to determine boundary conditions.
@@ -1159,15 +1169,15 @@
   
   % UP TO HERE JENNY COMMENTS    
 
-\section{Calculating an AMF}
+\section{Calculating new AMF}
   \label{Model:AMF}
   
-  % JENNY COMMENT: Spell out here to remind reader. Also start with a reminder of where/why the AMF is needed (remember you have just been talking about modelling, so it's not clear that you are switching back into describing satellite product stuff)
   % What is AMF again?
-  The air mass factor (AMF) is needed to transform slant columns (SC) viewed by a satellite into vertical columns ($\Omega$ in molecules cm$^{-2}$):
-  The AMF is the ratio of the slant column ($\Omega_s$) to the vertical column ($\Omega_v$)
+  One of the uses of GEOS-Chem in this thesis is to update the a priori HCHO column used in satellite measurements.
+  The a priori is used when deriving the air mass factor (AMF), which is needed to transform satellite slant columns ($\Os$) into vertical columns ($\Omega$ in molecules cm$^{-2}$):
+  The AMF is the ratio of $\Os$ to the vertical column
   \begin{equation} \label{Model:AMF:eqn_AMFFrac}
-    AMF=\frac{\Omega_s}{\Omega_v} = \frac{\tau_s}{\tau_v}
+    AMF=\frac{\Os}{\Omega} = \frac{\tau_s}{\tau_v}
   \end{equation}
   with $\tau$ being the optical depth or thickness of the absorber through the slant (\textit{s}) or vertical (\textit{v}) path of light.
   
@@ -1238,10 +1248,8 @@
     AMF = \int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
   \end{equation}
   
-  % JENNY COMMENT: Would be better to introduce the vertical coordinate systems when you discuss the model (including this statement), then just briefly remind the reader here what the coordinate system is
-  Additionally the AMF can be determined using the sigma ($\sigma$) coordinate system.
-  A conversion to the $\sigma$ vertical coordinate is performed using $P = \sigma (P_S - P_T) + P_T$, where $P_T$ is pressure at the top of the atmosphere and $P_S$ is surface pressure.
-  This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography. 
+  Additionally the AMF can be determined using the sigma ($\sigma$) coordinate system, which denotes altitude as going from 1 (ground level) to 0 (TOA) (see Section \ref{Model:datasets}).
+  A conversion to the $\sigma$ vertical coordinate is performed using $p = \sigma (p_S - p_T) + p_T$, where $p_T$ is pressure at the top of the atmosphere and $p_S$ is surface pressure. 
   $S_\sigma$ is a dimensionless normalised shape factor on the $\sigma$ coordinate system.
   In the sigma coordinate system we calculated the shape factor as defined in \textcite{Palmer2001}:
   \begin{equation}
@@ -1249,10 +1257,10 @@
     S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
   \end{equation}
   where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
-  We can integrate over the sigma coordinates using the hydrostatic relation $P = - \rho_a g z$, with $\rho_a$ being air density, and $g$ the gravitational acceleration:
+  We can integrate over the sigma coordinates using the hydrostatic relation $p = - \rho_a g z$, with $\rho_a$ being air density, and $g$ the gravitational acceleration:
   \begin{align*}
-    \rho_a g z & = \sigma \left( P_S - P_T \right) + P_T \\
-    \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ P_S - P_T } \mathrm{d}z
+    \rho_a g z & = \sigma \left( p_S - p_T \right) + p_T \\
+    \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ p_S - p_T } \mathrm{d}z
   \end{align*}
   Substitution into \ref{Model:AMF:eqn_AMF_intwSdz} gives AMF using the sigma coordinates:
   \begin{equation} \label{Model:AMF:eqn_AMFintwSdsigma}
@@ -1273,6 +1281,7 @@
   This is complicated by how OMI is differently sensitive to HCHO (and other trace gases) vertically throughout the atmosphere.
   When comparing OMI vertical columns ($\Oomi$) to GEOS-Chem ($\Ogc$), the satellite AMF needs to be recalculated using GEOS-Chem modelled vertical gas profiles as the a prioris.
   Without performing this step a bias between modelled and measured total column values may be due to the a priori rather than chemistry or measurements \parencite{Palmer2001, Lamsal2014}.
+  
   
   % Very brief outline
   Here, two new AMFs are calculated, both using GEOS-Chem HCHO profiles as the new a priori. 
@@ -1349,7 +1358,7 @@
     \begin{equation} \label{Model:omiRecalc:eqn_ppb_to_n}
       \eta_{HCHO} = ppb_{HCHO} \times \eta_a \times 10^{-9}
     \end{equation}
-    where $\eta_{HCHO}$ is the number density of a HCHO, $\eta_a$ is the number density of air (from model output), and ppb$_{HCHO}$ is the molecules of that species per billion molecules of air.
+    where $\eta_{HCHO}$ is the number density of HCHO, $\eta_a$ is the number density of air (from model output), and ppb$_{HCHO}$ is the molecules of that species per billion molecules of air.
     The modelled total vertical column $\Omega_{HCHO}$ is determined by:
     \begin{equation*}
       \Omega_{HCHO} = \Sigma_z \left( \eta_{HCHO} \times H(z) \right)
@@ -1369,7 +1378,7 @@
     
     % Downloading the data
     First satellite slant columns of formaldehyde for the years January 1st, 2005 - April 1st, 2013 are downloaded (see Section \ref{Model:datasets:OMHCHO}).
-    The data set used is from the Ozone Monitoring Instrument (OMI) on board the Aura satellite, as it has data for the entire time line and sufficiently covers the southern hemisphere.
+    The data set used is from the Ozone Monitoring Instrument (OMI) onboard the Aura satellite, as it has data for the entire time line and sufficiently covers the southern hemisphere.
     % Filters applied when reading
     When reading OMHCHO level 2 swath files, several factors are taken into account in order to filter uncertain and erroneous pixels.
     The process is outlined in figure  \ref{Model:omiRecalc:fig_flow_omhchorp} for a single day.
@@ -1380,7 +1389,7 @@
     % Actual filtering done
     Satellite measurements polewards of 60\degr north or south are removed as well as measurements with SZA greater than 60\degr.
     Pixels with cloud fraction greater than 40\% are removed after being used in determining the reference sector correction (see Section \ref{Model:omiRecalc:RSC}), as is done in \textcite{Abad2015, DeSmedt2015}.
-    Further filtering is performed to remove the measurements which are most likely to be unrealistic: those with column density outside the range $-0.5 \times 10^{16}$ to $10^{17} $\moleccm, as is performed by\textcite{Zhu2016}.
+    Further filtering is performed to remove the measurements which are most likely to be unrealistic: those with column density outside the range $-0.5 \times 10^{16}$ to $10^{17} $\moleccm, as is performed by \textcite{Zhu2016}.
     This filter is required due to currently unexplained large negative values which occur in the OMI HCHO product increasingly over time.
     Figure \ref{Model:omiRecalc:fig_OMI_negative_hist} shows how unfiltered HCHO columns are affected by a small set of highly negative values which heavily affect the mean column amount over any region.
     The histograms here show the negative (left) and positive (right) total column HCHO measurements from a subset of swaths over Australia, on the 18th of March 2013.
@@ -1398,7 +1407,7 @@
     The shape factors and scattering weights for each pixel lie along a z-axis which is vertically resolved to 47 layers.
   
   % How we get the a priori 
-  \subsection{Creating the new AMF}
+  \subsection{Creating a new AMF using GEOS-Chem shape factors}
     \label{Model:omiRecalc:AMFgc}
     
     From Equation \ref{Model:AMF:eqn_AMF_intwSdz} we have:
@@ -1459,9 +1468,9 @@
     %Vertical columns in OMI use an oceanic background instead of a solar irradiance spectrum when calculating trace gas interference with DOAS calculations.
     Here a new reference sector correction (\textit{RSC}) is created using modelled and measured HCHO columns over the remote Pacific, to produce corrected vertical columns (\textit{VCC}).
     This follows \textcite{Abad2016}, and defines the remote Pacific as the band between 140{\degr}W to 160{\degr}W.
-    It uses the difference between slant columns ($\Omega_S$) and reference slant columns ($\Omega_{S_0}$) divided by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
+    It uses the difference between slant columns ($\Os$) and reference slant columns ($\Omega_{S_0}$) divided by the AMF, plus the modelled reference sector column ($\Omega_{V_B}$):
     \begin{equation*}
-      VCC = \frac{ \left( \Omega_S - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
+      VCC = \frac{ \left( \Os - \Omega_{S_0} \right) }{ AMF } + \Omega_{V_B}
     \end{equation*}
     This method is used in several works, including \textcite[e.g.,][]{DeSmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013, Bauwens2016}.
     Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \textcite{Abad2015}.
@@ -1523,7 +1532,7 @@
     A bin entry count is used to allow easy rebinning, and can be used to check for sparse data days due to filtering or poor weather.
     Data averaged into this dataset are as follows:
     \begin{enumerate}
-      \item satellite SC %($\Omega_{S}$)
+      \item satellite SC %($\Os$)
       \item satellite AMF %(AMF$_{OMI}$)
       \item satellite VC %($\Omega_{V,OMI}$
       \item satellite RSC VC %($\Omega_{VC,OMI}$)
@@ -1655,7 +1664,7 @@
       This includes the current day, making 3 days of fires in total being filtered out on each day.
       \item AAOD at 500~nm is mapped from OMAERUVd (1x1\degr resolution) onto the \highhr resolution.
       \item An AAOD threshold of 0.03 is determined through visual analysis of AAOD distributions over several days, including days with and without influence from active fires, dust, and transported smoke plumes (see Figure \ref{Model:filter:fire:fig_typicalAAOD}).
-      \item Grid squares with AAOD over this threshhold are considered potentially affected by transported fire smoke.
+      \item Grid squares with AAOD over this threshold are considered potentially affected by transported fire smoke.
     \end{enumerate}
   
     % Smoke AAOD filtering:
@@ -1665,11 +1674,11 @@
     
     % Threshold for AAOD determination
     Filtering fire smoke using AAOD is done by removing OMHCHO gridsquares where the AAOD is above a 0.03, after the AAOD is mapped from 1x1\degr to the same \highhr resolution as our OMHCHO gridded product.
-    The threshhold is determined through analysing AAOD over Australia in 4 scenarios: normal conditions, active local fires, during influence from transported fire smoke, and large scale dust storms.
+    The threshold is determined through analysing AAOD over Australia in 4 scenarios: normal conditions, active local fires, during influence from transported fire smoke, and large scale dust storms.
     Figure \ref{Model:filter:fire:fig_typicalAAOD} shows AAOD (columns 1 and 2), with AAOD distribution in column 3, along with satellite imagery on the same day in column 4 (from \url{https://worldview.earthdata.nasa.gov/}).
     The scenarios listed are shown from row 1 to 4, and AAOD $=$ 0.03 is demarked by a horizontal line in the density plots in column 3.
     Figure \ref{Model:filter:fire:fig_smokefilter} shows how the smoke filter compares to the fire filter over 2005.
-    The left panel shows how many days are filtered using the AAOD threshhold, while the right panel shows how many are filtered using the combined smoke and active fire masks.
+    The left panel shows how many days are filtered using the AAOD threshold, while the right panel shows how many are filtered using the combined smoke and active fire masks.
     The time series shows pixels available for analysis before being filtered (black), after smoke filtering (cyan) and after the full fire filter is applied (magenta).
     The Ayre basin is the dominant area filtered by smoke detection, likely due to dust influence in the arid region.
     
@@ -1774,7 +1783,7 @@
     In order to filter out these influences on satellite HCHO measurements, a filter is designed using the OMNO2d product which includes tropospheric NO$_2$ columns.
     
     % Nox analysis from OMNO2d
-    OMNO2d from 2005 is used to determine a suitable threshhold for anthropogenic influence by looking at NO$_2$ columns near several major cities in the south eastern sector of Australia.
+    OMNO2d from 2005 is used to determine a suitable threshold for anthropogenic influence by looking at NO$_2$ columns near several major cities in the south eastern sector of Australia.
     The mean, standard deviation, and time series over Australia of tropospheric NO$_2$ seen by Aura is shown in Figure \ref{Model:filter:NOx:fig_omno2_timeseries}.
     The average tropospheric NO$_2$ column averaged within all of Australia and then each region shown in this figure is listed in table TODO \ref{Model:filter:NOx:tab_summary}.
     
@@ -1792,8 +1801,10 @@
     This removes both the gridsquares close enough to cities to be affected by their emissions year round, as well as effects from transported pollution plumes.
     The affects of applying this filter to the OMNO2d product itself can be seen in Figure \ref{Model:filter:NOx:fig_omno2_threshaffect}
     
-    \mypic{Figures/OMI_link/OMNO2_threshaffect_2005.png}
-    {2005 OMNO2d NO$_2$ column mean before (left) and after (right) applying the threshhold filters as described in the text. Time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right.}
+    \mypic{Figures/OMI_link/OMNO2_threshaffect_2005.png}{%
+      Top row: 2005 OMNO2d NO$_2$ column mean before (left) and after (right) applying the threshold filters as described in the text.
+      Bottom row: time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right.
+      The time series before (left) and after (right) applying the anthropogenic filter are shown, the dashed and dotted horizontal lines show daily and yearly mean thresholds respectively.}
     {\label{Model:filter:NOx:fig_omno2_threshaffect}}
     
     % Threshhold analysis
@@ -1801,8 +1812,10 @@
     This led to a reduction of TODO gridsquares from the total available measurement space over Australia.
     The removal of gridsquares which went above the yearly averaged limit of 1.5e15\moleccm further reduced the available data by TODO gridsquares.
     
+    % TODO find plot, describe vertical dimension of pdf...
     \mypic{Figures/OMI_link/OMNO2_densities_2005.png}
-    {2005 OMNO2d NO$_2$ column means (top left), along with column amount distributions for Australia (top right) and each region shown in the area map (by colour)}
+    {2005 OMNO2d NO$_2$ column means (top left) and distributions (top right) for Australia, and each region shown in the area map (by colour)}.
+    Vertical dashed lines show the threshold for anthropogenic influence, any columns above this value are filtered out.
     {\label{Model:filter:NOx:fig_omno2_densities}}
     
     \begin{table}
