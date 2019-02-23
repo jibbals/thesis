@@ -189,17 +189,9 @@
   In this Thesis the slope between modelled isoprene emissions (a priori or $\apri$) and HCHO total columns ($\Ogc$) over Australia is calculated monthly using GEOS-Chem.
   Daily modelled values averaged between 13:00-14:00~LT are used to match the overpass time of the AURA satellite.
   Then the slope is taken from the reduced major axis (RMA) regression between the a priori and $\Ogc$ in each model grid box each month.
-  Figure \ref{BioIsop:method:fig_RMA_example} shows an example; the modelled regression between emissions and tropospheric columns for January, 2005.
-  Also shown is the time series for these two quantities averaged over Australia, and the squared correlation coefficient along with a sample of scatter plots and regressions from four grid squares.
+  %Figure \ref{BioIsop:method:slope:fig_regressions} shows an example; the modelled regression between emissions and tropospheric columns for January, 2005.
+  %Also shown is the time series for these two quantities averaged over Australia, and the squared correlation coefficient along with a sample of scatter plots and regressions from four grid squares.
   
-  %Plot from GC_tests.py -> Examine_Model_Slope()
-  %TODO update titles to just \Omega_{GC}, update legends to a priori or E_{GC}] and \Omega_{GC}, update y axes also
-  \mypic{/Figures/OMI_link/GC/E_isop_vs_hcho_200501.png}{%
-    Top left: RMA slope between modelled tropospheric column HCHO ($\Omega_{GC}$) and isoprene emissions ($\apri$) using midday (13:00-14:00~LT) values over for January 2005, per grid square at \lowhr horizontal resolution.
-    Top right: Australia-wide average of midday emissions and tropospheric columns.
-    Bottom left: Squared RMA correlation coefficient for regression in top left. Coloured dots correspond to colour of regressions shown in bottom right panel.
-    Bottom right: Sample of correlations from four grid squares.}
-  {\label{BioIsop:method:fig_RMA_example}}
   
   
   
@@ -361,18 +353,17 @@
     These can range widely due to differences in emission and yield parameters, which plays a role in the smearing filters applied in Section \ref{BioIsop:method:smearing}.
     Due to the \lowhr horizontal resolution of GEOS-Chem, calculations from grid boxes on the coast which are largely oceanic need to be discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}.
     
-    
+    %Plot from chapter_3_isop.py
     \mypic{Figures/OMI_link/GC/E_isop_vs_hcho_200501.png}
-    { % Caption
-      Top left: the RMA regression slope between modelled HCHO columns and isoprene emissions calculated within each grid box over January 2005, averaged between 1300-1400~LT each day
-      Bottom left: the square of the regression coefficients.
-      Top right: Australia averaged $\apri$ and $\Ogc$ time series.
-      Bottom right: a sample of the regressions coloured by latitude and longitude pairs, matching dots in the bottom left panel.
+    { %
+      Top left: RMA slope between modelled tropospheric column HCHO and isoprene emissions ($\apri$) using midday (13:00-14:00~LT) values over for January 2005, per grid square at \lowhr horizontal resolution.
+      Top right: Australia-wide average of midday emissions and tropospheric columns.
+      Bottom left: Squared RMA correlation coefficient for regression in top left. Coloured dots correspond to colour of regressions shown in bottom right panel.
+      Bottom right: Sample of correlations from four grid squares.
     }
     {\label{BioIsop:method:slope:fig_regressions}}
     
-    
-    
+    % slope calculation filtered by smearing
     One issue with slope calculation is potential transport (or smearing), either of isoprene before any HCHO is formed, or of HCHO formed by local emissions.
     The effects of this are dealt with by forming a smearing filter (see Section \fullref{BioIsop:method:smearing}).
     Days where we expect smearing may be affecting local levels of HCHO are removed before they are used to calculate $S$, and a quick analysis is performed on how the filter affects monthly slope, correlation, and uncertainty.
@@ -384,7 +375,7 @@
     The multiple year monthly averaged slope is used instead when the regression coefficient ($r$) is less than 0.4, or then number of data points used in the regression ($n$) is less than 10.
     When $r$ for the multiple year slope is also lower than 0.4, no estimation is performed, this is also true for negative values of $S$.
     
-    % TODO update figure to sydney 2005-2012 figure
+    % Figure from ??? title modified in paint
     \mypic{Figures/OMI_link/GC/slope_series_Syd_20050101-20121231.png}{%
       Row 1: monthly slope along with 95\% confidence interval both before (left) and after (right) applying the smear filter for the model grid square containing Sydney over 2005-2012. 
       Limits used in creation of the smear filter are shown with dashed lines.
@@ -416,7 +407,8 @@
     %These backgrounds are used when creating the reference sector corrections for satellite measurements (in Section \ref{Model:omiRecalc:RSC}).
     %The background columns are longitudinally averaged from 140\degr W to 160\degr W.
     
-    
+    % Figure from GC tests?? 
+    % TODO change fourth panel to be difference between no isop latitudes over Aus and normal run oceanic background
     \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{Total column HCHO over Australia (left) and the remote Pacific region (right) using GEOS-Chem with (top) and without (bottom) isoprene emissions. }{\label{BioIsop:method:fig_background_hcho}}
     
     
@@ -959,7 +951,7 @@
       None of these metrics shows any significant changes in trend due to scaling isoprene emissions.
       Some trends are no longer significant in surface HCHO, however none of the trends change sign.
       
-      % 
+      % trend figures from chapter_3_isop.trend_analysis()
       \mypic{Figures/OMI_link/new_emiss/trend_isop.png}{%
         A priori (row 1) and a postiori (row 2) emissions anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
         }{\label{BioIsop:results:new_emiss:trends:fig_emission_anomalies}}
