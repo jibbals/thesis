@@ -186,9 +186,9 @@
   
   % First isoprene inversion work
   We broadly follow the method of \textcite{Palmer2001} to create a biogenic isoprene emissions estimate over Australia.
-  In this Thesis the slope between modelled isoprene emissions (a priori or $\apri$) and HCHO total columns ($\Ogc$) over Australia is calculated monthly using GEOS-Chem.
+  A relationship is modelled between midday column HCHO and isoprene emissions using GEOS-Chem, and then this relationship is applied to satellite measured HCHO total columns to derive a new isoprene emissions estimate.
   Daily modelled values averaged between 13:00-14:00~LT are used to match the overpass time of the AURA satellite.
-  Then the slope is taken from the reduced major axis (RMA) regression between the a priori and $\Ogc$ in each model grid box each month.
+  Then the slope is taken from the reduced major axis (RMA) regression between the a priori emissions (those from GEOS-Chem, $\apri$) and tropospheric HCHO columns in each model grid box each month.
   %Figure \ref{BioIsop:method:slope:fig_regressions} shows an example; the modelled regression between emissions and tropospheric columns for January, 2005.
   %Also shown is the time series for these two quantities averaged over Australia, and the squared correlation coefficient along with a sample of scatter plots and regressions from four grid squares.
   
@@ -398,18 +398,24 @@
     %\end{figure}
     
     %% BACKGROUND calculation(s)
-    There are two simple ways to determine the modelled background HCHO, one of which involves running the model with no isoprene emissions, which shows how much they alter vertical column HCHO.
+    There are two simple ways to determine the modelled background HCHO, one of which involves running the model with no isoprene emissions.%, which shows how much they alter vertical column HCHO.
     This is effective since we have assumed variation in HCHO columns only depends on isoprene emissions, so our background term is theoretically identical to the emission free simulated HCHO.
     The other way uses HCHO over the remote Pacific at matching latitudes and times, which emulates how the background is determined for the satellite measured HCHO.
-    The difference between these two methods is negligible, so for consistency with satellite data, we determine backgrounds using the remote Pacific.
     Figure \ref{BioIsop:method:fig_background_hcho} shows GEOS-Chem total column HCHO with and without isoprene emissions along with amounts over the remote Pacific at the same latitudes.
+    The difference in $\Ogc$ over Australia with no isoprene emissions, and $\Ogc$ over the remote pacific (bottom right panel) shows the difference ($\sim 1$ to $3$ \moleccm) between these methods in an example averaged month (January, 2005).
+    This difference is relatively small, and may be due to non-isoprene HCHO precursors.
+    For consistency with satellite data, we determine backgrounds using the remote Pacific.
     Background HCHO for any latitude in this thesis are calculated by averaging longitudinally (140\degr W to 160\degr W) the matching latitudes over the remote Pacific.
     %These backgrounds are used when creating the reference sector corrections for satellite measurements (in Section \ref{Model:omiRecalc:RSC}).
     %The background columns are longitudinally averaged from 140\degr W to 160\degr W.
     
-    % Figure from GC tests?? 
-    % TODO change fourth panel to be difference between no isop latitudes over Aus and normal run oceanic background
-    \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{Total column HCHO over Australia (left) and the remote Pacific region (right) using GEOS-Chem with (top) and without (bottom) isoprene emissions. }{\label{BioIsop:method:fig_background_hcho}}
+    % Figure from chapter_3_isop.py
+    \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{%
+      Top left: Total column HCHO over Australia using the standard tropchem GEOS-Chem simulation.
+      Top right: As top left except over the remote Pacific region at southern mid-latitudes.
+      Bottom left: As top left except using the no isoprene emissions GEOS-Chem simulation.
+      Bottom right: Difference between the no isoprene emission HCHO columns over Australia, and the remote Pacific HCHO columns from the standard tropchem run at matching latitudes.
+      }{\label{BioIsop:method:fig_background_hcho}}
     
     
   \subsection{Calculation of Emissions}

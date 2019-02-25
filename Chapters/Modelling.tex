@@ -1308,7 +1308,6 @@
   The correction is calculated for each of the two new vertical columns, and applied to each pixel to create the corrected vertical columns. 
   The end product is three sets of corrected vertical columns: the original, one using GEOS-Chem to recalculate the shape factors, and one from Palmer's code using GEOS-Chem to both recalculate shape factors and scattering weights.
   
-  % UP TO HERE JENNY FEEDBACK
   \subsection{Outline}
     \label{Model:omiRecalc:outline}
     
@@ -1318,14 +1317,14 @@
       \item Section \ref{Model:omiRecalc:shape_factors} describes how GEOS-Chem satellite overpass output %(see Section \ref{Model:GC:simulations:outputs})
         is used to create new shape factors (S$_z$ and S$_\sigma$).
       \begin{enumerate}
-        \item Pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
+        \item Vertical pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
         \item Number density and mixing ratio of HCHO ($n_{HCHO}$, $C_{HCHO}$ respectively) are taken or created from model outputs HCHO (ppb), air density (molec cm$^{-3}$), and box heights (m).
         \item Total column HCHO from GEOS-Chem ($\Ogc$) is calculated 
         \begin{equation*}
           \Ogc = \Sigma_z \left(n_{HCHO}(z) \times H(z) \right)
         \end{equation*}
         along with total column air ($\Omega_{A}$, calculated similarly).
-        \item The shape factor S$_z(z)$ is calculated on each altitude 
+        \item The shape factor S$_z(z)$ is calculated for each altitude 
         \begin{equation*}
           S_z(z) = n_{HCHO} / \Omega_{HCHO}
         \end{equation*}
@@ -1335,14 +1334,14 @@
           S_\sigma(z) = C_{HCHO}(z) \times \frac{\Omega_A}{\Omega_{HCHO}}
         \end{equation*}
       \end{enumerate}
-      \item For each pixel, new AMF (AMF$_{GC}$, and AMF$_{PP}$) is created using the GEOS-Chem shape factors and satellite scattering weights in Section \ref{Model:omiRecalc:AMF}:
+      \item For each pixel, new AMF (AMF$_{GC}$ and AMF$_{PP}$) is created using the GEOS-Chem shape factors and satellite scattering weights in Section \ref{Model:omiRecalc:AMF}:
       \begin{enumerate}
         \item Satellite pixels (SC, scattering weights ($\omega(z)$), pressure levels, latitude and longitude) are read from the OMHCHO dataset.
         \item scattering weights ($\omega$) are interpolated onto the same vertical dimensions (\textit{z} and $\sigma$) as the shape factors.
         \item Integration (approximated using rectangular method) is performed along the vertical dimension to calculate the new AMF on both coordinate systems:
         \begin{align}
           AMF_z &= \Sigma_z \left(\omega(z) \times S_z(z) \times H(z)\right) \\
-          AMF_s &= \Sigma_{\sigma} \left(\omega(\sigma) \times S_{\sigma}(\sigma) \times d\sigma \right)
+          AMF_{\sigma} &= \Sigma_{\sigma} \left(\omega(\sigma) \times S_{\sigma}(\sigma) \times d\sigma \right)
         \end{align}
         These two AMFs represent the same thing using different coordinates, and either one can be used as the AMF$_{GC}$.
         \item Code from Dr. Surl and Professor Palmer is used to recalculate both the shape factor and scattering weights to produce AMF$_{PP}$.
@@ -1350,60 +1349,52 @@
       \item Section \ref{Model:omiRecalc:vertical_columns} describes how the original AMF, AMF$_{PP}$, and AMF$_{GC}$ are used to determine the new vertical columns: $\Omega = SC/AMF$.
       \item A reference sector correction (RSC) is defined each day using these AMFs along with modelled HCHO over the remote Pacific in Section \ref{Model:omiRecalc:RSC}:
       \begin{enumerate}
-        \item GEOS-Chem satellite overpass output ($\Ogc$ from 140{\degr}W to 160{\degr}W) are averaged monthly and longitudinally to provide modelled vertical columns over the reference sector.
-        \item modelled vertical columns ($\Omega_{GEOS-Chem}$) are turned into modelled slant columns by multiplication with the AMF over the reference sector ($SC_{GEOS-Chem} = \Omega_{GEOS-Chem} \times AMF$).
-        \item For each satellite pixel in the reference sector, a correction is calculated as the measured $SC$ minus the modelled slant column at the nearest latitude:
+        \item GEOS-Chem midday output ($\Omega_{GEOS-Chem}$ from 140{\degr}W to 160{\degr}W) are averaged monthly and longitudinally to provide modelled vertical columns over the reference sector.
+        \item These vertical columns ($\Omega_{GEOS-Chem}$) are turned into modelled slant columns by multiplication with the AMF over the reference sector:
+        \begin{equation*}
+          SC_{GEOS-Chem} = \Omega_{GEOS-Chem} \times AMF
+        \end{equation*}
+        \item For each satellite pixel in the reference sector, a correction ($corr$) is calculated as the measured $SC$ minus the modelled slant column at the nearest latitude:
         \begin{equation*}
           corr[lat,track] = SC[lat,track] - VC_{GEOS-Chem}[lat] \times AMF
         \end{equation*}
         \item These corrections are binned by satellite detector (track: 1-60), and latitude (0.36\degr; 500 latitudes from 90{\degr}S to 90{\degr}N).
         \item The median entry of each bin is determined and this forms the RSC[lat,track] (e.g., Figure \ref{Model:omiRecalc:RSC:fig_track_correction_interpolations}).
       \end{enumerate}
-      \item VCC are determined using $VCC = (SC - RSC[lat,track] )/AMF$ for each measured SC and using each AMF, with the RSC linearly interpolated to the latitude of the satellite pixel (see Section \ref{Model:omiRecalc:vcc}).
+      \item $VCC$ are determined using $VCC = (SC - RSC[lat,track] )/AMF$ for each measured SC and using each AMF, with the RSC linearly interpolated to the latitude of the satellite pixel (see Section \ref{Model:omiRecalc:vcc}).
       \item The VCC (along with most of the pixel and GEOS-Chem data) are binned onto a \highhr grid along with other information (see Section \ref{Model:omiRecalc:binning}).
     \end{enumerate}
  
     
-    Figure \ref{Model:omiRecalc:fig_flow_omhchorp} shows an overview of how these profiles are used in this thesis.
-    Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded HCHO file which contains HCHO vertical columns recalculated with GEOS-Chem a prioris.
-    PP code is run on a subset of the globe covering Australia and the Pacific ocean, producing AMF$_{PP}$.
-    The output keeps the original AMF as well as those recalculated using GEOS-Chem (AMF$_{OMI}$, AMF$_{GC}$, and AMF$_{PP}$).
-    Additionally, MOD14A1, OMAERUVd and OMNO2d data are used to create masks which are also stored in the OMHCHORP dataset.
-    The creation of fire, smoke, and anthropogenic influence masks is described in Section \ref{Model:filter}.
-    
-    \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:omiRecalc:fig_flow_omhchorp}}
       
-    
+  
   \subsection{Creating new shape factors}
     \label{Model:omiRecalc:shape_factors}
     % Reminder of AMF -> leading to what is the shapefactor
-    In order to visualise and analyse OMI HCHO columns, slant columns are transformed into vertical columns using the AMF.
-    The shape factor (\textit{S}) is one of the key components in creation of the AMF (see Section \ref{Model:AMF}, Equation \ref{Model:AMF:eqn_AMF_intwSdz}).
+    To visualise and analyse OMI HCHO columns, slant columns are transformed into vertical columns using the AMF.
+    The shape factor ($S$) is one of the key components in creation of the AMF (see Section \ref{Model:AMF}, Equation \ref{Model:AMF:eqn_AMF_intwSdz}).
     The shape factor is calculated using GEOS-Chem midday output (see Section \ref{Model:GC:simulations:outputs}) which provide simulated HCHO concentration profiles ($\eta(z)$) and total columns ($\Omega$) at \lowhr horizontal resolution.
     Using Equation \ref{Model:AMF:eqn_shapefactor} to determine the shape factor is straightforwards $S(z) = \frac{\eta(z)}{\Omega}$.
     The associated OMI per-pixel scattering weights are not changed in this calculation (unlike in Section \ref{Model:omiRecalc:ppcode}).
     
-    Model output is in molecules per billion molecules of air (ppb), and is converted before being used in the shape factor calculation.
-    The following equation converts model profile output from ppb into number densities:
+    Model output is provided as mixing ratios ($C$ in ppbv), and is converted before being used in the shape factor calculation.
+    The following equation converts model profile output from ppbv into number density ($\eta$) in molecules cm$^{-3}$:
     \begin{equation} \label{Model:omiRecalc:eqn_ppb_to_n}
-      \eta_{HCHO} = ppb_{HCHO} \times \eta_a \times 10^{-9}
+      \eta_{HCHO} = C_{HCHO} \times \eta_a \times 10^{-9}
     \end{equation}
-    where $\eta_{HCHO}$ is the number density of HCHO, $\eta_a$ is the number density of air (from model output), and ppb$_{HCHO}$ is the molecules of that species per billion molecules of air.
+    where $\eta_{HCHO}$ is the number density of HCHO, $\eta_a$ is the number density of air (from model output), and $C_{HCHO}$ is the mixing ratio of HCHO.
     The modelled total vertical column $\Omega_{HCHO}$ is determined by:
     \begin{equation*}
       \Omega_{HCHO} = \Sigma_z \left( \eta_{HCHO} \times H(z) \right)
     \end{equation*}
-    where H(z) is the box height for level z.
+    where $H(z)$ is the box height for altitude $z$.
     In effect this equation sums over the molecules per cm$^2$ in each altitude level.
     
     As a sanity check $S_\sigma$ is calculated (through Equation \ref{Model:AMF:eqn_ShapeFactorSigma}) to confirm that these shape factors are equivalent.
     Comparing the resulting AMFs created by Equations \ref{Model:AMF:eqn_AMFintwSdsigma} and \ref{Model:AMF:eqn_AMF_intwSdz} for each pixel provides confidence in the unit conversions (and other factors) applied.
-    %TODO: Shape factor plot sigma vs z
-    For example see figure TODO: plot showing correlation between AMFz and AMFs - or state that these are exactly one to one if that is the case..
+    These AMF values are nearly identical in practice (correlation coefficient $> 0.99$).
     
-    %TODO add plot and describe here.
-    
-    
+    % UP TO HERE JENNY FEEDBACK
   % How we get the a priori 
   \subsection{Creating new AMF using GEOS-Chem}
     \label{Model:omiRecalc:AMF}
@@ -1865,7 +1856,20 @@
     
     % Affects of filtering
     % TODO: tabulate or summarise no2 filtering
-      
+    
+  
+  \section{Saving data}
+    \label{Model:saving_omhchorp}
+    % final summary of omhchorp creation
+    Figure \ref{Model:saving_omhchorp:fig_flow_omhchorp} shows an overview of how vertical columns (modelled and measured) along with filters and sundry data are created in this thesis.
+    Output from GEOS-Chem is combined with OMHCHO swath data to produce a gridded data file which contains new and old satellite vertical columns along with modelled vertical columns.
+    PP code is run on a subset of the globe covering Australia and the Pacific ocean, producing AMF$_{PP}$.
+    The output keeps the original AMF as well as those recalculated using GEOS-Chem.
+    Masks created using MODIS and OMI measurements are also stored in the OMHCHORP dataset.
+    
+    % made on some program!? 
+    % TODO update for this section...
+    \mypic{Figures/Flow_Making_omhchorp.png}{Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis}{\label{Model:saving_omhchorp:fig_flow_omhchorp}}
      
 \section{Data Access}
 TODO: ADD MORE HERE
