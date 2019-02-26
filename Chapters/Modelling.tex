@@ -1192,10 +1192,10 @@
   
   % What is AMF again?
   One of the uses of GEOS-Chem in this thesis is to update the a priori HCHO column used in satellite measurements.
-  The a priori is used when deriving the air mass factor (AMF), which is needed to transform satellite slant columns ($\Os$) into vertical columns ($\Omega$ in molecules cm$^{-2}$):
-  The AMF is the ratio of $\Os$ to the vertical column
+  The a priori is used when deriving the air mass factor ($AMF$), which is needed to transform satellite slant columns ($SC$) into vertical columns ($\Omega$ in molecules cm$^{-2}$):
+  The AMF is the ratio of $SC$ to the vertical column
   \begin{equation} \label{Model:AMF:eqn_AMFFrac}
-    AMF=\frac{\Os}{\Omega} = \frac{\tau_s}{\tau_v}
+    AMF=\frac{SC}{\Omega} = \frac{\tau_s}{\tau_v}
   \end{equation}
   with $\tau$ being the optical depth or thickness of the absorber through the slant (\textit{s}) or vertical (\textit{v}) path of light.
   
@@ -1482,7 +1482,7 @@
     
     
     % How my RSC is defined
-    Modelled slant columns over the reference sector ($SC_{GEOS-Chem}$) are calculated by multiplying modelled vertical columns with the AMF calculated in prior sections using Equation \ref{Model:omiRecalc:eqn_AMFratio}: 
+    Modelled slant columns over the reference sector ($SC_{GEOS-Chem}$) are calculated by multiplying modelled vertical columns with the AMF calculated in prior sections using Equation \ref{Model:AMF:eqn_AMFFrac}: 
     \begin{equation*}
       SC_{GEOS-Chem} = \Omega_{GEOS-Chem} \times AMF
     \end{equation*}
@@ -1530,7 +1530,7 @@
       {Example of track correction interpolations for January 1st 2005, points represent the difference between satellite slant column measurements and modelled slant columns over the remote Pacific.}
       {\label{Model:omiRecalc:RSC:fig_track_correction_interpolations}}
     
-  % UP TO HERE JENNY FEEDBACK
+  
   \subsection{Corrected vertical columns}
     \label{Model:omiRecalc:vcc}
     
@@ -1553,35 +1553,38 @@
     \begin{equation}
     VCC(i,j) = \frac{SC_{HCHO}(i,j) - Correction(i,lat(j))}{AMF(i,j)}
     \end{equation}
-    For each day, good satellite measurements and associated SC, VC, VCC, and AMFs are listed.
+    For each good satellite measurement the corrected vertical column is calculated two times, once using each new AMF.
     
     
-  
+
   \subsection{Binning the results daily}
     \label{Model:omiRecalc:binning}
     Finally the pixels are binned into a gridded dataset named OMHCHORP, as shown in Figure \ref{Model:omiRecalc:fig_flow_omhchorp}.
-    The resolution is chosen to match the native resolution of GEOS-Chem (\highhr) and the GEOS met data fields.
-    A bin entry count is used to allow easy rebinning, and can be used to check for sparse data days due to filtering or poor weather.
-    Data averaged into this dataset are as follows:
+    The resolution is chosen to match the native resolution of the GEOS meteorological fields (\highhr).
+    A bin entry count is used to allow easy re-binning, and can be used to check for sparse data days due to filtering.
+    Data averaged into this dataset:
     \begin{enumerate}
-      \item satellite SC %($\Os$)
-      \item satellite AMF %(AMF$_{OMI}$)
-      \item satellite VC %($\Omega_{V,OMI}$
-      \item satellite RSC VC %($\Omega_{VC,OMI}$)
-      \item GEOS-Chem recalculated AMF %(AMF$_{GC}$)
-      \item GEOS-Chem recalculated VC %($\Omega_{V,GC}$)
-      \item GEOS-Chem recalculated RSC VC %
-      \item GEOS-Chem AMF recalculated using Paul Palmer code (AMF$_{PP}$)
-      \item GEOS-Chem RSC VC based on AMF$_{PP}$
-      \item Smoke AAOD from OMAERUVd (mapped into bins from 1x1\degr resolution)
+      \item OMI slant column %($\Os$)
+      \item OMI air mass factor %(AMF$_{OMI}$)
+      \item OMI vertical column %($\Omega_{V,OMI}$
+      \item OMI corrected vertical column %($\Omega_{VC,OMI}$)
+      \item GEOS-Chem recalculated air mass factor %(AMF$_{GC}$)
+      \item GEOS-Chem recalculated vertical column %($\Omega_{V,GC}$)
+      \item GEOS-Chem recalculated corrected vertical column %
+      \item GEOS-Chem air mass factor recalculated using PP code (AMF$_{PP}$)
+      \item GEOS-Chem corrected vertical column based on PP code
       \item satellite pixel counts (summed into bins)
-      \item fire counts (summed into bins)
+      \item OMI vertical column fitting uncertainty
+      % Fires are now stored separately
+      %\item Smoke AAOD from OMAERUVd mapped into bins from 1x1\degr resolution (described in Section \ref{Model:filter:fire})
+      %\item fire counts (summed into bins)
     \end{enumerate}
     
-    This whole process requires some processing time as well as RAM and computer storage space, and has been performed on the National Computing Infrastructure (NCI) supercomputer cluster.
-    In order to reprocess one year of swath files, $\sim 162$~GB ($142 + 16 + 4$ OMHCHO, MOD14A1, and OMNO2d respectively) of daily data was downloaded and then transformed into $\sim 8$~GB (per year) of daily gridded data.
-    This takes around 90 minutes per day, and is very parallelisable as each day is completely independent once the model has run in each required configuration.
-    Initially parallelism was built into the python code; however, simply sending separate jobs to NCI's process queue was simpler and more scalable.
+    This process requires processing time and storage space, and is performed on the National Computing Infrastructure (NCI) supercomputer.
+    In order to reprocess one year of swath files ($\sim 162$~GB $ = 142 + 16 + 4$~GB OMHCHO, MOD14A1, and OMNO2d respectively per year) of daily data was downloaded and then transformed into $\sim 8$~GB (per year) of daily gridded data.
+    This takes around 90 minutes per day, and is parallelisable as each day is completely independent once the model has run in each required configuration.
+    Initially parallelism was built into the python code; however, simply running python code independently for each date was simpler and more scalable.
+      % UP TO HERE JENNY FEEDBACK
     As much as possible, processing is done using the HDF-5 or NetCDF-4 formats, with some GEOS-Chem output being read from bitpunch.
     The scripts to regrid and reprocess the swath data set are available from github at TODO.
   
