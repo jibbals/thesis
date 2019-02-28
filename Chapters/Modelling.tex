@@ -1582,35 +1582,43 @@
     
     This process requires processing time and storage space, and is performed on the National Computing Infrastructure (NCI) supercomputer.
     In order to reprocess one year of swath files ($\sim 162$~GB $ = 142 + 16 + 4$~GB OMHCHO, MOD14A1, and OMNO2d respectively per year) of daily data was downloaded and then transformed into $\sim 8$~GB (per year) of daily gridded data.
-    This takes around 90 minutes per day, and is parallelisable as each day is completely independent once the model has run in each required configuration.
+    This takes around 90 minutes per day; however, each day is completely independent and can be run in parallel once model output is available.
     Initially parallelism was built into the python code; however, simply running python code independently for each date was simpler and more scalable.
-      % UP TO HERE JENNY FEEDBACK
-    As much as possible, processing is done using the HDF-5 or NetCDF-4 formats, with some GEOS-Chem output being read from bitpunch.
-    The scripts to regrid and reprocess the swath data set are available from github at TODO.
+    As much as possible this work uses HDF-5 or NetCDF-4 formats, although GEOS-Chem output is in bitpunch format.
+    The scripts to regrid and reprocess the swath data set are available from github at \url{https://github.com/jibbals/OMI_regridding}.
   
-  \subsection{Difference between new and old OMI HCHO columns}
+  \subsection{Difference between original and corrected OMI HCHO columns}
   
     
-    New corrected vertical columns (VCC) of HCHO are created at global \highhr horizontal resolution.
-    These calculations are compared over Australia in figure(s) \ref{Model:omiRecalc:diff:fig_vcc_comparison}, TODO: regression, and time series.
+    Corrected vertical columns ($VCC$) of HCHO are created at \highhr ~horizontal resolution.
     Figure \ref{Model:omiRecalc:diff:fig_vcc_comparison} shows how the recalculated columns compare to the original (OMI, left). 
     Recalculation increases the January column amounts while also slightly flattening the distributions (row 3).
-    The effect of not recalculating the $\omega_z$ can also be seen in Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which shows the altered satellite vertical columns using each method.
+    Recalculated columns show more high concentration ($>1.5$ \moleccm) columns and lower background concentrations over the ocean.
+    Together this may lead to a slightly steeper continental enhancement which may be expected since elsewhere OMI HCHO is seen to be up to 40\% underestimated \parencite[e.g.]{Zhu2016,DeSmedt2015,Barkley2013}.
+    %The effect of not recalculating the $\omega_z$ can also be seen in Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which shows the altered satellite vertical columns using each method.
     
+    % TODO Fix suptitle height
+    % Figure showing VCC omi, gc, and pp, and distribution
+    % produced in tests.py -> check_products()
+    \mypic{Figures/OMI_link/VCC_check_200501.png}{%
+      Row 1: regridded corrected $\Omega_{HCHO}$ from OMHCHO on January 1, 2005: original (left), recalculated using new shape factors (middle), and additionally using updated scattering weights (right).
+      Row 2: shows the monthly average for January 2005.
+      Row 3: shows the distribution over the month for each of the three column amounts.
+      Distribution bins are logarithmic, resulting in wider bins for higher column amounts.
+      }{\label{Model:omiRecalc:diff:fig_vcc_comparison}}
+    
+    %TODO: regression, and time series.
+    
+
+    % JENNY NOTE: Why is this here? You haven't discussed the fire filter yet... Shouldn't these be in Section 2.7?
     % Fire filtering affect split over recalculations
-    Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows vertical columns of HCHO for: column 1) the original satellite swaths, column 2) recalculated without changing the provided scattering weights, and column 3) fully recalculated vertical columns. 
+    Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows vertical columns of HCHO for the original satellite swaths, those recalculated without changing the provided scattering weights, and fully recalculated vertical columns.
     Each grid square (at \highhr resolution) has been created by binning the recalculated satellite pixels within the month.
     The average number of pixels per land square is inset as text, changing due to how the fire filter is applied.
     Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
     This figure looks at March 2005 with biomass burning filtered differently in each row.
     Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
     
-    % Figure showing VCC omi, gc, and pp, and distribution
-    % produced in tests.py -> check_products()
-    \mypic{Figures/OMI_link/VCC_check_200501.png}{%
-      Row 1: regridded corrected $\Omega_{HCHO}$ from OMHCHO on January 1, 2005: original (left), recalculated using new shape factors (middle), and additionally using updated scattering weights (right).
-      Row 2: shows the monthly average for January 2005.
-      Row 3: shows the distribution over the month for each of the three column amounts.}{\label{Model:omiRecalc:diff:fig_vcc_comparison}}
     
     %TODO: figure analysing amf vs amf_gc vs amf_pp
     Figure TODO shows an analysis of the differences between running the recalculation with and without updating the $\omega_z$.
@@ -1632,42 +1640,47 @@
 \section{Filtering Data}
   \label{Model:filter}
   
-  
-  
-  
   % Why filter data
-  In order to examine only biogenic processes, pyrogenic and anthropogenic influences need to be removed from modelled and measured data.
-  Biomass burning can be a large local or transported (via smoke plumes) source of HCHO, CHOCHO, glyoxal, and other compounds which influence levels of both HCHO and isoprene.
+  A major goal in this work is to infer biogenic isoprene emissions from HCHO columns.
+  Isoprene is the dominant source of HCHO over continental land masses; however, other precursor NVMOCs can contribute to observed HCHO.
+  The main interference in the isoprene signal in HCHO comes from fire smoke plumes and major anthropogenic source regions.
+  Biomass burning can be a large local or transported (via smoke plumes) source of HCHO, glyoxal (CHOCHO), and other compounds which influence HCHO levels.
   Anthropogenic emissions from power generation, transport, and agriculture can influence these levels as well.
-  Where possible these influences need to be removed so that calculations of purely biogenic emissions are not biased. 
-  In GEOS-Chem we can simply turn off pyrogenic and anthropogenic emissions; however, in satellite datasets we need to mask potentially affected pixels.
+  So to infer biogenic isoprene emissions, pyrogenic and anthropogenic influences should be removed (where possible) from modelled and measured data.
+  In GEOS-Chem we simply turn off pyrogenic and anthropogenic emissions; however, in the OMI HCHO satellite product we mask potentially affected pixels.
   
   % How other people have filtered fires
-  Influence from biomass burning can be removed through measurements of acetonitrile and CO \parencite[e.g.,][]{Wolfe2016, Miller2017}, or else removal of scenes coincident with satellite detected fire counts and aerosol absorption optical depth as done in \textcite{Marais2014}.
-  \textcite{Marais2012} remove pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1 x 1\degr resolution.
+  Influence from biomass burning can be removed %through measurements of acetonitrile and CO \parencite[e.g.,][]{Wolfe2016, Miller2017}, or else removal of 
+  by using satellite detected fire counts and aerosol absorption optical depth \parencite{Marais2014}.
+  \textcite{Marais2012} removed pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1\degr$\times 1$\degr resolution.
   \textcite{Barkley2013} use fires from the preceding and concurrent day, within local or adjacent grid squares, with grid resolution of \highhr.
-  \textcite{Wolfe2016} disregard HCHO measurements when acetonitrile > 210~pptv and CO > 300~ppbv, while acetonitrile > 200~pptv is used to determine fire influence in \textcite{Miller2017}.
+  %In situ fire influence
+  %\textcite{Wolfe2016} disregard HCHO measurements when acetonitrile > 210~pptv and CO > 300~ppbv, while acetonitrile > 200~pptv is used to determine fire influence in \textcite{Miller2017}.
   TODO: look at yearly correlation, compare to exponential curve and look for fire outliers
   As seen in TODO: citation, HCHO concentrations scale exponentially with temperature.
   This allows another method for detecting the influence of non-biogenic HCHO emission/creation by looking for outliers above the curve at low temperature.
-  \textcite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15\times{T}-9.07)$.
+  %\textcite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15\times{T}-9.07)$.
   
-  I use satellite data to account for anthropogenic and pyrogenic influences on the OMHCHO satellite HCHO columns.
-  MODIS fire counts are used in conjunction with smoke AAOD enhancements (from OMI) to remove data points which may be affected by fires or fire smoke plumes.
+
+  In this work anthropogenic and pyrogenic influences on the OMHCHO satellite HCHO columns are removed by masking active fires, high AAOD, and high NO$_2$ levels measured by satellite.
+  MODIS fire counts are used in conjunction with smoke AAOD enhancements from OMI to remove data points which may be affected by fires or fire smoke plumes.
   OMI NO$_2$ measurements are used to mask potential anthropogenic influence.  
-  These masks negatively affect uncertainty,  as fewer measurements are available to be averaged.
-  This section describes the creation and effects of filters used on satellite data.
+  %These masks negatively affect uncertainty,  as fewer measurements are available to be averaged.
+  %This section describes the creation and effects of filters used on satellite data.
+  A summary of filtering over Australian land squares at \highhr resolution is provided in Table \ref{Model:filter:tab_summary_pixels_masked}.
+  Figure \ref{Model:filter:fig_pixel_loss_Jan06} shows an example month of anthropogenic and pyrogenic filtering, highlighting how many days and pixels are removed across Australia.
+  The anthropogenic filter completely removes grid squares over Brisbane, Melbourne, and Sydney. 
+  Other major cities in Australia either do not emit enough NO$_2$ or are too dispersed and do not breach the threshold to be filtered as anthropogenic.
+  %JENNY NOTE:Need to also comment here on the influence of the pyrogenic filter, and how this affects this overall (and comment on what the table shows). 
   
-  A quick summary of how much data is filtered over Australian land squares is provided in Table \ref{Model:filter:tab_summary_pixels_masked}, and an quick check of how many pixels are filtered in January 2006 can be seen in Figure \ref{Model:filter:fig_pixel_loss_Jan06}.
-  The anthropogenic filter completely removes grid squares over Sydney and Melbourne, and high removal rates over Brisbane. 
-  Other major cities in Australia either do not emit enough NO$_2$ or are too spread out and do not breach the threshold to be filtered as anthropogenic.
   
+  % UP TO HERE JENNY FEEDBACK
   %TODO: Rerun the calculation after changing fire filter
   \begin{table}
     % This table can be generated by test_filters.summary_pixels_filtered()
     \caption{How many satellite pixels are filtered by pyrogenic and anthropogenic masking. Left to right the columns display year, how many land pixels are read over Australia, how many of these pixels are removed by the pyrogenic filter, how many are removed by the anthropogenic filter, and how many are removed in total. In parenthesis are the portion of pixels filtered.}
     \begin{tabular}{ c c c c c }
-      \textbf{Year} & \textbf{Pixels} & \textbf{Pyro} & \textbf{Anthro} & \textbf{Total} 
+      \textbf{Year} & \textbf{Pixels} & \textbf{Pyrogenic} & \textbf{Anthropogenic} & \textbf{Total} 
       \\ \hline
       2005   &  3.9e+06    &  4.1e+05(10.7\%)     &    5.0e+04( 1.3\%)    &    4.4e+05(11.5\%) \\
       2006   &  3.8e+06    &  5.1e+05(13.5\%)     &    9.2e+04( 2.4\%)    &    5.6e+05(14.7\%) \\
@@ -1678,7 +1691,9 @@
     \label{Model:filter:tab_summary_pixels_masked}
   \end{table}
   
-  \mypic{Figures/OMI_link/Filters/PixelsFiltered_20060101-20060131.png}{Top row shows grid squares filtered out by pyrogenic(left) and anthropogenic(right) influence masks during January 2006. Along the bottom is the time series of total pixels over Australian land squares with and without filtering the data.}{\label{Model:filter:fig_pixel_loss_Jan06}}
+  % Figure from !?!?
+  % TODO: Fix title: anthropogenic and pyrogenic, fix x axis datetime labels
+  \mypic{Figures/OMI_link/Filters/PixelsFiltered_20060101-20060131.png}{Top row shows grid squares filtered out by pyrogenic (left) and anthropogenic (right) influence masks during January 2006. Along the bottom is the time series of total pixels over Australian land squares with and without filtering the data.}{\label{Model:filter:fig_pixel_loss_Jan06}}
   
   
   \subsection{Fire and smoke}
