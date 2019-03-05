@@ -23,27 +23,30 @@
   Biogenic volatile organic compounds (BVOC) affect the oxidative capacity of the atmosphere and are largely driven by what type of vegetation is in the area \parencite{Kefauver2014}.
   In the troposphere, BVOC emissions affect hydroxyl radical (OH) cycling, ozone (O$_3$) and secondary organic aerosol (SOA) production, and methane longevity.
   Australian forests are strong emitters of isoprene, the primary BVOC emitted globally \parencite{Guenther2006,Messina2016}. % and monoterpenes.
-  However; emissions are poorly understood due to poor measurement coverage.
+  Poor measurement coverage of isoprene, isoprene products, and isoprene emissions within Australia means that emissions are poorly understood.
   The lack of measurements makes it difficult to estimate the subsequent atmospheric processes. 
-  The main BVOC emitted globally is isoprene (C$_5$H$_8$), which is relatively difficult to measure due to it's high reactivity and short lifetime.
+  Isoprene (C$_5$H$_8$) is relatively difficult to measure due to its high reactivity and short lifetime.
   
-  Emission models used to derive estimates of isoprene fluxes are based on understanding the emissions of different plant species (phenotypes) in varying conditions, although these are seldom well understood within Australian forests.
-  \textcite{Guenther2012} Estimated global biogenic isoprene emissions at roughly 535\tgpyr, while \textcite{Sindelarova2014} estimated around 411\tgpyr.
+  Emission models used to derive estimates of isoprene fluxes are based on understanding the emissions from different plant species (phenotypes) in varying conditions.
+  \textcite{Guenther2012} estimated global biogenic isoprene emissions at roughly 535\tgpyr, while \textcite{Sindelarova2014} estimated around 411\tgpyr.
   %Guenther used MEGAN, \textcite{Sindelarova2014} estimated around 594\tgpyr using MEGAN with MACC, showing isoprene as 69.2\% of the total BVOC emissions, with monoterpenes at 10.9\tgpyr (10.9\%).
   Reactions following emissions are complex, and are sensitive to other trace gases in the ambient atmosphere.
   Uncertainties in several important products such as ozone and SOA are increased due to both isoprene measurement difficulties and its complicated subsequent chemical mechanisms.
-  Isoprene emissions may be overestimated in Australia since they are based on measurements taken from a few heavily emitting young eucalyptus trees which are not representative \parencite{Winters2009, FortemsCheiney2012,}.
+  Isoprene emissions may be overestimated in Australia since they are based on measurements taken from a few young trees \parencite{Winters2009} which may emit more than older trees \parencite{Emerson2016}.
+  The sample of trees include 4 types of Eucalyptus, which are not representative of the hundreds of species which make up Australian forests, and how these species depend on biological and meteorological stresses is unclear \parencite{Winters2009, FortemsCheiney2012}.
   Emissions estimates are often used as boundary conditions for atmospheric chemistry models and improving these estimates for Australia is one goal of this thesis.
   %without an expensive measurement campaign over the large data sparse continent of Australia.
   %%BVOC emissions are rising globally, and improving estimates for Australia is a priority since they affect such important processes in the atmosphere.
   %\textcite{Kefauver2014} reviews remote sensing of BVOC emissions, examining the last 20 years of data and analysis of the satellite products.
   
   
-  In this chapter the we describe and use a technique using satellite measurements of HCHO to calculate surface isoprene emissions.
+  In this chapter I describe and implement a \textit{top down} technique using satellite measurements of HCHO to calculate surface isoprene emissions.
   HCHO is a dominant product of most BVOCs, including isoprene, and is measured by satellites via remote sensing.
   In situ isoprene concentration measurements are costly and sparse within Australia, while satellite HCHO data are plentiful and freely available, making this technique very attractive.
-  Such techniques have informed isoprene emission inventories in North America \parencite{Abbot2003,Palmer2003,Palmer2006,Millet2006,Millet2008}, South America \parencite{Barkley2013}, Europe \parencite{Dufour2009,Curci2010}, Africa \parencite{Marais2012}, Asia \parencite{Fu2007,Stavrakou2014}, India \parencite{Surl2018}, and even globally \parencite{Shim2005,FortemsCheiney2012,Bauwens2016}.
-  In this thesis the OMHCHO dataset from the OMI instrument (see Section \ref{Model:omhcho}) is used as the basis for HCHO amounts.
+  Top down techniques have informed isoprene emission inventories in North America \parencite{Abbot2003,Palmer2003,Palmer2006,Millet2006,Millet2008}, South America \parencite{Barkley2013}, Europe \parencite{Dufour2009,Curci2010}, Africa \parencite{Marais2012}, Asia \parencite{Fu2007,Stavrakou2014}, India \parencite{Surl2018}, and even globally \parencite{Shim2005,FortemsCheiney2012,Bauwens2016}.
+  In this thesis I apply the technique solely focusing on Australia for the first time.
+  % Too specific
+  %In this thesis the OMHCHO dataset from the OMI instrument (see Section \ref{Model:omhcho}) is used as the basis for HCHO amounts.
   
   \subsection{Aims}
     \label{BioIsop:intro:aims}
@@ -53,40 +56,43 @@
     %, while emissions of monoterpenes (C$_{10}$H$_{16}$, two units of isoprene) appear to be underestimated . 
     %This could lead to the unique scenario of neither emission type dominating VOC chemistry over the forests.
     This work tries to improve the understanding of isoprene emissions over the whole of Australia, clarifying the spatial distribution of bias and how these biases impact modelled chemistry.
-    We estimate isoprene emissions in Australia using a top-down technique based on OMI HCHO measurements and GEOS-Chem modelled yields.
-    This a postiori top-down estimate is then checked against sparse available ground-based measurements.
-    The GEOS-Chem model is modified to run with updated isoprene emissions to determine potential impact on modelled chemistry.
-    Wellness of fit between in situ, satellite, and modelled HCHO is determined with and without updated emissions estimates.
+    I estimate isoprene emissions in Australia using a top-down technique based on OMI HCHO measurements and GEOS-Chem modelled yields.
+    This a postiori top-down estimate is then compared against sparse available ground-based measurements.
+    The GEOS-Chem model is modified to run with scaled isoprene emissions to determine potential impact on modelled chemistry.
+    Goodness of fit between in situ, satellite, and modelled HCHO is determined before and after scaling emissions estimates.
     
     
-    In this chapter we outline why current isoprene emissions estimates are inadequate and how they can be improved.
-    We discuss literature which shows how the estimates may be too high, and describe how emissions may be calculated using satellite datasets.
+    In this chapter I outline why current isoprene emissions estimates are inadequate and how they can be improved.
+    I discuss literature that shows how the estimates may be too high, and describe how emissions may be calculated using satellite datasets.
     Section \ref{BioIsop:method} lays out how new isoprene emissions are estimated, with results examined in Section \ref{BioIsop:results}. 
     Updated satellite HCHO columns (Chapter \ref{Model}) are compared to available measurements in Section \ref{BioIsop:results:measurements}.
     %(SPS1, SPS2, MUMBA, Wollongong FTIR)
     Uncertainties for each step along the way are quantified in Section \ref{BioIsop:uncertainty}.
-    In Section \ref{BioIsop:conclusions} we examine how these changes in emissions would affect ozone concentrations in Australia, along with some other chemical processes.
+    In Section \ref{BioIsop:conclusions} I examine how these changes in emissions would affect ozone concentrations in Australia, along with some other chemical processes.
     
     
   \subsection{Existing emissions estimates}
     
+
     % Overestimates from models
-    The Model of Emissions of Gases and Aerosols from Nature (MEGAN) is one of the most popular emissions inventories for biogenic isoprene.
+    The Model of Emissions of Gases and Aerosols from Nature (MEGAN) is one of the most widely used sources for biogenic isoprene.
     Along with other models which rely on measured plant emission rates, it is poorly calibrated for Australian conditions.
-    Emissions of isoprene (C$_5$H$_8$) appear to be overestimated in some regions within Australia \parencite{Sindelarova2014,Stavrakou2014,Emmerson2016}.
-    A lack of measurements of isoprene emission rates in Australia, along with missing soil moisture parameterisation are the most likely culprits TODO: cite.
-    \textcite{Sindelarova2014} showed how the isoprene emissions could be as much as halved by accounting for lower soil moisture.
+    Emissions of isoprene (C$_5$H$_8$) appear to be overestimated in within Australia \parencite{Sindelarova2014,Stavrakou2014,Emmerson2016}.
+    Although the lack of measurements of isoprene emission rates in Australia makes this overestimation difficult to characterise.
     \textcite{Stavrakou2015} saw isoprene emissions overestimated by a factor of 2-3 in January.
-    \textcite{Emmerson2016} discuss the suitability of MEGAN's isoprene and monoterpene emission factors over southeast Australia, and suggest isoprene emissions are estimated 2-6 times too high.
+    \textcite{Emmerson2016} suggest isoprene emissions are estimated 2-6 times too high compared against available measurements of isoprene concentrations.
     They also show that no blanket increase or decrease in emission factors is appropriate for the entire southeast of Australia.
-    Additionally, emissions of monoterpenes (C$_{10}$H$_{16}$, two units of isoprene) appear to be underestimated \parencite{Emmerson2016}.
+    They compared modelled data to campaign measurements from multiple sites over different seasons and found that scaling emissions did not universally improve model outputs.
+    % Not relevant
+    %Additionally, emissions of monoterpenes (C$_{10}$H$_{16}$, two units of isoprene) appear to be underestimated \parencite{Emmerson2016}.
     %This could lead to the unique scenario of neither emission type dominating VOC chemistry over the forests.
     
+    % UP TO HERE JENNY
     Recently \textcite{Bauwens2016} estimated isoprene emissions with a top-down technique using the IMAGESv2 global CTM.
     They calculate emissions which create the closest match between model and satellite vertical columns, and compare these a postiori data with their a priori (satellite data) and independent data sets.
     %They examine global emissions seen by three models and a top-down inversion. % this is just what they do, not results etc...
     For Australia they found emissions ranging from 26-94\tgcpyr.
-    In this thesis we prioritise the analysis of a top-down emissions estimate compared against MEGAN, along with flow on effect of changed emissions on modelled ozone levels.
+    In this thesis I prioritise the analysis of a top-down emissions estimate compared against MEGAN, along with flow on effect of changed emissions on modelled ozone levels.
   
   
   \subsection{Top-down isoprene emissions estimates}
@@ -106,8 +112,8 @@
     %Even anthropogenic HCHO source estimates, which are accurate at the global scale, can be improved using satellite data to improve regional estimates by up to 25-40\% \parencite{Stavrakou2015}. 
     %Their study used the RETRO 2000 database for anthropogenic emission a prioris except for Asia in 2008 where REASv2 was used. 
     Since 1997, when GOME measurements were first used to measure HCHO over Asia,  satellites have been used to provided a total column measurement of HCHO, allowing isoprene emissions estimation by proxy \parencite{Thomas1998,Palmer2001,Bauwens2016}.
-    Using satellite information to improve estimates of biogenic emissions has been highlighted as a valuable use of satellite derived datasets in a review by \textcite{Streets2013}.
-    In this thesis we use NASA's OMHCHO product, using measurements from OMI on board the AURA satellite (see Section \ref{Model:omhcho}) as the basis for a top down biogenic isoprene emission estimate over Australia.
+    Using satellite information to improve estimates of biogenic emissions has been highlighted as a valuable use of satellite derived datasets \parencite{Streets2013}.
+    Here NASA's OMHCHO product based on measurements from OMI onboard the Aura satellite (see Section \ref{Model:omhcho}) is the basis for a top down biogenic isoprene emission estimate over Australia.
     
     There are two top-down isoprene emission estimation techniques, Bayesian and linear, which are discussed briefly here.
     Both the linear and Bayesian techniques assume that modelled chemistry is accurate and only try to correct precursor emissions, which may be a problem if the chemistry is uncertain.
@@ -135,7 +141,7 @@
       where $\epsilon$ are the (assumed) independent errors in measurements.
       \emph{K} is the Jacobian matrix determined from the forward model representing the sensitivity of $y$ to the state variable \emph{x}.
       Essentially the \emph{K} matrix is the modelled estimation of how $y$ responds to each of the driving parameters represented by elements of \emph{x}
-      This \emph{K} matrix is used in conjunction with error covariance in \emph{x} to determine the most likely solution to \emph{x}, given what we know about $y$. % ($\hat{x}$).
+      This \emph{K} matrix is used in conjunction with error covariance in \emph{x} to determine the most likely solution to \emph{x}, given what is known about $y$. % ($\hat{x}$).
       
       % Some examples:
       This method is used in \textcite{Shim2005} to optimise isoprene emissions in areas with high HCHO concentrations. 
@@ -151,7 +157,7 @@
       An advantage of the Bayesian method is that it can account for pyrogenic and anthropogenic emissions rather than filtering them out.
       However; biases may still arise due to errors in modelled emission estimation \parencite{Curci2010}.
       Also the Bayesian method is computationally expensive due to the requirement that model runs take place using many permutations of changed inputs.
-      In this work we do not use the Bayesian method due to the heavy computational costs involved.
+      In this work I do not use the Bayesian method due to the heavy computational costs involved.
       
         
     \subsubsection{Linear}
@@ -179,6 +185,7 @@
       As we are estimating biogenic emissions of isoprene, we must filter out areas where HCHO enhancements arise due to anthropogenic or pyrogenic sources.
       Uncertainties in the technique are discussed in more detail in Section \ref{BioIsop:uncertainty:eomi}.
       On the plus side, the simple nature of the inversion requires very little computational power after acquiring satellite and model datasets, even over large amounts of gridded data.
+      This allows an inversion using more than 8 years of satellite and model data within a reasonable time frame.
       
 \section{Methods}
   \label{BioIsop:method}
@@ -187,7 +194,7 @@
   % First isoprene inversion work
   We broadly follow the method of \textcite{Palmer2001} to create a biogenic isoprene emissions estimate over Australia.
   A relationship is modelled between midday column HCHO and isoprene emissions using GEOS-Chem, and then this relationship is applied to satellite measured HCHO total columns to derive a new isoprene emissions estimate.
-  Daily modelled values averaged between 13:00-14:00~LT are used to match the overpass time of the AURA satellite.
+  Daily modelled values averaged between 13:00-14:00~LT are used to match the overpass time of the Aura satellite.
   Then the slope is taken from the reduced major axis (RMA) regression between the a priori emissions (those from GEOS-Chem, $\apri$) and tropospheric HCHO columns in each model grid box each month.
   %Figure \ref{BioIsop:method:slope:fig_regressions} shows an example; the modelled regression between emissions and tropospheric columns for January, 2005.
   %Also shown is the time series for these two quantities averaged over Australia, and the squared correlation coefficient along with a sample of scatter plots and regressions from four grid squares.
