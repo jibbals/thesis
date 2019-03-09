@@ -822,7 +822,7 @@
       Total daily isoprene emissions (in kg) is represented by the area under the sine wave.
     }{\label{BioIsop:method:calculation:fig_daily_emissions_kg}}
     
-% UP TO HERE JENNY
+
 \section{Results}
   \label{BioIsop:results}
   
@@ -836,23 +836,24 @@
   }{\label{BioIsop:results:fig_subregions}}
   
 
-  \subsection{Updated emissions}
+  \subsection{A posteriori emissions}
     \label{BioIsop:results:emissions}
     
-    Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows a priori emissions over Australia and the updated emissions calculated using OMI.
-    The figure shows the time series (daily midday averages) their absolute differences (a priori - a posteriori) over 2005.
+    Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows a priori emissions over Australia and the a posteriori emissions calculated using OMI.
+    The figure shows the time series (daily midday averages) their absolute differences (a priori - a posteriori) over 2005 TODO: Update plot to MYA.
     The seasonal cycle and the difference between the two metrics is clear, with much higher spring and summer averages in the a priori.
-    The northern region also shows a departure from the Australian mean in the a priori data from mid March through to November, which is not seen in the a posteriori.
-    This overestimate by the a priori may be caused by overly high emission factors pushed up by high temperatures during the dry season.
+    Additionally, in the northern region, the a posteriori does not show significant emissions from mid March through to November which are seen in a priori emissions.
+    This overestimate by the a priori may be caused by some mixture of overly high emission factors and high sensitivity to temperatures during the dry season.
     January and February also show a low feature in the a posteriori data, which may be due to filtering (TODO check data count), or may have been caused by meteorological factors (TODO Check if drought or fires occurred).
-    This figure is repeated using monthly means (of the daily midday estimates) in Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan_monthly} over 8 years from 2005 to 2012.
+    This figure is repeated using monthly medians (of the daily midday estimates) in Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan_monthly} over 8 years from 2005 to 2012.
     Over the entirety of Australia the seasonal cycle of emissions is shown to be overestimated by the a priori.
     The difference between a priori and a posteriori estimates differs between regions, and some noise can be seen in the monthly time series due to data loss (TODO: check data counts).
-    While most regions generally adhere to this behaviour of overestimation, the northern region of Australia follows a different cycle of bias.
-    Northern Australia appears to be overestimated throughout the year, however occasional low points occur in summer in which the a priori is near to or lower than the a posteriori.
+    While most regions show similar overestimates, the northern region of Australia follows a different cycle of bias.
+    Northern Australia appears to be overestimated throughout the year, however the bias tends to be lower in early summer when the a priori is similar to the a posteriori.
     One potential reason is the onset of the wet season (November-April) that disrupts the ecosystems and limits satellite measurement through increased cloud coverage.
+    %JENNY NOTE: Need to expand on this a bit more - you are suggesting that the a priori isn't actually better in summer, you just have less data to constrain the a posteriori? Can you show that? Is that what TODO Figure in the next para will do?
     
-    % TODO: Update to remove 'Days since yyyymmdd labels
+    % TODO: Update to remove 'Days since yyyymmdd labels', change to multiyear timeseries averages instead of 1 year, title to posteriori
     % Figure from Analyse_E_isop.py -> E_regional_time_series()
     \mypic{Figures/OMI_link/Emiss/E_zones_PP_lr.png}{%
       Biogenic emissions of isoprene from GEOS-Chem (running MEGAN), which is our a priori in column 1, and the emissions calculated using the OMI top down inversion, which is our a posteriori in column 2.
@@ -873,8 +874,9 @@
     TODO Figure shows the satellite data counts over time and summer vs winter maps from the OMHCHORP dataset, along with uncertainty in each region 
     
     
-    Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and IQR of daily midday isoprene emissions estimates, averaged regionally. 
-    Months outside of May to August show the a posteriori lower than the a priori, except in the south eastern region.
+    Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and inter-quartile range of daily midday isoprene emissions estimates, averaged regionally. 
+    Months outside of May to August show the a posteriori lower than the a priori.
+    The most overlap is seen in the south-eastern region, and both eastern regions show the highest variance, potentially due to diversity within the regions and anthropogenic influence.
     Here the difference is only prominent during February, TODO check if this may be because of data point counts.
     %JENNY NOTE:
     TODO: Which regions show best correlation? Worst? Why might that be, and what does it mean?
@@ -890,6 +892,8 @@
       Colours denote the region over which the monthly average was taken, as in Figure \ref{BioIsop:results:fig_subregions}.
     }{\label{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya}}
     
+    
+    % UP TO HERE JENNY
     Figures \ref{BioIsop:results:emissions:fig_daily_egressions} and \ref{BioIsop:results:emissions:fig_monthly_egressions} show how the distributions of a posteriori emissions compare to the a priori in each region during summer months (DJF) with zeros removed from both distributions. % zeros or negatives in top-down estimate are from hcho lower than background
     Figure \ref{BioIsop:results:emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally and coloured to show data-point frequency.
     There is only weak correlation between daily estimations, and the distributions are quite different with more variance shown by the a priori.
