@@ -602,7 +602,6 @@
       % Marais 2012 also look at average windspeed and best hcho-isop corelation when hcho is shifted by 0.5 degrees, don't think I can do that with 2.5 degree resolution
       % Marais compare smearing with model estimated yield "
     
-      % UP TO HERE replacing replaced text
     \subsubsection{Sensitivity to smearing}
     
       Smearing can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
@@ -792,13 +791,26 @@
     
     After creating our a posteriori isoprene emissions estimate, we run GEOS-Chem again with biogenic emissions scaled to match the new estimate. 
     This is performed by applying a seasonal scaling factor $\alpha$, based on the multi-year monthly average difference between midday a priori and a posteriori emissions at \lowhr horizontal resolution.
-    $\alpha$ is applied through the emissions module in GEOS-Chem where isoprene emissions are calculated.
-    First all the new midday (13:00-14:00~LT) emissions (per grid box) are combined forming a multi-year monthly mean, which can be compared to the a priori equivalent.
-    %Initially a run of GEOS-Chem using no chemistry it performed is order to quickly retrieve hourly averaged isoprene emissions.
+    $\alpha$ is the ratio between the multi-year averaged monthly emissions from GEOS-Chem $\apri$ and the a posteriori $\apost$: 
+    \begin{equation} \label{BioIsop:method:scaled:eqn_alpha}
+        \alpha = \frac{\apost}{\apri}
+    \end{equation}
     This seasonal scaling retains shorter time-scale variability and meteorological dependencies, while ensuring the multi-year monthly averaged emissions match.
     %Short time-scale variability is largely due to meteorological parameters such as temperature and light, etc..
+    Initially $\alpha$ is uniformly set to 1 globally.
+    Where top down emissions exist and $\apri$ is non-zero, we can set $\alpha$ using Equation \ref{BioIsop:method:scaled:eqn_alpha}.
+    $\alpha$ is applied through the emissions module in GEOS-Chem where isoprene emissions are calculated.
+    First all the new midday (13:00-14:00~LT) emissions (per grid box) are combined forming a multi-year monthly mean, which can be compared to the a priori equivalent.
+    Missing values for $\alpha$ when $\apri$ are zero are a negligible issue since the dominant discrepancies between estimates occurs during summer when high emission rates are overestimated.
+    Figure \ref{BioIsop:method:scaled:fig_alpha_mya_series} shows $\alpha$ for the average January and June over 2005-2012, along with a time series of $\apri$ and $\apost$ and $\alpha$ calculated for Sydney, and their multi-year seasonal average.
     
-    % UP TO HERE JENNY
+    % Figure from TODO:???
+    % UPDATE TO a priori and a posteriori - remove 'examine' from second row
+    \mypic{Figures/OMI_link/new_emiss/alpha_mya.png}{%
+      Row 1: $\alpha$ for the average January (left) and June (right) over 2005-2012.
+      Row 2: $\apri$ (magenta, left axis), $\apost$ (cyan, left axis), and  $\alpha$(black, right axis) multi-year monthly averages calculated for Sydney.
+      Row 3: Monthly averages of the same terms in Row 2.}{\label{BioIsop:method:scaled:fig_alpha_mya_series}}
+    
     Top-down emission rates calculated in this work are in units of atom C cm$^{-2}$ s$^{-1}$.
     In order to calculate the emissions in kg, each grid square is multiplied by its area, and then daily emissions are assumed to follow a sine wave peaking at the midday value.
     Figure \ref{BioIsop:method:calculation:fig_daily_emissions_kg} shows how the daily approximation of total emitted isoprene per grid square is calculated.
@@ -810,23 +822,7 @@
       Total daily isoprene emissions (in kg) is represented by the area under the sine wave.
     }{\label{BioIsop:method:calculation:fig_daily_emissions_kg}}
     
-    The scaling factor $\alpha$ is the ratio between the multi-year averaged monthly emissions from GEOS-Chem $\apri$ and the a posteriori $\apost$: 
-    \begin{equation} \label{BioIsop:method:scaled:eqn_alpha}
-        \alpha = \frac{\apost}{\apri}
-    \end{equation}
-    A small modification of GEOS-chem source code multiplies biogenic emissions by $\alpha$ for each grid-square based on the default emission factors and meteorology.
-    Initially $\alpha$ is uniformly set to 1 globally.
-    Where we have top down emissions and $\apri$ is non-zero, we can set $\alpha$ using Equation \ref{BioIsop:method:scaled:eqn_alpha}.
-    Missing values for $\alpha$ when $\apri$ are zero are an issue, however this is negligible since the dominant discrepancies between estimates occurs during summer when high emission rates are overestimated.
-    Figure \ref{BioIsop:method:scaled:fig_alpha_mya_series} shows $\alpha$ for the average January and June over 2005-2012, along with a time series of $\apri$ and $\apost$ and $\alpha$ calculated for Sydney, and their multi-year seasonal average.
-    
-    % Figure from TODO:???
-    % UPDATE TO a priori and a posteriori - remove 'examine' from second row
-    \mypic{Figures/OMI_link/new_emiss/alpha_mya.png}{%
-      Row 1: $\alpha$ for the average January (left) and June (right) over 2005-2012.
-      Row 2: $\apri$ (magenta, left axis), $\apost$ (cyan, left axis), and  $\alpha$(black, right axis) multi-year monthly averages calculated for Sydney.
-      Row 3: Monthly averages of the same terms in Row 2.}{\label{BioIsop:method:scaled:fig_alpha_mya_series}}
-
+% UP TO HERE JENNY
 \section{Results}
   \label{BioIsop:results}
   
