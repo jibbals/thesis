@@ -376,7 +376,7 @@
       \item
       Filtering removes gridded output on days where grid squares are likely to be affected by smearing (see Section \ref{BioIsop:method:smearing}).
       \item 
-      A reduced major axis regression slope is determined between $\Ogc$ and E$_{GC}$ using a month of modelled output (one value per day) for each grid square (e.g. see Figure \ref{BioIsop:method:slope:fig_regressions})
+      A reduced major axis regression slope is determined between $\Ogc$ and E$_{GC}$ using a month of modelled output (one value per day) for each grid square (e.g., see Figure \ref{BioIsop:method:slope:fig_regressions})
     \end{enumerate}
     
     Each \lowhr grid box from daily GEOS-Chem (biogenic only) output of $\Omega_{HCHO} \equiv \Ogc$ and $E_{isop}$ within Australia, and calculate the RMA slope monthly from January 2005 to December 2012.
@@ -893,42 +893,43 @@
     }{\label{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya}}
     
     
-    % UP TO HERE JENNY
-    Figures \ref{BioIsop:results:emissions:fig_daily_egressions} and \ref{BioIsop:results:emissions:fig_monthly_egressions} show how the distributions of a posteriori emissions compare to the a priori in each region during summer months (DJF) with zeros removed from both distributions. % zeros or negatives in top-down estimate are from hcho lower than background
+
+    Figures \ref{BioIsop:results:emissions:fig_daily_egressions} and \ref{BioIsop:results:emissions:fig_monthly_egressions} show how the distributions of a posteriori emissions compare to a priori emissions in each region during summer months (DJF) with zeros removed from both distributions. % zeros or negatives in top-down estimate are from hcho lower than background
     Figure \ref{BioIsop:results:emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally and coloured to show data-point frequency.
-    There is only weak correlation between daily estimations, and the distributions are quite different with more variance shown by the a priori.
-    This is likely due to the filtering applied to both satellite data (e.g. whenever cloud coverage exceeds 40\%) and a posteriori emission calculations.
+    There is only weak correlation between daily estimates, and the distributions are quite different with more variance shown by the a priori.
+    This is likely due to the filtering applied to satellite data (e.g., whenever cloud coverage exceeds 40\%) which reduces the number of days of a posteriori emission calculations.
     Figure \ref{BioIsop:results:emissions:fig_monthly_egressions} displays the regressions between monthly averages of the same data. 
     In the monthly averages a stronger correlation is apparent, with regression coefficients ranging from 0.48 to 0.78 across regions.
-    The portion of this correlation due to seasonality is examined by re-running the regression after subtracting the multi-year monthly average from each dataset.
+    The portion of this correlation due to seasonality is examined by re-running the regression after deseasonalising both data sets by subtracting the multi-year monthly average from each dataset.
     TODO: run regression after removing seasonal average and see how r and slope are affected.
     
     \mypic{Figures/OMI_link/Emiss/daily_Egressions.png}{%
-      Scatter plot (binned hexagonally to show data-point frequency) along with the distributions of MEGAN (y axis) and the top down estimate (x axis).
+      Scatter plot (binned hexagonally with darker colours representing higher data-point frequency) along with the distributions of MEGAN (y axis) and the top down estimate (x axis).
       This figure is based on summer (DJF) midday values over multiple years.
       Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
     }{\label{BioIsop:results:emissions:fig_daily_egressions}}
     
     % UPDATE: fix Y axis labels -> a priori, X axis -> a posteriori, add units, remove negative axes, REMOVE legend point marker
     % Figure from Analyse_E_isop.distributions_comparison_regional()
-    \mypic{Figures/OMI_link/Emiss/monthly_Egressions.png}{%
+    \mypicw{\textwidth, totalheight=0.8\textheight}{Figures/OMI_link/Emiss/monthly_Egressions.png}{%
       Scatter plot of a priori emissions against a posteriori using monthly averaged grid squares as regression datapoints.
       Data points are created using monthly averages (of midday emissions) for each grid box for each month of summer (DJF) within each region shown.
-      Multiple years of data are used, meaning if a region has 10 grid boxes, the 8 years of data will add up to $10 \times 3 \times 8 = 240$ data points minus filtered and zero emission squares.
+      Multiple years of data are used, meaning if a region has 10 grid boxes, the 8 years of data will add up to 10 boxes $\times 3$ months  $\times 8$ years $= 240$ data points minus filtered and zero emission squares.
       Plots are coloured by regions matching those shown in Figure \ref{BioIsop:results:fig_subregions}.
       The linear best fit regression is inset into each plot along with the line equation and regression coefficient.
     }{\label{BioIsop:results:emissions:fig_monthly_egressions}}
     
-    
-  \subsection{A posteriori GEOS-Chem output}
+  \subsection{Modelled impacts of reduced isoprene emissions}
   \label{BioIsop:results:new_emiss}
     
-    This section examines how outputs from GEOS-Chem change after applying a scaling factor $\alpha$ (see Section \ref{BioIsop:method:scaled}) to biogenic isoprene emissions.
-    Here we need to be careful of notation, outputs from the scaled GEOS-Chem run will be denoted by a superscript $\alpha$.
-    For example column HCHO from GEOS-Chem before and after scaling are $\Ogc$ and $\Ogca$ respectively.
+    This section uses GEOS-Chem to determine how the improvements to biogenic isoprene emissions impact subsequent atmospheric chemistry and composition.
+    A posteriori emissions are implemented in GEOS-Chem as described in Section \ref{BioIsop:method:scaled}.
+    Outputs from the scaled GEOS-Chem run using the a posteriori will be denoted by a superscript $\alpha$.
+    For example, column HCHO from GEOS-Chem before and after scaling are denoted $\Ogc$ and $\Ogca$ respectively.
     %unscaled GEOS-Chem biogenic emissions are the a priori, top down midday emissions are the a posteriori, and emissions from the scaled GEOS-Chem run are denoted E$^{\alpha}_{GC}$.
     
-    Figure \ref{BioIsop:method:scaled:megan_diurnal} shows the multi-year monthly mean daily cycle of isoprene emissions from GEOS-Chem, along with the top-down midday estimate, for an example grid box located 2.5\degr West of Sydney.
+    Figure \ref{BioIsop:method:scaled:megan_diurnal} shows the multi-year monthly mean daily cycle of isoprene emissions from GEOS-Chem, along with the top-down midday estimate, for an example grid box located 2.5\degr ~west of Sydney.
+    This box is typical of our south-eastern region and is not heavily impacted by the anthropogenic filter.
     TODO: Analysis of this and lead into more analysis of differences
     
     % TODO: add suptitle: diurnal isoprene emissions 
@@ -938,7 +939,8 @@
       Top-down estimates are similarly grouped by colour, and shown at the 13:00~LT mark for each month.
       }{\label{BioIsop:method:scaled:megan_diurnal}}
     
-    \subsubsection{HCHO levels}
+    % UP TO HERE JENNY
+    \subsubsection{Implications for HCHO}
   
       After running GEOS-Chem with isoprene emission scaled to match the a posteriori, we first check $\Ogc$ and $\Ogca$ outputs against $\Oomi$ over January in 2005 in Figure \ref{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}.
       In every region $\Ogca$ is closer to the satellite measured amounts with biases lowering from 50-120\% down to 30-50\%.
@@ -971,7 +973,7 @@
       
       Figure todo shows how the longer term FTIR HCHO measurements compare against modelled HCHO before and after changing isoprene emissions
   
-    \subsubsection{Ozone levels}
+    \subsubsection{Implications for ozone}
   
       Isoprene breaks down in the atmosphere and can lead to increased ozone concentrations, especially when mixing with polluted urban air masses which contain high NO$_X$ concentrations.
       Figure \ref{Conclusions:ozone:fig_new_emiss_series_O3} shows surface level (up to $\sim 150$~m altitude) ozone concentrations over 2005 before and after scaling modelled isoprene emissions.
