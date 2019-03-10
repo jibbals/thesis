@@ -953,7 +953,7 @@
         Daily mean total column HCHO amounts from GEOS-Chem with (new emissions run) and without (tropchem run) a posteriori scaled isoprene emissions, along with the original OMI HCHO columns.
         Each row shows the average over regions in Figure \ref{BioIsop:results:fig_subregions}. }{\label{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}}
       
-      % UP TO HERE JENNY
+      
       %As is done in \textcite{Emmerson2016}, 
       I also examine the effects of scaling isoprene emissions on the correlation and variances between modelled and satellite based HCHO columns.
       Figure TODO: shows the regressions between $\Ogc$, $\Ogca$, and $\Oomi$, for summer and winter between for each region.
@@ -961,9 +961,11 @@
       Figure TODO shows variances in each season for each region in $\Ogc$, $\Ogca$, and $\Oomi$.
       TODO: Analysis of plots
       
-      Wollongong FTIR measurements (see Section \ref{Model:datasets:wollongong_ftir}) provide vertical profiles of HCHO that can be converted to total column amounts using modelled air densities.
-      This is the only non-satellite long-term record of vertical profile HCHO available in Australia and we use it here to examine trends and seasonality.
+      Wollongong FTIR measurements (see Section \ref{Model:datasets:wollongong_ftir}) provide total column amounts TODO: get these and check process.
+      This is the only non-satellite long-term measurement record of total column HCHO available in Australia and we use it here to examine trends and seasonality.
       The time series for HCHO is shown in figure TODO, along with GEOS-Chem output before and after updating isoprene emissions.
+      Modelled HCHO in this figure only shows the grid square containing Wollongong, which is the same grid square that contains Sydney and a large amount of rural and forested area.
+      This makes direct comparison between GEOS-Chem output and the FTIR suffer from representational error.
       TODO: discuss plot here
       
       TODO: Figure showing campaign data against model and recalculated model.
@@ -976,13 +978,15 @@
   
     \subsubsection{Implications for ozone}
   
-      Isoprene breaks down in the atmosphere and can lead to increased ozone concentrations, especially when mixing with polluted urban air masses which contain high NO$_X$ concentrations.
+      Isoprene oxidation and can eventually lead to ozone formation, especially when isoprene enriched air masses mix with polluted urban air masses that contain high NO$_X$ concentrations.
       Figure \ref{Conclusions:ozone:fig_new_emiss_series_O3} shows surface level (up to $\sim 150$~m altitude) ozone concentrations over 2005 before and after scaling modelled isoprene emissions.
       Reducing isoprene emissions lowers surface ozone concentrations by TODO: XX to YY \% in summer, and XX to YY \% in winter.
       The direct correlation between reduced emissions and surface ozone (Figure TODO) shows that reduced emissions directly relate to reduced ozone concentrations, and using multiple years enhances/reduces the relationship.
       A look at the regression using only summer data reveals a stronger/weaker relationship, analyse per region (TODO).
       
       TODO Figure showing isoprene vs ozone time series and correlation.
+      
+      % JENNY NOTE: You might want to look at and cite Karen Yu's paper that shows that for O3, the difference between high and low resolution is actually not very important. Might also point out that as most Australian cities are surrounded by vegetation, mixing is likely to occur in the suburban fringes (e.g. western sydney) and therefore this type of analysis may be representative of the air quality implications in those types of regions.
       
       The relatively clean atmosphere over the majority of Australia is likely to be NO$_x$ limited outside of major population centres.
       This means that cities may have higher sensitivity to changes in modelled isoprene emissions than shown here, since we are examining large area averages which are mostly non-urban.
@@ -1000,14 +1004,24 @@
       %Plot time series of isoprene emissions for each region pre and post change
       % subtract seasonal mya cycle and show trend and p value for trend being non-zero.
       Figure \ref{BioIsop:results:new_emiss:trends:fig_emission_anomalies} shows monthly deseasonalised a priori and a posteriori midday emission anomalies for each region.
-      First the emissions are spatially averaged within each region to form a daily time series of midday emission rates, this is averaged into monthly data, and then the multiyear monthly mean is subtracted to form the anomaly series.
-      Any anomaly which is greater than 3 standard deviations from the mean is removed (these points can be seen as crosses in Figure \ref{BioIsop:results:new_emiss:trends:fig_emission_anomalies}).
+      First the emissions are spatially averaged within each region to form a daily time series of midday emission rates
+      This is averaged into monthly data, and then the multiyear monthly mean is subtracted to form the anomaly time series.
+      Any anomaly greater than three standard deviations from the mean is removed (crosses in Figure \ref{BioIsop:results:new_emiss:trends:fig_emission_anomalies}).
       An ordinary least squares linear regression is then performed to look for any significant trend.
-      A trend is considered significant if the p-value from a Wald test is less than 0.05.
+      A trend is considered significant if the p-value from a Wald test (roughly equivalent to a t-test) is less than 0.05.
       The midday emissions show no significant trends over the 8 year period from 2005-2012.
       The same process is repeated for surface ozone, surface HCHO, and surface NO$_2$, with anomaly series shown in Figures \ref{BioIsop:results:new_emiss:trends:fig_ozone_anomalies} to \ref{BioIsop:results:new_emiss:trends:fig_no2_anomalies}.
       None of these metrics shows any significant changes in trend due to scaling isoprene emissions.
       Some trends are no longer significant in surface HCHO, however none of the trends change sign.
+      Since the scaling factor $\alpha$ is applied to each grid square seasonally and not changing each year, changing trends are not expected.
+      
+      % JENNNY NOTE: I don't get much out of these figures, and they don't really show whether or not there is a quantifiable change from a priori to a posteriori. I'd suggest keeping the isoprene one (3.20) as an example of the process, but then using either a table or a barchart to show the trends for the rest.
+      % JENNY NOTES:If a table, you would have a column for a priori trend and a posteriori trend with a significance marker for each and then rows for each species and region (I would probably group by species then list each region so e.g. 
+      % Isoprene
+      % SE Aus   XX    YY
+      % N Aus      XX   YY
+      % etc. then repeated for HCHO, etc.
+      % JENNY NOTES: If a barchart, I am picturing a bar showing the trend for a priori & a posteriori next to each other for each region, with a significance marker above. One bar chart per species perhaps, with different regions along the x-axis. Let me know if unclear.
       
       % trend figures from chapter_3_isop.trend_analysis()
       \mypic{Figures/OMI_link/new_emiss/trend_isop.png}{%
@@ -1150,7 +1164,7 @@
   %      \label{BioIsop:results:new_emiss:trends:tab_trend_slopes}
   %    \end{threeparttable}\end{table}
       
-      
+      % UP TO HERE JENNY
   \subsection{Literature comparisons}
     
     % 
@@ -1174,22 +1188,22 @@
     %aus OMI  : 16.4731027389
     
     \begin{table}\begin{threeparttable}
-      \caption{Isoprene emissions (Tg/yr)}
-      \begin{tabular}{ l  c  >{\arraybackslash}p{10cm} } 
+      \caption{Isoprene emissions (Tg/yr) from Australia}
+      \begin{tabular}{ c c c c } 
         \toprule
-        Australia & notes \\
+        Estimate & source & year(s) & notes \\
         \midrule
-        43(2) & a) GEOS-Chem: 2005-2010 \\ % 445(18) globally
-        19(2) & b) Top-down: 2005-2010 \\
-        $\sim 80$ & c) \textcite{Sindelarova2014}: 1980-2010 \\ % 590 globally
-        26-94 & d) \textcite{Bauwens2016}: 2005-2013\\
-        %&  535 & \textcite{Guenther2012}: \\
+        43(2) & bottom-up & 2005-2010 & (a) from this thesis \\ % 445(18) globally
+        19(2) & top-down & 2005-2010 & (b) from this thesis \\
+        $\sim 80$ & bottom-up & 1980-2010 & (c) \textcite{Sindelarova2014} \\ % 590 globally
+        26-94 & both & 2005-2013 & (d) \textcite{Bauwens2016} \\
         
+        %&  535 & \textcite{Guenther2012}: \\
         %26-94 & 272-570 & c) \textcite{Bauwens2016}: 2005-2013\\
         \bottomrule
       \end{tabular}
       \begin{tablenotes} 
-        \item a: MEGAN diagnostics based on 3-hourly averages
+        \item a: GEOS-Chem with MEGAN diagnostics based on 3-hourly averages
         \item b: Based on daily peak emissions integrated over a sinusoidal daily curve
         \item c: MEGAN run using MERRA meteorology.  
         \item d: Range shown here based on 3 different models and one top-down inversion
