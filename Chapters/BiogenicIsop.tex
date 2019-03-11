@@ -893,7 +893,6 @@
     }{\label{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya}}
     
     
-
     Figures \ref{BioIsop:results:emissions:fig_daily_egressions} and \ref{BioIsop:results:emissions:fig_monthly_egressions} show how the distributions of a posteriori emissions compare to a priori emissions in each region during summer months (DJF) with zeros removed from both distributions. % zeros or negatives in top-down estimate are from hcho lower than background
     Figure \ref{BioIsop:results:emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally and coloured to show data-point frequency.
     There is only weak correlation between daily estimates, and the distributions are quite different with more variance shown by the a priori.
@@ -918,6 +917,48 @@
       Plots are coloured by regions matching those shown in Figure \ref{BioIsop:results:fig_subregions}.
       The linear best fit regression is inset into each plot along with the line equation and regression coefficient.
     }{\label{BioIsop:results:emissions:fig_monthly_egressions}}
+    
+    
+    When comparing GEOS-Chem (MEGAN) to the a posteriori calculated using our top-down inversion, we find a decrease of from 45.4\tgpyr to 16.5\tgpyr ~($\sim 66\%)$.
+    Table \ref{BioIsop:results:emissions:tab_emissions_Tg} compares annual Australian isoprene emissions from this work to previously published values.
+    Our a posteriori estimate of 19 \tgpyr ~suggests isoprene emissions may be lower than any bottom up estimates, and is close to the top-down estimate of \textcite{Bauwens2016} of 26 \tgpyr.
+    Figure \ref{BioIsop:results:emissions:fig_tga_comparison_map} shows how this decrease is distributed spatially, with $\apri$ and $\apost$ in \tgpyr ~calculated as a multi-year mean.
+    Across all of Australia we see large reductions of total emissions using the new top-down estimate.
+    
+    \mypic{Figures/OMI_link/Emiss/tga_map.png}{%
+      Top row: multi-year mean emissions in \tgpyr from $\apri$ (GEOS-Chem; running MEGAN) and $\apost$ (top-down emissions) respectively.
+      $\apost$ uses an assumed sinusoidal daily cycle, with daylight hours perscribed for each month: see Section \ref{BioIsop:method:calculation}).
+      Bottom left and right shows the absolute and relative differences respectively.}{\label{BioIsop:results:emissions:fig_tga_comparison_map}}
+    
+    
+    %TODO: Update with 2005-2013 rather than just 2005-2007
+    %global MEGAN: 471.518577725
+    %aus MEGAN: 45.4326831613
+    %aus OMI  : 16.4731027389
+    
+    \begin{table}\begin{threeparttable}
+      \caption{Isoprene emissions (Tg/yr) from Australia}
+      \begin{tabular}{ c c c c } 
+        \toprule
+        Estimate & source & year(s) & notes \\
+        \midrule
+        43(2) & bottom-up & 2005-2010 & (a) from this thesis \\ % 445(18) globally
+        19(2) & top-down & 2005-2010 & (b) from this thesis \\
+        $\sim 80$ & bottom-up & 1980-2010 & (c) \textcite{Sindelarova2014} \\ % 590 globally
+        26-94 & both & 2005-2013 & (d) \textcite{Bauwens2016} \\
+        
+        %&  535 & \textcite{Guenther2012}: \\
+        %26-94 & 272-570 & c) \textcite{Bauwens2016}: 2005-2013\\
+        \bottomrule
+      \end{tabular}
+      \begin{tablenotes} 
+        \item a: GEOS-Chem with MEGAN diagnostics based on 3-hourly averages
+        \item b: Based on daily peak emissions integrated over a sinusoidal daily curve
+        \item c: MEGAN run using MERRA meteorology.  
+        \item d: Range shown here based on 3 different models and one top-down inversion
+      \end{tablenotes}
+      \label{BioIsop:results:emissions:tab_emissions_Tg}
+    \end{threeparttable}\end{table}
     
   \subsection{Modelled impacts of reduced isoprene emissions}
   \label{BioIsop:results:new_emiss}
@@ -1164,54 +1205,7 @@
   %      \label{BioIsop:results:new_emiss:trends:tab_trend_slopes}
   %    \end{threeparttable}\end{table}
       
-      % UP TO HERE JENNY
-  \subsection{Literature comparisons}
-    
-    % 
-    When comparing GEOS-Chem (which runs MEGAN) emissions to those calculated using our top-down inversion, we see a decrease of around 29\tgpyr ($66\%)$.
-    \textcite{Sindelarova2014} see a 41\tgpyr decrease in Australia when introducing soil moisture parameterisation.
-    Global and Australian emissions estimates for isoprene still range widely due to the emission models sensitivities to inexact parameters including leaf area indices, plant functional type emission factors, and meteorological factors.
-    Table \ref{BioIsop:results:emissions:tab_emissions_Tg} shows yearly isoprene emissions from this work and some other works for Australia.
-    Our a posteriori estimate of 19 \tgpyr suggests isoprene emissions may be lower than any bottom up estimates, and is close to the top-down estimate performed in \textcite{Bauwens2016} of 26 \tgpyr.
-    Figure \ref{BioIsop:results:emissions:fig_tga_comparison_map} shows how this decrease is distributed spatially, with $\apri$ and $\apost$ in \tgpyr calculated as a multi-year mean.
-    Across all of Australia we see large reductions of total emissions using the new top-down estimate.
-    
-    \mypic{Figures/OMI_link/Emiss/tga_map.png}{%
-      Top row: multi-year mean emissions in \tgpyr from $\apri$ (GEOS-Chem; running MEGAN) and $\apost$ (top-down emissions) respectively.
-      $\apost$ uses an assumed sinusoidal daily cycle, with daylight hours perscribed for each month: see Section \ref{BioIsop:method:calculation}).
-      Bottom left and right shows the absolute and relative differences respectively.}{\label{BioIsop:results:emissions:fig_tga_comparison_map}}
-    
-    
-    %TODO: Update with 2005-2013 rather than just 2005-2007
-    %global MEGAN: 471.518577725
-    %aus MEGAN: 45.4326831613
-    %aus OMI  : 16.4731027389
-    
-    \begin{table}\begin{threeparttable}
-      \caption{Isoprene emissions (Tg/yr) from Australia}
-      \begin{tabular}{ c c c c } 
-        \toprule
-        Estimate & source & year(s) & notes \\
-        \midrule
-        43(2) & bottom-up & 2005-2010 & (a) from this thesis \\ % 445(18) globally
-        19(2) & top-down & 2005-2010 & (b) from this thesis \\
-        $\sim 80$ & bottom-up & 1980-2010 & (c) \textcite{Sindelarova2014} \\ % 590 globally
-        26-94 & both & 2005-2013 & (d) \textcite{Bauwens2016} \\
-        
-        %&  535 & \textcite{Guenther2012}: \\
-        %26-94 & 272-570 & c) \textcite{Bauwens2016}: 2005-2013\\
-        \bottomrule
-      \end{tabular}
-      \begin{tablenotes} 
-        \item a: GEOS-Chem with MEGAN diagnostics based on 3-hourly averages
-        \item b: Based on daily peak emissions integrated over a sinusoidal daily curve
-        \item c: MEGAN run using MERRA meteorology.  
-        \item d: Range shown here based on 3 different models and one top-down inversion
-      \end{tablenotes}
-      \label{BioIsop:results:emissions:tab_emissions_Tg}
-    \end{threeparttable}\end{table}
-  
-  
+  % UP TO HERE JENNY
   \subsection{Comparison with available measurements}
     \label{BioIsop:results:measurements}
     TODO: % TODO: campaign analysis compared to GEOS-Chem
@@ -1521,6 +1515,13 @@
   Our top down biogenic isoprene emission estimate shows that MEGAN overestimates emissions in summer by up to a factor of 5.
   The overestimation is spatially and temporally diverse and leads to model overestimation of HCHO.
   By applying a monthly gridded scaling factor based on the multi-year monthly difference model emissions and our top down a posteriori, HCHO bias can be improved from 50-120\% down to 30-50\% (TODO: update that number for summer season rather than the 2005 January it is based on).
+  
+  % JENNY NOTE: It should go into a discussion somewhere : the REASON for the decreases you find is not really clear. Is it the emission factors (cf Emmerson 2016)? Is it the lack of accounting for soil moisture (cf Sindelarova)? This should be a cohesive discussion, that brings the different threads from the literature together and postulates how one might further improve GEOS-Chem in futre.
+  
+  Global and Australian emissions estimates for isoprene still range widely due to the emission models sensitivities to inexact parameters including leaf area indices, plant functional type emission factors, and meteorological factors, with the full story behind the decrease seen here in a posteriori emissions not yet clear.
+  It is likely a mixture of poorly defined emission factors \parencite[e.g.][]{Emmerson2016}, unaccounted for soil moisture \parencite[e.g.][]{Sindelarova2014} and poorly understood responses to meteorological stresses in Australian forests (TODO: cite papers talking about clay and poor moisture responses).
+  \textcite{Sindelarova2014} see a 41\tgpyr decrease in Australia when introducing soil moisture parameterisation.
+  
   
   Model overestimation of biogenic isoprene emissions also lowers simulated surface ozone concentrations by several percent.
   This improves our understanding of biogenic emissions impact on surface ozone levels, and could improve certainty in simulated ozone exceedances.
