@@ -591,6 +591,39 @@
         \end{threeparttable}\end{table}
       
       
+     %\subsection{HCHO Products and yield}
+     %\label{BioIsop:results:HCHOYield}
+     % JENNY NOTE: I think there is some redundancy.
+    
+    Isoprene reaction chains are diverse, with many branches forming HCHO. 
+    HCHO production yields are often classed into two categories: first generation HCHO yield and total (or molar) yield.
+    First generation yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation.
+    Total yield refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
+    %\textcite{Wolfe2016} define prompt yield as the change in formaldehyde per unit change in initial isoprene emissions.
+    %$[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
+    In this work yield ($Y_{isop}$) is not calculated as the slope ($S = Y_{isop}/k_{HCHO}$) can be used instead.
+    
+    By assuming yield $Y_{isop}$ lies between 0.2 and 0.4, we find a range for midday lifetimes of HCHO using equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}:
+    \begin{eqnarray*}
+      S = & \frac{Y_{isop}}{k_{HCHO}} \\
+      \tau \equiv & \frac{1}{k_{HCHO}} \\
+      \tau = & \frac{S}{Y_{isop}}
+    \end{eqnarray*}
+    $\tau$ is heavily influenced by assumed yield, and improved methods of estimating yield over Australia are required to improve this estimate.
+    Figure \ref{BioIsop:results:HCHOYield:fig_Lifetime}: shows the GEOS-Chem HCHO lifetime estimated throughout the year.
+    There is a clear seasonal cycle with longer lifetimes in winter months.
+    A clear June (and sometimes March, July and August) increase in HCHO lifetimes is shown, which is caused by the reduced winter HCHO concentrations, temperature, and insolation.
+    These factors may limit the utility of any top-down emissions estimation technique using HCHO in the winter months.
+    The figure is produced using filtered slope information from 2005, and outliers along with low data availability in some months is an issue.
+    Noise in the southwest and middle regions may be indicative of heavy filtering, potentially driven by westerly winds which can bring transported polution and also lead to smearing.
+    
+    % Plot/calculation from GC_tests.yield_and_lifetime()
+    \mypic{Figures/OMI_link/GC/HCHO_lifetime.png}{ %
+      Monthly area averaged HCHO lifetime ($\tau$ in hours), with IQR shaded.
+      Solid lines show lifetime assuming yield is 0.2, and 0.4 (higher and lower lines respectively).
+      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
+    }{\label{BioIsop:results:HCHOYield:fig_Lifetime}}
+      
       To determine which model grid boxes are affected by smearing, we follow \textcite{Marais2012}.
       GEOS-Chem is run with and without isoprene emissions halved, then Equation \ref{BioIsop:method:smearing:calculation:eqn_hats} ( $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $) provides $\hat{S}$.
       Here $\Delta$ represents the difference (daily 1300-1400~LT) between default and scaled runs.
@@ -680,6 +713,7 @@
       Loss rates would maximise at midday (13:00-14:00~LT), along with HCHO concentrations, which makes the estimate shown here an upper limit. 
       This figure highlights the seasonal nature of HCHO lifetime, although midday numbers are expected to have less seasonality than shown here, since midday lifetime will be less affected by how long the daylight lasts.
       % JENNY NOTE: You are writing this in a section about smearing length scale (presumably to determine where you expect smearing to be important, or not). It would therefore be good to tie all this lifetime stuff back to the smearing length scale. You used average k_HCHO above, but what does this actually look like for GEOS-Chem? Would it make sense to show k_HCHO in your plots rather than tau to better equate this to your assumptions? Or even to show the average length scale, assuming a mean wind speed of 20 or 25 kph as you did above?
+      %
       Another highlighted issue is the potential latitudinal dependence of HCHO lifetimes, since there is less total insolation leading to lower HCHO loss rates at higher latitudes.
       The overall takeaway is that the accuracy and utility of any top down HCHO precursor estimation technique will be limited by both season and potentially latitude.
       These limitations are due to both data availability (as satellite HCHO uncertainty increases at high zenith angles) and spatial smearing (due to HCHO lifetimes that increase with reduced insolation and temperature).
@@ -1205,18 +1239,18 @@
   %      \label{BioIsop:results:new_emiss:trends:tab_trend_slopes}
   %    \end{threeparttable}\end{table}
       
-  % UP TO HERE JENNY
-  \subsection{Comparison with available measurements}
+  % JENNY NOTE: your TODOs in 3.3.2.1 implied you were going to discuss this in that section... Need to think about where it makes the most sense but make sure not to repeat it!
+  \subsection{Comparison with in situ measurements}
     \label{BioIsop:results:measurements}
     TODO: % TODO: campaign analysis compared to GEOS-Chem
     Analyse comparison of grid box with campaigns of measurements
     
     Comparison between ground-based measurements and large (\lowhr) averaged grid squares suffers from representation error.
-    Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement sites, along with an outline of the \lowhr model grid box.
+    Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement sites, along with the extent of the \lowhr ~relevent GEOS-Chem grid box.
     The grid box is the area over which GEOS-Chem outputs are averaged, a rectangle with edge lengths of roughly 200~km$^{2}$.
     The urban footprint of Sydney and Wollongong can be seen, along with some ocean, forest, and rural regions, which will all affect the model output and other calculations averaged here.
     Due to high uncertainty in components of the top-down emissions estimate, temporal resolution is also limited.
-    MUMBA, SPS1 and SPS2 each provide relatively few data points, which are compared against surface level concentrations from GEOS-Chem before and after scaling the biogenic emissions.
+    MUMBA, SPS1 and SPS2 each provide relatively on the order of one month of hourly or daily datapoints, which are compared in this section against surface level concentrations from GEOS-Chem before and after scaling the biogenic emissions.
     %campaigns measured isoprene concentrations while our estimate is of emissions.
     
     %figure from Jenny
@@ -1225,9 +1259,10 @@
     
     Figure \ref{Model:datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the grid square containing Sydney overlaid on SPS measurement data.
     Superficially the comparison is not too bad between these two datasets.
+    TODO: mean midday quantities for matching months.
     %, however GEOS-Chem output is the daily average over \lowhr (latitude by longitude).
     This figure shows at a glance how the measurements compare to modelled data, and also the limited nature of the temporal and spatial scale of available measurements.
-    TODO: if possible use midday isoprene multi-year averages, and error bars? then update discussion.
+    TODO: Add scaled output to plot, and discuss
     The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high since the daily average should not match the peak of the measurements.
     
     % TODO Update with comparison before and after scaling isoprene emissions
@@ -1237,47 +1272,9 @@
     % Figure showing apriori and apostiori for any locatation can be made by test_E_new.location_timeseries()
     
     
-    Figure TODO shows how isoprene compares against measurements from the MUMBA and SPS campaigns (described in Section \ref{Model:datasets}) both before and after scaling isoprene emissions to match the top-down estimation.
-    TODO: discuss results and differences, does isoprene improve?
-    
-    
     MUMBA data captured concentrations at the surface in Wollongong, and is compared in figure TODO against simulated HCHO concentrations in the first level ($\sim$0 - 150~metres) over corresponding dates.
     GEOS-Chem midday concentrations are shown, along with Wollongong bottom-level FTIR measurements to compare against the MUMBA data.
     TODO Discussion of comparison.
-    
-  \subsection{HCHO Products and yield}
-    \label{BioIsop:results:HCHOYield}
-    
-    Isoprene reaction chains are diverse, with many branches forming HCHO. 
-    HCHO production yields are often classed into two categories: first generation HCHO yield and total (or molar) yield.
-    First generation yield refers to the amount of HCHO produced per unit isoprene consumed by initial oxidation.
-    Total yield refers to time dependent yield of HCHO over multiple oxidation stages \parencite{Wolfe2016}.
-    %\textcite{Wolfe2016} define prompt yield as the change in formaldehyde per unit change in initial isoprene emissions.
-    %$[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
-    In this work yield ($Y_{isop}$) is not calculated as the slope ($S = Y_{isop}/k_{HCHO}$) can be used instead.
-    This section shows a brief analysis of HCHO lifetimes ($\tau$) at midday.
-    
-    By assuming yield $Y_{isop}$ lies between 0.2 and 0.4, we find a range for midday lifetimes of HCHO using equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}:
-    \begin{eqnarray*}
-      S = & \frac{Y_{isop}}{k_{HCHO}} \\
-      \tau \equiv & \frac{1}{k_{HCHO}} \\
-      \tau = & \frac{S}{Y_{isop}}
-    \end{eqnarray*}
-    $\tau$ is heavily influenced by assumed yield, and improved methods of estimating yield over Australia are required to improve this estimate.
-    Figure \ref{BioIsop:results:HCHOYield:fig_Lifetime}: shows the GEOS-Chem HCHO lifetime estimated throughout the year.
-    There is a clear seasonal cycle with longer lifetimes in winter months.
-    A clear June (and sometimes March, July and August) increase in HCHO lifetimes is shown, which is caused by the reduced winter HCHO concentrations, temperature, and insolation.
-    These factors may limit the utility of any top-down emissions estimation technique using HCHO in the winter months.
-    The figure is produced using filtered slope information from 2005, and outliers along with low data availability in some months is an issue.
-    Noise in the southwest and middle regions may be indicative of heavy filtering, potentially driven by westerly winds which can bring transported polution and also lead to smearing.
-    
-    % Plot/calculation from GC_tests.yield_and_lifetime()
-    \mypic{Figures/OMI_link/GC/HCHO_lifetime.png}{ %
-      Monthly area averaged HCHO lifetime ($\tau$ in hours), with IQR shaded.
-      Solid lines show lifetime assuming yield is 0.2, and 0.4 (higher and lower lines respectively).
-      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
-    }{\label{BioIsop:results:HCHOYield:fig_Lifetime}}
-    
     
 \section{Uncertainty}
 \label{BioIsop:uncertainty}
@@ -1285,17 +1282,18 @@
 %  \subsection{Summary}
 %    \label{BioIsop:uncertainty:summary}
   Uncertainties introduced through the inversion process are difficult to adequately quantify. 
-  We can identify the uncertainties in the linear regression used to relate HCHO to isoprene emissions, as well as in the satellite data product, however these uncertainties lack verification against measurements.
-  Even as this top-down inversion attempts to remedy the lack of measurement over Australia, it suffers from the lack of data-points against which it can be verified.
+  We can identify the uncertainties in the linear regression used to relate HCHO to isoprene emissions, as well as in the satellite data product used as the basis for the inversion; however, these uncertainties lack verification against measurements.
+  Even as this top-down inversion attempts to work around the lack of measurement over Australia, it suffers from the lack of independent observations against which it can be verified.
   
-  This section identifies and quantifies the overall uncertainties of calculating isoprene emissions using OMHCHO and GEOS-Chem in the top-down method.
+  This section identifies and quantifies the overall uncertainties of calculating isoprene emissions using OMI HCHO observations and the GEOS-Chem model in the top-down method used in this chapter.
   The major source of uncertainty lies in TODO, which is due to TODO.
   Uncertainty in satellite HCHO is seasonally dependent, with better signal during the summer. 
-  Good OMI measurements are less frequent at high solar zenith angles, which depends on latitude as well as season, which exacerbates the winter uncertainty.
+  Reliable OMI measurements are less frequent (so uncertainty is higher) at high solar zenith angles, which occurs at higher latitudes and during winter.
   %This limits temporal resolution of isoprene emissions estimates.
   Table \ref{BioIsop:uncertainty:tab_uncertainties} shows the estimated uncertainty calculated in this work in summer and winter over each region described by Figure \ref{BioIsop:results:fig_subregions}.
-  How each of these terms is calculated is laid out in the following subsections.
+  The process (or methods) used to calculate each of these uncertainties is described in the following subsections.
   
+  % UP TO HERE JENNYS
   \begin{table}\begin{threeparttable}
       \caption{Uncertainty estimations.}
       \begin{tabular}{ l | c  c  c | c c c} 
