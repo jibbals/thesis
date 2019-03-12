@@ -1375,7 +1375,7 @@
   \subsection{Satellite Uncertainty}
     \label{BioIsop:uncertainty:satellite}
     
-    % UP TO HERE JENNY
+    % JENNY NOTE: You say there are three things but then you follow with two sub-sections that have different titles than the three things listed here. Can you make these match such that Section 3.4.3.1 is fitting error, etc.? If you need further sections as it looks like you have below then add them to this discussion.
     % TODO: Match these items to the following subsubsections
     % Summary of satellite error
     There are three main sources of error in the satellite HCHO columns:
@@ -1384,19 +1384,25 @@
       \item Uncertainty in AMF calculations.
       \item Uncertainty of HCHO background.
     \end{enumerate}
-    Fitting error is provided by the OMI product and reduced through spatial and temporal averaging.
+    %
+    % JENNY NOTE: I am finding this whole section VERY confusing. There is a lot of redundancy, jumping back and forth between things that are (I think?) the same or at least related, use of different terminology for the same/similar things...
+    % JENNY NOTE contd.: I think you need to think carefully about the structure of this section, and lay things out one by one, providing all the detail for each type of uncertainty before moving on to the next. Make it very clear for the reader how things are (or aren't) related)...
+    %
+    Fitting error is provided by the OMI product and represents the uncertainty in the DOAS technique used to estimate HCHO concentrations.
+    
+    This source of error can be reduced through spatial and temporal averaging.
     %We found taking the eight day gridded average with horizontal resolution of \highhr (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
-    AMF uncertainty can be determined through comparison of GEOS-Chem output to measured HCHO columns.
-    Here we use 30\% as a rough estimate of error in this term, since measurements over Australia are lacking.
+    AMF uncertainty can be determined through comparison of GEOS-Chem output to independently measured HCHO columns.
+    Here we use 30\% as a rough estimate of error in this term (TODO: cite, this is estimated by Palmer somewhere), since measurements over Australia are lacking.
     %validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
-    Since we expect oceanic background HCHO to be invariant, variance in remote ocean HCHO can be used as a rough estimate of background uncertainty.
+    Since we expect oceanic background HCHO to be invariant, variance in remote ocean HCHO can be used as a rough estimate of background uncertainty. TODO: IS THIS ESTIMATE OF OVERALL UNCERTAINTY OR JUST BACKGROUND?
     % How it's calculated here
     Uncertainty in satellite HCHO ($\Delta{\Omega}$) from literature and calculated here is listed in Table \ref{BioIsop:uncertainty:eomi:tab_lit_uncertainties}.
     %TODO: background uncertainty
     For simplicity, uncertainty in the HCHO background is assumed to be negligible compared to the AMF in this work.
     Further simplification is made by assuming that the relative error of vertical columns is not altered by the process of applying a reference sector correction (see Section \ref{Model:omiRecalc:RSC}).
     
-    Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by SAO from the backscattered solar radiation fit \parencite{Abad2015,Abad2016}.
+    Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by the Smithsonian Astrophysical Observatory from the backscattered solar radiation fit \parencite{Abad2015,Abad2016}.
     Uncertainty introduced through AMF calculation needs to be additionally determined to give a representation of the confidence in vertical column amounts.
     We use the uncertainty in each pixel averaged over our \lowhr grid squares for each day and divided by the square root of the number of pixels.
     This is considered to be the error in the slant column ($\Delta SC$), which is combined with our assumed relative AMF error ($\frac{\Delta AMF}{AMF}$) of 30\% .
@@ -1410,17 +1416,16 @@
     
     %\textcite{Millet2006, Palmer2006} both examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
     \begin{table}\begin{threeparttable}
-      \caption{Uncertainties in literature and here.}
-      \begin{tabular}{ c  c  l } 
+      \caption{Uncertainties in satellite total column HCHO.}
+      \begin{tabular}{ c  c  c  l } 
         \toprule
-        uncertainty & location & notes \\
+        uncertainty & location & source & notes \\
         \midrule
-        40\% & North America & (a) mostly due to cloud interference \\
-        26\% & North America & (b) with cloud fraction less than 20\% \\
-        30-40\% & global & (c) GOME-2 instrument \\
-        $>60\%$ & Mid-latitude & (c) GOME-2 instrument in winters \\
-        X\% & Australia & accumulated uncertainty in calculation \\
-        X\% & Australia & range found when scaling satellite HCHO \\
+        40\% & North America & (a) & mostly due to cloud interference \\
+        26\% & North America & (b) & with cloud fraction less than 20\% \\
+        30-40\% & global & (c) & GOME-2 instrument \\
+        $>60\%$ & Mid-latitude & (c) & GOME-2 instrument in winters \\
+        X\%-Y\% & Australia & this work & monthly uncertainty at \lowhr \\
         \bottomrule
       \end{tabular}
       \begin{tablenotes} 
@@ -1431,35 +1436,38 @@
       \label{BioIsop:uncertainty:eomi:tab_lit_uncertainties}
     \end{threeparttable}\end{table}
     
+    % TODO: This stuff will be combined into with the First paragraph
     % How others calculated it
     \textcite{Palmer2006} calculate the error in AMF through combining estimates of error in the UV albedo database ($\sim 8$\%), model error based on in situ measurements, cloud error  ($20-30$\%) \parencite{Martin2003}, and aerosol errors ($<20$\%), totalling AMF error of around $\sim 30$\% (calculated in quadrature).
     TODO: calculate this uncertainty.
-    Compare this error estimate with that of \textcite{Curci2010}, where the error in b) and c) are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
+    Compare this error estimate with that of \textcite{Curci2010}, where the error in AMF calculations and background columns are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
     \textcite{Millet2008} also examine this uncertainty and determine an overall uncertainty ($1\sigma$) of $25-27\%$ in HCHO vertical columns with calculated AMFs where cloud fraction $< 0.2$.
     % another way to calculate delta Oomi
-    One method of finding overall satellite uncertainty involves using the variance over the remote Pacific (15\degr S to 15\degr N, and 180\degr W to 120\degr W) \parencite[][]{DeSmedt2012,DeSmedt2015}.
+    One method of finding overall (TODO: IS THIS ESTIMATE OF OVERALL UNCERTAINTY OR JUST BACKGROUND?) satellite uncertainty involves using the variance over the remote Pacific (15\degr S to 15\degr N, and 180\degr W to 120\degr W) \parencite[][]{DeSmedt2012,DeSmedt2015}.
     % abbreviation? BIRA use another method, and calculate the standard deviation of HCHO over the remote Pacific ocean as the uncertainty \parencite{DeSmedt2012, DeSmedt2015}.
     In the remote Pacific, it can be assumed that HCHO variations are weak, with concentrations remaining steady in the short term ($\sim 1$ month).
     This means the standard deviation over this region can be used as a proxy for determination of the instrument error.
     \textcite{DeSmedt2012} found satellite HCHO uncertainty to be $30-40\%$ for the GOME-2 instrument by combining slant column systematic and random errors.
+    OMI measurements will have similar amounts of uncertainty; however, the array of detectors provide more pixels which can be averaged to reduce this uncertainty.
     For mid latitude winters they saw an excess of 60\% uncertainty.
     % maybe TODO: calculate this also and compare with explicit calculations from second paragraph
     
     % Bias
     In order to calculate the bias or systematic error, an understanding of biases in the underlying terms is required, since there is little in the way of comparable measurements.
     % satellite biases:
-    OMHCHO has been seen to underestimate HCHO by up to 40\%, although this amount is regionally dependent \parencite{Zhu2016,DeSmedt2015,Barkley2013}).
+    OMHCHO has been seen to underestimate observed HCHO by up to 40\%, although this amount is regionally dependent \parencite{Zhu2016,DeSmedt2015,Barkley2013}).
+    TODO: list regions and their overestimates.
     Satellite HCHO may also suffer from $\sim13\%$ overestimation when taking a monthly average due to only measuring on relatively cloud-free days \parencite{Surl2018}.
     Since our a posteriori is linearly related to the satellite HCHO, any bias is directly transferred.
-    We note therefor that our product may be biased by up to 40\% due to satellite bias.
+    We note therefore that our product may be biased by up to 40\% due to satellite bias.
     This may be complicated further if the satellite bias over Australia does not match the bias over the remote Pacific at corresponding latitudes.
     However we can not quantify bias over Australia due to insufficient measurements.
     % Model biases
     GEOS-Chem biases would affect the recalculation of HCHO, but they are assumed to be minimal in this thesis.
     %model HCHO overestimation due to coarse resolution (over prediction of low-NO$_x$ oxidation pathway \parencite{Yu2016}.
-    Since we lack sufficient suitable measurements to estimate satellite bias over Australia, we assume bounds on potential satellite biases based on literature of up to 40\%.
+    Since we lack sufficient suitable measurements to estimate satellite bias over Australia, we assume bounds on potential satellite underestimation of up to 40\%.
     
-    
+    % UP TO HERE JENNY
     \subsubsection{Sensitivity to vertical column recalculation}
       \label{BioIsop:uncertainty:satellite:AMF}
       OMI HCHO vertical columns are recalculated using GEOS-Chem V10.01 a priori HCHO and air density profiles (see Chapter \ref{Model}).
