@@ -1293,14 +1293,14 @@
   Table \ref{BioIsop:uncertainty:tab_uncertainties} shows the estimated uncertainty calculated in this work in summer and winter over each region described by Figure \ref{BioIsop:results:fig_subregions}.
   The process (or methods) used to calculate each of these uncertainties is described in the following subsections.
   
-  % UP TO HERE JENNYS
   \begin{table}\begin{threeparttable}
-      \caption{Uncertainty estimations.}
+      \caption{Uncertainty estimates.}
       \begin{tabular}{ l | c  c  c | c c c} 
         \toprule
+        & & Summer & & & Winter & \\
         Region & $\Delta \apost$ & $\Delta \Oomi$ & $\Delta S$ 
           & $\Delta \apost$ & $\Delta \Oomi$ & $\Delta S$ \\
-         & Summer & & & Winter & & \\
+         
         \midrule
           Aus & & & & & & \\
           SE & & & & & & \\
@@ -1315,7 +1315,6 @@
     \end{threeparttable}\end{table}
     
     
-  
   \subsection{Top down emissions}
     \label{BioIsop:uncertainty:eomi}
     
@@ -1324,7 +1323,7 @@
     Additional biases may arise due to the filters applied to satellite data and model output, and where possible these are assessed. 
     
     %filtering techniques for pyrogenic and anthropogenic influences, and the regression model for determining the isoprene to HCHO yield.
-    The final determination of top-down emissions comes from equation \ref{BioIsop:method:eqn_Enew}: 
+    The final determination of top-down emissions comes from equation \ref{BioIsop:method:eqn_Enew}, repeated here: 
     \begin{equation*}
       \apost=\frac{\Oomi - \Omega_{OMI,0}}{S}
     \end{equation*}
@@ -1344,29 +1343,19 @@
     For $\Delta{S}$ ($\Ogc = S \times \apri + \Omega_{OMI,0}$ from equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}) we examine related GEOS-Chem output in Section \ref{BioIsop:uncertainty:Model}, since $S$ comes directly from the monthly linear regression of modelled isoprene emissions and column HCHO.
     Uncertainty in terms $\Oomi$, and $\Omega_{OMI,0}$ come from both the OMHCHO slant columns ($SC$) and the $AMF$ calculated to transform them into vertical columns ($\Omega = \frac{SC}{AMF}$ from equation \ref{Model:AMF:eqn_AMFFrac}).
     Section \ref{BioIsop:uncertainty:satellite} describes these calculations.
+    The overall summary of uncertainty is presented in Section \ref{BioIsop:uncertainty:summary}.
     
-    
-    Figure TODO shows the average summer and winter random uncertainty over Australia, along with a time series of total emissions and the error bars using monthly averaged data and MEGAN emissions for reference.
-    TODO brief analysis of spatial uncertainty stuff
-    
-    
-  
   \subsection{Model Uncertainty}
     \label{BioIsop:uncertainty:Model}
     
-    $\apost$ depends partly on the product it is trying to improve, as modelled yield is based on MEGAN run by GEOS-Chem.
-    The uncertainty in the RMA regression slope between model HCHO and emissions ($\Oomi$ and $\apri$ respectively) is used to estimate the $\Delta S$ within Equation \ref{BioIsop:uncertainty:eomi:eqn_delta_apost}.
+    $\apost$ depends partly on the product it is trying to improve, as modelled yield is based on GEOS-Chem run with MEGAN emissions.
+    The uncertainty in the RMA regression slope between model HCHO and emissions ($\Oomi$ and $\apri$ respectively) is used to estimate $\Delta S$ in Equation \ref{BioIsop:uncertainty:eomi:eqn_delta_apost}.
     This is a simple method of approximating the uncertainty of this term, only accounting for monthly uncertainty of the slope calculation.
-    It does not take into account uncertainty in the underlying model, nor uncertainties arising from temporal or spatial resolution issues.
+    It does not take into account uncertainty in the underlying model, nor uncertainties arising from temporal or spatial resolution issues, which are much more difficulty to quantify..
     Figure TODO shows the multi-year mean summer and winter $\Delta S$ over Australia.
     Analysis todo
     For comparison \textcite{Palmer2006} found $\frac{\Delta S}{S}$ to be 30\%, after comparison with another chemical model and in situ measurements.
-    
-    To improve understanding of uncertainty in S would require further analysis of GEOS-Chem yield and sensitivities over Australia, ideally along side representative measurements.
-    Here we present a brief analysis of how GEOS-Chem HCHO and isoprene concentrations and variances compare to in situ measurements from MUMBA, SPS1, and SPS2.
-    Comparison caveats are that in situ point measurements are quite different to modelled (large) area averages, and that these measurements only take place in one grid box within Australia.
-    We see model bias of TODO: difference for isoprene conc before and after, HCHO conc before and after, in the $\sim 4$ months of available measurements.
-    Figure TODO shows the measured and modelled metrics for the comparable times.
+    To improve understanding of uncertainty in S would require further analysis of GEOS-Chem yield over Australia, including how it responds to environmental and meteorological parameters, and how representative this modelled quantity is compared to measurements.
     
     
     % Filtering
@@ -1377,16 +1366,17 @@
     
     
     % Biases
-    Model biases are not analysed in this thesis, except to note that they would impact both preliminary OMI calculations as well as affecting the modelled slope. 
+    Model biases are not analysed in this thesis, except to note that they would impact both preliminary OMI calculations and the modelled slope. 
+    Insufficient independent measurements in Australia mean that quantified uncertainties would require unreasonable extrapolation to apply at a national scale.
     %Yield calculations are performed at low resolution (2\degr x 2.5\degr) which may lead to overestimation \parencite{Yu2016}.
     
     %Isoprene to HCHO yield between low and high NO$_x$ (0.1 to 1~ppbv respectively) conditions has been estimated through box modelling to be 1.9 to 2.4 mol mol$^{-1}$ in \textcite{Bauwens2016}.
     
-  % Subsection?
   \subsection{Satellite Uncertainty}
     \label{BioIsop:uncertainty:satellite}
     
-    
+    % UP TO HERE JENNY
+    % TODO: Match these items to the following subsubsections
     % Summary of satellite error
     There are three main sources of error in the satellite HCHO columns:
     \begin{enumerate}
@@ -1505,6 +1495,11 @@
     
     % TODO: Emissions Averages and differences over the year with and without a fire filter 
     
+  \subsection{Summary}
+    \label{BioIsop:uncertainty:summary}
+    
+      Figure TODO shows the average summer and winter random uncertainty over Australia, along with a time series of total emissions and the error bars using monthly averaged data and MEGAN emissions for reference.
+      TODO brief analysis of spatial uncertainty stuff
     
 \section{Conclusions and implications}
   \label{BioIsop:conclusions}
