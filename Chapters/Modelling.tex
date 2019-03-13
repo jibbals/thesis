@@ -1539,13 +1539,15 @@
     %Vertical columns in OMI use an oceanic background instead of a solar irradiance spectrum when calculating trace gas interference with DOAS calculations.
     Corrected vertical columns, or VCC, are created using the difference between slant columns ($SC$) and reference sector corrections (RSC, detailed in prior section) divided by the AMF. 
     %TODO Check this and update this equation to make sense and use the right abbreviations:
-    \begin{equation*}
+    \begin{equation}
+      \label{Model:omiRecalc:vcc:eqn_vcc}
       VCC = \frac{ \left( SC - RSC \right) }{ AMF }
-    \end{equation*}
+    \end{equation}
     This is equivalent to taking the difference between the slant column and its measured reference sector equivalent ($SC_0$), and then adding the modelled reference sector column ($\Omega_{GC,0}$):
-    \begin{equation*}
+    \begin{equation}
+      \label{Model:omiRecalc:vcc:eqn_vcc_equiv}
       VCC = \frac{ \left( SC - SC_0 \right) }{ AMF } + \Omega_{GC,0}
-    \end{equation*}
+    \end{equation}
     This method is used in several works, including \textcite[e.g.,][]{DeSmedt2008, DeSmedt2012, DeSmedt2015, Barkley2013, Bauwens2016}.
     Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \textcite{Abad2015}.
     

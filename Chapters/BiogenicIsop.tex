@@ -1018,8 +1018,8 @@
     \subsubsection{Implications for HCHO}
   
       After running GEOS-Chem with isoprene emission scaled to match the a posteriori, we first compare simulated $\Ogc$ and $\Ogca$ to $\Oomi$ over January in 2005 (TODO: update to use all summers and winters) in Figure \ref{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}.
-      In every region, $\Ogca$ is closer to \Oomi with biases decreasing from 50-120\% down to 30-50\%.
-      These $\Oomi$ drive the creation of $\Oogca$, and as we expect the relationship is much improved.
+      In every region, $\Ogca$ is closer to $\Oomi$ with biases decreasing from 50-120\% down to 30-50\%.
+      These $\Oomi$ drive the creation of $\Ogca$, and as we expect the relationship is much improved.
       The remaining differences are due to temporal averaging of the applied scaling factor $\alpha$.
       
       % TODO: update to use scaled run and tropchem run in legend as Ogc and Ogca
@@ -1282,7 +1282,7 @@
 %  \subsection{Summary}
 %    \label{BioIsop:uncertainty:summary}
   Uncertainties introduced through the inversion process are difficult to adequately quantify. 
-  We can identify the uncertainties in the linear regression used to relate HCHO to isoprene emissions, as well as in the satellite data product used as the basis for the inversion; however, these uncertainties lack verification against measurements.
+  We identify the uncertainties in the linear regression used to relate HCHO to isoprene emissions, as well as in the satellite data product used as the basis for the inversion; however, these uncertainties lack verification against measurements.
   Even as this top-down inversion attempts to work around the lack of measurement over Australia, it suffers from the lack of independent observations against which it can be verified.
   
   This section identifies and quantifies the overall uncertainties of calculating isoprene emissions using OMI HCHO observations and the GEOS-Chem model in the top-down method used in this chapter.
@@ -1341,7 +1341,7 @@
     
     To quantify $\Delta{\apost}$ we determine the uncertainty in underlying terms: $\Delta{S}$, $\Delta{\Oomi}$, and $\Delta{\Omega_{OMI,0}}$. 
     For $\Delta{S}$ ($\Ogc = S \times \apri + \Omega_{OMI,0}$ from equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}) we examine related GEOS-Chem output in Section \ref{BioIsop:uncertainty:Model}, since $S$ comes directly from the monthly linear regression of modelled isoprene emissions and column HCHO.
-    Uncertainty in terms $\Oomi$, and $\Omega_{OMI,0}$ come from both the OMHCHO slant columns ($SC$) and the $AMF$ calculated to transform them into vertical columns ($\Omega = \frac{SC}{AMF}$ from equation \ref{Model:AMF:eqn_AMFFrac}).
+    Uncertainty in terms $\Oomi$, and $\Omega_{OMI,0}$ come from the OMHCHO slant columns ($SC$), the background error, and the $AMF$ calculated to transform them into vertical columns ($\Omega = \frac{SC}{AMF}$ from equation \ref{Model:AMF:eqn_AMFFrac}).
     Section \ref{BioIsop:uncertainty:satellite} describes these calculations.
     The overall summary of uncertainty is presented in Section \ref{BioIsop:uncertainty:summary}.
     
@@ -1389,7 +1389,6 @@
     % JENNY NOTE contd.: I think you need to think carefully about the structure of this section, and lay things out one by one, providing all the detail for each type of uncertainty before moving on to the next. Make it very clear for the reader how things are (or aren't) related)...
     %
     Fitting error is provided by the OMI product and represents the uncertainty in the DOAS technique used to estimate HCHO concentrations.
-    
     This source of error can be reduced through spatial and temporal averaging.
     %We found taking the eight day gridded average with horizontal resolution of \highhr (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
     AMF uncertainty can be determined through comparison of GEOS-Chem output to independently measured HCHO columns.
@@ -1398,19 +1397,24 @@
     Since we expect oceanic background HCHO to be invariant, variance in remote ocean HCHO can be used as a rough estimate of background uncertainty. TODO: IS THIS ESTIMATE OF OVERALL UNCERTAINTY OR JUST BACKGROUND?
     % How it's calculated here
     Uncertainty in satellite HCHO ($\Delta{\Omega}$) from literature and calculated here is listed in Table \ref{BioIsop:uncertainty:eomi:tab_lit_uncertainties}.
-    %TODO: background uncertainty
-    For simplicity, uncertainty in the HCHO background is assumed to be negligible compared to the AMF in this work.
-    Further simplification is made by assuming that the relative error of vertical columns is not altered by the process of applying a reference sector correction (see Section \ref{Model:omiRecalc:RSC}).
+    For simplicity, uncertainty from the HCHO background is assumed.
+    Further simplification is made by assuming that this background error does not change when calculating a new reference sector correction ($RSC$, see Section \ref{Model:omiRecalc:RSC}).
     
     Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by the Smithsonian Astrophysical Observatory from the backscattered solar radiation fit \parencite{Abad2015,Abad2016}.
-    Uncertainty introduced through AMF calculation needs to be additionally determined to give a representation of the confidence in vertical column amounts.
+    Uncertainty introduced through AMF calculation and reference sector correction ($\Omega_0$) needs to be additionally determined to give a representation of the confidence in vertical column amounts.
     We use the uncertainty in each pixel averaged over our \lowhr grid squares for each day and divided by the square root of the number of pixels.
-    This is considered to be the error in the slant column ($\Delta SC$), which is combined with our assumed relative AMF error ($\frac{\Delta AMF}{AMF}$) of 30\% .
+    This is considered to be the error in the slant column ($\Delta SC$), which is combined with our assumed relative AMF error ($\frac{\Delta AMF}{AMF}$) of 30\%, and background error.
     $\Delta \Oomi$ and $\Delta \Omega_{OMI,0}$ are calculated for Equation \ref{BioIsop:uncertainty:eomi:eqn_delta_apost} through applying the quadrature rule from Equation \ref{BioIsop:uncertainty:eqn_quadrature_divide} as follows:
     \begin{align}
-    \Omega  & = \frac{SC}{AMF} \notag \\
-    \Delta \Omega & = \Omega \sqrt{ ( \frac{\Delta SC}{SC} )^2 + ( 0.3 )^2 } 
+      \Omega  & = \frac{SC - RSC}{AMF} \notag \\
+      \Delta (SC-RSC) & = (SC-RSC) \sqrt{(\frac{\Delta SC}{SC})^2 + (0.3)^2} \notag \\
+      \Delta \Omega & = \Omega \sqrt{ ( \frac{\Delta (SC-RSC)}{(SC-RSC)} )^2 + ( 0.3 )^2 } 
     \end{align}
+    The $RSC$ term comes from Chapter \ref{Model} Equation \ref{Model:omiRecalc:vcc:eqn_vcc} for calculating the corrected $\Omega$.
+    As a simplification, uncertainty in the $RSC$ term is assumed to be 30\%.
+    This is based on the 15\% background error assumed in \textcite{Curci2010} following \parencite{Dufour2009}.
+    Error in the $RSC$ is based on this background uncertainty, following the equivalence of Equation \ref{Model:omiRecalc:vcc:eqn_vcc} $ VCC = \frac{ \left( SC - RSC \right) }{ AMF } $ and Equation \ref{Model:omiRecalc:vcc:eqn_vcc_equiv} $ VCC = \frac{ \left( SC - SC_0 \right) }{ AMF } + \Omega_{GC,0} $.
+    
     Figure TODO shows the multi-year monthly average of the satellite uncertainty for each sub-region and all of Australia.
     TODO analysis.
     
