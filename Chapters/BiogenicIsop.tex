@@ -1379,32 +1379,53 @@
     % TODO: Match these items to the following subsubsections
     % Summary of satellite error
     There are three main sources of error in the satellite HCHO columns:
-    \begin{enumerate}
-      \item Fitting error from the OMI retrieval.
-      \item Uncertainty in AMF calculations.
-      \item Uncertainty of HCHO background.
-    \end{enumerate}
+    \begin{description}
+      \item [Fitting error from the OMI retrieval] \hfill
+        Fitting error represents the uncertainty in the DOAS technique used to estimate HCHO concentrations.
+        This source of error can be reduced through spatial and temporal averaging.
+        Fitting error is provided by the OMI product.
+      \item [Uncertainty in AMF calculations] \hfill
+        %TODO: WHAT IS THIS ERROR?
+        
+        AMF uncertainty can be determined through comparison of GEOS-Chem output to independently measured HCHO columns.
+        Here we use 30\% as a rough estimate of error in this term (TODO: cite, this is estimated by Palmer somewhere), since measurements over Australia are lacking.
+        %validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
+      \item [Uncertainty of HCHO background] \hfill
+        OMI Vertical columns are corrected using background (or reference sector) measurements.
+        This is to account for instrument degradation, and adds some uncertainty to the column.
+        In this work vertical columns are corrected using reference sector measurements combined with modelled HCHO, which is described in Chapter \ref{Model} (Section \ref{Model:omiRecalc:RSC}).
+        % How it's calculated here
+    \end{description}
     %
     % JENNY NOTE: I am finding this whole section VERY confusing. There is a lot of redundancy, jumping back and forth between things that are (I think?) the same or at least related, use of different terminology for the same/similar things...
     % JENNY NOTE contd.: I think you need to think carefully about the structure of this section, and lay things out one by one, providing all the detail for each type of uncertainty before moving on to the next. Make it very clear for the reader how things are (or aren't) related)...
     %
-    Fitting error is provided by the OMI product and represents the uncertainty in the DOAS technique used to estimate HCHO concentrations.
-    This source of error can be reduced through spatial and temporal averaging.
+    
     %We found taking the eight day gridded average with horizontal resolution of \highhr (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
-    AMF uncertainty can be determined through comparison of GEOS-Chem output to independently measured HCHO columns.
-    Here we use 30\% as a rough estimate of error in this term (TODO: cite, this is estimated by Palmer somewhere), since measurements over Australia are lacking.
-    %validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
-    Since we expect oceanic background HCHO to be invariant, variance in remote ocean HCHO can be used as a rough estimate of background uncertainty. TODO: IS THIS ESTIMATE OF OVERALL UNCERTAINTY OR JUST BACKGROUND?
-    % How it's calculated here
+    
+    
     Uncertainty in satellite HCHO ($\Delta{\Omega}$) from literature and calculated here is listed in Table \ref{BioIsop:uncertainty:eomi:tab_lit_uncertainties}.
-    For simplicity, uncertainty from the HCHO background is assumed.
-    Further simplification is made by assuming that this background error does not change when calculating a new reference sector correction ($RSC$, see Section \ref{Model:omiRecalc:RSC}).
+    
+    \subsubsection{Fitting error from the OMI retrieval}
+      \label{BioIsop:uncertainty:satellite:fitting}
+    
+    \subsubsection{Uncertainty in AMF calculations}
+    \label{BioIsop:uncertainty:satellite:AMF}
+    
+    \subsubsection{Uncertainty of HCHO background}
+      \label{BioIsop:uncertainty:satellite:background}
+      
+      Since we expect oceanic background HCHO to be invariant, variance in remote ocean HCHO can be used as a rough estimate of background uncertainty. TODO: IS THIS ESTIMATE OF OVERALL UNCERTAINTY OR JUST BACKGROUND?
+    
+      For simplicity, uncertainty from the HCHO background is assumed.
+      Further simplification is made by assuming that this background error does not change when calculating a new reference sector correction ($RSC$, see Section \ref{Model:omiRecalc:RSC}).
     
     Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by the Smithsonian Astrophysical Observatory from the backscattered solar radiation fit \parencite{Abad2015,Abad2016}.
     Uncertainty introduced through AMF calculation and reference sector correction ($\Omega_0$) needs to be additionally determined to give a representation of the confidence in vertical column amounts.
     We use the uncertainty in each pixel averaged over our \lowhr grid squares for each day and divided by the square root of the number of pixels.
     This is considered to be the error in the slant column ($\Delta SC$), which is combined with our assumed relative AMF error ($\frac{\Delta AMF}{AMF}$) of 30\%, and background error.
-    $\Delta \Oomi$ and $\Delta \Omega_{OMI,0}$ are calculated for Equation \ref{BioIsop:uncertainty:eomi:eqn_delta_apost} using the quadrature rules as follows:
+    $\Delta \Oomi$ and $\Delta \Omega_{OMI,0}$ are calculated %for Equation \ref{BioIsop:uncertainty:eomi:eqn_delta_apost}
+    using the quadrature rules as follows:
     \begin{align}
       \Omega  & = \frac{SC - RSC}{AMF} \notag \\
       \Delta (SC-RSC) & = (SC-RSC) \sqrt{(\frac{\Delta SC}{SC})^2 + (0.3)^2} \notag \\
@@ -1413,7 +1434,7 @@
     The $RSC$ term comes from Chapter \ref{Model} Equation \ref{Model:omiRecalc:vcc:eqn_vcc} for calculating the corrected $\Omega$.
     As a simplification, uncertainty in the $RSC$ term is assumed to be 30\%.
     This is based on the 15\% background error assumed in \textcite{Curci2010} following \parencite{Dufour2009}.
-    Error in the $RSC$ is based on this background uncertainty, following the equivalence of Equation \ref{Model:omiRecalc:vcc:eqn_vcc} $ VCC = \frac{ \left( SC - RSC \right) }{ AMF } $ and Equation \ref{Model:omiRecalc:vcc:eqn_vcc_equiv} $ VCC = \frac{ \left( SC - SC_0 \right) }{ AMF } + \Omega_{GC,0} $.
+    Error in the $RSC$ is based on this background uncertainty, following the equivalence of Equation \ref{Model:omiRecalc:vcc:eqn_vcc} ($ VCC = \frac{ \left( SC - RSC \right) }{ AMF } $) and Equation \ref{Model:omiRecalc:vcc:eqn_vcc_equiv} ($ VCC = \frac{ \left( SC - SC_0 \right) }{ AMF } + \Omega_{GC,0} $).
     
     Figure TODO shows the multi-year monthly average of the satellite uncertainty for each sub-region and all of Australia.
     TODO analysis.
@@ -1472,8 +1493,8 @@
     Since we lack sufficient suitable measurements to estimate satellite bias over Australia, we assume bounds on potential satellite underestimation of up to 40\%.
     
     % UP TO HERE JENNY
-    \subsubsection{Sensitivity to vertical column recalculation}
-      \label{BioIsop:uncertainty:satellite:AMF}
+    \subsection{Sensitivity to vertical column recalculation}
+      \label{BioIsop:uncertainty:recalc}
       OMI HCHO vertical columns are recalculated using GEOS-Chem V10.01 a priori HCHO and air density profiles (see Chapter \ref{Model}).
       The recalculation is assumed to be no more or less uncertain than that used to calculate the product provided AMF.
       The pixel SC uncertainty from the OMHCHO product is not changed by recalculating the AMF, and is used as is, as shown in Section \ref{BioIsop:uncertainty:satellite}.
@@ -1493,8 +1514,8 @@
       
       Figure todo shows emissions over time from a single grid square, estimated by MEGAN (black) and the three top-down estimates, using \lowhr horizontal resolution.
   
-    \subsubsection{Sensitivity to filtering}
-    \label{BioIsop:uncertainty:satellite:fire_filter}
+    \subsection{Sensitivity to filtering}
+    \label{BioIsop:uncertainty:filtering}
     
     %Look at emissions estimates with and without the fire filter applied
     Figure TODO shows emissions estimates for January 2005 with and without filtering for anthropogenic and pyrogenic influences
