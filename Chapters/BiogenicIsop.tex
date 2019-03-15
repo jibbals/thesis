@@ -1314,7 +1314,6 @@
       \label{BioIsop:uncertainty:tab_uncertainties}
     \end{threeparttable}\end{table}
     
-    
   \subsection{Top down emissions}
     \label{BioIsop:uncertainty:eomi}
     
@@ -1379,8 +1378,6 @@
     % JENNY NOTE contd.: I think you need to think carefully about the structure of this section, and lay things out one by one, providing all the detail for each type of uncertainty before moving on to the next. Make it very clear for the reader how things are (or aren't) related)...
     %
     
-    % JENNY NOTE: You say there are three things but then you follow with two sub-sections that have different titles than the three things listed here. Can you make these match such that Section 3.4.3.1 is fitting error, etc.? If you need further sections as it looks like you have below then add them to this discussion.
-    % TODO: Match these items to the following subsubsections
     % Summary of satellite error
     There are three main sources of error in the satellite HCHO columns:
     \begin{description}
@@ -1403,7 +1400,6 @@
     These sources of error can be reduced through spatial and temporal averaging, as they are assumed to be unbiased.
     We use the uncertainty in each pixel averaged over our \lowhr grid squares for each day or month, and divided by the square root of the number of pixels.
     
-    
     Fitting error is the error in the slant column ($\Delta SC$), which is combined with our assumed relative AMF error ($\frac{\Delta AMF}{AMF}$) of 30\%, and background error.
     $\Delta \Oomi$ and $\Delta \Omega_{OMI,0}$ are calculated %for Equation \ref{BioIsop:uncertainty:eomi:eqn_delta_apost}
     using the quadrature rules as follows:
@@ -1417,12 +1413,15 @@
     Figure TODO shows the multi-year monthly average of the satellite uncertainty for each sub-region and all of Australia.
     TODO analysis.
     
-    
-    
     %We found taking the eight day gridded average with horizontal resolution of \highhr (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
     
     
     Uncertainty in satellite HCHO ($\Delta{\Omega}$) from literature and calculated here is listed in Table \ref{BioIsop:uncertainty:eomi:tab_lit_uncertainties}.
+    \textcite{DeSmedt2012} found satellite HCHO uncertainty to be $30-40\%$ for the GOME-2 instrument by combining slant column systematic and random errors.
+    For mid latitude winters they saw an excess of 60\% uncertainty.
+    % maybe TODO: calculate this also and compare with explicit calculations from second paragraph
+    OMI measurements will have similar amounts of uncertainty; however, the array of detectors provide more pixels which can be averaged to reduce this uncertainty.
+    
     
     %\textcite{Millet2006, Palmer2006} both examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
     \begin{table}\begin{threeparttable}
@@ -1445,6 +1444,23 @@
         \end{tablenotes}
         \label{BioIsop:uncertainty:eomi:tab_lit_uncertainties}
     \end{threeparttable}\end{table}
+    
+    % Bias
+    In order to calculate the bias or systematic error, an understanding of biases in the underlying terms is required, since there is little in the way of comparable measurements.
+    % satellite biases:
+    OMI has been seen to underestimate observed HCHO by up to 40\%.
+    For example OMI underestimated aircraft measurements by 37\% in Guyana \parencite{Barkley2013}.
+    OMI underestimation ranges from 20-40\% when compared against ground based remotely sensed profiles \parencite{Zhu2016,DeSmedt2015}).
+    Satellite HCHO may also suffer from $\sim13\%$ overestimation when taking monthly averages due to only measuring on relatively cloud-free days \parencite{Surl2018}.
+    Since our a posteriori is linearly related to the satellite HCHO, any bias is directly transferred.
+    We note therefore that our product may be biased by up to 40\% due to satellite bias.
+    This may be complicated further if the satellite bias over Australia does not match the bias over the remote Pacific at corresponding latitudes.
+    However we can not quantify bias over Australia due to insufficient measurements.
+    % Model biases
+    GEOS-Chem biases would affect the recalculation of HCHO, but they are assumed to be minimal in this thesis.
+    %model HCHO overestimation due to coarse resolution (over prediction of low-NO$_x$ oxidation pathway \parencite{Yu2016}.
+    Since we lack sufficient suitable measurements to estimate satellite bias over Australia, we assume bounds on potential satellite underestimation of up to 40\%.
+    % 1/(1-0.4) = 1.67: if we multiply a posteriori by 1.67 then that gives the upper bound
     
     \subsubsection{Fitting error from the OMI retrieval}
       \label{BioIsop:uncertainty:satellite:fitting}
@@ -1471,39 +1487,10 @@
       For simplicity, uncertainty from the HCHO background is assumed to be constant in this work.
       Further simplification is made by assuming that this background error does not change when calculating a new reference sector correction ($RSC$, see Section \ref{Model:omiRecalc:RSC}).
       
-    
       Uncertainty in the $RSC$ term is assumed to be 30\%, based on the monthly variance seen at Australian latitudes and prior work \parencite{Curci2010}.
       This is near to the 15\% background error assumed in \textcite{Curci2010} following \parencite{Dufour2009}.
       Error in the $RSC$ is based on this background uncertainty, following the equivalence of Equation \ref{Model:omiRecalc:vcc:eqn_vcc} ($ VCC = \frac{ \left( SC - RSC \right) }{ AMF } $) and Equation \ref{Model:omiRecalc:vcc:eqn_vcc_equiv} ($ VCC = \frac{ \left( SC - SC_0 \right) }{ AMF } + \Omega_{GC,0} $).
-    
-    
 
-    
-    % TODO: This stuff will be combined into with the First paragraph
-    
-    
-    
-    
-    \textcite{DeSmedt2012} found satellite HCHO uncertainty to be $30-40\%$ for the GOME-2 instrument by combining slant column systematic and random errors.
-    For mid latitude winters they saw an excess of 60\% uncertainty.
-    % maybe TODO: calculate this also and compare with explicit calculations from second paragraph
-    OMI measurements will have similar amounts of uncertainty; however, the array of detectors provide more pixels which can be averaged to reduce this uncertainty.
-    
-    
-    % Bias
-    In order to calculate the bias or systematic error, an understanding of biases in the underlying terms is required, since there is little in the way of comparable measurements.
-    % satellite biases:
-    OMHCHO has been seen to underestimate observed HCHO by up to 40\%, although this amount is regionally dependent \parencite{Zhu2016,DeSmedt2015,Barkley2013}).
-    TODO: list regions and their overestimates.
-    Satellite HCHO may also suffer from $\sim13\%$ overestimation when taking a monthly average due to only measuring on relatively cloud-free days \parencite{Surl2018}.
-    Since our a posteriori is linearly related to the satellite HCHO, any bias is directly transferred.
-    We note therefore that our product may be biased by up to 40\% due to satellite bias.
-    This may be complicated further if the satellite bias over Australia does not match the bias over the remote Pacific at corresponding latitudes.
-    However we can not quantify bias over Australia due to insufficient measurements.
-    % Model biases
-    GEOS-Chem biases would affect the recalculation of HCHO, but they are assumed to be minimal in this thesis.
-    %model HCHO overestimation due to coarse resolution (over prediction of low-NO$_x$ oxidation pathway \parencite{Yu2016}.
-    Since we lack sufficient suitable measurements to estimate satellite bias over Australia, we assume bounds on potential satellite underestimation of up to 40\%.
     
 
     \subsection{Sensitivity to vertical column recalculation}
