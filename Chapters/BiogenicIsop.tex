@@ -1576,23 +1576,36 @@
   
   %JENNY NOTE: one sentence per section, at least. First brief reminder of motivation; second, brief summary of what you did; finally what did you find. Should have important numbers e.g. what is your new best estimate of isoprene emissions over Australia (Tg/yr) and uncertainty? This section can have some of the discussion mentioned earlier about the method not providing an answer for WHY emissions in MEGAN are too high but provide some hypotheses. That will open up to some future work e.g. testing influence of soil moisture on results, testing influence of different resolution, different satellite data (GOME-2), etc., adjoint inversion to account for transport. Def. expand the conclusions around ozone as that is the overarching theme of your thesis so you need to tie it in at least a little bit here.
   
+  % Motivation and what I did
+  Very few ground based measurements of BVOCs concentrations and emissions are available in Australia.
+  Emission models use large extrapolations and overestimate isoprene, the primary BVOC emitted, emissions by a considerable margin.
+  This leads to uncertainty and error when modelling atmospheric ozone and other trace gases.
+  In this chapter I create and test an isoprene emissions estimate (a posteriori) based on OMI satellite measurements of HCHO, a high-yield product of isoprene oxidation.
+  %Filters are applied to satellite and modelled data to ensure sensible estimation of biogenic emissions only, although this leads to an inability to confidently analyse winter emissions.
+  To test how the a posterior emissions affect ozone and HCHO, I run GEOS-Chem with a seasonal (multi-year monthly averaged) gridded (\lowhr) scaling factor applied to the a priori emissions.
+  %This factor comes from the multi-year monthly difference between model emissions and our top down a posteriori.
+  Where possible, the uncertainty and bias in the a posteriori is estimated.
   
-  Our top down biogenic isoprene emission estimate shows that MEGAN overestimates emissions in summer by up to a factor of 5.
-  The overestimation is spatially and temporally diverse and leads to model overestimation of HCHO.
-  By applying a monthly gridded scaling factor based on the multi-year monthly difference model emissions and our top down a posteriori, HCHO bias can be improved from 50-120\% down to 30-50\% (TODO: update that number for summer season rather than the 2005 January it is based on).
-  
-  % JENNY NOTE: It should go into a discussion somewhere : the REASON for the decreases you find is not really clear. Is it the emission factors (cf Emmerson 2016)? Is it the lack of accounting for soil moisture (cf Sindelarova)? This should be a cohesive discussion, that brings the different threads from the literature together and postulates how one might further improve GEOS-Chem in futre.
-  
-  Global and Australian emissions estimates for isoprene still range widely due to the emission models sensitivities to inexact parameters including leaf area indices, plant functional type emission factors, and meteorological factors, with the full story behind the decrease seen here in a posteriori emissions not yet clear.
-  It is likely a mixture of poorly defined emission factors \parencite[e.g.][]{Emmerson2016}, unaccounted for soil moisture \parencite[e.g.][]{Sindelarova2014} and poorly understood responses to meteorological stresses in Australian forests (TODO: cite papers talking about clay and poor moisture responses).
-  \textcite{Sindelarova2014} see a 41\tgpyr decrease in Australia when introducing soil moisture parameterisation.
+  % What I found:
+  % TODO important numbers needed
+  My top down biogenic isoprene emission estimate shows that MEGAN overestimates emissions in summer by up to a factor of 5, and total yearly Australian emissions are reduced from X \tgcpyr to Y \tgcpyr.
+  The overestimation is spatially and temporally diverse and leads to model overestimation of both HCHO and ozone.
+  Running GEOS-Chem using scaled emissions reduced the HCHO overestimation from 50-120\% down to 30-50\% (TODO: update that number for summer season rather than the 2005 January it is based on).
+  Scaling GEOS-Chem emissions also leads to TODO: number here lower simulated surface ozone concentrations by several percent.
+  The primary uncertainty in the a posteriori emissions is TODO, which suggests TODO discuss possible solutions/causes.
   
   
-  Model overestimation of biogenic isoprene emissions also lowers simulated surface ozone concentrations by several percent.
-  This improves our understanding of biogenic emissions impact on surface ozone levels, and could improve certainty in simulated ozone exceedances.
+  % Why might emissions be too high -> leading towards future work
+  The full story behind model overestimation still unclear, and both Global and Australian emissions estimates for isoprene range widely.
+  This is in part due to the emission models sensitivities to inexact parameters including leaf area indices, plant functional type emission factors, and meteorological factors. 
+  In Australia, a mixture of poorly defined emission factors \parencite[e.g.][]{Emmerson2016}, unaccounted for soil moisture \parencite[e.g.][]{Sindelarova2014} and poorly understood forest responses to meteorological stresses (TODO: cite papers talking about clay and poor moisture responses) is likely driving uncertainty and model biases.
+  For instance, \textcite{Sindelarova2014} found % a 41\tgpyr decrease in Australia when 
+  introducing soil moisture parameterisation led to a large decrease in isoprene emissions modelled by MEGAN in Australia.
+  In the future an improved soil moisture map and response parameterisation could be tested using top-down emissions estimates as a measure of model correction.
+  One issue with satellite HCHO measurements is the lack of ground based information that could be used to determine bias.
+  In the US, bias between OMI and in-situ measurements is as high as 40\%, but bias in Australia cannot be determined as there is not enough information.
+  A measurement campaign which looks at HCHO, VOCs, NO$_x$ and ozone at midday over some representational fraction of Australia would go a long way towards improving both our understanding of the Australian atmosphere and our ability to verify model and satellite outputs.
   
-  What else?
-
 
 
 % Extras for potential paper output 
