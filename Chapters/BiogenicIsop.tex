@@ -934,20 +934,21 @@
     }{\label{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya}}
     
     
-    Figures \ref{BioIsop:results:emissions:fig_daily_egressions} and \ref{BioIsop:results:emissions:fig_monthly_egressions} show how the distributions of a posteriori emissions compare to a priori emissions in each region during summer months (DJF) with zeros removed from both distributions. % zeros or negatives in top-down estimate are from hcho lower than background
-    Figure \ref{BioIsop:results:emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally and coloured to show data-point frequency.
-    There is only weak correlation between daily estimates, and the distributions are quite different with more variance shown by the a priori.
-    This is likely due to the filtering applied to satellite data (e.g., whenever cloud coverage exceeds 40\%) which reduces the number of days of a posteriori emission calculations.
-    Figure \ref{BioIsop:results:emissions:fig_monthly_egressions} displays the regressions between monthly averages of the same data. 
-    In the monthly averages a stronger correlation is apparent, with regression coefficients ranging from 0.48 to 0.78 across regions.
-    The portion of this correlation due to seasonality is examined by re-running the regression after deseasonalising both data sets by subtracting the multi-year monthly average from each dataset.
-    TODO: run regression after removing seasonal average and see how r and slope are affected.
     
-    \mypic{Figures/OMI_link/Emiss/daily_Egressions.png}{%
-      Scatter plot (binned hexagonally with darker colours representing higher data-point frequency) along with the distributions of MEGAN (y axis) and the top down estimate (x axis).
-      This figure is based on summer (DJF) midday values over multiple years.
-      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
-    }{\label{BioIsop:results:emissions:fig_daily_egressions}}
+    %Figure \ref{BioIsop:results:emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally and coloured to show data-point frequency.
+    There is only weak correlation between daily estimates of the a priori and a posteriori ($r < 0.2$), and daily distributions show more variance in the a priori (not shown).
+    This is likely due to the filtering applied to satellite data (e.g., whenever cloud coverage exceeds 40\%) which reduces the count and spread of a posteriori emission calculations.
+    Figure \ref{BioIsop:results:emissions:fig_monthly_egressions} shows how the distributions of a posteriori emissions compare to a priori emissions in each region during summer months (DJF) with zeros removed from both distributions. % zeros or negatives in top-down estimate are from hcho lower than background
+    This figure also shows the regressions between monthly averages of the same data. 
+    In the monthly averages we can see the linear regression coefficient $r$ ranging from 0.48 to 0.78 depending on which region is being compared.
+    This regression is weaker or stronger in winter.
+    TODO: run regression over winter months.
+    
+    %    \mypic{Figures/OMI_link/Emiss/daily_Egressions.png}{%
+    %      Scatter plot (binned hexagonally with darker colours representing higher data-point frequency) along with the distributions of MEGAN (y axis) and the top down estimate (x axis).
+    %      This figure is based on summer (DJF) midday values over multiple years.
+    %      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
+    %    }{\label{BioIsop:results:emissions:fig_daily_egressions}}
     
     % UPDATE: fix Y axis labels -> a priori, X axis -> a posteriori, add units, remove negative axes, REMOVE legend point marker
     % Figure from Analyse_E_isop.distributions_comparison_regional()
@@ -959,6 +960,16 @@
       The linear best fit regression is inset into each plot along with the line equation and regression coefficient.
     }{\label{BioIsop:results:emissions:fig_monthly_egressions}}
     
+    Figure \ref{BioIsop:method:scaled:fig_megan_diurnal} shows the multi-year monthly mean daily cycle of isoprene emissions from GEOS-Chem, along with the top-down midday estimate, for an example grid box located 2.5\degr ~west of Sydney.
+    This box is typical of our south-eastern region and is not heavily impacted by the anthropogenic filter.
+    TODO: Analysis of this and lead into TG/a analysis (following paragraph)
+    
+    % TODO: add suptitle: diurnal isoprene emissions 
+    \mypic{Figures/OMI_link/Emiss/MEGAN_monthly_daycycle.png}{ %
+      The diurnal cycle of MEGAN emissions averaged by month over 1, Jan, 2005 to TODO, 2013 are shown with lines, while top-down emissions estimates are shown with plus symbols.
+      MEGAN emissions are estimated hourly per \lowhr horizontal grid box, shown here are the area averages (denoted by colour, see Figure \ref{BioIsop:results:fig_subregions}).
+      Top-down estimates are similarly grouped by colour, and shown at the 13:00~LT mark for each month.
+    }{\label{BioIsop:method:scaled:fig_megan_diurnal}}
     
     When comparing GEOS-Chem (MEGAN) to the a posteriori calculated using our top-down inversion, we find a decrease of from 45.4\tgpyr to 16.5\tgpyr ~($\sim 66\%)$.
     Table \ref{BioIsop:results:emissions:tab_emissions_Tg} compares annual Australian isoprene emissions from this work to previously published values.
@@ -1010,16 +1021,7 @@
     For example, column HCHO from GEOS-Chem before and after scaling are denoted $\Ogc$ and $\Ogca$ respectively.
     %unscaled GEOS-Chem biogenic emissions are the a priori, top down midday emissions are the a posteriori, and emissions from the scaled GEOS-Chem run are denoted E$^{\alpha}_{GC}$.
     
-    Figure \ref{BioIsop:method:scaled:megan_diurnal} shows the multi-year monthly mean daily cycle of isoprene emissions from GEOS-Chem, along with the top-down midday estimate, for an example grid box located 2.5\degr ~west of Sydney.
-    This box is typical of our south-eastern region and is not heavily impacted by the anthropogenic filter.
-    TODO: Analysis of this and lead into more analysis of differences
     
-    % TODO: add suptitle: diurnal isoprene emissions 
-    \mypic{Figures/OMI_link/Emiss/MEGAN_monthly_daycycle.png}{ %
-      The diurnal cycle of MEGAN emissions averaged by month over 1, Jan, 2005 to TODO, 2013 are shown with lines, while top-down emissions estimates are shown with plus symbols.
-      MEGAN emissions are estimated hourly per \lowhr horizontal grid box, shown here are the area averages (denoted by colour, see Figure \ref{BioIsop:results:fig_subregions}).
-      Top-down estimates are similarly grouped by colour, and shown at the 13:00~LT mark for each month.
-      }{\label{BioIsop:method:scaled:megan_diurnal}}
     
 
     \subsubsection{Implications for HCHO}
@@ -1027,7 +1029,10 @@
       After running GEOS-Chem with isoprene emission scaled to match the a posteriori, we first compare simulated $\Ogc$ and $\Ogca$ to $\Oomi$ over January in 2005 (TODO: update to use all summers and winters) in Figure \ref{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}.
       In every region, $\Ogca$ is closer to $\Oomi$ with biases decreasing from 50-120\% down to 30-50\%.
       These $\Oomi$ drive the creation of $\Ogca$, and as we expect the relationship is much improved.
-      The remaining differences are due to temporal averaging of the applied scaling factor $\alpha$.
+      The remaining differences are most likely driven by filtering and temporal averaging of the applied scaling factor $\alpha$.
+      Variances in satellite HCHO vary from X to Y \%, with more variance in summer.
+      Monthly variance of $\Ogc$, $\Ogca$, and $\Oomi$ is shown in Figure TODO.
+      Scaling isoprene emissions TODO has what affect on variances compared to those of OMI.
       
       % TODO: update to use scaled run and tropchem run in legend as Ogc and Ogca
       % figure from initial version of tests/test_new_emissions.hcho_ozone_series
@@ -1036,12 +1041,6 @@
         Each row shows the average over regions in Figure \ref{BioIsop:results:fig_subregions}. }{\label{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}}
       
       
-      %As is done in \textcite{Emmerson2016}, 
-      I also examine the effects of scaling isoprene emissions on the correlation and variances between modelled and satellite based HCHO columns.
-      Figure TODO: shows the regressions between $\Ogc$, $\Ogca$, and $\Oomi$, for summer and winter between for each region.
-      %The a posteriori emissions interpolated over the day are lower than a priori GEOS-Chem emissions by X\% per year (from XX to YY \tgpyr) over Australia.
-      Figure TODO shows variances in each season for each region in $\Ogc$, $\Ogca$, and $\Oomi$.
-      TODO: Analysis of plots
       
       Wollongong FTIR measurements (see Section \ref{Model:datasets:wollongong_ftir}) provide total column amounts TODO: get these and check process.
       This is the only non-satellite long-term measurement record of total column HCHO available in Australia and we use it here to examine trends and seasonality.
@@ -1496,7 +1495,9 @@
       \label{BioIsop:uncertainty:satellite:fitting}
       
       Provided with the OMI product is the measurement of uncertainty in each pixel, calculated by the Smithsonian Astrophysical Observatory from the backscattered solar radiation fit \parencite{Abad2015,Abad2016}.
+      This is used as the $\Delta SC$ in Equation \ref{BioIsop:uncertainty:satellite:eqn_VCC_uncertainty}.
       The relative fitting error per pixel ($\frac{\Delta SC}{SC}$) ranges from around 20 - 150\%, and is higher where low amounts of HCHO are detected.
+      Daily averaging at \lowhr horizontal resolution reduces this uncertainty by a factor of 2-4, while monthly averaging reduces the uncertainty to X\% to Y\% TODO.
     
     \subsubsection{Uncertainty in AMF calculations}
     \label{BioIsop:uncertainty:satellite:AMF}
@@ -1513,10 +1514,10 @@
       
       
       
-      The $RSC$, or background correction, is based on differences in the remote Pacific between HCHO slant columns measured by OMI and monthly averages from GEOS-Chem.
+      The $RSC$, or background correction, is based on differences in the remote Pacific between daily HCHO slant columns measured by OMI and monthly averages from GEOS-Chem.
       The correction for each pixel is determined by latitude and OMI track; however, here we use a couple of conservative simplifications to estimate the error in this term.
       For each SC, the $RSC$ is set to the mean correction matching the SC latitude over all tracks.
-      For each month, the $\Delta RSC$ is set to the standard deviation of the RSC over Australian latitudes ($45$\degr S to $10$\degr S) in all tracks.
+      For each day, the $\Delta RSC$ is set to the standard deviation of the RSC over Australian latitudes ($45$\degr S to $10$\degr S) in all tracks.
       These terms are used in Equation \ref{BioIsop:uncertainty:satellite:eqn_VCC_uncertainty}.
       TODO: rough summary of error from RSC in comparison to other terms?
       Calculate $\frac{\Delta RSC}{RSC} $
