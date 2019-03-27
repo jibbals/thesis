@@ -874,53 +874,23 @@
     \label{BioIsop:results:emissions}
     
     Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows a priori emissions over Australia and the a posteriori emissions calculated using OMI.
-    The figure shows the time series (daily midday averages) their absolute differences (a priori - a posteriori) over 2005 TODO: Update plot to MYA.
-    Figure \ref{BioIsop:results:emissions:fig_regional_seasonal_comparison} shows the multi-year seasonal emissions for each region for the a priori and a posteriori emissions.
-    The seasonal cycle and the difference between the two metrics on the order of twice as high in the a priori.
-    Absolute differences are highest in spring and summer, when emissions are generally greatest.
-    TODO: Check if this is because of ocean zeroes: Additionally, in the northern region, the a posteriori does not show significant emissions from mid March through to November which are seen in a priori emissions.
-    This overestimate by the a priori may be caused by some mixture of overly high emission factors and high sensitivity to temperatures during the dry season.
-    January and February also show a low feature in the a posteriori data, which may be due to filtering (TODO check data count), or may have been caused by meteorological factors (TODO Check if drought or fires occurred).
-    This figure is repeated using monthly medians (of the daily midday estimates) in Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan_monthly} over 8 years from 2005 to 2012.
-    Over the entirety of Australia the seasonal cycle of emissions is shown to be overestimated by the a priori.
-    The difference between a priori and a posteriori estimates differs between regions, and some noise can be seen in the monthly time series due to data loss (TODO: check data counts).
-    While most regions show similar overestimates, the northern region of Australia follows a different cycle of bias.
-    Northern Australia appears to be overestimated throughout the year, however the bias tends to be lower in early summer when the a priori is similar to the a posteriori.
-    One potential reason is the onset of the wet season (November-April) that disrupts the ecosystems and limits satellite measurement through increased cloud coverage.
-    %JENNY NOTE: Need to expand on this a bit more - you are suggesting that the a priori isn't actually better in summer, you just have less data to constrain the a posteriori? Can you show that? Is that what TODO Figure in the next para will do?
-    
-    % TODO: Update to remove 'Days since yyyymmdd labels', change to multiyear timeseries averages instead of 1 year, title to posteriori
-    % Figure from Analyse_E_isop.py -> E_regional_time_series()
-    \mypic{Figures/OMI_link/Emiss/E_zones_PP_lr.png}{%
-      Biogenic emissions of isoprene from GEOS-Chem (running MEGAN), which is our a priori in column 1, and the emissions calculated using the OMI top down inversion, which is our a posteriori in column 2.
-      %Row 1: overall averaged daily midday emission rates, from 1, Jan, 2005 to 1, May, 2013.
-      Row 1: time series of daily midday averages for all of Australia along with several subregions (shown in row 1). 
-      The black lines and grey areas show the Australian mean and inter-quartile range respectively, while the coloured lines show the mean within subregions as shown in Figure \ref{BioIsop:results:fig_subregions}.
-      The overall regional averages are shown at the end of the time series by horizontal lines.
-      Row 2: Absolute differences: a priori - a posteriori.
-      TODO: remove spines along top and middle of top row
-    }{\label{BioIsop:results:emissions:fig_time_series_vs_megan}}
-    
-    % also Analyse_E_isop.E_regional_time_series()
-    \mypic{Figures/OMI_link/Emiss/E_zones_PP_monthly_lr.png}{ %
-      As Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} using monthly medians of the daily midday emissions estimates.
-    }{\label{BioIsop:results:emissions:fig_time_series_vs_megan_monthly}}
-    
-    
-    
-    \mypic{Figures/OMI_link/new_emiss/RegSeas_emissions.png}{%
-      Regional multi-year seasonal mean a priori emissions (magenta) compared to a posteriori emissions (cyan).
-      }{\label{BioIsop:results:emissions:fig_regional_seasonal_comparison}}
-    
-    TODO Figure shows the satellite data counts over time and summer vs winter maps from the OMHCHORP dataset, along with uncertainty in each region 
-    
-    
-    Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and inter-quartile range of daily midday isoprene emissions estimates, averaged regionally. 
-    Months outside of May to August show the a posteriori lower than the a priori.
+    The figure shows the time series of seasonal area averaged midday emissions, and their absolute differences.
+    The difference between a priori and a posteriori estimates differs between regions, but a seasonal repetition of overestimation can be seen in all regions.
+    Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and inter-quartile range of daily midday isoprene emissions estimates in each region. 
+    Months outside of May to August show the most difference between a posteriori and a priori.
     The most overlap is seen in the south-eastern region, and both eastern regions show the highest variance, potentially due to diversity within the regions and anthropogenic influence.
     Here the difference is only prominent during February, TODO check if this may be because of data point counts.
     %JENNY NOTE:
     TODO: Which regions show best correlation? Worst? Why might that be, and what does it mean?
+    
+    % Figure from chapter_3_isop.regional_seasonal_comparison
+    \mypic{Figures/OMI_link/Emiss/E_zones_diffs.png}{%
+      Row 1: Biogenic emissions of isoprene from GEOS-Chem (a priori, E$_{GC}$). 
+      Row 2: Emissions calculated using the OMI top down inversion (a posteriori, E$_{OMI}$).
+      Row 3: Absolute differences between the first two rows.
+      Midday emissions are averaged for each season (DJF, MAM, JJA, SON), and colours represent averaged areas from subregions shown in Figure \ref{BioIsop:results:fig_subregions}.
+      Grey dashed horizontal bars are added highlighting the scale between rows.
+    }{\label{BioIsop:results:emissions:fig_time_series_vs_megan}}
     
     % Figure from Analyse_E_isop.py -> E_regional_multiyear()
     % TODO update titles and add Y axis, update legend
@@ -932,6 +902,30 @@
       A posteriori emissions are shown using the solid lines, with IQR shown by unhatched shaded areas.
       Colours denote the region over which the monthly average was taken, as in Figure \ref{BioIsop:results:fig_subregions}.
     }{\label{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya}}
+    
+    
+    Figure \ref{BioIsop:results:emissions:fig_regional_seasonal_comparison} shows the multi-year seasonal emissions for each region for the a priori and a posteriori emissions side by side.
+    The a priori is approximately twice that of the a posteriori.
+    Absolute differences are highest in spring and summer, when emissions are generally greatest.
+    TODO: Check if this is because of ocean zeroes: Additionally, in the northern region, the a posteriori does not show significant emissions from mid March through to November which are seen in a priori emissions.
+    This overestimate by the a priori may be caused by some mixture of overly high emission factors and high sensitivity to temperatures during the dry season.
+    January and February also show a low feature in the a posteriori data, which may be due to filtering (TODO check data count), or may have been caused by meteorological factors (TODO Check if drought or fires occurred).
+    Over the entirety of Australia the seasonal cycle of emissions is shown to be overestimated by the a priori.
+    While most regions show similar overestimates, the northern region of Australia follows a different cycle of bias.
+    Northern Australia appears to be overestimated throughout the year, however the bias tends to be lower in early summer when the a priori is similar to the a posteriori.
+    One potential reason is the onset of the wet season (November-April) that disrupts the ecosystems and limits satellite measurement through increased cloud coverage.
+    %JENNY NOTE: Need to expand on this a bit more - you are suggesting that the a priori isn't actually better in summer, you just have less data to constrain the a posteriori? Can you show that? Is that what TODO Figure in the next para will do?
+    
+    
+    
+    \mypic{Figures/OMI_link/new_emiss/RegSeas_emissions.png}{%
+      Regional multi-year seasonal mean a priori emissions (magenta) compared to a posteriori emissions (cyan).
+      }{\label{BioIsop:results:emissions:fig_regional_seasonal_comparison}}
+    
+    TODO Figure shows the satellite data counts over time and summer vs winter maps from the OMHCHORP dataset, along with uncertainty in each region 
+    
+    
+    
     
     
     
@@ -1244,8 +1238,9 @@
   %      \end{tablenotes}
   %      \label{BioIsop:results:new_emiss:trends:tab_trend_slopes}
   %    \end{threeparttable}\end{table}
-      
+  
   % JENNY NOTE: your TODOs in 3.3.2.1 implied you were going to discuss this in that section... Need to think about where it makes the most sense but make sure not to repeat it!
+  % UP TO HERE JESSE Making task list
   \subsection{Comparison with in situ measurements}
     \label{BioIsop:results:measurements}
     TODO: % TODO: campaign analysis compared to GEOS-Chem
