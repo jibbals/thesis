@@ -878,10 +878,8 @@
     The difference between a priori and a posteriori estimates differs between regions, but a seasonal repetition of overestimation can be seen in all regions.
     Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and inter-quartile range of daily midday isoprene emissions estimates in each region. 
     Months outside of May to August show the most difference between a posteriori and a priori.
-    The most overlap is seen in the south-eastern region, and both eastern regions show the highest variance, potentially due to diversity within the regions and anthropogenic influence.
-    Here the difference is only prominent during February, TODO check if this may be because of data point counts.
-    %JENNY NOTE:
-    TODO: Which regions show best correlation? Worst? Why might that be, and what does it mean?
+    The most overlap is seen in the south-eastern region, since the region has the highest summer a posteriori emissions along with high variance.
+    The highest variance is seen in both eastern regions, potentially due to diversity within the regions from high density cities and large forests and rural areas.
     
     % Figure from chapter_3_isop.regional_seasonal_comparison
     \mypic{Figures/OMI_link/Emiss/E_zones_diffs.png}{%
@@ -934,9 +932,14 @@
     This is likely due to the filtering applied to satellite data (e.g., whenever cloud coverage exceeds 40\%) which reduces the count and spread of a posteriori emission calculations.
     Figure \ref{BioIsop:results:emissions:fig_monthly_egressions} shows how the distributions of a posteriori emissions compare to a priori emissions in each region during summer months (DJF) with zeros removed from both distributions. % zeros or negatives in top-down estimate are from hcho lower than background
     This figure also shows the regressions between monthly averages of the same data. 
-    In the monthly averages we can see the linear regression coefficient $r$ ranging from 0.48 to 0.78 depending on which region is being compared.
+    In the summer monthly averages we can see the linear regression coefficient $r$ ranging from 0.2 to 0.81 depending on which region is being compared.
+    The highest correlations between a priori and a posteriori emissions are in the south east ($r=0.81$) and south western ($r=0.79$) regions, followed by the north eastern ($r=0.61$) region.
+    This is likely due isoprene emissions in these regions being dominated by the biogenic sources (large forests) that the top down emission estimate is based upon.
+    Although the northern region also contains large areas of forest, the correlation is the worst.
+    This could be due to misrepresented forest emissions in the model, exacerbated by unrepresented responses to moisture and poorly modelled environmental stresses in this region which lies within the tropics and undergoes monsoonal weather and intense heat and drought seasons.
     This regression is weaker or stronger in winter.
     TODO: run regression over winter months.
+    
     
     %    \mypic{Figures/OMI_link/Emiss/daily_Egressions.png}{%
     %      Scatter plot (binned hexagonally with darker colours representing higher data-point frequency) along with the distributions of MEGAN (y axis) and the top down estimate (x axis).
@@ -961,9 +964,10 @@
     
     % TODO: add suptitle: diurnal isoprene emissions 
     \mypic{Figures/OMI_link/Emiss/MEGAN_monthly_daycycle.png}{ %
-      The diurnal cycle of MEGAN emissions averaged by month over 1, Jan, 2005 to TODO, 2013 are shown with lines, while top-down emissions estimates are shown with plus symbols.
-      MEGAN emissions are estimated hourly per \lowhr horizontal grid box, shown here are the area averages (denoted by colour, see Figure \ref{BioIsop:results:fig_subregions}).
-      Top-down estimates are similarly grouped by colour, and shown at the 13:00~LT mark for each month.
+      The diurnal cycle of GEOS-Chem a priori emissions (solid line) averaged by month into hourly bins over from 2005 to 2013 are shown against top-down a posteriori (dashed line) emissions.
+      For the Australian average (black), standard deviations for the monthly average are shaded for the a priori, and shown with error bars at 13:30~LT for the a posteriori.
+      The coloured lines show the a priori averaged over different regions (see Figure \ref{BioIsop:results:fig_subregions}), while the black lines show the full Australian averaged emissions.
+      Top down emissions shown here are based on monthly midday emissions being the peak of a sine wave which drops to zero after and before daylight hours.
     }{\label{BioIsop:method:scaled:fig_megan_diurnal}}
     
     When comparing GEOS-Chem (MEGAN) to the a posteriori calculated using our top-down inversion, we find a decrease of from 45.4\tgpyr to 16.5\tgpyr ~($\sim 66\%)$.
