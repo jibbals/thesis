@@ -898,17 +898,20 @@
     Months outside of May to August show the most difference between a posteriori and a priori.
     The most overlap is seen in the south-eastern region, since the region has the highest summer a posteriori emissions along with high variance.
     The highest variance is seen in both eastern regions, potentially due to diversity within the regions from high density cities and large forests and rural areas.
-    This overestimate by the a priori may be caused by some mixture of overly high emission factors and high sensitivity to temperatures during the dry season.
-    January and February also show a low feature in the a posteriori data, which may be due to filtering (TODO check data count), or may have been caused by meteorological factors (TODO Check if drought or fires occurred).
     Over the entirety of Australia the seasonal cycle of emissions is shown to be overestimated by the a priori.
+    This overestimate by the a priori may be caused by some mixture of overly high emission factors and high emission sensitivity to temperatures during the dry season.
+    %January and February also show a low feature in the a posteriori data, which may be due to filtering (TODO check data count), or may have been caused by meteorological factors (TODO Check if drought or fires occurred).
     While most regions show similar overestimates, the northern region of Australia follows a different cycle of bias.
     Northern Australia appears to be overestimated throughout the year, however the bias tends to be lower in early summer when the a priori is similar to the a posteriori.
     One potential reason is that the wet season (November-April) interferes with satellite measurements due to increased cloud coverage, while also changing the ecosystems response to sunlight and temperature.
-    %JENNY NOTE: Need to expand on this a bit more - you are suggesting that the a priori isn't actually better in summer, you just have less data to constrain the a posteriori? Can you show that? Is that what TODO Figure in the next para will do?
+    This is backed up by the low summer OMI pixel count (pre-filtered) in this region.
+    Low measurement counts in summer in the northern region could lead to a low bias in the a posteriori emissions estimate from the drier regions being over-represented.
+    Further analysis of emissions over northern forests during the monsoonal seasons is appropriate before drawing conclusions here.
+    
     
     
     % Figure from chapter_3_isop.regional_seasonal_comparison
-    % TODO: ERROR BARS TO DISCUSS JENNY NOTE
+    % TODO: ERROR BARS and CONVERT TO TG/a?
     \mypic{Figures/OMI_link/new_emiss/RegSeas_emissions.png}{%
       Regional multi-year seasonal mean a priori emissions (magenta) compared to a posteriori emissions (cyan).
       }{\label{BioIsop:results:emissions:fig_regional_seasonal_comparison}}
@@ -961,11 +964,12 @@
       The linear best fit regression is inset into each plot along with the line equation and regression coefficient.
     }{\label{BioIsop:results:emissions:fig_monthly_egressions}}
     
-    Figure \ref{BioIsop:method:scaled:fig_megan_diurnal} shows the multi-year monthly mean daily cycle of isoprene emissions from GEOS-Chem, along with the top-down midday estimate, for an example grid box located 2.5\degr ~west of Sydney.
-    This box is typical of our south-eastern region and is not heavily impacted by the anthropogenic filter.
-    TODO: Analysis of this and lead into TG/a analysis (following paragraph)
+    Figure \ref{BioIsop:method:scaled:fig_megan_diurnal} shows the a priori daily emissions cycle from each region, and for comparison the estimated a posteriori emissions cycle over Australia.
+    A priori emissions peak from approximately 11:00~LT to 16:00~LT, while outside these hours there is a non-sinusoidal drop in emissions to below the assumed a posteriori diurnal emission cycle.
+    The conversion of midday a posteriori emissions from $\moleccms$ into TGa$^{-1}$ may be biased by this consistent difference between modelled a priori emission cycles and the assumed a posteriori cycle.
     
-    % TODO: add suptitle: diurnal isoprene emissions 
+    
+    % Figure from chapter_3_isop.Seasonal_daycycle
     \mypic{Figures/OMI_link/Emiss/MEGAN_monthly_daycycle.png}{ %
       The diurnal cycle of GEOS-Chem a priori emissions (solid line) averaged by month into hourly bins over from 2005 to 2013 are shown against top-down a posteriori (dashed line) emissions.
       For the Australian average (black), standard deviations for the monthly average are shaded for the a priori, and shown with error bars at 13:30~LT for the a posteriori.
@@ -1421,7 +1425,7 @@
     These sources of error can be reduced through spatial and temporal averaging, as they are assumed to be unbiased.
     We use the uncertainty in each pixel averaged over our \lowhr grid squares for each day or month, and divided by the square root of the number of pixels.
     Figure \ref{BioIsop:uncertainty:satellite:fig_pixel_count_summary} shows the pixel counts in each region before and after applying filters.
-    Winter has lower pixel count for all regions except the north-east, where summer storms and increased cloudiness lead to reduced satellite measurements.
+    Winter has lower pixel count for southern regions, with approximately 50-60\% fewer good pixels through May, June, and July.
     The lowest pixel counts occur in the south-east in winter, likely due to a mix of the relatively high solar zenith angles, and filtering due to anthropogenic emissions.
     
     \mypic{Figures/OMI_link/pixel_count_barchart_unfiltered.png}{%
@@ -1599,6 +1603,7 @@
   The primary uncertainty in the a posteriori emissions is TODO, which suggests TODO discuss possible solutions/causes.
   
   
+  
   % Why might emissions be too high -> leading towards future work
   The full story behind model overestimation still unclear, and both Global and Australian emissions estimates for isoprene range widely.
   This is in part due to the emission models sensitivities to inexact parameters including leaf area indices, plant functional type emission factors, and meteorological factors. 
@@ -1609,8 +1614,8 @@
   One issue with satellite HCHO measurements is the lack of ground based information that could be used to determine bias.
   In the US, bias between OMI and in-situ measurements is as high as 40\%, but bias in Australia cannot be determined as there is not enough information.
   A measurement campaign which looks at HCHO, VOCs, NO$_x$ and ozone at midday over some representational fraction of Australia would go a long way towards improving both our understanding of the Australian atmosphere and our ability to verify model and satellite outputs.
-  
-
+  In the northern region, where forests are affected by monsoonal seasons, characterisation of forest emissions and their response to sunlight, temperature, and moisture are even more important in order to improve modelled emissions.
+  This is due to the reduced opportunity to get relatively cloud-free satellite measurements of the atmosphere at these times.
 
 % Extras for potential paper output 
 %  
