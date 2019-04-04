@@ -966,7 +966,7 @@
     
     Figure \ref{BioIsop:method:scaled:fig_megan_diurnal} shows the a priori daily emissions cycle from each region, and for comparison the estimated a posteriori emissions cycle over Australia.
     A priori emissions peak from approximately 11:00~LT to 16:00~LT, while outside these hours there is a non-sinusoidal drop in emissions to below the assumed a posteriori diurnal emission cycle.
-    The conversion of midday a posteriori emissions from $\moleccms$ into TGa$^{-1}$ may be biased by this consistent difference between modelled a priori emission cycles and the assumed a posteriori cycle.
+    The conversion of midday a posteriori emissions from \moleccms into TGa$^{-1}$ may be biased by this consistent difference between modelled a priori emission cycles and the assumed a posteriori cycle.
     
     
     % Figure from chapter_3_isop.Seasonal_daycycle
@@ -1299,9 +1299,11 @@
   However, these uncertainties lack verification against measurements.
   Even as the top-down inversion performed in this chapter attempts to work around the lack of measurements over Australia, it suffers from the lack of independent observations against which it can be verified.
   
-  The major source of uncertainty lies in TODO, which is due to TODO.
-  Uncertainty in satellite HCHO is seasonally dependent, with better signal during the summer. 
+  The major source of uncertainty lies in satellite column calculations, which is mostly due to fitting error (see Section \ref{BioIsop:uncertainty:satellite}).
+  Uncertainty from the OMI satellite measurements are relatively large ($>100\%$), however thousands of pixels are averaged over each month in each grid square to reduce this.
+  Uncertainty in satellite HCHO is seasonally dependent, with better signal during the summer.
   Reliable OMI measurements are less frequent (leading to higher uncertainty) at high solar zenith angles, which worsen with latitudes and during winter.
+  Monthly calculated slope uncertainty mostly lies within 30\% to 50\%, which contributes to the monthly uncertainty and is not reduced through averaging.
   %This limits temporal resolution of isoprene emissions estimates.
   Table \ref{BioIsop:uncertainty:tab_uncertainties} shows the estimated uncertainty calculated in this work in summer and winter over each region described by Figure \ref{BioIsop:results:fig_subregions}.
   The assumptions and calculations made to determine uncertainties in the top-down estimate ($\Delta \apost$), the satellite column ($\Delta \Oomi$) and the slope ($\Delta S$) is described in the following subsections.
@@ -1328,9 +1330,6 @@
     \end{threeparttable}\end{table}
     
     
-    Figure TODO shows the average seasonal relative errors over Australia, along with a time series of total emissions and the error bars using monthly averaged data and MEGAN emissions for reference.
-    TODO brief analysis of spatial uncertainty stuff
-    
   \subsection{Top down emissions}
     \label{BioIsop:uncertainty:eomi}
     
@@ -1356,9 +1355,11 @@
     \end{align}
     To quantify $\Delta{\apost}$ we determine the uncertainty in underlying terms: $\Delta{S}$, $\Delta{\Oomi}$, and $\Delta{\Omega_{OMI,0}}$. 
     For $\Delta{S}$ ($\Ogc = S \times \apri + \Omega_{OMI,0}$ from equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}) we use variance in the monthly linear regression of modelled isoprene emissions and column HCHO, shown in Section \ref{BioIsop:uncertainty:Model}.
-    For $\Delta \Oomi$ and $\Delta \Omega_{OMI,0}$, uncertainty comes from instrument, model, and background correction terms and is described and calculated in Section \ref{BioIsop:uncertainty:satellite}.
+    For $\Delta \Oomi$ and $\Delta \Omega_{OMI,0}$, uncertainty comes from instrument fitting uncertainty, modelled AMF uncertainty, and uncertainty in the background correction terms, which are described and calculated in Section \ref{BioIsop:uncertainty:satellite}.
     
-    TODO: summary of uncertainty seasonally and regionally in the a posteriori.
+    
+    Figure TODO shows median relative errors over each region of Australia, and the inter-quartile spread of this error based on multi-year monthly bins.
+    TODO brief analysis of spatial uncertainty stuff
     
     %The overall summary of uncertainty is presented in Section \ref{BioIsop:uncertainty:summary}.
     
