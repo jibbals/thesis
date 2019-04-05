@@ -1344,7 +1344,7 @@
     \end{equation*}
     Assuming each term is independent, we use the following quadrature rules to estimate random error in $\apost$:
     \begin{align}
-      \mathtt{z=x+y:} \, \Delta{z} & = \sqrt{(\Delta{x})^2 + (\Delta{y})^2} \\
+      \mathtt{z=x+y:} \, \Delta{z} & = \sqrt{(\Delta{x})^2 + (\Delta{y})^2} \label{BioIsop:uncertainty:eqn_quadrature_add} \\
       \mathtt{z=x/y:} \, \Delta{z} & = z \sqrt{(\frac{\Delta{x}}{x})^2 + (\frac{\Delta{y}}{y})^2} \label{BioIsop:uncertainty:eqn_quadrature_divide} 
     \end{align}
     Which leads to the uncertainty estimation for our a posteriori emissions as follows
@@ -1370,10 +1370,10 @@
     The uncertainty in the RMA regression slope between model HCHO and emissions ($\Oomi$ and $\apri$ respectively) is used to estimate $\Delta S$ in Equation \ref{BioIsop:uncertainty:eomi:eqn_delta_apost}.
     Here I use the ratio of the upper bound of the 95\% confidence interval ($CI_{UB}$) over $S$ to represent the relative uncertainty.
     \begin{equation}
-      \frac{\Delta S}{S} = (\frac{CI_{UB}}{S} - 1) \times 100
+      \frac{\Delta S}{S} = \frac{CI_{UB}}{S} - 1
     \end{equation}
     The confidence interval for each month is based on the covariance matrix between $\Oomi$ and $\apri$, and the critical t-statistic considering $n$ to be the days in the month and $\alpha$ to be 0.025.
-    For example, if the interval upper bound is 30\% higher than the slope, relative uncertainty is set to 30\%.
+    For example, if the interval upper bound is 30\% higher than the slope, relative uncertainty is set to 0.3 (or 30\%).
     
     This is a simple method of approximating the uncertainty of this term, only accounting for monthly uncertainty of the slope calculation.
     It does not take into account uncertainty in the underlying model, nor uncertainties arising from temporal or spatial resolution issues, which are much more difficulty to quantify..
@@ -1386,8 +1386,9 @@
     % Filtering
     Filtering for spatial smearing (see Section \ref{BioIsop:method:smearing}) reduces the number of data points making up our regression slope $S$. 
     The process generally improves the linear relationship, and where it does not a multi-year average (or in the worst cases no value at all) is used in lieu of monthly $S$ data.
-    The thresholds for the smearing filter are based on literature based overseas, a better approximation of HCHO lifetimes and yields as well as properly accounting for seasonality and regional NO$_x$ concentrations would improve the filter.
-    The filtering process is accounted for in the calculation of $\Delta S$, and the overall effect on uncertainty is limited, so we do not analyse it further.
+    The thresholds for the smearing filter are based on literature studying other countries, which may prove to be unsuitable within Australia.
+    To improve the understanding of smearing in Australia, a better approximation of HCHO lifetimes and yields, and NO$_x$ seasonality and regional concentrations is required.
+    The filtering process is accounted for in the calculation of $\Delta S$, and the overall effect on uncertainty is discussed.
     
     
     % Biases
@@ -1418,7 +1419,7 @@
       \item [Uncertainty of HCHO background] \hfill \\
         OMI Vertical columns are corrected using background (or reference sector) measurements.
         This is to account for instrument degradation, and adds some uncertainty to the column.
-        In this work vertical columns are corrected using reference sector measure ments combined with modelled HCHO, which is described in Chapter \ref{Model} (Section \ref{Model:omiRecalc:RSC}).
+        In this work vertical columns are corrected using reference sector measurements combined with modelled HCHO, which is described in Chapter \ref{Model} (Section \ref{Model:omiRecalc:RSC}).
         Error from background uncertainty is ascribed to the $RSC$ term.
         % How it's calculated here
     \end{description}
@@ -1428,21 +1429,20 @@
     Figure \ref{BioIsop:uncertainty:satellite:fig_pixel_count_summary} shows the pixel counts in each region before and after applying filters.
     Winter has lower pixel count for southern regions, with approximately 50-60\% fewer good pixels through May, June, and July.
     The lowest pixel counts occur in the south-east in winter, likely due to a mix of the relatively high solar zenith angles, and filtering due to anthropogenic emissions.
+    Northern regions have lower pixel counts in the summer, most likely due to increased cloud coverage which limits satellite measurement capabilities.
     
     \mypic{Figures/OMI_link/pixel_count_barchart_unfiltered.png}{%
       Mean and standard deviation (vertical error bars) of total pixel counts per region per season, before (magenta) and after (cyan) applying smearing, pyrogenic, and anthropogenic filters.
     }{\label{BioIsop:uncertainty:satellite:fig_pixel_count_summary}}
     
-    Fitting error is the error in the slant column ($\Delta SC$), which is combined with our assumed relative AMF error ($\frac{\Delta AMF}{AMF}$) of 30\%, and background error.
-    $\Delta \Oomi$ (and $\Delta \Omega_{OMI,0}$) are calculated %for Equation \ref{BioIsop:uncertainty:eomi:eqn_delta_apost}
-    using the quadrature rules as follows:
+    Calculation of uncertainty in the OMI vertical column HCHO ($\Omega  = \frac{SC - RSC}{AMF}$) is performed using quadrature equations \ref{BioIsop:uncertainty:eqn_quadrature_add} and \ref{BioIsop:uncertainty:eqn_quadrature_divide}.
+    Error in the slant column ($\Delta SC$) is combined with our assumed relative AMF error ($\frac{\Delta AMF}{AMF}$) of 30\%, and background error to calculate $\Delta \Oomi$ (and $\Delta \Omega_{OMI,0}$) as follows:
     \begin{align}
-      \Omega          & = \frac{SC - RSC}{AMF} \notag \\
       \Delta (SC-RSC) & = \sqrt{(\Delta SC)^2 + (\Delta RSC)^2} \notag \\
       \Delta \Omega   & = \Omega \sqrt{ \left( \frac{\Delta (SC-RSC)}{(SC-RSC)} \right)^2 + \left( \frac{\Delta AMF}{AMF} \right)^2 } \notag \\
       \frac{\Delta \Omega}{\Omega} & = \sqrt{ \frac{ (\Delta SC)^2 + (\Delta RSC)^2}{(SC-RSC)^2} + \left( \frac{\Delta AMF}{AMF} \right)^2 } \label{BioIsop:uncertainty:satellite:eqn_VCC_uncertainty} 
     \end{align}
-    The $RSC$ term comes from Chapter \ref{Model} Equation \ref{Model:omiRecalc:vcc:eqn_vcc} for calculating the corrected $\Omega$.
+    The $RSC$ term is described in Chapter \ref{Model} Section \ref{Model:omiRecalc:vcc}, and is based on the standard deviation of corrections over the remote pacific.
     
 
     Figure TODO shows the multi-year monthly average of the satellite uncertainty for each sub-region and all of Australia.
