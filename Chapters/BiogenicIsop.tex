@@ -1104,7 +1104,7 @@
       
       
       \begin{table}\begin{threeparttable}
-          \caption{Trends in species before and after scaling isoprene emissions.}
+          \caption{Yearly trend in surface amounts before and after scaling isoprene emissions.}
           \begin{tabular}{ l | c  c } 
             \toprule
             Region & a priori & a posteriori \\
@@ -1144,6 +1144,7 @@
           \end{tabular}
           \begin{tablenotes} 
             \item Statistically significant (two sided test with $\alpha=0.1$) trends are displayed in bold.
+            \item Units are ppbv Carbon for isoprene, ppbv for others.
           \end{tablenotes}
           \label{BioIsop:results:trends:tab_trends}
         \end{threeparttable}\end{table}
@@ -1340,14 +1341,15 @@
   However, these uncertainties lack verification against measurements.
   Even as the top-down inversion performed in this chapter attempts to work around the lack of measurements over Australia, it suffers from the lack of independent observations against which it can be verified.
   
-  The major source of uncertainty lies in satellite column calculations, which is mostly due to fitting error (see Section \ref{BioIsop:uncertainty:satellite}).
-  Uncertainty from the OMI satellite measurements are relatively large ($>100\%$), however thousands of pixels are averaged over each month in each grid square to reduce this.
+  The major source of uncertainty throughout the year comes from uncertainty in the modelled yield slope $S$ (see Section \ref{BioIsop:uncertainty:Model}); however, in winter, uncertainty from satellite column calculations become dominant (see Section \ref{BioIsop:uncertainty:satellite}).
+  Monthly calculated slope uncertainty mostly lies within 30\% to 50\%, and this is not reduced through averaging.
+  Uncertainty from each OMI satellite measurement is relatively large ($>100\%$); however, averaging thousands of pixels in each grid square greatly reduces the monthly uncertainty.
   Uncertainty in satellite HCHO is seasonally dependent, with better signal during the summer.
   Reliable OMI measurements are less frequent (leading to higher uncertainty) at high solar zenith angles, which worsen with latitudes and during winter.
-  Monthly calculated slope uncertainty mostly lies within 30\% to 50\%, which contributes to the monthly uncertainty and is not reduced through averaging.
   %This limits temporal resolution of isoprene emissions estimates.
   Table \ref{BioIsop:uncertainty:tab_uncertainties} shows the estimated uncertainty calculated in this work in summer and winter over each region described by Figure \ref{BioIsop:results:fig_subregions}.
   The assumptions and calculations made to determine uncertainties in the top-down estimate ($\Delta \apost$), the satellite column ($\Delta \Oomi$) and the slope ($\Delta S$) is described in the following subsections.
+  
   
   \begin{table}\begin{threeparttable}
       \caption{Uncertainty estimates.}
@@ -1369,6 +1371,7 @@
       %\end{tablenotes}
       \label{BioIsop:uncertainty:tab_uncertainties}
     \end{threeparttable}\end{table}
+    
     
     
   \subsection{Top down emissions}
@@ -1394,13 +1397,19 @@
       \Delta{\Phi} & = \sqrt{(\Delta{\Oomi})^2 + (\Delta{\Omega_{OMI,0}})^2}  \label{BioIsop:uncertainty:eomi:eqn_delta_Phi} \\
       \Delta{\apost} &= \apost \times \sqrt{(\frac{\Delta{\Phi}}{\Phi})^2 + (\frac{\Delta{S}}{S})^2} \label{BioIsop:uncertainty:eomi:eqn_delta_apost}
     \end{align}
-    To quantify $\Delta{\apost}$ we determine the uncertainty in underlying terms: $\Delta{S}$, $\Delta{\Oomi}$, and $\Delta{\Omega_{OMI,0}}$. 
-    For $\Delta{S}$ ($\Ogc = S \times \apri + \Omega_{OMI,0}$ from equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}) we use variance in the monthly linear regression of modelled isoprene emissions and column HCHO, shown in Section \ref{BioIsop:uncertainty:Model}.
+    $\Delta{\apost}$ is calculated using the uncertainty in underlying terms: $\Delta{S}$, $\Delta{\Oomi}$, and $\Delta{\Omega_{OMI,0}}$. 
+    For $\Delta{S}$ ($\Ogc = S \times \apri + \Omega_{OMI,0}$ from equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}) I use variance in the monthly linear regression of modelled isoprene emissions and column HCHO, shown in Section \ref{BioIsop:uncertainty:Model}.
     For $\Delta \Oomi$ and $\Delta \Omega_{OMI,0}$, uncertainty comes from instrument fitting uncertainty, modelled AMF uncertainty, and uncertainty in the background correction terms, which are described and calculated in Section \ref{BioIsop:uncertainty:satellite}.
     
     
     Figure TODO shows median relative errors over each region of Australia, and the inter-quartile spread of this error based on multi-year monthly bins.
     TODO brief analysis of spatial uncertainty stuff
+    Figure \ref{BioIsop:uncertainty:fig_Ererrmap} shows the spatial distribution of relative uncertainty in summer and winter.
+    The higher latitudes in winter are greatly affected by the higher uncertainty in satellite columns.
+    
+    \mypic{Figures/OMI_link/Ererr_map_summerwinter_final.png}{%
+      Summer (DJF, top row) and winter (JJA, bottom row) a posteriori emissions (left column) and its relative error (right column). 
+    }{\label{BioIsop:uncertainty:fig_Ererrmap}}
     
     %The overall summary of uncertainty is presented in Section \ref{BioIsop:uncertainty:summary}.
     
