@@ -1096,9 +1096,10 @@
       Any anomaly greater than three standard deviations from the mean is removed (crosses in Figure \ref{BioIsop:results:new_emiss:trends:fig_emission_anomalies}).
       An ordinary least squares linear regression is then performed to look for any significant trend.
       A trend is considered significant if the p-value from a Wald test (roughly equivalent to a t-test) is less than 0.05.
-      The midday emissions show no significant trends over the 8 year period from 2005-2012.
-      The same process is repeated for surface ozone, surface HCHO, and surface NO$_x$, and results are summarised in table \ref{BioIsop:results:trends:tab_trends}.
-      None of these metrics shows any significant changes in trend due to scaling isoprene emissions.
+      The same process is repeated for surface concentrations of isoprene, ozone, HCHO, and NO$_x$, with results summarised in table \ref{BioIsop:results:trends:tab_trends}.
+      The midday surface isoprene concentrations show a small decline outside of the south west region over the 8 year period from 2005-2012.
+      This decline reduces in scale by approximately a factor of 2-3 after emissions are scaled down.
+      None of the species shows any significant changes in trend due to scaling isoprene emissions.
       Some trends are no longer significant in surface HCHO, however none of the trends change sign.
       Since the scaling factor $\alpha$ is applied to each grid square seasonally and not changing each year, changing trends are not expected.
       
@@ -1109,42 +1110,42 @@
             \toprule
             Region & a priori & a posteriori \\
             \midrule
-            \textbf{Isoprene} & & \\
-            Aus & & \\
-            \textcolor{red}{SE} & & \\
-            \textcolor{green}{NE} & & \\
-            \textcolor{cyan}{Mid} & & \\
-            \textcolor{brown}{SW} & & \\
-            \textcolor{blue}{N} & & \\
+            \textbf{Isoprene (ppbCv)} & & \\
+            Aus                   & \textbf{-.04} & \textbf{-.02}  \\
+            \textcolor{red}{SE}   & \textbf{-.15} & \textbf{-.07}  \\
+            \textcolor{green}{NE} & \textbf{-.13} & \textbf{-.04}  \\
+            \textcolor{cyan}{Mid} & \textbf{-.07} & \textbf{-.02}  \\
+            \textcolor{brown}{SW} & -.01      & -.01  \\
+            \textcolor{blue}{N}   & \textbf{-.06} & -.02  \\
             \midrule
-            \textbf{Formaldehyde} & & \\
-            Aus & & \\
-            \textcolor{red}{SE} & & \\
-            \textcolor{green}{NE} & & \\
-            \textcolor{cyan}{Mid} & & \\
-            \textcolor{brown}{SW} & & \\
-            \textcolor{blue}{N} & & \\
+            \textbf{Formaldehyde (ppb)} & & \\
+            Aus                   & \textbf{-.01} & -.00 \\
+            \textcolor{red}{SE}   & \textbf{-.03} & \textbf{-.02} \\
+            \textcolor{green}{NE} & \textbf{-.02} & \textbf{-.01} \\
+            \textcolor{cyan}{Mid} & \textbf{-.01} & -.00 \\
+            \textcolor{brown}{SW} & -.00          & -.00 \\
+            \textcolor{blue}{N}   & -.01          & -.00 \\
             \midrule
-            \textbf{Ozone} & & \\
-            Aus & & \\
-            \textcolor{red}{SE} & & \\
-            \textcolor{green}{NE} & & \\
-            \textcolor{cyan}{Mid} & & \\
-            \textcolor{brown}{SW} & & \\
-            \textcolor{blue}{N} & & \\
+            \textbf{Ozone (ppb)}        &   & \\
+            Aus                   & .05           & .07 \\
+            \textcolor{red}{SE}   & \textbf{-.34} & \textbf{-.28}\\
+            \textcolor{green}{NE} & -.08          & -.05 \\
+            \textcolor{cyan}{Mid} & -.05          & -.04\\
+            \textcolor{brown}{SW} & \textbf{.15}  & \textbf{.17} \\
+            \textcolor{blue}{N}   & .18           & .17 \\
             \midrule
-            \textbf{NO$_x$} & & \\
-            Aus & & \\
-            \textcolor{red}{SE} & & \\
-            \textcolor{green}{NE} & & \\
-            \textcolor{cyan}{Mid} & & \\
-            \textcolor{brown}{SW} & & \\
-            \textcolor{blue}{N} & & \\
+            \textbf{NO$_x$ (pptv)}&   & \\
+            Aus                   & -.48            & -.436 \\
+            \textcolor{red}{SE}   & \textbf{-4.25}  & \textbf{-4.08} \\
+            \textcolor{green}{NE} & \textbf{-2.00}  & \textbf{-1.82} \\
+            \textcolor{cyan}{Mid} & -1.08           & -.72 \\
+            \textcolor{brown}{SW} & -.218           & -.35 \\
+            \textcolor{blue}{N}   & 2.3             & 1.83 \\
             \bottomrule
           \end{tabular}
           \begin{tablenotes} 
-            \item Statistically significant (two sided test with $\alpha=0.1$) trends are displayed in bold.
-            \item Units are ppbv Carbon for isoprene, ppbv for others.
+            \item Statistically significant (two sided test with $\alpha=0.1$) trends are bolded.
+            \item Units are ppbv Carbon for isoprene, bbtv for NO$_x$, ppbv for others, all rounded to two decimal places.
           \end{tablenotes}
           \label{BioIsop:results:trends:tab_trends}
         \end{threeparttable}\end{table}
@@ -1157,140 +1158,19 @@
         }{\label{BioIsop:results:new_emiss:trends:fig_emission_anomalies}}
       
       
-      \mypic{Figures/OMI_link/new_emiss/trend_O3.png}{%
-        A priori (row 1) and a posteriori (row 2) surface ozone anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
-      }{\label{BioIsop:results:new_emiss:trends:fig_ozone_anomalies}}
+%      \mypic{Figures/OMI_link/new_emiss/trend_O3.png}{%
+%        A priori (row 1) and a posteriori (row 2) surface ozone anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
+%      }{\label{BioIsop:results:new_emiss:trends:fig_ozone_anomalies}}
+%      
+%      \mypic{Figures/OMI_link/new_emiss/trend_hcho.png}{%
+%        A priori (row 1) and a posteriori (row 2) surface HCHO anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
+%      }{\label{BioIsop:results:new_emiss:trends:fig_hcho_anomalies}}
+%      
+%      \mypic{Figures/OMI_link/new_emiss/trend_NOx.png}{%
+%        A priori (row 1) and a posteriori (row 2) surface NO$_2$ anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
+%      }{\label{BioIsop:results:new_emiss:trends:fig_no2_anomalies}}
+
       
-      \mypic{Figures/OMI_link/new_emiss/trend_hcho.png}{%
-        A priori (row 1) and a posteriori (row 2) surface HCHO anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
-      }{\label{BioIsop:results:new_emiss:trends:fig_hcho_anomalies}}
-      
-      \mypic{Figures/OMI_link/new_emiss/trend_NO2.png}{%
-        A priori (row 1) and a posteriori (row 2) surface NO$_2$ anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
-      }{\label{BioIsop:results:new_emiss:trends:fig_no2_anomalies}}
-      
-      
-      %Table \ref{BioIsop:results:new_emiss:trends:tab_trend_slopes} shows monthly slopes for ozone, HCHO, and NO$_2$ before and after scaling isoprene emissions, where the regression is significant (Wald test $p$ value $< 0.05$).
-      %In summary there are/are not trends seen over the 2005-2012 period before and or after scaling isoprene emissions.
-      
-      
-  %    area:key,   new_emiss,   tropchem
-  %    isop monthly anomaly
-  %    region, [ slope, regression coeff, p value for slope non zero]
-  %    Aus &  [ m=-3.65e-03,  r=-0.472, p=0.000 ]   & \
-  %    significant!  isop Aus
-  %    SE &  [ m=-1.32e-02,  r=-0.397, p=0.000 ]   & \
-  %    significant!  isop SE
-  %    NE &  [ m=-1.09e-02,  r=-0.386, p=0.000 ]   & \
-  %    significant!  isop NE
-  %    Mid &  [ m=-5.69e-03,  r=-0.389, p=0.000 ]   & \
-  %    significant!  isop Mid
-  %    SW &  [ m=-6.48e-04,  r=-0.048, p=0.643 ]   & \
-  %    N &  [ m=-5.18e-03,  r=-0.247, p=0.015 ]   & \
-  %    significant!  isop N
-  %    isop monthly anomaly (scaled)
-  %    region, [ slope, regression coeff, p value for slope non zero]
-  %    Aus &  [ m=-1.33e-03,  r=-0.433, p=0.000 ]   & \
-  %    significant!  isop Aus
-  %    SE &  [ m=-6.01e-03,  r=-0.431, p=0.000 ]   & \
-  %    significant!  isop SE
-  %    NE &  [ m=-3.45e-03,  r=-0.385, p=0.000 ]   & \
-  %    significant!  isop NE
-  %    Mid &  [ m=-1.79e-03,  r=-0.384, p=0.000 ]   & \
-  %    significant!  isop Mid
-  %    SW &  [ m=-4.78e-04,  r=-0.120, p=0.248 ]   & \
-  %    N &  [ m=-1.98e-03,  r=-0.184, p=0.074 ]   & \
-  %    SAVED  Figs/new_emiss/trend_isop.png
-  %    area:key,   new_emiss,   tropchem
-  %    hcho monthly anomaly
-  %    region, [ slope, regression coeff, p value for slope non zero]
-  %    Aus &  [ m=-4.91e-04,  r=-0.275, p=0.007 ]   & \
-  %    significant!  hcho Aus
-  %    SE &  [ m=-2.36e-03,  r=-0.351, p=0.000 ]   & \
-  %    significant!  hcho SE
-  %    NE &  [ m=-1.55e-03,  r=-0.305, p=0.003 ]   & \
-  %    significant!  hcho NE
-  %    Mid &  [ m=-9.54e-04,  r=-0.233, p=0.022 ]   & \
-  %    significant!  hcho Mid
-  %    SW &  [ m=-4.49e-05,  r=-0.012, p=0.906 ]   & \
-  %    N &  [ m=-6.92e-04,  r=-0.119, p=0.247 ]   & \
-  %    hcho monthly anomaly (scaled)
-  %    region, [ slope, regression coeff, p value for slope non zero]
-  %    Aus &  [ m=-1.99e-04,  r=-0.179, p=0.080 ]   & \
-  %    SE &  [ m=-1.65e-03,  r=-0.397, p=0.000 ]   & \
-  %    significant!  hcho SE
-  %    NE &  [ m=-6.50e-04,  r=-0.238, p=0.021 ]   & \
-  %    significant!  hcho NE
-  %    Mid &  [ m=-2.34e-04,  r=-0.110, p=0.286 ]   & \
-  %    SW &  [ m=1.22e-05,  r=0.006, p=0.953 ]   & \
-  %    N &  [ m=-2.14e-04,  r=-0.057, p=0.584 ]   & \
-  %    SAVED  Figs/new_emiss/trend_hcho.png
-  %    area:key,   new_emiss,   tropchem
-  %    NO2 monthly anomaly
-  %    region, [ slope, regression coeff, p value for slope non zero]
-  %    Aus &  [ m=-2.86e-05,  r=-0.106, p=0.307 ]   & \
-  %    SE &  [ m=-2.73e-04,  r=-0.320, p=0.002 ]   & \
-  %    significant!  NO2 SE
-  %    NE &  [ m=-1.19e-04,  r=-0.226, p=0.027 ]   & \
-  %    significant!  NO2 NE
-  %    Mid &  [ m=-7.87e-05,  r=-0.176, p=0.089 ]   & \
-  %    SW &  [ m=1.54e-05,  r=0.035, p=0.739 ]   & \
-  %    N &  [ m=1.31e-04,  r=0.170, p=0.102 ]   & \
-  %    NO2 monthly anomaly (scaled)
-  %    region, [ slope, regression coeff, p value for slope non zero]
-  %    Aus &  [ m=-2.48e-05,  r=-0.100, p=0.336 ]   & \
-  %    SE &  [ m=-2.54e-04,  r=-0.315, p=0.002 ]   & \
-  %    significant!  NO2 SE
-  %    NE &  [ m=-1.03e-04,  r=-0.215, p=0.035 ]   & \
-  %    significant!  NO2 NE
-  %    Mid &  [ m=-5.17e-05,  r=-0.135, p=0.196 ]   & \
-  %    SW &  [ m=-1.62e-05,  r=-0.038, p=0.716 ]   & \
-  %    N &  [ m=1.01e-04,  r=0.151, p=0.149 ]   & \
-  %    SAVED  Figs/new_emiss/trend_NO2.png
-  %    area:key,   new_emiss,   tropchem
-  %    O3 monthly anomaly
-  %    region, [ slope, regression coeff, p value for slope non zero]
-  %    Aus &  [ m=4.40e-03,  r=0.073, p=0.480 ]   & \
-  %    SE &  [ m=-2.80e-02,  r=-0.287, p=0.005 ]   & \
-  %    significant!  O3 SE
-  %    NE &  [ m=-6.54e-03,  r=-0.073, p=0.480 ]   & \
-  %    Mid &  [ m=-4.04e-03,  r=-0.041, p=0.693 ]   & \
-  %    SW &  [ m=1.28e-02,  r=0.204, p=0.047 ]   & \
-  %    significant!  O3 SW
-  %    N &  [ m=1.47e-02,  r=0.102, p=0.326 ]   & \
-  %    O3 monthly anomaly (scaled)
-  %    region, [ slope, regression coeff, p value for slope non zero]
-  %    Aus &  [ m=6.11e-03,  r=0.111, p=0.280 ]   & \
-  %    SE &  [ m=-2.33e-02,  r=-0.268, p=0.009 ]   & \
-  %    significant!  O3 SE
-  %    NE &  [ m=-4.08e-03,  r=-0.050, p=0.632 ]   & \
-  %    Mid &  [ m=-3.47e-03,  r=-0.042, p=0.686 ]   & \
-  %    SW &  [ m=1.42e-02,  r=0.259, p=0.011 ]   & \
-  %    significant!  O3 SW
-  %    N &  [ m=1.41e-02,  r=0.106, p=0.306 ]   & \
-  %    
-      
-  %    % From Chapter_Isop.trend_analysis
-  %    % a priori and a posteriori showed no significant trends
-  %    \begin{table}\begin{threeparttable}
-  %      \caption{Regional deseasonalised monthly anomaly trends}
-  %      \begin{tabular}{ l  c  c  c } 
-  %        \toprule
-  %        region & ozone & HCHO & NO$_2$ \\
-  %        \midrule
-  %        \textbf{a priori emissions}$^a$ & & & \\
-  %        Aus & m & m & m \\ 
-  %        \midrule
-  %        \textbf{a posteriori emissions}$^b$ & & & \\
-  %        Aus & m & m & m \\ 
-  %        \bottomrule
-  %      \end{tabular}
-  %      \begin{tablenotes} 
-  %        \item a: GEOS-Chem output using default isoprene emissions
-  %        \item b: GEOS-Chem output using scaled isoprene emissions
-  %      \end{tablenotes}
-  %      \label{BioIsop:results:new_emiss:trends:tab_trend_slopes}
-  %    \end{threeparttable}\end{table}
   
   % JENNY NOTE: your TODOs in 3.3.2.1 implied you were going to discuss this in that section... Need to think about where it makes the most sense but make sure not to repeat it!
   % UP TO HERE JESSE Making task list
@@ -1402,10 +1282,17 @@
     For $\Delta \Oomi$ and $\Delta \Omega_{OMI,0}$, uncertainty comes from instrument fitting uncertainty, modelled AMF uncertainty, and uncertainty in the background correction terms, which are described and calculated in Section \ref{BioIsop:uncertainty:satellite}.
     
     
-    Figure TODO shows median relative errors over each region of Australia, and the inter-quartile spread of this error based on multi-year monthly bins.
-    TODO brief analysis of spatial uncertainty stuff
-    Figure \ref{BioIsop:uncertainty:fig_Ererrmap} shows the spatial distribution of relative uncertainty in summer and winter.
-    The higher latitudes in winter are greatly affected by the higher uncertainty in satellite columns.
+    Figure \ref{BioIsop:uncertainty:fig_ErerrSummary} shows relative uncertainty over each region of Australia in monthly bins.
+    Uncertainty in the southern regions increases between May and July due to increased error in the satellite measurements.
+    Northern regions are impacted less by the seasonal satellite error, which generally is $10-20~\%$ lower than the error from $S$.
+    Figure \ref{BioIsop:uncertainty:fig_Ererrmap} shows the spatial distribution of relative uncertainty in the a posteriori in summer and winter.
+    Here the effects of satellite uncertainty at higher latitudes (especially in winter) are shown as a general increase with latitude is apparent.
+    %This higher relative uncertainty sits on top of lower absolute emissions.
+    
+    \mypic{Figures/OMI_link/mya_Ererr.png}{%
+      Median and inter-quartile range of multi-year monthly relative uncertainty in the a posteriori.
+      Median relative uncertainty in $S$ and $\Omega$ are added as dashed and dotted lines respectively.
+      }{\label{BioIsop:uncertainty:fig_ErerrSummary}}
     
     \mypic{Figures/OMI_link/Ererr_map_summerwinter_final.png}{%
       Summer (DJF, top row) and winter (JJA, bottom row) a posteriori emissions (left column) and its relative error (right column). 
