@@ -873,9 +873,10 @@
   \subsection{A posteriori emissions}
     \label{BioIsop:results:emissions}
     
-    Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows a priori emissions over Australia along with a posteriori emissions calculated using OMI.
-    The figure shows the time series of seasonal area averaged midday emissions, and their absolute differences.
-    The difference between a priori and a posteriori estimates differs between regions, but a seasonal repetition of overestimation can be seen in all regions.
+    Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows a priori emissions over Australia along with a posteriori emissions calculated in the prior sections.
+    This figure shows the time series of seasonal area averaged midday emissions, and their absolute differences.
+    The difference between a priori and a posteriori estimates differs between regions, but a seasonal overestimation peaking in summer can be seen in all regions.
+    
     
     
     
@@ -893,27 +894,28 @@
     Figure \ref{BioIsop:results:emissions:fig_regional_seasonal_comparison} shows the multi-year seasonal emissions for each region for the a priori and a posteriori emissions side by side.
     The a priori is approximately twice that of the a posteriori.
     Absolute differences are highest in spring and summer, when emissions are generally greatest.
-    The exception is the northern region, where the a posteriori does not show significant emissions from mid March through to November which are seen in a priori emissions.
+    The exception is the northern region, where the largest overestimation occurs in spring, and large differences are seen in all seasons.
     Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and inter-quartile range of daily midday isoprene emissions estimates in each region. 
     Months outside of May to August show the most difference between a posteriori and a priori.
-    The most overlap is seen in the south-eastern region, since the region has the highest summer a posteriori emissions along with high variance.
-    The highest variance is seen in both eastern regions, potentially due to diversity within the regions from high density cities and large forests and rural areas.
+    The most overlap is seen in the south-eastern region, where high summer emissions along with high variance occurs in both the a priori and a posteriori.
+    The highest variance is seen in both eastern regions, potentially due to diversity within the regions which include high density cities, large forests, and rural areas.
     Over the entirety of Australia the seasonal cycle of emissions is shown to be overestimated by the a priori.
-    This overestimate by the a priori may be caused by some mixture of overly high emission factors and high emission sensitivity to temperatures during the dry season.
+    This overestimate by the a priori may be caused by some mixture of overly high emission factors and high emission sensitivity to temperatures.
     %January and February also show a low feature in the a posteriori data, which may be due to filtering (TODO check data count), or may have been caused by meteorological factors (TODO Check if drought or fires occurred).
     While most regions show similar overestimates, the northern region of Australia follows a different cycle of bias.
-    Northern Australia appears to be overestimated throughout the year, however the bias tends to be lower in early summer when the a priori is similar to the a posteriori.
+    Northern Australia appears to be overestimated throughout the year, with the lowest bias in early summer.
     One potential reason is that the wet season (November-April) interferes with satellite measurements due to increased cloud coverage, while also changing the ecosystems response to sunlight and temperature.
-    This is backed up by the low summer OMI pixel count (before filtering) in this region.
+    This is backed up by the low summer OMI pixel count (before filtering) in this region (see Section \ref{BioIsop:uncertainty:satellite}).
     Low measurement counts in summer in the northern region could lead to a low bias in the a posteriori emissions estimate from the drier regions being over-represented.
     Further analysis of emissions over northern forests during the monsoonal seasons is appropriate before drawing conclusions here.
     
     
     
     % Figure from chapter_3_isop.regional_seasonal_comparison
-    % TODO: ERROR BARS and CONVERT TO TG/a?
+    % TODO: ERROR BARS
     \mypic{Figures/OMI_link/new_emiss/RegSeas_emissions.png}{%
       Regional multi-year seasonal mean a priori emissions (magenta) compared to a posteriori emissions (cyan).
+      TODO: error bars show the regionally averaged uncertainty and the upper bound of the error bars includes potential bias from low satellite HCHO amounts.
       }{\label{BioIsop:results:emissions:fig_regional_seasonal_comparison}}
     
     % Figure from Analyse_E_isop.py -> E_regional_multiyear()
@@ -924,12 +926,6 @@
       A posteriori emissions are shown using the solid lines, with IQR shown by unhatched shaded areas.
       Colours denote the region over which the monthly average was taken, as in Figure \ref{BioIsop:results:fig_subregions}.
     }{\label{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya}}
-    
-    
-    TODO Figure shows the satellite data counts over time and summer vs winter maps from the OMHCHORP dataset, along with uncertainty in each region 
-    
-    
-    
     
     
     
@@ -943,8 +939,8 @@
     This is likely due isoprene emissions in these regions being dominated by the biogenic sources (large forests) that the top down emission estimate is based upon.
     Although the northern region also contains large areas of forest, the correlation is the worst.
     This could be due to misrepresented forest emissions in the model, exacerbated by unrepresented responses to moisture and poorly modelled environmental stresses in this region which lies within the tropics and undergoes monsoonal weather and intense heat and drought seasons.
-    This regression is weaker or stronger in winter.
-    TODO: run regression over winter months.
+    %This regression is weaker or stronger in winter.
+    %TODO: run regression over winter months.
     
     
     %    \mypic{Figures/OMI_link/Emiss/daily_Egressions.png}{%
@@ -965,8 +961,10 @@
     }{\label{BioIsop:results:emissions:fig_monthly_egressions}}
     
     Figure \ref{BioIsop:method:scaled:fig_megan_diurnal} shows the a priori daily emissions cycle from each region, and for comparison the estimated a posteriori emissions cycle over Australia.
+    The conversion of midday a posteriori emissions (\moleccms) into \tgpyr involves integration upon an assumed sinusoidal diurnal emission cycle.
     A priori emissions peak from approximately 11:00~LT to 16:00~LT, while outside these hours there is a non-sinusoidal drop in emissions to below the assumed a posteriori diurnal emission cycle.
-    The conversion of midday a posteriori emissions from \moleccms into TGa$^{-1}$ may be biased by this consistent difference between modelled a priori emission cycles and the assumed a posteriori cycle.
+    This means the conversion may be biased by this consistent difference between modelled a priori emission cycles and the assumed a posteriori cycle.
+    This potential bias is not analysed further, and should be relatively small compared to other uncertainties.
     
     
     % Figure from chapter_3_isop.Seasonal_daycycle
@@ -978,9 +976,9 @@
       Top down emissions shown here are based on monthly midday emissions being the peak of a sine wave which drops to zero after and before daylight hours.
     }{\label{BioIsop:method:scaled:fig_megan_diurnal}}
     
-    When comparing GEOS-Chem (MEGAN) to the a posteriori calculated using our top-down inversion, we find a decrease of from 45.4\tgpyr to 16.5\tgpyr ~($\sim 66\%)$.
+    When comparing GEOS-Chem (MEGAN) to the a posteriori calculated using our top-down inversion, we find a decrease of from 45.4\tgpyr to 19\tgpyr ~(decrease of $\sim 58\%$).
     Table \ref{BioIsop:results:emissions:tab_emissions_Tg} compares annual Australian isoprene emissions from this work to previously published values.
-    Our a posteriori estimate of 19 \tgpyr ~suggests isoprene emissions may be lower than any bottom up estimates, and is close to the top-down estimate of \textcite{Bauwens2016} of 26 \tgpyr.
+    Our a posteriori estimate of 19\tgpyr ~suggests isoprene emissions may be lower than any bottom up estimates, and is close to the top-down estimate of \textcite{Bauwens2016} of 26 \tgpyr.
     Figure \ref{BioIsop:results:emissions:fig_tga_comparison_map} shows how this decrease is distributed spatially, with $\apri$ and $\apost$ in \tgpyr ~calculated as a multi-year mean.
     Across all of Australia we see large reductions of total emissions using the new top-down estimate.
     
@@ -1060,24 +1058,23 @@
       
       
       Figure TODO shows how Wollongong FTIR HCHO profiles compare against GEOS-Chem modelled HCHO before and after isoprene scaling is performed. 
-      The regressions show improvement/no improvement TODO 
       
-      Figure todo shows how the longer term FTIR HCHO measurements compare against modelled HCHO before and after changing isoprene emissions
+      
+      Figure TODO FTIR total columns against geos chem and geos chem scaled
   
     \subsubsection{Implications for ozone}
   
       Isoprene oxidation and can eventually lead to ozone formation, especially when isoprene enriched air masses mix with polluted urban air masses that contain high NO$_X$ concentrations.
       Figure \ref{Conclusions:ozone:fig_new_emiss_series_O3} shows surface level (up to $\sim 150$~m altitude) ozone concentrations over 2005 before and after scaling modelled isoprene emissions.
       Reducing isoprene emissions lowers surface ozone concentrations by TODO: XX to YY \% in summer, and XX to YY \% in winter.
-      The direct correlation between reduced emissions and surface ozone (Figure TODO) shows that reduced emissions directly relate to reduced ozone concentrations, and using multiple years enhances/reduces the relationship.
-      A look at the regression using only summer data reveals a stronger/weaker relationship, analyse per region (TODO).
+      While the overall decrease in surface ozone is clear, there is no direct correlation between reduced emissions and changes in surface ozone concentrations found in either daily or monthly averaged model output.
+      This suggests that changes in isoprene emissions affect ozone in non-local grid squares: i.e. ozone reductions are occurring down wind of emissions. 
       
-      TODO Figure showing delta isoprene emissions (\%) vs delta ozone (ppb) over each region. over time
-      Also figure shows correlation between the deltas per region
       
       % JENNY NOTE: You might want to look at and cite Karen Yu's paper that shows that for O3, the difference between high and low resolution is actually not very important. Might also point out that as most Australian cities are surrounded by vegetation, mixing is likely to occur in the suburban fringes (e.g. western sydney) and therefore this type of analysis may be representative of the air quality implications in those types of regions.
       
-      The relatively clean atmosphere over the majority of Australia is likely to be NO$_x$ limited outside of major population centres.
+      Downwind effects of isoprene emission are most likely to affect suburban fringes (e.g. western Sydney) of many Australian cities which are surrounded by vegetation.
+      Outside of densely populated regions, Australia is likely to be NO$_x$ limited and changes in VOC emissions will have less direct effects on ozone production.
       This means that cities may have higher sensitivity to changes in modelled isoprene emissions than shown here, since we are examining large area averages which are mostly non-urban.
       TODO: Notes about ozone exposure from State of the Environment report 2016.
       
@@ -1095,8 +1092,8 @@
       This is averaged into monthly data, and then the multiyear monthly mean is subtracted to form the anomaly time series.
       Any anomaly greater than three standard deviations from the mean is removed (crosses in Figure \ref{BioIsop:results:new_emiss:trends:fig_emission_anomalies}).
       An ordinary least squares linear regression is then performed to look for any significant trend.
-      A trend is considered significant if the p-value from a Wald test (roughly equivalent to a t-test) is less than 0.05.
-      The same process is repeated for surface concentrations of isoprene, ozone, HCHO, and NO$_x$, with results summarised in table \ref{BioIsop:results:trends:tab_trends}.
+      A trend is considered significant if the p-value from a Wald test (equivalent to a t-test) is less than 0.05.
+      The same process is repeated for surface concentrations of isoprene, ozone, HCHO, and NO$_x$, with results summarised in Table \ref{BioIsop:results:trends:tab_trends}.
       The midday surface isoprene concentrations show a small decline outside of the south west region over the 8 year period from 2005-2012.
       This decline reduces in scale by approximately a factor of 2-3 after emissions are scaled down.
       None of the species shows any significant changes in trend due to scaling isoprene emissions.
@@ -1135,17 +1132,17 @@
             \textcolor{blue}{N}   & .18           & .17 \\
             \midrule
             \textbf{NO$_x$ (pptv)}&   & \\
-            Aus                   & -.48            & -.436 \\
+            Aus                   & -.48            & -.44 \\
             \textcolor{red}{SE}   & \textbf{-4.25}  & \textbf{-4.08} \\
             \textcolor{green}{NE} & \textbf{-2.00}  & \textbf{-1.82} \\
             \textcolor{cyan}{Mid} & -1.08           & -.72 \\
-            \textcolor{brown}{SW} & -.218           & -.35 \\
+            \textcolor{brown}{SW} & -.22           & -.35 \\
             \textcolor{blue}{N}   & 2.3             & 1.83 \\
             \bottomrule
           \end{tabular}
           \begin{tablenotes} 
             \item Statistically significant (two sided test with $\alpha=0.1$) trends are bolded.
-            \item Units are ppbv Carbon for isoprene, bbtv for NO$_x$, ppbv for others, all rounded to two decimal places.
+            \item Units are ppbv Carbon for isoprene, pptv for NO$_x$, ppbv for others, all rounded to two decimal places.
           \end{tablenotes}
           \label{BioIsop:results:trends:tab_trends}
         \end{threeparttable}\end{table}
@@ -1171,13 +1168,10 @@
 %      }{\label{BioIsop:results:new_emiss:trends:fig_no2_anomalies}}
 
       
-  
-  % JENNY NOTE: your TODOs in 3.3.2.1 implied you were going to discuss this in that section... Need to think about where it makes the most sense but make sure not to repeat it!
-  % UP TO HERE JESSE Making task list
   \subsection{Comparison with in situ measurements}
     \label{BioIsop:results:measurements}
-    TODO: % TODO: campaign analysis compared to GEOS-Chem
-    Analyse comparison of grid box with campaigns of measurements
+    %TODO: % TODO: campaign analysis compared to GEOS-Chem
+    %Analyse comparison of grid box with campaigns of measurements
     
     Comparison between ground-based measurements and large (\lowhr) averaged grid squares suffers from representation error.
     Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement sites, along with the extent of the \lowhr ~relevent GEOS-Chem grid box.
@@ -1206,7 +1200,6 @@
     
     % Figure showing apriori and apostiori for any locatation can be made by test_E_new.location_timeseries()
     
-    
     MUMBA data captured concentrations at the surface in Wollongong, and is compared in figure TODO against simulated HCHO concentrations in the first level ($\sim$0 - 150~metres) over corresponding dates.
     GEOS-Chem midday concentrations are shown, along with Wollongong bottom-level FTIR measurements to compare against the MUMBA data.
     TODO Discussion of comparison.
@@ -1230,9 +1223,9 @@
   Table \ref{BioIsop:uncertainty:tab_uncertainties} shows the estimated uncertainty calculated in this work in summer and winter over each region described by Figure \ref{BioIsop:results:fig_subregions}.
   The assumptions and calculations made to determine uncertainties in the top-down estimate ($\Delta \apost$), the satellite column ($\Delta \Oomi$) and the slope ($\Delta S$) is described in the following subsections.
   
-  
+  % TODO Fill in table, use proper calculations not estimates
   \begin{table}\begin{threeparttable}
-      \caption{Uncertainty estimates.}
+      \caption{Relative uncertainty estimates.}
       \begin{tabular}{ l | c  c  c | c c c} 
         \toprule
         & & Summer & & & Winter & \\
@@ -1240,8 +1233,9 @@
           & $\Delta \apost$ & $\Delta \Oomi$ & $\Delta S$ \\
          
         \midrule
-          Aus & & & & & & \\
-          SE & & & & & & \\
+            %   apost, O, S, again
+          Aus & 60\% &  20\% &  40\%  & 100\% & 100\% &  40\%  \\
+          SE & TODO: properly fill in this table & & & & & \\
           NE & & & & & & \\
           ... & & & & & & \\
         \bottomrule
@@ -1526,27 +1520,33 @@
     
 \section{Conclusions and implications}
   \label{BioIsop:conclusions}
-  TODO: Brief summary of results and implications...
   
-  %JENNY NOTE: one sentence per section, at least. First brief reminder of motivation; second, brief summary of what you did; finally what did you find. Should have important numbers e.g. what is your new best estimate of isoprene emissions over Australia (Tg/yr) and uncertainty? This section can have some of the discussion mentioned earlier about the method not providing an answer for WHY emissions in MEGAN are too high but provide some hypotheses. That will open up to some future work e.g. testing influence of soil moisture on results, testing influence of different resolution, different satellite data (GOME-2), etc., adjoint inversion to account for transport. Def. expand the conclusions around ozone as that is the overarching theme of your thesis so you need to tie it in at least a little bit here.
+  %First brief reminder of motivation;
+  % second, brief summary of what you did;
+  % finally what did you find.
   
-  % Motivation and what I did
+  %JENNY NOTE: one sentence per section, at least.    Should have important numbers e.g. what is your new best estimate of isoprene emissions over Australia (Tg/yr) and uncertainty? This section can have some of the discussion mentioned earlier about the method not providing an answer for WHY emissions in MEGAN are too high but provide some hypotheses. That will open up to some future work e.g. testing influence of soil moisture on results, testing influence of different resolution, different satellite data (GOME-2), etc., adjoint inversion to account for transport. Def. expand the conclusions around ozone as that is the overarching theme of your thesis so you need to tie it in at least a little bit here.
+  
+  % Motivation
   Very few ground based measurements of BVOCs concentrations and emissions are available in Australia.
-  Emission models use large extrapolations and overestimate isoprene, the primary BVOC emitted, emissions by a considerable margin.
+  Emissions from models use largely unverified extrapolations for emission factors in Australia, leading to overestimated isoprene emisisons.
   This leads to uncertainty and error when modelling atmospheric ozone and other trace gases.
+  
+  % What I did
   In this chapter I create and test an isoprene emissions estimate (a posteriori) based on OMI satellite measurements of HCHO, a high-yield product of isoprene oxidation.
   %Filters are applied to satellite and modelled data to ensure sensible estimation of biogenic emissions only, although this leads to an inability to confidently analyse winter emissions.
   To test how the a posterior emissions affect ozone and HCHO, I run GEOS-Chem with a seasonal (multi-year monthly averaged) gridded (\lowhr) scaling factor applied to the a priori emissions.
   %This factor comes from the multi-year monthly difference between model emissions and our top down a posteriori.
-  Where possible, the uncertainty and bias in the a posteriori is estimated.
+  Uncertainty in the primary components of the top-down calculation of emissions is calculated where possible, and potential biases are noted.
   
   % What I found:
   % TODO important numbers needed
-  My top down biogenic isoprene emission estimate shows that MEGAN overestimates emissions in summer by up to a factor of 5, and total yearly Australian emissions are reduced from X \tgcpyr to Y \tgcpyr.
+  My top down biogenic isoprene emission estimate shows that MEGAN overestimates emissions in summer by up to a factor of 5, and total yearly Australian emissions are reduced from 45.4\tgpyr to 19\tgpyr ~(decrease of $\sim 58\%$).
   The overestimation is spatially and temporally diverse and leads to model overestimation of both HCHO and ozone.
-  Running GEOS-Chem using scaled emissions reduced the HCHO overestimation from 50-120\% down to 30-50\% (TODO: update that number for summer season rather than the 2005 January it is based on).
-  Scaling GEOS-Chem emissions also leads to TODO: number here lower simulated surface ozone concentrations by several percent.
-  The primary uncertainty in the a posteriori emissions is TODO, which suggests TODO discuss possible solutions/causes.
+  Running GEOS-Chem using scaled emissions reduced the overall HCHO overestimation from 50-120\% down to 30-50\% (TODO: update that number for summer season rather than the 2005 January it is based on).
+  Scaling GEOS-Chem emissions also lowers simulated surface ozone concentrations by $\sim 5\%$.
+  A posteriori uncertainty is analysed (where possible), and shown to be on the order of 50\% in summer, with a potential bias coming from satellite data.
+  The primary uncertainty in the a posteriori emissions comes from the monthly modelled isoprene to HCHO yield ($\sim 30\%-50\%$) ; although, at higher latitudes in winter, satellite uncertainty becomes restrictively high ($>100\%$).
   
   
   
@@ -1554,14 +1554,14 @@
   The full story behind model overestimation still unclear, and both Global and Australian emissions estimates for isoprene range widely.
   This is in part due to the emission models sensitivities to inexact parameters including leaf area indices, plant functional type emission factors, and meteorological factors. 
   In Australia, a mixture of poorly defined emission factors \parencite[e.g.][]{Emmerson2016}, unaccounted for soil moisture \parencite[e.g.][]{Sindelarova2014} and poorly understood forest responses to meteorological stresses (TODO: cite papers talking about clay and poor moisture responses) is likely driving uncertainty and model biases.
-  For instance, \textcite{Sindelarova2014} found % a 41\tgpyr decrease in Australia when 
-  introducing soil moisture parameterisation led to a large decrease in isoprene emissions modelled by MEGAN in Australia.
-  In the future an improved soil moisture map and response parameterisation could be tested using top-down emissions estimates as a measure of model correction.
-  One issue with satellite HCHO measurements is the lack of ground based information that could be used to determine bias.
+  %For instance, \textcite{Sindelarova2014} found % a 41\tgpyr decrease in Australia when 
+  %introducing soil moisture parameterisation led to a large decrease in isoprene emissions modelled by MEGAN in Australia.
   In the US, bias between OMI and in-situ measurements is as high as 40\%, but bias in Australia cannot be determined as there is not enough information.
-  A measurement campaign which looks at HCHO, VOCs, NO$_x$ and ozone at midday over some representational fraction of Australia would go a long way towards improving both our understanding of the Australian atmosphere and our ability to verify model and satellite outputs.
+  Ground based VOC, OVOC, NO$_x$, and ozone measurements over large areas timed to coincide with satellite overpass times could be performed to handle the issue of unknown satellite biases while additionally providing some constraints for bottom up models.
   In the northern region, where forests are affected by monsoonal seasons, characterisation of forest emissions and their response to sunlight, temperature, and moisture are even more important in order to improve modelled emissions.
   This is due to the reduced opportunity to get relatively cloud-free satellite measurements of the atmosphere at these times.
+  In the future an improved soil moisture map and response parameterisation could be tested using top-down emissions estimates (such as is provided in this chapter) as a measure of model correction.
+  
 
 % Extras for potential paper output 
 %  
