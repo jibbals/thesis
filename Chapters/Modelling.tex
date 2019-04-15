@@ -327,9 +327,34 @@
       Upon the roof of the Chemistry building in Wollongong lies a solar Fourier transform infra-red spectrometer (FTIR) which measures HCHO (amongst other gases) on the path of light between the instrument and the sun.
       TODO: details about these measurements.
       
-      Figure TODO: shows Wollongong FTIR measurement profiles of HCHO with an assumed averaging kernal and then one calculated from GEOS-Chem, along with the two averaging kernal mean and standard deviation.
-      TODO: Discuss this conversion and results seen here...
-      The bottom panel shows the time series of total column HCHO of both GEOS-Chem and the FTIR instrument in molecules cm$^{-2}$.
+      
+      Measurements of vertical profiles are affected by the instruments sensitivity to HCHO at all vertical levels.
+      The averaging kernal ($A$) essentially represents how the retrieval technique is sensitive to HCHO concentrations.
+      Figure \ref{Model:datasets:wollongong_ftir:fig_MiddayAK} shows how the instrument based retrievals of total vertical column HCHO ($\Omega$) in \moleccm is sensitive to HCHO between 0~km and 60~km altitude.
+      The panel on the right shows how each retrieved vertical level is sensitive to HCHO at all levels.
+      This shows how there is not much sensitivity at higher altitudes, and how HCHO at lower altitudes can affect retrieved values for concentrations at higher altitudes.
+      
+      \mypic{Figures/OMI_link/FTIR_midday_AK.png}{%
+        Left panel shows the mean midday (13:00 - 14:00 local time) total column averaging kernal, along with the inter-quartile range (IQR) between November 2007 and April 2013. 
+        Right panel shows the mean averaging kernal for the vertical profile over the same time period, coloured by vertical level.
+        One in six vertical levels are labelled and plotted with a solid line, the rest are shown with dashed lines.
+        }{\label{Model:datasets:wollongong_ftir:fig_MiddayAK}}
+      
+      
+      
+      The retrieved vertical profile ($x_{ret}$) can be expressed as a linear function of the true vertical profile ($x_{true}$) and the a priori vertical profile ($x_{pri}$):
+      \begin{equation}
+        x_{ret} = x_{a} + A \left( x_{true} - x_{a} \right)
+      \end{equation}
+      One way of looking at this is to consider if the device was perfectly sensitive to HCHO concentrations at all vertical levels (making $A=I$ the identity matrix), then the retrieval would be equal to the true profile.
+      If the instrument was perfectly useless (making $A=0$), then the retrieval would completely ignore the true profile and simply equal the a priori.
+      To compare modelled vertical profiles ($x_{GC}$) with the FTIR, the modelled profiles are \textit{convolved} with the instrument averaging kernal and a priori to create a pseudo retrieval ($x'_{GC}$) which shows what the instrument would retrieve if the model were the truth:
+      \begin{equation}
+        x'_{GC} = x_{a} + A \left( x_{GC} - x_{a} \right)
+      \end{equation}
+      $x'_{GC}$ can be compared against $x_{ret}$ to determine if measurements and modelled vertical profiles or columns show significant differences.
+      This convolution is required so as to avoid seeing a bias between the instrument and the model which is due to the instrument a priori.
+      
     
     \subsubsection{Uncertainties}
     \label{Model:datasets:uncertainties}
