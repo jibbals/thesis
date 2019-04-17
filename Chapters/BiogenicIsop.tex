@@ -951,7 +951,7 @@
     
     % Figure from Analyse_E_isop.distributions_comparison_regional()
     % updated individual images on NCI, stitched on local machine, edited in paint
-    \mypicw{\textwidth, totalheight=0.8\textheight}{Figures/OMI_link/Emiss/monthly_Egressions_final.png}{%
+    \mypicwh{\textwidth}{0.8\textheight}{Figures/OMI_link/Emiss/monthly_Egressions_final.png}{%
       Scatter plot of a priori emissions against a posteriori using monthly averaged grid squares as regression datapoints.
       Data points are created using monthly averages (of midday emissions) for each grid box for each month of summer (DJF) within each region shown.
       Multiple years of data are used, meaning if a region has 10 grid boxes, the 8 years of data will add up to 10 boxes $\times 3$ months  $\times 8$ years $= 240$ data points minus filtered and zero emission squares.
@@ -1044,30 +1044,24 @@
         Daily mean total column HCHO amounts from GEOS-Chem with (new emissions run) and without (tropchem run) a posteriori scaled isoprene emissions, along with the original OMI HCHO columns.
         Each row shows the average over regions in Figure \ref{BioIsop:results:fig_subregions}. }{\label{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}}
       
+      Decreasing isoprene emissions in the model leads to reduction in HCHO concentrations as one would expect.
+      Figure \ref{BioIsop:results:emissions:fig_profile_example} shows an example (over Wollongong) of the modelled HCHO profile before and after scaling isoprene emissions.
+      This reduction of HCHO is greatest at the surface, and is highly correlated ($r>.8$) in all regions to the reduction in isoprene emissions.
+      The high correlation is effectively a sanity check of the top-down method used in this thesis to estimate isoprene emissions.
       
-      
-      Wollongong FTIR measurements (see Section \ref{Model:datasets:wollongong_ftir}) provide total column amounts TODO: get these and check process.
-      This is the only non-satellite long-term measurement record of total column HCHO available in Australia and we use it here to examine trends and seasonality.
-      The time series for HCHO is shown in figure TODO, along with GEOS-Chem output before and after updating isoprene emissions.
-      Modelled HCHO in this figure only shows the grid square containing Wollongong, which is the same grid square that contains Sydney and a large amount of rural and forested area.
-      This makes direct comparison between GEOS-Chem output and the FTIR suffer from representational error.
-      TODO: discuss plot here
-      
-      TODO: Figure showing campaign data against model and recalculated model.
-      
-      
-      Figure TODO shows how Wollongong FTIR HCHO profiles compare against GEOS-Chem modelled HCHO before and after isoprene scaling is performed. 
-      
-      
-      Figure TODO FTIR total columns against geos chem and geos chem scaled
+      \mypicw{0.5\textwidth}{Figures/OMI_link/check_GC_profile.png}{%
+        Monthly averaged HCHO profile over Wollongong modelled by GEOS-Chem before (VMR) and after (VRM$^{\alpha}$) scaling isoprene emissions.
+        Shaded areas represent the inter-quartile range over the month.
+        }{\label{BioIsop:results:emissions:fig_profile_example}}
   
     \subsubsection{Implications for ozone}
   
       Isoprene oxidation and can eventually lead to ozone formation, especially when isoprene enriched air masses mix with polluted urban air masses that contain high NO$_X$ concentrations.
       Figure \ref{Conclusions:ozone:fig_new_emiss_series_O3} shows surface level (up to $\sim 150$~m altitude) ozone concentrations over 2005 before and after scaling modelled isoprene emissions.
       Reducing isoprene emissions lowers surface ozone concentrations by TODO: XX to YY \% in summer, and XX to YY \% in winter.
-      While the overall decrease in surface ozone is clear, there is no direct correlation between reduced emissions and changes in surface ozone concentrations found in either daily or monthly averaged model output.
-      This suggests that changes in isoprene emissions affect ozone in non-local grid squares: i.e. ozone reductions are occurring down wind of emissions. 
+      A regression between the change in isoprene emissions, and the change in surface ozone was performed (as in the prior section dealing with HCHO); however, only very weak correlations between reductions are apparent.
+      While the overall decrease in surface ozone is clear, there is no direct correlation between monthly grid square averaged reductions in isoprene emission and surface ozone concentrations.
+      This suggests that changes in isoprene emissions affect ozone in grid squares where absolute emission reductions are not as strong.
       
       
       % JENNY NOTE: You might want to look at and cite Karen Yu's paper that shows that for O3, the difference between high and low resolution is actually not very important. Might also point out that as most Australian cities are surrounded by vegetation, mixing is likely to occur in the suburban fringes (e.g. western sydney) and therefore this type of analysis may be representative of the air quality implications in those types of regions.
@@ -1200,10 +1194,19 @@
     % Figure showing apriori and apostiori for any locatation can be made by test_E_new.location_timeseries()
     
     MUMBA data captured concentrations at the surface in Wollongong, and is compared in figure TODO against simulated HCHO concentrations in the first level ($\sim$0 - 150~metres) over corresponding dates.
-    GEOS-Chem midday concentrations are shown, along with Wollongong bottom-level FTIR measurements to compare against the MUMBA data.
+    GEOS-Chem midday concentrations are shown, todo: analyse/explain plot here.
     
+    An spectrometer on the roof of the chemistry building at Wollongong university (FTIR) measures HCHO in the atmosphere during clear sky conditions.
+    This is the only non-satellite long-term measurement record of total column HCHO available in Australia.
     In order to compare modelled profiles against retrievals from the FTIR, modelled profiles are first \textit{convolved} with the instrument averaging kernal and a priori as shown in Section \ref{Model:datasets:wollongong_ftir}.
     FTIR output is resampled to only include measurements taken at midday (13:00-14:00), while GEOS-Chem overpass outputs are interpolated onto matching vertical levels.
+    The time series for HCHO is shown in figure TODO, along with GEOS-Chem output before and after updating isoprene emissions.
+    Modelled HCHO in this figure only shows the grid square containing Wollongong, which is the same grid square that contains Sydney and a large amount of rural and forested area.
+    Therefor the comparison between GEOS-Chem output and the FTIR is only qualitative as the representational error prevents one from drawing conclusions.
+    TODO: discuss plot here
+    
+    
+    Figure TODO FTIR total columns against geos chem and geos chem scaled
     
     
     TODO Discussion of comparison.

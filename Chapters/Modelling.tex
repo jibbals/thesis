@@ -328,11 +328,21 @@
       TODO: details about these measurements.
       
       
-      Measurements of vertical profiles are affected by the instruments sensitivity to HCHO at all vertical levels.
+      Measurements of vertical profiles are affected by the instruments sensitivity to HCHO at all vertical levels, along with the a priori assumed vertical profile ($x_{apri}$).
       The averaging kernal ($A$) essentially represents how the retrieval technique is sensitive to HCHO concentrations.
+      Figure \ref{Model:datasets:wollongong_ftir:fig_apriori} shows averaged retrievals $x_{ret}$ and the a priori side by side.
+      Most of the HCHO is close to the surface, and generally the a priori lies within the inter-quartile range of the retrievals but lies just below the mean.
       Figure \ref{Model:datasets:wollongong_ftir:fig_MiddayAK} shows how the instrument based retrievals of total vertical column HCHO ($\Omega$) in \moleccm is sensitive to HCHO between 0~km and 60~km altitude.
       The panel on the right shows how each retrieved vertical level is sensitive to HCHO at all levels.
       This shows how there is not much sensitivity at higher altitudes, and how HCHO at lower altitudes can affect retrieved values for concentrations at higher altitudes.
+      When comparing FTIR measurements to modelled data, vertical columns are used rather than profiles as the degree of freedom in each measurement is low ($\sim 1.3$ in summer to $\sim 1.7$ in winter).
+      Degrees of freedom signify how many pieces of information can be retrieved from a measurement, and profiles resolved to N vertical levels would require N degrees of freedom.
+      
+      \mypicw{0.5\textwidth}{Figures/OMI_link/FTIR_apriori.png}{%
+        Mean midday FTIR profile ($x_{ret}$) and a priori profile ($x_{apri}$).
+        Shaded area shows the inter-quartile range over the same time period.
+        Profile is averaged between November 2007 to April 2013.
+        }{\label{Model:datasets:wollongong_ftir:fig_apriori}}
       
       \mypic{Figures/OMI_link/FTIR_midday_AK.png}{%
         Left panel shows the mean midday (13:00 - 14:00 local time) total column averaging kernal, along with the inter-quartile range (IQR) between November 2007 and April 2013. 
@@ -354,6 +364,13 @@
       \end{equation}
       $x'_{GC}$ can be compared against $x_{ret}$ to determine if measurements and modelled vertical profiles or columns show significant differences.
       This convolution is required so as to avoid seeing a bias between the instrument and the model which is due to the instrument a priori.
+      In this thesis the vertical profiles are transformed into vertical columns ($\Omega$) using the hydrostatic relationship and an assumed dry air profile (see \textcite{Deeter2002}):
+      %\url{https://www.acom.ucar.edu/mopitt/avg_krnls_app.pdf})
+      \begin{equation}
+        \Omega = x \times 2.12 \times 10^{13} \times \Delta p
+      \end{equation}
+      where $\Omega$ is in \moleccm, $x$ is in ppbv, and p is the pressure in hPa between pressure midpoints for each vertical level in $x$..
+      
       
     
     \subsubsection{Uncertainties}
