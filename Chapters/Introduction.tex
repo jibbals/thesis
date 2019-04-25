@@ -848,47 +848,51 @@
     The most important parameters dealing with VOC emissions are LAI, EF, PFT, and LDF, with LAI and EF requiring global scale measurements while PFTs and LDFs require improved parameterisation \parencite{Messina2016}.
     %There is high uncertainty in LAI and EF, which require more or improved measurements at the global scale, as well as more PFTs and improved LDF parameterisation \parencite{Messina2016}.
     
-  % UP TO HERE READTHROUGH
+    
   \subsection{Uncertainties}
   \label{LR:Models:Uncert}
     
     Here I will attempt to list and partially explain the major uncertainties models have in relation to  VOCs, and ozone.
-    Atmospheric chemical models by necessity require various simplifications of real world processes, and also utilise information that may be itself uncertain or extrapolated.
-    Uncertainty is introduced through both of these channels as well as through computational limitations and non-linear non-continuous system solution approximations.
+    Atmospheric chemical models by necessity use simplifications of real world processes, and also utilise information that may be itself uncertain or extrapolated.
+    Uncertainty is introduced through both of these channels as well as through computational limitations, which may be calculating large non-linear non-continuous systems.
     
+    The concentration of NO$_x$ is an important factor in determining the yield of HCHO and ozone from BVOCs.
+    Modelled surface ozone may be overestimated if NO$_x$ emissions are too high, due to their affects on the oxidative capacity of the atmosphere \parencite{Travis2016}.
+    %\textcite{Travis2016} show how modelled surface ozone is overestimated due to high estimates of NO$_x$ emissions, which affect oxidative capacity and VOC reactions in the US.
+    NO$_x$ and isoprene emissions are shown to be the most significant sources of uncertainty for ozone concentrations near the surface in GOES-Chem over the US, while isoprene derived products and lightning NO$_x$ drives uncertainty in the upper atmosphere \parencite{Christian2017}.
     
     \subsubsection{Emissions Inventories}
       % Emissions Inventories 
-      Using different emissions inventories in a CTM can have large impacts on the simulation.
+      Model results can be greatly affected by the choice of emissions inventory used to provide boundary conditions.
       Natural (biogenic or pyrogenic) and human driven (anthropogenic) emissions often drive a large fraction of atmospheric oxidation and radical chemistry, especially in the continental boundary layer.
       Emissions inventories have been found to be generally OK at larger (regional to global) scales, as long as they are derived from accurate input measurements \parencite{Zeng2015}.
-      Modelled ozone concentrations has been found to be most sensitive to isoprene emissions and NO$_x$ sources, both of which have uncertainty factors of $\sim 2$ \parencite{Christian2017}.
+      Modelled ozone concentrations have been found to be most sensitive to isoprene emissions and NO$_x$ sources, both of which have uncertain within approximately a factor of 2 \parencite{Christian2017}.
       
       Many estimates of isoprene emission are based on a few algorithms that can depend greatly on input parameters \parencite{Arneth2008,Niinemets2010}.
       \textcite{Arneth2008} argue that this monopoly of emissions estimates may be leading us to an incorrect understanding of isoprene chemistry.
-      \textcite{Yue2015} have shown that this is still a problem by looking at land carbon fluxes and modelling the sensitivity to VOC emissions estimates using two independent models of VOC emission.
-      One model is photosynthesis based and estimates isoprene emissions using electron transfer energies and leaf physiology \parencite{Niinemets1999}, while the other (MEGAN) uses the light and canopy temperature \parencite{Guenther1995,Arneth2007}.
+      More recently, \textcite{Yue2015} have shown that this is still a problem, with models of land carbon fluxes showing high sensitivity to VOC emissions.
+      Models which depend on VOC emissions acquire the same sensitivities to light and temperature parameterisations \parencite{Yue2015}.
+      %One model is photosynthesis based and estimates isoprene emissions using electron transfer energies and leaf physiology \parencite{Niinemets1999}, while the other (MEGAN) uses the light and canopy temperature \parencite{Guenther1995,Arneth2007}.
       % Arneth et al., 2007; CO2 may also inhibit isoprene emissions.
       % Unger et al., 2013; another plant process isoprene model
-      Both are sensitive to light and temperature parameterisations.
+      %Both are sensitive to light and temperature parameterisations.
       
-      The concentration of NO$_x$ is an important factor in determining the yield of HCHO and ozone from BVOCs.
-      \textcite{Travis2016} show how modelled surface ozone is overestimated due to high estimates of NO$_x$ emissions, which affect oxidative capacity and VOC reactions in the US.
-      NO$_x$ and isoprene emissions are shown to be the most significant sources of uncertainty for ozone concentrations near the surface in GOES-Chem over the US, while isoprene derived products and lightning NO$_x$ drives uncertainty in the upper atmosphere \parencite{Christian2017}.
       
     %% GEOS-Chem resolution uncertainties
     \subsubsection{Resolution}
       \label{LR:Models:Uncert:Resolution}
       
       Atmospheric chemistry simulations are somewhat sensitive to the gridbox resolution.
-      For example: \textcite{Wild2006} show that reduced resolution increases OH concentrations and ozone production rates.
-      \textcite{Christian2017} find small changes in OH ($<10$\%) in OH, HO$_2$ and ozone concentrations local to the north American arctic, when changing from 4 by 5 to 2 by 2.5\degr resolution.
-      \textcite{Yu2016} show how only at higher resolution (0.25 by 0.3125\degr) does isoprene oxidise under the correct NO$_x$ scheme (through high or low NO$_x$ pathways, see section \ref{LR:VOCs:IsopCascade:Oxidation}) in variable NO$_x$ environments.
+      Reducing model resolution can increase OH concentrations and ozone production rates \parencite{Wild2006}.
+      Increasing model resolution can also impact OH, HO$_2$, and ozone concentrations \parencite[e.g.][]{Christian2017}.
+      %For example: \textcite{Wild2006} show that reduced resolution increases OH concentrations and ozone production rates.
+      %\textcite{Christian2017} find small changes in OH ($<10$\%) in OH, HO$_2$ and ozone concentrations local to the north American arctic when changing from 4 by 5 to 2 by 2.5\degr resolution.
+      \textcite{Yu2016} show how only at higher resolution (0.25 by 0.3125\degr) does isoprene oxidise under the correct NO$_x$ scheme (through high or low NO$_x$ pathways, see Section \ref{LR:VOCs:IsopCascade:Oxidation}) in variable NO$_x$ environments.
       This leads to an increase of high NO$_x$ pathway oxidation of isoprene at the lower resolutions, which leads to an overestimation of HCHO but not ozone at coarser resolutions.
       However, for many global scale analyses, errors from resolution are less important than those from chemistry, meteorology, and emissions \parencite{Christian2017, Christian2018}.
       
             
-    
+    % UP TO HERE READTHROUGH
     \subsubsection{Chemistry mechanisms}
       \label{LR:Models:Uncert:Chemistry}
       %% GEOS-Chem Ozone uncertainties 
