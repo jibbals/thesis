@@ -509,8 +509,7 @@
     The highly negative values can be seen around the $-10^{19}$~molecules cm$^{-2}$ region.
     
     % Figure from ?!?!
-    % TODO: update titles to use Omega_OMI, 
-    \mypic{Figures/AusOMHCHO_Hist_20130318.png}
+    \mypic{Figures/AusOMHCHO_Hist_20130318_final.png}
     {
       Column density histograms for a subset of OMI swaths over Australia on the 18th of March 2013.
       Negative entries are shown in the left panel, positive in the right.
@@ -909,8 +908,11 @@
     % How NOX affects us and how GEOS-Chem incorporates it
     NO$_X$ concentrations affect atmospheric oxidative capacity, which changes many factors important in estimating isoprene emissions including isoprene to HCHO yield, isoprene lifetime, and isoprene oxidation pathways.
     In GEOS-Chem, NO$_X$ concentrations are regulated by O$_3$, VOC, HO$_X$, Bromine and aerosols reactions.
-    NO$_X$ emissions (from power generation and combustion transport) drive enhancements, while conversion to nitric acid (HNO$_3$) followed by deposition is the primary removal mechanism \parencite{Delmas1997, Ayers2006}.
-    Anthropogenic emissions (TODO total Tg N a$^{-1}$) are from the Emissions Database for Global Atmospheric Research (EDGAR), for more details visit \url{http://wiki.seas.harvard.edu/geos-chem/index.php/EDGAR_v4.2_anthropogenic_emissions}.
+    NO$_X$ emissions from nearby agriculture, power generation, and combustion transport drive enhancements in populated areas.
+    The largest source (70\%) of NO$_x$ emissions comes from agriculture where nitrogenous fertilisers are in use \parencite{WorldBankNitrogenEmissionsPage}. %(\url{https://data.worldbank.org/indicator/EN.ATM.NOXE.AG.ZS}).
+    Conversion to nitric acid (HNO$_3$) followed by deposition is the primary removal mechanism \parencite{Delmas1997, Ayers2006}.
+    Anthropogenic emissions come from the Emissions Database for Global Atmospheric Research (EDGAR), for more details visit \url{http://wiki.seas.harvard.edu/geos-chem/index.php/EDGAR_v4.2_anthropogenic_emissions}.
+    % these are mostly from agriculture (70\%) and energy production (9\%) (\url{https://data.worldbank.org/indicator/EN.ATM.NOXE.AG.ZS}).
     % previous versions had $\sim 21$~Tg N a$^{-1}$ from fossil fuel combustion
     Other NO$_X$ emissions arise from sources including soil emissions ($\sim 10$~Tg N a$^{-1}$), and lightning.
     Soil emissions are layed out in \textcite{Hudson2012}, parameterised using biome specific emission factors, and an explicit fertiliser dataset.
@@ -1143,10 +1145,9 @@
       Additionally a slight ($<8\%$) decrease in HCHO over the oceans can be seen.
       The comparison is repeated using total columns (instead of surface values) in Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
       
-      %TODO Update plot title to HCHO, and full days avg -> daily mean
       \begin{figure}
         % These figures created in GC_test.py -> UCX_vs_trp...:
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_hcho.png}
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_hcho_final.png}
         \caption{%
           Surface HCHO simulated by GEOS-Chem with UCX (top left), and without UCX (top right), along with their absolute and relative differences (bottom left, right respectively).
           Amounts are the average of all times between 1 Jan and 28 Feb 2007.
@@ -1173,14 +1174,14 @@
       There is a greater effect in Africa and South America in the tropics, with high relative differences in many regions with low absolute amounts.
       
       \begin{figure}
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_isop.png}
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_isop_final.png}
         \caption{ %
           As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing isoprene surface concentrations. 
         }      
         \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}
       \end{figure}
       \begin{figure}
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_isop.png}
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_isop_final.png}
         \caption{ %
           As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}, except showing isoprene total column amounts. 
         }      
@@ -1536,12 +1537,12 @@
     In this figure the latitudinal resolution is increased from 2\degr to 0.36\degr, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
     This resolution is chosen to match that of \textcite{Abad2016}.
     
-    % TODO Update title and labels to match text: Omega_VCC -> VCC, Omega_VC -> OMI vertical columns
-    % This picture was made where?!
+    
+    % This picture was made RSC_tests -> Summary_RSC
     \mypic{Figures/HCHO/Summary_RSC_Effect8d_20050101.png}
     {%
       Example of remote Pacific RSC using 8-day average measurements and one month modelled data.
-      $\Omega_{VC}$ shows the uncorrected vertical columns, while $\Omega_{VCC}$ shows the corrected vertical columns.
+      $OMI VC$ shows the uncorrected vertical columns, while $Corrected$ shows the corrected vertical columns.
       OMI corrections shows the correction applied globally based on latitude and OMI track number(sensor).
       $\Omega_{GC}$ shows the GEOS-Chem modelled HCHO VC over the reference sector (region within black vertical lines), with $\Omega_{VCC}$ showing the corrected VC over the same area.
     }
@@ -1580,7 +1581,6 @@
     % How Vertical columns use reference sector corrections
     %Vertical columns in OMI use an oceanic background instead of a solar irradiance spectrum when calculating trace gas interference with DOAS calculations.
     Corrected vertical columns, or VCC, are created using the difference between slant columns ($SC$) and reference sector corrections (RSC, detailed in prior section) divided by the AMF. 
-    %TODO Check this and update this equation to make sense and use the right abbreviations:
     \begin{equation}
       \label{Model:omiRecalc:vcc:eqn_vcc}
       VCC = \frac{ \left( SC - RSC \right) }{ AMF }
@@ -1594,9 +1594,10 @@
     Recently this correction was expanded (for OMI data) to include latitudinal and instrument track influence by \textcite{Abad2015}.
     
     % One correction per pixel, based on latitude and omi track
-    One correction (from Equation \ref{Model:omiRecalc:eqn_RSC}) is associated with every good satellite measurement which is used to create a reference sector corrected measurement (Vertical Column Corrected or VCC) through the following equation:
+    One $correction$ (Equation \ref{Model:omiRecalc:eqn_RSC}) is associated with every good satellite measurement.
+    This is used to create a reference sector corrected measurement (VCC) through the following equation:
     \begin{equation}
-    VCC(i,j) = \frac{SC_{HCHO}(i,j) - Correction(i,lat(j))}{AMF(i,j)}
+    VCC(i,j) = \frac{SC_{HCHO}(i,j) - correction(i,lat(j))}{AMF(i,j)}
     \end{equation}
     For each good satellite measurement the corrected vertical column is calculated two times, once using each new AMF.
     
@@ -1642,7 +1643,7 @@
     Together this may lead to a slightly steeper continental enhancement which may be expected since elsewhere OMI HCHO is seen to be up to 40\% underestimated \parencite[e.g.]{Zhu2016,DeSmedt2015,Barkley2013}.
     %The effect of not recalculating the $\omega_z$ can also be seen in Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which shows the altered satellite vertical columns using each method.
     
-    % TODO Fix suptitle height
+    
     % Figure showing VCC omi, gc, and pp, and distribution
     % produced in tests.py -> check_products()
     \mypic{Figures/OMI_link/VCC_check_200501.png}{%
@@ -1652,28 +1653,11 @@
       Distribution bins are logarithmic, resulting in wider bins for higher column amounts.
       }{\label{Model:omiRecalc:diff:fig_vcc_comparison}}
     
-    %TODO: regression, and time series.
-    
+    % TODO: Omega regressions if they show anything?
 
-    % JENNY NOTE: Why is this here? You haven't discussed the fire filter yet... Shouldn't these be in Section 2.7?
-    % Fire filtering affect split over recalculations
-    Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows vertical columns of HCHO for the original satellite swaths, those recalculated without changing the provided scattering weights, and fully recalculated vertical columns.
-    Each grid square (at \highhr resolution) has been created by binning the recalculated satellite pixels within the month.
-    The average number of pixels per land square is inset as text, changing due to how the fire filter is applied.
-    Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
-    This figure looks at March 2005 with biomass burning filtered differently in each row.
-    Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
-    
     
     %TODO: figure analysing amf vs amf_gc vs amf_pp
     Figure TODO shows an analysis of the differences between running the recalculation with and without updating the $\omega_z$.
-    
-    \mypic{Figures/OMI_link/VCC_fires_20050301-20050331.png}{% 
-      Column 1: Reference sector corrected HCHO vertical columns $\Omega$ from OMHCHOv003.
-      Column 2: $\Omega$ with recalculated a priori shape factors using GEOS-Chem v10.01.
-      Column 3: $\Omega$ with recalculated a priori shape factors and scattering weights using GEOS-Chem v10.01 and LIDORT.
-      Row 1-5: increasing number of prior days which have active fires are included when masking fire influence.
-      }{\label{Model:omiRecalc:fig_VCC_pp_fires}}
     
     TODO: compare how many nans from palmers code to my code
     The AMF calculated using professor Palmer's produces TODO: MORE OR FEWER reasonable (within screening range of -5$\times 10^{15}$ to 1$\times 10^{17}$) vertical column amounts.
@@ -1701,10 +1685,11 @@
   %These masks negatively affect uncertainty,  as fewer measurements are available to be averaged.
   %This section describes the creation and effects of filters used on satellite data.
   A summary of filtering over Australian land squares at \highhr resolution is provided in Table \ref{Model:filter:tab_summary_pixels_masked}.
-  Figure \ref{Model:filter:fig_pixel_loss_Jan06} shows an example month of anthropogenic and pyrogenic filtering, highlighting how many days and pixels are removed across Australia.
+  Figure \ref{Model:filter:fig_anthropyrofilters} shows an example year of anthropogenic and pyrogenic filtering, highlighting how many days and pixels are removed across Australia.
   The anthropogenic filter completely removes grid squares over Brisbane, Melbourne, and Sydney. 
   Other major cities in Australia either do not emit enough NO$_2$ or are too dispersed and do not breach the threshold to be filtered as anthropogenic.
-  Pyrogenic filtering removes upwards of 10\% of the available pixel measurements per year.
+  The anthropogenic filter removes from $\sim .25\% - \sim5\%$ of grid squares each day.
+  Pyrogenic filtering removes from $\sim 5\% - \sim 20\%$ of the available grid square measurements per day.
   This filter tends to cover forested areas (as they are more prone to burning) as well as some hot spots that are likely due gas flaring or burning.
   
   
@@ -1729,11 +1714,11 @@
     \label{Model:filter:tab_summary_pixels_masked}
   \end{threeparttable} \end{table}
   
-  % Figure from !?!?
-  % TODO: Fix title: anthropogenic and pyrogenic, fix x axis datetime labels
-  \mypic{Figures/OMI_link/Filters/PixelsFiltered_20060101-20060131.png}{%
-    Top row shows grid squares filtered out by pyrogenic (left) and anthropogenic (right) influence masks during January 2006.
-    Along the bottom is the time series of total pixels over Australian land squares with and without filtering the data.}{\label{Model:filter:fig_pixel_loss_Jan06}}
+  % Figure from test_filters . show_mask_filtering - two images pasted side by side
+  \mypic{Figures/OMI_link/Filters/AnthroPyroFilters_2005.png}{%
+    Top row shows grid squares filtered out by anthropogenic (left) and pyrogenic (right) influence masks over 2005.
+    Bottom row shows portion of Australian grid squares filtered out each day. 
+    }{\label{Model:filter:fig_anthropyrofilters}}
   
   
   \subsection{Pyrogenic filter}
@@ -1760,6 +1745,24 @@
     \end{enumerate}
     This method of masking fires can be compared to \textcite{Marais2012} and \textcite{Barkley2013}:
     \textcite{Marais2012} removed pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1\degr$\times 1$\degr resolution, and \textcite{Barkley2013} used fires from the preceding and current day, within local or adjacent grid squares, at \highhr resolution.
+    
+    
+    % Fire filtering affect split over recalculations
+    Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows the effects from filtering HCHO vertical columns with different fire filtering.
+    Each grid square (at \highhr resolution) has been created by binning the recalculated satellite pixels within the month.
+    The average number of pixels per land square is inset as text, changing due to how the fire filter is applied.
+    Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
+    This figure looks at March 2005 with biomass burning filtered differently in each row.
+    Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
+    
+    % TODO: just look at fire filtering affects .. VCC vs number of days of active fires removed
+    \mypic{Figures/OMI_link/VCC_fires_20050301-20050331.png}{% 
+      Column 1: Reference sector corrected HCHO vertical columns $\Omega$ from OMHCHOv003.
+      Column 2: $\Omega$ with recalculated a priori shape factors using GEOS-Chem v10.01.
+      Column 3: $\Omega$ with recalculated a priori shape factors and scattering weights using GEOS-Chem v10.01 and LIDORT.
+      Row 1-5: increasing number of prior days which have active fires are included when masking fire influence.
+    }{\label{Model:omiRecalc:fig_VCC_pp_fires}}
+    
     
     % How other people have filtered fires
     %Influence from biomass burning can be removed %through measurements of acetonitrile and CO \parencite[e.g.,][]{Wolfe2016, Miller2017}, or else removal of 
@@ -1793,19 +1796,6 @@
       }{\label{Model:filter:fire:fig_typicalAAOD}}
     
     
-    % Compare smoke to fire+smoke mask
-    Figure \ref{Model:filter:fire:fig_smokefilter} shows the number of grid square days filtered by the smoke mask and pyrogenic mask (smoke and active fires combined) over 2005.
-    The Lake Eyre basin is the area most affected by smoke filtering, likely due to dust influence in the arid region.
-    The scale of days filtered by the active fires mask is more than 4 times that of the smoke mask, and is more prominent over heavily forested areas such as the northern and eastern coast lines.
-    Masking for active fires impacts analysis to a far greater extent than masking smoke.
-
-    
-    % TODO: Update title (smoke vs fire+smoke)
-    % Figure is from !?!
-    \mypic{Figures/OMI_link/Filters/SmokeFilter_20050101-20051231.png}{%
-      The left panel shows how many days are filtered using the AAOD threshold, while the right panel shows how many are filtered using the combined smoke and active fire masks.
-      The time series shows pixels available for analysis before being filtered (black), after smoke filtering (cyan) and after the full fire filter is applied (magenta).
-      }{\label{Model:filter:fire:fig_smokefilter}}
     
     Figure \ref{Model:filter:fire:fig_portion_filtered_2005} shows the extent of pixels filtered out by the pyrogenic filter over 2005. 
     The highest concentrations of removed pixels lie along the northern and eastern coastlines, and correspond with forested areas (see Figure \ref{Model:filter:fire:fig_forest_coverage}), which suggests that forest fires are being masked properly.
@@ -1821,7 +1811,6 @@
     A large area in southern Queensland/northern NSW is also heavily filtered, potentially due to gas flaring in the Surat Basin, which has thousands of petrol and gas wells (\url{http://www.ga.gov.au/scientific-topics/energy/resources/petroleum-resources/gas}).
     
     %Figure from !?!?
-    % TODO UPDATE: timeseries title -> Pixels removed, colourbar units (%)
     \mypic{Figures/OMI_link/Filters/Pyrogenic_filter_annotated_2.png}{%
       Top: percentage of pixels filtered out by fire and smoke masks in 2005.
       Bottom: percentage filtered out each day from land squares in Australia.
