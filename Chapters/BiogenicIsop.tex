@@ -1182,9 +1182,9 @@
     
     %figure from Jenny
     \mypic{Figures/gridmapsmall_sites.png}{% 
-      grid box at \lowhr containing SPS, and MUMBA campaign data.}{\label{BioIsop:results:measurements:fig_gridbox}}
+      grid box at \lowhr containing SPS, FTIR, and MUMBA campaign data.}{\label{BioIsop:results:measurements:fig_gridbox}}
     
-    Figure \ref{Model:datasets:SPS:fig_GC_comparison} shows GEOS-Chem output in the grid square containing Sydney overlaid on SPS measurement data.
+    Figure \ref{Model:results:measurements:fig_GC_comparison} shows GEOS-Chem output in the grid square containing Sydney overlaid on SPS measurement data.
     Superficially the comparison is not too bad between these two datasets.
     TODO: mean midday quantities for matching months.
     %, however GEOS-Chem output is the daily average over \lowhr (latitude by longitude).
@@ -1195,7 +1195,7 @@
     % TODO Update with comparison before and after scaling isoprene emissions
     % Figure from ?!?!? 
     \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{%
-      Comparison between GEOS-Chem HCHO concentrations in the grid square containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:datasets:SPS:fig_GC_comparison}}
+      Comparison between GEOS-Chem HCHO concentrations in the grid square containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:results:measurements:fig_GC_comparison}}
     
     % Figure showing apriori and apostiori for any locatation can be made by test_E_new.location_timeseries()
     
@@ -1205,17 +1205,20 @@
     An spectrometer on the roof of the chemistry building at Wollongong university (FTIR) measures HCHO in the atmosphere during clear sky conditions.
     This is the only non-satellite long-term measurement record of total column HCHO available in Australia.
     In order to compare modelled profiles against retrievals from the FTIR, modelled profiles are first \textit{convolved} with the instrument averaging kernal and a priori as shown in Section \ref{Model:datasets:wollongong_ftir}.
-    FTIR output is resampled to only include measurements taken at midday (13:00-14:00), while GEOS-Chem overpass outputs are interpolated onto matching vertical levels.
-    The time series for HCHO is shown in figure TODO, along with GEOS-Chem output before and after updating isoprene emissions.
-    Modelled HCHO in this figure only shows the grid square containing Wollongong, which is the same grid square that contains Sydney and a large amount of rural and forested area.
-    Therefor the comparison between GEOS-Chem output and the FTIR is only qualitative as the representational error prevents one from drawing conclusions.
-    TODO: discuss plot here
+    FTIR output is resampled to only include measurements taken at midday (13:00-14:00), and GEOS-Chem overpass outputs are interpolated onto matching vertical levels for days where FTIR output exists.
+    Figure \ref{Model:results:measurements:fig_FTIR_Comparison_MYA} shows total column HCHO from FTIR, and GEOS-Chem before and after scaling isoprene.
+    %Modelled HCHO in this figure only shows the grid square containing Wollongong, which is the same grid square that contains Sydney and a large amount of rural and forested area.
+    While the representational error between FTIR measurements and GEOS-Chem output prevents quantitative analysis, one can see that the summer overestimation of HCHO from GEOS-Chem is removed by isoprene scaling.
+    The mean summer underestimation of HCHO shown after scaling makes more sense due to the relatively dense forested areas around Wollongong, which would raise local HCHO concentrations above the average for the large grid square represented by GEOS-Chem.
+    %It is perhaps interesting that in winter months GEOS-Chem overestimates HCHO with or without scaling.
+    Another feature is the January and December dip in all three data sets.
+    FTIR has a lower data count and higher variance in these months due to holidays.
     
+    \mypic{Figures/OMI_link/FTIR_TC_Comparison_MYA.png}{%
+      Multi-year monthly mean total column ($\Omega$) HCHO from the FTIR instrument, and the colocated deconvolved GEOS-Chem equivalent before ($\Omega_{GC}$) and after ($\Omega_{GC}^{\alpha}$) scaling isoprene emissions.
+      Shaded areas show inter quartile range.
+      }{\label{Model:results:measurements:fig_FTIR_Comparison_MYA}}
     
-    Figure TODO FTIR total columns against geos chem and geos chem scaled
-    
-    
-    TODO Discussion of comparison.
     
 \section{Uncertainty}
 \label{BioIsop:uncertainty}
