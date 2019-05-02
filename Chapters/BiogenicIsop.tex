@@ -1030,19 +1030,30 @@
 
     \subsubsection{Implications for HCHO}
   
-      After running GEOS-Chem with isoprene emission scaled to match the a posteriori, we first compare simulated $\Ogc$ and $\Ogca$ to $\Oomi$ over January in 2005 (TODO: update to use all summers and winters) in Figure \ref{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}.
+      As a preliminary check on the GEOS-Chem output, I compare simulated $\Ogc$ and $\Ogca$ to $\Oomi$ over January in 2005 in Figure \ref{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}.
       In every region, $\Ogca$ is closer to $\Oomi$ with biases decreasing from 50-120\% down to 30-50\%.
       These $\Oomi$ drive the creation of $\Ogca$, and as we expect the relationship is much improved.
       The remaining differences are most likely driven by filtering and temporal averaging of the applied scaling factor $\alpha$.
-      Variances in satellite HCHO vary from X to Y \%, with more variance in summer.
-      Monthly variance of $\Ogc$, $\Ogca$, and $\Oomi$ is shown in Figure TODO.
-      Scaling isoprene emissions TODO has what affect on variances compared to those of OMI.
       
-      % TODO: update to use scaled run and tropchem run in legend as Ogc and Ogca
-      % figure from initial version of tests/test_new_emissions.hcho_ozone_series
+      % figure from initial version of tests/test_new_emissions.hcho_ozone_timeseries
       \mypic{Figures/OMI_link/new_emiss/HCHO_total_columns_20050101_20050131.png}{%
         Daily mean total column HCHO amounts from GEOS-Chem with (new emissions run) and without (tropchem run) a posteriori scaled isoprene emissions, along with the original OMI HCHO columns.
         Each row shows the average over regions in Figure \ref{BioIsop:results:fig_subregions}. }{\label{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}}
+      
+      
+      
+      Figure \ref{BioIsop:results:emissions:fig_hcho_reduction} shows HCHO is most reduced in summer for the majority of Australia.
+      In winter, a reduction is seen along the northern edge of Australia, most likely due to how emissions in this area are less affected by the seasonal decline.
+      Seasonal means and the standard deviations for each region are summarised in Figure TODO.
+      Variances in satellite HCHO vary from X to Y \%, with more variance in summer.
+      Scaling isoprene emissions TODO has what affect on variances compared to those of OMI.
+      
+      
+      \mypic{Figures/OMI_link/new_emiss/HCHO_total_columns_seasonal.png}{%
+        Total column HCHO before (left) and after (middle) scaling isoprene emissions, and their absolute differences (right).
+        Top row shows summer (DJF) averaged total columns, while bottom row shows the winter (JJA).
+        }{\label{BioIsop:results:emissions:fig_hcho_reduction}}
+      
       
       Decreasing isoprene emissions in the model leads to reduction in HCHO concentrations as one would expect.
       Figure \ref{BioIsop:results:emissions:fig_profile_example} shows an example (over Wollongong) of the modelled HCHO profile before and after scaling isoprene emissions.
@@ -1053,6 +1064,9 @@
         Monthly averaged HCHO profile over Wollongong modelled by GEOS-Chem before (VMR) and after (VRM$^{\alpha}$) scaling isoprene emissions.
         Shaded areas represent the inter-quartile range over the month.
         }{\label{BioIsop:results:emissions:fig_profile_example}}
+        
+      
+      
   
     \subsubsection{Implications for ozone}
   
@@ -1184,23 +1198,18 @@
     \mypic{Figures/gridmapsmall_sites.png}{% 
       grid box at \lowhr containing SPS, FTIR, and MUMBA campaign data.}{\label{BioIsop:results:measurements:fig_gridbox}}
     
-    Figure \ref{Model:results:measurements:fig_GC_comparison} shows GEOS-Chem output in the grid square containing Sydney overlaid on SPS measurement data.
-    Superficially the comparison is not too bad between these two datasets.
-    TODO: mean midday quantities for matching months.
-    %, however GEOS-Chem output is the daily average over \lowhr (latitude by longitude).
-    This figure shows at a glance how the measurements compare to modelled data, and also the limited nature of the temporal and spatial scale of available measurements.
-    TODO: Add scaled output to plot, and discuss
+    Figure \ref{Model:results:measurements:fig_campaign_comparison} shows GEOS-Chem output in the grid square containing Sydney and Wollongong campaign measurements.
     The SPS data is point-source and taken during the daytime when isoprene is higher, so it is very likely that GEOS-Chem HCHO and isoprene output is in fact too high since the daily average should not match the peak of the measurements.
+    MUMBA measurements (summer, Sydney) show lower isopren and HCHO due to the lack of nearby forest, and lower ozone due to titration.
+    SPS measurements are closer to the GEOS-Chem outputs than MUMBA, suggesting the model grid square is more representative of an environment similar to Wollongong, with some forest and limited city influences.
     
-    % TODO Update with comparison before and after scaling isoprene emissions
-    % Figure from ?!?!? 
-    \mypic{Figures/OMI_link/GC_vs_Campaigns_20050131-20050601.png}{%
-      Comparison between GEOS-Chem HCHO concentrations in the grid square containing Sydney for the duration of the SPS 1 and 2 campaigns}{\label{Model:results:measurements:fig_GC_comparison}}
+    % Figure from chapter_3_isop.campaign_vs_GC
+    \mypic{Figures/OMI_link/GC_VS_CAMPAIGNS_midday.png}{%
+      SPS1, SPS2, and MUMBA (left to right columns respectively) midday (13:00-14:00 local time) measurements of isoprene, HCHO, and ozone (top to bottom rows respectively).
+      Shown in magenta and cyan respectively are the a priori and a posteriori GEOS-Chem surface outputs for the matching grid square at midday for months containing measurements.
+      }{\label{Model:results:measurements:fig_campaign_comparison}}
     
     % Figure showing apriori and apostiori for any locatation can be made by test_E_new.location_timeseries()
-    
-    MUMBA data captured concentrations at the surface in Wollongong, and is compared in figure TODO against simulated HCHO concentrations in the first level ($\sim$0 - 150~metres) over corresponding dates.
-    GEOS-Chem midday concentrations are shown, todo: analyse/explain plot here.
     
     An spectrometer on the roof of the chemistry building at Wollongong university (FTIR) measures HCHO in the atmosphere during clear sky conditions.
     This is the only non-satellite long-term measurement record of total column HCHO available in Australia.
