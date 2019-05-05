@@ -443,33 +443,36 @@
     %  \label{BioIsop:method:calculation:fig_E_isop_vs_hcho_model_sample}
     %\end{figure}
     
-    % UP TO HERE JENNY
+  \subsection{Modelled background HCHO}
     %% BACKGROUND calculation(s)
+    
     There are two simple ways to determine the modelled background HCHO, one of which involves running the model with no isoprene emissions. 
     %, which shows how much they alter vertical column HCHO.
-    Since we have assumed variation in HCHO columns only depends on isoprene emissions, our background term is theoretically identical to this simulated HCHO.
+    Since we have assumed variation in HCHO columns only depends on isoprene emissions, our background term is theoretically identical to the simulated HCHO without isoprene emissions.
     The other method uses HCHO over the remote Pacific at matching latitudes and times, which emulates how the background is determined for the satellite measured HCHO.
     Figure \ref{BioIsop:method:fig_background_hcho} shows GEOS-Chem total column HCHO with and without isoprene emissions along with amounts over the remote Pacific at the same latitudes.
-    The difference in $\Ogc$ over Australia with no isoprene emissions, and $\Ogc$ over the remote Pacific (bottom right panel) shows the difference ($\sim 1$ to $3$ \moleccm) between these methods in an example averaged month (January, 2005).
+    The difference in $\Ogc$ over Australia with no isoprene emissions, and $\Ogc$ over the remote Pacific (bottom right panel) shows the difference ($\sim 1$ to $3 \times 10^{15}$ \moleccm) between these methods in an example averaged month (January, 2005).
     This difference is relatively small, and may be due to non-isoprene HCHO precursors.
     For consistency with the satellite data, we determine backgrounds using the remote Pacific.
     Background HCHO for any latitude in this thesis is calculated by averaging longitudinally (140\degr W to 160\degr W) the matching latitudes over the remote Pacific.
     %These backgrounds are used when creating the reference sector corrections for satellite measurements (in Section \ref{Model:omiRecalc:RSC}).
     %The background columns are longitudinally averaged from 140\degr W to 160\degr W.
     
+    
+    % TODO: put pacific ocean background over australia in top right, use diverging color scheme for difference plot
     % Figure from chapter_3_isop.py
     \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{%
       Top left: Total column HCHO over Australia using the standard tropchem GEOS-Chem simulation.
       Top right: As top left except over the remote Pacific region at southern mid-latitudes.
-      Bottom left: As top left except using the no isoprene emissions GEOS-Chem simulation.
-      Bottom right: Difference between the no isoprene emission HCHO columns over Australia, and the remote Pacific HCHO columns from the standard tropchem run at matching latitudes.
+      Bottom left: Background $\Omega_{HCHO}$ defined using the no isoprene emissions GEOS-Chem simulation.
+      Bottom right: Difference between the background defined using the no isoprene emission HCHO columns over Australia and using the remote Pacific HCHO columns from the standard tropchem run at matching latitudes.
       }{\label{BioIsop:method:fig_background_hcho}}
     
     
   \subsection{Calculation of Emissions}
     \label{BioIsop:method:calculation}
    
-    Top-down emissions estimates are calculated using OMHCHO (see Section \ref{Model:omhcho}) slant columns and an updated AMF calculated using code by Paul Palmer and Randal Martin, with modifications by Luke Surl (see Section \ref{Model:omiRecalc:ppcode}).
+    Top-down emissions estimates are calculated using OMHCHO (see Section \ref{Model:omhcho}) slant columns and an updated AMF calculated using code written by Paul Palmer and Randal Martin, with modifications by Luke Surl (see Section \ref{Model:omiRecalc:ppcode}).
     These emissions are referred to as the a posteriori from here onward, or $\apost$ in formulae.
     
     
@@ -483,12 +486,12 @@
       \Oomi = & S \times \apost + \Omega_0 \\
       \apost = & \frac{\Oomi - \Omega_{0}}{S}
     \end{split} \end{eqnarray} 
-    This is the same as equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}, except now we use the satellite HCHO ($\Oomi$, and $\Omega_0$).
+    This is the same as equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}, except now we use the satellite HCHO ($\Oomi$ ~and $\Omega_0$).
     $\Omega_0$ is calculated using $\Oomi$ in the remote Pacific averaged monthly and longitudinally, for each latitude.
     This leaves $\apost$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
-    Figure \ref{BioIsop:method:calculation:fig_E_isop_200501} shows an example of how the a priori compares to the a posteriori, averaged over January, 2005.
+    Figure \ref{BioIsop:method:calculation:fig_E_isop_200501} shows an example of how the a priori compares to the a posteriori, averaged over January 2005.
     This figure gives a single month of output as an example.
-    The a priori exceeds 500\% of the a posteriori in many regions, however this is mostly in regions of low emissions and represents only minor absolute differences. 
+    The a priori exceeds 500\% of the a posteriori in many regions; however, this is mostly in regions of low emissions and represents only minor absolute differences. 
     Analysis of the full record is discussed in the results (Section \ref{BioIsop:results}).
     
     
@@ -497,7 +500,7 @@
     % RERUN MAKING SURE NEGATIVES ARE REMOVED OR ZEROED
     \begin{figure}
       % Figure from Analyse_E_new.MEGAN_vs_E_new()
-      \includegraphics[width=\textwidth]{Figures/OMI_link/Emiss/MEGAN_vs_E_VCC_PP_lr_20050101-20051231.png}
+      \includegraphics[width=\textwidth]{Figures/OMI_link/Emiss/MEGAN_vs_E_VCC_PP_lr_20050101-20050131.png}
       \caption{%
         Top row: isoprene emissions from GEOS-Chem (a priori, left) simulation and top-down (a posteriori, right) calculations averaged over the month of January, 2005.
         Bottom row: the absolute (left) and relative (right) differences between the two.
@@ -506,13 +509,16 @@
     \end{figure}
     
     
-    One potential issue in this top down estimation technique is the low number of valid satellite measurements that may occur due to the higher zenith angles in winter and at higher latitudes.
+    One potential issue in this top down estimation technique is the low number of valid satellite measurements that may occur due to the higher solar zenith angles in winter and at higher latitudes.
     When calculating the a posteriori from our modelled slope, negative emissions result wherever measured columns are lower than background amounts (as $\apost = \frac{\Oomi - \Omega_0}{S}$).
-    These are set to zero, which increases monthly averages by TODO: $\sim X-Y$~\% ($\sim XX - YY$~atom C cm$^{-2}$ s$^{-1}$) over Australia, with the highest increases occurring during (TODO winter?).
+    These are set to zero, which increases the overall average emissions from 4.4$\times 10^{11}$ atom C cm$^{-2}$ s$^{-1}$ to 1.1$\times 10^{12}$ atom C cm$^{-2}$ s$^{-1}$, due to the frequency of sub-zero column amounts (especially in winter).
+    %% TODO: split this into seasonl emission changes?.
     
+    % UP TO HERE JENNY
   \subsection{Accounting for smearing}
     \label{BioIsop:method:smearing}
     
+    % JENNY NOTE: Order is off in this paragraph, you say smearing is a problem for australia before you describe what it is. Reread and reorder
     In high NO$_x$ ($ > \sim 1 $~ppb) environments, isoprene has a lifetime on the order of 30 minutes, and HCHO can be used to map isoprene emissions with spatial resolution from 10-100~kms \parencite{Palmer2003}.
     In low NO$_x$ conditions, isoprene has a longer lifetime (hours) and may form HCHO further from the source area \parencite{Fan2004,Liu2016a,Liu2017_hpald}.
     Over Australia, NO$_x$ levels are generally low and smearing is therefore expected to be important.
@@ -1427,7 +1433,7 @@
     
     Uncertainty in satellite HCHO ($\Delta{\Omega}$) from literature and calculated here is listed in Table \ref{BioIsop:uncertainty:eomi:tab_lit_uncertainties}.
     \textcite{DeSmedt2012} found satellite HCHO uncertainty to be $30-40\%$ for the GOME-2 instrument by combining slant column systematic and random errors.
-    For mid latitude winters they saw an excess of 60\% uncertainty.
+    For mid latitude winters they found an excess of 60\% uncertainty.
     % maybe TODO: calculate this also and compare with explicit calculations from second paragraph
     OMI measurements will have similar amounts of uncertainty; however, the array of detectors provide more pixels which can be averaged to reduce this uncertainty.
     
