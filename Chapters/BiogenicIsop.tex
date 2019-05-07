@@ -491,7 +491,7 @@
     This leaves $\apost$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
     Figure \ref{BioIsop:method:calculation:fig_E_isop_200501} shows an example of how the a priori compares to the a posteriori, averaged over January 2005.
     This figure gives a single month of output as an example.
-    The a priori exceeds 500\% of the a posteriori in many regions; however, this is mostly in regions of low emissions and represents only minor absolute differences. 
+    The a priori exceeds 500\% of the a posteriori in many regions; however, the major absolute differences occur in the east between Sydney and Brisbane. 
     Analysis of the full record is discussed in the results (Section \ref{BioIsop:results}).
     
     
@@ -499,7 +499,7 @@
     % RERUN MAKING SURE NEGATIVES ARE REMOVED OR ZEROED
     \begin{figure}
       % Figure from Analyse_E_new.MEGAN_vs_E_new()
-      \includegraphics[width=\textwidth]{Figures/OMI_link/Emiss/MEGAN_vs_E_VCC_PP_lr_20050101-20050131.png}
+      \includegraphics[width=\textwidth]{Figures/OMI_link/Emiss/MEGAN_vs_E_PP_lr_20050101-20050131.png}
       \caption{%
         Top row: isoprene emissions from GEOS-Chem (a priori, left) simulation and top-down (a posteriori, right) calculations averaged over the month of January, 2005.
         Bottom row: the absolute (left) and relative (right) differences between the two.
@@ -623,7 +623,7 @@
       Additionally, any grid square with low isoprene emissions will be more sensitive to transport, as the signal is lower.
       During summer data loss from smearing is only minor (todo: Y\%); however, data loss peaks in winter (TODO X \%), especially in higher southern latitudes.
       
-      % UP TO HERE JENNY
+      
       %JENNY NOTE:I don't really understand why you are showing both columns in this figure. I know you did this analysis to figure out how to do smearing, but you are just using the midday emissions in what follows right? Which makes sense anyway because that is when the HCHO obs are from? I would remove the extra column and focus in the text on what this figure says about when, seasonally, smearing is important. Maybe even add autumn and spring here to show the seasonal change.
       
       %Isoprene emissions (E$_{isop}$) are defined in two ways in this figure: left column from daily averaged flux, and right column from and midday (1300-1400~LT) flux. 
@@ -637,70 +637,20 @@
       
       
       When limiting smearing ($\hat{S}$) to within 800-4600~s, GEOS-Chem correlations between isoprene emissions and HCHO columns improve marginally and not uniformly (Figure \ref{BioIsop:method:slope:fig_smear_filter_prior}). 
-      Where smearing is prevalent, the relationship between a priori emissions and HCHO columns may already be weak due to low actual emissions or unsuitable meteorological conditions.
+      Where smearing is prevalent, the relationship between a priori emissions and HCHO columns may already be weak due to low emissions or unsuitable meteorological conditions.
       Loss of data due to filtering is handled by using multiple years of data for any affected grid square month as follows.
       $S$ and associated regression coefficients ($r$) are calculated monthly.
       If $r<0.4$ then the regression is calculated using multiple years of data for that month.
-      This multiple year regression is discarded completely if it also has a coefficient of $r<0.4$, leaving no slope for the grid square for the month.
+      This multiple year regression is discarded completely if it also has a coefficient of $r<0.4$, leaving no slope for the grid square for the month, and therefore no estimated a posteriori emission.
       %TODO: How often does this happen? where is it most common?
+      
       %potentially where the 95\% confidence interval min and max ratio is too high (too wide).
       %Figure TODO shows GEOS-Chem midday HCHO columns compared against GEOS-Chem emissions of isoprene, over land squares with (red) and without (grey) filtering for smearing.
       
-    \subsubsection{Smearing length scale}
+    % Subsection on smearing length scale was here, now in spare notes
     
-      
-      The expected horizontal transport (prior to reaction) of a precursor can be calculated using the smearing length \parencite{Palmer2003}.
-      The distance travelled ($L$) downwind by a precursor ($i$) before forming HCHO can be estimated through:
-      \begin{equation*}
-        L_{i} = \frac{U}{k_i - k_{HCHO}} \ln{ \left( \frac{k_i}{k_{HCHO}} \right) }
-      \end{equation*}
-      where $U$ is wind-speed.
-      \textcite{Palmer2003} further define a smearing length scale $L_{s,i}$ as the distance downwind where most of the precursor is completely transformed into HCHO.
-      Here we use the simplification of $L_{s,isop} \approx \frac{U}{k_{HCHO}}$ as isoprene loss rates (2~h$^{-1}$) exceed those of HCHO (0.25-0.67~h$^{-1}$) by a factor of 3-8.
-      These numbers come from assuming HCHO lifetime of 1.5-4~h, and isoprene lifetime of 30~m TODO: cite.
-      Throughout most of the year, over most of Australia, monthly averaged wind speeds do not exceed 20~km h$^{-1}$ (\url{http://www.bom.gov.au/jsp/ncc/climate_averages/wind-velocity/} [accessed Feb., 2019]), although daily wind speeds will be highly variable.
-      This means that a reasonable upper limit for the smearing length scale is $20 / 0.25 = 80$~km over Australia.
-      Grid boxes used in top-down estimation of isoprene emissions describe rectangles with both side lengths approximately 200~km, so generally I do not expect to be overly impacted by smearing.
-      %Figure TODO: shows a rough estimate of isoprene smearing length($L_{s,isop}$) in Australia using wind speeds from TODO:, and reaction rates $k_{isop}$, $k_{HCHO}$ from GEOS-Chem.
-      %%TODO make this plot!
-      The estimated loss rate of HCHO in GEOS-Chem %approximately ranges from 1e6 to 3e6 mol cm$^{-3}$ s${-1}$, 
-      is up to three times higher in summer and along the north and eastern regions associated with denser forest regions, when compared against other regions.
-      This is largely due to loss rates being proportional to concentrations, and leads to less smearing sensitivity over areas of high isoprene emissions and HCHO concentrations.
-       
-      %This equation uses the initial VOC column concentration ($[VOC]_0$) at the point of emission and mass balance equations as follows:
-      %%TODO: Add intermediate steps
-      %\begin{equation}
-      %\frac{1}{k_{HCHO}-k_i} \left( k_{HCHO} \exp{ \left[ \frac{-k_i L_{s,i}}{U} \right]} -k_i %\exp{ \left[ \frac{-k_{HCHO} L_{s,i}}{U} \right]} \right) = \frac{1}{e} 
-      %\end{equation}
-      %with limiting values $L_{s,i} \rightarrow U/k_i$ for $k_i << k_{HCHO}$, and $L_{s,i} \rightarrow U/k_{HCHO}$ for $k_{HCHO} << k_i$.
-      
-      % Discussion of HCHO and isoprene lifetimes/yields 
-      %The half-life of HCHO %to photo-oxidation with hydroxyl radicals 
-      %is around 1~hr depending on environmental conditions \parencite{WHO_hcho_guidelines_2010}.
-      %This would make the expected lifetime ($\tau = \text{half-life}/\ln{2}$) around 1.4 hours.
-      %Over the majority of Australia conditions are relatively clean (low NO$_x$), which extends the expected lifetime.
-      
-      
-      GEOS-Chem daily averaged HCHO lifetime ($\tau$) is calculated using daily averaged surface loss rates ($L_{HCHO}$) and concentrations of HCHO:
-      \begin{equation*}
-      \tau = \frac{[HCHO]}{L_{HCHO}}
-      \end{equation*}
-      The expected lifetime of HCHO is determined by assuming loss is linear (first order) and dividing grid box daily averaged concentrations of GEOS-Chem HCHO ($[HCHO]$ in molecules cm$^{-3}$) by their modelled losses ($L_{HCHO}$ in molecules cm$^{-3}$ s$^{-1}$).
-      For each grid square over Australia this daily averaged surface lifetime in summer (Jan., Feb.) and winter (Jul., Aug.) is shown in Figure \ref{BioIsop:method:smearing:fig_tau_GC_2005}.
-      Additionally lifetimes coloured by location (dots in the top right panel) are shown over time in the bottom panel.
-      Note that this figure shows the daily averaged lifetime, as loss rate diagnostics are only available as a daily average.
-      Loss rates would maximise at midday (13:00-14:00~LT), along with HCHO concentrations, which makes the estimate shown here an upper limit. 
-      This figure highlights the seasonal nature of HCHO lifetime, although midday numbers are expected to have less seasonality than shown here, since midday lifetime will be less affected by how long the daylight lasts.
-      % JENNY NOTE: You are writing this in a section about smearing length scale (presumably to determine where you expect smearing to be important, or not). It would therefore be good to tie all this lifetime stuff back to the smearing length scale. You used average k_HCHO above, but what does this actually look like for GEOS-Chem? Would it make sense to show k_HCHO in your plots rather than tau to better equate this to your assumptions? Or even to show the average length scale, assuming a mean wind speed of 20 or 25 kph as you did above?
-      %
-      Another highlighted issue is the potential latitudinal dependence of HCHO lifetimes, since there is less total insolation leading to lower HCHO loss rates at higher latitudes.
-      The overall takeaway is that the accuracy and utility of any top down HCHO precursor estimation technique will be limited by both season and potentially latitude.
-      These limitations are due to both data availability (as satellite HCHO uncertainty increases at high zenith angles) and spatial smearing (due to HCHO lifetimes that increase with reduced insolation and temperature).
-      
-      \mypic{/Figures/OMI_link/Filters/tau_2005.png}{%
-        Top left, right: summer (Jan., Feb.) and winter (JJA) averaged daily surface HCHO lifetime ($\tau$). Bottom panel: $\tau$ over the year, coloured by location (see dots in top right panel).
-      }{\label{BioIsop:method:smearing:fig_tau_GC_2005}}
-      
+    
+    % UP TO HERE JENNY
     %Nitrous oxide is N2O. You are after nitric oxide (NO) or nitrogen oxides (NO2)
     \subsubsection{NO$_x$ dependence}
       
@@ -860,7 +810,7 @@
     
     
     % Figure from chapter_3_isop.regional_seasonal_comparison
-    \mypic{Figures/OMI_link/Emiss/E_zones_diffs.png}{%
+    \mypic{Figures/OMI_link/new_emiss/RegSeas_emissions_timeseries.png}{%
       Row 1: Biogenic emissions of isoprene from GEOS-Chem (a priori, E$_{GC}$). 
       Row 2: Emissions calculated using the OMI top down inversion (a posteriori, E$_{OMI}$).
       Row 3: Absolute differences between the first two rows.
@@ -874,6 +824,24 @@
     The a priori is approximately twice that of the a posteriori.
     Absolute differences are highest in spring and summer, when emissions are generally greatest.
     The exception is the northern region, where the largest overestimation occurs in spring, and large differences are seen in all seasons.
+    Uncertainty is summarised for the a posteriori using the mean monthly uncertainty per grid square within each region, divided by the square root of how many months are averaged (24, 8 years of 3 months per season).
+    Uncertainty is relatively small since we have 8 years of data combined into the seasonal mean.
+    The potential bias (see Section \ref{BioIsop:uncertainty:eomi}) is added to the uncertainty and displayed using horizontal red bars.
+    Outside of summer (spring in the Northern region) the overestimation lies within the potential bias caused by satellite underestimations of HCHO. 
+    However, the most overestimated season within each region is still outside this wide range of potential bias and uncertainty.
+    Some monthly grid squares are very uncertain ($>200\%$) and these are removed for this plot, causing an increase in a posteriori emissions of $<1\%$.
+    The cause for these highly uncertain grid squares is not analysed, but may be worth examining in future work.
+    
+    % Figure from chapter_3_isop.regional_seasonal_comparison
+    \mypic{Figures/OMI_link/Emiss/E_zones_diffs.png}{%
+      Regional multi-year seasonal mean a priori emissions (magenta) compared to a posteriori emissions (cyan).
+      Error bars show the regionally averaged uncertainty.
+      Additional horizontal dashes show the uncertainty plus effects from potential HCHO biases (discussed in Section \ref{BioIsop:uncertainty:eomi}) from satellite underestimation (40\%) and monthly clear sky overestimation (13\%).
+    }{\label{BioIsop:results:emissions:fig_regional_seasonal_comparison}}
+    
+    
+    
+    
     Figure \ref{BioIsop:results:emissions:fig_megan_vs_Enew_regional_mya} shows the multi-year monthly mean and inter-quartile range of daily midday isoprene emissions estimates in each region. 
     Months outside of May to August show the most difference between a posteriori and a priori.
     The most overlap is seen in the south-eastern region, where high summer emissions along with high variance occurs in both the a priori and a posteriori.
@@ -890,12 +858,6 @@
     
     
     
-    % Figure from chapter_3_isop.regional_seasonal_comparison
-    % TODO: ERROR BARS
-    \mypic{Figures/OMI_link/new_emiss/RegSeas_emissions.png}{%
-      Regional multi-year seasonal mean a priori emissions (magenta) compared to a posteriori emissions (cyan).
-      TODO: error bars show the regionally averaged uncertainty and the upper bound of the error bars includes potential bias from low satellite HCHO amounts.
-      }{\label{BioIsop:results:emissions:fig_regional_seasonal_comparison}}
     
     % Figure from Analyse_E_isop.py -> E_regional_multiyear()
     \mypic{Figures/OMI_link/Emiss/E_zones_multiyear_PP_lr.png}{ %
@@ -1593,14 +1555,16 @@
   % Why might emissions be too high -> leading towards future work
   The full story behind model overestimation still unclear, and both Global and Australian emissions estimates for isoprene range widely.
   This is in part due to the emission models sensitivities to inexact parameters including leaf area indices, plant functional type emission factors, and meteorological factors. 
-  In Australia, a mixture of poorly defined emission factors \parencite[e.g.,][]{Emmerson2016}, unaccounted for soil moisture \parencite[e.g.,][]{Sindelarova2014} and poorly understood forest responses to meteorological stresses (TODO: cite papers talking about clay and poor moisture responses) is likely driving uncertainty and model biases.
+  In Australia, a mixture of poorly defined emission factors \parencite[e.g.,][]{Emmerson2016}, unaccounted for soil moisture \parencite[e.g.,][]{Sindelarova2014} and poorly understood forest responses to meteorological stresses (TODO: cite papers talking about clay and poor moisture responses) is likely driving uncertainty and model biases \parencite{Emmerson2019}.
   %For instance, \textcite{Sindelarova2014} found % a 41\tgpyr decrease in Australia when 
   %introducing soil moisture parameterisation led to a large decrease in isoprene emissions modelled by MEGAN in Australia.
   In the US, bias between OMI and in-situ measurements is as high as 40\%, but bias in Australia cannot be determined as there is not enough information.
+  This leads to a wide range for potential emissions (see Figure \ref{BioIsop:results:emissions:fig_regional_seasonal_comparison}) and limits potential top-down refinements to isoprene emissions.
   Ground based VOC, OVOC, NO$_x$, and ozone measurements over large areas timed to coincide with satellite overpass times could be performed to handle the issue of unknown satellite biases while additionally providing some constraints for bottom up models.
   In the northern region, where forests are affected by monsoonal seasons, characterisation of forest emissions and their response to sunlight, temperature, and moisture are even more important in order to improve modelled emissions.
   This is due to the reduced opportunity to get relatively cloud-free satellite measurements of the atmosphere at these times.
   In the future an improved soil moisture map and response parameterisation could be tested using top-down emissions estimates (such as is provided in this chapter) as a measure of model correction.
+  
   
 
 % Extras for potential paper output 

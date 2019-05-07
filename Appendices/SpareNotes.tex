@@ -365,3 +365,59 @@
   
   One set of data from the Daintree rainforest in Queensland exists (TODO: summary from P. Nelson).
   Although the data set lies outside our run times, as it was measured in TODO(runtime), we compare against the seasonal average of our GEOS-Chem output for the matching months (TODO: name the months).
+  
+\section{Smearing length scale}
+  
+  
+  The expected horizontal transport (prior to reaction) of a precursor can be calculated using the smearing length \parencite{Palmer2003}.
+  The distance travelled ($L$) downwind by a precursor ($i$) before forming HCHO can be estimated through:
+  \begin{equation*}
+    L_{i} = \frac{U}{k_i - k_{HCHO}} \ln{ \left( \frac{k_i}{k_{HCHO}} \right) }
+  \end{equation*}
+  where $U$ is wind-speed.
+  \textcite{Palmer2003} further define a smearing length scale $L_{s,i}$ as the distance downwind where most of the precursor is completely transformed into HCHO.
+  Here we use the simplification of $L_{s,isop} \approx \frac{U}{k_{HCHO}}$ as the isoprene rate constant is greater than that of HCHO by a factor of at least 3 (since loss rates of HCHO are 3-8 times slower, even though there is more HCHO).
+  % isoprene loss rates (2~h$^{-1}$) exceed those of HCHO (0.25-0.67~h$^{-1}$) by a factor of 3-8, even though there is more HCHO.
+  These numbers come from assuming HCHO lifetime of 1.5-4~h, and isoprene lifetime of 30~m TODO: cite.
+  Throughout most of the year, over most of Australia, monthly averaged wind speeds do not exceed 20~km h$^{-1}$ (\url{http://www.bom.gov.au/jsp/ncc/climate_averages/wind-velocity/} [accessed Feb., 2019]), although daily wind speeds will be highly variable.
+  This means that a reasonable upper limit for the smearing length scale is $20 / 0.25 = 80$~km over Australia.
+  Grid boxes used in top-down estimation of isoprene emissions describe rectangles with both side lengths approximately 200~km, so generally I do not expect to be overly impacted by smearing.
+  %Figure TODO: shows a rough estimate of isoprene smearing length($L_{s,isop}$) in Australia using wind speeds from TODO:, and reaction rates $k_{isop}$, $k_{HCHO}$ from GEOS-Chem.
+  %%TODO make this plot!
+  The estimated loss rate of HCHO in GEOS-Chem %approximately ranges from 1e6 to 3e6 mol cm$^{-3}$ s${-1}$, 
+  is up to three times higher in summer and along the north and eastern regions associated with denser forest regions, when compared against other regions.
+  This is largely due to loss rates ($k_{HCHO}\times [HCHO]$) being proportional to concentrations, and leads to less smearing sensitivity over areas of high isoprene emissions and HCHO concentrations.
+  
+  %This equation uses the initial VOC column concentration ($[VOC]_0$) at the point of emission and mass balance equations as follows:
+  %%TODO: Add intermediate steps
+  %\begin{equation}
+  %\frac{1}{k_{HCHO}-k_i} \left( k_{HCHO} \exp{ \left[ \frac{-k_i L_{s,i}}{U} \right]} -k_i %\exp{ \left[ \frac{-k_{HCHO} L_{s,i}}{U} \right]} \right) = \frac{1}{e} 
+  %\end{equation}
+  %with limiting values $L_{s,i} \rightarrow U/k_i$ for $k_i << k_{HCHO}$, and $L_{s,i} \rightarrow U/k_{HCHO}$ for $k_{HCHO} << k_i$.
+  
+  % Discussion of HCHO and isoprene lifetimes/yields 
+  %The half-life of HCHO %to photo-oxidation with hydroxyl radicals 
+  %is around 1~hr depending on environmental conditions \parencite{WHO_hcho_guidelines_2010}.
+  %This would make the expected lifetime ($\tau = \text{half-life}/\ln{2}$) around 1.4 hours.
+  %Over the majority of Australia conditions are relatively clean (low NO$_x$), which extends the expected lifetime.
+  
+  
+  GEOS-Chem daily averaged HCHO lifetime ($\tau$) is calculated using daily averaged surface loss rates ($L_{HCHO}$) and concentrations of HCHO:
+  \begin{equation*}
+    \tau = \frac{[HCHO]}{L_{HCHO}}
+  \end{equation*}
+  The expected lifetime of HCHO is determined by assuming loss is linear (first order) and dividing grid box daily averaged concentrations of GEOS-Chem HCHO ($[HCHO]$ in molecules cm$^{-3}$) by their modelled losses ($L_{HCHO}$ in molecules cm$^{-3}$ s$^{-1}$).
+  For each grid square over Australia this daily averaged surface lifetime in summer (Jan., Feb.) and winter (Jul., Aug.) is shown in Figure \ref{BioIsop:method:smearing:fig_tau_GC_2005}.
+  Additionally lifetimes coloured by location (dots in the top right panel) are shown over time in the bottom panel.
+  Note that this figure shows the daily averaged lifetime, as loss rate diagnostics are only available as a daily average.
+  Loss rates would maximise at midday (13:00-14:00~LT), along with HCHO concentrations, which makes the estimate shown here an upper limit. 
+  This figure highlights the seasonal nature of HCHO lifetime, although midday numbers are expected to have less seasonality than shown here, since midday lifetime will be less affected by daylight hours.
+  % JENNY NOTE: You are writing this in a section about smearing length scale (presumably to determine where you expect smearing to be important, or not). It would therefore be good to tie all this lifetime stuff back to the smearing length scale. You used average k_HCHO above, but what does this actually look like for GEOS-Chem? Would it make sense to show k_HCHO in your plots rather than tau to better equate this to your assumptions? Or even to show the average length scale, assuming a mean wind speed of 20 or 25 kph as you did above?
+  %
+  Another highlighted issue is the potential latitudinal dependence of HCHO lifetimes, since there is less total insolation leading to lower HCHO loss rates at higher latitudes.
+  The overall takeaway is that the accuracy and utility of any top down HCHO precursor estimation technique will be limited by both season and potentially latitude.
+  These limitations are due to both data availability (as satellite HCHO uncertainty increases at high zenith angles) and spatial smearing (due to HCHO lifetimes that increase with reduced insolation and temperature).
+  
+  \mypic{/Figures/OMI_link/Filters/tau_2005.png}{%
+    Top left, right: summer (Jan., Feb.) and winter (JJA) averaged daily surface HCHO lifetime ($\tau$). Bottom panel: $\tau$ over the year, coloured by location (see dots in top right panel).
+  }{\label{BioIsop:method:smearing:fig_tau_GC_2005}}
