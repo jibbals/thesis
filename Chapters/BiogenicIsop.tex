@@ -1190,9 +1190,8 @@
     \mypic{Figures/OMI_link/FTIR_TC_Comparison_MYA.png}{%
       Multi-year monthly mean total column ($\Omega$) HCHO from the FTIR instrument, and the colocated deconvolved GEOS-Chem equivalent before ($\Omega_{GC}$) and after ($\Omega_{GC}^{\alpha}$) scaling isoprene emissions.
       Shaded areas show inter quartile range.
-      }{\label{Model:results:measurements:fig_FTIR_Comparison_MYA}}
+    }{\label{Model:results:measurements:fig_FTIR_Comparison_MYA}}
   
-  % UP TO HERE JENNY
   \subsection{Modelled HCHO lifetimes}
     \label{BioIsop:results:hcho_life}
     By assuming yield $Y_{isop}$ lies between 0.2 and 0.4, we find a range for midday lifetimes of HCHO using equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}:
@@ -1216,7 +1215,6 @@
       Solid lines show lifetime assuming yield is 0.2, and 0.4 (higher and lower lines respectively).
       Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
     }{\label{BioIsop:results:hcho_life:fig_Lifetime}}
-    % THIS FIGURE should go into results
     
 \section{Uncertainty}
 \label{BioIsop:uncertainty}
@@ -1303,7 +1301,7 @@
       }{\label{BioIsop:uncertainty:fig_ErerrSummary}}
     
     \mypic{Figures/OMI_link/Ererr_map_summerwinter_final.png}{%
-      Summer (DJF, top row) and winter (JJA, bottom row) a posteriori emissions (left column) and its relative error (right column). 
+      Summer (DJF, top row) and winter (JJA, bottom row) a posteriori emissions (left column) and relative error (right column). 
     }{\label{BioIsop:uncertainty:fig_Ererrmap}}
     
     %The overall summary of uncertainty is presented in Section \ref{BioIsop:uncertainty:summary}.
@@ -1321,22 +1319,22 @@
     For example, if the interval upper bound is 30\% higher than the slope, relative uncertainty is set to 0.3 (or 30\%).
     
     This is a simple method of approximating the uncertainty of this term, only accounting for monthly uncertainty of the slope calculation.
-    It does not take into account uncertainty in the underlying model, nor uncertainties arising from temporal or spatial resolution issues, which would be difficulty to quantify..
-    Figure \ref{BioIsop:uncertainty:Model:fig_Srerrsummary} shows the relative uncertainty in $S$ over Australia, and for each region.
+    It does not take into account uncertainty in the underlying model, nor uncertainties arising from temporal or spatial resolution, which would be difficult to quantify..
+    Figure \ref{BioIsop:uncertainty:Model:fig_Srerrsummary} shows the relative uncertainty in $S$ over Australia and for each region.
     There is little discernible seasonality to the relative error in $S$, which generally ranges from $0.3-0.4$ ($30-40\%$).
-    For comparison \textcite{Palmer2006} found $\frac{\Delta S}{S}$ to be 30\%, after comparison with another chemical model and in situ measurements.
-    To improve understanding of uncertainty in S would require further analysis of GEOS-Chem yield over Australia, including how it responds to environmental and meteorological parameters, and how representative this modelled quantity is compared to measurements.
+    For comparison, \textcite{Palmer2006} found $\frac{\Delta S}{S}$ to be 30\% after comparing with another chemical transport model and in situ measurements.
+    To improve understanding of uncertainty in $S$ would require further analysis of GEOS-Chem yield over Australia, including how it responds to environmental and meteorological parameters, and how representative this modelled quantity is compared to measurements.
     
     \mypic{Figures/OMI_link/mya_Srerr.png}{%
       Median and inter-quartile range of monthly binned uncertainty in $S$.
       }{\label{BioIsop:uncertainty:Model:fig_Srerrsummary}}
     
     % Filtering
-    Filtering for spatial smearing (see Section \ref{BioIsop:method:smearing}) reduces the number of data points making up our regression slope $S$. 
+    Filtering for spatial smearing (see Section \ref{BioIsop:method:smearing}) reduces the number of data points making up the regression slope $S$. 
     The process generally improves the linear relationship, and where it does not a multi-year average (or in the worst cases no value at all) is used in lieu of monthly $S$ data.
-    The thresholds for the smearing filter are based on literature studying other countries, which may prove to be unsuitable within Australia.
-    To improve the understanding of smearing in Australia, a better approximation of HCHO lifetimes and yields, and NO$_x$ seasonality and regional concentrations is required.
-    The filtering process is accounted for in the calculation of $\Delta S$, and the overall effect on uncertainty is discussed.
+    The thresholds for the smearing filter are based on literature values from other countries, which may prove to be unsuitable within Australia.
+    To improve the understanding of smearing in Australia, a better approximation of HCHO lifetimes and yields, and NO$_x$ seasonality and regional concentrations, is required.
+    The filtering process is accounted for in the calculation of $\Delta S$, and the effect is a small reduction of the overall uncertainty from $S$.
     
     %\subsubsection{Resolution}
     % Resolution notes
@@ -1346,7 +1344,8 @@
     %\subsubsection{Biases}
     % Biases
       Model biases are not analysed in this thesis, except to note that they would impact both preliminary OMI calculations and the modelled slope. 
-      Insufficient independent measurements in Australia mean that any quantified uncertainty would require unreasonable extrapolation to apply at a national scale.
+      Insufficient independent measurements in Australia make it impossible to quantify uncertainty %would require unreasonable extrapolation to apply 
+      at a national scale.
       %Yield calculations are performed at low resolution (2\degr x 2.5\degr) which may lead to overestimation \parencite{Yu2016}.
       
       %Isoprene to HCHO yield between low and high NO$_x$ (0.1 to 1~ppbv respectively) conditions has been estimated through box modelling to be 1.9 to 2.4 mol mol$^{-1}$ in \textcite{Bauwens2016}.
@@ -1366,13 +1365,15 @@
         Fitting error is provided in the OMHCHO product.
         This error is ascribed to the $SC$ term.
       \item [Uncertainty in AMF calculations] \hfill \\
-        Air mass factors model how the satellite instrument is vertically sensitive to slant path measurements, and uncertainties arise predominantly from uncertain cloud parameters \parencite{Palmer2006}.
+        Air mass factors model the satellite instruments vertical sensitivity to slant path measurements, and uncertainties arise predominantly from uncertain cloud parameters \parencite{Palmer2006}.
+        Vertical columns from OMI are recalculated using AMFs derived from GEOS-Chem (Section \ref{Model:omiRecalc:AMF}).
         AMF uncertainty can be determined through comparison of GEOS-Chem output to independently measured HCHO columns.
         Here we use 30\% as a rough estimate of error in this term \parencite{Palmer2006}, since measurements over Australia are lacking.
+        % JENNY NOTE: How does this compare to FTIR comparison?
         This error is ascribed to the $AMF$ term.
         %validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
       \item [Uncertainty of HCHO background] \hfill \\
-        OMI Vertical columns are corrected using background (or reference sector) measurements.
+        OMI vertical columns are corrected using background (or reference sector) measurements.
         This is to account for instrument degradation, and adds some uncertainty to the column.
         In this work vertical columns are corrected using reference sector measurements combined with modelled HCHO, which is described in Chapter \ref{Model} (Section \ref{Model:omiRecalc:RSC}).
         Error from background uncertainty is ascribed to the $RSC$ term.
@@ -1380,12 +1381,12 @@
     \end{description}
     %Uncertainty from these three sources gives a representation of the confidence in vertical column amounts.
     These sources of error can be reduced through spatial and temporal averaging, as they are assumed to be unbiased.
-    Uncertainty is reduced by the square root of the number of pixels averaged over our \lowhr grid squares for each day or month.
-    For example daily averaging reduces pixel uncertainty by a factor of 2-4.
+    Uncertainty is reduced by the square root of the number of pixels averaged over each \lowhr ~grid square for each day or month.
+    For example, daily averaging reduces pixel uncertainty by a factor of 2-4.
     Figure \ref{BioIsop:uncertainty:satellite:fig_pixel_count_summary} shows the pixel counts in each region before and after applying filters.
     Winter has lower pixel count for southern regions, with approximately 50-60\% fewer good pixels through May, June, and July.
-    The lowest pixel counts occur in the south-east in winter, likely due to a mix of the relatively high solar zenith angles, and filtering due to anthropogenic emissions.
-    Northern regions have lower pixel counts in the summer, most likely due to increased cloud coverage which limits satellite measurement capabilities.
+    The lowest pixel counts occur in the southeast in winter, likely due to a mix of relatively high solar zenith angles and filtering of anthropogenic emissions.
+    Northern regions have lower pixel counts in the summer, most likely due to increased cloud coverage which limits satellite measurement capabilities as discussed previously.
     
     \mypic{Figures/OMI_link/pixel_count_barchart_unfiltered.png}{%
       Mean and standard deviation (vertical error bars) of total pixel counts per region per season, before (magenta) and after (cyan) applying smearing, pyrogenic, and anthropogenic filters.
@@ -1398,10 +1399,10 @@
       \Delta \Omega   & = \Omega \sqrt{ \left( \frac{\Delta (SC-RSC)}{(SC-RSC)} \right)^2 + \left( \frac{\Delta AMF}{AMF} \right)^2 } \notag \\
       \frac{\Delta \Omega}{\Omega} & = \sqrt{ \frac{ (\Delta SC)^2 + (\Delta RSC)^2}{(SC-RSC)^2} + \left( \frac{\Delta AMF}{AMF} \right)^2 } \label{BioIsop:uncertainty:satellite:eqn_VCC_uncertainty} 
     \end{align}
-    The $RSC$ term is described in Chapter \ref{Model} Section \ref{Model:omiRecalc:vcc}, $\Delta RSC$ for each latitude is based on the standard deviation of corrections over the remote Pacific.
-    Negative columns can occur where slant column amounts are lower than RSC, and these are not removed so as not to introduce a bias.
+    The $RSC$ term is described in Chapter \ref{Model} Section \ref{Model:omiRecalc:vcc} $\Delta RSC$ for each latitude is based on the standard deviation of corrections over the remote Pacific.
+    Negative columns can occur where column amounts are lower than RSC, and these are not removed so as not to introduce a bias.
     When monthly averages are less than zero, relative error is set to 100\%.
-    This only impacted the uncertainty calculations in winter for the non-northern regions, where occasional highly negative absolute uncertainty was seen where $\Omega$ approached 0.
+    This only impacts the uncertainty calculations in winter for the non-northern regions, where occasional highly negative absolute uncertainty was seen when $\Omega$ approached 0.
     
     
     Figure \ref{BioIsop:uncertainty:satellite:fig_Orerrsummary} shows the relative uncertainty in monthly satellite columns for each sub-region and all of Australia.
@@ -1418,28 +1419,28 @@
     \textcite{DeSmedt2012} found satellite HCHO uncertainty to be $30-40\%$ for the GOME-2 instrument by combining slant column systematic and random errors.
     For mid latitude winters they found an excess of 60\% uncertainty.
     % maybe TODO: calculate this also and compare with explicit calculations from second paragraph
-    OMI measurements will have similar amounts of uncertainty; however, the array of detectors provide more pixels which can be averaged to reduce this uncertainty.
-    
+    OMI measurements will have similar  uncertainty; however, the array of detectors provide more pixels which can be averaged to reduce this uncertainty.
     
     %\textcite{Millet2006, Palmer2006} both examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
     \begin{table}\begin{threeparttable}
         \caption{Uncertainties in satellite total column HCHO.}
-        \begin{tabular}{ c  c  c  l } 
+        \begin{tabular}{ c  c l } 
           \toprule
-          uncertainty & location & source & notes \\
+          uncertainty & location & notes \\
           \midrule
-          40\% & North America & (a) & mostly due to cloud interference \\
-          26\% & North America & (b) & with cloud fraction less than 20\% \\
-          30\%-40\% & global & (c) & GOME-2 instrument \\
-          $>60\%$ & Mid-latitude & (c) & GOME-2 instrument in winters \\
-          1\%-10\% & Australia & this work & monthly uncertainty at \lowhr \\
-          50\%-100+\% & Australia & this work & in winter at higher latitudes \\
+          40\% & North America & $^a$ GOME, mostly due to cloud interference \\
+          26\% & North America & $^b$ GOME, OMI, with cloud fraction less than 20\% \\
+          30\%-40\% & global & $^c$ GOME-2 \\
+          $>60\%$ & Mid-latitude & $^c$ GOME-2 in winters \\
+          1\%-10\% & Australia & $^d$ OMI, monthly uncertainty at \lowhr \\
+          50\%-100+\% & Australia & $^d$ OMI, in winter at higher latitudes \\
           \bottomrule
         \end{tabular}
         \begin{tablenotes} 
           \item a: \textcite{Millet2006,Palmer2006}
           \item b: \textcite{Millet2008}
           \item c: \textcite{DeSmedt2008,DeSmedt2012}
+          \item d: This work
         \end{tablenotes}
         \label{BioIsop:uncertainty:eomi:tab_lit_uncertainties}
     \end{threeparttable}\end{table}
@@ -1447,22 +1448,24 @@
     % Bias
     In order to calculate the bias or systematic error, an understanding of biases in the underlying terms is required, since there is little in the way of comparable measurements.
     % satellite biases:
-    OMI has been seen to underestimate observed HCHO by up to 40\%.
+    OMI has been shown to underestimate observed HCHO by up to $\sim40\%$.
     For example OMI underestimated aircraft measurements by 37\% in Guyana \parencite{Barkley2013}.
-    OMI underestimation ranges from 20-40\% when compared against ground based remotely sensed profiles \parencite{Zhu2016,DeSmedt2015}).
-    Satellite HCHO may also suffer from $\sim13\%$ overestimation when taking monthly averages due to only measuring on relatively cloud-free days \parencite{Surl2018}.
+    OMI underestimates range from 20-37\% when compared against aircraft data over the southeast United States \parencite{Zhu2016}).
+    OMI validation against 7 sites (the most southern site being Reunion Island at 20.9\degr S) using MAX-DOAS or FTIR retrievals showed up to 50\% underestimation by satellite HCHO retrievals \parencite{DeSmedt2015}.
+    The highest underestimate occurred during periods of high concentration; however, there was less underestimation when compared with the FTIR instrument which was at the southernmost site \parencite{Vigouroux2009,DeSmedt2015}.
+    Satellite HCHO may also suffer from $\sim{13}\%$ overestimation when taking monthly averages due to only measuring on relatively cloud-free days \parencite{Surl2018}.
     Since our a posteriori is linearly related to the satellite HCHO, any bias is directly transferred.
-    We note therefore that our product may be biased by up to 40\% too low, and this output may be 13\% too high, which gives us a potential bias factor ($\beta$) of $1/0.6 \times 1/1.13 = 1.47$.
+    The conclusion drawn here is that the isoprene emissions product in this work may be affected by satellite HCHO underestimation of up to 40\%, and also by monthly HCHO overestimation of 13\%, which gives a potential bias of $1/0.6$ to $1/1.13$.
     This may be complicated further if the satellite bias over Australia does not match the bias over the remote Pacific at corresponding latitudes.
     However we can not quantify bias over Australia due to insufficient measurements.
     % Model biases
-    GEOS-Chem biases would affect the recalculation of HCHO, but they are assumed to be minimal in this thesis.
+    GEOS-Chem biases would affect the recalculation of HCHO, but they cannot be quantified and so are not included in this thesis.
     %model HCHO overestimation due to coarse resolution (over prediction of low-NO$_x$ oxidation pathway \parencite{Yu2016}.
-    Lacking sufficient suitable measurements to estimate satellite bias over Australia, the potential bias factor $\beta = 1.47$ is applied to the mean emissions in each month when calculating the upper bound of our uncertainty range.
-    % 1/(1-0.4) = 1.67: if we multiply a posteriori by 1.67 then that gives the upper bound
-    % 1/(1-0.27)=1.37
-    % 1/0.6 * 1/1.13 = 1.47
+    Lacking suitable measurements to estimate satellite bias over Australia, the potential bias range is applied to the mean emissions in each month when calculating the uncertainty range shown in the results (see Figure \ref{BioIsop:results:emissions:fig_regional_seasonal_comparison}).
+    % Omega = S * E
+    % We have E = O/S, but the satellite O is actually 0.6*O, so E/0.6 is how we get O/S (actual Emissions)
     
+    % UP TO HERE JENNY
     \subsubsection{Fitting error from the OMI retrieval}
       \label{BioIsop:uncertainty:satellite:fitting}
       
