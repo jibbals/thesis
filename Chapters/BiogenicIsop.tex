@@ -381,22 +381,22 @@
     This effectively provides monthly gridded slope ($S$) between biogenic isoprene emissions and HCHO columns, in units of seconds.
     
     
-    % TODO: JENNY COMMENT: I would also re-order plots in fig and discussion here to 1: examples of correlations used to calc slopes, 2: r2, 3: resulting S values
     Figure \ref{BioIsop:method:slope:fig_regressions} (top left) shows how $S$ varies spatially over Australia for an example mid-summer month.
+    High $S$ values suggest increased sensitivity to isoprene emissions.
     Some areas can be seen to be very sensitive to emissions, such as the west coast and Eyre basin, which is likely due to the low isoprene and HCHO levels in those areas.
-    The regression coefficients also vary spatially (bottom left), and some areas show little correlation, likely due to weather, transport, and a lack of local emission sources.
-    The slopes shown in the bottom right panel show a small sample of scatter and regression plots. 
+    The regression coefficients also vary spatially (top right), and some areas show little correlation.
+    It is likely that this is due to weather, transport, and a lack of local emission sources.
+    The slopes in the bottom panel show a small sample of scatter and regression plots. 
     These can range widely due to differences in emission and yield parameters, which plays a role in the smearing filters applied in Section \ref{BioIsop:method:smearing}.
     Due to the \lowhr ~horizontal resolution of GEOS-Chem, calculations over coastal grid boxes that are mostly oceanic are often discarded as the change in HCHO is not dominated by emissions of isoprene, as is assumed for equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}.
     
-    % TODO: JENNY COMMENT: fig top right never discussed. I would remove or replace with similar plot for one of the boxes used in your sample regressions.
     %Plot from chapter_3_isop.py
-    \mypic{Figures/OMI_link/GC/E_isop_vs_hcho_200501.png}
+    \mypic{Figures/OMI_link/GC/E_isop_vs_hcho_sf_200501.png}
     { %
       Top left: RMA slope between modelled tropospheric column HCHO and isoprene emissions ($\apri$) using midday (13:00-14:00~LT) values over for January 2005, per grid square at \lowhr horizontal resolution.
-      Top right: Australia-wide average of midday emissions and tropospheric columns.
-      Bottom left: Squared RMA correlation coefficient for regression in top left. Coloured dots correspond to colour of regressions shown in bottom right panel.
-      Bottom right: Sample of correlations from four grid squares.
+      Top right: Squared RMA correlation coefficient for regression in top left. 
+      Bottom: Sample of correlations from four grid squares.
+      Coloured dots in top panels correspond to the colour of the regressions shown in bottom panel.
     }
     {\label{BioIsop:method:slope:fig_regressions}}
     
@@ -459,7 +459,6 @@
     %The background columns are longitudinally averaged from 140\degr W to 160\degr W.
     
     
-    % TODO: put pacific ocean background over australia in top right, use diverging color scheme for difference plot
     % Figure from chapter_3_isop.py
     \mypic{Figures/OMI_link/GC/GC_background_hcho_200501.png}{%
       Top left: Total column HCHO over Australia using the standard tropchem GEOS-Chem simulation.
@@ -630,7 +629,8 @@
       %Essentially the midday isoprene emissions are at the peak of their daily cycle (shown later in Figure \ref{BioIsop:method:scaled:megan_diurnal}) and the effect of smearing is relatively smaller during these hours.
       
       %TODO: UPDATE FIGURE -> Remove old smearing definition, 
-      \mypic{/Figures/OMI_link/Filters/smearing_definitions_2005.png}{%
+      % Figure from tests/test_filters.smearing_definition
+      \mypic{/Figures/OMI_link/Filters/smearing_effects_2005.png}{%
         Seasonally averaged smearing ($\hat{S}$, see text) in summer (DJF) and winter (JJA) from 2005.
         Diamonds represent grid squares which have had at least 1 day removed due to the smearing filter, and red crosses show where more than 45 days ($\sim50\%$) have been removed.
       }{\label{BioIsop:method:smearing:fig_smearing_def_2005}}
