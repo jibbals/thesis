@@ -619,7 +619,8 @@
       The smearing filter is more active in winter and spring, especially at higher latitudes.
       Grid squares along the east coast are filtered frequently in all seasons, as well as grid squares in the high smearing lake Eyre region in northeastern South Australia.
       %Any grid square with low isoprene emissions will be more sensitive to transport, as the signal is lower.
-      During summer data loss from smearing is only minor (todo: Y\%); however, data loss peaks in winter (TODO X \%), especially in higher southern latitudes.
+      During summer data loss from smearing is approximately 30\% over the entirety of Australia, which increased to 40\% over winter.
+      The data loss is generally higher towards the north east and southern coastlines, and at lake Eyre.
       
       
       % Figure from tests/test_filters.smearing_definition
@@ -636,7 +637,7 @@
       $S$ and associated regression coefficients ($r$) are calculated monthly.
       If $r<0.4$ then the regression is calculated using multiple years of data for that month.
       This multiple year regression is discarded completely if it also has a coefficient of $r<0.4$, leaving no slope for the grid square for the month, and therefore no estimated a posteriori emission.
-      %TODO: How often does this happen? where is it most common?
+      This happens only infrequently, and only in locations with very limited isoprene emissions such as the lake Eyre basin.
       
       
     % Subsection on smearing length scale was here, now in spare notes
@@ -1063,6 +1064,7 @@
       %TODO: Daily variances within each season and region for satellite HCHO vary from X to Y \%, with more variance in summer.
       
       
+      % Figure from chapter_3_isop.seasonal_differences()
       \mypic{Figures/OMI_link/new_emiss/HCHO_total_columns_seasonal.png}{%
         Total column HCHO before (left) and after (middle) scaling isoprene emissions, and their absolute differences (right).
         Top row shows summer (DJF) averaged total columns, while bottom row shows the winter (JJA).
@@ -1095,7 +1097,6 @@
       While the overall decrease in surface ozone is clear, there is no direct correlation between monthly grid square averaged reductions in isoprene emission and surface ozone concentrations.
       This suggests that changes in isoprene emissions affect ozone in grid squares where absolute emission reductions are not as strong.
       
-      % UPDATE for multiyear? show summer/winter average?
       % plot from tests/hcho_ozone_series()
       \mypic{Figures/OMI_link/new_emiss/O3_surface_20050101_20051231.png}{%
         Surface ozone concentrations (ppb) per region over 2005.
@@ -1106,10 +1107,17 @@
       Outside of densely populated regions, Australia is likely to be NO$_x$ limited and changes in VOC emissions will have less direct effects on ozone production.
       This means that cities may have higher sensitivity to changes in modelled isoprene emissions than shown here, since we are examining large area averages which are mostly non-urban.
       This may play a part in explaining why ozone and fine particulate concentrations in Australian cities have not reduced over the last 10 years, unlike other atmospheric pollutants such as CO, NO$_2$, and SO$_2$ \parencite{SOE2016}.
+      Figure \ref{BioIsop:results:emissions:fig_ozone_reduction} shows how ozone is reduced in summer and winter after scaling isoprene emissions.
+      In summer, reductions are strongest in Sydney and Melbourne, but strong reductions can also be seen in the west coast and central Australia.
+      Winter reductions are more uncertain (relatively); however, they are strongest in the coastal and oceanic regions around Darwin.
       
       
-      % TODO: find or recreate this image, or improve above image to summarise all the info
-      TODO: Figure shows modelled surface ozone concentrations and their differences between model runs over an average summer (DJF). 
+      % TODO: update figure
+      % chapter_3_isop.seasonal_differences()
+      \mypic{Figures/OMI_link/new_emiss/O3_surf_map_seasonal.png}{%
+        Surface (up to $\sim{150}$~m) ozone before (left) and after (middle) scaling isoprene emissions, and their absolute differences (right).
+        Top row shows summer (DJF) averaged total columns, while bottom row shows the winter (JJA).
+      }{\label{BioIsop:results:emissions:fig_ozone_reduction}}
       
     % Only isoprene notes shown, in first results subsection
     %\subsubsection{Trends}
