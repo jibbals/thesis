@@ -798,7 +798,7 @@
     
     Figure \ref{BioIsop:results:emissions:fig_time_series_vs_megan} shows a priori emissions over Australia along with a posteriori emissions calculated as described in the prior sections.
     This figure shows the time series of seasonal area averaged midday emissions, and their absolute differences.
-    The difference between a priori and a posteriori estimates differs between regions, but a seasonal overestimate peaking in summer can be seen in all regions.
+    The difference between a priori and a posteriori estimates differs between regions, but a seasonal overestimate peaking in summer can be seen in all regions except the northern, which is generally overestimated but less so in summer.
     
     
     % Figure from chapter_3_isop.regional_seasonal_comparison
@@ -815,11 +815,11 @@
     The a priori is approximately twice that of the a posteriori.
     Absolute differences are highest in spring and summer, when emissions are generally greatest.
     The exception is the northern region, where the largest overestimates occur in spring, and large differences are seen in all seasons.
-    Uncertainty is summarised for the a posteriori using the mean monthly uncertainty per grid square within each region, divided by the square root of how many months are averaged (24, 8 years of 3 months per season).
+    Uncertainty is summarised for the a posteriori using the mean monthly uncertainty per grid square within each region, divided by the square root of 24 (8 years times 3 months per season).
     Uncertainty is relatively small since we have 8 years of data combined into the seasonal mean.
     The potential bias (see Section \ref{BioIsop:uncertainty:eomi}) is added to the uncertainty and displayed using horizontal red bars.
-    Outside of summer (spring in the Northern region) the overestimation lies within the potential bias caused by satellite underestimations of HCHO. 
-    However, the most overestimated season within each region is still outside this wide range of potential bias and uncertainty.
+    The highest over-estimations (occurring in spring in the Northern region, and summer in all others) lie outside the potential bias caused by satellite underestimations of HCHO.
+    However, many overestimated seasons within each region are within this wide range of potential bias and uncertainty.
     Some monthly grid squares are very uncertain ($>200\%$) and these are removed for this plot, causing an increase in a posteriori emissions of $<1\%$.
     The cause for these highly uncertain grid squares is not analysed, but may be worth examining in future work.
     
@@ -894,9 +894,9 @@
     }{\label{BioIsop:results:emissions:fig_monthly_egressions}}
     
     
-    When comparing GEOS-Chem (MEGAN) to the a posteriori calculated using our top-down inversion, we find a decrease of from 39\tgpyr ~to 21\tgpyr ~(decrease of $\sim 46\%$).
+    When comparing GEOS-Chem (MEGAN) to the a posteriori calculated using our top-down inversion, we find a decrease of $\sim{46}\%$ from 39\tgpyr ~to 21\tgpyr.
     Table \ref{BioIsop:results:emissions:tab_emissions_Tg} compares annual Australian isoprene emissions from this work to previously published values.
-    Our a posteriori estimate of 19\tgpyr ~suggests isoprene emissions may be lower than any bottom up estimates, and is close to the top-down estimate of \textcite{Bauwens2016} of 26 \tgpyr.
+    Our a posteriori estimate of 19\tgpyr ~suggests isoprene emissions may be lower than any bottom up estimates, and is close to the lowest estimate of \textcite{Bauwens2016} of 26 \tgpyr.
     Figure \ref{BioIsop:results:emissions:fig_tga_comparison_map} shows how this decrease is distributed spatially, with $\apri$ and $\apost$ in \tgpyr ~calculated as a multi-year mean.
     Across all of Australia we see large reductions of total emissions using the new top-down estimate.
     
@@ -945,7 +945,7 @@
     
     \subsubsection{Diurnal emissions}
     
-      Figure \ref{BioIsop:method:scaled:fig_megan_diurnal} shows the a priori daily emissions cycle from each region, and for comparison the estimated a posteriori emissions cycle over Australia.
+      Figure \ref{BioIsop:method:scaled:fig_megan_diurnal} shows the a priori daily emissions cycle for Australia compared to the estimated a posteriori emissions cycle over Australia.
       The conversion of midday a posteriori emissions (\moleccms) into \tgpyr ~involves integration over an assumed sinusoidal diurnal emission cycle as described in Section \ref{BioIsop:method:conversion_to_kg}.
       A priori emissions peak from approximately 11:00~LT to 16:00~LT, while outside these hours there is a non-sinusoidal drop in emissions to below the assumed a posteriori diurnal emission cycle.
       This means the conversion may be biased by this consistent difference between modelled a priori diurnal emission cycles and the assumed diurnal a posteriori cycle.
@@ -968,7 +968,8 @@
       Any anomaly greater than three standard deviations from the mean is removed (crosses in Figure \ref{BioIsop:results:new_emiss:trends:fig_emission_anomalies}).
       An ordinary least squares linear regression is then performed to look for any significant trend.
       A trend is considered significant if the p-value from a Wald test (equivalent to a t-test) is less than 0.05.
-      The same process is repeated for surface concentrations of isoprene, ozone, HCHO, and NO$_x$, with results summarised in Table \ref{BioIsop:results:trends:tab_trends}.
+      The same process is repeated for surface concentrations of ozone, HCHO, and NO$_x$ (not shown).
+      Trend results for isoprene are summarised in Table \ref{BioIsop:results:trends:tab_trends}.
       The a priori midday surface isoprene concentrations show a small decline outside of the southwest region over the 8 year period from 2005-2012.
       This decline reduces in scale by approximately a factor of 2-3 in the a posteriori emissions.
       None of the species shows any significant changes in trend due to scaling isoprene emissions.
@@ -1143,7 +1144,7 @@
     Comparison between ground-based measurements and large (\lowhr) averaged model output suffers from representation error.
     Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement sites, along with the extent of the \lowhr ~relevant GEOS-Chem grid box.
     A rectangle with edge lengths of roughly 200~km$^{2}$.
-    The urban footprint of Sydney and Wollongong can be seen, along with some ocean, forest, and rural regions, which will all affect the model output and other calculations averaged here.
+    The urban footprint of Sydney and Wollongong can be seen, along with some ocean, forest, and rural regions, which will all affect the model output which averages modelled values within the grid box.
     Due to high uncertainty in components of the top-down emissions estimate, temporal resolution is also limited.
     MUMBA (Section \ref{Model:datasets:MUMBA}, SPS1 and SPS2 (Section \ref{Model:datasets:SPS}) each provide on the order of one month of hourly or daily data, which are compared in this section against surface level concentrations from GEOS-Chem before and after scaling the biogenic emissions.
     %campaigns measured isoprene concentrations while our estimate is of emissions.
@@ -1178,7 +1179,7 @@
     %It is perhaps interesting that in winter months GEOS-Chem overestimates HCHO with or without scaling.
     Another feature is the January and December dip in all three data sets.
     FTIR has a lower data count and higher variance in these months due to holidays, increasing uncertainty for the measurements.
-    Analysis of this dip could be examined in future work, and would require more analysis of the local and synoptic HCHO patterns.
+    Analysis of this dip could be performed in future work; however, it would require an in depth examination of local and synoptic HCHO patterns, and higher resolution model data.
     
     \mypic{Figures/OMI_link/FTIR_TC_Comparison_MYA.png}{%
       Multi-year monthly mean total column ($\Omega$) HCHO from the FTIR instrument, and the colocated deconvolved GEOS-Chem equivalent before ($\Omega_{GC}$) and after ($\Omega_{GC}^{\alpha}$) scaling isoprene emissions.
@@ -1197,9 +1198,9 @@
     $\tau$ is heavily influenced by assumed yield, and improved methods of estimating yield over Australia are required to improve this estimate.
     Figure \ref{BioIsop:results:hcho_life:fig_Lifetime} shows the GEOS-Chem HCHO lifetime estimated throughout the year.
     There is a clear seasonal cycle with longer lifetimes in winter months.
-    A clear June (and sometimes March, July and August) increase in HCHO lifetimes is shown, which is caused by the reduced winter HCHO concentrations, temperature, and insolation.
+    In June (and sometimes March, July and August), HCHO lifetimes increase, which is caused by the reduced winter HCHO concentrations, temperature, and insolation.
     These factors may limit the utility of any top-down emissions estimation technique using HCHO in the winter months.
-    The figure is produced using filtered slope information from 2005, and outliers along with low data availability in some months is an issue.
+    The figure is produced using filtered slope information from 2005; however, outliers along with low data availability (in some months) are issues which lead to wide estimate ranges and high uncertainty.
     Noise in the southwest and middle regions may be indicative of substantial filtering, potentially driven by westerly winds which can bring transported pollution and also lead to smearing.
     
     % Plot/calculation from GC_tests.yield_and_lifetime()
@@ -1220,13 +1221,13 @@
   Even as the top-down inversion performed in this chapter attempts to work around the lack of measurements over Australia, it suffers from the lack of independent observations against which it can be verified.
   
   The major source of uncertainty throughout the year comes from uncertainty in the modelled yield slope $S$ (see Section \ref{BioIsop:uncertainty:Model}); however, in winter, uncertainty from satellite column calculations become dominant (see Section \ref{BioIsop:uncertainty:satellite}).
-  Monthly calculated slope uncertainty mostly lies within 30\% to 50\%, and this is not reduced through averaging.
+  Monthly calculated slope uncertainty mostly lies within 30\% to 50\%, and since output is averaged to form monthly values, the slope uncertainty is not reduced by the averaging.
   Uncertainty from each OMI satellite measurement is relatively large ($>100\%$); however, averaging thousands of pixels in each grid square greatly reduces the monthly uncertainty.
   Uncertainty in satellite HCHO is seasonally dependent, with better signal during the summer.
   Reliable OMI measurements are less frequent (leading to higher uncertainty) at high solar zenith angles, which worsen with latitudes and during winter.
   %This limits temporal resolution of isoprene emissions estimates.
   Table \ref{BioIsop:uncertainty:tab_uncertainties} shows the estimated uncertainty calculated in this work in summer and winter over each region described by Figure \ref{BioIsop:results:fig_subregions}.
-  The assumptions and calculations made to determine uncertainties in the top-down estimate ($\Delta \apost$), the satellite column ($\Delta \Oomi$) and the slope ($\Delta S$) is described in the following subsections.
+  The assumptions and calculations made to determine uncertainties in the top-down estimate ($\Delta \apost$), the satellite column ($\Delta \Oomi$) and the slope ($\Delta S$) are described in the following subsections.
   
   % TODO Fill in table, use proper calculations not estimates
   \begin{table}\begin{threeparttable}
@@ -1285,7 +1286,7 @@
     Uncertainty in the southern regions increases between May and July due to increased error in the satellite measurements.
     Northern regions are impacted less by the seasonal satellite error, which generally is $10-20~\%$ lower than the error from $S$.
     Figure \ref{BioIsop:uncertainty:fig_Ererrmap} shows the spatial distribution of relative uncertainty in the a posteriori in summer and winter.
-    Here the effects of satellite uncertainty at higher latitudes (especially in winter) are shown as a general increase with latitude is apparent.
+    Here the effects of satellite uncertainty at higher latitudes (especially in winter) can be seen, through the increase in uncertainty with increasing latitude.
     %This higher relative uncertainty sits on top of lower absolute emissions.
     
     \mypic{Figures/OMI_link/mya_Ererr.png}{%
@@ -1308,15 +1309,16 @@
     \begin{equation}
       \frac{\Delta S}{S} = \frac{CI_{UB}}{S} - 1
     \end{equation}
-    The confidence interval for each month is based on the covariance matrix between $\Ogc$ and $\apri$, and the critical t-statistic considering $n$ to be the days in the month and $\alpha$ to be 0.025.
     For example, if the interval upper bound is 30\% higher than the slope, relative uncertainty is set to 0.3 (or 30\%).
+    The confidence interval for each month is based on the covariance matrix between $\Ogc$ and $\apri$, and the critical t-statistic considering $n$ to be the days in the month and $\alpha$ to be 0.025.
+    
     
     This is a simple method of approximating the uncertainty of this term, only accounting for monthly uncertainty of the slope calculation.
-    It does not take into account uncertainty in the underlying model, nor uncertainties arising from temporal or spatial resolution, which would be difficult to quantify..
+    It does not take into account uncertainty in the underlying model, nor uncertainties arising from temporal or spatial resolution, which would be difficult to quantify.
     Figure \ref{BioIsop:uncertainty:Model:fig_Srerrsummary} shows the relative uncertainty in $S$ over Australia and for each region.
     There is little discernible seasonality to the relative error in $S$, which generally ranges from $0.3-0.4$ ($30-40\%$).
     For comparison, \textcite{Palmer2006} found $\frac{\Delta S}{S}$ to be 30\% after comparing with another chemical transport model and in situ measurements.
-    To improve understanding of uncertainty in $S$ would require further analysis of GEOS-Chem yield over Australia, including how it responds to environmental and meteorological parameters, and how representative this modelled quantity is compared to measurements.
+    To improve understanding of uncertainty in $S$ would require further analysis of GEOS-Chem yield over Australia, including how it responds to environmental and meteorological parameters, and how representative this modelled quantity is when compared to measurements.
     
     \mypic{Figures/OMI_link/mya_Srerr.png}{%
       Median and inter-quartile range of monthly binned uncertainty in $S$.
@@ -1324,7 +1326,8 @@
     
     % Filtering
     Filtering for spatial smearing (see Section \ref{BioIsop:method:smearing}) reduces the number of data points making up the regression slope $S$. 
-    The process generally improves the linear relationship, and where it does not a multi-year average (or in the worst cases no value at all) is used in lieu of monthly $S$ data.
+    The process generally improves the linear relationship, which suggests it is working as intended to remove days when local biogenic emissions are not driving HCHO enhancement.
+    Where $S$ regressions have a correlation coefficient ($r$) of less than 0.4, a multi-year average (or in the worst cases no value at all) is used in lieu of monthly $S$ data.
     The thresholds for the smearing filter are based on literature values from other countries, which may prove to be unsuitable within Australia.
     To improve the understanding of smearing in Australia, a better approximation of HCHO lifetimes and yields, and NO$_x$ seasonality and regional concentrations, is required.
     The filtering process is accounted for in the calculation of $\Delta S$, and the effect is a small reduction of the overall uncertainty from $S$.
