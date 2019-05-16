@@ -254,10 +254,10 @@
         GEOS-Chem is run using the a posteriori emissions (see Section \ref{BioIsop:method:scaled}), and HCHO, O$_3$, isoprene, and NO$_x$ outputs are compared to a priori values and to campaign and satellite measurements where possible (Sections \ref{BioIsop:results:measurements}).
     \end{enumerate}
     
-    
-    \mypic{Figures/Flow_Making_Isop.png}{%
-      Top-down isoprene emissions estimate formation using OMHCHORP and biogenic GEOS-Chem outputs.
-      }{\label{BioIsop:method:fig_Flow_Making_Isop}}
+    % Figure created in www.draw.io -> saved to Dropbox/PHD/HCHOIsopreneDiagram/...
+    \mypic{Figures/TopDownCreation.png}{%
+      Top-down isoprene emissions estimate formation using OMHCHORP and GEOS-Chem outputs.
+    }{\label{BioIsop:method:fig_Flow_Making_Isop}}
   
   \subsection{Masks and reprocessed satellite HCHO}
     
@@ -961,7 +961,7 @@
       GEOS-Chem grid box (\lowhr) containing Wollongong FTIR, SPS, and MUMBA campaign data.
     }{\label{BioIsop:results:measurements:fig_gridbox}}
     
-    Figure \ref{Model:results:measurements:fig_campaign_comparison} shows GEOS-Chem output in the grid square containing Sydney and Wollongong campaign measurements.
+    Figure \ref{BioIsop:results:measurements:fig_campaign_comparison} shows GEOS-Chem output in the grid square containing Sydney and Wollongong campaign measurements.
     The measurements are subset to those taken between 13:00 and 14:00, which are averaged on days when more than one exists.
     MUMBA measurements (summer, Sydney) show lower isoprene and HCHO due to the lack of nearby forest, and lower ozone due to titration.
     SPS measurements are closer to the GEOS-Chem outputs than MUMBA, suggesting the model grid square is more representative of an environment similar to Wollongong, with some forest and limited city influences.
@@ -971,15 +971,15 @@
     \mypic{Figures/OMI_link/GC_VS_CAMPAIGNS_midday.png}{%
       SPS1, SPS2, and MUMBA (left to right columns respectively) midday (13:00-14:00 local time) measurements of isoprene, HCHO, and ozone (top to bottom rows respectively).
       Shown in magenta and cyan respectively are the a priori and a posteriori GEOS-Chem surface outputs for the matching grid square at midday for months containing measurements.
-      }{\label{Model:results:measurements:fig_campaign_comparison}}
+      }{\label{BioIsop:results:measurements:fig_campaign_comparison}}
     
     % Figure showing apriori and apostiori for any locatation can be made by test_E_new.location_timeseries()
     
     A spectrometer (FTIR) on the roof of the chemistry building at Wollongong university measures HCHO in the atmosphere during clear sky conditions.
     This is the only non-satellite long-term measurement record of total column HCHO available in Australia.
-    In order to compare modelled profiles against retrievals from the FTIR, modelled profiles are first \textit{convolved} with the instrument averaging kernal and a priori as shown in Section \ref{Model:datasets:wollongong_ftir}.
+    In order to compare modelled profiles against retrievals from the FTIR, modelled profiles are first \textit{convolved} with the instrument averaging kernel and a priori as shown in Section \ref{Model:datasets:wollongong_ftir}.
     FTIR output is resampled to only include measurements taken at midday (13:00-14:00) and GEOS-Chem overpass outputs are interpolated onto matching vertical levels for days where FTIR output exists.
-    Figure \ref{Model:results:measurements:fig_FTIR_Comparison_MYA} shows total column HCHO from FTIR, and GEOS-Chem before and after scaling isoprene.
+    Figure \ref{BioIsop:results:measurements:fig_FTIR_Comparison_MYA} shows total column HCHO from FTIR, and GEOS-Chem before and after scaling isoprene.
     %Modelled HCHO in this figure only shows the grid square containing Wollongong, which is the same grid square that contains Sydney and a large amount of rural and forested area.
     While the representational error between FTIR measurements and GEOS-Chem output prevents quantitative analysis, one can see that the summer overestimation of HCHO from GEOS-Chem is removed by isoprene scaling.
     The mean summer underestimation of HCHO shown after scaling makes more sense due to the relatively dense forested areas around Wollongong, which would raise local HCHO concentrations above the average for the large grid square represented by GEOS-Chem.
@@ -989,12 +989,40 @@
     Analysis of this dip could be performed in future work; however, it would require an in depth examination of local and synoptic HCHO patterns, and higher resolution model data.
     
     \mypic{Figures/OMI_link/FTIR_TC_Comparison_MYA.png}{%
-      Multi-year monthly mean total column ($\Omega$) HCHO from the FTIR instrument, and the colocated deconvolved GEOS-Chem equivalent before ($\Omega_{GC}$) and after ($\Omega_{GC}^{\alpha}$) scaling isoprene emissions.
+      Multi-year monthly mean total column ($\Omega$) HCHO from the FTIR instrument, and the colocated convolved GEOS-Chem equivalent before ($\Omega_{GC}$) and after ($\Omega_{GC}^{\alpha}$) scaling isoprene emissions.
       Shaded areas show inter quartile range.
-    }{\label{Model:results:measurements:fig_FTIR_Comparison_MYA}}
+    }{\label{BioIsop:results:measurements:fig_FTIR_Comparison_MYA}}
   
-    The difference between modelled and FTIR vertical column HCHO over Wollongong shows a bias of X, with absolute differences having a standard deviation of Y (TODO).
-    This is only qualitative as Wollongong measurements are not representative of the entire grid box which GEOS-Chem averages, and more measurements would be required to estimate model bias over Wollongong.
+    Using FTIR measurements as a measure of potential model bias over Wollongong by looking at the mean difference with (co-located, convolved, and resampled) model output is summarised in Table \ref{BioIsop:results:measurements:tab_uncertainties}.
+    The modelled summer vertical column is higher than the FTIR measurements by $\sim{15}\%$, which changes with isoprene scaling to $\sim{-12}\%$.
+    In winter the column is modelled high by $\sim{20}\%$, which increases to $\sim{22}\%$ after scaling.
+    This is only qualitative as Wollongong measurements are not representative of the entire grid box which GEOS-Chem averages, and more measurements would be required to estimate model bias over any large grid square.
+    
+    \begin{table}\begin{threeparttable}
+      \caption{Mean total column HCHO amounts in molec cm$^{-2}$.}
+      \begin{tabular}{ l | c c c } 
+        \toprule
+        Season & $\Omega_{GC}$ & $\Omega_{FTIR}$ & $\Omega_{GC}^{\alpha}$  \\
+        \midrule
+        summer & 1.77e16 & 1.54e16 & 1.36e16 \\
+        winter & 4.41e15 & 3.68e15 & 4.49e15 \\
+        \bottomrule
+      \end{tabular}
+      %\begin{tablenotes} 
+      %  \item a:
+      %\end{tablenotes}
+      \label{BioIsop:results:measurements:tab_uncertainties}
+    \end{threeparttable}\end{table}
+      
+    
+    %% MEAN DIFFERENCE BETWEEN convolved MODEL VERTICAL COLUMN AND FTIR
+    %%SUMMER : VCC bias = +2.32e+15
+    %%WINTER : VCC bias = +7.25e+14
+    %%SUMMER : VCCa bias= -1.77e+15
+    %%WINTER : VCCa bias= +8.00e+14
+    %%SUMMER : VCC = +1.77e+16, FTIR=+1.54e16, VCCa=+1.36e+16
+    %%WINTER : VCC = +4.41e+15, FTIR=+3.68e15, VCCa=+4.49e+15
+
     
   
   
@@ -1047,8 +1075,8 @@
       \begin{tabular}{ l | c  c  c | c c c} 
         \toprule
         & & Summer & & & Winter & \\
-        Region & $\frac{\Delta \apost}{\apost}$ & $\frac{\Delta \Oomi}{\Oomi}$ & $\frac{\Delta S}{S}$ 
-          & $\frac{\Delta \apost}{\apost}$ & $\frac{\Delta \Oomi}{\Oomi}$ & $\frac{\Delta S}{S}$ \\
+        Region & $^a$~$\frac{\Delta \apost}{\apost}$ & $\frac{\Delta \Oomi}{\Oomi}$ & $\frac{\Delta S}{S}$ 
+          & $^a$~$\frac{\Delta \apost}{\apost}$ & $\frac{\Delta \Oomi}{\Oomi}$ & $\frac{\Delta S}{S}$ \\
         \midrule
           Aus &   46\% &   21\% &   36\% &   50\% &  258\% &   35\% \\
           SE &   54\% &   14\% &   37\% &   65\% &  141\% &   38\% \\
@@ -1058,9 +1086,9 @@
           N &   39\% &   16\% &   33\% &   38\% &   22\% &   30\% \\
         \bottomrule
       \end{tabular}
-      %\begin{tablenotes} 
-        %\item a: 
-      %\end{tablenotes}
+      \begin{tablenotes} 
+        \item a: Grid squares with monthly uncertainty over 200\% are removed when calculating the mean uncertainty, which has small $<1\%$ impacts on $\apost$ overall, but removes many data points in winter. 
+      \end{tablenotes}
       \label{BioIsop:uncertainty:tab_uncertainties}
     \end{threeparttable}\end{table}
     
@@ -1183,7 +1211,8 @@
         Vertical columns from OMI are recalculated using AMFs derived from GEOS-Chem (Section \ref{Model:omiRecalc:AMF}).
         AMF uncertainty can be determined through comparison of GEOS-Chem output to independently measured HCHO columns.
         Here we use 30\% as a rough estimate of error in this term \parencite{Palmer2006}, since measurements over Australia are lacking.
-        This error is ascribed to the $AMF$ term.
+        For comparison, Wollongong FTIR is over-predicted by GEOS-Chem modelled vertical columns by $\sim{15-20}\%$.
+        Here the assumed error of 30\% is ascribed to the $AMF$ term.
         %validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
       
         % How others calculated it
@@ -1380,12 +1409,12 @@
   Uncertainty in the primary components of the top-down calculation of emissions is calculated where possible, and potential biases are noted.
   
   % What I found:
-  % TODO important numbers needed
-  My top down biogenic isoprene emission estimate showed that MEGAN overestimates emissions in summer by up to a factor of 5, and total yearly Australian emissions are reduced from 39\tgpyr ~to 21\tgpyr ~(decrease of $\sim 46\%$).
+  My top down biogenic isoprene emission estimate showed that MEGAN overestimates emissions in summer by a factor of 2-5, and total yearly Australian emissions are reduced from 39\tgpyr ~to 21\tgpyr ~(decrease of $\sim 46\%$).
   The overestimate is spatially and temporally diverse and leads to model overestimates of both HCHO and ozone.
   Running GEOS-Chem using scaled emissions reduced the overall HCHO overestimate from 50-120\% down to 30-50\% (TODO: update that number for summer season rather than the 2005 January it is based on).
+  Model output vertical column HCHO variance is somewhat lower ($~sim{10\%-50\%}$) than that seen by the OMI satellite, and this difference is increased after scaling isoprene emissions.
   Scaling GEOS-Chem emissions also lowered simulated surface ozone concentrations by $\sim 5\%$.
-  A posteriori uncertainty was shown to be on the order of 50\% in summer (monthly, per grid square), with a potential bias coming from satellite data of $-13\%$ to $40\%$.
+  A posteriori uncertainty was shown to be on the order of 50\%  (monthly, per grid square), with large satellite based uncertainty in winter and a potential bias coming from satellite data of $-13\%$ to $40\%$.
   The primary uncertainty in the a posteriori emissions comes from the monthly modelled isoprene to HCHO yield ($\sim 30\%-50\%$), although at higher latitudes in winter, satellite uncertainty becomes restrictively high ($>100\%$).
   
   

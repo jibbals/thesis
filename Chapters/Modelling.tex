@@ -325,30 +325,33 @@
     \label{Model:datasets:wollongong_ftir}
     
       Upon the roof of the Chemistry building in Wollongong lies a solar Fourier transform infra-red spectrometer (FTIR) which measures HCHO (amongst other gases) on the path of light between the instrument and the sun.
-      TODO: details about these measurements.
+      %TODO: details about these measurements.
+      %%HCHO is measured using mid infra spectrum measurements transformed 
+      The instrument is part of the Network for the Detection of Atmospheric Composition Change (NDACC) and data can be retrieved from the NDACC database (\url{http://www.ndaccdemo.org/stations/wollongong-australia}).
+      The current principle investigator producing and quality assuring the data set is \href{mailto:njones@uow.edu.au}{Dr. Nicholas Jones}.
       
-      
-      Measurements of vertical profiles are affected by the instruments sensitivity to HCHO at all vertical levels, along with the a priori assumed vertical profile ($x_{apri}$).
-      The averaging kernal ($A$) essentially represents how the retrieval technique is sensitive to HCHO concentrations.
+      Measurements of vertical profiles are affected by the instruments sensitivity to HCHO at all vertical levels.
+      Vertical mixing ratios resolved to 42 vertical levels are created with the help of a priori assumed vertical profiles ($x_{apri}$).
+      The averaging kernel ($A$) essentially represents how the retrieval technique is sensitive to HCHO concentrations.
       Figure \ref{Model:datasets:wollongong_ftir:fig_apriori} shows averaged retrievals $x_{ret}$ and the a priori side by side.
-      Most of the HCHO is close to the surface, and generally the a priori lies within the inter-quartile range of the retrievals but lies just below the mean.
+      Most of the HCHO is close to the surface, and generally the a priori lies within the inter-quartile range of the retrievals, just below the mean.
       Figure \ref{Model:datasets:wollongong_ftir:fig_MiddayAK} shows how the instrument based retrievals of total vertical column HCHO ($\Omega$) in \moleccm is sensitive to HCHO between 0~km and 60~km altitude.
       The panel on the right shows how each retrieved vertical level is sensitive to HCHO at all levels.
       This shows how there is not much sensitivity at higher altitudes, and how HCHO at lower altitudes can affect retrieved values for concentrations at higher altitudes.
       When comparing FTIR measurements to modelled data, vertical columns are used rather than profiles as the degree of freedom in each measurement is low ($\sim 1.3$ in summer to $\sim 1.7$ in winter).
-      Degrees of freedom signify how many pieces of information can be retrieved from a measurement, and profiles resolved to N vertical levels would require N degrees of freedom.
+      Degrees of freedom signify how many pieces of information can be retrieved from a measurement, and profiles resolved to N vertical levels would require at least N-1 degrees of freedom.
       
       \mypicw{0.5\textwidth}{Figures/OMI_link/FTIR_apriori.png}{%
         Mean midday FTIR profile ($x_{ret}$) and a priori profile ($x_{apri}$).
         Shaded area shows the inter-quartile range over the same time period.
         Profile is averaged between November 2007 to April 2013.
-        }{\label{Model:datasets:wollongong_ftir:fig_apriori}}
+      }{\label{Model:datasets:wollongong_ftir:fig_apriori}}
       
       \mypic{Figures/OMI_link/FTIR_midday_AK.png}{%
-        Left panel shows the mean midday (13:00 - 14:00 local time) total column averaging kernal, along with the inter-quartile range (IQR) between November 2007 and April 2013. 
-        Right panel shows the mean averaging kernal for the vertical profile over the same time period, coloured by vertical level.
+        Left panel shows the mean midday (13:00 - 14:00 local time) total column averaging kernel, along with the inter-quartile range (IQR) between November 2007 and April 2013. 
+        Right panel shows the mean averaging kernel for the vertical profile over the same time period, coloured by vertical level.
         One in six vertical levels are labelled and plotted with a solid line, the rest are shown with dashed lines.
-        }{\label{Model:datasets:wollongong_ftir:fig_MiddayAK}}
+      }{\label{Model:datasets:wollongong_ftir:fig_MiddayAK}}
       
       
       
@@ -358,7 +361,7 @@
       \end{equation}
       One way of looking at this is to consider if the device was perfectly sensitive to HCHO concentrations at all vertical levels (making $A=I$ the identity matrix), then the retrieval would be equal to the true profile.
       If the instrument was perfectly useless (making $A=0$), then the retrieval would completely ignore the true profile and simply equal the a priori.
-      To compare modelled vertical profiles ($x_{GC}$) with the FTIR, the modelled profiles are \textit{convolved} with the instrument averaging kernal and a priori to create a pseudo retrieval ($x'_{GC}$) which shows what the instrument would retrieve if the model were the truth:
+      To compare modelled vertical profiles ($x_{GC}$) with the FTIR, the modelled profiles are \textit{convolved} with the instrument averaging kernel and a priori to create a pseudo retrieval ($x'_{GC}$) which shows what the instrument would retrieve if the model were the truth:
       \begin{equation}
         x'_{GC} = x_{a} + A \left( x_{GC} - x_{a} \right)
       \end{equation}
@@ -573,8 +576,8 @@
     \textcite{Lamsal2014} recommends that when comparing satellite data to models, the AMF should first be recalculated using the model as an a priori.
     This is in order to remove any a priori bias between model and satellite columns.
     
-    % averaging kernal relation to amf, why amfs are important when comparing data
-    Related to the AMF is the averaging kernal (AK), which is used to handle instrument measurements which are sensitive to gas concentrations at different altitudes through the atmosphere.
+    % averaging kernel relation to amf, why amfs are important when comparing data
+    Related to the AMF is the averaging kernel (AK), which is used to handle instrument measurements which are sensitive to gas concentrations at different altitudes through the atmosphere.
     DOAS methods can be heavily influenced by the initial estimates of a trace gas profile (the a priori) which is often produced by modelling, so when comparing models of these trace gases to satellite measurements extra care needs to be taken to avoid introducing bias from differing a priori assumptions.
     One way to remove these a priori influences is through the satellite AK (or AMF), which takes into account the vertical profile of the modelled trace gas and instrument sensitivity to the trace gas \parencite{Eskes2003, Palmer2001}.
     This process is called deconvolution ($\Omega = AK \times VC_{satellite} + \times (I - AK) VC_{a priori}$) of the AK of the satellite instrument.
@@ -2199,6 +2202,8 @@ TODO: ADD MORE HERE
   \item[SPEI] Monthly standardised precipitation evapotranspiration index (metric to determine drought stress) downloaded from \url{http://hdl.handle.net/10261/153475} with DOI:10.20350/digitalCSIC/8508.
   See more information in section %TODO:
   
+  \item[Wollongong FTIR] The instrument is part of the Network for the Detection of Atmospheric Composition Change (NDACC) and data can be retrieved from the NDACC database (\url{http://www.ndaccdemo.org/stations/wollongong-australia}).
+  The current principle investigator producing and quality assuring the data set is \href{mailto:njones@uow.edu.au}{Dr. Nicholas Jones}.
   
   
 \end{description}
