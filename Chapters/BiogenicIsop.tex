@@ -226,7 +226,7 @@
     \begin{enumerate}
       \item 
         Corrected vertical columns ($\Oomi$; saved in the OMHCHORP dataset) are calculated (see Section \ref{Model:omiRecalc}) using level two OMI HCHO satellite data (see Section \ref{Model:omhcho}), along with GEOS-Chem model runs (see Section \ref{Model:GC:simulations}).
-        Satellite columns are binned into both \highhr and \lowhr horizontal resolutions.
+        Satellite columns are binned into both \highhr ~and \lowhr ~horizontal resolutions.
         In this step model background values (columns over the remote Pacific) are used to correct the vertical columns, which is explained in Section \ref{Model:omiRecalc:RSC}.
       \item 
         Level three satellite data are used to make anthropogenic, fire, and smoke influence masks (see Section \ref{Model:filter}).
@@ -393,7 +393,7 @@
     %Plot from chapter_3_isop.py
     \mypic{Figures/OMI_link/GC/E_isop_vs_hcho_sf_200501.png}
     { %
-      Top left: RMA slope between modelled tropospheric column HCHO and isoprene emissions ($\apri$) using midday (13:00-14:00~LT) values over for January 2005, per grid square at \lowhr horizontal resolution.
+      Top left: RMA slope between modelled tropospheric column HCHO and isoprene emissions ($\apri$) using midday (13:00-14:00~LT) values over for January 2005, per grid square at \lowhr ~horizontal resolution.
       Top right: Squared RMA correlation coefficient for regression in top left. 
       Bottom: Sample of correlations from four grid squares.
       Coloured dots in top panels correspond to the colour of the regressions shown in bottom panel.
@@ -431,7 +431,7 @@
       Row 4: regression coefficient and data-point counts for row 3.
       }{\label{BioIsop:method:slope:fig_smear_filter_prior}}
     
-    %%A nested version of GEOS-Chem would allow better analysis of coastal regions, at \highhr resolution, however this may require more explicit handling of smearing.
+    %%A nested version of GEOS-Chem would allow better analysis of coastal regions, at \highhr ~resolution, however this may require more explicit handling of smearing.
     %\begin{figure}
     %  % Figure from GC_tests.py -> isop_hcho_RMA
     %  \includegraphics[width=\textwidth]{Figures/Isoprene/E_isop_vs_hcho_series_200501.png}
@@ -784,12 +784,12 @@
       
       
       \begin{table}\begin{threeparttable}
-        \caption{Yearly trend in surface amounts before and after scaling isoprene emissions.}
+        \caption{Yearly trend in surface amounts (ppbvC) before and after scaling isoprene emissions.}
         \begin{tabular}{ l | c  c } 
           \toprule
           Region & a priori & a posteriori \\
           \midrule
-          \textbf{Isoprene (ppbvC)} & & \\
+          \textbf{Isoprene} & & \\
           Aus                   & \textbf{-.04} & \textbf{-.02}  \\
           \textcolor{red}{SE}   & \textbf{-.15} & \textbf{-.07}  \\
           \textcolor{green}{NE} & \textbf{-.13} & \textbf{-.04}  \\
@@ -999,13 +999,13 @@
     This is only qualitative as Wollongong measurements are not representative of the entire grid box which GEOS-Chem averages, and more measurements would be required to estimate model bias over any large grid square.
     
     \begin{table}\begin{threeparttable}
-      \caption{Mean total column HCHO amounts in molec cm$^{-2}$.}
+      \caption{Mean total column HCHO amounts in $10^{15}$ molec cm$^{-2}$.}
       \begin{tabular}{ l | c c c } 
         \toprule
         Season & $\Omega_{GC}$ & $\Omega_{FTIR}$ & $\Omega_{GC}^{\alpha}$  \\
         \midrule
-        summer & 1.77e16 & 1.54e16 & 1.36e16 \\
-        winter & 4.41e15 & 3.68e15 & 4.49e15 \\
+        summer & 17.7 & 15.4 & 13.6 \\
+        winter & 4.41 & 3.68 & 4.49 \\
         \bottomrule
       \end{tabular}
       %\begin{tablenotes} 
@@ -1134,6 +1134,7 @@
       Median relative uncertainty in $S$ and $\Omega$ are added as dashed and dotted lines respectively.
       }{\label{BioIsop:uncertainty:fig_ErerrSummary}}
     
+    %chapter_3_isop.
     \mypic{Figures/OMI_link/Ererr_map_summerwinter_final.png}{%
       Summer (DJF, top row) and winter (JJA, bottom row) a posteriori emissions (left column) and relative error (right column). 
     }{\label{BioIsop:uncertainty:fig_Ererrmap}}
@@ -1267,9 +1268,10 @@
     Figure \ref{BioIsop:uncertainty:satellite:fig_Orerrsummary} shows the relative uncertainty in monthly satellite columns for each sub-region and all of Australia.
     Uncertainty in winter at higher latitudes is greatly increased due to lower pixel counts, lower absolute column amounts, and higher fitting error.
     
+    %chapter_3_isop.relative_error_summary
     \mypic{Figures/OMI_link/mya_Orerr.png}{%
       Median and inter-quartile range for monthly binned relative uncertainty in satellite vertical columns.
-      }{\label{BioIsop:uncertainty:satellite:fig_Orerrsummary}}
+    }{\label{BioIsop:uncertainty:satellite:fig_Orerrsummary}}
     
     %We found taking the eight day gridded average with horizontal resolution of \highhr (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
     
