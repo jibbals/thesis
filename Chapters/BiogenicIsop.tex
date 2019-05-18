@@ -1078,10 +1078,10 @@
         Region & $^a$~$\frac{\Delta \apost}{\apost}$ & $\frac{\Delta \Oomi}{\Oomi}$ & $\frac{\Delta S}{S}$ 
           & $^a$~$\frac{\Delta \apost}{\apost}$ & $\frac{\Delta \Oomi}{\Oomi}$ & $\frac{\Delta S}{S}$ \\
         \midrule
-          Aus &   46\% &   21\% &   36\% &   50\% &  258\% &   35\% \\
-          SE &   54\% &   14\% &   37\% &   65\% &  141\% &   38\% \\
-          NE &   52\% &   18\% &   35\% &   50\% &   40\% &   37\% \\
-          Mid &   44\% &   38\% &   38\% &   45\% &   41\% &   35\% \\
+          Aus &   46\% &   21\% &   36\% &   51\% &  258\% &   35\% \\
+          SE &   54\% &   14\% &   37\% &   66\% &  141\% &   38\% \\
+          NE &   53\% &   18\% &   35\% &   51\% &   40\% &   37\% \\
+          Mid &   45\% &   38\% &   38\% &   47\% &   41\% &   35\% \\
           SW &   43\% &   27\% &   32\% &   61\% &   96\% &   36\% \\
           N &   39\% &   16\% &   33\% &   38\% &   22\% &   30\% \\
         \bottomrule
@@ -1092,7 +1092,17 @@
       \label{BioIsop:uncertainty:tab_uncertainties}
     \end{threeparttable}\end{table}
     
-    
+
+% Errors from print_error_summary function in chapter3
+%    ================= TABLE ======================
+%    Aus &   46% &   21% &   36% &   51% &  258% &   35% \\
+%    SE &   54% &   14% &   37% &   66% &  141% &   38% \\
+%    NE &   53% &   18% &   35% &   51% &   40% &   37% \\
+%    Mid &   45% &   38% &   38% &   47% &   41% &   35% \\
+%    SW &   43% &   27% &   32% &   61% &   96% &   36% \\
+%    N &   39% &   16% &   33% &   38% &   22% &   30% \\
+%    TIME:   9.57 minutes for stuff
+%    
     
   \subsection{Top down emissions}
     \label{BioIsop:uncertainty:eomi}
@@ -1214,8 +1224,8 @@
         Here we use 30\% as a rough estimate of error in this term \parencite{Palmer2006}, since measurements over Australia are lacking.
         For comparison, Wollongong FTIR is over-predicted by GEOS-Chem modelled vertical columns by $\sim{15-20}\%$.
         Here the assumed error of 30\% is ascribed to the $AMF$ term.
-        %validated against the total column of HCHO at Wollongong using FTIR measurements from the (TODO: Nicholas Jones roof HCHO citation here).
-      
+        
+        
         % How others calculated it
         \textcite{Palmer2006} calculate the error in AMF through combining estimates of error in the UV albedo database ($\sim 8$\%), model error based on in situ measurements, cloud error  ($20-30$\% \parencite{Martin2003}), and aerosol errors ($<20$\%), totalling AMF error of around $\sim 30$\% (calculated in quadrature).
         Compare this error estimate with that of \textcite{Curci2010}, where the error in AMF calculations and background columns are respectively found to be 30\% and 15\% based on their analysis of CHIMERE.
@@ -1235,8 +1245,18 @@
         For each SC, the $RSC$ is set to the mean correction matching the $SC$ latitude over all tracks.
         For each day, the $\Delta RSC$ is set to the standard deviation of the $RSC$ over Australian latitudes ($45$\degr S to $10$\degr S) in all tracks.
         These terms are used in Equation \ref{BioIsop:uncertainty:satellite:eqn_VCC_uncertainty}.
-        TODO: print some example rerr for RSC from omhchorp.uncertainty, summarise here.
+        Background error calculated in this way is on the order of 5\%-10\% after monthly averaging, however this error increases in the higher southern latitudes during autumn and winter to $\sim{15}\%$.
         For comparison, the background error is assumed to be 15\% in \textcite{Curci2010} following \parencite{Dufour2009}.
+        
+        % Errors from print_error_summary function in chapter3
+        %    ===BGRERR===
+        %    region,   summer,    autumn,    winter,    spring
+        %    Aus,       0.03,        0.08,        0.05,        0.03
+        %    SE,       0.02,        0.17,        0.15,        0.03
+        %    NE,       0.03,        0.03,        0.02,        0.04
+        %    Mid,       0.03,        0.03,        0.03,        0.05
+        %    SW,       0.02,        0.17,        0.05,        0.03
+        %    N,       0.03,        0.02,        0.01,        0.02
         
     \end{description}
     %Uncertainty from these three sources gives a representation of the confidence in vertical column amounts.
@@ -1335,7 +1355,7 @@
       %In the remote Pacific, it can be assumed that HCHO variations are weak, with concentrations remaining steady in the short term ($\sim 1$ month).
       %%This also means the standard deviation over this region can be used as a proxy for determination of the instrument error.
       %Since monthly averaged reference sector HCHO is used as a vertical column correction, monthly variance in remote ocean HCHO can be used as an estimate of the background uncertainty.
-      %Monthly variance of GEOS-Chem vertical columns averaged over the remote Pacific (15\degr S to 15\degr N, and 180\degr W to 120\degr W) is from X to Y TODO, and looking at just the Australian latitudes (10\degr S to 50\degr S) the range is XX to YY TODO.
+      %Background error monthly averaged averages around 5-15\%, with higher error occurring in higher latitudes in autumn and winter.
       %
       %Error in the $RSC$ is based on this background uncertainty, following the equivalence of Equation \ref{Model:omiRecalc:vcc:eqn_vcc} ($ VCC = \frac{ \left( SC - RSC \right) }{ AMF } $) and Equation \ref{Model:omiRecalc:vcc:eqn_vcc_equiv} ($ VCC = \frac{ \left( SC - SC_0 \right) }{ AMF } + \Omega_{GC,0} $).
 
@@ -1396,7 +1416,7 @@
   % second, brief summary of what you did;
   % finally what did you find.
   
-  %JENNY NOTE: one sentence per section, at least.    Should have important numbers e.g. what is your new best estimate of isoprene emissions over Australia (Tg/yr) and uncertainty? This section can have some of the discussion mentioned earlier about the method not providing an answer for WHY emissions in MEGAN are too high but provide some hypotheses. That will open up to some future work e.g. testing influence of soil moisture on results, testing influence of different resolution, different satellite data (GOME-2), etc., adjoint inversion to account for transport. Def. expand the conclusions around ozone as that is the overarching theme of your thesis so you need to tie it in at least a little bit here.
+  %JENNY NOTE: WHY emissions in MEGAN are too high but provide some hypotheses. That will open up to some future work e.g. testing influence of soil moisture on results, testing influence of different resolution, different satellite data (GOME-2), etc., adjoint inversion to account for transport. Def. expand the conclusions around ozone as that is the overarching theme of your thesis so you need to tie it in at least a little bit here.
   
   % Motivation
   Very few ground based measurements of BVOC concentrations and emissions are available in Australia.
@@ -1406,15 +1426,16 @@
   % What I did
   In this chapter I created and tested an isoprene emissions estimate (a posteriori) based on OMI satellite measurements of HCHO, a high-yield product of isoprene oxidation.
   %Filters are applied to satellite and modelled data to ensure sensible estimation of biogenic emissions only, although this leads to an inability to confidently analyse winter emissions.
-  The a posterior emissions effects on ozone and HCHO are tested by running GEOS-Chem with a seasonal (multi-year monthly averaged) gridded (\lowhr) scaling factor applied to the a priori emissions.
+  The a posteriori emissions effects on ozone and HCHO are tested by running GEOS-Chem with a seasonal (multi-year monthly averaged) gridded (\lowhr) scaling factor applied to the a priori emissions.
   %This factor comes from the multi-year monthly difference between model emissions and our top down a posteriori.
-  Uncertainty in the primary components of the top-down calculation of emissions is calculated where possible, and potential biases are noted.
+  Uncertainty in the primary components of the top-down emissions calculation are calculated where possible, and potential biases are noted.
   
   % What I found:
-  My top down biogenic isoprene emission estimate showed that MEGAN overestimates emissions in summer by a factor of 2-5, and total yearly Australian emissions are reduced from 39\tgpyr ~to 21\tgpyr ~(decrease of $\sim 46\%$).
+  The a posteriori isoprene emission estimate showed that GEOS-Chem (running the MEGAN emissions model) overestimates emissions in summer by a factor of 2-5.
+  Total yearly Australian emissions are reduced from 39\tgpyr ~in GEOS-Chem to 21\tgpyr ~(decrease of $\sim{46}\%$) in the a posteriori.
   The overestimate is spatially and temporally diverse and leads to model overestimates of both HCHO and ozone.
   In a sample of two months, running GEOS-Chem using scaled emissions based on OMI HCHO columns reduced model HCHO overestimate (when compared to OMI HCHO) by half (from 50-120\% down to 25-50\% depending on the region).
-  Model output vertical column HCHO variance is somewhat lower ($~sim{10\%-50\%}$) than that seen by the OMI satellite, and this difference is increased after scaling isoprene emissions.
+  Model output vertical column HCHO variance is somewhat ($\sim{10\%-50\%}$) lower than that seen by the OMI satellite, and this difference is increased after scaling isoprene emissions.
   Scaling GEOS-Chem emissions also lowered simulated surface ozone concentrations by $\sim 5\%$.
   A posteriori uncertainty was shown to be on the order of 50\%  (monthly, per grid square), with large satellite based uncertainty in winter and a potential bias coming from satellite data of $-13\%$ to $40\%$.
   The primary uncertainty in the a posteriori emissions comes from the monthly modelled isoprene to HCHO yield ($\sim 30\%-50\%$), although at higher latitudes in winter, satellite uncertainty becomes restrictively high ($>100\%$).
@@ -1422,23 +1443,28 @@
   
   
   % Why might emissions be too high -> leading towards future work
-  The reason for the model overestimate remains unclear, and both global and Australian emissions estimates for isoprene range widely.
+  The full reason for the a priori overestimate remains unclear, and both global and Australian emissions estimates for isoprene range widely.
   It is in part due to the MEGAN emission model's sensitivities to inexact parameters including leaf area indices, plant functional type emission factors, and meteorological factors. 
-  In Australia, a mixture of poorly defined emission factors \parencite[e.g.,][]{Emmerson2016}, unaccounted for soil moisture \parencite[e.g.,][]{Sindelarova2014, Emmerson2019} and poorly understood forest responses to meteorological stresses (TODO: cite papers talking about clay and poor moisture responses) is likely driving uncertainty and model biases \parencite{Emmerson2019}.
+  In Australia, a mixture of poorly defined emission factors \parencite[e.g.,][]{Emmerson2016}, unaccounted for soil moisture \parencite[e.g.,][]{Sindelarova2014, Emmerson2019} and poorly understood forest responses to meteorological stresses is likely driving uncertainty and model biases \parencite{Jiang2018,Emmerson2019}.
   %For instance, \textcite{Sindelarova2014} found % a 41\tgpyr decrease in Australia when 
+  A potential improvement to the MEGAN soil parameterisation has been described \parencite{Jiang2018}; however, a detailed map of soil properties is not readily available in Australia, and this would be required to tune the parameterisation.
+  
   %introducing soil moisture parameterisation led to a large decrease in isoprene emissions modelled by MEGAN in Australia.
-  %In the US, bias between OMI and in-situ measurements is as high as 40\%, but 
-  Bias across Australia cannot be determined as there are not enough independent observations.
+  In the US, bias between OMI and in-situ measurements is as high as 40\%, but 
+  bias across Australia cannot be determined as there are not enough independent observations.
   This leads to a wide range for potential emissions (see Figure \ref{BioIsop:results:emissions:fig_regional_seasonal_comparison}) and limits potential top-down refinements to isoprene emissions.
-  Ground-based VOC, NO$_x$, and ozone measurements over large areas timed to coincide with satellite overpass times would help quantify unknown satellite biases while additionally providing constraints for bottom-up models.
-  In the northern region, where forests are affected by monsoonal seasons, characterisation of forest emissions and their response to sunlight, temperature, and moisture are even more important in order to improve modelled emissions.
-  This is due to the lack of cloud-free satellite measurements at these times.
-  %In the future an improved soil moisture map and response parameterisation could be tested using top-down emissions estimates (such as is provided in this chapter) as a measure of model correction.
+  Ground-based VOC, NO$_x$, and ozone measurements over large areas at relatively fine temporal resolution would help quantify unknown satellite biases while additionally providing constraints for bottom-up models.
+  In the northern region forests are affected by monsoonal seasons, and increased cloud coverage may limit representative satellite coverage. This makes characterisation of forest emissions and their response to sunlight, temperature, and moisture are even more important in these areas.
+  In addition to ground measurements, further analysis depicting how sensitive modelled emissions are to model resolution and changing soil moisture parameters (and parameterisation) would provide the foundation for how to update GEOS-Chem and MEGAN to improve modelled emissions along with child products like ozone.
+
   
   In the future, other satellites (e.g., GOME-2) could be used to improve emission estimates even further, with differing overpass times potentially allowing a measure of diurnal emission patterns.
-  Additionally an evaluation of emission dependence on model resolution along with an analysis of satellite resolution limitations regarding uncertainty could be undertaken.
-  %TODO: Stronger finish to chapter would be nice
-  The emission estimate created in this chapter could be refined to higher temporal resolution, with further analysis of uncertainty, and oversampling techniques could be applied near populated areas in order to improve the understanding of isoprene, HCHO, and ozone relationships over cities \parencite[e.g.,][]{Surl2018}.
+  Additionally an adjoint version of GEOS-Chem could provide details of isoprene transport and ozone production sources.
+  This version of GEOS-Chem could also provide an evaluation of how resolution limited the linear top-down emission estimates are over Australia.
+  %along with an analysis of satellite resolution limitations regarding uncertainty could be undertaken.
+  The emission estimate created in this chapter could be refined to higher temporal resolution, with further analysis of uncertainty.
+  Oversampling techniques could be applied near populated areas in order to improve the understanding of isoprene, HCHO, and ozone relationships over cities \parencite[e.g.,][]{Surl2018}.
+  Furthermore, publishing the updated underlying emission factors for Australia and implementing the changes in GOES-Chem would improve the understanding of the natural atmosphere over this relatively remote portion of the planet for modelling scientists world wide.
 
 % Extras for potential paper output 
 %  
