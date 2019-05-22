@@ -238,8 +238,7 @@
     Figure \ref{Model:datasets:fig_locations} shows the locations of BVOC measurement sites in the top panel, and release sites for ozonesondes in the bottom panel.
     These took place over disparate times, and are in situ measurements which are hard to directly compare against GEOS-Chem output which is averaged over a large horizontal space.
     
-    % Figure from ??
-    % TODO: Remove HIPPO overset image...
+    % Figure from tests/test_campaigns.py
     \mypic{Figures/campaigns/campaign_locations.png}{%
       Locations of VOC measurements (top panel) and ozonesonde release sites (bottom panel). 
       Inlaid in top panel is the flight paths over Australia of the HIPPO campaign.
@@ -1108,7 +1107,7 @@
           \begin{enumerate}
             \item Outputs: Midday output, daily tracer averages, and time series over three stations.
             %\item The Midday output is used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry. 
-            %TODO: Should I add a plot of how the AMF$_{GC}$ changes with/without the UCX? I'll remove this item if it's not worth it.
+            %%TODO: Should I add a plot of how the AMF$_{GC}$ changes with/without the UCX? I'll remove this item if it's not worth it.
             \item This run shows what influence the stratospheric chemistry additions have over tropospheric isoprene, HCHO, and ozone concentrations.
             \item The daily tracer averages are used to determine ozone intrusion quantification (Section \ref{Ozone:fluxcalc}), and ozone concentration seasonality (Section \ref{Ozone:ModelComparison}).
             \item Time series outputs are compared against ozonesonde releases (Section \ref{Ozone:ModelComparison}) both over time and vertically.
@@ -1120,7 +1119,7 @@
           \begin{enumerate}
             \item Outputs: Midday output, daily tracer averages, and HEMCO diagnostics
             \item These are used in recalculation of the satellite AMF (Section \ref{Model:AMF}), and the modelled background HCHO over the remote Pacific which is used in the reference sector correction for OMI column retrievals (Section \ref{Model:omiRecalc:RSC}).
-              Additional diagnostic outputs are used hard coded to allow AMF recalculation.
+            Additional diagnostic outputs are used hard coded to allow AMF recalculation.
             \item Midday output is combined from two different runs in order to determine smearing (Section \ref{Model:filter:smearing})
             \item Total yearly ozone concentrations are compared before and after scaling isoprene emissions using the top-down estimate.
           \end{enumerate}
@@ -1129,7 +1128,7 @@
           identical to standard tropchem except isoprene emissions are halved.
           \begin{enumerate}
             \item Outputs: Midday output, and monthly tracer averages 
-            \item Check modelled ozone sensitivity to isoprene emissions TODO: plot ozone between the two runs and reference here
+            \item Check modelled ozone sensitivity to isoprene emissions (following section Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}).
             \item Combined with standard run to determine model sensitivity transport (Section \ref{Model:filter:smearing})
           \end{enumerate}
         
@@ -1216,7 +1215,7 @@
       Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX run.
       This shows that UCX ozone is lower everywhere except for a thin band just north and south of the equator.
       With higher stratospheric ozone levels, less radiation would reach the troposphere.
-      This would slow photolysis limited reactions, such as the splitting of Ozone which leads to OH production in the troposphere, in turn slowing the isoprene loss to OH reactions.
+      This would slow photolysis limited reactions, such as the splitting of ozone which leads to OH production in the troposphere, in turn slowing the isoprene loss to OH reactions.
       % hydroxyl radical plot used to be mentioned here
       % is this correct??
       %Decreased O$_3$ could lead to lower OH and the other differences between the runs over Australia.
@@ -1531,7 +1530,7 @@
     \mypic{Figures/OMI_link/AMF_distributions_2005.png}{%
       Top row: averaged OMI Satellite AMF for 2005, from the OMHCHO data set (left, $AMF_{OMI}$), recalculated using GEOS-Chem shape factors  (middle, $AMF_{GC}$), and recalculated using GEOS-Chem shape factors and scattering weights (right, $AMF_{PP}$).
       Middle row: AMF time series over 2005 for each recalculation.
-      Bottom row: AMF distibutions over January and February against a normalised Y axis.
+      Bottom row: AMF frequency distributions over January and February.
     }{\label{Model:omiRecalc:vertical_columns:fig_AMFdistributions}}
     
   \subsection{Reference sector correction}
@@ -1666,10 +1665,11 @@
   
     
     Corrected vertical columns ($VCC$) of HCHO are created at \highhr ~horizontal resolution.
+    Three $VCC$ are created based on OMI and the new AMFs (from section \ref{Model:omiRecalc:vertical_columns}) and RSCs.
     Figure \ref{Model:omiRecalc:diff:fig_vcc_comparison} shows how the recalculated columns compare to the original (OMI, left). 
-    Recalculation increases the January column amounts while also slightly flattening the distributions (row 3).
-    Recalculated columns show more high concentration ($>1.5$ \moleccm) columns and lower background concentrations over the ocean.
-    Together this may lead to a slightly steeper continental enhancement which may be expected since elsewhere OMI HCHO is seen to be up to 40\% underestimated \parencite[e.g.]{Zhu2016,DeSmedt2015,Barkley2013}.
+    $VCC_{OMI}$ are the lowest overall for the depicted month, and recalculating just the shape factor increases the column amounts ($VCC_{GC}$); however, recalculating both the shape factor and the scattering weights leads to a broader spread of values.
+    Both sets of recalculated columns ($GC$, $PP$) show more high concentration ($>1.5$ \moleccm) columns and lower background concentrations over the ocean.
+    Together this may lead to a slightly steeper continental enhancement which may be expected since elsewhere OMI HCHO is seen to be up to 40\% underestimated \parencite[e.g.,][]{Zhu2016,DeSmedt2015,Barkley2013}.
     %The effect of not recalculating the $\omega_z$ can also be seen in Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} which shows the altered satellite vertical columns using each method.
     
     
@@ -1688,10 +1688,21 @@
     % TODO: figure analysing amf vs amf_gc vs amf_pp
     Figure TODO shows an analysis of the differences between running the recalculation with and without updating the $\omega_z$.
     
-    TODO: compare how many nans from palmers code to my code
-    The AMF calculated using professor Palmer's produces TODO: MORE OR FEWER reasonable (within screening range of -5$\times 10^{15}$ to 1$\times 10^{17}$) vertical column amounts.
-    Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating $\omega_z$.
-  
+    When reading $AMF_{PP}$, missing and near zero ($AMF_{PP}<0.0001$) values are removed, which leads to fewer overall pixels used to recalculate $VCC_{PP}$ than the original $VCC_{OMI}$. 
+    Figure \ref{Model:omiRecalc:diff:fig_Npix_comparison} shows how many pixels go into the column recalculation over Australia each month.
+    The filtered pixel counts refers to how many pixels are removed through applied filters, which are described in the following section (Section \ref{Model:filter}).
+    A decrease in pixel counts is apparent starting in April and lasting until August, which is caused by the reduction in good pixels recorded at increased solar zenith angles which occur during winter at higher latitudes.
+    There is a consistent bias of $1-10\%$ between the techniques, caused by the extra filtering applied to unreasonable AMFs calculated by the PP code.
+    
+    %Stricter filtering must be balanced against both coverage and the sensitivity of the AMF determination to recalculating vertical columns.
+    
+    % plot made in chapter_2_modelling.N_pixels_comparison()
+    \mypicw{0.75\textwidth}{Figures/OMI_link/N_pix_comparison.png}{%
+      Monthly pixel counts over Australia (non-oceanic) used in recalculations of vertical columns.
+      $N_{GC}$ refers to the number of pixels used in AMF recalculation without running code from Paul Palmer, $N_{PP}$ refers to those which have been recalculated using their code.
+      Filters applied are described in Section \ref{Model:filter}, 
+      }{\label{Model:omiRecalc:diff:fig_Npix_comparison}}
+    
     Figure TODO: shows global and Australian HCHO averaged total column maps for January 2005, along with the reduced major axis (RMA) regression correlation and percentage difference.
     This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
     
