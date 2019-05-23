@@ -1528,11 +1528,12 @@
     Additionally there is a steep decline in mean $AMF_{PP}$ after February which is not seen in the other AMF, and for the rest of the year the three AMF follow the same pattern with $AMF_{PP}$ around $10\%$ lower on average.
     While the explanation for this is beyond the scope of this thesis, it does show that a complete recalculation of both the shape factor and the scattering weights makes a large difference in the AMF calculation when compared to just recalculating the shape factor.
     
-    % Figure from 
+    % Figure from chapter_2_modelling AMF_distribution
     \mypic{Figures/OMI_link/AMF_distributions_2005.png}{%
       Top row: averaged OMI Satellite AMF for 2005, from the OMHCHO data set (left, $AMF_{OMI}$), recalculated using GEOS-Chem shape factors  (middle, $AMF_{GC}$), and recalculated using GEOS-Chem shape factors and scattering weights (right, $AMF_{PP}$).
       Middle row: AMF time series over 2005 for each recalculation.
       Bottom row: AMF frequency distributions over January and February.
+      Oceanic pixels are filtered out, only land pixels are included in this figure.
     }{\label{Model:omiRecalc:vertical_columns:fig_AMFdistributions}}
     
   \subsection{Reference sector correction}
@@ -1685,10 +1686,9 @@
     }{\label{Model:omiRecalc:diff:fig_vcc_comparison}}
     
     % TODO: Omega regressions if they show anything?
-
     
-    % TODO: figure analysing amf vs amf_gc vs amf_pp
-    Figure TODO shows an analysis of the differences between running the recalculation with and without updating the $\omega_z$.
+    
+    
     
     When reading $AMF_{PP}$, missing and near zero ($AMF_{PP}<0.0001$) values are removed, which leads to fewer overall pixels used to recalculate $VCC_{PP}$ than the original $VCC_{OMI}$. 
     Figure \ref{Model:omiRecalc:diff:fig_Npix_comparison} shows how many pixels go into the column recalculation over Australia each month.
@@ -1705,8 +1705,20 @@
       Filters applied are described in Section \ref{Model:filter}, 
       }{\label{Model:omiRecalc:diff:fig_Npix_comparison}}
     
-    Figure TODO: shows global and Australian HCHO averaged total column maps for January 2005, along with the reduced major axis (RMA) regression correlation and percentage difference.
+    Figure \ref{Model:omiRecalc:diff:fig_VCC_distributions} shows global and Australian HCHO averaged total column maps for 2005, along with time series and distributions.
+    The completely recalculated $VCC_{PP}$ has a higher number of high HCHO amounts compared to both the original and partially recalculated VCCs.
+    Both recalculated VCCs appear to have lower average background amounts, seen over the ocean and parts of southern Australia, and also increased average amounts in the HCHO hot spots around the north and eastern coastal regions.
     This comparison shows how reprocessing with an updated model can have a systematic influence on the total column.
+
+    
+    % Figure from chapter_2_modelling AMF_distribution
+    \mypic{Figures/OMI_link/VCC_distributions_2005.png}{%
+      Top row: averaged OMI Satellite VCC for 2005, from the OMHCHO data set (left, $VCC_{OMI}$), recalculated using GEOS-Chem shape factors  (middle, $VCC_{GC}$), and recalculated using GEOS-Chem shape factors and scattering weights (right, $VCC_{PP}$).
+      Middle row: VCC time series over 2005 for each recalculation.
+      Bottom row: VCC frequency distributions over January and February.
+      Oceanic pixels are filtered out, only land pixels are included in this figure.
+    }{\label{Model:omiRecalc:diff:fig_VCC_distributions}}
+    
     
 \section{Filtering Data}
   \label{Model:filter}
@@ -1798,19 +1810,22 @@ year   ,   pixels    ,  fire               ,    anthro            ,  smoke      
     
     % Fire filtering affect split over recalculations
     Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows the effects from filtering HCHO vertical columns with different fire filtering.
-    Each grid square (at \highhr ~resolution) has been created by binning the recalculated satellite pixels within the month.
-    The average number of pixels per land square is inset as text, changing due to how the fire filter is applied.
+    Vertical column amounts (at \highhr ~resolution) averaged over January, 2005, and the pixel counts are shown side by side.
+    The figure shows the effects of applying an increasingly strict fire filter.
+    
     Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
     This figure looks at March 2005 with biomass burning filtered differently in each row.
     Active fires over the last 0, 1, 2, 4, and 8 days are filtered as the row number increases.
     
     % TODO: just look at fire filtering affects .. VCC vs number of days of active fires removed
+    % Figure from chapter_2_modelling.plot_VCC_firefilter_vs_days
     \mypic{Figures/OMI_link/VCC_fires_20050301-20050331.png}{% 
       TODO: Update this plot to just really examine fire filtering effects.
-      Column 1: Reference sector corrected HCHO vertical columns $\Omega$ from OMHCHOv003.
-      Column 2: $\Omega$ with recalculated a priori shape factors using GEOS-Chem v10.01.
-      Column 3: $\Omega$ with recalculated a priori shape factors and scattering weights using GEOS-Chem v10.01 and LIDORT.
+      Column 1: $VCC_{PP}$ amounts after applying the active fire filter.
+      Column 2: Pixel counts after applying the active fire filter.
       Row 1-5: increasing number of prior days which have active fires are included when masking fire influence.
+      The first row shows the values without applying any active fire filter.
+      The average number of pixels per land square is inset as text in column 1.
     }{\label{Model:omiRecalc:fig_VCC_pp_fires}}
     
     
