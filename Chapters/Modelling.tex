@@ -1770,9 +1770,6 @@
     \label{Model:filter:tab_summary_pixels_masked}
   \end{threeparttable} \end{table}
   
-%Pixels removed by filtering: Number removed(portion removed(%%))
-year   ,   pixels    ,  fire               ,    anthro            ,  smoke           ,    all 
-
 
   
   % Figure from test_filters . show_mask_filtering - two images pasted side by side
@@ -1810,22 +1807,21 @@ year   ,   pixels    ,  fire               ,    anthro            ,  smoke      
     
     % Fire filtering affect split over recalculations
     Figure \ref{Model:omiRecalc:fig_VCC_pp_fires} shows the effects from filtering HCHO vertical columns with different fire filtering.
-    Vertical column amounts (at \highhr ~resolution) averaged over January, 2005, and the pixel counts are shown side by side.
+    Vertical column amounts averaged over January, 2005, and the pixel counts are shown side by side.
     The figure shows the effects of applying an increasingly strict fire filter.
-    
     Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
-    This figure looks at March 2005 with biomass burning filtered differently in each row.
-    Active fires over the last 2, 4, and 8 days are filtered as the row number increases, with the first row showing VCC and pixel counts without applying the filter.
+    % TODO: analysis
     
     % TODO: just look at fire filtering affects .. VCC vs number of days of active fires removed
     % Figure from chapter_2_modelling.plot_VCC_firefilter_vs_days
     \mypic{Figures/OMI_link/VCC_fires_200501.png}{% 
       TODO: Update this plot to just really examine fire filtering effects.
-      Column 1: $VCC_{PP}$ amounts after applying the active fire filter.
-      Column 2: Pixel counts after applying the active fire filter.
+      Column 1: $VCC_{PP}$ amounts after applying the active fire filter at.
+      The filter is applied at \highhr ~resolution, before output is averaged into \lowhr ~resolution.
+      Column 2: Pixel counts after applying the active fire filter (summed into \highhr ~bins).
       Row 1-4: increasing number of prior days which have active fires are included when masking fire influence.
       The first row shows the values without applying any active fire filter.
-      The average and maximum VCC column amount, and number of pixels, is inset as text in column 1 of each row.
+      The average and maximum VCC column amount (at \highhr ~resolution), and number of pixels, is inset as text in column 1 of each row.
     }{\label{Model:omiRecalc:fig_VCC_pp_fires}}
     
     
@@ -1835,7 +1831,6 @@ year   ,   pixels    ,  fire               ,    anthro            ,  smoke      
     
     %In situ fire influence
     %\textcite{Wolfe2016} disregard HCHO measurements when acetonitrile > 210~pptv and CO > 300~ppbv, while acetonitrile > 200~pptv is used to determine fire influence in \textcite{Miller2017}.
-    
     
     
     % Smoke AAOD filtering:
@@ -1862,24 +1857,22 @@ year   ,   pixels    ,  fire               ,    anthro            ,  smoke      
     }{\label{Model:filter:fire:fig_typicalAAOD}}
     
     
-    
-    Figure \ref{Model:filter:fire:fig_portion_filtered_2005} shows the extent of pixels filtered out by the pyrogenic filter over 2005. 
+    Figure \ref{Model:filter:fire:fig_portion_filtered_2005} shows the extent of pixels filtered out by the pyrogenic filter over 2005 and 2012.
+    One clear hot spot is located over Port Kembla (south of Sydney), most likely due to the flame which burns over the blast furnace stack throughout the year (\url{https://www.bluescopeillawarra.com.au/community/skylineimages/}).
+    Another hot spot can be seen in Western Australia over Kalgoorlie, where a large open cut gold mine is always open and blasting daily (\url{https://superpit.com.au/wp-content/uploads/2015/01/Blasting-Information-Sheet.pdf}).
+    In Western Queensland over Mount Isa there is again a mining hotspot, with a blast furnace and several smoke stacks (\url{http://www.mountisamines.com.au/en/about-mim/Pages/home.aspx}).
+    A large area in southern Queensland/northern NSW is also heavily filtered, potentially due to gas flaring in the Surat Basin, which has thousands of petrol and gas wells (\url{http://www.ga.gov.au/scientific-topics/energy/resources/petroleum-resources/gas}).
     The highest concentrations of removed pixels lie along the northern and eastern coastlines, and correspond with forested areas (see Figure \ref{Model:filter:fire:fig_forest_coverage}), which suggests that forest fires are being masked properly.
     Central Australia is largely unmasked, which could be due to a lack of sufficient vegetation to create fires and smoke visible by satellite.
     %Even though transported smoke plumes from South America and southern Africa would influence the measurements in the area.
     The proliferation of petrol or gas wells (see Figure \ref{Model:filter:fire:fig_petrol_and_gas}) may also lead to AAOD enhancement wherever activity stirs up dust, and could be mistaken as active fires wherever gas flaring occurs.
-    %JENNY NOTE: As written this section is unnecessarily wordy and a bit confusing. Just show both 2005 and 2012 in the figure and state this at the outset. If you see growth in filter detections then you can discuss the change over time in oil and gas wells
-    In 2005, 388 gas wells existed in Queensland; however, more than 2000 wells (cumulative) were approved by 2013 which may cause more filtering over the analysed time period in this thesis \parencite{Carlisle2012}.
-    To check this the filtering portion for 2012 is also plotted in Figure TODO: plot map of filtered squares for 2012 when it has been run by NCI.
-    One clear hot spot is located over Port Kembla (south of Sydney), most likely due to the flame which burns over the blast furnace stack throughout the year (\url{https://www.bluescopeillawarra.com.au/community/skylineimages/}).
-    Another hot spot can be seen in Western Australia over Kalgoorlie, where a large open cut gold mine is always open and blasting daily TODO: Reference.
-    In Western Queensland over Mount Isa there is again a mining hotspot TODO: Reference.
-    A large area in southern Queensland/northern NSW is also heavily filtered, potentially due to gas flaring in the Surat Basin, which has thousands of petrol and gas wells (\url{http://www.ga.gov.au/scientific-topics/energy/resources/petroleum-resources/gas}).
+    In 2005, 388 gas wells existed in Queensland; however, more than 2000 wells (cumulative) were approved by 2013 \parencite{Carlisle2012}.
+    The comparison between fire filtering in 2005 and 2012 does not indicate that the proliferation of gas wells in the intervening years had any strong effect on data filtering. 
     
-    %Figure from !?!?
-    \mypic{Figures/OMI_link/Filters/Pyrogenic_filter_annotated_2.png}{%
-      Top: percentage of pixels filtered out by fire and smoke masks in 2005.
-      Bottom: percentage filtered out each day from land squares in Australia.
+    %Figure from chapter_2_modelling.pyrogenic_filter() + annotation in paint
+    \mypic{Figures/OMI_link/Filters/Pyrogenic_filter_annotated_3.png}{%
+      Top: percentage of pixels filtered out by fire and smoke masks in 2005 (left) and 2012 (right).
+      Bottom: percentage filtered out each day from land squares in Australia for the two years shown.
     }{\label{Model:filter:fire:fig_portion_filtered_2005}}
     
     
@@ -1895,72 +1888,7 @@ year   ,   pixels    ,  fire               ,    anthro            ,  smoke      
       
     %\textcite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15\times{T}-9.07)$.
     
-    % JENNY COMMENT: In general this whole section (although I'm suggesting it not be a subsection) needs to be re-worked. The order is funny and it is hard to understand.
-    % Used to be subsubsection looking at hcho vs temp vs fire...
-    Biogenic HCHO concentrations should be correlated with temperature, since isoprene emissions are strongly correlated with temperature \parencite{Palmer2006, Zhu2013_poster, Surl2018}.
-    Fires emit HCHO precursors and increase HCHO concentrations independently of the relationship between temperature and HCHO, and should be revealed as outliers when comparing HCHO to temperature.
-    Figures \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501} - \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SWA_200501} show the relationship between modelled temperature, and satellite HCHO for January 2005 within subsets of Australia.
-    A reduced major axis regression is used to determine the correlation between surface temperature (X axis) and HCHO (Y axis).
-    Using the natural log of HCHO we can take the linear regression and then exponentiate each side in the equation $\ln{Y} = m{X}+b$ to get ${Y} = \exp{m{X}+b}$. 
-    This gives us the exponential fit as shown, with the correlation coefficient between $\ln{HCHO}$ and temperature.
-    The distributions of exponential correlation coefficients and $m$ terms is shown in the embedded plot, with one datapoint available for each grid square where the regression is performed.
-    These figures show that the modelled temperature does is not well correlated with corrected recalculated OMI vertical columns (r ranges from -0.24 to 0.47), but is with modelled columns (r ranges from 0.49 to 0.84).
-    Correlations between modelled temperatures and HCHO are further improved when using the spatial average within each region.
-    Further, we see that the relationship is improved in individual grid squares over south Eastern Australia by removing non-biogenic emissions from the model (r increased from 0.58 to 0.75).
-    This improvement is not seen in Northern Australia, nor south Western Australia.
-    Overall this suggests that modelled correlations between temperature and HCHO are spatially dependent, and generally well reflected in satellite measurements over Australia.
     
-    % TODO: Fix legends (REMOVE THEM AND ADD IN PAINT)
-    % Figure from where?
-    \begin{figure}
-      % Figure produced in GC_tests.HCHO_vs_temp
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SEA_20050101-20050228.png}
-      \caption{%
-        Top row (left): surface temperature averaged over January and February 2005.
-        Top row (right): correlation between spatially averaged GEOS-Chem temperatures and recalculated satellite vertical columns.
-        Second row: GEOS-Chem surface temperatures correlated against GEOS-Chem HCHO, with different colours for each grid box, and black showing the spatially averaged correlation over time.
-        Third row: as second row, except GEOS-Chem HCHO comes from the biogenic emissions only simulation.
-        A reduced major axis regression is used within each gridbox using daily overpass time surface temperature and HCHO.
-        The distribution of slopes (solid) and regression correlation coefficients (dashed) for the exponential regressions is shown in the inset panels in rows 2 and 3.
-      }
-      \label{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501}
-    \end{figure}
-      
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_NA_20050101-20050228.png}
-      \caption{%
-        As Figure \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501} but for northern Australia.
-      }
-      \label{Model:analysis:HCHO:fig_hcho_vs_temp_NA_200501}
-    \end{figure}
-    
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SWA_20050101-20050228.png}
-      \caption{%
-        As Figure \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501} but for south-western Australia.
-      }
-      \label{Model:analysis:HCHO:fig_hcho_vs_temp_SWA_200501}
-    \end{figure}
-    
-    One problem with detecting outliers in the temperature and enhanced HCHO relationship is that days when fires occur are likely to be hot.
-    Another problem with correlating heat and HCHO is that increased temperature accelerates HCHO destruction \parencite{Zheng2015}.
-    We test the fire mask by examining the relationship between modelled temperature and satellite HCHO with and without applying the filters for smoke and active fires.
-    Figures \ref{Model:filter:fire:fig_HCHO_vs_GC_temperature} and \ref{Model:filter:fire:fig_HCHO_vs_CPC} show the regressions between OMI HCHO total columns and temperature from GEOS-Chem output and CPC daily maximum temperatures respectively.
-    Comparing against GEOS-Chem modelled surface temperatures at \lowhr ~shows??? TODO.
-    %TODO
-    The left column in Figure \ref{Model:filter:fire:fig_HCHO_vs_GC_temperature} shows scatter and RMA correlation within a single grid box over 2 months from Jan 1 to Feb 28, 2005, without having applied either the fire nor anthropogenic masks to OMI HCHO columns. 
-    The right column shows the same correlation after applying the fire filter, affected data points are marked in teal (matching the red marked points in the left column).
-    The analysis is repeated for Sydney, Canberra, and three grid squares to the north-west, west, and southwest of Sydney (w1, w2, w3 respectively).
-    Figure \ref{Model:filter:fire:fig_HCHO_vs_CPC} shows the same analysis at higher resolution using CPC daily maximum temperatures (see \ref{Model:datasets}).
-    
-    % TODO update figures, combine and show area averages from SEA, and just Sydney, with and without fires (GEOS-Chem vs CPC overplotted)
-    \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_20050101-20050228.png}{HCHO vs GEOS-Chem daily midday temperatures TODO add longer caption}{\label{Model:filter:fire:fig_HCHO_vs_GC_temperature}}
-    
-    \mypic{Figures/OMI_link/Filters/HCHO_vs_CPCtemp_20050101-20050228.png}{%
-      HCHO vs CPC daily maximum temperatures TODO add longer caption.
-    }{\label{Model:filter:fire:fig_HCHO_vs_CPC}}
-      
-  
   \subsection{Anthropogenic filter}
     \label{Model:filter:NOx}
     
@@ -2032,7 +1960,7 @@ year   ,   pixels    ,  fire               ,    anthro            ,  smoke      
     
     % Affects of filtering
     % TODO: tabulate or summarise no2 filtering
-    
+  
   \subsection{Smearing filter}
   %\subsection{Accounting for smearing}
     \label{Model:filter:smearing}
@@ -2230,6 +2158,72 @@ year   ,   pixels    ,  fire               ,    anthro            ,  smoke      
         Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
         %Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}  
+  
+\section{Relationship between temperature and HCHO}
+  
+  % Used to be subsubsection looking at hcho vs temp vs fire...
+  Biogenic HCHO concentrations are correlated with temperature, as isoprene emissions are strongly correlated with temperature \parencite{Palmer2006, Zhu2013_poster, Surl2018}.
+  Fires emit HCHO precursors and increase HCHO concentrations independently of the relationship between temperature and HCHO, and should be revealed as outliers when comparing HCHO to temperature.
+  Figures \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501} - \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SWA_200501} show the relationship between modelled temperature, and satellite HCHO for January 2005 within subsets of Australia.
+  A reduced major axis regression is used to determine the correlation between surface temperature (X axis) and HCHO (Y axis).
+  Using the natural log of HCHO we can take the linear regression and then exponentiate each side in the equation $\ln{Y} = m{X}+b$ to get ${Y} = \exp{m{X}+b}$. 
+  This gives us the exponential fit as shown, with the correlation coefficient between $\ln{HCHO}$ and temperature.
+  The distributions of exponential correlation coefficient and $m$ terms is shown in the embedded plot, with one data point available for each grid square where the regression is performed.
+  These figures show that the modelled temperature is not well correlated with corrected recalculated OMI vertical columns (r ranges from -0.24 to 0.47), but is with modelled columns (r ranges from 0.49 to 0.84).
+  Correlations between modelled temperatures and HCHO are further improved when using the spatial average within each region.
+  Furthermore the relationship is improved in individual grid squares over south Eastern Australia by removing non-biogenic emissions from the model (r increased from 0.58 to 0.75).
+  This improvement is not seen in Northern Australia, nor south Western Australia.
+  Overall this suggests that modelled correlations between temperature and HCHO are spatially dependent, and generally well reflected in satellite measurements over Australia.
+  
+  % TODO: Fix legends (REMOVE THEM AND ADD IN PAINT)
+  % Figure from where?
+  \begin{figure}
+    % Figure produced in GC_tests.HCHO_vs_temp
+    \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SEA_20050101-20050228.png}
+    \caption{%
+      Top row (left): surface temperature averaged over January and February 2005.
+      Top row (right): correlation between spatially averaged GEOS-Chem temperatures and recalculated satellite vertical columns.
+      Second row: GEOS-Chem surface temperatures correlated against GEOS-Chem HCHO, with different colours for each grid box, and black showing the spatially averaged correlation over time.
+      Third row: as second row, except GEOS-Chem HCHO comes from the biogenic emissions only simulation.
+      A reduced major axis regression is used within each gridbox using daily overpass time surface temperature and HCHO.
+      The distribution of slopes (solid) and regression correlation coefficients (dashed) for the exponential regressions is shown in the inset panels in rows 2 and 3.
+    }
+    \label{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501}
+  \end{figure}
+  
+  \begin{figure}
+    \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_NA_20050101-20050228.png}
+    \caption{%
+      As Figure \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501} but for northern Australia.
+    }
+    \label{Model:analysis:HCHO:fig_hcho_vs_temp_NA_200501}
+  \end{figure}
+  
+  \begin{figure}
+    \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SWA_20050101-20050228.png}
+    \caption{%
+      As Figure \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501} but for south-western Australia.
+    }
+    \label{Model:analysis:HCHO:fig_hcho_vs_temp_SWA_200501}
+  \end{figure}
+  
+  One problem with detecting outliers in the temperature and enhanced HCHO relationship is that days when fires occur are likely to be hot.
+  Another problem with correlating heat and HCHO is that increased temperature accelerates HCHO destruction \parencite{Zheng2015}.
+  We test the fire mask (see prior Section \ref{Model:filter:fire}) by examining the relationship between modelled temperature and satellite HCHO with and without applying the filters for smoke and active fires.
+  Figures \ref{Model:filter:fire:fig_HCHO_vs_GC_temperature} and \ref{Model:filter:fire:fig_HCHO_vs_CPC} show the regressions between OMI HCHO total columns and temperature from GEOS-Chem output and CPC daily maximum temperatures respectively.
+  Comparing against GEOS-Chem modelled surface temperatures at \lowhr ~shows??? TODO.
+  %TODO
+  The left column in Figure \ref{Model:filter:fire:fig_HCHO_vs_GC_temperature} shows scatter and RMA correlation within a single grid box over 2 months from Jan 1 to Feb 28, 2005, without having applied either the fire nor anthropogenic masks to OMI HCHO columns. 
+  The right column shows the same correlation after applying the fire filter, affected data points are marked in teal (matching the red marked points in the left column).
+  The analysis is repeated for Sydney, Canberra, and three grid squares to the north-west, west, and southwest of Sydney (w1, w2, w3 respectively).
+  Figure \ref{Model:filter:fire:fig_HCHO_vs_CPC} shows the same analysis at higher resolution using CPC daily maximum temperatures (see \ref{Model:datasets}).
+  
+  % TODO update figures, combine and show area averages from SEA, and just Sydney, with and without fires (GEOS-Chem vs CPC overplotted)
+  \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_20050101-20050228.png}{HCHO vs GEOS-Chem daily midday temperatures TODO add longer caption}{\label{Model:filter:fire:fig_HCHO_vs_GC_temperature}}
+  
+  \mypic{Figures/OMI_link/Filters/HCHO_vs_CPCtemp_20050101-20050228.png}{%
+    HCHO vs CPC daily maximum temperatures TODO add longer caption.
+  }{\label{Model:filter:fire:fig_HCHO_vs_CPC}}
   
 \section{Process schematic}
   \label{Model:saving_omhchorp}
