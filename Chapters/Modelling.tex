@@ -1904,8 +1904,8 @@
     Tropospheric NO$_2$ columns averaged within all of Australia and each region is shown in Figure \ref{Model:filter:NOx:fig_omno2_timeseries}.
     Anthropogenic influences are clearly visible near major cities in Australia, and some influence can be seen along nearly every coastline.
     
-    % TODO: UPDATE: remove lower panel (it is shown again in next plot), 
-    \mypic{Figures/OMI_link/OMNO2_timeseries_2005.png}{%
+    %Figure from !??
+    \mypic{Figures/OMI_link/OMNO2_timeseries_2005_final.png}{%
       Mean (top left) and standard deviation (top right) of OMNO2d daily 0.25\degr$ \times 0.25 $\degr tropospheric cloud filtered NO$_2$ columns. 
       Time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right. 
       The grey shaded area depicts the 25th to 75th percentiles of Australia averaged NO$_2$ columns for each day in the time series, with a thicker black line showing the Australia-wide mean value.}
@@ -1923,8 +1923,8 @@
     Areas over major cities in south eastern Australia do not lie outside the IQR of Australian NO$_2$ tropospheric columns once the filter is applied.
     Many coastal regions show some effect from the filtering, and Sydney, Melbourne, and east of Melbourne are completely removed.
     
-    % TODO: UPDATE: title: affects -> effects, add NO$_2$ to colourbars and yaxis labels
-    \mypic{Figures/OMI_link/OMNO2_threshaffect_2005.png}{%
+    % Figure from chapter_2_modelling.no2_thresh()
+    \mypic{Figures/OMI_link/OMNO2_threshaffect_2005_final.png}{%
       Top row: 2005 OMNO2d NO$_2$ column mean before (left) and after (right) applying the threshold filters as described in the text.
       Bottom row: time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right.
       The time series before (left) and after (right) applying the anthropogenic filter are shown, the dashed and dotted horizontal lines show daily and yearly mean thresholds respectively.}
@@ -2210,20 +2210,32 @@
   One problem with detecting outliers in the temperature and enhanced HCHO relationship is that days when fires occur are likely to be hot.
   Another problem with correlating heat and HCHO is that increased temperature accelerates HCHO destruction \parencite{Zheng2015}.
   We test the fire mask (see prior Section \ref{Model:filter:fire}) by examining the relationship between modelled temperature and satellite HCHO with and without applying the filters for smoke and active fires.
-  Figures \ref{Model:filter:fire:fig_HCHO_vs_GC_temperature} and \ref{Model:filter:fire:fig_HCHO_vs_CPC} show the regressions between OMI HCHO total columns and temperature from GEOS-Chem output and CPC daily maximum temperatures respectively.
-  Comparing against GEOS-Chem modelled surface temperatures at \lowhr ~shows??? TODO.
-  %TODO
-  The left column in Figure \ref{Model:filter:fire:fig_HCHO_vs_GC_temperature} shows scatter and RMA correlation within a single grid box over 2 months from Jan 1 to Feb 28, 2005, without having applied either the fire nor anthropogenic masks to OMI HCHO columns. 
-  The right column shows the same correlation after applying the fire filter, affected data points are marked in teal (matching the red marked points in the left column).
-  The analysis is repeated for Sydney, Canberra, and three grid squares to the north-west, west, and southwest of Sydney (w1, w2, w3 respectively).
-  Figure \ref{Model:filter:fire:fig_HCHO_vs_CPC} shows the same analysis at higher resolution using CPC daily maximum temperatures (see \ref{Model:datasets}).
+  %Figure \ref{Model:filter:fire:fig_VCC_vs_GC_temperature} show the regressions between OMI HCHO total columns and temperature from GEOS-Chem output and CPC daily maximum temperatures.
+  Figure \ref{Model:filter:fire:fig_HCHO_vs_temperature} show the regressions between midday surface HCHO and temperature, where two independent data sets are used for the temperature: one from GEOS-Chem output and the other from CPC daily maxima.
+  Regressions over both the grid square containing Sydney and averaged over a wider area are reduced in quality when after applying the pyrogenic filter. 
+  This could be due to the low resolution of available GEOS-Chem midday output, which greatly increases the strictness of the fire filter, which originally is created at \highhr ~horizontal resolution but here is widened out to \lowhr.
+  While the modelled correlation between surface HCHO and temperature is quite strong ($r>0.8$) the correlation coefficient is reduced while the slope (temperature coefficient) is changed by more than 30\% when applying the pyrogenic filter at the model resolution.
+  If we use recalculated satellite HCHO columns instead of modelled midday outputs, then higher horizontal resolution can be achieved; however, this is at the cost of vertical resolution.
+  Figure \ref{Model:filter:fire:fig_VCC_vs_temperature} shows the relationship between total column HCHO and temperature, which is not as strong as that shown between surface HCHO and temperature.
+  At this resolution the application of the pyrogenic filter is shown to slightly strengthen the correlation over the wider south eastern Australian region, with r increasing from $\sim{0.31}$ to $\sim{0.38}$.
+  In this thesis the pyrogenic filter is applied at the higher horizontal resolution (\highr), and this analysis suggests that the filter should strengthen the relationship between total column HCHO and its biogenic precursors over Australia.
   
-  % TODO update figures, combine and show area averages from SEA, and just Sydney, with and without fires (GEOS-Chem vs CPC overplotted)
-  \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_20050101-20050228.png}{HCHO vs GEOS-Chem daily midday temperatures TODO add longer caption}{\label{Model:filter:fire:fig_HCHO_vs_GC_temperature}}
+  %Figure from chapter_2_modelling.HCHO_vs_temperature
+  \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_surface_20051201-20060228.png}{%
+    Surface HCHO from GEOS-Chem overpass output (midday) on the Y axis vs surface temperatures at midday ($T_{GC}$) and vs maximum daily temperatures from the CPC data set ($T_{CPC}$).
+    Top row: Sydney grid square scatter plot and regression with one data point for each day in the summer of 2005-2006.
+    Bottom row: as top row except averaging over several grid boxes covering south eastern Australia (SEA: 37\degr S to 29\degr S, 146\degr E to 153.5\degr W).
+    Grid squares with pyrogenic influence detected are removed (prior to any averaging) in the right column. 
+  }{\label{Model:filter:fire:fig_HCHO_vs_temperature}}
   
-  \mypic{Figures/OMI_link/Filters/HCHO_vs_CPCtemp_20050101-20050228.png}{%
-    HCHO vs CPC daily maximum temperatures TODO add longer caption.
-  }{\label{Model:filter:fire:fig_HCHO_vs_CPC}}
+  %Figure from chapter_2_modelling.HCHO_vs_temperature
+  \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_20051201-20060228.png}{%
+    OMI recalculated vertical columns of HCHO on the Y axis vs surface temperatures at midday ($T_{GC}$) and vs maximum daily temperatures from the CPC data set ($T_{CPC}$).
+    Top row: Sydney grid square scatter plot and regression with one data point for each day in the summer of 2005-2006.
+    Bottom row: as top row except averaging over several grid boxes covering south eastern Australia (SEA: 37\degr S to 29\degr S, 146\degr E to 153.5\degr W).
+    Grid squares with pyrogenic influence detected are removed (prior to any averaging) in the right column. 
+  }{\label{Model:filter:fire:fig_VCC_vs_temperature}}
+  
   
 \section{Process schematic}
   \label{Model:saving_omhchorp}
