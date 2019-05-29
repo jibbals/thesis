@@ -1685,9 +1685,8 @@
       Distribution bins are logarithmic, resulting in wider bins for higher column amounts.
     }{\label{Model:omiRecalc:diff:fig_vcc_comparison}}
     
-    % TODO: Omega regressions if they show anything?
-    
-    
+    Potential TODO: Worth looking at regressions between the three AMF and VCC techniques? 
+    Plot and discussion paragraph would go here.
     
     
     When reading $AMF_{PP}$, missing and near zero ($AMF_{PP}<0.0001$) values are removed, which leads to fewer overall pixels used to recalculate $VCC_{PP}$ than the original $VCC_{OMI}$. 
@@ -1812,11 +1811,9 @@
     Each row has a stricter fire filter applied from top to bottom, with no fire filter on the first row up to filtering pixels from squares with fires up to 8 days prior.
     % TODO: analysis
     
-    % TODO: just look at fire filtering affects .. VCC vs number of days of active fires removed
     % Figure from chapter_2_modelling.plot_VCC_firefilter_vs_days
     \mypic{Figures/OMI_link/VCC_fires_200501.png}{% 
-      TODO: Update this plot to just really examine fire filtering effects.
-      Column 1: $VCC_{PP}$ amounts after applying the active fire filter at.
+      Column 1: $VCC_{PP}$ amounts after applying the active fire filter.
       The filter is applied at \highhr ~resolution, before output is averaged into \lowhr ~resolution.
       Column 2: Pixel counts after applying the active fire filter (summed into \highhr ~bins).
       Row 1-4: increasing number of prior days which have active fires are included when masking fire influence.
@@ -1935,11 +1932,12 @@
     This led to a reduction of TODO grid squares from the total available measurement space over Australia.
     The removal of grid squares which went above the yearly averaged limit of $1.5 \times 10^{15}$\moleccm ~further reduced the available data by TODO grid squares.
     
-    % TODO find plot, describe vertical dimension of pdf...
+    % Figure from test_filters.no2_densities
     \mypic{Figures/OMI_link/OMNO2_densities_2005.png}{%
-      2005 OMNO2d NO$_2$ column means (top left) and distributions (top right) for Australia, and each region shown in the area map (by colour)}.
+      2005 OMNO2d NO$_2$ column means (top left) and distributions (top right) for Australia, and each region shown in the area map (by colour).
       Vertical dashed lines show the threshold for anthropogenic influence, any columns above this value are filtered out.
-    {\label{Model:filter:NOx:fig_omno2_densities}}
+      The vertical axis is normalised so that area under the curve adds up to unity, and as such is not important except as a visual measure of the relative width between the distributions.
+    }{\label{Model:filter:NOx:fig_omno2_densities}}
     
     
     \begin{table}
@@ -1960,6 +1958,7 @@
     
     % Affects of filtering
     % TODO: tabulate or summarise no2 filtering
+    % UPDATE no2_threshaffect function to print table output above
   
   \subsection{Smearing filter}
   %\subsection{Accounting for smearing}
@@ -2175,7 +2174,6 @@
   This improvement is not seen in Northern Australia, nor south Western Australia.
   Overall this suggests that modelled correlations between temperature and HCHO are spatially dependent, and generally well reflected in satellite measurements over Australia.
   
-  % TODO: Fix legends (REMOVE THEM AND ADD IN PAINT)
   % Figure from where?
   \begin{figure}
     % Figure produced in GC_tests.HCHO_vs_temp
@@ -2247,7 +2245,7 @@
   Masks created using MODIS and OMI measurements are also stored in the OMHCHORP dataset.
 
   
-  % made on some program!? 
+  % made on www.draw.io 
   % TODO update for this section...
   \mypic{Figures/Flow_Making_omhchorp.png}{%
     Flow diagram showing how OMHCHO level two swath data is read, processed, and gridded in this thesis.
@@ -2257,6 +2255,8 @@
 TODO: ADD MORE HERE
 \label{Model:DataAccess}
 \begin{description}
+  \item[CPC] Climate Prediction Center global temperature data provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their website at \url{https://www.esrl.noaa.gov/psd/}.
+  
   \item[OMHCHO] Satellite swaths of HCHO slant columns downloaded from \url{https://search.earthdata.nasa.gov}, with DOI 10.5067/Aura/OMI/DATA2015
   
   \item[OMNO2d] Daily satellite NO$_2$ product downloaded from \url{https://search.earthdata.nasa.gov/search}, DOI:10.5067/Aura/OMI/DATA3007. 
@@ -2271,7 +2271,8 @@ TODO: ADD MORE HERE
   The current principle investigator producing and quality assuring the data set is \href{mailto:njones@uow.edu.au}{Dr. Nicholas Jones}.
   
   %TODO: complete
-  \item[Ozone sondes] world ozone and ultraviolet radiation data centre \url{http://woudc.org/data/explore.php}
+  \item[Ozone sondes] world ozone and ultraviolet radiation data centre \url{http://woudc.org/data/explore.php}.
+  
   
   
 \end{description}
