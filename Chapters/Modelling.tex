@@ -1911,26 +1911,26 @@
     % Filters and Threshhold determination and reasoning
     The anthropogenic filter is created for each year from in two steps:
     \begin{enumerate}
-      \item Daily grid squares with NO$_2$ greater than 10$^{15}$\moleccm  ~are flagged as anthropogenic.
-      \item After taking the yearly average for each grid square, any tropospheric NO$_2$ columns greater than $1.5 \times 10^{15}$\moleccm are flagged for the whole year.
+      \item Daily grid squares with NO$_2$ greater than $1.5\times10^{15}$\moleccm  ~are flagged as anthropogenic.
+      \item After taking the yearly average for each grid square, any tropospheric NO$_2$ columns greater than $2 \times 10^{15}$\moleccm are flagged for the whole year.
     \end{enumerate}
     These thresholds are chosen subjectively through trial and error so as to ensure the removal of definite anthropogenic influence while not removing too many data points over near uninhabited portions of Australia.
     These thresholds completely remove grid squares over major cities which are likely emitting NMVOCs year round, and also frequently remove grid squares down wind.
     The affects of applying this filter to the OMNO2d product itself can be seen in Figure \ref{Model:filter:NOx:fig_omno2_threshaffect}.
-    Areas over major cities in south eastern Australia do not lie outside the IQR of Australian NO$_2$ tropospheric columns once the filter is applied.
+    Areas over Sydney and Melbourne tend to oscillate around the upper quartile of Australian NO$_2$ tropospheric columns once the filter is applied.
     Many coastal regions show some effect from the filtering, and Sydney, Melbourne, and east of Melbourne are completely removed.
     
     % Figure from chapter_2_modelling.no2_thresh()
-    \mypic{Figures/OMI_link/OMNO2_threshaffect_2005_final.png}{%
+    \mypic{Figures/OMI_link/OMNO2_thresheffect_2005.png}{%
       Top row: 2005 OMNO2d NO$_2$ column mean before (left) and after (right) applying the threshold filters as described in the text.
       Bottom row: time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right.
       The time series before (left) and after (right) applying the anthropogenic filter are shown, the dashed and dotted horizontal lines show daily and yearly mean thresholds respectively.}
     {\label{Model:filter:NOx:fig_omno2_threshaffect}}
     
     % Threshhold analysis
-    The same regions as in Figure \ref{Model:filter:NOx:fig_omno2_timeseries} are shown again in Figure \ref{Model:filter:NOx:fig_omno2_densities}, with NO$_2$ pixel densities for each region shown, along with the threshold of $1 \times 10^{15}$\moleccm.
-    This led to a reduction of TODO grid squares from the total available measurement space over Australia.
-    The removal of grid squares which went above the yearly averaged limit of $1.5 \times 10^{15}$\moleccm ~further reduced the available data by TODO grid squares.
+    The same regions as in Figure \ref{Model:filter:NOx:fig_omno2_timeseries} are shown again in Figure \ref{Model:filter:NOx:fig_omno2_densities}, with NO$_2$ pixel densities for each region shown, along with the threshold of $2 \times 10^{15}$\moleccm.
+    The reduction in NO$_2$ columns along with the portion of available data removed over Australia and each subset region is listed in Table \ref{Model:filter:NOx:tab_summary}.
+    Roughly a quarter of the available data-points are removed over Sydney and Melbourne, decreasing the mean NO$_2$ amounts by $\sim{50}\%$, while not too much information is lost overall.
     
     % Figure from test_filters.no2_densities
     \mypic{Figures/OMI_link/OMNO2_densities_2005.png}{%
@@ -1940,26 +1940,23 @@
     }{\label{Model:filter:NOx:fig_omno2_densities}}
     
     
+    % Values for table from chapter_2_modelling.no2_threshaffect_print
     \begin{table}
-      \caption{NO$_2$ averages by region before and after filtering for anthropogenic emissions using 2005 data from the OMNO2d product.}
+      \caption{NO$_2$ averages (\moleccm $\times 10^{14}$) by region before and after filtering for anthropogenic emissions using 2005 data from the OMNO2d product.}
       \begin{tabular}{ c c c c }
         \hline
         \textbf{Region} & \textbf{NO$_2$} & \textbf{NO$_2$ after filtering} & \textbf{\% Data lost} 
         \\ \hline
-        Aus & 1 & 2 & 3 \\
-        BG & 1 & 2 & 3 \\
-        Syd & 1 & 2 & 3 \\
-        Melb & 1 & 2 & 3 \\
-        Adel & 1 & 2 & 3 \\
+        Aus       & 4.9  & 4.5  &   2.1\% \\
+        Sydney    & 10.4 & 5.9  &  25.3\% \\
+        Adelaide  & 6.2  & 5.4  &   4.0\% \\
+        Middle    & 3.8  & 3.7  &   0.5\% \\
+        Melbourne & 9.6  & 5.3  &  25.4\% \\
         \hline
       \end{tabular}
       \label{Model:filter:NOx:tab_summary}
     \end{table}
     
-    % Affects of filtering
-    % TODO: tabulate or summarise no2 filtering
-    % UPDATE no2_threshaffect function to print table output above
-  
   \subsection{Smearing filter}
   %\subsection{Accounting for smearing}
     \label{Model:filter:smearing}
@@ -2216,7 +2213,7 @@
   If we use recalculated satellite HCHO columns instead of modelled midday outputs, then higher horizontal resolution can be achieved; however, this is at the cost of vertical resolution.
   Figure \ref{Model:filter:fire:fig_VCC_vs_temperature} shows the relationship between total column HCHO and temperature, which is not as strong as that shown between surface HCHO and temperature.
   At this resolution the application of the pyrogenic filter is shown to slightly strengthen the correlation over the wider south eastern Australian region, with r increasing from $\sim{0.31}$ to $\sim{0.38}$.
-  In this thesis the pyrogenic filter is applied at the higher horizontal resolution (\highr), and this analysis suggests that the filter should strengthen the relationship between total column HCHO and its biogenic precursors over Australia.
+  In this thesis the pyrogenic filter is applied at the higher horizontal resolution (\highhr), and this analysis suggests that the filter should strengthen the relationship between total column HCHO and its biogenic precursors over Australia.
   
   %Figure from chapter_2_modelling.HCHO_vs_temperature
   \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_surface_20051201-20060228.png}{%
