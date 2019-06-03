@@ -900,6 +900,7 @@
       % Figure from chapter_3_isop.seasonal_differences()
       % TODO UPDATE TO RELATIVE DIFFERENCE IN THIRD COLUMNS
       \mypic{Figures/OMI_link/new_emiss/HCHO_total_columns_seasonal.png}{%
+        TODO: share colour bars and change to relative differences.
         Total column HCHO before (left) and after (middle) scaling isoprene emissions, and their relative differences (right). (TODO: Change absolute to relative differences, and fix colour bars)
         Top row shows summer (DJF) averaged total columns, while bottom row shows the winter (JJA).
         }{\label{BioIsop:results:emissions:fig_hcho_reduction}}
@@ -907,6 +908,7 @@
       % Figure from ????
       % TODO: UPDATE ORDER TO OBS,PRIOR,NEW
       \mypic{Figures/OMI_link/hcho_vs_satellite.png}{%
+        TODO: update order left to right to Obs., a priori, a posteriori.
         Regionally and seasonally averaged HCHO total columns from GEOS-Chem and recalculated OMI measurements side by side.
         Each row represents one region within Australia, while each column represents from left to right: summer, autumn, winter, spring.
         Standard deviations are shown with error bars.
@@ -937,8 +939,9 @@
       % TODO: Add second y axis for absolute difference (+-3ppbv scale)
       % TODO: Update suptitle (O3 surface, not tropospheric column)
       \mypic{Figures/OMI_link/new_emiss/O3_surface_20050101_20051231.png}{%
+        TODO: add Y axis for absolute differences at smaller scale, update suptitle to say surface(instead of trop column).
         Surface ozone concentrations (ppb) per region over 2005.
-        }{\label{BioIsop:results:emissions:fig_new_emiss_series_O3}}
+      }{\label{BioIsop:results:emissions:fig_new_emiss_series_O3}}
       
       %JENNY NOTE: some ordering issues: reads as if O3 hasn't decreased because of area averages! also could note that future work will downscale your emissions to evaluate impacts on O3 when spatial segregation of NOx and isoprene are properly accounted for. See Yu et al. ACP 2016 about resolution dependencies
       
@@ -955,6 +958,7 @@
       % chapter_3_isop.seasonal_differences()
       % TODO UPDATE TO RELATIVE DIFFERENCE IN THIRD COLUMNS
       \mypic{Figures/OMI_link/new_emiss/O3_surf_map_seasonal.png}{%
+        TODO: share colour bars and change to relative differences.
         Surface (up to $\sim{150}$~m) ozone before (left) and after (middle) scaling isoprene emissions, and their relative differences (right). (TODO: UPDATE TO REL DIFF, UPDATE COLOUR BARS)
         Top row shows summer (DJF) averaged total columns, while bottom row shows the winter (JJA).
       }{\label{BioIsop:results:emissions:fig_ozone_reduction}}
@@ -1000,14 +1004,24 @@
     Variation in SPS data is higher than modelled, which is likely due to a dependence on local meteorology, as plumes of HCHO or isoprene enriched air can be detected as they pass by while the modelled grid square averages these out.
     Although, this higher variance is not seen in the MUMBA midday concentrations.
     
-    % TODO: use darker color than cyan
-    % TODO: print mean bias and correlation before and after update
     % Figure from chapter_3_isop.campaign_vs_GC
     \mypic{Figures/OMI_link/GC_VS_CAMPAIGNS_midday.png}{%
       SPS1, SPS2, and MUMBA (left to right columns respectively) midday (13:00-14:00 local time) measurements of isoprene, HCHO, and ozone (top to bottom rows respectively).
-      Shown in magenta and cyan respectively are the a priori and a posteriori GEOS-Chem surface outputs for the matching grid square at midday for days containing measurements.
+      Shown in magenta and brown are the a priori and a posteriori GEOS-Chem surface outputs for the matching grid square at midday for days containing measurements.
     }{\label{BioIsop:results:measurements:fig_campaign_comparison}}
     % Figure showing apriori and apostiori for any locatation can be made by test_E_new.location_timeseries()
+    
+    The mean of each campaign, and how the measurements compare to coincident modelled values of isoprene, HCHO, and ozone are summarised in Table \ref{BioIsop:results:measurements:tab_campaign_comparison}.
+    Isoprene correlations are greatest during the MUMBA campaign at $r=0.83,0.84$, nearly double that of SPS1 and SPS2.
+    This may suggest that isoprene in the large grid square may be more representative of a Wollongong-like environment, with somewhat more forest and less urban influence when compared to Sydney.
+    However, the root mean square error (RMSE) is approximately $100\%$ in summer, and more than $300\%$ in autumn (SPS2) before isoprene scaling is applied.
+    In this case the reduced isoprene emissions improves the model drastically, bringing the RMSE down to $\sim{50}\%$.
+    Similarly for HCHO, the SPS2 RMSE is reduced from $\sim{130}\%$ to $\sim{80}\%$ by bringing down the mean modelled amounts.
+    In summer (MUMBA and SPS1), modelled HCHO is too low, and is further reduced through scaling.
+    Without improved model resolution or further measurements, this is assumed to be due to local influences which are measured but not captured by the model.
+    Modelled ozone concentrations are slightly reduced ($3-8\%$) when scaling isoprene emissions, however the concentrations remain $30-50\%$ too high in summer and nearly $100\%$ too high in autumn.
+    This is likely due to the reduced ozone concentrations in cities compared to regional areas, as the modelled ozone concentrations are averages over the larger area which is mostly non-city.
+    
     
     \begin{table}\begin{threeparttable}
       \caption{Campaign measurements compared to model output [ppb].}
@@ -1015,20 +1029,21 @@
         \toprule
         & & MUMBA & & & SPS1 & & & SPS2 & \\
         \midrule
-        Isop   & mean & RMSE & r   & mean & RMSE & r   & mean & RMSE & r   \\
-        Meas          & .2f  &      &     & .2f  &      &     & .2f     &      &     \\
-        GC            & .2f  &  .2f & .2f & .2f  &  .2f & .2f & .2f  &  .2f & .2f \\
-        GC$^{\alpha}$ & .2f  &  .2f & .2f & .2f  &  .2f & .2f & .2f  &  .2f & .2f \\
+        Isoprene   & mean & RMSE & r   & mean & RMSE & r   & mean & RMSE & r   \\
+        Meas            &  1.16 &     &     &  0.46 &     &     &  0.47 &     &     \\
+        GC              &  1.34 &  0.89 &  0.83 &  0.24 &  0.36 &  0.44 &  1.87 &  1.66 & 0.52  \\
+        GC$^{\alpha}$         &  0.67 &  1.15 &  0.84 &  0.18 &  0.39 &  0.43 &  0.93 &  0.73 & 0.49  \\
         \midrule
-        HCHO                & mean & RMSE & r & mean & RMSE & r & mean & RMSE & r \\
-        Meas          & .2f  &      &     & .2f  &      &     & .2f     &      &     \\
-        GC            & .2f  &  .2f & .2f & .2f  &  .2f & .2f & .2f  &  .2f & .2f \\
-        GC$^{\alpha}$ & .2f  &  .2f & .2f & .2f  &  .2f & .2f & .2f  &  .2f & .2f \\
+        HCHO       & mean & RMSE & r   & mean & RMSE & r   & mean & RMSE & r   \\
+        Meas            &  3.92 &     &     &  2.02 &     &     &  1.41 &     &     \\
+        GC              &  2.38 &  2.63 &  0.47 &  1.28 &  1.28 &  0.77 &  3.00 &  1.97 & 0.44  \\
+        GC$^{\alpha}$         &  1.83 &  3.01 &  0.54 &  1.19 &  1.35 &  0.78 &  2.21 &  1.17 & 0.47  \\
         \midrule
-        Ozone               & mean & RMSE & r & mean & RMSE & r & mean & RMSE & r \\
-        Meas         & .2f  &      &     & .2f  &      &     &  .2f    &      &     \\
-        GC           & .2f  &  .2f & .2f & .2f  &  .2f & .2f & .2f  &  .2f & .2f \\
-        GC$^{\alpha}$& .2f  &  .2f & .2f & .2f  &  .2f & .2f & .2f  &  .2f & .2f \\
+        Ozone      & mean & RMSE & r   & mean & RMSE & r   & mean & RMSE & r   \\
+        Meas            & 30.14 &     &     & 22.71 &     &     & 24.59 &     &     \\
+        GC              & 40.91 & 15.46 &  0.52 & 33.75 & 13.59 &  0.35 & 49.97 & 28.01 & 0.34  \\
+        GC$^{\alpha}$         & 39.20 & 14.23 &  0.54 & 32.81 & 12.69 &  0.36 & 47.14 & 24.91 & 0.36  \\
+        
         \bottomrule
       \end{tabular}
       \begin{tablenotes} 
@@ -1039,6 +1054,19 @@
       \label{BioIsop:results:measurements:tab_campaign_comparison}
     \end{threeparttable}\end{table}
     
+%    Isoprene   & mean & RMSE & r   & mean & RMSE & r   & mean & RMSE & r   \\
+%    Meas            &  1.16 &   nan &   nan &  0.46 &   nan &   nan &  0.47 &   nan &  nan  \\
+%    GC              &  1.34 &  0.89 &  0.83 &  0.24 &  0.36 &  0.44 &  1.87 &  1.66 & 0.52  \\
+%    GCalpha         &  0.67 &  1.15 &  0.84 &  0.18 &  0.39 &  0.43 &  0.93 &  0.73 & 0.49  \\
+%    HCHO       & mean & RMSE & r   & mean & RMSE & r   & mean & RMSE & r   \\
+%    Meas            &  3.92 &   nan &   nan &  2.02 &   nan &   nan &  1.41 &   nan &  nan  \\
+%    GC              &  2.38 &  2.63 &  0.47 &  1.28 &  1.28 &  0.77 &  3.00 &  1.97 & 0.44  \\
+%    GCalpha         &  1.83 &  3.01 &  0.54 &  1.19 &  1.35 &  0.78 &  2.21 &  1.17 & 0.47  \\
+%    Ozone      & mean & RMSE & r   & mean & RMSE & r   & mean & RMSE & r   \\
+%    Meas            & 30.14 &   nan &   nan & 22.71 &   nan &   nan & 24.59 &   nan &  nan  \\
+%    GC              & 40.91 & 15.46 &  0.52 & 33.75 & 13.59 &  0.35 & 49.97 & 28.01 & 0.34  \\
+%    GCalpha         & 39.20 & 14.23 &  0.54 & 32.81 & 12.69 &  0.36 & 47.14 & 24.91 & 0.36  \\
+%    
     
     
     A spectrometer (FTIR) on the roof of the Chemistry building at the University of Wollongong measures total column HCHO in the atmosphere during clear sky conditions.
@@ -1184,6 +1212,7 @@
     % Figure from Where??
     % TODO: shift x axis 0.5 to the right
     \mypic{Figures/OMI_link/mya_Ererr.png}{%
+      TODO: shift x axis 0.5 to the right.
       Median and inter-quartile range of multi-year monthly relative uncertainty in the a posteriori.
       Median relative uncertainty in $S$ and $\Omega$ are added as dashed and dotted lines respectively.
       }{\label{BioIsop:uncertainty:fig_ErerrSummary}}
@@ -1493,9 +1522,10 @@
   In Australia, a mixture of poorly defined emission factors \parencite[e.g.,][]{Emmerson2016}, unaccounted for soil moisture \parencite[e.g.,][]{Sindelarova2014, Emmerson2019} and poorly understood forest responses to meteorological stresses likely drive uncertainty and model biases \parencite{Jiang2018,Emmerson2019}.
   %For instance, \textcite{Sindelarova2014} found % a 41\tgpyr decrease in Australia when 
   A potential improvement to the MEGAN soil parameterisation has been described \parencite{Jiang2018}; however, a detailed map of soil properties is not readily available in Australia, and this would be required to apply the parameterisation here.
-  % JENNY NOTE: What did Emmerson2019 do? could future work be to apply her results here?
-  
-  % UP TO HERE JENNY FEEDBACK
+  Alternatively soil moisture and the parameterisation of drought processes which affect isoprene emissions could be implemented within GEOS-Chem similar to how it was recently applied to a different CTM in \textcite{Emmerson2019}. 
+  % Future work also discussed in conclusion chapter
+
+
   %introducing soil moisture parameterisation led to a large decrease in isoprene emissions modelled by MEGAN in Australia.
   In the US, bias between OMI and in-situ measurements is as high as 40\%, but 
   bias across Australia cannot be determined as there are not enough independent observations.
@@ -1504,7 +1534,7 @@
   In the northern region in particular, emissions are affected by monsoonal forcing, but increased cloud coverage during the monsoon limits satellite coverage. 
   This makes characterisation of forest emissions and their response to sunlight, temperature, and moisture even more important in these areas.
   In addition to measurements, further analysis determining the sensitivity of modelled emissions to model resolution and changing soil moisture parameters (and parameterisations) would provide the foundation to improve GEOS-Chem and MEGAN modelled emissions along with products like HCHO and ozone.
-
+  % potential future work synonymised (by me by hand) in conclusions
   
   In the future, other satellites (e.g., GOME-2) could be used to improve emission estimates further, with differing overpass times potentially allowing a measure of diurnal emission patterns.
   Additionally, an adjoint version of GEOS-Chem could provide details of isoprene transport and ozone production sources.
@@ -1513,6 +1543,7 @@
   The emission estimate created in this chapter could be refined to higher temporal resolution, with further analysis of uncertainty.
   Oversampling techniques could be applied near populated areas in order to improve the understanding of isoprene, HCHO, and ozone relationships over cities \parencite[e.g.,][]{Surl2018}.
   Furthermore, publishing the updated underlying emission factors for Australia and implementing the changes in GEOS-Chem would improve the understanding of the natural atmosphere over this relatively remote portion of the planet. % for modelling scientists world wide.
+  % Future work summarised in conclusions
 
 % Extras for potential paper output 
 %  
