@@ -933,20 +933,18 @@
       While the overall decrease in surface ozone is clear, there is no direct correlation between monthly grid square averaged reductions in isoprene emission and surface ozone concentrations.
       This suggests that changes in isoprene emissions affect ozone in grid squares where absolute emission reductions are not as strong.
       
-      % plot from tests/hcho_ozone_series()
-      % TODO: Add second y axis for absolute difference (+-3ppbv scale)
-      % TODO: Update suptitle (O3 surface, not tropospheric column)
+      % plot from tests/test_new_emissions.hcho_ozone_series()
       \mypic{Figures/OMI_link/new_emiss/O3_surface_20050101_20051231.png}{%
-        TODO: add Y axis for absolute differences at smaller scale, update suptitle to say surface(instead of trop column).
         Surface ozone concentrations (ppb) per region over 2005.
+        Concentrations are shown using the left axis, and absolute differences (tropchem run - scaled run) shown in grey using the right axis.
       }{\label{BioIsop:results:emissions:fig_new_emiss_series_O3}}
       
-      %JENNY NOTE: some ordering issues: reads as if O3 hasn't decreased because of area averages! also could note that future work will downscale your emissions to evaluate impacts on O3 when spatial segregation of NOx and isoprene are properly accounted for. See Yu et al. ACP 2016 about resolution dependencies
+      %JENNY NOTE: could note that future work will downscale your emissions to evaluate impacts on O3 when spatial segregation of NOx and isoprene are properly accounted for. See Yu et al. ACP 2016 about resolution dependencies
       
       Ozone and fine particulate concentrations in Australian cities have not reduced over the last 10 years, unlike other atmospheric pollutants such as CO, NO$_2$, and SO$_2$ \parencite{SOE2016}.
       This could be in part due to the downwind effects of isoprene emission, which are most likely to affect suburban fringes (e.g. western Sydney) of Australian cities which are surrounded by vegetation \parencite{Millet2016}.
       Outside of densely populated regions, Australia is likely to be NO$_x$-limited and changes in VOC emissions will have less of an impact on ozone production.
-      Here the modelled ozone output is the averaged over large areas that are mostly non-urban, and the detected ozone sensitivity to isoprene emissions may be understated for cities.
+      Here the modelled ozone output is averaged over large areas that are mostly non-urban, which means detected ozone sensitivity to isoprene emissions is likely understated for cities.
       Figure \ref{BioIsop:results:emissions:fig_ozone_reduction} shows how ozone is reduced in summer and winter after scaling isoprene emissions.
       In summer, reductions are strongest in Sydney and Melbourne, but can also be seen in the west coast and central Australia.
       Winter reductions are more uncertain (relatively); however, they are strongest in the coastal and oceanic regions around Darwin.
@@ -1208,7 +1206,6 @@
     %This higher relative uncertainty sits on top of lower absolute emissions.
     
     % Figure from chapter_3_isop.relative_error_summary
-    % TODO: shift x axis 0.5 to the right
     \mypic{Figures/OMI_link/mya_Ererr.png}{%
       Median and inter-quartile range of multi-year monthly relative uncertainty in the a posteriori.
       Median relative uncertainty in $S$ and $\Omega$ are added as dashed and dotted lines respectively.
@@ -1242,9 +1239,8 @@
     To improve understanding of uncertainty in $S$ would require further analysis of GEOS-Chem yield over Australia, including how it responds to environmental and meteorological parameters, and how representative this modelled quantity is when compared to measurements.
     
     \mypic{Figures/OMI_link/mya_Srerr.png}{%
-      TODO: shift x axis 0.5 to the right.
       Median and inter-quartile range of monthly binned uncertainty in $S$.
-      }{\label{BioIsop:uncertainty:Model:fig_Srerrsummary}}
+    }{\label{BioIsop:uncertainty:Model:fig_Srerrsummary}}
     
     % Filtering
     Filtering for spatial smearing (see Section \ref{BioIsop:method:smearing}) reduces the number of data points making up the regression slope $S$. 
