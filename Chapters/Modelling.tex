@@ -156,7 +156,7 @@
       
       
       OMAERUVd allows detection of areas which may be smoke affected.
-      The product contains AOD and aerosol absorption optical depths (AAOD) at three wavelengths (354, 388, and 500~nm), along with UV aerosol index (UVAI).
+      The product contains AOD and aerosol absorption optical depths (AAOD) at three wavelengths (354, 388, and 500~nm), along with UV aerosol index.
       The OMAERUVd product is level three, based on quality filtered level two swath pixels which are then gridded by daily averaging.
       The product is most sensitive to error in the form of sub-pixel scale cloud interference, so AAOD is used in this thesis to create as it is least affected by clouds \parencite{Ahn2008}.
       
@@ -170,7 +170,7 @@
       MOD14A1 is a gridded daily satellite based dataset of fire counts at 1x1~km$^2$ horizontal resolution.
       Fire observations are performed four times daily from Terra (10:30~LT, 22:30~LT) and Aqua (01:30~LT, 13:30~LT).
       The fire pixels are detected based on parameters including apparent pixel temperature and the nearby background temperature.
-      The dataset is obtained from NASA Earth Observations (NEO) that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
+      The dataset is obtained from NASA Earth Observations that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
       This product is downloaded and binned into a lower resolution (using the sum of fire pixels) to create an active fire influence mask (see Section \ref{Model:filter:fire}).
       
     \subsubsection{Carbon monoxide}
@@ -289,7 +289,7 @@
     \label{Model:datasets:SPS}
       Two trace gas measurement campaigns took place at the Westmead air quality station. %with scientists from CSIRO, OEH, and ANSTO 
       Stage 1 (SPS1) from 5 February to 7 March, 2011 and stage 2 (SPS2) from 16 April to 14 May, 2012.
-      Two instruments measured VOC concentrations: a PTR-MS, and a gas chromatographer (GC) with a flame ionisation detector (FID).
+      Two instruments measured VOC concentrations: a PTR-MS, and a gas chromatographer with a flame ionisation detector (GC-FID).
       The PTR-MS uses chemical ionisation mass spectrometry and can quantify VOCs at high temporal resolution ($< 1$~s).
       It was calibrated several times per day against HCHO, isoprene, $\alpha$-pinene, and several other VOCs, further measurement specifics can be found in \textcite{Dunne2018}.
       % Dunne 2018 looks like an analysis of VOC readings from the sites
@@ -358,7 +358,7 @@
         Left panel shows the mean midday (13:00 - 14:00 local time) total column averaging kernel, along with the inter-quartile range (IQR) between November 2007 and April 2013. 
         Right panel shows the mean averaging kernel for the vertical profile over the same time period, coloured by vertical level.
         One in six vertical levels are labelled and plotted with a solid line, the rest are shown with dashed lines.
-        TODO: add x-axis label (Averaging kernal [unitless])
+        The x-axes are unitless in the two plots shown here.
       }{\label{Model:datasets:wollongong_ftir:fig_MiddayAK}}
       
       
@@ -527,7 +527,6 @@
       HCHO Column amount histograms for a subset of OMI swaths over Australia on the 18th of March 2013.
       Negative entries are shown in the left panel, positive in the right.
       Note the different scale between negative and positive panels.
-      TODO: add x-axis label (molec cm-2).
     }{\label{Model:omhcho:pixel_filtering:fig_OMI_negative_hist}}
   
   \subsection{DOAS}
@@ -625,10 +624,9 @@
     %A good example can be seen in \textcite{Zhu2014} where 0.2$^{\circ}$ by 0.2$^{\circ}$ resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
     
     % Figure from tests.py
-    \mypic{Figures/OMI_link/Uncertainty_OMI_200501.png}{
+    \mypic{Figures/OMI_link/Uncertainty_OMI_200501_final.png}{
       Top row shows \highhr ~binned OMHCHO columns with one day, one month, and one month with non-biogenic masking applied from left to right respectively. 
       Bottom row shows the uncertainty for each grid square after averaging.
-      TODO: combine colour bars on top,bottom
     }{\label{Model:Meas:sat:fig_OMI_uncertainty}}
     
     
@@ -1392,7 +1390,7 @@
       \item Section \ref{Model:omiRecalc:shape_factors} describes how GEOS-Chem satellite overpass output %(see Section \ref{Model:GC:simulations:outputs})
         is used to create new shape factors (S$_z$ and S$_\sigma$).
       \begin{enumerate}
-        \item Vertical pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights (H).
+        \item Vertical pressure edges and geometric midpoints are determined, along with altitudes (\textit{z}), and box heights $H$.
         \item Number density and mixing ratio of HCHO ($n_{HCHO}$, $C_{HCHO}$ respectively) are taken or created from model outputs HCHO (ppb), air density (molec cm$^{-3}$), and box heights (m).
         \item Total column HCHO from GEOS-Chem ($\Ogc$) is calculated 
         \begin{equation*}
@@ -2179,7 +2177,7 @@
   This improvement is not seen in Northern Australia, nor south Western Australia.
   Overall this suggests that modelled correlations between temperature and HCHO are spatially dependent, and generally well reflected in satellite measurements over Australia.
   
-  % Figure from where?
+  % Figure from tests/test_filters.HCHO_vs_temp_vs_fire
   \begin{figure}
     % Figure produced in GC_tests.HCHO_vs_temp
     \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SEA_20050101-20050228.png}
@@ -2194,6 +2192,7 @@
     \label{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501}
   \end{figure}
   
+  % Figure from ???
   \begin{figure}
     \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_NA_20050101-20050228.png}
     \caption{%
@@ -2285,7 +2284,7 @@
   %\item[SPEI] Monthly standardised precipitation evapotranspiration index (metric to determine drought stress) downloaded from \url{http://hdl.handle.net/10261/153475} with DOI:10.20350/digitalCSIC/8508.
   %See more information in section ?? THIS WORK IS FUTURE WORK
   
-  \item[SPS] Measurements of trace gases relevant to air quality in Western Sydney, Australia, from May 2016 to September 2017 as part of the Western Air Shed and Particulate Study for Sydney (WASPSS) \parencite{SPS2017}. 
+  \item[SPS] Measurements of trace gases relevant to air quality in Western Sydney, Australia, from May 2016 to September 2017 as part of the Western Air Shed and Particulate Study for Sydney \parencite{SPS2017}. 
   Available from PANGAEA, \url{https://doi.org/10.1594/PANGAEA.884317}.
   Some trace gas measurements are examined here in Section \ref{BioIsop:results:measurements}.
   Relevant measurements described in detail in Section \ref{Model:datasets:SPS}.
