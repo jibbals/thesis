@@ -449,7 +449,7 @@
     There are two simple ways to determine the modelled background HCHO, one of which involves running the model with no isoprene emissions. 
     %, which shows how much they alter vertical column HCHO.
     Since we have assumed variation in HCHO columns only depends on isoprene emissions, our background term is theoretically identical to the simulated HCHO without isoprene emissions.
-    The other method uses HCHO over the remote Pacific at matching latitudes and times, which emulates how the background is determined for the satellite measured HCHO.
+    The other method uses HCHO over the remote Pacific Ocean at matching latitudes and times, which emulates how the background is determined for the satellite measured HCHO.
     Figure \ref{BioIsop:method:fig_background_hcho} shows GEOS-Chem total column HCHO with and without isoprene emissions along with amounts over the remote Pacific at the same latitudes.
     The difference between $\Ogc$ over Australia with no isoprene emissions (bottom left), and $\Ogc$ over the remote Pacific mapped over Australia (top left) is shown for an example month (January, 2005).
     This difference is relatively small  ($\sim 1$ to $3 \times 10^{15}$ \moleccm), and may be due to non-isoprene HCHO precursors.
@@ -876,7 +876,7 @@
       In every region, $\Ogca$ is closer to $\Oomi$ with biases decreasing from $\sim{100\%}$ to $\sim{50\%}$ everywhere except the northern region, which has biases decreasing from $\sim{50\%}$ to $\sim{25\%}$.
       Note that this is not an independent validation as $\Oomi$ drive the creation of $\Ogca$, and as we expect the relationship is much improved.
       The remaining differences are most likely driven by filtering and temporal averaging of the applied scaling factor $\alpha$.
-      TODO: Should I add a summary for multi-year summer and winter improvement in HCHO?.
+      When looking over all of Australia from 2005-2012, the summer mean decreases from $ 9.8 \times 10^{15}$ to $ 7.4 \times 10^{15}$ \moleccm after scaling isoprene emissions, while the satellite column is $ 4.9 \times 10^{15}$.
       
       %JENNY NOTE: interesting that N seems least improved, is bias largest during monsoon? worth a comment
       % figure from initial version of tests/test_new_emissions.hcho_ozone_timeseries
@@ -1278,7 +1278,7 @@
       
       
       \item [Uncertainty in AMF calculations] \hfill \\
-        Air mass factors model the satellite instruments vertical sensitivity to slant path measurements, and uncertainties arise predominantly from uncertain cloud parameters \parencite{Palmer2006}.
+        Air mass factors model vertical sensitivity to slant path measurements in the satellite instruments, and uncertainties arise predominantly from uncertain cloud parameters \parencite{Palmer2006}.
         Vertical columns from OMI are recalculated using AMFs derived from GEOS-Chem (Section \ref{Model:omiRecalc:AMF}).
         AMF uncertainty can be determined through comparison of GEOS-Chem output to independently measured HCHO columns.
         Here we use 30\% as a rough estimate of error in this term \parencite{Palmer2006}, since measurements over Australia are lacking.
@@ -1494,8 +1494,7 @@
   The a posteriori isoprene emission estimate showed that GEOS-Chem coupled with the MEGAN emissions model overestimates emissions in summer by a factor of 2-5.
   Total yearly Australian emissions are reduced from 39\tgpyr ~to 21\tgpyr ~(decrease of $\sim{46}\%$) in the a posteriori.
   The overestimate is spatially and temporally diverse and leads to model overestimates of HCHO, which affects ozone levels.
-  In a sample of two months, running GEOS-Chem using scaled emissions based on OMI HCHO columns reduced the model HCHO overestimate (when compared to OMI HCHO) by half (from 50-120\% down to 25-50\% depending on the region).
-  TODO: why only two months? run and get whole summer improvement average?.
+  Running GEOS-Chem using scaled emissions based on OMI HCHO columns reduced the model HCHO overestimate (when compared to OMI HCHO) in summer by half, from $\sim{100\%}$ down to $\sim{50\%}$, with most of the difference occurring outside the northern region.
   Model vertical column HCHO variance is somewhat ($\sim{10\%-50\%}$) lower than that seen by the OMI satellite, and this difference increased after scaling isoprene emissions.
   Scaling GEOS-Chem emissions also lowered simulated surface ozone concentrations by $\sim 5\%$.
   A posteriori uncertainty was shown to be on the order of 50\%  (monthly, per grid square), with large satellite-based uncertainty in winter and a potential bias coming from satellite data of $-13\%$ to $40\%$.
