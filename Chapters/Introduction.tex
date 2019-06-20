@@ -556,7 +556,7 @@
     %~of 760\tgcpyr) of the BVOC emissions \parencite{Sindelarova2014}.
     %This is similar to isoprene emission estimates from MEGAN itself, of 
     %400-600\tgcpyr \parencite{Guenther2006}.
-    
+
     
     
     %It used to be thought that emissions of anthropogenic and biogenic VOCs 
@@ -633,6 +633,7 @@
     reacts with OH, ozone, or NO$_3$, leading to organic peroxy radicals (\roo).
     These go on to form many products and lead to (amongst other things) aerosol, formaldehyde, and ozone formation, depending on sunlight and NO$_x$ concentrations \parencite{Atkinson2000}.
     Reactions with NO can lead to ozone production within environments rich in isoprene or other NMVOCs \parencite{Patchen2007,AtkinsonArey2003}.
+    
     
     \mypic{Figures/Mao2013_isop_hcho.png}{%
       Simplified isoprene products following oxidation by OH, reproduced from 
@@ -872,6 +873,12 @@
 \label{LR:HCHO}
 
   % Lead in for HCHO section
+  In conjunction with atmospheric chemistry and radiative models, satellite measurements quantify the abundance of HCHO in the atmosphere.
+  Isoprene is hard to measure directly due to its short lifetime and weak spectral absorption, instead HCHO is often used as a proxy \parencite{Millet2006, Fu2007, Dufour2009, Marais2012, bauwens2013satellite, Kefauver2014, Bauwens2016, Surl2018}.
+  The existence of satellite data covering remote areas provides an opportunity to improve VOC emissions estimates leading to more robust models of global climate and chemistry. 
+  This method is implemented within this thesis (Section \ref{BioIsop:method}), and relevant information dealing with HCHO is provided here.
+  
+  
   % What is HCHO:
   Formaldehyde (HCHO), also known as methanal, methyl aldehyde, or methylene oxide, is part of the aldehyde family.
   HCHO is an oxygenised VOC that is toxic, allergenic, and a potential carcinogen.
@@ -894,7 +901,6 @@
   %$[ISOP]_0=[ISOP]\exp(k_1[\mathrm{OH}]t)$; where $k_1$ is first order loss rate.
   %In this work (Section \ref{BioIsop:method:slope}) a function of the yield (the slope $S = Y_{isop}/k_{HCHO}$) is calculated to link satellite measured HCHO to isoprene emissions.
   
-  % UP TO HERE JENNY FEEDBACK
   \subsection{Sources and sinks}
     \label{LR:HCHO:Sources}
      
@@ -1018,7 +1024,7 @@
       \begin{figure}
         \includegraphics[width=\textwidth]{Figures/GOME_SPECTRUM.jpg}
         \caption{%
-          An example spectrum showing interferences used for species concentration measurements by GOME-2. Image by EUMETSAT and ESA \parencite{GOME2Image}.
+          An example spectrum showing absorption features used for species concentration measurements by GOME-2. Image reproduced from EUMETSAT and ESA \parencite{GOME2Image}.
           }
         \label{LR:HCHO:Sat:fig_GOME_products}
       \end{figure}
@@ -1033,32 +1039,24 @@
       Different satellites, instruments, or techniques that measure HCHO (or any trace gas) can give different results due to differing a priori assumptions \parencite{Lorente2017}.
       The concept of differences that arise between datasets based on measurement techniques or underlying instrument biases is called structural uncertainty.
       
-      % UP TO HERE JENNY 
-      % Lead in to modelling
-      In conjunction with atmospheric chemistry and radiative models, satellite measurements quantify the abundance of HCHO in the atmosphere.
-      Isoprene is hard to measure directly due to its short lifetime and weak spectral absorption, instead HCHO is often used as a proxy \parencite{Millet2006, Fu2007, Dufour2009, Marais2012, bauwens2013satellite, Kefauver2014, Bauwens2016, Surl2018}.
-      This leads to a method of isoprene emissions estimation termed top-down (as opposed to bottom-up estimates).
-      The existence of satellite data covering remote areas provides an opportunity to improve VOC emissions estimates leading to more robust models of global climate and chemistry. 
-      Satellite data gives us another way to estimate large scale isoprene emissions, and their subsequent chemistry.
-      How this is performed in this thesis is described in section \ref{BioIsop:method}.
   
 \section{Atmospheric Chemistry Modelling}
 \label{LR:Models}
   
   Models can fill the gaps (both spatial and temporal) in measurement records, and can help us improve our understanding of the natural world.
-  They are used to examine future outcomes resulting from changing our emissions, from small to large scales.
-  They can be used to increase measurement accuracy (for instance in satellite measurements) and determine where we lack information, while also checking the performance of new instruments.
+  For example, they can be used to examine future outcomes resulting from changing our emissions.
+  They can be used to increase measurement accuracy (for instance in satellite measurements) and determine where we lack information, while also evaluating the performance of new instruments.
   Precisely representing various chemicals and reactions in the atmosphere allows efficient mitigation of pollution, since we can compare scenarios against one another.
-  Models can be expanded to include new compounds or processes, however validation is always necessary.
-  Currently, models require improved isoprene emissions and subsequent chemistry understanding for effective air quality determination \parencite{Marvin2017}.
+  %Models can be expanded to include new compounds or processes, however validation is always necessary.
+  Currently, models require improved isoprene emissions and subsequent chemistry for effective air quality determination \parencite{Marvin2017}.
   
   
   \subsection{Box models}
     
-    Box models simulate chemistry in a singular set of conditions without transport or any spatial gradients.
+    Box models simulate chemistry in a singular set of conditions without transport or spatial gradients.
     These models often parameterise things such as transport and emissions that would realistically take place at the edges of the box.
-    Box models can be used to check chemical mechanisms in specific scenarios, such as high or low NO$_x$ environments.
-    For example: \textcite{Marvin2017} use a box model matching conditions in southeast USA to evaluate isoprene mechanisms from several models.  
+    Box models can be used to test chemical mechanisms in specific scenarios, such as high or low NO$_x$ environments.
+    For example, \textcite{Marvin2017} used a box model matching conditions in southeast USA to evaluate isoprene mechanisms from several models.  
     %One box model used in this thesis is called CAABA/MECCA, and is described in Section \ref{Model:CM}.
     
     By allowing for interactions between boxes this concept can be extended to multiple-box models.
@@ -1071,21 +1069,21 @@
     \label{LR:Models:ctm}
     Chemical transport models (CTMs) provide a simulation of chemical densities and transport over time, through the atmosphere.
     Chemistry in the atmosphere is a complex system of coupled reactions and dynamics, which can be solved using numerical partial differential equation solvers.
-    Chemical models require many inputs (such as wind velocities) in order to accurately represent scenarios or regions on earth.
+    Chemical models require many inputs such as meteorological conditions and emissions.
     Initial (atmospheric starting state) and boundary (inputs and outputs at the edge of the modelled system) conditions are required, and models or inventories of emissions often make up inputs at the surface of the atmosphere.
     
     
     CTMs simulate production, loss, and transport of chemical species.
     This is generally calculated using one or both of the Eulerian (box) or Lagrangian (puff) frames of reference.
-    Eulerian models use equations of chemistry within and transport between volumes in a gridded spatial coordinate system, while Lagrangian models look at behaviour within a potentially changing frame of reference (for example within a cloud).
+    Eulerian models use equations of chemistry within and transport between volumes in a gridded spatial coordinate system, while Lagrangian models evaluate behaviour within a potentially changing frame of reference (for example within a cloud).
     CTMs normally solve continuity equations simultaneously for many coupled species.
     The continuity equations describe transport of a conserved quantity such as mass or energy, which, solved together with production and loss of a chemical can provide detailed simulations of natural processes.
     
-    The general continuity equation links a quantity of a substance (q) to the field in which it flows and can be described by the formula:
+    The general continuity equation links a quantity of a substance ($q$) to the field in which it flows and can be described by the formula:
     \begin{align*}
       \frac{\partial \rho}{\partial t} + \nabla \cdot j = \sigma 
     \end{align*}
-    where $\rho$ is density of q in the field, t is time, $\nabla$ is divergence, j is the flux (q per unit area per unit time entering or leaving the field), and $\sigma$ is the generation or loss of q per unit volume per unit time.
+    where $\rho$ is density of $q$ in the field, $t$ is time, $\nabla$ is divergence, $j$ is the flux ($q$ per unit area per unit time entering or leaving the field), and $\sigma$ is the generation or loss of $q$ per unit volume per unit time.
     
     
     The type of model best suited to modelling the entire earth uses the Eulerian frame of reference, where the atmosphere is broken up into 3-D boxes with densities and transport calculated and stored for sequential steps in time at each location.
@@ -1094,37 +1092,39 @@
       \frac{dm}{dt} & = \sum{sources}-\sum{sinks} \\
                     & = F_{in} + E + P - F_{out} - L - D 
     \end{align*}
-    where m is mass of a chemical, E and D are emission and deposition, P and L are production and loss, and F is chemical transport in and out, as shown in figure \ref{LR:Models:fig_boxmodel}.
+    where $m$ is mass of a chemical, $E$ and $D$ are emission and deposition, $P$ and $L$ are production and loss, and $F$ is chemical transport in and out, as shown in figure \ref{LR:Models:fig_boxmodel}.
     Many chemical species interact with each other through production and loss. 
-    Any large chemical model will solve this mass balance equation over highly coupled arrays of partial differential equations, which becomes computation time expensive as complexity increases.
+    Any large chemical model will solve this mass balance equation over highly coupled arrays of partial differential equations, which becomes computationally expensive as complexity increases.
     
     \begin{figure}
       \includegraphics{Figures/boxmodel.png}
       \caption{ %
-        Standard box model parameters, image taken from \textcite{Jacob_1999_book}. }
+        Standard box model parameters, reproduced from \textcite{Jacob_1999_book}. }
       \label{LR:Models:fig_boxmodel}
     \end{figure}
     
-    Contemporary models generally use mathematical differential solving tools of various complexity (often called chemical mechanisms) to solve chemical equations in order to predict chemical species evolutions over time.
+    Contemporary models generally use mathematical differential solving tools of various complexity (often called chemical mechanisms) to solve chemical equations in order to predict chemical species evolution over time.
     Different solvers may be slower or faster, and some are more suited to particular situations.
     The choice of chemical mechanism is normally driven by the mathematical properties of the equations and systems being modelled (such as stability and stiffness), as well as limitations around processing power.
     Grouping together subsets of model equations or chemical species is often performed and it is possible to use different solvers on each grouping.
-    For example: Since [O] $<<$ [O$_3$] the chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \parencite[][Chapter 3]{BrasseurJacob2017}.
+    For example: since [O] $<<$ [O$_3$] the chemical family O$_X$ (  O$_X \equiv $ O $+$ O$_3$ ) can be used to simplify chemistry simulations and approximate O$_3$ concentrations \parencite[][Chapter 3]{BrasseurJacob2017}.
     Different chemical mechanisms may find different solutions to the same problems, due to how the numerical solvers are implemented, which can affect model output \parencite{Zhang2012}.
     %\textcite{Zhang2012} examine the outputs from a regional model (WRF/Chem) using three different chemical mechanisms, and they show some model output sensitivity to the choice of mechanism.
     %particulate matter prediction is sensitive to the choice of chemical mechanism. 
     
-  
   \subsection{Emissions}
-  
-    %% HOW estimates are made
-    There are two commonly used techniques for estimating isoprene emissions, top-down or bottom-up.
-    Bottom-up emission estimates generally model the flora that emit isoprene, along with the rates of emissions and things that affect these rates.
+    \label{LR:Models:emissions}
+    
+    %% HOW estimates are made    
     The general formula governing modelled emissions $E$ for a species $i$ (from \textcite{BrasseurJacob2017}) is as follows:
-    \begin{equation*}
+    \begin{equation}
       E_i = A \times EF_i \times S_i
-    \end{equation*}
-    with $A$ the activity rate (eg. how many trees in an area), $EF_i$ being the emission factors (eg. isoprene emitted per tree per year), and $S_i$ is a scaling factor accounting for meteorology and other effects not included in $A$ or $F$ (eg. seasonal temperature).
+    \end{equation}
+    with $A$ the activity rate, $EF_i$ being the emission factors, and $S_i$ is a scaling factor accounting for meteorology and other effects not included in $A$ or $F$ (eg. seasonal temperature).
+    For example, to estimate isoprene emission $E_{isop}$ per second for an area, the equation becomes $A=$ how many trees in an area multiplied by $EF_{isop}=$ isoprene emitted per tree per second multiplied by $S_{isop}=$ a scaling factor based on temperature and soil moisture.
+    This is a simplified example of a bottom-up estimate, one commonly used technique for estimating isoprene emissions.
+    Bottom-up emission estimates use information about the flora that emit isoprene, along with the rates of emissions and meteorological parameters that affect these rates.
+    The other common emission estimation technique is termed top-down.
     Top-down emissions estimates are derived from measurements of the child 
     products of emitted VOCs.
     For example, GOME satellite HCHO and a Beyesian inversion technique have 
@@ -1133,18 +1133,13 @@
     %This estimate decreases simulated OH concentrations by $\sim10\%$, to 
     %9.5e5 molec cm$^{-3}$.
     
-    
     % isoprene parameters, and MEGAN
-    Isoprene is emitted by trees and shrubs, how much depends on several parameters such as leaf area index (LAI), plant functional type (PFT), and light density fraction.
-    Models use these properties of the emitters in order to estimate how much 
-    isoprene is being produced \parencite[e.g.,][]{Guenther1995,Guenther2006}.
-    Understanding how much isoprene is emitted, when and by what, is complicated.
-    One frequently used bottom up emissions model is the Model of Emissions of Gases and Aerosols from Nature (MEGAN, \textcite{Guenther1995}).
-    MEGAN has estimated $\sim 1150$\tgcpyr ~BVOC emissions globally, of which 
-    $\sim$465-532\tgcpyr ($\sim{50-70\%}$) is isoprene \parencite{Guenther2006, 
-    Messina2016, Sindelarova2014}. 
-    In Australia, not much data exists with which to verify these bottom-up emission inventories.
-    Global emissions inventories like MEGAN often have emissions over large areas which are based on extrapolations, which introduces uncertainties \parencite{Miller2014}.
+    %Isoprene is emitted by trees and shrubs, how much depends on several parameters such as leaf area index (LAI), plant functional type (PFT), and light density fraction.
+    %Models use these properties of the emitters in order to estimate how much isoprene is being produced \parencite[e.g.,][]{Guenther1995,Guenther2006}.
+    %Understanding how much isoprene is emitted, when and by what, is complicated.
+    %One frequently used emissions model is the Model of Emissions of Gases and Aerosols from Nature (MEGAN, \textcite{Guenther1995}).
+    %MEGAN has estimated $\sim 1150$\tgcpyr ~BVOC emissions globally, of which $\sim$465-532\tgcpyr ($\sim{50-70\%}$) is isoprene \parencite{Guenther2006, Messina2016, Sindelarova2014}. 
+    
     
     %In many CTMs the isoprene emissions are calculated seperately (for example 
     %by running MEGAN), and then used as boundary conditions 
@@ -1152,51 +1147,57 @@
     %This can speed up calculations as the transport and concentrations can be simulated in various conditions without recalculating the emissions.
     %Trace gases with short lifetimes and complex chemistry such as isoprene are often hard to measure which makes verifying model estimates difficult.
     
-    % how bottom up models are sensitive:
-    Bottom up models of VOC emissions are sensitive to the parameters that drive the emissions.
-    For example, in Asia, isoprene emissions changed by a factor of 2 when temperature, plant type emission factors, incoming solar radiation (insolation) intensity, and land use changes are constrained by measurements \parencite{Stavrakou2014}.
-    % and altered model parameters for temperature, plant type emission factors, incoming solar radiation (insolation) intensity, land use changes, and palm tree forest expansion.
-    %Changes were constrained by a network of radiation measurements and some experiments with south east Asian forest emissions - and led to reduction in a priori isoprene emissions by a factor of two over the region in 2005.
-    Sensitivity to these factors is pervasive in bottom up emissions models 
-    \parencite[e.g.,][]{Marais2014,Miller2014,Messina2016}.
-    One of the important uncertainties seen in MEGAN is the isoprene emissions due to PFTs.
-    %Canopy level isoprene measurements are made using relaxed eddy accumulation at several sites in Africa.
-    If one plant species is emitting heavily near a measuring instrument, possible overestimations may occur due to extrapolation over the entire forest.
-    Current emissions estimates require more validation against observations \parencite{Messina2016}.
-    %and recently a comparison of two major VOC models (MEGAN and ORCHIDEE) was undertaken by \textcite{Messina2016} reiterating this requirement.
-    The most important parameters dealing with VOC emissions are LAI, EF, PFT, and light density fraction, with LAI and EF requiring global scale measurements while PFTs and light density fractions require improved parameterisation \parencite{Messina2016}.
-    %There is high uncertainty in LAI and EF, which require more or improved measurements at the global scale, as well as more PFTs and improved LDF parameterisation \parencite{Messina2016}.
+    
     
     
   \subsection{Uncertainties}
   \label{LR:Models:Uncert}
     
-    This section lists and summarises the major uncertainties models have in relation to  VOCs, and ozone.
+    This section summarises the major uncertainties models have in relation to  VOCs, and ozone.
     Atmospheric chemical models by necessity use simplifications of real world processes, and also utilise information that may be itself uncertain or extrapolated.
-    Uncertainty is introduced through both of these channels as well as through computational limitations, which may be calculating large non-linear non-continuous systems.
+    Uncertainty is introduced through both of these channels as well as through computational limitations.
     
-    The concentration of NO$_x$ is an important factor in determining the yield of HCHO and ozone from BVOCs.
-    Modelled surface ozone may be overestimated if NO$_x$ emissions are too high, due to their affects on the oxidative capacity of the atmosphere \parencite{Travis2016}.
-    %\textcite{Travis2016} show how modelled surface ozone is overestimated due to high estimates of NO$_x$ emissions, which affect oxidative capacity and VOC reactions in the US.
-    NO$_x$ and isoprene emissions are shown to be the most significant sources of uncertainty for ozone concentrations near the surface in GOES-Chem over the US, while isoprene derived products and lightning NO$_x$ drives uncertainty in the upper atmosphere \parencite{Christian2017}.
+    
     
     \subsubsection{Emissions Inventories}
       % Emissions Inventories 
       Model results can be greatly affected by the choice of emissions inventory used to provide boundary conditions.
-      Natural (biogenic or pyrogenic) and human driven (anthropogenic) emissions often drive a large fraction of atmospheric oxidation and radical chemistry, especially in the continental boundary layer.
-      Emissions inventories have been found to be generally OK at larger (regional to global) scales, as long as they are derived from accurate input measurements \parencite{Zeng2015}.
+      Natural (biogenic or pyrogenic) and anthropogenic emissions often drive a large fraction of atmospheric oxidation and radical chemistry, especially in the continental boundary layer.
+      Emissions inventories have been found to be reliable at larger (regional to global) scales, as long as they are derived from accurate input measurements \parencite{Zeng2015}.
       Modelled ozone concentrations have been found to be sensitive to isoprene 
       emissions and NO$_x$ sources, both of which are uncertain within 
       approximately a factor of 2 \parencite{Christian2017}.
+      Global emissions inventories like MEGAN often implement data extrapolation, which also introduces uncertainties \parencite{Miller2014}.
+      
+      Modelled surface ozone may be overestimated if NO$_x$ emissions are too high, due to their affects on the oxidative capacity of the atmosphere \parencite{Travis2016}.
+      %\textcite{Travis2016} show how modelled surface ozone is overestimated due to high estimates of NO$_x$ emissions, which affect oxidative capacity and VOC reactions in the US.
+      NO$_x$ and isoprene emissions have been shown to be the most significant sources of uncertainty for ozone concentrations near the surface over the US, while isoprene-derived products and lightning NO$_x$ drives uncertainty in the upper atmosphere \parencite{Christian2017}.
+      
+      %UP TO HERE JENNY
       
       Many estimates of isoprene emission are based on a few algorithms that can depend greatly on input parameters \parencite{Arneth2008,Niinemets2010}.
       \textcite{Arneth2008} argue that this monopoly of emissions estimates may be leading us to an incorrect understanding of isoprene chemistry.
       More recently, \textcite{Yue2015} have shown that this is still a problem, with models of land carbon fluxes showing high sensitivity to VOC emissions.
       Models which depend on VOC emissions acquire the same sensitivities to light and temperature parameterisations \parencite{Yue2015}.
+      This can be mitigated where measurements are used to constrain parameters \parencite[e.g.,][]{Stavrakou2014}.
+      %Changes were constrained by a network of radiation measurements and some experiments with south east Asian forest emissions - and led to reduction in a priori isoprene emissions by a factor of two over the region in 2005.
+      Sensitivity to these factors is pervasive in bottom up emissions models 
+      \parencite[e.g.,][]{Marais2014,Miller2014,Messina2016}.
+      %One of the important uncertainties seen in MEGAN is the isoprene emissions due to PFTs.
       %One model is photosynthesis based and estimates isoprene emissions using electron transfer energies and leaf physiology \parencite{Niinemets1999}, while the other (MEGAN) uses the light and canopy temperature \parencite{Guenther1995,Arneth2007}.
       % Arneth et al., 2007; CO2 may also inhibit isoprene emissions.
       % Unger et al., 2013; another plant process isoprene model
       %Both are sensitive to light and temperature parameterisations.
+     
+      
+      
+      %Canopy level isoprene measurements are made using relaxed eddy accumulation at several sites in Africa.
+      %If one plant species is emitting heavily near a measuring instrument, possible overestimations may occur due to extrapolation over the entire forest.
+      %Current emissions estimates require more validation against observations \parencite{Messina2016}.
+      %and recently a comparison of two major VOC models (MEGAN and ORCHIDEE) was undertaken by \textcite{Messina2016} reiterating this requirement.
+      %The most important parameters dealing with VOC emissions are LAI, EF, PFT, and light density fraction, with LAI and EF requiring global scale measurements while PFTs and light density fractions require improved parameterisation \parencite{Messina2016}.
+      %There is high uncertainty in LAI and EF, which require more or improved measurements at the global scale, as well as more PFTs and improved LDF parameterisation \parencite{Messina2016}.
+      
       
       Chamber studies are often used to inform modelled isoprene reactions 
       \parencite[e.g.,][]{Paulot2009b}.
@@ -1293,7 +1294,8 @@
   Measurement campaigns in SE Australia have since cast doubt on the emission factors used by MEGAN, potentially due to poor characterisation of Eucalyptus trees and soil moisture \parencite{Emmerson2016,Emmerson2019}.
   These emissions factor estimates are not well verified and measurements of isoprene (or other BVOC) emissions are sparse and infrequent in Australia \parencite{Sindelarova2014, Bauwens2016}.
   %In addition, monoterpene emissions are 2-4 times too low, which may be due to underestimated emission rates for many Eucalypt species \parencite{Winters2009,Emmerson2016}.
-
+  
+  
   \begin{figure}
     \includegraphics[width=\textwidth]{Figures/MeganIsoprene1.png}
     \caption{ Part of a figure from \textcite{Guenther2006} showing global isoprene emission factors. }
