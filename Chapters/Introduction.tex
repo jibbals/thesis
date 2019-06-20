@@ -173,7 +173,12 @@
     Since the Montreal Protocol on Substances that Deplete the Ozone Layer was 
     established in August 1987, and ratified in August 1989, new satellites and 
     measurement stations were set up to monitor ozone in the stratosphere.
-    
+    Detecting ozone from the surface up to the top of the stratosphere requires techniques such as remote sensing and ozonesonde releases.
+    Ozonesondes are weather balloons (with attached ozone detectors) that detect ozone concentrations up to the mid stratosphere ($\sim 30$~km), providing a vertical profile over a single location.
+    Since 1986, Lauder, New Zealand (45$^{\circ}$S, 170$^{\circ}$E) has released ozonesondes allowing a multi-decadal analysis of ozone concentrations over the city \parencite{Brinksma2002}.
+    %Kerguelan Island (49.2$^{\circ}$S, 70.1$^{\circ}$E), also has a record of ozonesonde profiles, which are directly in the path of biomass burning smoke plumes transported off shore from Africa \parencite{Baray2012}.
+    %SHADOZ is the southern hemispheric additional ozone project, which have released sondes from 15 sites at different times \url{http://tropo.gsfc.nasa.gov/shadoz/}.
+    A small network of ozonesonde release sites (including Davis, Macquarie Island, and Melbourne) is available from the world ozone and ultraviolet radiation data centre \url{http://woudc.org/data/explore.php} and is used in Chapter \ref{Ozone} to examine stratospheric impacts on tropospheric ozone (see Section \ref{Model:datasets:ozonesondes} for more info on these ozonesondes).
   
   \subsection{Tropospheric ozone}
     
@@ -1167,29 +1172,40 @@
       Modelled ozone concentrations have been found to be sensitive to isoprene 
       emissions and NO$_x$ sources, both of which are uncertain within 
       approximately a factor of 2 \parencite{Christian2017}.
+      % Vocs are uncertain because...
+      Bottom up inventories of biogenic VOCs (BVOCs) remain largely uncertain due to missing or extrapolated plant functional type information, changing land cover, and parameterised environmental stressors \parencite{Guenther2000,Kanakidou2005,Millet2006}.
+      %Isoprene is one of the most important BVOCs, and is poorly captured by MEGAN \parencite{Muller2008, Sindelarova2014, Emmerson2016}.
       Global emissions inventories like MEGAN often implement data extrapolation, which also introduces uncertainties \parencite{Miller2014}.
       
       Modelled surface ozone may be overestimated if NO$_x$ emissions are too high, due to their affects on the oxidative capacity of the atmosphere \parencite{Travis2016}.
       %\textcite{Travis2016} show how modelled surface ozone is overestimated due to high estimates of NO$_x$ emissions, which affect oxidative capacity and VOC reactions in the US.
       NO$_x$ and isoprene emissions have been shown to be the most significant sources of uncertainty for ozone concentrations near the surface over the US, while isoprene-derived products and lightning NO$_x$ drives uncertainty in the upper atmosphere \parencite{Christian2017}.
       
-      %UP TO HERE JENNY
       
-      Many estimates of isoprene emission are based on a few algorithms that can depend greatly on input parameters \parencite{Arneth2008,Niinemets2010}.
-      \textcite{Arneth2008} argue that this monopoly of emissions estimates may be leading us to an incorrect understanding of isoprene chemistry.
-      More recently, \textcite{Yue2015} have shown that this is still a problem, with models of land carbon fluxes showing high sensitivity to VOC emissions.
-      Models which depend on VOC emissions acquire the same sensitivities to light and temperature parameterisations \parencite{Yue2015}.
-      This can be mitigated where measurements are used to constrain parameters \parencite[e.g.,][]{Stavrakou2014}.
-      %Changes were constrained by a network of radiation measurements and some experiments with south east Asian forest emissions - and led to reduction in a priori isoprene emissions by a factor of two over the region in 2005.
+      
+      Estimates of isoprene emission are based on a few algorithms that can depend greatly on parameterised inputs such as temperature, sunlight, plant type, plant coverage, plant health, etc. \parencite{Arneth2008,Niinemets2010}.
       Sensitivity to these factors is pervasive in bottom up emissions models 
       \parencite[e.g.,][]{Marais2014,Miller2014,Messina2016}.
+      \textcite{Arneth2008} argue that the monopoly of isoprene emission estimates may be leading us to an incorrect understanding of isoprene chemistry.
+      VOC emissions form an integral part of many chemistry models, and poor characterisation of these can lead to many more problems in other models \parencite[e.g.,]{Yue2015}.
+      % have shown that this is still a problem, with models of land carbon fluxes showing high sensitivity to VOC emissions.
+      Models that depend on VOC emissions acquire the uncertainties and sensitivities (for example, to light and temperature parameters) found in VOC emissions \parencite{Yue2015}.
+      This can be mitigated where measurements are used to constrain parameters \parencite[e.g.,][]{Stavrakou2014}.
+      %Changes were constrained by a network of radiation measurements and some experiments with south east Asian forest emissions - and led to reduction in a priori isoprene emissions by a factor of two over the region in 2005.
       %One of the important uncertainties seen in MEGAN is the isoprene emissions due to PFTs.
       %One model is photosynthesis based and estimates isoprene emissions using electron transfer energies and leaf physiology \parencite{Niinemets1999}, while the other (MEGAN) uses the light and canopy temperature \parencite{Guenther1995,Arneth2007}.
       % Arneth et al., 2007; CO2 may also inhibit isoprene emissions.
       % Unger et al., 2013; another plant process isoprene model
       %Both are sensitive to light and temperature parameterisations.
      
-      
+      % soil moisture stuff
+      Modelled emissions are sensitive to soil moisture, especially near the wilting point, below which trees stop emitting isoprene and other VOCs completely as they can no longer draw water \parencite{Bauwens2016}.
+      MEGAN accounts for soil moisture through a parameterisation that drops plant emissions to zero below a prescribed soil moisture level (the wilting point).
+      %Recently an update to this has been shown to improve modelled isoprene emissions in drought conditions \parencite{Jiang2018}.
+      \textcite{Jiang2018} found that improving the parameterisation of drought based on a measurement campaign in the U.S. would lower isoprene emissions globally by $\sim17\%$.
+      %Many environmental parameters are affected by soil moisture, which all play a role at fine scales to surface emissions \parencite{Rowntree1983,Chen2001}.
+      %\textcite{Rowntree1983} show how quickly soil moisture anomalies affect rainfall and other weather systems, while \textcite{Chen2001} specifically show how important fine scale soil moisture information is when modelling land surface heat flux, and energy balances.
+      %Droughts effects can be difficult to measure, as they are a multi-scale problem that affects various aspects of the land-air interface including plant emissions and dry deposition \parencite{Wang2017}.
       
       %Canopy level isoprene measurements are made using relaxed eddy accumulation at several sites in Africa.
       %If one plant species is emitting heavily near a measuring instrument, possible overestimations may occur due to extrapolation over the entire forest.
@@ -1218,7 +1234,7 @@
       concentrations \parencite[e.g.,][]{Christian2017}.
       %For example: \textcite{Wild2006} show that reduced resolution increases OH concentrations and ozone production rates.
       %\textcite{Christian2017} find small changes in OH ($<10$\%) in OH, HO$_2$ and ozone concentrations local to the north American arctic when changing from 4 by 5 to 2 by 2.5\degr resolution.
-      \textcite{Yu2016} show how only at higher resolution (0.25 by 0.3125\degr) does isoprene oxidise under the correct NO$_x$ scheme (through high or low NO$_x$ pathways, see Section \ref{LR:VOCs:IsopCascade:Oxidation}) in variable NO$_x$ environments.
+      \textcite{Yu2016} show that only at higher resolution (0.25 by 0.3125\degr) does isoprene oxidise under the correct NO$_x$ pathway (through high or low NO$_x$ pathways, see Section \ref{LR:VOCs:IsopCascade:Oxidation}) in variable NO$_x$ environments.
       This leads to an increase of high NO$_x$ pathway oxidation of isoprene at the lower resolutions, which leads to an overestimation of HCHO but not ozone at coarser resolutions.
       However, for many global scale analyses, errors from resolution are less important than those from chemistry, meteorology, and emissions \parencite{Christian2017, Christian2018}.
       
@@ -1228,11 +1244,8 @@
       
       %% GEOS-Chem Ozone uncertainties 
       
-      Isoprene mechanisms in several contemporary models (including GEOS-Chem) are likely inadequate \parencite{Marvin2017}, with changes to reaction rates being inadequate to fix discrepancies from measurements.
-      However, models lack in-situ measurements with which to verify their chemical mechanisms. % \parencite{Marvin2017}.
-      %They show that (for a specific measurement campaign) HCHO concentrations are underestimated in a way that can not be easily fixed through reaction rate changes.
-      Often HCHO is used as a way of checking if precursors are correctly modelled since HCHO measurements are more readily available (for instance from satellites).
-      Ozone uncertainties are also affected by inadequate mechanisms, with GEOS-Chem ozone concentrations most sensitive to NO$_2$ photolysis, the $NO_2 + OH$ reaction rate, and precursor emissions \parencite{Christian2017}.
+      Chemical mechanisms in several contemporary models are likely inadequate \parencite{Marvin2017}, especially for isoprene oxidation, with changes to reaction rates being inadequate to fix discrepancies from measurements.
+      Ozone uncertainties are also affected by inadequate mechanisms, with for example ozone concentrations simulated by one model (GEOS-Chem) most sensitive to NO$_2$ photolysis, the $NO_2 + OH$ reaction rate, and precursor emissions \parencite{Christian2017}.
       %There is still much work to be done to accurately simulate precursor emissions, and other processes, which lead to HCHO and ozone.
       %\textcite{Marvin2017} suggest that ...
       
@@ -1242,77 +1255,46 @@
     
     \subsubsection{Clouds}
       \label{LR:Models:Uncert:Clouds}
-      One of the major uncertainties in chemical, climate, radiation, and weather models is cloud formation and dynamics.
+      One of the major uncertainties in chemical models is cloud formation and dynamics.
       Clouds are remarkably complex at a much finer scale than can be accurately modelled by global chemistry models (with current processing power).
       Globally over half (50-60\%) of the world is covered by clouds, with $\sim10\%$ of them being rain-clouds \parencite{Kanakidou2005}.
-      Wet scavenging performed in clouds not only depends on large scale cloud processes, but also on the microphysics of aerosols being scavenged.
-      % differing between aerosol sizes and hygroscopic properties.
-      
-      
+      Wet scavenging in clouds not only depends on large scale cloud processes, but also on the microphysics of aerosols being scavenged, and these processes must be parameterised in coarse resolution models.
     
-    \subsubsection{Soil Moisture}
-      \label{LR:Models:Uncert:SoilMoisture}
-      Modelled emissions are sensitive to soil moisture, especially near the wilting point, below which trees stop emitting isoprene and other VOCs completely as they can no longer draw water \parencite{Bauwens2016}.
-      MEGAN accounts for soil moisture through a parameterisation that drops plant emissions to zero below a prescribed soil moisture level (the wilting point).
-      Recently an update to this has been shown to improve modelled isoprene emissions in drought conditions \parencite{Jiang2018}.
-      \textcite{Jiang2018} found that improving the parameterisation of drought based on a measurement campaign in the U.S. would lower isoprene emissions globally by $\sim17\%$.
-      Many environmental parameters are affected by soil moisture, which all play a role at fine scales to surface emissions \parencite{Rowntree1983,Chen2001}.
-      %\textcite{Rowntree1983} show how quickly soil moisture anomalies affect rainfall and other weather systems, while \textcite{Chen2001} specifically show how important fine scale soil moisture information is when modelling land surface heat flux, and energy balances.
-      Droughts effects can be difficult to measure, as they are a multi-scale problem that affects various aspects of the land-air interface including plant emissions and dry deposition \parencite{Wang2017}.
-      
-      
+
 \section{Australia and the southern hemisphere}
 \label{LR:Aus}
   
+  % JENNY TODO: too narrow -- don't forget the focus on ozone. Can you maybe broaden your list above and then make this "that affect emissions, atmospheric chemistry, and ultimately atmospheric composition"?
   % Description of uniqueness
-  Australia is unique, with its own climate, soil moisture, clay content and many other important properties that affect VOC emissions.
-  These properties are only sparsely measured in Australia.
-  Many areas are difficult or expensive to reach, and measurement campaigns are limited.
+  Australia is unique, with its own climate, soil moisture, clay content, plant species, ecosystem life-cycles, agricultural and mining practices, transport corridors, and many other important properties that affect emissions, atmospheric chemistry, and ultimately atmospheric composition.
+  Many regions in Australia are difficult or expensive to reach, and measurement campaigns are limited.
   In Australia, most long term air quality or composition measurements are performed in or near large cities.
   Australia is dominated by areas with little anthropogenic influence, and few ground based measurements of natural emissions take place \parencite{VanDerA2008}.
   Since many Australian cities are on the edge of regions with rich VOC emissions, it is very important to clarify the quantity, type, and cause of VOC emissions.
   Understanding of emissions from these areas is necessary to inform national policy on air pollution levels.
-  
-  The vegetation in Australia is diverse, a summary is provided by ABARES using the national forest inventory at  \url{http://www.agriculture.gov.au/abares/forestsaustralia/australias-forests}.
-  Figure \ref{LR:Aus:fig_forests} shows the different forest types and their locations within Australia, highlighting that much of our forested lands are near population centres along the east coast.
-  16\% of Australia is covered by forest, most (75\%) of which is Eucalyptus.
-  
-  \mypic{Figures/ForestTypes.png}{Forest types in Australia (\url{http://www.agriculture.gov.au/abares/forestsaustralia/australias-forests})}{\label{LR:Aus:fig_forests}}
   
   %Transport stuff
   Ozone enhancements above the background levels are most sensitive to emissions (of precursor gases), with meteorology, and atmospheric composition also important.
   Anthropogenic emissions of ozone precursors are important but relatively 
   stable, while pyrogenic sources are greatly variable and dependent on 
   weather, fuel, and fire intensity \parencite[e.g.,][]{Lawson2017}. 
-  Emissions from burning include a range of chemical compounds and particulates and each year the effects of fire or burning seasons blanket the northern and southern hemispheres independently.
+  %Emissions from burning include a range of chemical compounds and particulates and each year the effects of fire or burning seasons blanket the northern and southern hemispheres independently.
   Biomass burning in southern Africa and South America has previously been shown to have a major influence on atmospheric composition in Australia \parencite{Oltmans2001, Gloudemans2006, Edwards2006}, particularly from July to December \parencite{Pak2003, Liu2016}.
-  Local fires are even more influential and the burning season for Australia can be all year, with severity depending on regional vegetation, recent and current weather, and El-ni$\tilde{\textrm{n}}$o.
-  
-  
-  % Australia could be a VOC hotspot
-  It has been estimated by MEGAN that the Australian outback is among the world's strongest isoprene emitters, with forests in SE Australia having emission factors greater than 16 mg m$^{-2}$ h$^{-1}$ (see figure \ref{LR:Aus:fig_MEGAN_EF}) \parencite{Guenther2006,Guenther2012}.
-  Measurement campaigns in SE Australia have since cast doubt on the emission factors used by MEGAN, potentially due to poor characterisation of Eucalyptus trees and soil moisture \parencite{Emmerson2016,Emmerson2019}.
-  These emissions factor estimates are not well verified and measurements of isoprene (or other BVOC) emissions are sparse and infrequent in Australia \parencite{Sindelarova2014, Bauwens2016}.
-  %In addition, monoterpene emissions are 2-4 times too low, which may be due to underestimated emission rates for many Eucalypt species \parencite{Winters2009,Emmerson2016}.
-  
-  
-  \begin{figure}
-    \includegraphics[width=\textwidth]{Figures/MeganIsoprene1.png}
-    \caption{ Part of a figure from \textcite{Guenther2006} showing global isoprene emission factors. }
-    \label{LR:Aus:fig_MEGAN_EF}
-  \end{figure}
+  Local fires are even more influential and the burning season for Australia can be all year, although distinct burning seasons for different regions are also apparent \parencite{Smith2007}.
+  Bushfire severity depends on regional vegetation, recent and current weather, and El Ni$\tilde{\textrm{n}}$o phase.
   
   
   \subsection{Ozone}
-    Surface ozone levels over Australia are relatively low ($\sim20$~ppb) \parencite{Young2018}, however it remains unclear how much we would expect this to change in the future as relatively little is known about precursors and influx for the continent.
+    Surface ozone levels over Australia are relatively low ($\sim20$~ppb) \parencite{Young2018}.
+    It remains unclear how ozone will change in the future as relatively little is known about precursors and influx for the continent.
     % Air Quality metric example
-    Australian air quality is monitored independently within each state, using several metrics and varying numbers of monitoring stations.
+    Australian air quality is monitored independently within each state. %using several metrics and varying numbers of monitoring stations.
     %These metrics are measured by varying numbers of monitoring stations in each state.
     %In New South Wales (NSW) the metrics used to determine air quality are: particulate matter (PM), O$_3$, CO, NO$_2$, SO$_2$, and visibility.
     %An air quality index equal to the worst of these metrics is used for NSW as shown at \url{http://www.environment.nsw.gov.au/aqms/aqitable.htm}.
     %Similar methods are used in other states to get an idea of air quality.
-    Measurement stations are generally located in population centres, and do not regularly measure isoprenoid emissions. 
-    This is an important omission as these naturally emitted precursor gases often get transported into cities where they affect air quality through production of O$_3$ and other pollutants.
+    Measurement stations are generally located in population centres, which means there is a lack of natural emissions.%, and do not regularly measure isoprenoid emissions. 
+    Natural emissions can be important in urban regions as they can characterise the inflow, and affect air quality through production of O$_3$ and other pollutants.
     Overall in the southern hemisphere there are relatively few records of 
     ozone \parencite{Huang2018}.
     This affects our ability to accurately determine sources of ozone in the 
@@ -1320,41 +1302,59 @@
     explanation \parencite{Zeng2017}. 
     
     
-    Generally STT of ozone over Australia only affects the upper troposphere; however, ozone enhancements can reach quite low during heavy storms and cyclonic weather patterns \parencite{Alexander2013}.
-    The contribution of STT to overall tropospheric ozone budgets remains uncertain, especially in the southern hemisphere (SH) \parencite{Skerlak2014}.
+    Generally STT of ozone over Australia only affects the upper troposphere; however, ozone enhancements can reach low altitudes during heavy storms and cyclonic weather patterns \parencite{Alexander2013}.
+    The contribution of STT to overall tropospheric ozone budgets remains uncertain, especially in the southern hemisphere \parencite{Skerlak2014}.
     STT can enhance surface ozone concentrations above legal air quality limits 
     \parencite[e.g.,][]{Lelieveld2009,Lin2015}.
     Detecting ozone enhancements over the background profile in the relatively clean southern ocean atmosphere is simple.
-    However, measurements of ozone over this region are relatively sparse \parencite{Skerlak2014}, and quantification of transported ozone is difficult without large scale extrapolations.
+    However, measurements of ozone over this region are sparse \parencite{Skerlak2014}, and quantification of transported ozone is difficult without large scale extrapolations.
     Ozone enhancements over the southern ocean signify either transported pollution or stratospheric influx \parencite{Jacobson2000}.
     Quantifying ozone processes over the southern ocean could improve our understanding of chemistry in the ``clean background environment'', while additionally helping to validate model and satellite datasets.
+    This poorly understood background composition forms the inflow of air into urban areas, and an improved understanding is required in order to model and attribute pollution and composition in these areas also.
   
   
   % voc estimates
   \subsection{Biogenic VOCs}
     
-    % Vocs are uncertain because...
-    Bottom up inventories of biogenic VOCs (BVOCs) remain largely uncertain due to missing or extrapolated plant functional type information, changing land cover, and parameterised environmental stressors \parencite{Guenther2000,Kanakidou2005,Millet2006}.
-    Isoprene is one of the most important BVOCs, and is poorly captured by MEGAN \parencite{Muller2008, Sindelarova2014, Emmerson2016}.
+    The vegetation in Australia is diverse.
+    %, a summary is provided by ABARES using the national forest inventory at  \url{http://www.agriculture.gov.au/abares/forestsaustralia/australias-forests}.
+    Figure \ref{LR:Aus:fig_forests} shows the different forest types and their locations within Australia, highlighting that much of our forested lands are frequently found near population centres along the east coast.
+    16\% of Australia is covered by forest, most (75\%) of which is Eucalyptus, a major emitter of VOCs \parencite{Guenther2012}.
+    
+    \mypic{Figures/ForestTypes.png}{%
+      Forest types in Australia reproduced from \url{http://www.agriculture.gov.au/abares/forestsaustralia/australias-forests}.
+    }{\label{LR:Aus:fig_forests}}
+    
+    % Australia could be a VOC hotspot
+    It has been estimated by MEGAN that Australian vegetation is among the world's strongest isoprene emitters, with forests in SE Australia having emission factors greater than 16 mg m$^{-2}$ h$^{-1}$ (see figure \ref{LR:Aus:fig_MEGAN_EF}) \parencite{Guenther2006,Guenther2012}.
+    Measurement campaigns in SE Australia have since cast doubt on the emission factors used by MEGAN, potentially due to poor characterisation of Eucalyptus trees and soil moisture \parencite{Emmerson2016,Emmerson2019}.
+    These emissions factor estimates are not well verified and measurements of isoprene (or other BVOC) emissions are sparse and infrequent in Australia \parencite{Sindelarova2014, Bauwens2016}.
+    %In addition, monoterpene emissions are 2-4 times too low, which may be due to underestimated emission rates for many Eucalypt species \parencite{Winters2009,Emmerson2016}.
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/MeganIsoprene1_final.png}
+      \caption{Global and Australian isoprene emission factors modified from \textcite{Guenther2006}.}
+      \label{LR:Aus:fig_MEGAN_EF}
+    \end{figure}
+    
+    
     Australia has a much greater diversity of tree species than is represented by MEGAN, however sparse measurements of emissions and BVOC concentrations makes model improvement difficult.
     %\textcite{Muller2008} show how isoprene (a key BVOC) is poorly captured by the MEGAN model and analyse the effect of changing the soil moisture parameter.
-    The complex and parameter sensitive reactions involved in BVOC emissions and subsequent chemistry make model validation even more valuable in this area.
     %\textcite{Sindelarova2014} show reductions in modelled Australian isoprene emissions of 50\% when incorporating soil moisture in MEGAN estimates. 
     Uncertainties in isoprene emissions could explain why models of HCHO over Australia are poor at reproducing satellite measurements \parencite{Stavrakou2009}.
-    Improved parameterisation of the effect of drought on plant emissions could also lower modelled isoprene emissions \parencite{Jiang2018}.
     
     
     % Australian BVOCs suffer even specifically from:
-    Australia suffers from poor characterisation of plant emissions, partly because emission factors are based on northern hemispheric data.
+    Australia suffers from poor characterisation of plant emissions, partly because many of the emission factors are based on northern hemispheric data.
     Many plant emissions rates have not been published, such as those for any Australian acacias.
     Some Eucalypt emissions are based on samples from young trees, which may emit more isoprene than older trees \parencite{Emmerson2016}.
-    Changes in parameterisation of soil moisture in the MEGAN lead to large reductions ($38-58$\%) in Australian isoprene emission estimates, although errors remain \parencite{Sindelarova2014, Emmerson2019}.
-    Over Australia MEGAN suffers from a lack of studied plant functional types 
-    and their emissions \parencite[e.g.,][]{Muller2008}.
-    Emission rates from various species of Eucalyptus and other flora are highly complex, depending on current and recent weather, temperature, tree age, health, etc. \parencite{Guenther2012}. 
-       
+    Changes in parameterisation of soil moisture in the MEGAN model lead to large reductions ($38-58$\%) in Australian isoprene emission estimates, although errors remain \parencite{Sindelarova2014, Emmerson2019}.
+    %Over Australia MEGAN suffers from a lack of studied plant functional types and their emissions \parencite[e.g.,][]{Muller2008}.
+    %Emission rates from various species of Eucalyptus and other flora are highly complex, depending on current and recent weather, temperature, tree age, health, etc. \parencite{Guenther2012}. 
+    
+    
     % What did Emmerson do?
-    Other than satellite data, four independent data sets are used in this thesis: an FTIR on the roof of the Wollongong university chemistry building, MUMBA, SPS1 and SPS2 (see Section \ref{Model:datasets}).
+    The only VOC emission information currently available come from three campaigns: the Measurements of Urban, Marine and Biogenic Air (MUMBA), and the two Sydney Particulate Studies (SPS1 and SPS2) (see Section \ref{Model:datasets}).
     These measurements take place in south eastern Australia, and have suggested lower isoprene emissions than seen in models (by a factor of 2-6) \parencite{Emmerson2016}.
     %\textcite{Emmerson2016} %analyse EF sensitivity of a high resolution model of atmospheric chemistry over southeast Australia, comparing isoprene and monoterpene emissions against 4 separate campaigns.
     %analysed isoprene and monoterpene emissions sensitivities in a regional model of atmospheric chemistry over southeast Australia, using four campaigns that are also examined in this thesis.
@@ -1362,73 +1362,65 @@
     %\textcite{Emmerson2016} suggest that monoterpenes may be emitted in similar quantites to isoprene, with more measurements required to determine if this is so.
     %They compare emissions estimates from MEGAN against field campaign data and see overestimated isoprene emissions, as well as underestimated monoterpene emissions.
     %Their work suggests that MEGAN estimates of isoprene emissions may be 2-6 times too high, and monoterpene emissions $\sim3$ times too low over southeast Australia.
-    
-    
-    % How could we improve this BVOC understanding?
-    Improvements to emissions models require improved understanding of regional vegetation and how this regional vegetation responds to meteorological and chemical parameters.
-    Satellite measurements of HCHO can be used to estimate and improve Australian isoprene emissions without costly measurement campaigns.
-    This is due to the near-linear link between HCHO and isoprene emissions \parencite[e.g.,][]{Palmer2001, Millet2006, Bauwens2016}.
-    
-  
-  \subsection{Measurements}
-    
     % Brief overview of all the measurement campaigns.
-    Isoprene and many of its products can be difficult to measure accurately due to their short lifetimes, high reactivity, and optically thin natures.
-    There are relatively few measurements in Australia, including short term campaigns MUMBA \parencite{PatonWalsh2017}, and SPS \parencite{Dunne2018}.
-    %and Tumbarumba \parencite{Emmerson2016}
-    % and that girl from Macquarie University with an instrument in the daintree rainforest(CITE,describe if available before finished).
     These measurements focus on air quality and biogenic VOCs and use several different instruments (including PTR-MS and GC-FID) to detect metrics such as air particulates, HCHO, isoprene, and meteorological information.
+    Isoprene and many of its products can be difficult to measure accurately due to their short lifetimes, high reactivity, and optically thin natures.
     %An air-flight campaign (HIPPO) measuring over the Pacific ocean, with one flight passing along the NSW coastline, also provides isoprene and ozone concentrations in November 2009 \parencite{Wolfsy2011}.
-    There is also an instrument at Wollongong university (see Section \ref{Model:datasets:wollongong_ftir}) that provides 20 years of HCHO measurements, which is the only available long term HCHO vertical column measurement comparable to satellite data. 
+    There is also an instrument at University of Wollongong (see Section \ref{Model:datasets:wollongong_ftir}) that provides 20 years of HCHO measurements, which is the only available long term HCHO vertical column measurement comparable to satellite data. 
     Satellite HCHO column measurements can be limited by various factors including interfering species, water, clouds, orography, etc, and independent in-situ measurements are required to validate the data. % could cite john demol thesis for orography reference...? \parencite{Demol2010}.
     For further details on these campaigns and measurements, see Section \ref{Model:datasets}.
     
-    Detecting ozone from the surface up to the top of the stratosphere requires different techniques such as remote sensing and ozonesonde releases.
-    Ozonesondes are weather balloons (with attached ozone detectors) that detect ozone concentrations up to the mid stratosphere ($\sim 30$~km), providing a vertical profile over a single location.
-    Since 1986, Lauder, New Zealand (45$^{\circ}$S, 170$^{\circ}$E) has released ozonesondes allowing a multi-decadal analysis of ozone concentrations over the city \parencite{Brinksma2002}.
-    Kerguelan Island (49.2$^{\circ}$S, 70.1$^{\circ}$E), also has a record of ozonesonde profiles, which are directly in the path of biomass burning smoke plumes transported off shore from Africa \parencite{Baray2012}.
-    SHADOZ is the southern hemispheric additional ozone project, which have released sondes from 15 sites at different times \url{http://tropo.gsfc.nasa.gov/shadoz/}.
-    A smaller network of ozonesonde release sites (including Davis, Macquarie Island, and Melbourne) is available from the world ozone and ultraviolet radiation data centre \url{http://woudc.org/data/explore.php} and is used in Chapter \ref{Ozone} to examine stratospheric impacts on tropospheric ozone (see \ref{Model:datasets:ozonesondes} for more info on these ozonesondes).
+    % How could we improve this BVOC understanding?
+    Improvements to emissions models require improved understanding of emissions from Australian vegetation and how they respond to meteorological and chemical parameters.
+    However, constraining these processes is difficult given the lack of available isoprene measurements.
+    Satellite measurements of HCHO can instead be used to estimate and improve Australian isoprene emissions without costly measurement campaigns.
+    This is due to the near-linear relationship between HCHO and isoprene emissions \parencite[e.g.,][]{Palmer2001, Millet2006, Bauwens2016}.
+    This method is explored in this thesis as described in Chapter \ref{BioIsop}.
+  
+  % UP TO HERE JENNY
+    
+
   
 \section{Aims}
 \label{LR:Aims}
 
   \textbf{In this thesis I aim to improve understanding of natural contributions to ozone over Australia and the southern ocean.}
-  The two largest contributors to tropospheric ozone concentrations are chemical production (driven by precursor emissions) and stratospheric transport.
-  I aim to improve understanding of both of these sources using existing satellite and ground-based datasets along with GEOS-Chem modelled outputs.
+  The two largest contributors to tropospheric ozone concentrations are chemical production (driven by precursor emissions) and transport from the stratosphere.
+  I aim to improve understanding of both of these sources using existing satellite and ground-based datasets along with modelled outputs from the GEOS-Chem chemical transport model.
   
   % Aim for Chapter 2: Modelling examination
   Estimation of BVOC emissions in Australia can be improved through satellite measurements of HCHO, one of isoprene's primary oxidation products.
-  Satellites that overpass daily record reflected solar (and emitted terrestrial) radiation, and give us measurements over all of Australia.
+  Satellites that overpass daily record %reflected solar (and emitted terrestrial) radiation, and give us 
+  measurements over all of Australia.
   Combining satellite data with model outputs provides a platform for the understanding of natural processes, which are uncertain over Australia.
-  Satellite measurements use modelled a priori vertical profiles of HCHO to estimate total column amounts.
+  Satellite measurements require modelled a priori vertical profiles of HCHO to estimate total column amounts.
   \textbf{I aim to recalculate satellite vertical columns of HCHO using updated model a priori information.}
   In this effort I aim to improve the understanding of the importance of relevant parameters (within GEOS-Chem) in calculating vertical columns of HCHO measured by satellite.
   This includes an examination of how well GEOS-Chem simulates several species such as NO$_x$, isoprene, and HCHO compared to both in-situ and remote measurement data that exists for Australia.
   Additionally, I detail the construction and effects of satellite data filters.
-  The work towards this aim is in Chapter \ref{Model}.
+  The work towards this aim is detailed in Chapter \ref{Model}.
   %Soil moisture plays an important role in VOC emissions, as trees under stress may stop emitting various chemicals. 
   %This is especially true for Australia due to frequent droughts and wildfires.
   %The argument for improved understanding of land surface properties, specifically soil moisture, is an old one\parencite{Mintz1982, Rowntree1983, Chen2001}.
   
   % Aim for Chapter 3: Biogenic emissions estimation
   The technique of determining isoprene emissions from satellite detected HCHO is called satellite inversion.
-  \textbf{I aim to determine isoprene emissions in Australia using a top-down inversion of satellite HCHO, through an estimated yield from isoprene to HCHO}.
+  \textbf{I aim to determine isoprene emissions in Australia using a top-down inversion of satellite HCHO, through a modelled yield from isoprene to HCHO}.
   HCHO amounts and the yield of isoprene to HCHO over Australia is required to create top-down estimates.
   This process also requires careful examination of when the assumptions required within the inversion process are not valid.
-  Due to the low availability of in-situ data over most of the Australian continent, a combination of modelled and satellite data could reduce the uncertainties of isoprene emissions from Australian landscapes.
+  Due to the low availability of in-situ data over most of the Australian continent, a combination of modelled and satellite data can reduce the uncertainties of isoprene emissions from Australian landscapes.
   Improved emissions estimates will in turn improve the accuracy of CTMs, providing better predictions of atmospheric composition and its response to ongoing environmental change.
   The work towards fulfilling this aim is in Chapter \ref{BioIsop}.
   
   % Aim for Chapter 4: STT Ozone
-  \textbf{I aim to improve understanding of ozone transported to the troposphere from the stratosphere in Australia and the southern ocean.}
   Stratospheric transport is the second largest driver of tropospheric ozone concentrations, and an improved understanding of transported ozone can be determined from ozonesonde measurements.
-  Ozonesondes provide a glimpse of the vertical ozone profile up to $\sim 30$~km, and we use a Fourier filter to determine how often stratospheric transport is occurring at three sites: Melbourne, Macquarie Island, and Davis Station. 
-  Combining transport event frequency analysis with modelled ozone distributions is used to derive a new method of detection and quantification of transported ozone in Chapter \ref{Ozone}.
+  \textbf{I aim to improve understanding of ozone transported to the troposphere from the stratosphere in Australia and the southern ocean.}
+  Ozonesondes provide a glimpse of the vertical ozone profile up to $\sim 30$~km, and I use a Fourier filter to determine how often stratospheric transport is occurring at three sites: Melbourne, Macquarie Island, and Davis Station. 
+  Transport event frequency analysis combined with modelled ozone distributions is used to derive a new method of detection and quantification of transported ozone as described in Chapter \ref{Ozone}.
   
   
   % Chapter 5: Conclusions?
-  \textbf{I aim to describe relative importance of sources of tropospheric ozone in Australia, as well as seasonality.}
-  I will describe how modelled ozone is affected by updated isoprene emissions, comparing changes in GEOS-Chem outputs.
-  Trends of isoprene emissions and their relationship to tropospheric ozone trends could provide new insight into the future of tropospheric ozone in Australia.
+  \textbf{Overall, I aim to describe relative importance of sources of tropospheric ozone in Australia, as well as their seasonality.}
+  I will describe how modelled ozone is affected by updated isoprene emissions, comparing changes in GEOS-Chem outputs, and by ozone transport from the stratosphere..
+  This thesis will provide new insight into tropospheric ozone in Australia.
   
