@@ -25,13 +25,13 @@
   
   The first goal is to analyse Australia-specific HCHO concentrations measured by satellite.
   %and determine isoprene sensitivity and any model bias.
-  This leads into Chapter \ref{BioIsop} where biogenic HCHO columns are used to estimate isoprene emissions.
-  The second goal is to quantify ozone transported from the stratosphere down into the troposphere (Chapter \ref{Ozone}).
-  The focus in this chapter is to describe and analyse model outputs and measurements along with how they are recalculated and compared.
-  Section \ref{Model:datasets} details satellite and campaign datasets, and describes model outputs.
+  The second aim uses these concentrations along with model data to estimate isoprene emissions, which takes place in Chapter \ref{BioIsop}.
+  The third goal is to quantify ozone transported from the stratosphere down into the troposphere (Chapter \ref{Ozone}).
+  The focus in this chapter is to describe and analyse model outputs and measurements along with how they are calculated and compared for use in achieving the aims of this thesis.
+  Section \ref{Model:datasets} details satellite and campaign datasets and describes model outputs.
   Measurement techniques used to retrieve the most utilised satellite dataset are outlined in Section \ref{Model:omhcho}.
   Section \ref{Model:GC} describes the GEOS-Chem model, how it is run and what setup and outputs are used in this thesis.
-  In Section \ref{Model:AMF} the process of using model outputs to recalculate satellite vertical columns is defined and analysed.
+  In Section \ref{Model:AMF} the process of using model outputs to recalculate satellite vertical columns is described and analysed.
   In order to compare satellite data with other datasets, some work must be undertaken to avoid introducing bias \parencite[e.g.,][]{Palmer2001, Eskes2003, Marais2012, Lamsal2014}.
   One key step is to recalculate the satellite information using modelled data, detailed in Section \ref{Model:omiRecalc}.
   The effects of these recalculations on satellite HCHO is also examined.
@@ -57,7 +57,7 @@
   While no measurements are made throughout this thesis, it is important to understand the techniques used to create utilised datasets in order to understand possible anomalous datapoints or trends.
   
   % Coordinate systems in use
-  Horizontal geographical coordinates are always discussed in terms of degrees north and east, from -180\degr to 180\degr spanning west to east around the globe and -90\degr to 90\degr spanning the latitudes from the Antarctic to the Arctic.
+  Horizontal geographical coordinates are always discussed in terms of degrees north and east, from -180\degr ~to 180\degr ~spanning west to east around the globe and -90\degr ~to 90\degr ~spanning the latitudes from the Antarctic to the Arctic.
   Vertical resolution is sometimes discussed in terms of metres, sometimes in terms of pressure (hPa), and sometimes in terms of sigma ($\sigma$) coordinates.
   Sigma coordinates represent the fraction of the atmosphere vertically above, with $\sigma = 1$ being the surface and $\sigma = 0$ being the top of the atmosphere (TOA).
   This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography.
@@ -83,22 +83,8 @@
     % Satellite data product levels
     Satellite data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. 
     Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
-    To create level 2 data slant column density is determined and then translated into vertical column density. 
-    Level 3 data is a temporally aggregated subset of level 2 data, for instance monthly or yearly averages.
-    
-    % Satellites use DOAS for trace gases which we are interested in
-    Satellites record near nadir (vertical) reflected spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate trace gases including O$_3$, NO$_2$, and HCHO \parencite[e.g.,][]{Leue2001}.
-    Satellite measurements are generally performed using spectral fitting followed by conversion to vertical column densities.
-    %The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \textcite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
-    Several public data servers are available which include products from satellites, including NASAs Earthdata portal (\url{https://earthdata.nasa.gov/}) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (\url{http://h2co.aeronomie.be/}).
-    
-    
-    Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium.
-    Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the scattered light.
-    Mie scattering mostly involves larger particles, and has less wavelength dependence.
-    The effects of scattering provide information about substances in the atmosphere, as different particles and gases in the air have measurable properties seen by remote sensing devices (such as a satellite). 
-    Instruments are more or less sensitive to these properties depending on altitude, radiation, and other parameters \parencite[e.g.,][]{Martin2002}.
-    
+    %To create level 2 data slant column density is determined and then translated into vertical column density. 
+    Level 3 data is a temporally and spatially aggregated subset of level 2 data, for instance monthly or yearly averages.
     
     Difficulties can arise when aerosols (e.g., clouds, smoke, dust) interfere with recorded spectra; however,some of these can be detected and filtered out.
     Instruments including MODIS onboard the Aqua and Terra satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
@@ -107,41 +93,59 @@
     Cloud filtering is performed on several satellite products used in this thesis, which reduces uncertainty at the cost of measurement quantity. 
     This has been seen to introduce a clear-sky bias in monthly averages since measurements do not include cloudy days \parencite{Surl2018}.
     
-    Satellite measured AOD requires validation by more accurate ground based instruments like those of AERONET which uses more than 200 sun photometers scattered globally.
-    Soon much more satellite data will be available in the form of geostationary satellite measurements \parencite{Kwon2017}.
+    % Satellites use DOAS for trace gases which we are interested in
+    Satellite instruments measuring atmospheric composition record spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate the abundance of trace gases including O$_3$, NO$_2$, and HCHO \parencite[e.g.,][]{Leue2001}.
+    Satellite measurements are generally performed using spectral fitting followed by conversion to vertical column densities.
+    %The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \textcite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
+    Several public data servers are available which include products from satellites, including NASA's Earthdata portal (\url{https://earthdata.nasa.gov/}) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (\url{http://h2co.aeronomie.be/}).
+    The following subsections describe some of the satellite products used in this thesis.
+    
+    % RAYLEIGH AND MIE SCATTERING...
+    %Rayleigh and Mie scattering describe two kinds of particle effects on radiation passing through a medium.
+    %Rayleigh scattering is heavily wavelength dependent, and is the dominant form of scattering from particles up to roughly one tenth of the wavelength of the scattered light.
+    %Mie scattering mostly involves larger particles, and has less wavelength dependence.
+    %The effects of scattering provide information about substances in the atmosphere, as different particles and gases in the air have measurable properties seen by remote sensing devices (such as a satellite). 
+    %Instruments are more or less sensitive to these properties depending on altitude, radiation, and other parameters \parencite[e.g.,][]{Martin2002}.
+    
+    
+    
+    
+    %Satellite measured AOD requires validation by more accurate ground based instruments like those of AERONET which uses more than 200 sun photometers scattered globally.
+    %Soon much more satellite data will be available in the form of geostationary satellite measurements \parencite{Kwon2017}.
     %\textcite{Kwon2017} examine simulated geostationary measurements against GEOS-Chem column simulations to determine the most important instrument sensitivities.
-    Geostationary satellites can provide temporally rich measurements over an area, as they are not sweeping around the earth but fixed relative to one latitude and longitude.
+    %Geostationary satellites can provide temporally rich measurements over an area, as they are not sweeping around the earth but fixed relative to one latitude and longitude.
     
     \subsubsection{Formaldehyde}
       
-      OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
+      HCHO products can be found in four satellite instruments: GOME on ERS-2, SCIAMACHY on ENVI-SAT, OMI on EOS Aura, and GOME2 on MetOp-A and MetOp-B.
+      These satellites have slightly different spectral and spatial resolutions, as well as using varied processes to estimate HCHO from detected radiances.
+      This leads to different measurements between instruments \parencite{Lorente2017}, and both validation and comparison become more important when using these remotely sensed data.
+      The data set used in this thesis is from the Ozone Monitoring Instrument (OMI) onboard the Aura satellite, as it has data over the time period covered by GEOS5 modelled meteorological information used in GEOS-Chem (Section \ref{Model:GC}), and sufficiently covers the southern hemisphere.
+      
+      %OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
       Satellite based formaldehyde measurements from the OMI instrument onboard Aura are stored in the OMHCHO product.
       OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section \ref{Model:omhcho}.
       Calculation of column density and AMF are discussed respectively in sections \ref{Model:omhcho:DOAS} and \ref{Model:omhcho:amf}.
       
-      HCHO products can be found in four satellite instruments: GOME on ERS-2, SCIAMACHY on ENVI-SAT, OMI on EOS Aura, and GOME2 on MetOp-A.
-      These satellites have slightly different spectral and spatial resolutions, as well as using varied processes to estimate HCHO from detected radiances.
-      This leads to different measurements between instruments \parencite{Lorente2017}, and both validation and comparison become more important when using these remotely sensed data.
-      The data set used in this thesis is from the Ozone Monitoring Instrument (OMI) onboard the Aura satellite, as it has data over the time period covered by GEOS5 modelled meteorological information used in GEOS-Chem, and sufficiently covers the southern hemisphere.
       
     \subsubsection{Nitrogen dioxide}
       \label{Model:datasets:OMNO2d}
-      OMNO2d is a gridded daily level three NO$_2$ product of satellite measurements averaged into 0.25x0.25$^{\circ}$ horizontally resolved bins.
-      An example figure from Jan 29, 2005 is shown in Figure \ref{Model:datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in Figure \ref{Model:datasets:OMNO2d:fig_omno2d_2005}.
+      OMNO2d is a gridded daily level three NO$_2$ product of satellite measurements averaged into 0.25\degrx0.25\degr ~horizontally resolved bins.
+      An example from Jan 29, 2005 is shown in Figure \ref{Model:datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in Figure \ref{Model:datasets:OMNO2d:fig_omno2d_2005}.
       OMNO2 measurement resolution is 40~km by 130~km.
-      NO$_2$ measured by OMI is used to check whether NO$_2$ is well represented by GEOS-Chem (see Section \ref{Model:GC:NOx} for the comparison between this product and GEOS-Chem calculations).
-      It is also used to form the anthropogenic influence filter for OMHCHO (See Section \ref{Model:filter:NOx}).
+      NO$_2$ measured by OMI is used in this thesis to check whether NO$_2$ is well represented by GEOS-Chem (see Section \ref{Model:GC:NOx} for the comparison between this product and GEOS-Chem calculations).
+      It is also used to form the anthropogenic influence filter for calculating biogenic-only HCHO columns (see Section \ref{Model:filter:NOx}).
       
       
       \mypic{Figures/OMNO2d_2005m0129.png}{%
-        Example of NO$_2$ tropospheric columns taken from the OMNO2d product.
+        Example of NO$_2$ tropospheric columns for 29 Jan. 2005 from the OMNO2d product.
       }{\label{Model:datasets:OMNO2d:fig_eg_omno2d}}
       
       \mypic{Figures/OMNO2d_avg2005.png}{%
         Average 2005 tropospheric NO$_2$ from OMNO2d with pixels screened for $<30\%$ cloud cover.
       }{\label{Model:datasets:OMNO2d:fig_omno2d_2005}}
       
-      Like other satellite products, OMNO2d is influenced by a priori modelling which is required to convert slant path radiance to vertical columns.
+      Like other satellite products, OMNO2d is influenced by a priori model profiles, which are required to convert slant path radiance to vertical columns.
       These models are generally low resolution ($\sim$ 110~km $\times$ 110~km), which leads to column smearing and difficulty detecting point sources of high NO emissions \parencite{Goldberg2018}.
       Uncertainty in this product arises mostly from the calculation of the AMF (up to 50\% of total error) \parencite{Lorente2017}.
     
@@ -149,22 +153,25 @@
       \label{Model:datasets:OMAERUVd}
       
       % smoke aaod outline
-      Aerosols in the atmosphere can be seen through their affects on light. 
+      Aerosols in the atmosphere can be seen through their interactions with visible radiation. 
       Smoke and dust can be seen as an increase in aerosol optical depth (AOD) (see Section \ref{Model:omhcho:DOAS}).
       This is due these particles scattering and absorbing UV radiation \parencite{Ahn2008}.
       A data product provided by Earthdata (\url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}) called OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) is used in this thesis. 
       
       
-      OMAERUVd allows detection of areas which may be smoke affected.
+      OMAERUVd allows detection of areas which may be smoke-affected.
       The product contains AOD and aerosol absorption optical depths (AAOD) at three wavelengths (354, 388, and 500~nm), along with UV aerosol index.
       The OMAERUVd product is level three, based on quality filtered level two swath pixels which are then gridded by daily averaging.
-      The product is most sensitive to error in the form of sub-pixel scale cloud interference, so AAOD is used in this thesis to create as it is least affected by clouds \parencite{Ahn2008}.
+      These products are most sensitive to error in the form of sub-pixel scale cloud interference, however AAOD is the less sensitive of the two \parencite{Ahn2008}.
+      In this thesis AAOD is used to filter out potential smoke-affected areas.
       
       % How I read the AAOD
-      In this work AAOD is mapped from 1x1\degr ~horizontal resolution to \highhr ~using nearest value mapping.
+      In this work AAOD is mapped from 1\degr x1\degr ~horizontal resolution to \highhr ~using nearest value mapping.
       The AAOD at 500~nm wavelength is used to determine smoke influence, although any of the provided wavelengths would be affected by smoke plumes and could also be used.
-      This daily AAOD is compared to a threshold to create a daily smoke filter, any areas with AAOD$>0.03$ are considered to be potentially smoke plume affected (see Section \ref{Model:filter:fire}).
+      %This daily AAOD is compared to a threshold to create a daily smoke filter, 
+      Any areas with daily AAOD$>0.03$ are considered to be potentially smoke plume affected (see Section \ref{Model:filter:fire}).
     
+    % UP TO HERE JENNY
     \subsubsection{Active fires}
       \label{Model:datasets:MOD14A1}
       MOD14A1 is a gridded daily satellite based dataset of fire counts at 1x1~km$^2$ horizontal resolution.
@@ -223,7 +230,7 @@
     
     \subsubsection{Surface temperatures}
     \label{Model:datasets:model:CPC}
-      The Climate Prediction Center (CPC) provides a product with maximum daily land-surface temperature at 0.5x0.5\degr  horizontal resolution. 
+      The Climate Prediction Center (CPC) provides a product with maximum daily land-surface temperature at 0.5x0.5\degr ~ horizontal resolution. 
       This data is used to check the correlation between HCHO and temperature at a higher resolution than is provided by GEOS-Chem output.
       A full description of the data can be found at \url{https://www.esrl.noaa.gov/psd/data/gridded/data.cpc.globaltemp.html}.
       CPC Global Temperature data is provided by NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their web site at \url{https://www.esrl.noaa.gov/psd/}.
@@ -419,7 +426,7 @@
       The spectrum of a ground pixel is projected on the wavelength dimension of the charge-coupled device (CCD; the columns). 
       The cross-track ground pixels are projected on the swath dimension of the CCD (the rows).
       The forward speed of 7~kms$^{-1}$ and an exposure time of 2~s lead to a ground pixel size of 13~km in the flight direction.
-      The viewing angle of 114\degr leads to a swath width on the ground of 2600~km.''
+      The viewing angle of 114\degr ~leads to a swath width on the ground of 2600~km.''
       The table shows the optical properties for OMIs three channels.}
     \label{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}
   \end{figure}
@@ -508,7 +515,7 @@
     
     %Filtering
     After being read, pixels are filtered by solar zenith angle (SZA) and latitude, similarly to other works \parencite[e.g.,][]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
-    Satellite measurements pole-wards of 60\degr north or south are removed as well as measurements with SZA greater than 60\degr.
+    Satellite measurements pole-wards of 60\degr ~north or south are removed as well as measurements with SZA greater than 60\degr.
     Measurements taken with high SZA are unlikely to have much information from closer to the ground, and often have high uncertainty.
     Pixels with cloud fraction greater than 40\% are removed after being used in determining the reference sector correction, as is performed in \textcite{Abad2015, DeSmedt2015}.
     This removes around 30\% of the pixels which remain after filtering out the bad or missing data.
@@ -691,7 +698,7 @@
     
     Global CTMs are often run using one or several emission models (or the output from them) to determine boundary conditions.
     Some of the inventories used by GEOS-Chem are described here.
-    Meteorological fields are taken from NASA's GEOS-5 dataset (0.5\degr x 0.666\degr) \parencite{Chen2009}, which exists up to April 2013.
+    Meteorological fields are taken from NASA's GEOS-5 dataset (0.5\degr ~x 0.666\degr) \parencite{Chen2009}, which exists up to April 2013.
     GEOS-5 meteorological fields are used as the boundary conditions driving transport.
     % Emissions models used for boundary conditions
     Fire emissions come from the global fire emissions database (GFED4) product \parencite{Giglio2013}. 
@@ -1567,7 +1574,7 @@
     The longitudinal average is taken within the remote Pacific, as corrections are (assumed to be) longitudinally invariant.
     These modelled slant columns are averaged over the month and interpolated latitudinally to 500 equidistant bins.
     Figure \ref{Model:omiRecalc:RSC:fig_RSCeg} shows the simulated reference sector vertical columns as an example, calculated for January 1st 2005.
-    In this figure the latitudinal resolution is increased from 2\degr to 0.36\degr, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
+    In this figure the latitudinal resolution is increased from 2\degr ~to 0.36\degr, through linear interpolation, in order to form 500 vertical bins which are used in correcting the satellite data.
     This resolution is chosen to match that of \textcite{Abad2016}.
     
     
@@ -1592,7 +1599,7 @@
     where $j$ represents a latitude index.
     The RSC is this list of $Correction$ values binned by latitude using medians, and used per pixel based on the linear interpolation to that pixels latitude.
     % Correction applied over each of the 60 tracks
-    The RSC is independently calculated for each of the 60 tracks, at each latitude in the 500 0.36\degr bins.
+    The RSC is independently calculated for each of the 60 tracks, at each latitude in the 500 0.36\degr ~bins.
     This provides a different RSC for each of the three AMFs.
     % Interpolated daily RSC to cover missing latitudes
     Due to incomplete latitudinal coverage, the correction for each track is interpolated linearly between measurements, with corrections outside of the highest measured latitudes being equal to the corrections at the highest measured latitudes.
@@ -1655,7 +1662,7 @@
       \item satellite pixel counts (summed into bins)
       \item OMI vertical column fitting uncertainty
       % Fires are now stored separately
-      %\item Smoke AAOD from OMAERUVd mapped into bins from 1x1\degr resolution (described in Section \ref{Model:filter:fire})
+      %\item Smoke AAOD from OMAERUVd mapped into bins from 1x1\degr ~resolution (described in Section \ref{Model:filter:fire})
       %\item fire counts (summed into bins)
     \end{enumerate}
     
@@ -1798,12 +1805,12 @@
       \item MOD14A1 daily gridded Aqua/Terra combined fire counts (1x1~km$^2$) are binned into \highhr ~bins (matching the resolution of binned $\Omega$).
       \item A rolling mask is formed which removes $\Omega$ if one or more fires are detected in a grid square, or in the adjacent grid square, up to 2 days previously.
       This includes the current day, making 3 days of fires in total being filtered out on each day.
-      \item AAOD at 500~nm is mapped from OMAERUVd (1x1\degr resolution) onto the \highhr ~resolution.
+      \item AAOD at 500~nm is mapped from OMAERUVd (1x1\degr ~resolution) onto the \highhr ~resolution.
       \item An AAOD threshold of 0.03 is determined through visual analysis of AAOD distributions over several days, including days with and without influence from active fires, dust, and transported smoke plumes. 
       Grid squares with AAOD over this threshold are considered potentially affected by transported fire smoke.
     \end{enumerate}
     This method of masking fires can be compared to \textcite{Marais2012} and \textcite{Barkley2013}:
-    \textcite{Marais2012} removed pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1\degr$\times 1$\degr resolution, and \textcite{Barkley2013} used fires from the preceding and current day, within local or adjacent grid squares, at \highhr ~resolution.
+    \textcite{Marais2012} removed pixels colocated with non zero fire counts in any of the prior eight days, within grid squares with 1\degr$\times 1$\degr ~resolution, and \textcite{Barkley2013} used fires from the preceding and current day, within local or adjacent grid squares, at \highhr ~resolution.
     
     
     % Fire filtering affect split over recalculations
@@ -1843,7 +1850,7 @@
     Dust in Australia is highly episodic and false positives in the smoke filter should not affect more than a few days per month, especially over regions with high tree coverage \parencite{Shao2007}.
     % Threshold for AAOD determination
     % repeats steps taken paragraph
-    %The smoke filter is created by removing OMHCHO grid squares where the AAOD is above 0.03, after the AAOD is mapped from 1\degr$\times 1$\degr to the same \highhr ~resolution as our OMHCHO gridded product.
+    %The smoke filter is created by removing OMHCHO grid squares where the AAOD is above 0.03, after the AAOD is mapped from 1\degr$\times 1$\degr ~to the same \highhr ~resolution as our OMHCHO gridded product.
     The threshold is determined through analysing AAOD over Australia in 4 scenarios: normal conditions, active local fires, transported fire smoke, and large scale dust storms.
     An example of these scenarios and the AAOD distributions is shown in Figure \ref{Model:filter:fire:fig_typicalAAOD}. 
     This figure shows AAOD maps and distributions, along with satellite imagery on the same day in column 4 (from \url{https://worldview.earthdata.nasa.gov/}).
@@ -1909,7 +1916,7 @@
     
     %Figure from !??
     \mypic{Figures/OMI_link/OMNO2_timeseries_2005_final.png}{%
-      Mean (top left) and standard deviation (top right) of OMNO2d daily 0.25\degr$ \times 0.25 $\degr tropospheric cloud filtered NO$_2$ columns. 
+      Mean (top left) and standard deviation (top right) of OMNO2d daily 0.25\degr$ \times 0.25 $\degr ~tropospheric cloud filtered NO$_2$ columns. 
       Time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right. 
       The grey shaded area depicts the 25th to 75th percentiles of Australia averaged NO$_2$ columns for each day in the time series, with a thicker black line showing the Australia-wide mean value.}
     {\label{Model:filter:NOx:fig_omno2_timeseries}}
