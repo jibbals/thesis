@@ -81,10 +81,10 @@
   \subsection{Satellite}
   \label{Model:datasets:satellite}
     % Satellite data product levels
-    Satellite data products are generally classed into several categories, level 0 through to level 3. Level 0 products are sensor counts and orbital swath data, level 1B data calibrates and geo-locates the level 0 data. 
-    Level 2 products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
-    %To create level 2 data slant column density is determined and then translated into vertical column density. 
-    Level 3 data is a temporally and spatially aggregated subset of level 2 data, for instance monthly or yearly averages.
+    Satellite data products are generally classed into several categories, level zero through to level three. level zero products are sensor counts and orbital swath data, level one-B data calibrates and geo-locates the level zero data. 
+    level two products additionally have temporal, spatial, solar, and viewing geometry information, as well as quality flags.
+    %To create level two data slant column density is determined and then translated into vertical column density. 
+    level three data is a temporally and spatially aggregated subset of level two data, for instance monthly or yearly averages.
     
     Difficulties can arise when aerosols (e.g., clouds, smoke, dust) interfere with recorded spectra; however,some of these can be detected and filtered out.
     Instruments including MODIS onboard the Aqua and Terra satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
@@ -184,7 +184,7 @@
       \label{Model:datasets:AIRS}
       
       In Chapter \ref{Ozone}, potential biomass burning plumes are identified using satellite observations of carbon monoxide (CO) from the AIRS (Atmospheric Infra-red Sounder) instrument aboard the Aqua satellite \parencite{AIRS3STD}.
-      The Aqua satellite overpasses at approximately 01:30~LT and 13:30~LT, with NASA producing level 3 gridded output at 1\degr x1\degr .
+      The Aqua satellite overpasses at approximately 01:30~LT and 13:30~LT, with NASA producing level three gridded output at 1\degr x1\degr .
       CO is used as a proxy for biomass burning plumes, and used to qualitatively attribute ozone intrusion events (Section \ref{Ozone:WeatherClassifications}).
       %This is a method of detecting fire influence near specific sites through visual analysis.
       
@@ -449,23 +449,24 @@
   Slant columns range from $\sim 4\times 10^{15} $ to $\sim 6 \times 10^{16}$~molec cm$^{-2}$, with uncertainties from 30\% (larger columns) to over 100\% (smaller columns) \parencite{Abad2015}.
   %Atmospheric HCHO detected by satellite requires that other trace gases with similar features near the HCHO affected wavelengths are accounted for.
   
-  % UP TO HERE JENNY
+
   \subsection{Pixel filtering}
   \label{Model:omhcho:pixel_filtering}
   
     % What the swathes look like
-    This thesis uses the level 2 product swath output from the NASA earth data web portal.
+    This thesis uses the level two OMHCHO product swath output from the NASA earth data web portal.
     OMHCHO level two data includes 14-15 daily swaths of measurements.
-    Each swath contains roughly $9 \times 10^4$ pixels, each of which includes latitude, longitude vertical column HCHO, along with all the ancillary data required to make the vertical column and several data quality metrics.
+    Each swath contains roughly $9 \times 10^4$ pixels, each of which includes latitude, longitude, vertical column HCHO, along with all the ancillary data required to calculate the vertical column and several data quality metrics.
     The OMHCHO dataset has a quality flag that can be used to remove unlikely or poor satellite measurements.
-    The states represented by this quality flag are shown in Table \ref{Model:datasets:OMHCHO:tab_qflag} that is reproduced here (originally from \textcite{Kurosu2014}).
+    The states represented by this quality flag are shown in Table \ref{Model:datasets:OMHCHO:tab_qflag} that is reproduced here from \textcite{Kurosu2014}.
     First all \textit{good} pixels (those with QA flag equal to 0) are read into a long list (roughly 1 million per day).
-    Filtering bad or missing measurement pixels is performed prior to any other filtering, this includes the datapoints affected by the row anomaly through a particular flag (see \url{https://www.cfa.harvard.edu/atmosphere/Instruments/OMI/PGEReleases/READMEs/OMHCHO_README_v3.0.pdf}).
+    Filtering bad or missing measurement pixels is performed prior to any other filtering.
+    This includes the datapoints affected by the row anomaly (see \url{https://www.cfa.harvard.edu/atmosphere/Instruments/OMI/PGEReleases/READMEs/OMHCHO_README_v3.0.pdf}).
     This anomaly affects radiance data at particular viewing angles, corresponding to a row on the CCD detectors, and is dynamic over time \parencite{Huang2018}.
     The slant columns affected are flagged and removed before any further processing.
     
     \begin{table}
-      \caption{OMI quality flag values table from \textcite{Kurosu2014}}
+      \caption{OMI quality flag values from \textcite{Kurosu2014}}
       \begin{tabular}{  l  l  p{10cm} }
         \hline
         \textbf{Value} & \textbf{Classification} & \textbf{Rational} 
@@ -491,25 +492,27 @@
       \label{Model:datasets:OMHCHO:tab_qflag}
     \end{table}
     
-    Each $\sim90$ minutes the Aura satellite sweeps over the sunny side of the planet of which around 50~k -- 80~k of the roughly 90~k pixels are classified as good.
+    Approximately every $90$ minutes, the Aura satellite sweeps over the sun lit side of the planet and makes around 90000 measurements, of which 50000 - 80000 pixels are classified as good.
     Each pixel contains several important pieces of data that are needed for recalculation of the HCHO vertical column: the total column of HCHO ($\Omega$; \moleccm), cloud fraction, associated shape factor, AMF, geometric AMF, scattering weights and their vertical altitudes (hPa), viewing zenith angle, solar zenith angle, latitude, longitude, OMI sensor track, main data quality flag, cross track flag, and total column uncertainty.
-    All of these data are needed in order to reconstruct the total vertical column using a modelled a priori shape factor rather than NASA's included a priori shape factor.
-    Each pixel includes an estimate of the cloud fraction created using the OMI cloud product OMCLDO2.
+    All of these data are needed in order to reconstruct the total vertical column using a new a priori estimate of the vertical profile in lieu of that provided by NASA.
+    This reconstruction is required so that perceived bias between satellite measurements and model outputs is not due to a priori information, but rather what the satellite is producing.
+    %Each pixel includes an estimate of the cloud fraction created using the OMI cloud product OMCLDO2.
     
     %Filtering
-    After being read, pixels are filtered by solar zenith angle (SZA) and latitude, similarly to other works \parencite[e.g.,][]{Marais2012, Barkley2013, Bauwens2016, Zhu2016}.
-    Satellite measurements pole-wards of 60\degr ~north or south are removed as well as measurements with SZA greater than 60\degr.
-    Measurements taken with high SZA are unlikely to have much information from closer to the ground, and often have high uncertainty.
-    Pixels with cloud fraction greater than 40\% are removed after being used in determining the reference sector correction, as is performed in \textcite{Abad2015, DeSmedt2015}.
+    After being filtered for data quality, pixels are filtered by solar zenith angle (SZA) and latitude, similarly to other works \parencite[e.g.,][]{Marais2012, Barkley2013, Zhu2014, Bauwens2016, Zhu2016}.
+    Satellite measurements polewards of 60\degr ~north or south are removed as well as measurements with SZA greater than 60\degr.
+    % UP TO HERE JENNY
+    Measurements with high SZA are unlikely to have much information near the surface, and often have high uncertainty in total column retrievals \parencite[e.g.,][]{Stone2015}.
+    Pixels with cloud fraction greater than 40\% are removed after determining the reference sector correction (Section \ref{Model:omiRecalc:RSC}), as in \textcite{Abad2015, DeSmedt2015}.
     This removes around 30\% of the pixels that remain after filtering out the bad or missing data.
 
     % Negative columns
     Due to noise and the differential measurement technique, small negative columns are present in the satellite product that are not removed so as not to introduce a bias.
     However, some very large negative values are removed, as these represent an unflagged error in the retrieval process.
-    Unlikely high positive measurements are also removed, leaving only measurements within the density range $-0.5 \times 10^{16}$ to $1 \times 10^{17} $\moleccm, as is performed by \textcite{Zhu2016}.
+    Unlikely high positive measurements are also removed, leaving only measurements within the range $-0.5 \times 10^{16}$ to $1 \times 10^{17} $\moleccm, as is performed by \textcite{Zhu2016}.
     This filter is required due to currently unexplained large negative values which occur in the OMI HCHO product increasingly over time.
     Figure \ref{Model:omhcho:pixel_filtering:fig_OMI_negative_hist} shows how unfiltered HCHO columns are affected by a small set of highly negative values that heavily affect the mean column amount over any region.
-    The highly negative values can be seen around the $-10^{19}$~molecules cm$^{-2}$ region.
+    The highly negative values can be seen around $\Omega = -10^{19}$~molecules cm$^{-2}$.
     
     % Figure from ?!?!
     \mypic{Figures/AusOMHCHO_Hist_20130318_final.png}
@@ -519,63 +522,37 @@
       Note the different scale between negative and positive panels.
     }{\label{Model:omhcho:pixel_filtering:fig_OMI_negative_hist}}
   
-  \subsection{DOAS}
-    \label{Model:omhcho:DOAS}
-    
-    The DOAS technique uses solar radiation absorption spectra to measure trace gases through paths of light.
-    % Beer lambert
-    Beer's law states
-    \begin{equation} \label{Model:omhcho:DOAS:eqn_beerslaw}
-    T = I/I_0 = e^{-\tau}
-    \end{equation}
-    with T being transmittance, $\tau$ being optical depth, and I, I$_0$ being radiant flux received at instrument and emitted at source respectively.
-    The Beer-Lambert law of extinction allows spectroscopic measurement of absorbing chemical species (absorbers) in the atmosphere:
-    \begin{equation} \label{Model:omhcho:DOAS:eqn_backscatterextinction}
-    I_B = I_{B_0} e^{-\tau_s}
-    \end{equation}
-    where I$_B$, I$_{B_0}$ is backscattered intensity with and without the absorber respectively, and $\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
-    
-    $\tau$ can be described using the scattering and absorption cross section area ($\alpha$, cm$^{2}$) and density ($\eta$, molec cm$^{-3}$) of an absorber as follows:
-    \begin{equation} \label{Model:omhcho:DOAS:eqn_tau}
-    \tau = \int \alpha(s) \eta(s) \mathrm{d}s
-    \end{equation}
-    Here $\tau$ represents the sum of optical thicknesses of each absorber within the measured path (s) through a medium.
-    substituting Equation \ref{Model:omhcho:DOAS:eqn_tau} into Equation \ref{Model:omhcho:DOAS:eqn_backscatterextinction} leads to
-    \begin{equation}
-      I = I_0 \exp { \left( \Sigma_i \int \eta_i \alpha_i ds \right) }
-    \end{equation}
-    Where \textit{i} represents a chemical species index, and the integral over ds represents integration over the path from light source to instrument.
-    
-    % Optical depth through the atmosphere
-    Another way of describing optical depth (also called optical thickness) is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material (from Equation \ref{Model:omhcho:DOAS:eqn_backscatterextinction}).
-    In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
-    The difference between solar radiation at the top of the atmosphere and the earth's surface defines the atmospheric optical depth along the path of observation.
-    \begin{equation}
-      \tau = \ln{\frac{\phi_e^i}{\phi_e^t}}
-    \end{equation}
-    where $\phi_e^i$ is radiant flux seen at the earth surface, $\phi_e^t$ is the solar radiant flux that arrives at the top of the atmosphere.
-    In the atmosphere, optical depth can be due to several factors including scattering, chemical absorbance, and aerosols.
+  
   
   \subsection{Air mass factor (AMF)}
   \label{Model:omhcho:amf}
     % what satellite amfs are, and what they do
     To convert the trace gas profile from a reflected solar radiance column (slanted along the light path) into a purely vertical column requires calculations of an air mass factor (AMF).
-    In satellite data, the AMF is typically a scalar value for each horizontal grid point that will equal the ratio of the total vertical column density to the total slant column density.
-    This value requires calculations to account for instrument sensitivities to various wavelengths over resolved altitudes, and is unique for each trace gas under consideration.
-    An AMF characterises measurement sensitivity to a trace gas at various altitudes \cite[e.g.,]{Palmer2001}.
+    In satellite data, the AMF is typically a scalar value for each horizontal grid point that gives the ratio of the total vertical column density to the total slant column density.
+    An AMF characterises measurement sensitivity to a trace gas at various altitudes \parencite{Palmer2001}.
+    This value %requires calculations to account for instrument sensitivities to various wavelengths over resolved altitudes, and 
+    is unique for each trace gas under consideration \parencite{Palmer2001,Millet2006}.
     \textcite{Lorente2017} show that AMF calculations can be the largest source of uncertainty in satellite measurements.
-    Another way of describing AMFs are as measures of how radiance at the top of the atmosphere (TOA) changes with trace gas optical depths at specific altitudes \parencite{Lorente2017}.
+    %Another way of describing AMFs are as measures of how radiance at the top of the atmosphere (TOA) changes with trace gas optical depths at specific altitudes \parencite{Lorente2017}.
     Calculation of the AMF is important as it is multiplied against the estimated slant columns in order to give vertical column amounts.
     
     %how do we get an AMF?
-    DOAS column retrievals are an integration of a trace gas over the instruments viewing path, in order to convert this total to a vertically distributed column a few assumptions and estimates are required. 
-    The vertical profile of a trace gas is assumed or estimated via a CTM, while its scattering and radiative properties are calculated at prescribed altitudes using an RTM. 
-    These properties are combined into a single array called the AMF.
-    Two examples of this are GOME-2 (on the MetOp-A satellite) products, %(\url{http://atmos.caf.dlr.de/gome/product_hcho.html}), 
-    which use the LIDORT RTM with IMAGESv2 CTM, and OMI products that use LIDORT combined with GEOS-Chem \parencite{Chance2002, Abad2015}.
-    AMFs are unique to each trace gas and due to their complexity and the influence of cloud cover they remain one of the largest error sources in remote sensing of BVOCs \parencite{Palmer2001,Millet2006}).
+    DOAS column retrievals are an integration of a trace gas over the instrument's viewing path.
+    In order to convert this total to a vertically distributed column a few assumptions and estimates are required. 
+    The initial (a priori) vertical profile of a trace gas is assumed or estimated via a CTM, while its scattering and radiative properties are calculated at prescribed altitudes using an RTM. 
+    These properties are combined to determine the AMF.
+    Different models are used for different satellite AMFs.
+    For example GOME-2 products %(\url{http://atmos.caf.dlr.de/gome/product_hcho.html}), 
+    use the LIDORT RTM with IMAGESv2 CTM, and OMI products use LIDORT combined with the GEOS-Chem CTM \parencite{Chance2002, Abad2015}.
     \textcite{Lamsal2014} recommends that when comparing satellite data to models, the AMF should first be recalculated using the model as an a priori.
     This is in order to remove any a priori bias between model and satellite columns.
+    For this reason the OMHCHO AMF are recalculated in this thesis using GEOS-Chem to create the a priori profiles and LIDORT to calculate scattering weights.
+    
+    \label{Model:Meas:sat:LIDORT}
+    %http://www.rtslidort.com/about_publications.html
+    LIDORT is a model of LInearized Discrete Ordinate Radiative Transfer, used to determine backscatter intensities and weighting functions at arbitrary elevation angles \parencite{Spurr2001}.
+    The model solves radiative transfer equations and can be used to determine various atmospheric column measurement attributes such as optical depth, ring effects, and scattering.
+    These radiative properties (or at least estimates thereof) are required when measuring trace gases in the atmosphere through a long path such as seen by satellites \parencite[e.g.,][]{Palmer2001,Martin2002a,DeSmedt2015,Abad2015}.
     
     % averaging kernel relation to amf, why amfs are important when comparing data
     Related to the AMF is the averaging kernel (AK), which is used to handle instrument measurements that are sensitive to gas concentrations at different altitudes through the atmosphere.
@@ -588,14 +565,8 @@
     \end{equation}
     \parencite{Abad2015}.
     %This is an approximation for the OMI product, which does not include the AK but does include the $\omega$ and AMF, as explained in \textcite{Abad2015}.
-  
-  \subsection{LIDORT}
-    \label{Model:Meas:sat:LIDORT}
     
-    %http://www.rtslidort.com/about_publications.html
-    LIDORT is a model of LInearized Discrete Ordinate Radiative Transfer, used to determine backscatter intensities and weighting functions at arbitrary elevation angles \parencite{Spurr2001}.
-    The model solves radiative transfer equations and can be used to determine various atmospheric column measurement attributes such as optical depth, ring effects, and scattering.
-    These radiative properties (or at least estimates thereof) are required when measuring trace gases in the atmosphere through a long path such as seen by satellites \parencite[e.g.,][]{Palmer2001,Martin2002a,DeSmedt2015,Abad2015}.
+    
   
   \subsection{Uncertainty}
   
@@ -607,8 +578,8 @@
     
     Uncertainty in the OMI satellite instrument is calculated by the Smithsonian Astrophysical Observatory (SAO) group using the uncertainty in backscattered radiation retrievals \parencite{Abad2015, Abad2016}.
     Uncertainty in a single pixel for OMHCHO is roughly the same magnitude as HCHO background levels.
-    Each pixel has $\sim 2 \times 10^{14}$\moleccm ~uncertainty, which is $5 \times$ higher than GOME.
-    However, there are $\sim 100-200 \times $ as many measurements allowing a greater reduction of uncertainty with averaging.
+    Each pixel has $\sim 2 \times 10^{14}$\moleccm ~uncertainty, which is five times higher than GOME.
+    However, there are $\sim 100-200 $ times as many measurements allowing a greater reduction of uncertainty with averaging.
     This is due to the smaller footprint and better temporal resolution of OMI \parencite{Chance2002,Millet2008}.
     % Uncertainty in OMI pixels measurements
     The finer nadir resolution of OMI (13 by 24~km${^2}$) compared to other satellites also reduces cloud influence \parencite{Millet2006, Millet2008}.
@@ -616,7 +587,7 @@
     Row two shows uncertainty of the satellite data after averaging.
     It is clear that one day of satellite data is too uncertain when binned at \highhr ~horizontal resolution; however, after a month (with or without filtering) the uncertainties become manageable.
     If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
-    High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[e.g.,][]{Zhu2014}.
+    %High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[e.g.,][]{Zhu2014}.
     Uncertainty in satellite recalculations related to estimating isoprene emissions is analysed in Section \ref{BioIsop:uncertainty:satellite}.
     %A good example can be seen in \textcite{Zhu2014} where 0.2\degr ~by 0.2\degr ~resolution with high enough sensitivity to see anthropogenic HCHO is acheived with three summers worth of satellite data.
     
@@ -629,12 +600,12 @@
     
     
     % Row anomaly
-    Recently \textcite{Schenkeveld2017} analysed the performance over time of OMI and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
-    These changes are measured excluding the row anomaly (RA) effect, which is relatively stable since 2011, although it is still growing and remains the most serious concern.
-    Their analysis concludes that the satellite data is still of high quality and will deliver useful information for 5-10 more years, with radiance only changing by $1-2\%$ outside of RA impacted areas.
-    An analysis of the row anomaly by \textcite{Huang2018} state that measurements remain suitable for scientific use, with recommendation for further evaluation.
+    Recently \textcite{Schenkeveld2017} analysed the instrument performance over the life time (approximately 2004 to 2015) of OMI and found irradiance degradation of 3-8\%, changed radiances of 1-2\%, and a stable wavelength calibration within 0.005-0.020~nm.
+    These changes are measured excluding the row anomaly effect, which has been relatively stable since 2011, although it is still growing and remains the most serious concern.
+    Their analysis concludes that the satellite data is still of high quality and will deliver useful information for 5-10 more years, with radiance only changing by 1-2\% outside of row anomaly impacted areas.
+    An analysis of the row anomaly by \textcite{Huang2018} states that measurements remain suitable for scientific use, with recommendation for further evaluation.
     % they were talking about ozone columns...
-    The RA began in June 2007, with some cross-track rows seemingly blocked. 
+    The row anomaly began in June 2007, with some cross-track rows seemingly blocked. 
     The most likely cause is some instrument insulation partially obscuring the radiance port \parencite{Schenkeveld2017}.
     In this thesis pixels potentially affected by the row anomaly are removed prior to calculation or analysis.
     
@@ -653,34 +624,39 @@
     This is due to HCHO being lower on unrecorded cloudy days.
     This bias has been measured as a 13\% positive monthly mean bias \parencite{Palmer2001, Surl2018}.
     %Generally OMI is seen to suffer from a low bias of up to $40\%$ depending on region, local concentrations, and other factors \parencite[e.g.,][]{Barkley2013,DeSmedt2015,Zhu2016}.
-    For many places the tropospheric column HCHO measured by satellite is biased low, \textcite{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over south east USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
+    For many places the tropospheric column HCHO measured by satellite is biased low.
+    %TODO: JENNYNOTE: UPDATE BIAS RANGES TO JUST OMI
+    \textcite{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over southeast USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
     \textcite{DeSmedt2015} also found OMI and GOME2 observations were 20 - 40\% lower than ground based vertical profiles, and \textcite{Barkley2013} determine OMI to be 37\% low compared with aircraft measurements over Guyana.
-    These bias can be corrected by improving the assumed a priori HCHO profiles that are used to calculate the AMFs of the satellite columns.
+    %These bias can be corrected by improving the assumed a priori HCHO profiles that are used to calculate the AMFs of the satellite columns.
     \textcite{Millet2006} examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
     \textcite{Millet2008} shows that there also exists some latitude based bias, as well as a systematic offset between the OMI and GOME instruments.
     This does not appear to be due to the different overpass times of the two instruments.
     
+
     %A full analysis of the AMF uncertainty in OMI measurements, as well as the structural uncertainty (between different systems of calculations applied to the same data) is performed by \textcite{Lorente2017}.
     AMF calculation often dominates the total uncertainty in satellite retrievals, especially in polluted regions \parencite{Lorente2017}.
-    In scenarios where the gas is enhanced in the lower troposphere, AMF calculation is the largest uncertainty in satellite measurements.
+    In scenarios where HCHO is enhanced in the lower troposphere, AMF calculation is the largest uncertainty in satellite measurements.
     In polluted environments the structural uncertainty is estimated at 42~\%, or 31~\% over unpolluted environments \parencite{Lorente2017}.
     Another impact often not included in uncertainty calculations is the structural uncertainty of retrieval methods.
     The structural uncertainty of AMF calculation approaches used by different retrieval groups comes from how the AMF is calculated, rather than uncertainty in the calculation components.
     The importance of a priori and ancillary data (such as surface albedo and cloud top height) sharply affects the structural uncertainty \parencite{Lorente2017}.
     In this thesis the AMF uncertainty is assumed to be $30\%$, as concentrations of HCHO and pollution are relatively low over Australia.
     
+    % UP TO HERE JENNY
+    % JENNY TODO: Need some context for why this section is here. At first glance it seems odd because it is in the middle of the satellite stuff. But I think it is actually here because you need it for the AMF calculation, right? Explain that at the outset. Another option would be to rearrange so you discuss GEOS-Chem first, then move onto OMI HCHO and then the details of that...
 \section{GEOS-Chem}
   \label{Model:GC}
 
   \subsection{Overview}
     % Geos chem is a box model with chemistry and meteorology
-    GEOS-Chem is a well supported global, Eulerian CTM (see Section \ref{LR:Models:ctm}) with a state of the science chemical mechanism, and transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
+    GEOS-Chem is a global, Eulerian CTM (see Section \ref{LR:Models:ctm}) with a state of the science chemical mechanism, and transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
     Chemistry, transport, and meteorology are simulated at 15 minute time steps within a global set of 3-D boxes.
-    Emissions are either prescribed by inventories (e.g., fire emissions are pulled from the global fire emissions database GFED4) or modelled (e.g., biogenic emissions are modelled using MEGAN).
+    Emissions are either prescribed by inventories (e.g., fire emissions are prescribed from the global fire emissions database GFED4) or modelled (e.g., biogenic emissions are modelled using MEGAN).
     % It uses GEOS, from GMAO
     
     % This thesis uses 10.01 at 2x2.5 model output
-    GEOS-Chem simulates more than 100 chemical species within the atmosphere, from the earth's surface up to the edge of space (0.01~hPa).
+    GEOS-Chem simulates more than 100 chemical species within the atmosphere, from the earth's surface up to 0.01~hPa.
     Modelled concentrations can be used in combination with measurements to give a verifiable estimate of atmospheric gases and aerosols in places and times where no measurements exist.
     It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide.
     In this thesis I use version 10.01 of GEOS-Chem, which outputs up to 66 chemical species (tracers) in the standard run, at \lowhr ~horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa).

@@ -1008,7 +1008,7 @@
         \item MetOp-A and B launched in October 2006 and September 2012 respectively, both housing a GOME-2 UV-Vis spectrometer.
       \end{itemize}
       These satellites are on low earth orbit trajectories and overpass any area up to once per day.
-      Satellites use DOAS techniques with radiative transfer calculations on solar radiation absorption spectra to measure column HCHO.
+      Satellites use DOAS techniques (Section \ref{LR:HCHO:DOAS}) with radiative transfer calculations on solar radiation absorption spectra to measure column HCHO.
       An example of a spectrum retrieved from the GOME-2 instrument is given in figure \ref{LR:HCHO:Sat:fig_GOME_products}.
       
       \begin{figure}
@@ -1029,6 +1029,42 @@
       Different satellites, instruments, or techniques that measure HCHO (or any trace gas) can give different results due to differing a priori assumptions \parencite{Lorente2017}.
       The concept of differences that arise between datasets based on measurement techniques or underlying instrument biases is called structural uncertainty.
       
+    \subsubsection{DOAS}
+      \label{LR:HCHO:DOAS}
+      
+      The DOAS technique uses solar radiation absorption spectra to measure trace gases through paths of light.
+      % Beer lambert
+      Beer's law states
+      \begin{equation} \label{LR:HCHO:DOAS:eqn_beerslaw}
+      T = I/I_0 = e^{-\tau}
+      \end{equation}
+      with \textit{T} being transmittance, $\tau$ being optical depth, and \textit{I, I$_0$} being radiant flux received at instrument and emitted at source respectively.
+      The Beer-Lambert law of extinction allows spectroscopic measurement of absorbing chemical species (absorbers) in the atmosphere:
+      \begin{equation} \label{LR:HCHO:DOAS:eqn_backscatterextinction}
+      I_B = I_{B_0} e^{-\tau_s}
+      \end{equation}
+      where $I_B$, $I_{B_0}$ is backscattered intensity with and without the absorber respectively, and $\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
+      
+      $\tau$ can be described using the scattering and absorption cross section area ($\alpha$, cm$^{2}$) and density ($\eta$, molec cm$^{-3}$) of an absorber as follows:
+      \begin{equation} \label{LR:HCHO:DOAS:eqn_tau}
+      \tau = \int \alpha(s) \eta(s) \mathrm{d}s
+      \end{equation}
+      Here $\tau$ represents the sum of optical thicknesses of each absorber within the measured path (\textit{s}) through a medium.
+      Substituting Equation \ref{LR:HCHO:DOAS:eqn_tau} into Equation \ref{LR:HCHO:DOAS:eqn_backscatterextinction} leads to
+      \begin{equation}
+      I = I_0 \exp { \left( \Sigma_i \int \eta_i \alpha_i ds \right) }
+      \end{equation}
+      Where \textit{i} represents a chemical species index, and the integral over \textit{ds} represents integration over the path from light source to instrument.
+      
+      % Optical depth through the atmosphere
+      Another way of describing optical depth (also called optical thickness) is the natural logarithm of the ratio of incident radiant power to transmitted radiant power through a material (from Equation \ref{LR:HCHO:DOAS:eqn_backscatterextinction}).
+      In the atmosphere we are interested in the optical depth of various chemical species, and we use incoming solar radiation to determine this.
+      The difference between solar radiation at the top of the atmosphere and the earth's surface defines the atmospheric optical depth along the path of observation.
+      \begin{equation}
+      \tau = \ln{\frac{\phi_e^i}{\phi_e^t}}
+      \end{equation}
+      where $\phi_e^i$ is radiant flux at the surface, $\phi_e^t$ is the solar radiant flux that arrives at the top of the atmosphere.
+      In the atmosphere, optical depth can be due to several factors including scattering, chemical absorbance, and aerosols.
   
 \section{Atmospheric Chemistry Modelling}
 \label{LR:Models}
