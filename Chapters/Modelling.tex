@@ -377,6 +377,603 @@
       \end{equation}
       where $\Omega$ is in \moleccm, $x$ is in ppbv, and $\Delta p$ is the pressure in hPa between pressure midpoints for each vertical level in $x$.
 
+
+\section{GEOS-Chem}
+\label{Model:GC}
+
+  \subsection{Overview}
+    % Geos chem is a box model with chemistry and meteorology
+    GEOS-Chem is a global, Eulerian CTM (see Section \ref{LR:Models:ctm}) with a state of the science chemical mechanism, and transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
+    Chemistry, transport, and meteorology are simulated at 15 minute time steps within a global set of 3-D boxes.
+    Emissions are either prescribed by inventories (e.g., fire emissions are prescribed from the global fire emissions database GFED4) or modelled (e.g., biogenic emissions are modelled using MEGAN).
+    % It uses GEOS, from GMAO
+    
+    % This thesis uses 10.01 at 2x2.5 model output
+    GEOS-Chem simulates more than 100 chemical species within the atmosphere, from the earth's surface up to 0.01~hPa.
+    Modelled concentrations can be used in combination with measurements to give a verifiable estimate of atmospheric gases and aerosols in places and times where no measurements exist.
+    It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide.
+    In this thesis I use version 10.01 of GEOS-Chem, which outputs up to 66 chemical species (tracers) in the standard run, at \lowhr ~horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa).
+    
+    
+    Global CTMs are often run using one or several emission models (or the output from them) to determine input fluxes.
+    Some of the underlying model data used by GEOS-Chem are described here.
+    Meteorological parameters are taken from NASA's GEOS-5 dataset (0.5\degr ~x 0.666\degr) \parencite{Chen2009}, which exists from December 2003 to April 2013.
+    GEOS-5 meteorological fields are used to drive atmospheric transport.
+    % Emissions models used for boundary conditions
+    Fire emissions come from the global fire emissions database (GFED4) product \parencite{Giglio2013}. 
+    Anthropogenic VOC emissions come from the Emission Database for Global Atmospheric Research (EDGAR) inventory, while biogenic VOC emissions are simulated using the MEGAN model (see Section \ref{Model:GC:MEGAN}).
+    %MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation.
+    %The estimated biogenic VOC emissions are important are used extensively within this thesis.
+
+
+  \subsection{Installing and running GEOS-Chem}
+    \label{Model:GC:running}
+    GEOS-Chem instructions for download, compilation, and running can be found in the user guide provided by Harvard: \url{http://acmg.seas.harvard.edu/geos/doc/man/}.
+    In order to build and run GEOS-Chem a high-speed computing system is optimal, as globally gridded chemical calculations can take a long time to perform (for us $\sim 70$ computation hours per month).
+    I installed GEOS-Chem onto a suitably configured workspace on the Raijin supercomputer at the National Computational Infrastructure (NCI, \url{http://nci.org.au/}).
+    This workspace included access to compilers and libraries that are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
+    %After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
+
+  \subsection{Chemical Mechanism}
+    \label{Model:GC:mechanisms}
+    A chemical mechanism is a closed system of chemical reactions and their associated rate constants.
+    Chemical reactions are represented by systems of differential equations to be solved for each gridbox in GEOS-Chem.
+    Simplifications are required due to the large number of reactions that occur in the atmosphere, and the coupled and stiff nature of these reactions that slow down computation of the solutions \parencite{BrasseurJacob2017}.
+    Stiffness in chemical systems of differential equations is due to the massively differing reaction time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
+    This section focuses on isoprene oxidative chemistry simulated by GEOS-Chem, as it will be used to determine the yield from isoprene emissions to HCHO columns. 
+
+    Some of the important reactions involving isoprene are reproduced here, including reaction rates ($k$) in the form $ k = A \exp{(-E/RT)}$, where $T$ is temperature, $E$ is activation energy, and $R$ is the gas constant.
+    $A$, $E$, and $R$ are predefined for each reaction.
+    The following set of equations (\ref{Model:GC:mechanisms:eqn_mechanisms}) lists the main isoprene and related reactions, with terms defined in Table \ref{Model:GC:mechanisms:tab_species}.
+    LISOPOH is added in order to allow the model to keep track of how much isoprene is oxidised by OH.
+    The reactions shown here are just the first-stage oxidations of isoprene and the isoprene peroxy radical from OH oxidation, subsequent reactions will also produce HCHO.
+    The mechanism used in version 10.01 (and its history) is described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/NOx-Ox-HC-Aer-Br_chemistry_mechanism}.
+    
+    %globchem.dat in the run directory.
+    % species in http://wiki.seas.harvard.edu/geos-chem/index.php/Species_in_GEOS-Chem#Aerosol-only
+    %Isoprene is ISOP. 
+    %% LISOPOH is isop lost to OH reactions
+    %% RIO2 is the isoprene peroxy radical ISOPOO
+    %% INO2 is a class of products formed from Isop and NO3
+    %% ISOPNB is ISOPN-beta
+    %% ISOPNBO2 is ISOPNB+OH products
+    %% ISNP is an ISOPN 
+    %% PRPE are >C3 alkenes (C3H6, ...)
+    % first line shows reaction rate:
+    %     A nnn <A> xxxExx <-ER>  xxx  xx  xx
+    %  k  =    <A>  exp {<-ER>/T}
+    % T is Temperature
+    
+    \begin{subequations}
+      \label{Model:GC:mechanisms:eqn_mechanisms}
+      \begin{align} %\begin{split}
+      \ce{
+        % A 587 Isop oxidation by OH
+        ISOP + OH ->[3.1*10^{-11} \exp{(350/T})] 
+        & RIO2 ( + LISOPOH) \label{mech1}  \\ 
+        % A606 Isoprene ozonolysis
+        ISOP + O3 ->[1*10^{-14} \exp{(-1970/T})] 
+        & 0.244MVK + .325MACR + \highlight{0.845HCHO} \notag \\
+        & + .11H2O2 + .522CO + .204HCOOH \notag \\
+        & + .199MCO3 +.026HO2 + .27OH \notag \\
+        & + .128PRPE + .051MO2  \label{mech2} \\ 
+        % A621 Isoprene NO3 oxidation
+        ISOP + NO3 ->[3.3*10^{-12} \exp{(-450/T)}] 
+        & INO2 \label{mech3} \\
+        % products from ISOPOO + NO
+        RIO2 ->[4.07*10^{8} \exp{(-7694/T)}] 
+        & 2HO2 + \highlight{HCHO} + .5MGLY + .5GLYC \notag \\
+        & + .5GLYX + .5HAC + OH \label{mech4} \\
+        RIO2 + NO ->[2.7*10^{-12} \exp{(350/T)}] 
+        & .883NO2 + .783HO2 + \highlight{.66HCHO} \notag \\
+        & + .4MVK + .26MACR + .07ISOPND \notag \\
+        & + .123HC5 + .1DIBOO + .047ISOPNB \label{mech5} \\
+        RIO2 + HO2 ->[2.91*10^{-13} \exp{(1300/T)}] 
+        & .88RIP + .12OH + .047 MACR \notag \\
+        & + .073MVK + .12HO2 + \highlight{.12HCHO} \label{mech6} \\
+        RIO2 + MO2 ->[8.37*10^{-14}] 
+        & 1.1HO2 + \highlight{1.22HCHO} + .28MVK  \notag\\
+        & + .18MACR + .3HC5 + .24MOH + .24ROH \label{mech7} \\
+        RIO2 + RIO2 ->[1.54*10^{-13}] 
+        & 1.28HO2 + \highlight{.92HCHO} + .56MVK + \notag \\
+        & .36MACR + .48ROH + .5HC5 \label{mech8} \\
+        RIO2 + MCO3 ->[1.68*10^{-12} \exp{(500/T)}] 
+        & .887HO2 + \highlight{.747HCHO} + .453MVK  \notag  \\
+        & +.294MACR + .14HC5 + .113DIBOO  \notag  \\
+        & + CO2 + MO2 \label{mech9}  \\
+        RIO2 + MCO3 ->[1.87*10^{-13} \exp{(500/T)}] 
+        & MEK + ACTA  \label{mech10} 
+      }
+      %     % k1=2.7*10^{-12} \exp{350/T}
+      %     % k2=4.07*10^{8} \exp{-7694/T}
+      %      
+      %\end{split}
+      \end{align} \end{subequations} 
+    
+    \begin{table}
+      \caption{Species and lumped species from the GEOS-Chem mechanism.}
+      \begin{tabular}{ c l }
+        \textbf{Name} & \textbf{Definition} 
+        \\ \hline
+        ACTA    & Acetic acid: CH3C(O)OH \\
+        DIBOO   & Dibble peroxy radical \\
+        GLYC    & Glycoaldehyde: HOCH2CHO \\
+        GLYX    & Glyoxal: CHOCHO \\
+        HAC     & Hydroxyacetone: HOCH2C(O)CH3 \\
+        INO2    &  RO2 from ISOP+NO3    \\  
+        ISNP    & an isoprene nitrate \\
+        ISOPNB  & $\beta$ isoprene nitrates     \\
+        ISOPND  & $\delta$ isoprene nitrates    \\
+        MACR    & Methacrolein: CH2=C(CH3)CHO \\
+        MCO3    & Peroxyacetyl radical: CH3C(O)OO \\
+        MEK     & Methyl ethyl ketone: RC(O)R \\
+        MGLY    & Methylglyoxyal: CH3COCHO \\
+        MO2     & Methylperoxy radical: CH3O2 \\
+        MOH     & Methanol: CH3OH \\
+        MVK     & Methylvinylketone: CH2=CHC(=O)CH3 \\
+        PRPE    & >C3 alkenes: C3H6, ... \\
+        RIO2    & isoprene peroxy radical: \roo   \\
+        ROH     & >C2 alcohols \\
+      \end{tabular}
+      \label{Model:GC:mechanisms:tab_species}
+    \end{table}
+
+  %\subsection{GEOS-Chem isoprene oxidation}
+    \label{Model:GC:Isop}
+    
+    The isoprene reactions simulated by GEOS-Chem were originally described by \textcite{Horowitz1998}.
+    %This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed (for 1998) NMHC chemistry with isoprene reactions and products.
+    The mechanism was subsequently updated by \textcite{Mao2013}, who changed the isoprene nitrate yields and added products based on \textcite{Paulot2009a, Paulot2009b}.
+    %They used anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
+    They used the yields and reactions of various positional isomers of isoprene nitrates, and their oxidation products. %, within GEOS-Chem's suite of chemical mechanisms.
+    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \textcite{Peeters2009, Peeters2010, Crounse2011, Crounse2012}.
+    % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
+    % hpald: hydroperoxyenal, hydroperoxyaldehyde, hydroperoxy-methyl-butenals
+    
+    In part, GEOS-Chem chemistry mechanisms are based on atmospheric chemistry chamber studies.
+    In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
+    Formation of isoprene nitrates (ISOPN) affect ozone levels through NO$_X$ sequestration, the yields and fate of these nitrates was analysed in \textcite{Paulot2009a}.
+    %% ISOPN can be oxidised (by OH) to form nitrated organic products \parencite{Paulot2009a}.
+    Prior to 2012, oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012, Wolfe2012}.
+    In most environments NO and HO$_2$ concentrations are not so high.
+    GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Mao2013}.
+    
+    % roo production, rate and cites
+    \textcite{Crounse2011} examined the isomerisations associated with the oxidation of isoprene to six different isomers of \roo formed in the presence of oxygen.
+    The primary oxidation pathway of isoprene is reaction with the OH radical ($ ISOP + OH \to RIO_2 $) shown in Equation \ref{mech1}.
+    Isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) \roo, although these are not distinguished in the v10 GEOS-Chem mechanism except in the distribution of the isoprene nitrates. 
+    Additional oxidative pathways are from ozonolysis (Equation \ref{mech2}) and reaction with NO$_3$ (Equation \ref{mech3}).
+    These pathways are much slower but can be important in particular scenarios such as inside a pollution plume or at night when NO$_3$ radicals can build up.
+    Following isoprene oxidation, seven potential \roo reactions (RIO2 in Equation \ref{Model:GC:mechanisms:eqn_mechanisms}) can occur depending on reactant concentrations and local temperature.
+    %\textcite{Crounse2011} determined rates and uncertainties involved in these reactions, and studied the rate of formation of C$_5$-hydroperoxyenals (C5-HPALD) by isomerisation.
+    Reactions \ref{mech4} - \ref{mech10} compete to determine the fate of \roo, which is often grouped into high or low NO$_X$ concentration pathways.
+    
+
+    \subsubsection{Nitrogen oxide impacts}
+
+      GEOS-Chem reactions do not distinguish between high and low NO$_x$ scenarios.
+      However, when discussing the likely reactions isoprene undergoes after emission, the dominant reactions generally depend on NO$_x$ levels.
+      High NO$_X$ ($\sim 1$~ppb) has been defined as conditions where NO reactions are the main cause of losses for \roo (Reaction \ref{mech5}) \parencite{Palmer2003}.
+      %low NO$_X$ concentrations are around 0.1~ppb.
+      
+      
+      % Low nox mechanism pathways
+      In low NO$_x$ environments, \roo losses occur from isomerisation or reaction with several compounds.
+      NO$_X$ + HO$_2$ (Reaction \ref{mech6}) produces mostly hydroxy hydroperoxides (ISOPOOH), and some HCHO.
+      ISOPOOH can be oxidised (by OH) to produce epoxydiols, recycling OH \parencite{Paulot2009b}. 
+      %($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), 
+      Isomerisation of \roo (Reaction \ref{mech4}) largely produces HCHO, while recycling OH and producing HO$_2$.
+      This isomerisation accounts for 1,5-H shifts producing MACR, MVK, HCHO, or 1,6-H shifts producing HPALDs.
+      HPALDs can photolyse to regenerate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
+      In low NO$_x$ environments, \roo oxidation has a lower HCHO yield as reaction with HO$_2$ yields 12\% HCHO (compared to 66\% when reacting with NO) \parencite{Mao2013}.
+      %Under low NO$_X$ conditions the expected production of HCHO is 4.7\%. %, MVK, and MACR is 7.3\%, and 12\% respectively.
+      % This only occurs in one of the two loss mechanisms for isopoo, reaction with ho2
+      Refer to Section \ref{LR:VOCs:IsopCascade} for more information.
+      Less frequently, \roo reacts with itself, MO$_2$, or MCO$_3$.
+      
+      % High nox chemistry
+      Under high NO$_X$ conditions, the fate of \roo differs depending on how it was formed.
+      The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
+      The $\delta$-hydroxyl reacts with NO to form $\delta$-hydroxyl nitrates (24\%) (ISOPND), and ISOPNB (6.7\%).
+      These two pathways are combined in Reaction \ref{mech5}. 
+      % , which shows the production from \roo and NO.
+      The numbers in this section are determined in \textcite{Mao2013} and form the basis for some of GEOS-Chem chemical mechanism.
+      
+    \subsubsection{OH regeneration}
+      
+      Isoprene chemistry in GEOS-Chem includes OH regeneration from oxidation of epoxydiols (not shown in Equation \ref{Model:GC:mechanisms:eqn_mechanisms}) and slow isomerisation of \roo (Equation \ref{mech4}) \parencite{Mao2013}.
+      This regeneration dealt with the problem seen in older models where ISOPOOH production titrated OH, which was not backed up by measurements \parencite{Paulot2009b,Mao2013}.
+      Until recently, models struggled to represent OH in the atmosphere, due to missing chemistry and issues in measurement techniques.
+      Prior to \textcite{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside measuring instruments.
+      OH regeneration through photolysis of HPALDs in areas with high isoprene emissions are included in GEOS-Chem based on \textcite{Peeters2010}.
+      Photolysis of photolabile peroxy-acid-aldehydes generates OH, improving model agreement with continental observations.
+      OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and sink of OH \parencite{Peeters2010,Taraborrelli2012}.
+      \textcite{Mao2013} showed that drastically lowering (by a factor of 50) the rate constant for \roo isomerisation lead to better organic nitrate agreements with measurements.% (ICARTT).
+      These chemical updates led to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
+      The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last implemented in the version of GEOS-Chem used in this thesis.
+
+
+  \subsection{Biogenic emissions from MEGAN}
+    \label{Model:GC:MEGAN}
+    
+    GEOS-Chem includes online coupling to the Model of Emissions of Gases and Aerosols from Nature (MEGAN) to determine biogenic emissions globally.
+    GEOS-Chem V10.01 uses MEGAN V2.1 described by \textcite{Guenther2012}.
+    %MEGAN can be run on its own as a global model,  with resolution of around 1~km, which uses globally estimated or measured %(including remote sensed satellite data) 
+    %inventories of parameters to estimate emissions.
+    MEGAN uses leaf area index (LAI), global meteorological data, and photosynthetic photon flux density to simulate terrestrial isoprene emissions \parencite{Kefauver2014}.
+    In GEOS-Chem MEGAN uses high resolution emission factor maps described in \textcite{Guenther2012}. % instead of PFTs
+    The schematic for MEGAN, from \url{http://lar.wsu.edu/megan/}, is shown in Figure \ref{Model:GC:Isop:MEGAN:fig_megan_schematic}.
+    %\textcite{Megan_Website}
+    
+    \begin{figure}
+      \includegraphics[width=\textwidth]{Figures/MEGANmodel_img.jpg}
+      \caption{%
+        MEGAN schematic, from \url{http://lar.wsu.edu/megan/}.
+        In GEOS-Chem, a pre-computed emission factors maps is used for isoprene in lieu of the soil moisture algorithm.
+      }
+      %\textcite{Megan_Website}}
+      \label{Model:GC:Isop:MEGAN:fig_megan_schematic}
+    \end{figure}
+    
+    MEGAN was developed as a replacement for two earlier canopy-environment emission models (the Biogenic Emission Inventory System, and the Global Emissions Initiative), initially including a simple canopy radiative transfer model that parameterised sun-lit and shaded conditions through a canopy.
+    Early models did not account for abiotic stresses, such as drought, prior rainfall and land use changes. 
+    These stresses influence species-specific emissions by more than an order of magnitude \parencite{Niinemets1999}.
+    Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \parencite{Guenther2000}, and a leaf energy balance model \parencite{Guenther2006} in MEGANv2.0.
+    This update included a parameter for soil moisture, to account for drought conditions; however, this parameter is currently (as of version 2.1) not applied in GEOS-Chem \parencite{Sindelarova2014}.
+    %Soil moisture effects on isoprene emission are important, and can affect estimates.
+    Instructions to run version 2.1 are available at \url{http://lar.wsu.edu/megan/docs/MEGAN2.1_User_GuideWSU.pdf}.
+    %, and a version using the Community Land Model (CLM) is available at \url{http://www.cesm.ucar.edu}.
+    %It uses meteorological fields from the Weather Research and Forecasting (WRF) modelling system.
+    Version 2.1 (updated from 2.0 \parencite{Guenther2006}) includes 147 species, in 19 BVOC classes, which are lumped for mechanisms in chemical models.
+    GEOS-Chem uses an embedded version of MEGAN 2.1.
+    
+    GEOS-Chem computes some emissions using predefined emission factor ($\epsilon$) maps from MEGAN source code, and others using PFT maps and associated emission factor relationships.
+    For isoprene (the focus in this thesis) MEGAN calculates emissions online, using local meteorological conditions.
+    % I think this is the case as MEGAN extension is set to ON for isop in HEMCO_Config.rc
+    Emissions $E$ of species $i$ are calculated using these EF for classes of plant types $j$ and associated grid-box coverage $\chi$ and an activity factor $\gamma$, which accounts for response to environmental conditions.
+    The following equation is reproduced from \textcite{Guenther2012} showing how emissions $E_i$ are determined in MEGAN: 
+    %% PFT, LAI, and other parameters are used to generate emissions which represent quantities of a compound released to the atmosphere through an associated activity.
+    \begin{eqnarray} 
+    %\begin{split}
+    \label{Model:GC:MEGAN:eqn_emission_factors}
+    %% EF_{i,j} = 
+    E_i = & \gamma_i \mathlarger{\sum}_j{\epsilon_{i,j} \chi_j}
+    %\end{split} 
+    \end{eqnarray}
+    For example: isoprene emissions are tied to radiation, temperature, plant emission strength ($\epsilon$), and leaf area index, for each grid box.
+    In GEOS-Chem the isoprene emission factors ($EF$) are pre-calculated and the equation becomes $ E_{isoprene} = \gamma_{isoprene} EF $.
+
+
+  \subsection{Nitrogen oxides}
+    \label{Model:GC:NOx}
+    % How NOX affects us and how GEOS-Chem incorporates it
+    NO$_X$ concentrations affect atmospheric oxidative capacity, which changes many factors important in estimating isoprene emissions including isoprene to HCHO yield, isoprene lifetime, and isoprene oxidation pathways.
+    In GEOS-Chem, NO$_X$ concentrations are regulated by O$_3$, VOC, HO$_X$, bromine and aerosols reactions.
+    NO$_X$ emissions from agriculture, power generation, and combustion based transport drive enhancements in populated areas.
+    %(\url{https://data.worldbank.org/indicator/EN.ATM.NOXE.AG.ZS}).
+    In GEOS-Chem, anthropogenic emissions are taken from the Emissions Database for Global Atmospheric Research (EDGAR, for more details visit \url{http://wiki.seas.harvard.edu/geos-chem/index.php/EDGAR_v4.2_anthropogenic_emissions}).
+    % these are mostly from agriculture (70\%) and energy production (9\%) (\url{https://data.worldbank.org/indicator/EN.ATM.NOXE.AG.ZS}).
+    % previous versions had $\sim 21$~Tg N a$^{-1}$ from fossil fuel combustion
+    Other NO$_X$ emissions arise from sources including soil emissions %($\sim 10$~Tg N a$^{-1}$)
+    and lightning.
+    Soil emissions are layed out in \textcite{Hudson2012}, parameterised using biome specific emission factors, and an explicit fertiliser dataset.
+    Lightning based NO$_X$ production is created based on inventories of lightning flash rates scaled within GEOS-Chem.
+    Conversion to nitric acid (HNO$_3$) followed by deposition is the primary NO$_x$ removal mechanism \parencite{Delmas1997, Ayers2006}.
+    
+    % How GEOS-Chem compares to satellite NO
+    %If GEOS-Chem is misrepresenting NO$_X$ then yields and the effects of transport may be incorrectly accounted for.
+    In order to determine the accuracy of GEOS-Chem simulated NO$_X$ over Australia, modelled NO$_2$ amounts are compared to satellite data (where available) for 2005.
+    Figure \ref{Model:analysis:NOx:fig_NO_maps_2005} shows tropospheric NO$_2$ columns from GEOS-Chem, OMI satellite data OMNO2d, and their differences over four seasons in 2005.
+    % Geos chem vs tropno2 from omno2d
+    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 13:00-14:00 local time (LT) are compared against OMNO2d data that are averaged into seasonal \lowhr ~bins. %(Sec. \ref{Model:datasets:OMNO2d}). 
+    Both data sets show Sydney and Melbourne as NO$_2$ hotspots; however, Sydney itself is underestimated by GEOS-Chem throughout the year, likely due to low or poorly aligned emission maps (shown in Figure \ref{Model:analysis:NOx:fig_NO_emiss_maps_2005}).
+    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in the northern areas where up to 50\% underestimation occurs in summer.
+    An underestimation in southern NSW can also be seen in the later half of the year.
+    Notably GEOS-Chem anthropogenic NO does not have any seasonality (Figure \ref{Model:analysis:NOx:fig_NO_emiss_maps_2005}), while soil shows clear differences in emission hotspots between summer and winter.
+    
+    % Figure from GC_tests.py NO_comparisons
+    \mypic{Figures/OMI_link/GC/NO_maps_2005.png}{%
+      Left to right columns show tropospheric NO$_2$ columns ($\Omega_{NO_2}$; molec cm$^{-2}$) from GEOS-Chem (GC), OMNO2d (OMI), and the differences.
+      Each row shows one season from 2005, the left two columns use the left colour scale, while the third column uses the right colour scale.
+    }{\label{Model:analysis:NOx:fig_NO_maps_2005}}
+    
+    % second Figure from GC_tests.py NO_comparisons
+    \mypic{Figures/OMI_link/GC/NO_emiss_maps_2005.png}{%
+      Left and right columns show anthropogenic and soil emissions of NO respectively from GEOS-Chem in molec cm$^{-2}$ s$^{-1}$.
+      Each row shows one season from 2005.
+      Anthropogenic and soil emissions use a logarithmic and linear colour scale respectively.
+    }{\label{Model:analysis:NOx:fig_NO_emiss_maps_2005}}
+    
+    Figure \ref{Model:analysis:NOx:fig_NO_regressions_2005} shows scatter plots with one data point for each land square over Australia, for each season, coloured by total NO emissions.
+    The correlation between model and satellite NO$_2$ columns is reasonable throughout the year over Australia, with a general positive bias throughout the year in modelled amounts.
+    A comparison between the bias (GEOS-Chem - OMNO2d) with anthropogenic or soil emissions (columns 2 and 3 respectively) shows no real correlation, suggesting the bias is not driven by either anthropogenic or soil NO emissions in any season.
+    Without a clear link between emissions and biases, alterations would be too subjective, and a change to NO$_X$ chemistry is beyond the scope of this thesis.
+    Additionally, high satellite NO$_2$ columns are filtered in later calculations that assume biogenic air masses as these high NO$_2$ columns suggest anthropogenic influence.
+    The conclusion drawn is that modelled anthropogenic and soil NO emissions do not show sufficient evidence of biasing GEOS-Chem NO$_2$ columns away from satellite measurements over Australia.
+    For this reason modelled NO emissions are not modified in model runs in this thesis.
+    
+    % Third figure from GC_tests.NO_comparisons
+    \mypic{Figures/OMI_link/GC/NO_regressions_2005.png}{%
+      The first column shows the scatter plots of tropospheric NO$_2$ columns between GEOS-Chem (y-axis) and OMNO2d (x-axis) at \lowhr.
+      The reduced major axis linear regression is drawn in red, and the equation, regression coefficient (r), and number of grid squares (n) used is inlaid as a legend.
+      The second and third columns show the scatter between emissions and the bias between GEOS-Chem and OMNO2d (GC-OMI), for anthropogenic and soil emissions respectively.
+      These two columns share the far right axis; however,emissions are from anthropogenic and soil sources respectively.
+      All scatter points are coloured by the sum of anthropogenic and soil NO emissions (from GEOS-chem), as per the colour bar shown at the bottom.
+    }{\label{Model:analysis:NOx:fig_NO_regressions_2005}}
+
+%    This comparison is expanded, including against modelled emissions, and repeated for autumn (MAM), winter (JJA), and spring (SON) in figures \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:analysis:NOx:fig_GC_vs_OMI_soil_Spr}.
+%    These show an analysis of GEOS-Chem NO emissions and their correlations with the bias between GEOS-Chem NO$_2$ mid-day columns and the OMNO2d product, averaged over each season in 2005.
+%    These figures show the visible biases are not driven by modelled emissions of NO.
+%    While the correlation between column NO$_2$ and emitted NO is clear, emissions do not appear to bias the model in either direction away from the satellite data.
+
+%    Figure \ref{Model:analysis:NOx:fig_GC_vs_OMNO2d_summer_2005} shows the direct comparison between these datasets averaged over the months of January and February, 2005.
+%    The top row shows (from left to right) GEOS-Chem NO$_2$, OMI NO$_2$ at \highhr, and OMI NO$_2$ at \lowhr.
+%    The bottom row shows the difference (absolute, and relative) between GEOS-Chem and OMI, as well as the reduced major axis (RMA) linear fit.
+%    The comparison is repeated for winter (JJA) of 2005 in Figure \ref{Model:analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}.
+
+%    \begin{figure}
+%      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
+%      % Summer correlation
+%      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
+%      \caption{%
+%        Row 1 shows the tropospheric columns in molec cm$^{-2}$, GEOS-Chem, OMNO2d, and OMNO2d averaged onto the lower resolution of GEOS-Chem from left to right.
+%        Row 2 shows the correlations of GEOS-Chem (X axes) between daily anthropogenic emissions, and mid-day OMNO2d columns.
+%        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
+%      }
+%      \label{Model:analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}
+%    \end{figure}
+%    \begin{figure}
+%      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
+%      % Winter correlation
+%      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050601-20050831.png}
+%      \caption{%
+%        As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}, for winter 2005.
+%      }
+%      \label{Model:analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}
+%    \end{figure}
+
+%    % Figures from GC_tests.py GCe_vs_OMNO2d
+%    % TODO update figures re Jenny's comments
+%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050101-20050228.png}
+%    {
+%      Top row (left to right): GEOS-Chem NO$_2$ mid-day tropospheric columns, OMNO2d NO$_2$ columns, modelled anthropogenic NO emissions. 
+%      Second row: absolute and relative difference between GEOS-Chem and OMI NO$_2$ data, and the correlation.
+%      Third row: correlation between GEOS-Chem tropospheric column NO$_2$ and emitted NO, then between the model-satellite bias and the emissions.
+%      All correlation plots are coloured by NO emission rates.
+%    }
+%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}}
+%    
+%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050301-20050531.png}
+%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005.}
+%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Aut}}
+%    
+%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
+%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005.}
+%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Win}}
+%    
+%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
+%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005.}
+%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Spr}}
+%    
+%    % Soil pictures
+%    \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050101-20050228.png}
+%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, except anthropogenic NO emissions are replaced by soil NO emissions.}
+%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_soil_Sum}}
+%    
+%    \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050301-20050531.png}
+%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_soil_Aut}}
+%    
+%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
+%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_soil_Win}}
+%    
+%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
+%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005, with soil NO emissions replacing anthropogenic NO emissions.}
+%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_soil_Spr}}
+
+  
+  \subsection{GEOS-Chem simulations}
+    \label{Model:GC:simulations}
+    
+    GEOS-Chem is run five times independently in this thesis, with different outputs from each simulation used to determine specific information. 
+    The different output types are first described in Section \ref{Model:GC:simulations:outputs}.
+    Following this is the list of model runs, including a summary of the run, outputs created, and a summary of how they are used (Section \ref{Model:GC:simulations:runs}).
+    Finally a brief comparison between a subset of the runs is performed (Section \ref{Model:GC:simulations:comparison}).
+
+% UP TO HERE JENNY
+\subsubsection{GEOS-Chem outputs}
+\label{Model:GC:simulations:outputs}
+
+% Default time step and resolution of GC outputs
+GEOS-Chem in this thesis is run with a 15 minute time step for transport and 30 minutes for chemistry, at \lowhr ~horizontal resolution over 47 vertical levels.
+Output is the average of these time steps.
+Optionally one to many columns can be output at high temporally resolution.
+This has been used here to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
+%For example: in this thesis, estimation of model isoprene to HCHO yields uses daily averaged HCHO columns compared against co-located isoprene emissions.
+
+
+\begin{description}
+  \item[Midday output]%
+  is output from averaging over a window of local time for each gridbox. 
+  Output averaged between 13:00-14:00 local time is saved to match with Aura satellite measurements, as Aura overpasses at $\sim$1330 local time each day.
+  Midday output is saved both for comparison with, and recalculation of, satellite measurements.
+  %This has been performed by others \parencite[e.g.,][]{Jin2017}.
+  \item[HEMCO diagnostics]:%
+  the Harvard-NASA Emissions Component (HEMCO) deals with emissions inventories used in GEOS-Chem.
+  % Local time offsets
+  When working with globally gridded data, handling local time offsets becomes more important.
+  The hourly averaged emissions of isoprene are saved using GMT, and an offset based on the longitude is used to retrieve values at local time.
+  %This is done by setting up a latitude by longitude array that matches the horizontal resolution of the data, filling each grid box with its local time offset.
+  This offset is determined as one hour per 15\degr ~(as 360\degr ~is 24 hours).
+  %The retrieval of a daily local time global array is done by index matching the GMT+local time (modulo 24) with the desired hour on this grid over the 24 GMT hours.
+  % Emissions are averaged over the hour for hemco diag output in biogenic run at least
+  \item[Tracer averages]%
+  are daily or monthly averaged gridbox concentrations. 
+  \item[Time series]%
+  are vertical profiles of ozone and other species and meteorological diagnostics saved at a temporal resolution of up to 15 minutes.
+\end{description}
+
+One issue with modelled outputs over Australia is that they are difficult to compare to in-situ measurements as they are averaged over a large horizontal space and vertical volume.
+
+\subsubsection{GEOS-Chem runs}
+\label{Model:GC:simulations:runs}
+
+The following list summarises each model run as well as enumerating the outputs (described above), and how the run is used in the thesis.
+\begin{description}
+  \item[UCX]%
+  The model was run using the Universal tropospheric-stratospheric Chemistry eXtension (UCX) mechanism with 72 vertical levels from the surface to the top of the atmosphere (TOA $\sim$0.1~hPa).
+  UCX runs a chemistry mechanism with combined tropospheric and stratospheric reactions, with an increased number of stratospheric calculations performed online \parencite{Eastham2014}.
+  \begin{enumerate}
+    \item Outputs: Midday output, daily tracer averages, and time series over three stations.
+    %\item The Midday output is used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry. 
+    %%TODO: Should I add a plot of how the AMF$_{GC}$ changes with/without the UCX? I'll remove this item if it's not worth it.
+    \item This run shows what influence the stratospheric chemistry additions have over tropospheric isoprene, HCHO, and ozone concentrations.
+    \item The daily tracer averages are used to determine ozone intrusion quantification (Section \ref{Ozone:fluxcalc}), and ozone concentration seasonality (Section \ref{Ozone:ModelComparison}).
+    \item Time series outputs are compared against ozonesonde releases (Section \ref{Ozone:ModelComparison}) both over time and vertically.
+  \end{enumerate}
+  
+  \item [Tropchem (standard)]%
+  default settings for GEOS-Chem 10.01, using 47 vertical levels at \lowhr ~horizontal resolution.
+  Additional midday output is created to allow AMF recalculation code to run on OMI satellite measurements (Section \ref{Model:omiRecalc:ppcode}).
+  \begin{enumerate}
+    \item Outputs: Midday output, daily tracer averages, and HEMCO diagnostics
+    \item These are used in recalculation of the satellite AMF (Section \ref{Model:AMF}), and the modelled background HCHO over the remote Pacific that is used in the reference sector correction for OMI column retrievals (Section \ref{Model:omiRecalc:RSC}).
+    Additional diagnostic outputs are used hard coded to allow AMF recalculation.
+    \item Midday output is combined from two different runs in order to determine smearing (Section \ref{Model:filter:smearing})
+    \item Total yearly ozone concentrations are compared before and after scaling isoprene emissions using the top-down estimate.
+  \end{enumerate}
+  
+  \item [Tropchem (isoprene emissions halved)]%
+  identical to standard tropchem except isoprene emissions are halved.
+  \begin{enumerate}
+    \item Outputs: Midday output, and monthly tracer averages 
+    \item Check modelled ozone sensitivity to isoprene emissions (following section Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}).
+    \item Combined with standard run to determine model sensitivity transport (Section \ref{Model:filter:smearing})
+  \end{enumerate}
+  
+  \item [Tropchem (biogenic emissions only)]%
+  identical to standard tropchem except all non-biogenic emissions inventories are disabled.
+  \begin{enumerate}
+    \item Outputs: Midday output, and hourly biogenic emissions from MEGAN
+    \item Midday and HEMCO outputs are used to determine isoprene to HCHO yield, after removing days with high smearing (Section \ref{BioIsop:method:slope})
+    \item HEMCO diagnostics are compared against top-down estimations of isoprene emissions (Section \ref{BioIsop:results:emissions})
+  \end{enumerate}
+  
+  \item [Tropchem (altered MEGAN scaling factor)]%
+  Identical to standard tropchem except isoprene emissions are scaled to match multi-year monthly averaged top-down estimates.
+  \begin{enumerate}
+    \item Midday output, time series, daily averaged tracers
+    \item Compare to campaign datasets after altering isoprene emissions (see Chapter \ref{BioIsop})
+    \item Compare against satellite column HCHO as a sanity check on improving isoprene emissions
+  \end{enumerate}
+\end{description}
+
+\subsubsection{UCX vs tropchem}
+\label{Model:GC:simulations:comparison}
+
+% brief description of both runs resolution
+Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
+%From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
+Both runs use \lowhr ~latitude by longitude; however,the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
+The reduced vertical levels are created by lumping together sets of the higher resolved levels from around 70~hPa to the top of the atmosphere.
+For both runs the input parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
+
+% Figure showing differences between runs HCHO described and analysed
+Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} shows an example of surface HCHO amounts, averaged over Jan and Feb, 2007, with and without the UCX mechanism enabled.
+Surface HCHO (first model level; up to $\sim$100~m) does not differ much between runs.
+The differences do not exceed 3\% over Australia, and absolute differences are minor (note the scale in A-B).
+The major notable difference occurs over northern Africa, where HCHO is around 20\% lower in the UCX run.
+Additionally a slight ($<8\%$) decrease in HCHO over the oceans can be seen.
+The comparison is repeated using total columns (instead of surface values) in Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
+
+\begin{figure}
+  % These figures created in GC_test.py -> UCX_vs_trp...:
+  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_hcho_final.png}
+  \caption{%
+    Surface HCHO simulated by GEOS-Chem with UCX (A: top left), and without UCX (B: top right), along with their absolute and relative differences (bottom left, right respectively).
+    Amounts are the average of all times between 1 Jan and 28 Feb 2007.
+  }
+  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}
+\end{figure}
+
+\begin{figure}
+  % These figures created in GC_test.py -> UCX_vs_trp...:
+  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_hcho.png}
+  \caption{%
+    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} using total column amounts instead of surface concentrations.
+  }
+  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}
+\end{figure}
+
+
+% Differences between run isoprene amounts described and analysed here
+Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
+Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
+Very little isoprene is seen away from the continents (4-5 orders of magnitude less), due to its short lifetime and  lack of oceanic sources.
+Generally isoprene is 0-30\% higher over mid to western Australia when the UCX mechanism is turned on; however,this increase is lower in the regions with high isoprene emissions (north-east to south-east coastline).
+This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}.
+There is a greater effect in Africa and South America in the tropics, with high relative differences in many regions with low absolute amounts.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_isop_final.png}
+  \caption{ %
+    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing isoprene surface concentrations. 
+  }      
+  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_isop_final.png}
+  \caption{ %
+    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}, except showing isoprene total column amounts. 
+  }      
+  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_totcol_fullday}
+\end{figure}
+
+
+The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
+Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX run.
+This shows that UCX ozone is lower everywhere except for a thin band just north and south of the equator.
+With higher stratospheric ozone levels, less radiation would reach the troposphere.
+This would slow photolysis limited reactions, such as the splitting of ozone that leads to OH production in the troposphere, in turn slowing the isoprene loss to OH reactions.
+% hydroxyl radical plot used to be mentioned here
+% is this correct??
+%Decreased O$_3$ could lead to lower OH and the other differences between the runs over Australia.
+
+% Figure from GC_tests->UCX_vs_...
+\mypic{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_O3.png}{%
+  Total column ozone simulated by GEOS-Chem with UCX (A: top left), and without UCX (B: top right), along with their absolute and relative differences (bottom left, right respectively).
+  Amounts are the average of all times between 1 Jan and 28 Feb 2007.
+}{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}}
+
+% Wrap up of UCX vs Tropchem differences and explanation of tropchem usage
+Overall the UCX mechanism and increased vertical resolution lead to slightly higher isoprene and HCHO, and slightly lower ozone over Australia.
+These differences are on the order of 0-10\% and as shown later (see Section \ref{BioIsop:uncertainty}) are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
+Running UCX requires roughly twice the computation (and real) hours, and outside of Chapter \ref{Ozone} the normal tropchem runs are used.
+
+
+%% Ozone surface plot, not useful to explain column 
+%\begin{figure}
+%  % Figure from GC_tests.py -> ucx vs tropchem function
+%  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_O3.png}
+%  \caption{%
+%    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing ozone. 
+%  }
+%  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3_surf_fullday}
+%\end{figure}
+
+%      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday} shows how OH at midday is changed between runs.
+%      This figure shows a marked striping which is due to how OH is handled in GEOS-Chem.
+%      The most notable difference is again over northern Africa into eastern Europe, with some small decrease in the UCX OH over Australia everywhere except the east coast.
+%% Gc_tests.py -> compare_tc_ucx(...)
+%\mypic{Figures/OMI_link/GC/UCX_vs_trp_middaysurf_20070101-20070228_OH.png}{%
+%  Midday (1300-1400~LT) surface OH concentrations averaged over Jan-Feb, 2007. 
+%  Absolute and relative differences are shown on the bottom row.}
+%{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday}}
+
+
+
+
 \section{OMI satellite formaldehyde}
 \label{Model:omhcho}
   
@@ -502,7 +1099,6 @@
     %Filtering
     After being filtered for data quality, pixels are filtered by solar zenith angle (SZA) and latitude, similarly to other works \parencite[e.g.,][]{Marais2012, Barkley2013, Zhu2014, Bauwens2016, Zhu2016}.
     Satellite measurements polewards of 60\degr ~north or south are removed as well as measurements with SZA greater than 60\degr.
-    % UP TO HERE JENNY
     Measurements with high SZA are unlikely to have much information near the surface, and often have high uncertainty in total column retrievals \parencite[e.g.,][]{Stone2015}.
     Pixels with cloud fraction greater than 40\% are removed after determining the reference sector correction (Section \ref{Model:omiRecalc:RSC}), as in \textcite{Abad2015, DeSmedt2015}.
     This removes around 30\% of the pixels that remain after filtering out the bad or missing data.
@@ -626,8 +1222,9 @@
     This bias has been measured as a 13\% positive monthly mean bias \parencite{Palmer2001, Surl2018}.
     %Generally OMI is seen to suffer from a low bias of up to $40\%$ depending on region, local concentrations, and other factors \parencite[e.g.,][]{Barkley2013,DeSmedt2015,Zhu2016}.
     For many places the tropospheric column HCHO measured by satellite is biased low.
+    \textcite{Zhu2016} examine OMHCHO and show a bias of 37\% %20 - 51\% instrument ranges
+    over southeast USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
     %TODO: JENNYNOTE: UPDATE BIAS RANGES TO JUST OMI
-    \textcite{Zhu2016} examine six available datasets and show a bias of 20 - 51\% over southeast USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
     \textcite{DeSmedt2015} also found OMI and GOME2 observations were 20 - 40\% lower than ground based vertical profiles, and \textcite{Barkley2013} determine OMI to be 37\% low compared with aircraft measurements over Guyana.
     %These bias can be corrected by improving the assumed a priori HCHO profiles that are used to calculate the AMFs of the satellite columns.
     \textcite{Millet2006} examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
@@ -644,590 +1241,6 @@
     The importance of a priori and ancillary data (such as surface albedo and cloud top height) sharply affects the structural uncertainty \parencite{Lorente2017}.
     In this thesis the AMF uncertainty is assumed to be $30\%$, as concentrations of HCHO and pollution are relatively low over Australia.
     
-    % UP TO HERE JENNY
-    % JENNY TODO: Need some context for why this section is here. At first glance it seems odd because it is in the middle of the satellite stuff. But I think it is actually here because you need it for the AMF calculation, right? Explain that at the outset. Another option would be to rearrange so you discuss GEOS-Chem first, then move onto OMI HCHO and then the details of that...
-\section{GEOS-Chem}
-  \label{Model:GC}
-
-  \subsection{Overview}
-    % Geos chem is a box model with chemistry and meteorology
-    GEOS-Chem is a global, Eulerian CTM (see Section \ref{LR:Models:ctm}) with a state of the science chemical mechanism, and transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
-    Chemistry, transport, and meteorology are simulated at 15 minute time steps within a global set of 3-D boxes.
-    Emissions are either prescribed by inventories (e.g., fire emissions are prescribed from the global fire emissions database GFED4) or modelled (e.g., biogenic emissions are modelled using MEGAN).
-    % It uses GEOS, from GMAO
-    
-    % This thesis uses 10.01 at 2x2.5 model output
-    GEOS-Chem simulates more than 100 chemical species within the atmosphere, from the earth's surface up to 0.01~hPa.
-    Modelled concentrations can be used in combination with measurements to give a verifiable estimate of atmospheric gases and aerosols in places and times where no measurements exist.
-    It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide.
-    In this thesis I use version 10.01 of GEOS-Chem, which outputs up to 66 chemical species (tracers) in the standard run, at \lowhr ~horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa).
-    
-    
-    Global CTMs are often run using one or several emission models (or the output from them) to determine boundary conditions.
-    Some of the inventories used by GEOS-Chem are described here.
-    Meteorological fields are taken from NASA's GEOS-5 dataset (0.5\degr ~x 0.666\degr) \parencite{Chen2009}, which exists up to April 2013.
-    GEOS-5 meteorological fields are used as the boundary conditions driving transport.
-    % Emissions models used for boundary conditions
-    Fire emissions come from the global fire emissions database (GFED4) product \parencite{Giglio2013}. 
-    Anthropogenic VOC emissions come from the Emission Database for Global Atmospheric Research (EDGAR) inventory, while biogenic VOC emissions are simulated using the MEGAN model (see Section \ref{Model:GC:MEGAN}).
-    MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation.
-    %The estimated biogenic VOC emissions are important are used extensively within this thesis.
-    
-  
-  \subsection{Installing and running GEOS-Chem}
-    \label{Model:GC:running}
-    GEOS-Chem instructions for download, compilation, and running can be found in the user guide provided by Harvard: \url{http://acmg.seas.harvard.edu/geos/doc/man/}.
-    In order to build and run GEOS-Chem a high-speed computing system is optimal, as globally gridded chemical calculations can take a long time to perform (for us $\sim 70$ computation hours per month).
-    I installed GEOS-Chem onto a suitably configured workspace on the Raijin supercomputer at the National Computational Infrastructure (NCI, \url{http://nci.org.au/}).
-    This workspace included access to compilers and libraries that are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
-    %After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
-  
-  \subsection{Chemical Mechanism}
-    \label{Model:GC:mechanisms}
-    A chemical mechanism is a closed system of chemical reactions and their associated rate constants.
-    Chemical reactions are represented by systems of differential equations to be solved for each gridbox in GEOS-Chem.
-    Simplifications are required due to the large number of reactions that occur in the atmosphere, and the coupled and stiff nature of these reactions that slow down computation of the solutions \parencite{BrasseurJacob2017}.
-    Stiffness in chemical systems of differential equations is due to the massively differing reaction time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
-    
-    Some of the important reactions involving isoprene are reproduced here, including reaction rates ($k$) in the form $ k = A \exp{-E/RT}$, where T is temperature, E is activation energy, and R is the gas constant, $A$, $E$, and $R$ are predefined for each reaction.
-    The following set of equations (\ref{Model:GC:mechanisms:eqn_mechanisms}) lists the main isoprene and sundry reactions, with terms defined earlier in Table \ref{Model:GC:mechanisms:tab_species}.
-    LISOPOH is added in order to allow the model to keep track of how much isoprene is oxidised by OH.
-    The mechanisms used in version 10.01 (and its history) are described online at \url{http://wiki.seas.harvard.edu/geos-chem/index.php/NOx-Ox-HC-Aer-Br_chemistry_mechanism}.
-    
-    %globchem.dat in the run directory.
-    % species in http://wiki.seas.harvard.edu/geos-chem/index.php/Species_in_GEOS-Chem#Aerosol-only
-    %Isoprene is ISOP. 
-    %% LISOPOH is isop lost to OH reactions
-    %% RIO2 is the isoprene peroxy radical ISOPOO
-    %% INO2 is a class of products formed from Isop and NO3
-    %% ISOPNB is ISOPN-beta
-    %% ISOPNBO2 is ISOPNB+OH products
-    %% ISNP is an ISOPN 
-    %% PRPE are >C3 alkenes (C3H6, ...)
-    % first line shows reaction rate:
-    %     A nnn <A> xxxExx <-ER>  xxx  xx  xx
-    %  k  =    <A>  exp {<-ER>/T}
-    % T is Temperature
-    
-    \begin{subequations}
-    \label{Model:GC:mechanisms:eqn_mechanisms}
-    \begin{align} %\begin{split}
-    \ce{
-      % A 587 Isop oxidation by OH
-      ISOP + OH ->[3.1*10^{-11} \exp{(350/T})] 
-        & RIO2 ( + LISOPOH) \label{mech1}  \\ 
-      % A606 Isoprene ozonolysis
-      ISOP + O3 ->[1*10^{-14} \exp{(-1970/T})] 
-        & 0.244MVK + .325MACR + \highlight{0.845HCHO} \notag \\
-        & + .11H2O2 + .522CO + .204HCOOH \notag \\
-        & + .199MCO3 +.026HO2 + .27OH \notag \\
-        & + .128PRPE + .051MO2  \label{mech2} \\ 
-      % A621 Isoprene NO3 oxidation
-      ISOP + NO3 ->[3.3*10^{-12} \exp{(-450/T)}] 
-        & INO2 \label{mech3} \\
-      % products from ISOPOO + NO
-      RIO2 ->[4.07*10^{8} \exp{(-7694/T)}] 
-        & 2HO2 + \highlight{HCHO} + .5MGLY + .5GLYC \notag \\
-        & + .5GLYX + .5HAC + OH \label{mech4} \\
-      RIO2 + NO ->[2.7*10^{-12} \exp{(350/T)}] 
-        & .883NO2 + .783HO2 + \highlight{.66HCHO} \notag \\
-        & + .4MVK + .26MACR + .07ISOPND \notag \\
-        & + .123HC5 + .1DIBOO + .047ISOPNB \label{mech5} \\
-      RIO2 + HO2 ->[2.91*10^{-13} \exp{(1300/T)}] 
-        & .88RIP + .12OH + .047 MACR \notag \\
-        & + .073MVK + .12HO2 + \highlight{.12HCHO} \label{mech6} \\
-      RIO2 + MO2 ->[8.37*10^{-14}] 
-        & 1.1HO2 + \highlight{1.22HCHO} + .28MVK  \notag\\
-        & + .18MACR + .3HC5 + .24MOH + .24ROH \label{mech7} \\
-      RIO2 + RIO2 ->[1.54*10^{-13}] 
-        & 1.28HO2 + \highlight{.92HCHO} + .56MVK + \notag \\
-        & .36MACR + .48ROH + .5HC5 \label{mech8} \\
-      RIO2 + MCO3 ->[1.68*10^{-12} \exp{(500/T)}] 
-        & .887HO2 + \highlight{.747HCHO} + .453MVK  \notag  \\
-        & +.294MACR + .14HC5 + .113DIBOO  \notag  \\
-        & + CO2 + MO2 \label{mech9}  \\
-      RIO2 + MCO3 ->[1.87*10^{-13} \exp{(500/T)}] 
-        & MEK + ACTA  \label{mech10} 
-    }
-    %     % k1=2.7*10^{-12} \exp{350/T}
-    %     % k2=4.07*10^{8} \exp{-7694/T}
-    %      
-    %\end{split}
-    \end{align} \end{subequations} 
-    
-    \begin{table}
-      \caption{Species or classes from the GEOS-Chem mechanism.}
-      \begin{tabular}{ c l }
-        \textbf{Name} & \textbf{Definition} 
-        \\ \hline
-        ACTA    & Acetic acid: CH3C(O)OH \\
-        DIBOO   & Dibble peroxy radical \\
-        GLYC    & Glycoaldehyde: HOCH2CHO \\
-        GLYX    & Glyoxal: CHOCHO \\
-        HAC     & Hydroxyacetone: HOCH2C(O)CH3 \\
-        INO2    &  RO2 from ISOP+NO3    \\  
-        ISNP    & an isoprene nitrate \\
-        ISOPNB  & $\beta$ isoprene nitrates     \\
-        ISOPND  & $\delta$ isoprene nitrates    \\
-        MACR    & Methacrolein: CH2=C(CH3)CHO \\
-        MCO3    & Peroxyacetyl radical: CH3C(O)OO \\
-        MEK     & Methyl ethyl ketone: RC(O)R \\
-        MGLY    & Methylglyoxyal: CH3COCHO \\
-        MO2     & Methylperoxy radical: CH3O2 \\
-        MOH     & Methanol: CH3OH \\
-        MVK     & Methylvinylketone: CH2=CHC(=O)CH3 \\
-        PRPE    & >C3 alkenes: C3H6, ... \\
-        RIO2    & isoprene peroxy radical: \roo   \\
-        ROH     & >C2 alcohols \\
-      \end{tabular}
-      \label{Model:GC:mechanisms:tab_species}
-    \end{table}
-    
-  \subsection{GEOS-Chem isoprene}
-    \label{Model:GC:Isop}
-    
-    % outline of papers making up isoprene mechanisms
-    The isoprene reactions simulated by GEOS-Chem were originally based on \textcite{Horowitz1998}.
-    %This involved simulating NO$_X$, O$_3$, and NMHC chemistry in the troposphere at continental scale in three dimensions, with detailed (for 1998) NMHC chemistry with isoprene reactions and products.
-    The mechanism was subsequently updated by \textcite{Mao2013}, who changed the isoprene nitrate yields and added products based on \textcite{Paulot2009a, Paulot2009b}.
-    %They used anion chemical ionization mass spectrometry (CIMS) to determine products of isoprene photooxidation.
-    They used the yields and reactions of various positional isomers of isoprene nitrates, and their oxidation products. %, within GEOS-Chem's suite of chemical mechanisms.
-    Further mechanistic properties, like isomerisation rates, are based on results from four publications: \textcite{Peeters2009, Peeters2010, Crounse2011, Crounse2012}.    
-    % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
-    % hpald: hydroperoxyenal, hydroperoxyaldehyde, hydroperoxy-methyl-butenals
-    
-    In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
-    Formation of isoprene nitrates (ISOPN) affect ozone levels through NO$_X$ sequestration, the yields and fate of these nitrates was analysed in \textcite{Paulot2009a}.
-    %% ISOPN can be oxidised (by OH) to form nitrated organic products \parencite{Paulot2009a}.
-    Prior to 2012, oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012, Wolfe2012}.
-    In most environments NO and HO$_2$ concentrations are not so high, GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Crounse2012}.
-    
-    \subsubsection{Oxidation}
-    
-      % roo production, rate and cites
-      \textcite{Crounse2011} examined the isomerisations associated with the oxidation of isoprene to six different isomers of \roo formed in the presence of oxygen.
-      The primary oxidation pathway of isoprene is reaction with the OH radical ($ ISOP + OH \to RIO_2 $) shown in Equation \ref{mech1}.
-      Isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) \roo, although these are not distinguished in the GEOS-Chem mechanism. 
-      Secondary oxidative pathways are from ozonolysis (Equation \ref{mech2} and reaction with NO$_3$ (Equation \ref{mech3}).
-      These pathways are much slower but can be important in particular scenarios such as inside a pollution plume or at night when NO$_3$ radicals can build up.
-    
-      Following isoprene oxidation, seven potential \roo reactions (RIO2 in Equation \ref{Model:GC:mechanisms:eqn_mechanisms}) can occur depending on reactant concentrations and local temperature.
-      \textcite{Crounse2011} determined rates and uncertainties involved in these reactions, and studied the rate of formation of C$_5$-hydroperoxyenals (C5-HPALD) by isomerisation.
-      Reactions \ref{mech4} - \ref{mech10} compete to determine the fate of \roo, which is often grouped into high or low NO$_X$ concentration pathways.
-      
-    
-    \subsubsection{Nitrogen oxide impacts}
-    
-      GEOS-Chem reactions account for high and low NO$_X$ scenarios as determined in \textcite{Mao2013}, based on \textcite{Paulot2009a}.
-      High NO$_X$ has been defined as conditions where NO reactions are the main cause of losses for \roo (Reaction \ref{mech5}) \parencite{Palmer2003}.
-      High NO$_X$ concentrations are roughly 1~ppb, while low NO$_X$ concentrations are around 0.1~ppb.
-      
-      % Low nox mechanism pathways
-      In low NO$_X$ \roo losses occur from isomerisation or reaction with several potential compounds.
-      NO$_X$ + HO$_2$ (Reaction \ref{mech6}) produces mostly hydroxy hydroperoxides (ISOPOOH), and some HCHO.
-      ISOPOOH can be oxidised (by OH) to produce epoxydiols, recycling OH \parencite{Paulot2009b}. 
-      %($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), 
-      Isomerisation of \roo (Reaction \ref{mech4}) largely produces HCHO, while recycling OH and producing HO$_2$.
-      This isomerisation accounts for 1,5-H shifts producing MACR, MVK, HCHO, or 1,6-H shifts producing HPALDs.
-      HPALDs can photolyse to regenerate OH and small VOCs \parencite{Crounse2011,Wolfe2012, Peeters2014}.
-      Under low NO$_X$ conditions the expected production of HCHO, MVK, and MACR is 4.7\%, 7.3\%, and 12\% respectively.
-      Refer to Section \ref{LR:VOCs:IsopCascade} for more information.
-      Less frequently, \roo reacts with itself, MO$_2$, or MCO$_3$.
-      
-      % High nox chemistry
-      Under high NO$_X$ conditions, the fate of \roo differs depending on how it was formed.
-      The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
-      The $\delta$-hydroxyl reacts with NO to form $\delta$-hydroxyl nitrates (24\%) (ISOPND), and ISOPNB (6.7\%).
-      These two pathways are combined in Reaction \ref{mech5}, which shows the production from \roo and NO.
-      
-      
-    \subsubsection{OH}
-    
-      Until recently, models struggled to represent OH in the atmosphere, due to missing chemistry and issues in measurement techniques.
-      Prior to \textcite{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside measuring instruments.
-      OH regeneration through photolysis of HPALDs in areas with high isoprene emissions are included from \textcite{Peeters2010}.
-      Photolysis of photolabile peroxy-acid-aldehydes generates OH, improving model agreement with continental observations.
-      OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and sink of OH \parencite{Peeters2010,Taraborrelli2012}.
-      Isoprene chemistry in GEOS-Chem includes OH regeneration from oxidation of epoxydiols (not shown in Equation \ref{Model:GC:mechanisms:eqn_mechanisms}) and slow isomerisation of \roo (Equation \ref{mech4}) \parencite{Mao2013}.
-      This regeneration dealt with the problem seen in older models where ISOPOOH production titrated OH, which was not backed up by measurements \parencite{Paulot2009b,Mao2013}.
-      \textcite{Mao2013} showed that drastically lowering (by a factor of 50) the rate constant for \roo isomerisation lead to better organic nitrate agreements with measurements.% (ICARTT).
-      These chemical updates led to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
-      The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last before GEOS-Chem version 11.
-
-  
-  \subsection{Emissions from MEGAN}
-    \label{Model:GC:MEGAN}
-    
-    % General description of MEGAN?
-    
-    GEOS-Chem runs the Model of Emissions of Gases and Aerosols from Nature (MEGAN) to determine biogenic emissions globally.
-    GEOS-Chem V10.01 uses MEGAN V2.1 with biogenic emissions from \textcite{Guenther2012}.
-    MEGAN is itself a global model with resolution of around 1~km, which uses globally estimated or measured %(including remote sensed satellite data) 
-    inventories of parameters to estimate emissions.
-    MEGAN uses leaf area index (LAI), global meteorological data, plant functional types (PFT), and photosynthetic photon flux density to simulate terrestrial isoprene emissions \parencite{Kefauver2014}.
-    The schematic for MEGAN, from \url{http://lar.wsu.edu/megan/}, is shown in Figure \ref{Model:GC:Isop:MEGAN:fig_megan_schematic}.
-    %\textcite{Megan_Website}
-    
-    \begin{figure}
-      \includegraphics[width=\textwidth]{Figures/MEGANmodel_img.jpg}
-      \caption{MEGAN schematic, from \url{http://lar.wsu.edu/megan/}}
-      %\textcite{Megan_Website}}
-      \label{Model:GC:Isop:MEGAN:fig_megan_schematic}
-    \end{figure}
-    
-    MEGAN was developed as a replacement for two earlier canopy-environment emission models (the biogenic emission inventory system, and the global emissions initiative), initially including a simple canopy radiative transfer model that parameterised sun-lit and shaded conditions through a canopy.
-    Early models did not account for abiotic stresses, such as drought, prior rainfall and land use changes. 
-    These stresses influence species-specific emissions by more than an order of magnitude \parencite{Niinemets1999}.
-    Isoprene emissions were based on temperature, leaf area, and light, but have since been updated to include leaf age activity \parencite{Guenther2000}, and a leaf energy balance model \parencite{Guenther2006} in MEGANv2.0.
-    This update included a parameter for soil moisture, to account for drought conditions; however,this parameter is currently (as of version 2.1) not applied to isoprene \parencite{Sindelarova2014}.
-    %Soil moisture effects on isoprene emission are important, and can affect estimates.
-    Instructions to run version 2.1 are available at \url{http://lar.wsu.edu/megan/docs/MEGAN2.1_User_GuideWSU.pdf}.
-    %, and a version using the Community Land Model (CLM) is available at \url{http://www.cesm.ucar.edu}.
-    %It uses meteorological fields from the Weather Research and Forecasting (WRF) modelling system.
-    Version 2.1 (updated from 2.0 \parencite{Guenther2006}) includes 147 species, in 19 BVOC classes, which can be lumped together to provide appropriate output for mechanisms in various chemical models.
-    GEOS-Chem uses an embedded version of MEGAN 2.1.
-    
-    GEOS-Chem computes some emissions using predefined emission factor ($\epsilon$) maps from MEGAN source code, and others using PFT maps and associated emission factors.
-    For isoprene (the focus in this thesis) MEGAN calculates emissions online, using local meteorological conditions.
-    % I think this is the case as MEGAN extension is set to ON for isop in HEMCO_Config.rc
-    Emissions $E$ of species $i$ are calculated using these EF for classes of plant types $j$ and associated grid-box coverage $\xi$ and an activity factor $\gamma$, which accounts for response to environmental conditions.
-    The following equation is reproduced from \textcite{Guenther2012} showing how $E_i$ are determined in MEGAN: 
-    %% PFT, LAI, and other parameters are used to generate emissions which represent quantities of a compound released to the atmosphere through an associated activity.
-    \begin{eqnarray} 
-      %\begin{split}
-      \label{Model:GC:MEGAN:eqn_emission_factors}
-      %% EF_{i,j} = 
-      E_i = & \gamma_i \mathlarger{\sum}_j{\epsilon_{i,j} \chi_j}
-      %\end{split} 
-    \end{eqnarray}
-    For example: isoprene emissions are tied to sunshine, temperature, plant emission strength ($\epsilon$), emitting species coverage, etc., for each grid box.
-    
-  
-  \subsection{Nitrogen oxides}
-  \label{Model:GC:NOx}
-    % How NOX affects us and how GEOS-Chem incorporates it
-    NO$_X$ concentrations affect atmospheric oxidative capacity, which changes many factors important in estimating isoprene emissions including isoprene to HCHO yield, isoprene lifetime, and isoprene oxidation pathways.
-    In GEOS-Chem, NO$_X$ concentrations are regulated by O$_3$, VOC, HO$_X$, Bromine and aerosols reactions.
-    NO$_X$ emissions from nearby agriculture, power generation, and combustion transport drive enhancements in populated areas.
-    The largest source (70\%) of NO$_x$ emissions comes from agriculture where nitrogenous fertilisers are in use \parencite{WorldBankNitrogenEmissionsPage}. %(\url{https://data.worldbank.org/indicator/EN.ATM.NOXE.AG.ZS}).
-    In GEOS-Chem, anthropogenic emissions are taken from the Emissions Database for Global Atmospheric Research (EDGAR), for more details visit \url{http://wiki.seas.harvard.edu/geos-chem/index.php/EDGAR_v4.2_anthropogenic_emissions}.
-    % these are mostly from agriculture (70\%) and energy production (9\%) (\url{https://data.worldbank.org/indicator/EN.ATM.NOXE.AG.ZS}).
-    % previous versions had $\sim 21$~Tg N a$^{-1}$ from fossil fuel combustion
-    Other NO$_X$ emissions arise from sources including soil emissions ($\sim 10$~Tg N a$^{-1}$), and lightning.
-    Soil emissions are layed out in \textcite{Hudson2012}, parameterised using biome specific emission factors, and an explicit fertiliser dataset.
-    Lightning based NO$_X$ production is created based on inventories of lightning flash rates scaled within GEOS-Chem.
-    Conversion to nitric acid (HNO$_3$) followed by deposition is the primary NO$_x$ removal mechanism \parencite{Delmas1997, Ayers2006}.
-    
-    % How GEOS-Chem compares to satellite NO
-    If GEOS-Chem is misrepresenting NO$_X$ then yields and the effects of transport may be incorrectly accounted for.
-    In order to determine the accuracy of GEOS-Chem simulated NO$_X$ over Australia, modelled NO$_2$ amounts are compared to satellite data (where available) for 2005.
-    Figure \ref{Model:analysis:NOx:fig_NO_maps_2005} shows tropospheric NO$_2$ columns from GEOS-Chem, OMNO2d, and their differences over four seasons in 2005.
-    % Geos chem vs tropno2 from omno2d
-    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 13:00-14:00 local time (LT) are compared against OMNO2d data that are averaged into seasonal \lowhr ~bins. %(Sec. \ref{Model:datasets:OMNO2d}). 
-    Both data sets show Sydney and Melbourne as NO$_2$ hotspots; however, Sydney itself is underestimated by GEOS-Chem throughout the year, likely due to low or poorly aligned emission maps (shown in Figure \ref{Model:analysis:NOx:fig_NO_emiss_maps_2005}).
-    Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in the northern areas where up to 50\% underestimation occurs in Summer.
-    An underestimation in southern NSW can also be seen in the later half of the year.
-    Notably GEOS-Chem anthropogenic NO does not have any seasonality (Figure \ref{Model:analysis:NOx:fig_NO_emiss_maps_2005}), while soil shows clear differences in emission hotspots between summer and winter.
-      
-    % Figure from GC_tests.py NO_comparisons
-    \mypic{Figures/OMI_link/GC/NO_maps_2005.png}{%
-      Left to right columns show tropospheric NO$_2$ columns ($\Omega_{NO_2}$; molec cm$^{-2}$) from GEOS-Chem (GC), OMNO2d (OMI), and the differences.
-      Each row shows one season from 2005, the left two columns use the left colour scale, while the third column uses the right colour scale.
-    }{\label{Model:analysis:NOx:fig_NO_maps_2005}}
-    
-    % second Figure from GC_tests.py NO_comparisons
-    \mypic{Figures/OMI_link/GC/NO_emiss_maps_2005.png}{%
-      Left and right columns show anthropogenic and soil emissions of NO respectively from GEOS-Chem in molec cm$^{-2}$ s$^{-1}$.
-      Each row shows one season from 2005.
-      Anthropogenic and soil emissions use a logarithmic and linear colour scale respectively.
-    }{\label{Model:analysis:NOx:fig_NO_emiss_maps_2005}}
-    
-    Figure \ref{Model:analysis:NOx:fig_NO_regressions_2005} shows scatter plots with one data point for each land square over Australia, for each season, coloured by total NO emissions.
-    The correlation between model and satellite NO$_2$ columns is reasonable throughout the year over Australia, with a general positive bias throughout the year in modelled amounts.
-    A comparison between the bias (GEOS-Chem - OMNO2d) with anthropogenic or soil emissions (columns 2 and 3 respectively) shows no real correlation, suggesting the bias is not driven by either anthropogenic or soil NO emissions in any season.
-    Without a clear link between emissions and biases, alterations would be too subjective, and a change to NO$_X$ chemistry is beyond the scope of this thesis.
-    Additionally, high satellite NO$_2$ columns are filtered in later calculations that assume biogenic air masses as they suggest anthropogenic influence.
-    The conclusion drawn is that modelled anthropogenic and soil NO emissions do not show sufficient evidence of biasing GEOS-Chem NO$_2$ columns away from satellite measurements over Australia.
-    For this reason modelled NO emissions are not modified in model runs in this thesis.
-    
-    % Third figure from GC_tests.NO_comparisons
-    \mypic{Figures/OMI_link/GC/NO_regressions_2005.png}{%
-      The first column shows the scatter plots of tropospheric NO$_2$ columns between GEOS-Chem (y-axis) and OMNO2d (x-axis) at \lowhr.
-      The reduced major axis linear regression is drawn in red, and the equation, regression coefficient (r), and number of grid squares (n) used is inlaid as a legend.
-      The second and third columns show the scatter between emissions and the bias between GEOS-Chem and OMNO2d (GC-OMI), for anthropogenic and soil emissions respectively.
-      These two columns share the far right axis; however,emissions are from anthropogenic and soil sources respectively.
-      All scatter points are coloured by the sum of anthropogenic and soil NO emissions (from GEOS-chem), as per the colour bar shown at the bottom.
-    }{\label{Model:analysis:NOx:fig_NO_regressions_2005}}
-    
-    %    This comparison is expanded, including against modelled emissions, and repeated for autumn (MAM), winter (JJA), and spring (SON) in figures \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum} to \ref{Model:analysis:NOx:fig_GC_vs_OMI_soil_Spr}.
-    %    These show an analysis of GEOS-Chem NO emissions and their correlations with the bias between GEOS-Chem NO$_2$ mid-day columns and the OMNO2d product, averaged over each season in 2005.
-    %    These figures show the visible biases are not driven by modelled emissions of NO.
-    %    While the correlation between column NO$_2$ and emitted NO is clear, emissions do not appear to bias the model in either direction away from the satellite data.
-
-    %    Figure \ref{Model:analysis:NOx:fig_GC_vs_OMNO2d_summer_2005} shows the direct comparison between these datasets averaged over the months of January and February, 2005.
-    %    The top row shows (from left to right) GEOS-Chem NO$_2$, OMI NO$_2$ at \highhr, and OMI NO$_2$ at \lowhr.
-    %    The bottom row shows the difference (absolute, and relative) between GEOS-Chem and OMI, as well as the reduced major axis (RMA) linear fit.
-    %    The comparison is repeated for winter (JJA) of 2005 in Figure \ref{Model:analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}.
-    
-    %    \begin{figure}
-    %      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
-    %      % Summer correlation
-    %      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050101-20050228.png}
-    %      \caption{%
-    %        Row 1 shows the tropospheric columns in molec cm$^{-2}$, GEOS-Chem, OMNO2d, and OMNO2d averaged onto the lower resolution of GEOS-Chem from left to right.
-    %        Row 2 shows the correlations of GEOS-Chem (X axes) between daily anthropogenic emissions, and mid-day OMNO2d columns.
-    %        Row 3 shows the differences with OMNO2d columns averaged into the lower resolution of GEOS-Chem.
-    %      }
-    %      \label{Model:analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}
-    %    \end{figure}
-    %    \begin{figure}
-    %      % Figure from GC_tests.py GC_vs_OMNO2d, then modified in paint
-    %      % Winter correlation
-    %      \includegraphics[width=\textwidth]{Figures/OMI_link/GC/GC_vs_OMNO2_AUS_20050601-20050831.png}
-    %      \caption{%
-    %        As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMNO2d_summer_2005}, for winter 2005.
-    %      }
-    %      \label{Model:analysis:NOx:fig_GC_vs_OMNO2d_winter_2005}
-    %    \end{figure}
-    
-%    % Figures from GC_tests.py GCe_vs_OMNO2d
-%    % TODO update figures re Jenny's comments
-%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050101-20050228.png}
-%    {
-%      Top row (left to right): GEOS-Chem NO$_2$ mid-day tropospheric columns, OMNO2d NO$_2$ columns, modelled anthropogenic NO emissions. 
-%      Second row: absolute and relative difference between GEOS-Chem and OMI NO$_2$ data, and the correlation.
-%      Third row: correlation between GEOS-Chem tropospheric column NO$_2$ and emitted NO, then between the model-satellite bias and the emissions.
-%      All correlation plots are coloured by NO emission rates.
-%    }
-%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}}
-%    
-%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050301-20050531.png}
-%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005.}
-%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Aut}}
-%    
-%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
-%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005.}
-%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Win}}
-%    
-%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
-%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005.}
-%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Spr}}
-%    
-%    % Soil pictures
-%    \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050101-20050228.png}
-%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, except anthropogenic NO emissions are replaced by soil NO emissions.}
-%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_soil_Sum}}
-%    
-%    \mypic{Figures/OMI_link/GC/GCsoil_vs_OMNO2_AUS_20050301-20050531.png}
-%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Autumn 2005, with soil NO emissions replacing anthropogenic NO emissions.}
-%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_soil_Aut}}
-%    
-%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050601-20050831.png}
-%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Winter 2005, with soil NO emissions replacing anthropogenic NO emissions.}
-%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_soil_Win}}
-%    
-%    \mypic{Figures/OMI_link/GC/GCanthro_vs_OMNO2_AUS_20050901-20051130.png}
-%    {As Figure \ref{Model:analysis:NOx:fig_GC_vs_OMI_anthro_Sum}, for Spring 2005, with soil NO emissions replacing anthropogenic NO emissions.}
-%    {\label{Model:analysis:NOx:fig_GC_vs_OMI_soil_Spr}}
-        
-  
-  \subsection{GEOS-Chem simulations}
-    \label{Model:GC:simulations}
-    
-    GEOS-Chem is run five times independently in this thesis, with different outputs from each simulation used to determine specific information. 
-    The different output types are first described in Section \ref{Model:GC:simulations:outputs}.
-    Following this is the list of model runs, including a summary of the run, outputs created, and a summary of how they are used (Section \ref{Model:GC:simulations:runs}).
-    Finally a brief comparison between a subset of the runs is performed (Section \ref{Model:GC:simulations:comparison}).
-    
-    \subsubsection{GEOS-Chem outputs}
-      \label{Model:GC:simulations:outputs}
-      
-      % Default time step and resolution of GC outputs
-      GEOS-Chem in this thesis is run with a 15 minute time step for transport and 30 minutes for chemistry, at \lowhr ~horizontal resolution over 47 vertical levels.
-      Output is the average of these time steps.
-      Optionally one to many columns can be output at high temporally resolution.
-      This has been used here to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
-      %For example: in this thesis, estimation of model isoprene to HCHO yields uses daily averaged HCHO columns compared against co-located isoprene emissions.
-      
-
-      \begin{description}
-        \item[Midday output]%
-          is output from averaging over a window of local time for each gridbox. 
-          Output averaged between 13:00-14:00 local time is saved to match with Aura satellite measurements, as Aura overpasses at $\sim$1330 local time each day.
-          Midday output is saved both for comparison with, and recalculation of, satellite measurements.
-          %This has been performed by others \parencite[e.g.,][]{Jin2017}.
-        \item[HEMCO diagnostics]:%
-          the Harvard-NASA Emissions Component (HEMCO) deals with emissions inventories used in GEOS-Chem.
-          % Local time offsets
-          When working with globally gridded data, handling local time offsets becomes more important.
-          The hourly averaged emissions of isoprene are saved using GMT, and an offset based on the longitude is used to retrieve values at local time.
-          %This is done by setting up a latitude by longitude array that matches the horizontal resolution of the data, filling each grid box with its local time offset.
-          This offset is determined as one hour per 15\degr ~(as 360\degr ~is 24 hours).
-          %The retrieval of a daily local time global array is done by index matching the GMT+local time (modulo 24) with the desired hour on this grid over the 24 GMT hours.
-          % Emissions are averaged over the hour for hemco diag output in biogenic run at least
-        \item[Tracer averages]%
-          are daily or monthly averaged gridbox concentrations. 
-        \item[Time series]%
-          are vertical profiles of ozone and other species and meteorological diagnostics saved at a temporal resolution of up to 15 minutes.
-      \end{description}
-    
-    One issue with modelled outputs over Australia is that they are difficult to compare to in-situ measurements as they are averaged over a large horizontal space and vertical volume.
-    
-    \subsubsection{GEOS-Chem runs}
-      \label{Model:GC:simulations:runs}
-      
-      The following list summarises each model run as well as enumerating the outputs (described above), and how the run is used in the thesis.
-      \begin{description}
-        \item[UCX]%
-          The model was run using the Universal tropospheric-stratospheric Chemistry eXtension (UCX) mechanism with 72 vertical levels from the surface to the top of the atmosphere (TOA $\sim$0.1~hPa).
-          UCX runs a chemistry mechanism with combined tropospheric and stratospheric reactions, with an increased number of stratospheric calculations performed online \parencite{Eastham2014}.
-          \begin{enumerate}
-            \item Outputs: Midday output, daily tracer averages, and time series over three stations.
-            %\item The Midday output is used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry. 
-            %%TODO: Should I add a plot of how the AMF$_{GC}$ changes with/without the UCX? I'll remove this item if it's not worth it.
-            \item This run shows what influence the stratospheric chemistry additions have over tropospheric isoprene, HCHO, and ozone concentrations.
-            \item The daily tracer averages are used to determine ozone intrusion quantification (Section \ref{Ozone:fluxcalc}), and ozone concentration seasonality (Section \ref{Ozone:ModelComparison}).
-            \item Time series outputs are compared against ozonesonde releases (Section \ref{Ozone:ModelComparison}) both over time and vertically.
-          \end{enumerate}
-        
-        \item [Tropchem (standard)]%
-          default settings for GEOS-Chem 10.01, using 47 vertical levels at \lowhr ~horizontal resolution.
-          Additional midday output is created to allow AMF recalculation code to run on OMI satellite measurements (Section \ref{Model:omiRecalc:ppcode}).
-          \begin{enumerate}
-            \item Outputs: Midday output, daily tracer averages, and HEMCO diagnostics
-            \item These are used in recalculation of the satellite AMF (Section \ref{Model:AMF}), and the modelled background HCHO over the remote Pacific that is used in the reference sector correction for OMI column retrievals (Section \ref{Model:omiRecalc:RSC}).
-            Additional diagnostic outputs are used hard coded to allow AMF recalculation.
-            \item Midday output is combined from two different runs in order to determine smearing (Section \ref{Model:filter:smearing})
-            \item Total yearly ozone concentrations are compared before and after scaling isoprene emissions using the top-down estimate.
-          \end{enumerate}
-        
-        \item [Tropchem (isoprene emissions halved)]%
-          identical to standard tropchem except isoprene emissions are halved.
-          \begin{enumerate}
-            \item Outputs: Midday output, and monthly tracer averages 
-            \item Check modelled ozone sensitivity to isoprene emissions (following section Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}).
-            \item Combined with standard run to determine model sensitivity transport (Section \ref{Model:filter:smearing})
-          \end{enumerate}
-        
-        \item [Tropchem (biogenic emissions only)]%
-          identical to standard tropchem except all non-biogenic emissions inventories are disabled.
-          \begin{enumerate}
-            \item Outputs: Midday output, and hourly biogenic emissions from MEGAN
-            \item Midday and HEMCO outputs are used to determine isoprene to HCHO yield, after removing days with high smearing (Section \ref{BioIsop:method:slope})
-            \item HEMCO diagnostics are compared against top-down estimations of isoprene emissions (Section \ref{BioIsop:results:emissions})
-          \end{enumerate}
-        
-        \item [Tropchem (altered MEGAN scaling factor)]%
-          Identical to standard tropchem except isoprene emissions are scaled to match multi-year monthly averaged top-down estimates.
-          \begin{enumerate}
-            \item Midday output, time series, daily averaged tracers
-            \item Compare to campaign datasets after altering isoprene emissions (see Chapter \ref{BioIsop})
-            \item Compare against satellite column HCHO as a sanity check on improving isoprene emissions
-          \end{enumerate}
-      \end{description}
-    
-    \subsubsection{UCX vs tropchem}
-      \label{Model:GC:simulations:comparison}
-      
-      % brief description of both runs resolution
-      Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
-      %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
-      Both runs use \lowhr ~latitude by longitude; however,the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
-      The reduced vertical levels are created by lumping together sets of the higher resolved levels from around 70~hPa to the top of the atmosphere.
-      For both runs the input parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
-      
-      % Figure showing differences between runs HCHO described and analysed
-      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} shows an example of surface HCHO amounts, averaged over Jan and Feb, 2007, with and without the UCX mechanism enabled.
-      Surface HCHO (first model level; up to $\sim$100~m) does not differ much between runs.
-      The differences do not exceed 3\% over Australia, and absolute differences are minor (note the scale in A-B).
-      The major notable difference occurs over northern Africa, where HCHO is around 20\% lower in the UCX run.
-      Additionally a slight ($<8\%$) decrease in HCHO over the oceans can be seen.
-      The comparison is repeated using total columns (instead of surface values) in Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
-      
-      \begin{figure}
-        % These figures created in GC_test.py -> UCX_vs_trp...:
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_hcho_final.png}
-        \caption{%
-          Surface HCHO simulated by GEOS-Chem with UCX (A: top left), and without UCX (B: top right), along with their absolute and relative differences (bottom left, right respectively).
-          Amounts are the average of all times between 1 Jan and 28 Feb 2007.
-        }
-        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}
-      \end{figure}
-      
-      \begin{figure}
-        % These figures created in GC_test.py -> UCX_vs_trp...:
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_hcho.png}
-        \caption{%
-          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} using total column amounts instead of surface concentrations.
-        }
-        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}
-      \end{figure}
-      
-
-      % Differences between run isoprene amounts described and analysed here
-      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
-      Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
-      Very little isoprene is seen away from the continents (4-5 orders of magnitude less), due to its short lifetime and  lack of oceanic sources.
-      Generally isoprene is 0-30\% higher over mid to western Australia when the UCX mechanism is turned on; however,this increase is lower in the regions with high isoprene emissions (north-east to south-east coastline).
-      This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}.
-      There is a greater effect in Africa and South America in the tropics, with high relative differences in many regions with low absolute amounts.
-      
-      \begin{figure}
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_isop_final.png}
-        \caption{ %
-          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing isoprene surface concentrations. 
-        }      
-        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}
-      \end{figure}
-      \begin{figure}
-        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_isop_final.png}
-        \caption{ %
-          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}, except showing isoprene total column amounts. 
-        }      
-        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_totcol_fullday}
-      \end{figure}
-      
-      
-      The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
-      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX run.
-      This shows that UCX ozone is lower everywhere except for a thin band just north and south of the equator.
-      With higher stratospheric ozone levels, less radiation would reach the troposphere.
-      This would slow photolysis limited reactions, such as the splitting of ozone that leads to OH production in the troposphere, in turn slowing the isoprene loss to OH reactions.
-      % hydroxyl radical plot used to be mentioned here
-      % is this correct??
-      %Decreased O$_3$ could lead to lower OH and the other differences between the runs over Australia.
-      
-      % Figure from GC_tests->UCX_vs_...
-      \mypic{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_O3.png}{%
-        Total column ozone simulated by GEOS-Chem with UCX (A: top left), and without UCX (B: top right), along with their absolute and relative differences (bottom left, right respectively).
-        Amounts are the average of all times between 1 Jan and 28 Feb 2007.
-      }{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}}
-      
-      % Wrap up of UCX vs Tropchem differences and explanation of tropchem usage
-      Overall the UCX mechanism and increased vertical resolution lead to slightly higher isoprene and HCHO, and slightly lower ozone over Australia.
-      These differences are on the order of 0-10\% and as shown later (see Section \ref{BioIsop:uncertainty}) are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
-      Running UCX requires roughly twice the computation (and real) hours, and outside of Chapter \ref{Ozone} the normal tropchem runs are used.
-      
-      
-      %% Ozone surface plot, not useful to explain column 
-      %\begin{figure}
-      %  % Figure from GC_tests.py -> ucx vs tropchem function
-      %  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_O3.png}
-      %  \caption{%
-      %    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing ozone. 
-      %  }
-      %  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3_surf_fullday}
-      %\end{figure}
-      
-      %      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday} shows how OH at midday is changed between runs.
-      %      This figure shows a marked striping which is due to how OH is handled in GEOS-Chem.
-      %      The most notable difference is again over northern Africa into eastern Europe, with some small decrease in the UCX OH over Australia everywhere except the east coast.
-      %% Gc_tests.py -> compare_tc_ucx(...)
-      %\mypic{Figures/OMI_link/GC/UCX_vs_trp_middaysurf_20070101-20070228_OH.png}{%
-      %  Midday (1300-1400~LT) surface OH concentrations averaged over Jan-Feb, 2007. 
-      %  Absolute and relative differences are shown on the bottom row.}
-      %{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday}}
-  
 
 \section{Calculating new AMF}
   \label{Model:AMF}
