@@ -694,10 +694,11 @@
     
     % Third figure from GC_tests.NO_comparisons
     \mypic{Figures/OMI_link/GC/NO_regressions_2005.png}{%
-      The first column shows the scatter plots of tropospheric NO$_2$ columns between GEOS-Chem (y-axis) and OMNO2d (x-axis) at \lowhr.
+      The first column shows scatter plots of tropospheric NO$_2$ columns between GEOS-Chem (y-axis) and OMNO2d (x-axis) at \lowhr.
       The reduced major axis linear regression is drawn in red, and the equation, regression coefficient (r), and number of grid squares (n) used is inlaid as a legend.
       The second and third columns show the scatter between emissions and the bias between GEOS-Chem and OMNO2d (GC-OMI), for anthropogenic and soil emissions respectively.
-      These two columns share the far right axis; however,emissions are from anthropogenic and soil sources respectively.
+      The third column has a different x-axis scale for each season.
+      These right two columns share the far right axis; however,emissions are from anthropogenic and soil sources respectively.
       All scatter points are coloured by the sum of anthropogenic and soil NO emissions (from GEOS-chem), as per the colour bar shown at the bottom.
     }{\label{Model:analysis:NOx:fig_NO_regressions_2005}}
 
@@ -781,99 +782,99 @@
     Following this is the list of model runs, including a summary of the run, outputs created, and a summary of how they are used (Section \ref{Model:GC:simulations:runs}).
     Finally a brief comparison between a subset of the runs is performed (Section \ref{Model:GC:simulations:comparison}).
 
-% UP TO HERE JENNY
+
 \subsubsection{GEOS-Chem outputs}
-\label{Model:GC:simulations:outputs}
-
-% Default time step and resolution of GC outputs
-GEOS-Chem in this thesis is run with a 15 minute time step for transport and 30 minutes for chemistry, at \lowhr ~horizontal resolution over 47 vertical levels.
-Output is the average of these time steps.
-Optionally one to many columns can be output at high temporally resolution.
-This has been used here to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
-%For example: in this thesis, estimation of model isoprene to HCHO yields uses daily averaged HCHO columns compared against co-located isoprene emissions.
-
-
-\begin{description}
-  \item[Midday output]%
-  is output from averaging over a window of local time for each gridbox. 
-  Output averaged between 13:00-14:00 local time is saved to match with Aura satellite measurements, as Aura overpasses at $\sim$1330 local time each day.
-  Midday output is saved both for comparison with, and recalculation of, satellite measurements.
-  %This has been performed by others \parencite[e.g.,][]{Jin2017}.
-  \item[HEMCO diagnostics]:%
-  the Harvard-NASA Emissions Component (HEMCO) deals with emissions inventories used in GEOS-Chem.
-  % Local time offsets
-  When working with globally gridded data, handling local time offsets becomes more important.
-  The hourly averaged emissions of isoprene are saved using GMT, and an offset based on the longitude is used to retrieve values at local time.
-  %This is done by setting up a latitude by longitude array that matches the horizontal resolution of the data, filling each grid box with its local time offset.
-  This offset is determined as one hour per 15\degr ~(as 360\degr ~is 24 hours).
-  %The retrieval of a daily local time global array is done by index matching the GMT+local time (modulo 24) with the desired hour on this grid over the 24 GMT hours.
-  % Emissions are averaged over the hour for hemco diag output in biogenic run at least
-  \item[Tracer averages]%
-  are daily or monthly averaged gridbox concentrations. 
-  \item[Time series]%
-  are vertical profiles of ozone and other species and meteorological diagnostics saved at a temporal resolution of up to 15 minutes.
-\end{description}
-
-One issue with modelled outputs over Australia is that they are difficult to compare to in-situ measurements as they are averaged over a large horizontal space and vertical volume.
-
-\subsubsection{GEOS-Chem runs}
-\label{Model:GC:simulations:runs}
-
-The following list summarises each model run as well as enumerating the outputs (described above), and how the run is used in the thesis.
-\begin{description}
-  \item[UCX]%
-  The model was run using the Universal tropospheric-stratospheric Chemistry eXtension (UCX) mechanism with 72 vertical levels from the surface to the top of the atmosphere (TOA $\sim$0.1~hPa).
-  UCX runs a chemistry mechanism with combined tropospheric and stratospheric reactions, with an increased number of stratospheric calculations performed online \parencite{Eastham2014}.
-  \begin{enumerate}
-    \item Outputs: Midday output, daily tracer averages, and time series over three stations.
-    %\item The Midday output is used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry. 
-    %%TODO: Should I add a plot of how the AMF$_{GC}$ changes with/without the UCX? I'll remove this item if it's not worth it.
-    \item This run shows what influence the stratospheric chemistry additions have over tropospheric isoprene, HCHO, and ozone concentrations.
-    \item The daily tracer averages are used to determine ozone intrusion quantification (Section \ref{Ozone:fluxcalc}), and ozone concentration seasonality (Section \ref{Ozone:ModelComparison}).
-    \item Time series outputs are compared against ozonesonde releases (Section \ref{Ozone:ModelComparison}) both over time and vertically.
-  \end{enumerate}
+  \label{Model:GC:simulations:outputs}
   
-  \item [Tropchem (standard)]%
-  default settings for GEOS-Chem 10.01, using 47 vertical levels at \lowhr ~horizontal resolution.
-  Additional midday output is created to allow AMF recalculation code to run on OMI satellite measurements (Section \ref{Model:omiRecalc:ppcode}).
-  \begin{enumerate}
-    \item Outputs: Midday output, daily tracer averages, and HEMCO diagnostics
-    \item These are used in recalculation of the satellite AMF (Section \ref{Model:AMF}), and the modelled background HCHO over the remote Pacific that is used in the reference sector correction for OMI column retrievals (Section \ref{Model:omiRecalc:RSC}).
-    Additional diagnostic outputs are used hard coded to allow AMF recalculation.
-    \item Midday output is combined from two different runs in order to determine smearing (Section \ref{Model:filter:smearing})
-    \item Total yearly ozone concentrations are compared before and after scaling isoprene emissions using the top-down estimate.
-  \end{enumerate}
+  % Default time step and resolution of GC outputs
+  GEOS-Chem in this thesis is run with a 15 minute time step for transport and 30 minutes for chemistry, at \lowhr ~horizontal resolution over 47 vertical levels.
+  Output is the average over many of these time steps.
+  Optionally one to many columns can be output at high temporal resolution.
+  This feature has been used here to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
+  %For example: in this thesis, estimation of model isoprene to HCHO yields uses daily averaged HCHO columns compared against co-located isoprene emissions.
   
-  \item [Tropchem (isoprene emissions halved)]%
-  identical to standard tropchem except isoprene emissions are halved.
-  \begin{enumerate}
-    \item Outputs: Midday output, and monthly tracer averages 
-    \item Check modelled ozone sensitivity to isoprene emissions (following section Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}).
-    \item Combined with standard run to determine model sensitivity transport (Section \ref{Model:filter:smearing})
-  \end{enumerate}
   
-  \item [Tropchem (biogenic emissions only)]%
-  identical to standard tropchem except all non-biogenic emissions inventories are disabled.
-  \begin{enumerate}
-    \item Outputs: Midday output, and hourly biogenic emissions from MEGAN
-    \item Midday and HEMCO outputs are used to determine isoprene to HCHO yield, after removing days with high smearing (Section \ref{BioIsop:method:slope})
-    \item HEMCO diagnostics are compared against top-down estimations of isoprene emissions (Section \ref{BioIsop:results:emissions})
-  \end{enumerate}
+  \begin{description}
+    \item[Midday output]%
+    is output from averaging over a window of local time for each gridbox. 
+    Output averaged between 13:00-14:00 local time is saved to match with Aura satellite measurements, as Aura overpasses at $\sim$1330 local time each day.
+    Midday output is saved both for comparison with, and recalculation of, satellite measurements.
+    %This has been performed by others \parencite[e.g.,][]{Jin2017}.
+    \item[HEMCO diagnostics]%
+    the Harvard-NASA Emissions Component (HEMCO) deals with emissions inventories used in GEOS-Chem.
+    % Local time offsets
+    When working with globally gridded data, handling local time offsets becomes more important.
+    The hourly averaged emissions of isoprene are saved using GMT, and an offset based on the longitude is used to retrieve values at local time.
+    %This is done by setting up a latitude by longitude array that matches the horizontal resolution of the data, filling each grid box with its local time offset.
+    This offset is determined as one hour per 15\degr ~(as 360\degr ~is 24 hours).
+    %The retrieval of a daily local time global array is done by index matching the GMT+local time (modulo 24) with the desired hour on this grid over the 24 GMT hours.
+    % Emissions are averaged over the hour for hemco diag output in biogenic run at least
+    \item[Tracer averages]%
+    are daily or monthly averaged gridbox concentrations. 
+    \item[Time series]%
+    are vertical profiles of ozone and other species and meteorological diagnostics saved at a temporal resolution of up to 15 minutes.
+  \end{description}
   
-  \item [Tropchem (altered MEGAN scaling factor)]%
-  Identical to standard tropchem except isoprene emissions are scaled to match multi-year monthly averaged top-down estimates.
-  \begin{enumerate}
-    \item Midday output, time series, daily averaged tracers
-    \item Compare to campaign datasets after altering isoprene emissions (see Chapter \ref{BioIsop})
-    \item Compare against satellite column HCHO as a sanity check on improving isoprene emissions
-  \end{enumerate}
-\end{description}
+  One issue with modelled outputs over Australia is that they are difficult to compare to in-situ measurements as they are averaged over a large horizontal space and vertical volume.
+  
+  \subsubsection{GEOS-Chem runs}
+  \label{Model:GC:simulations:runs}
+  
+  The following list summarises each model run as well as enumerating the outputs (described above), and how the run is used in the thesis.
+  \begin{description}
+    \item[UCX]%
+    The model was run using the Universal tropospheric-stratospheric Chemistry eXtension (UCX) mechanism with 72 vertical levels from the surface to the top of the atmosphere (TOA $\sim$0.1~hPa).
+    UCX runs a chemistry mechanism with combined tropospheric and stratospheric reactions, with an increased number of stratospheric calculations performed online relative to the default (tropospheric chemistry) simulation \parencite{Eastham2014}.
+    \begin{enumerate}
+      \item Outputs: Midday output, daily tracer averages, and time series over three stations.
+      %\item The Midday output is used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry. 
+      %%TODO: Should I add a plot of how the AMF$_{GC}$ changes with/without the UCX? I'll remove this item if it's not worth it.
+      \item This run shows what influence the stratospheric chemistry additions have over tropospheric isoprene, HCHO, and ozone concentrations.
+      \item The daily tracer averages are used to determine ozone intrusion quantification (Section \ref{Ozone:fluxcalc}), and ozone concentration seasonality (Section \ref{Ozone:ModelComparison}).
+      \item Time series outputs are compared against ozonesonde releases (Section \ref{Ozone:ModelComparison}) both over time and vertically.
+    \end{enumerate}
+    
+    \item [Tropchem (standard)]%
+    default settings for GEOS-Chem 10.01, using 47 vertical levels at \lowhr ~horizontal resolution.
+    Additional midday output is created to allow AMF recalculation code to run on OMI satellite measurements (Section \ref{Model:omiRecalc:ppcode}).
+    \begin{enumerate}
+      \item Outputs: Midday output, daily tracer averages, and HEMCO diagnostics
+      \item These are used in recalculation of the satellite AMF (Section \ref{Model:AMF}), and the modelled background HCHO over the remote Pacific that is used in the reference sector correction for OMI column retrievals (Section \ref{Model:omiRecalc:RSC}).
+      Additional diagnostic outputs are added by the author to allow AMF recalculation.
+      \item Midday output is combined from two different runs in order to determine smearing of the isoprene-to-HCHO relationship (Section \ref{Model:filter:smearing})
+      \item Total yearly ozone concentrations are compared before and after scaling isoprene emissions using the top-down estimate.
+    \end{enumerate}
+    
+    \item [Tropchem (isoprene emissions halved)]%
+    identical to standard tropchem except isoprene emissions are halved.
+    \begin{enumerate}
+      \item Outputs: Midday output, and monthly tracer averages 
+      \item They are used to check modelled ozone sensitivity to isoprene emissions (following section Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}).
+      \item They are also combined with the standard run to determine model sensitivity to transport (Section \ref{Model:filter:smearing})
+    \end{enumerate}
+    
+    \item [Tropchem (biogenic emissions only)]%
+    identical to standard tropchem except all non-biogenic emissions inventories are disabled.
+    \begin{enumerate}
+      \item Outputs: Midday output, and hourly biogenic emissions from MEGAN
+      \item Midday and HEMCO outputs are used to determine isoprene to HCHO yield, after removing days with high smearing (Section \ref{BioIsop:method:slope})
+      \item HEMCO diagnostics are compared against top-down estimations of isoprene emissions (Section \ref{BioIsop:results:emissions})
+    \end{enumerate}
+    
+    \item [Tropchem (altered MEGAN scaling factor)]%
+    Identical to standard tropchem except isoprene emissions are scaled to match multi-year monthly averaged top-down estimates.
+    \begin{enumerate}
+      \item Outputs: midday output, time series, daily averaged tracers
+      \item These are used to compare to campaign datasets after altering isoprene emissions (see Chapter \ref{BioIsop})
+      \item They are also used to compare against satellite column HCHO as a sanity check on improving isoprene emissions
+    \end{enumerate}
+  \end{description}
 
 \subsubsection{UCX vs tropchem}
 \label{Model:GC:simulations:comparison}
 
 % brief description of both runs resolution
-Here we compare the model output with and without enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
+Here the model output is analysed before and after enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
 %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
 Both runs use \lowhr ~latitude by longitude; however,the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
 The reduced vertical levels are created by lumping together sets of the higher resolved levels from around 70~hPa to the top of the atmosphere.
@@ -883,9 +884,10 @@ For both runs the input parameters such as MEGAN emissions and GEOS-5 meteorolog
 Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} shows an example of surface HCHO amounts, averaged over Jan and Feb, 2007, with and without the UCX mechanism enabled.
 Surface HCHO (first model level; up to $\sim$100~m) does not differ much between runs.
 The differences do not exceed 3\% over Australia, and absolute differences are minor (note the scale in A-B).
-The major notable difference occurs over northern Africa, where HCHO is around 20\% lower in the UCX run.
+The major notable difference occurs over northern Africa, where HCHO is around 20\% lower in the UCX run (although absolute HCHO is relatively low in this region).
 Additionally a slight ($<8\%$) decrease in HCHO over the oceans can be seen.
 The comparison is repeated using total columns (instead of surface values) in Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
+Differences over Australia in total column HCHO are small, and these are the values used in this thesis.
 
 \begin{figure}
   % These figures created in GC_test.py -> UCX_vs_trp...:
@@ -901,7 +903,7 @@ The comparison is repeated using total columns (instead of surface values) in Fi
   % These figures created in GC_test.py -> UCX_vs_trp...:
   \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_hcho.png}
   \caption{%
-    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} using total column amounts instead of surface concentrations.
+    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} but using total column amounts instead of surface concentrations.
   }
   \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}
 \end{figure}
@@ -909,11 +911,11 @@ The comparison is repeated using total columns (instead of surface values) in Fi
 
 % Differences between run isoprene amounts described and analysed here
 Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
-Here we start to see a higher relative difference in concentrations, although this is generally over the areas with less absolute concentrations. 
+Here we start to see a higher relative difference in concentrations, although this is generally over the areas with lower absolute concentrations. 
 Very little isoprene is seen away from the continents (4-5 orders of magnitude less), due to its short lifetime and  lack of oceanic sources.
 Generally isoprene is 0-30\% higher over mid to western Australia when the UCX mechanism is turned on; however,this increase is lower in the regions with high isoprene emissions (north-east to south-east coastline).
 This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}.
-There is a greater effect in Africa and South America in the tropics, with high relative differences in many regions with low absolute amounts.
+There is a greater effect in Africa and South America in the tropics, with high relative differences in many regions with low absolute amounts, but very small differences in locations where isoprene is strongly emitted.
 
 \begin{figure}
   \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_isop_final.png}
@@ -930,7 +932,7 @@ There is a greater effect in Africa and South America in the tropics, with high 
   \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_totcol_fullday}
 \end{figure}
 
-
+% UP TO HERE JENNY
 The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
 Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX run.
 This shows that UCX ozone is lower everywhere except for a thin band just north and south of the equator.
