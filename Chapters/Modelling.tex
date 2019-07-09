@@ -348,6 +348,7 @@
         Profile is averaged between November 2007 and April 2013.
       }{\label{Model:datasets:wollongong_ftir:fig_apriori}}
       
+      % Picture from tests/campaign_tests.ftir_method_plots
       \mypic{Figures/OMI_link/FTIR_midday_AK.png}{%
         Left panel shows the mean midday (13:00 - 14:00 local time) total column averaging kernel, along with the inter-quartile range (IQR) between November 2007 and April 2013. 
         Right panel shows the mean averaging kernel for the vertical profile over the same time period, coloured by vertical level.
@@ -1817,7 +1818,6 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
       
     %\textcite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15\times{T}-9.07)$.
     
-    % UP TO HERE JENNY
   \subsection{Anthropogenic filter}
     \label{Model:filter:NOx}
     
@@ -1829,61 +1829,63 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
     
     % Nox analysis from OMNO2d
     NO$_2$ columns near several major cities in south eastern Australia over 2005 are used to determine a suitable threshold for anthropogenic influence.
-    The mean, standard deviation, and time series over Australia of tropospheric NO$_2$ measured by satellite is shown in Figure \ref{Model:filter:NOx:fig_omno2_timeseries}.
-    Tropospheric NO$_2$ columns averaged within all of Australia and each region is shown in Figure \ref{Model:filter:NOx:fig_omno2_timeseries}.
+    The mean and standard deviation of tropospheric NO$_2$ over Australia of measured by satellite is shown in Figure \ref{Model:filter:NOx:fig_omno2_timeseries}.
+    %Tropospheric NO$_2$ columns averaged within all of Australia and each region is shown in Figure \ref{Model:filter:NOx:fig_omno2_timeseries}.
     Anthropogenic influences are clearly visible near major cities in Australia, and some influence can be seen along nearly every coastline.
     
     %Figure from !??
     \mypic{Figures/OMI_link/OMNO2_timeseries_2005_final.png}{%
-      Mean (top left) and standard deviation (top right) of OMNO2d daily 0.25\degr$ \times 0.25 $\degr ~tropospheric cloud filtered NO$_2$ columns. 
-      Time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right. 
-      The grey shaded area depicts the 25th to 75th percentiles of Australia averaged NO$_2$ columns for each day in the time series, with a thicker black line showing the Australia-wide mean value.}
+      Mean (left) and standard deviation (right) of OMNO2d daily 0.25\degr$ \times 0.25 $\degr ~tropospheric cloud filtered NO$_2$ columns. 
+      %Time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right. 
+      %The grey shaded area depicts the 25th to 75th percentiles of Australia averaged NO$_2$ columns for each day in the time series, with a thicker black line showing the Australia-wide mean value.}
     {\label{Model:filter:NOx:fig_omno2_timeseries}}
     
     % Filters and Threshhold determination and reasoning
-    The anthropogenic filter is created for each year from in two steps:
+    The anthropogenic filter is created for each year in two steps:
     \begin{enumerate}
       \item Daily grid squares with NO$_2$ greater than $1.5\times10^{15}$\moleccm  ~are flagged as anthropogenic.
-      \item After taking the yearly average for each grid square, any tropospheric NO$_2$ columns greater than $2 \times 10^{15}$\moleccm are flagged for the whole year.
+      \item After taking the yearly average for each grid square, any tropospheric NO$_2$ columns greater than $2 \times 10^{15}$\moleccm ~are flagged for the whole year.
     \end{enumerate}
-    These thresholds are chosen subjectively through trial and error so as to ensure the removal of definite anthropogenic influence while not removing too many data points over near uninhabited portions of Australia.
-    These thresholds completely remove grid squares over major cities that are likely emitting NMVOCs year round, and also frequently remove grid squares down wind.
-    The affects of applying this filter to the OMNO2d product itself can be seen in Figure \ref{Model:filter:NOx:fig_omno2_threshaffect}.
+    These thresholds are chosen subjectively to ensure the removal of definite anthropogenic influence while not removing too many data points over nearly uninhabited portions of Australia.
+    These thresholds completely remove grid squares over major cities that are likely emitting NMVOCs year round, and also frequently remove grid squares downwind.
+    The effects of applying this filter to the OMNO2d product itself can be seen in Figure \ref{Model:filter:NOx:fig_omno2_threshaffect}.
     Areas over Sydney and Melbourne tend to oscillate around the upper quartile of Australian NO$_2$ tropospheric columns once the filter is applied.
-    Many coastal regions show some effect from the filtering, and Sydney, Melbourne, and east of Melbourne are completely removed.
+    Many coastal regions show some effect from the filtering, and Sydney, Melbourne, and the La Trobe Valley (east of Melbourne) are completely removed.
     
     % Figure from chapter_2_modelling.no2_thresh()
-    \mypic{Figures/OMI_link/OMNO2_thresheffect_2005.png}{%
-      Top row: 2005 OMNO2d NO$_2$ column mean before (left) and after (right) applying the threshold filters as described in the text.
-      Bottom row: time series for Australia, and each region (by colour) shown in the bottom panel, with mean for that region shown on the right.
-      The time series before (left) and after (right) applying the anthropogenic filter are shown, the dashed and dotted horizontal lines show daily and yearly mean thresholds respectively.}
+    \mypic{Figures/OMI_link/OMNO2_thresheffect_2005_final.png}{%
+      Top row: 2005 OMNO2d NO$_2$ column mean before (left) and after (right) applying the anthropogenic threshold filters as described in the text.
+      Bottom row: time series for Australia, and each region (by colour) shown in the bottom panels, with mean for that region shown as as horizontal bars within the bottom panels at the right (over 360-400 on the x-axis).
+      The time series before and after applying the anthropogenic filter are shown on the left and right respectively. 
+      The thicker black line shows the mean value over all of Australia, and the grey shaded area shows the inter-quartile range.
+      The dashed and dotted horizontal lines show daily and yearly mean thresholds respectively.}
     {\label{Model:filter:NOx:fig_omno2_threshaffect}}
     
     % Threshhold analysis
-    The same regions as in Figure \ref{Model:filter:NOx:fig_omno2_timeseries} are shown again in Figure \ref{Model:filter:NOx:fig_omno2_densities}, with NO$_2$ pixel densities for each region shown, along with the threshold of $2 \times 10^{15}$\moleccm.
+    The same regions as in Figure \ref{Model:filter:NOx:fig_omno2_threshaffect} are shown again in Figure \ref{Model:filter:NOx:fig_omno2_densities}, with NO$_2$ pixel densities for each region shown, along with the thresholds of 1.5 and $2 \times 10^{15}$\moleccm.
     The reduction in NO$_2$ columns along with the portion of available data removed over Australia and each subset region is listed in Table \ref{Model:filter:NOx:tab_summary}.
     Roughly a quarter of the available data-points are removed over Sydney and Melbourne, decreasing the mean NO$_2$ amounts by $\sim{50}\%$, while not too much information is lost overall.
     
     % Figure from test_filters.no2_densities
     \mypic{Figures/OMI_link/OMNO2_densities_2005.png}{%
       2005 OMNO2d NO$_2$ column means (top left) and distributions (top right) for Australia, and each region shown in the area map (by colour).
-      Vertical dashed lines show the threshold for anthropogenic influence, any columns above this value are filtered out.
-      The vertical axis is normalised so that area under the curve adds up to unity, and as such is not important except as a visual measure of the relative width between the distributions.
+      Vertical dashed lines show the threshold for anthropogenic influence; any columns above this value are filtered out.
+      The vertical axis is normalised so that area under the curve adds to unity, and as such is not important except as a visual measure of the relative width between the distributions.
     }{\label{Model:filter:NOx:fig_omno2_densities}}
     
     
     % Values for table from chapter_2_modelling.no2_threshaffect_print
     \begin{table}
-      \caption{NO$_2$ averages (\moleccm $\times 10^{14}$) by region before and after filtering for anthropogenic emissions using 2005 data from the OMNO2d product.}
+      \caption{NO$_2$ averages ($10^{14}$ \moleccm) by region before and after filtering for anthropogenic emissions using 2005 data from the OMNO2d product.}
       \begin{tabular}{ c c c c }
         \hline
         \textbf{Region} & \textbf{NO$_2$} & \textbf{NO$_2$ after filtering} & \textbf{\% Data lost} 
         \\ \hline
-        Aus       & 4.9  & 4.5  &   2.1\% \\
-        Sydney    & 10.4 & 5.9  &  25.3\% \\
-        Adelaide  & 6.2  & 5.4  &   4.0\% \\
-        Middle    & 3.8  & 3.7  &   0.5\% \\
-        Melbourne & 9.6  & 5.3  &  25.4\% \\
+        Aus         & 4.9  & 4.5  &   2.1\% \\
+        Sydney      & 10.4 & 5.9  &  25.3\% \\
+        Adelaide    & 6.2  & 5.4  &   4.0\% \\
+        Central Aus & 3.8  & 3.7  &   0.5\% \\
+        Melbourne   & 9.6  & 5.3  &  25.4\% \\
         \hline
       \end{tabular}
       \label{Model:filter:NOx:tab_summary}
@@ -1945,8 +1947,8 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
       Potential smearing is masked by checking a daily modelled value for $\hat{S} \approx Y_{isop}/k_{HCHO}$ against thresholds.
       By assuming that midday HCHO lifetime ($\tau = 1/k_{HCHO}$) typically falls within 1.5 to 4~hrs (as seen in the USA; \textcite[e.g.,][]{Palmer2006,Wolfe2016}) and isoprene-to-HCHO yield (HCHO per isoprene carbon emitted) lies within the range 0.2 to 0.4 (scenarios estimated in \textcite{Palmer2003}), one can set a simple bound on $\hat{S}$ of $[0.2 \times 1.5, 0.4 \times 4]$~hrs or 1080 to 5760 seconds.
       As NO$_x$ levels across Australia are relatively low, and lower NO$_x$ levels reduce the prompt yield \parencite{Palmer2003,Wolfe2016}, I reduce the threshold range by 20\% and round to the nearest hundred leading to a bounding range of 800 to 4600 for $\hat{S}$. 
-      This range strikes a balance between unlikely modelled yields and how much data is lost to filtering.
-      Table \ref{Model:filter:smearing:tab_smearing_ranges} compares the smearing filter for Australia used in this thesis to typical slopes used in previous work for other regions.
+      This range strikes a balance between unlikely modelled yields and the amount of data lost to filtering.
+      Table \ref{Model:filter:smearing:tab_smearing_ranges} compares the smearing filter for Australia used in this thesis to typical values used in previous work for other regions.
       %This smearing range captures isoprene to HCHO yields of around 0.16 to 0.32 C per C if HCHO lifetime is assumed to lie within 1.5 to 4 hours.
       %These ranges mean we only use data that is not outside the feasible bounds of yields or lifetimes in Australia.
       
@@ -1978,7 +1980,7 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
       %To determine which model grid boxes are affected by smearing, we follow \textcite{Marais2012}.
       GEOS-Chem is run with normal isoprene emissions and with isoprene emissions halved, then Equation \ref{Model:filter:smearing:calculation:eqn_hats} ( $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $) provides $\hat{S}$.
       Here $\Delta$ represents the difference (daily 1300-1400~LT) between default and scaled runs.
-      If $\hat{S}$ sits outside the 800-4600 range then we remove that grid square day from both $S$ and subsequent a posteriori calculations.
+      If $\hat{S}$ sits outside the 800-4600 range then we remove that grid square day from both $S$ and subsequent a posteriori emission calculations.
       A relatively large change in $\Omega_{HCHO}$ compared to local emissions ($\hat{S}>4600$) suggests HCHO production is from non-local isoprene emissions.
       Alternatively, a relatively low value of $\hat{S}$ ($\hat{S}<800$) suggests emissions from the local grid square are being exported before they form HCHO.
       
@@ -1995,7 +1997,7 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
     \subsubsection{NO$_x$ dependence}
     
       %There is an important non-linear relationship between VOCs, HO$_x$, and NO$_x$. 
-      NO$_x$ concentration directly affects the fate of VOCs in the atmosphere, influencing HCHO production by isoprene.
+      NO$_x$ concentration directly affects the fate of VOCs in the atmosphere, influencing HCHO production by isoprene and therefore the amount of smearing.
       In low NO$_x$ environments, reported HCHO yields from isoprene are around 0.2 - 0.3 C per C (or 100-150 molar \%), while in high NO$_x$ environments this value becomes two to three times higher \parencite{Palmer2003, Wolfe2016}.
       %\textcite{Wolfe2016} also see background HCHO doubling in high NO$_x$ regions.
       %\textcite{Wolfe2016} determine that going from NO$_X = 0.1$ to $2.0$ ppbv triples the prompt yield of HCHO, from 0.3 to 0.9 ppbv ppbv$^{-1}$ due to isoprene, while the background HCHO doubles.
@@ -2087,6 +2089,12 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
         %Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}  
   
+  % JENNY TODO:
+  %I think this section is a bit problematic. First, it doesn't really fit here -- I would suggest if you keep it (keep reading) it fits better as a subsection to the pyrogenic filter, because the point is to test whether the pyrogenic filter is adequately filtering out fire influence. Second, it really only matters if it is working for the OMI data, not the GEOS-Chem output, right? Because we KNOW we turn off fires for GEOS-Chem... Third, there seem to be two different forms of the analysis and the flow in this section isn't great. And finally, I don't think the results are all that compelling at the end of it.
+  
+  % JENNY TODO continued
+  %What I would suggest is that at the end of your pyrogenic filter section, you add a very brief paragraph to state that you attempted to test the pyrogenic filter by looking at the relationship between temperature and HCHO, which should be exponential if it is driven by isoprene emissions but with outliers possibly indicative of fire influence. You then say something non-committal about this analysis not proving very useful because of <the reasons at the start of your last paragraph here where you talk about problems>, although there was a moderate improvement in the correlation between HCHO and temperature when the filter was applied. You then refer the reader to Appendix A, and basically drop this whole section (including figures) into an appendix at the end. Sound good?
+  
 \section{Relationship between temperature and HCHO}
   
   % Used to be subsubsection looking at hcho vs temp vs fire...
@@ -2164,8 +2172,8 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
     Grid squares with pyrogenic influence detected are removed (prior to any averaging) in the right column. 
   }{\label{Model:filter:fire:fig_VCC_vs_temperature}}
   
-  
-\section{Process schematic}
+  % UP TO HERE JENNY
+\section{Summary schematic for OMI HCHO processing}
   \label{Model:saving_omhchorp}
   % final summary of omhchorp creation
   Figure \ref{Model:saving_omhchorp:fig_flow_omhchorp} shows an overview of how vertical columns (modelled and measured) along with filters and sundry data are created in this thesis.
