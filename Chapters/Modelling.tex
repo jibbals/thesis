@@ -1815,8 +1815,14 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
       Bottom: petrol Well locations over Australia (as of 2018) (\url{http://dbforms.ga.gov.au/www/npm.well.search}).
     }{\label{Model:filter:fire:fig_petrol_and_gas}}
   
-      
+    
     %\textcite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15\times{T}-9.07)$.
+    
+    Additional work was performed to validate the pyrogenic filter through an examination of the relationship between temperature and HCHO (Appendix \ref{App:hcho_vs_tem}).
+    HCHO should be exponentially related to temperature if it is driven by isoprene, with outliers possibly indicative of pyrogenic influence, especially when high emissions are shown on low temperature days.
+    However, fires typically occur on hotter days, and HCHO destruction occurs faster on hotter days, confounding the clear occurrence of outliers \parencite[e.g.][]{Zheng2015}. 
+    At \highhr ~resolution, application of the pyrogenic filter slightly strengthens the correlation over the wider south eastern Australian region, with r increasing from $\sim{0.31}$ to $\sim{0.38}$.
+    In this thesis the pyrogenic filter is applied at the higher horizontal resolution (\highhr), and this analysis suggests that the filter should strengthen the relationship between total column HCHO and its biogenic precursors over Australia.
     
   \subsection{Anthropogenic filter}
     \label{Model:filter:NOx}
@@ -1989,7 +1995,6 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
       % Marais compare smearing with model estimated yield "
       
     
-      
       % Subsection on smearing length scale was here, now in spare notes
       
       
@@ -2088,97 +2093,14 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
         Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
         %Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}  
-  
-  % JENNY TODO:
-  %I think this section is a bit problematic. First, it doesn't really fit here -- I would suggest if you keep it (keep reading) it fits better as a subsection to the pyrogenic filter, because the point is to test whether the pyrogenic filter is adequately filtering out fire influence. Second, it really only matters if it is working for the OMI data, not the GEOS-Chem output, right? Because we KNOW we turn off fires for GEOS-Chem... Third, there seem to be two different forms of the analysis and the flow in this section isn't great. And finally, I don't think the results are all that compelling at the end of it.
-  
-  % JENNY TODO continued
-  %What I would suggest is that at the end of your pyrogenic filter section, you add a very brief paragraph to state that you attempted to test the pyrogenic filter by looking at the relationship between temperature and HCHO, which should be exponential if it is driven by isoprene emissions but with outliers possibly indicative of fire influence. You then say something non-committal about this analysis not proving very useful because of <the reasons at the start of your last paragraph here where you talk about problems>, although there was a moderate improvement in the correlation between HCHO and temperature when the filter was applied. You then refer the reader to Appendix A, and basically drop this whole section (including figures) into an appendix at the end. Sound good?
-  
-\section{Relationship between temperature and HCHO}
-  
-  % Used to be subsubsection looking at hcho vs temp vs fire...
-  Biogenic HCHO concentrations are correlated with temperature, as isoprene emissions are strongly correlated with temperature \parencite{Palmer2006, Zhu2013_poster, Surl2018}.
-  Fires emit HCHO precursors and increase HCHO concentrations independently of the relationship between temperature and HCHO, and should be revealed as outliers when comparing HCHO to temperature.
-  Figures \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501} - \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SWA_200501} show the relationship between modelled temperature, and satellite HCHO for January 2005 within subsets of Australia.
-  A reduced major axis regression is used to determine the correlation between surface temperature (X axis) and HCHO (Y axis).
-  Using the natural log of HCHO we can take the linear regression and then exponentiate each side in the equation $\ln{Y} = m{X}+b$ to get ${Y} = \exp{m{X}+b}$. 
-  This gives us the exponential fit as shown, with the correlation coefficient between $\ln{HCHO}$ and temperature.
-  The distributions of exponential correlation coefficient and $m$ terms is shown in the embedded plot, with one data point available for each grid square where the regression is performed.
-  These figures show that the modelled temperature is not well correlated with corrected recalculated OMI vertical columns (r ranges from -0.24 to 0.47), but is with modelled columns (r ranges from 0.49 to 0.84).
-  Correlations between modelled temperatures and HCHO are further improved when using the spatial average within each region.
-  Furthermore the relationship is improved in individual grid squares over south Eastern Australia by removing non-biogenic emissions from the model (r increased from 0.58 to 0.75).
-  This improvement is not seen in Northern Australia, nor south Western Australia.
-  Overall this suggests that modelled correlations between temperature and HCHO are spatially dependent, and generally well reflected in satellite measurements over Australia.
-  
-  % Figure produced in GC_tests.HCHO_vs_temp
-  \begin{figure}
-    \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SEA_20050101-20050228.png}
-    \caption{%
-      Top row (left): surface temperature averaged over January and February 2005.
-      Top row (right): correlation between spatially averaged GEOS-Chem temperatures and recalculated satellite vertical columns.
-      Second row: GEOS-Chem surface temperatures correlated against GEOS-Chem HCHO, with different colours for each grid box, and black showing the spatially averaged correlation over time.
-      Third row: as second row, except GEOS-Chem HCHO comes from the biogenic emissions only simulation.
-      A reduced major axis regression is used within each gridbox using daily overpass time surface temperature and HCHO.
-      The distribution of slopes (solid) and regression correlation coefficients (dashed) for the exponential regressions is shown in the inset panels in rows 2 and 3.
-    }
-    \label{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501}
-  \end{figure}
-  
-  % Figure from ???
-  \begin{figure}
-    \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_NA_20050101-20050228.png}
-    \caption{%
-      As Figure \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501} but for northern Australia.
-    }
-    \label{Model:analysis:HCHO:fig_hcho_vs_temp_NA_200501}
-  \end{figure}
-  
-  \begin{figure}
-    \includegraphics[width=\textwidth]{Figures/OMI_link/GC/HCHO_vs_temp_SWA_20050101-20050228.png}
-    \caption{%
-      As Figure \ref{Model:analysis:HCHO:fig_hcho_vs_temp_SEA_200501} but for south-western Australia.
-      TODO: Fix y axis in subplot 322
-    }
-    \label{Model:analysis:HCHO:fig_hcho_vs_temp_SWA_200501}
-  \end{figure}
-  
-  One problem with detecting outliers in the temperature and enhanced HCHO relationship is that days when fires occur are likely to be hot.
-  Another problem with correlating heat and HCHO is that increased temperature accelerates HCHO destruction \parencite{Zheng2015}.
-  We test the fire mask (see prior Section \ref{Model:filter:fire}) by examining the relationship between modelled temperature and satellite HCHO with and without applying the filters for smoke and active fires.
-  %Figure \ref{Model:filter:fire:fig_VCC_vs_GC_temperature} show the regressions between OMI HCHO total columns and temperature from GEOS-Chem output and CPC daily maximum temperatures.
-  Figure \ref{Model:filter:fire:fig_HCHO_vs_temperature} show the regressions between midday surface HCHO and temperature, where two independent data sets are used for the temperature: one from GEOS-Chem output and the other from CPC daily maxima.
-  Regressions over both the grid square containing Sydney and averaged over a wider area are reduced in quality when after applying the pyrogenic filter. 
-  This could be due to the low resolution of available GEOS-Chem midday output, which greatly increases the strictness of the fire filter, which originally is created at \highhr ~horizontal resolution but here is widened out to \lowhr.
-  While the modelled correlation between surface HCHO and temperature is quite strong ($r>0.8$) the correlation coefficient is reduced while the slope (temperature coefficient) is changed by more than 30\% when applying the pyrogenic filter at the model resolution.
-  If we use recalculated satellite HCHO columns instead of modelled midday outputs, then higher horizontal resolution can be achieved; however, this is at the cost of vertical resolution.
-  Figure \ref{Model:filter:fire:fig_VCC_vs_temperature} shows the relationship between total column HCHO and temperature, which is not as strong as that shown between surface HCHO and temperature.
-  At this resolution the application of the pyrogenic filter is shown to slightly strengthen the correlation over the wider south eastern Australian region, with r increasing from $\sim{0.31}$ to $\sim{0.38}$.
-  In this thesis the pyrogenic filter is applied at the higher horizontal resolution (\highhr), and this analysis suggests that the filter should strengthen the relationship between total column HCHO and its biogenic precursors over Australia.
-  
-  %Figure from chapter_2_modelling.HCHO_vs_temperature
-  \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_surface_20051201-20060228.png}{%
-    Surface HCHO from GEOS-Chem overpass output (midday) on the Y axis vs surface temperatures at midday ($T_{GC}$) and vs maximum daily temperatures from the CPC data set ($T_{CPC}$).
-    Top row: Sydney grid square scatter plot and regression with one data point for each day in the summer of 2005-2006.
-    Bottom row: as top row except averaging over several grid boxes covering south eastern Australia (SEA: 37\degr S to 29\degr S, 146\degr E to 153.5\degr W).
-    Grid squares with pyrogenic influence detected are removed (prior to any averaging) in the right column. 
-  }{\label{Model:filter:fire:fig_HCHO_vs_temperature}}
-  
-  %Figure from chapter_2_modelling.HCHO_vs_temperature
-  \mypic{Figures/OMI_link/Filters/HCHO_vs_temp_20051201-20060228.png}{%
-    OMI recalculated vertical columns of HCHO on the Y axis vs surface temperatures at midday ($T_{GC}$) and vs maximum daily temperatures from the CPC data set ($T_{CPC}$).
-    Top row: Sydney grid square scatter plot and regression with one data point for each day in the summer of 2005-2006.
-    Bottom row: as top row except averaging over several grid boxes covering south eastern Australia (SEA: 37\degr S to 29\degr S, 146\degr E to 153.5\degr W).
-    Grid squares with pyrogenic influence detected are removed (prior to any averaging) in the right column. 
-  }{\label{Model:filter:fire:fig_VCC_vs_temperature}}
-  
+    
   % UP TO HERE JENNY
 \section{Summary schematic for OMI HCHO processing}
   \label{Model:saving_omhchorp}
   % final summary of omhchorp creation
-  Figure \ref{Model:saving_omhchorp:fig_flow_omhchorp} shows an overview of how vertical columns (modelled and measured) along with filters and sundry data are created in this thesis.
-  As described in this chapter, satellite and modelled data are combined combined to form recalculated corrected vertical columns (VCC), with masks created for potential anthropogenic, pyrogenic, and smearing influence.
-  The end product is a gridded data file that contains new and old satellite and modelled vertical columns, along with sundry data to allow uncertainty calculation and other analyses.
+  Figure \ref{Model:saving_omhchorp:fig_flow_omhchorp} shows an overview of how vertical columns (modelled and measured) along with filters and related data are created in this thesis.
+  As described in this chapter, satellite and modelled data are combined to form recalculated corrected vertical columns (VCC), with masks created for potential anthropogenic, pyrogenic, and smearing influence.
+  The end product is a gridded data file that contains new and old satellite and modelled vertical columns, along with additional data to allow uncertainty calculation and other analyses.
   The original and recalculated AMF are also binned and stored.
   
   % made on www.draw.io 
@@ -2191,14 +2113,14 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
 \begin{description}
   \item[AIRS] Atmospheric Infra-red Sounder instrument aboard the Aqua satellite \parencite{AIRS3STD}.
   Satellite measurements of carbon monoxide downloaded from \url{https://search.earthdata.nasa.gov} with the product name AIRS3STD, DOI: 10.5067/AQUA/AIRS/DATA303.
-  Data from this product is used in Chapter \ref{Ozone}, and briefly described in Section \ref{Model:datasets:AIRS}.
+  Data from this product are used in Chapter \ref{Ozone}, and briefly described in Section \ref{Model:datasets:AIRS}.
   
   \item[CPC] Climate Prediction Center global temperature data provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their website at \url{https://www.esrl.noaa.gov/psd/}.
   Surface temperatures from this data set used in Section \ref{Model:omiRecalc:diff}, and described in Section \ref{Model:datasets:model:CPC}.
   
   \item[ERAI] European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}. 
   Downloaded using the online portal: \url{https://apps.ecmwf.int/datasets/data/interim-full-daily/}.
-  This data set is used in Chapter \ref{Ozone}
+  These data are used in Chapter \ref{Ozone}
   
   \item[MUMBA] Measurements of Urban, Marine and Biogenic Air campaign \parencite{PatonWalsh2017}.
   Several trace gases from this campaign are examined here in Section \ref{BioIsop:results:measurements}, the data set is described in more detail in Section \ref{Model:datasets:MUMBA}.
@@ -2211,21 +2133,21 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
   For more information in refer to section \ref{Model:datasets:OMNO2d}.
   
   \item[OMAERUVd] Gridded satellite based AAOD measurements downloaded from the NASA earth data portal \url{https://search.earthdata.nasa.gov}.
-  A summary can be found at \url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}, \fullcite{Omar2008}.
+  A summary can be found at \url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd\_V003/summary}, \fullcite{Omar2008}.
   This dataset is described in detail in Section \ref{Model:datasets:OMAERUVd}.
   
   %\item[SPEI] Monthly standardised precipitation evapotranspiration index (metric to determine drought stress) downloaded from \url{http://hdl.handle.net/10261/153475} with DOI:10.20350/digitalCSIC/8508.
   %See more information in section ?? THIS WORK IS FUTURE WORK
   
-  \item[SPS] Measurements of trace gases relevant to air quality in Western Sydney, Australia, from May 2016 to September 2017 as part of the Western Air Shed and Particulate Study for Sydney \parencite{SPS2017}. 
-  Available from PANGAEA, \url{https://doi.org/10.1594/PANGAEA.884317}.
+  \item[SPS] Observations from Westmead Air Quality Station, stage 1 (SPS1, \textcite{SPS12016}) from 5 February to 7 March 2011, stage 2 (SPS2, textcite{SPS22016})  from 16 April to 14 May 2012.
+  SPS1 is available from \url{https://doi.org/10.4225/08/57903B83D6A5D}, and SPS2 from \url{https://doi.org/10.4225/08/5791B5528BD63}.
   Some trace gas measurements are examined here in Section \ref{BioIsop:results:measurements}.
   Relevant measurements described in detail in Section \ref{Model:datasets:SPS}.
   
   \item[Wollongong FTIR] The instrument is part of the Network for the Detection of Atmospheric Composition Change (NDACC) and data can be retrieved from the NDACC database (\url{http://www.ndaccdemo.org/stations/wollongong-australia}).
   The current principle investigator producing and quality assuring the data set is \href{mailto:njones@uow.edu.au}{Dr. Nicholas Jones}.
   
-  \item[Ozone sondes] Ozonesonde data was retrieved from the World Ozone and Ultraviolet Data Centre (WOUDC)  \url{http://woudc.org/data/explore.php}.
+  \item[Ozone sondes] Ozonesonde data were retrieved from the World Ozone and Ultraviolet Data Centre (WOUDC)  \url{http://woudc.org/data/explore.php}.
   
   
   
