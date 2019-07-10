@@ -86,8 +86,8 @@
     %To create level two data slant column density is determined and then translated into vertical column density. 
     level three data is a temporally and spatially aggregated subset of level two data, for instance monthly or yearly averages.
     
-    Difficulties can arise when aerosols (e.g., clouds, smoke, dust) interfere with recorded spectra; however,some of these can be detected and filtered out.
-    Instruments including MODIS onboard the Aqua and Terra satellites are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
+    Difficulties can arise when aerosols (e.g., clouds, smoke, dust) interfere with recorded spectra; however, some of these can be detected and filtered out.
+    Instruments including MODIS (onboard the Aqua and Terra satellites) are able to determine aerosol optical depth (AOD), a measure of atmospheric scatter and absorbance. 
     An AOD under 0.05 indicates a clear sky, while values of 1 or greater indicate increasingly hazy conditions.
     This is important in order to determine where measurements from other instruments may be compromised by high interference.
     Cloud filtering is performed on several satellite products used in this thesis, which reduces uncertainty at the cost of measurement quantity. 
@@ -96,7 +96,7 @@
     % Satellites use DOAS for trace gases which we are interested in
     Satellite instruments measuring atmospheric composition record spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate the abundance of trace gases including O$_3$, NO$_2$, and HCHO \parencite[e.g.,][]{Leue2001}.
     Satellite measurements are generally performed using spectral fitting followed by conversion to vertical column densities.
-    %The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \textcite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 LT.
+    %The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \textcite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 local time.
     Several public data servers are available which include products from satellites, including NASA's Earthdata portal (\url{https://earthdata.nasa.gov/}) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (\url{http://h2co.aeronomie.be/}).
     The following subsections describe some of the satellite products used in this thesis.
     
@@ -117,10 +117,10 @@
     
     \subsubsection{Formaldehyde}
       
-      HCHO products can be found in four satellite instruments: GOME on ERS-2, SCIAMACHY on ENVI-SAT, OMI on EOS Aura, and GOME2 on MetOp-A and MetOp-B.
+      HCHO products can be found in four satellite instruments: GOME (Global Ozone Monitoring Experiment) on ERS-2 (second European Remote Sensing satellite), SCIAMACHY (SCanning Imaging Absorption SpectroMeter for Atmospheric CHartographY) on ENVI-SAT (ENVIronmental SATellite), OMI (Ozone Monitoring Instrument) on the Aura satellite, and GOME2 on MetOp-A and MetOp-B (Meteorological Operational satellites).
       These satellites have slightly different spectral and spatial resolutions, as well as using varied processes to estimate HCHO from detected radiances.
       This leads to different measurements between instruments \parencite{Lorente2017}, and both validation and comparison become more important when using these remotely sensed data.
-      The data set used in this thesis is from the Ozone Monitoring Instrument (OMI) onboard the Aura satellite, as it has data over the time period covered by GEOS5 modelled meteorological information used in GEOS-Chem (Section \ref{Model:GC}), and sufficiently covers the southern hemisphere.
+      The data set used in this thesis is from the OMI onboard the Aura satellite, as it has data over the time period covered by GEOS5 modelled meteorological information used in GEOS-Chem (Section \ref{Model:GC}), and sufficiently covers the southern hemisphere.
       
       %OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
       Satellite based formaldehyde measurements from the OMI instrument onboard Aura are stored in the OMHCHO product.
@@ -130,7 +130,7 @@
       
     \subsubsection{Nitrogen dioxide}
       \label{Model:datasets:OMNO2d}
-      OMNO2d is a gridded daily level three NO$_2$ product of satellite measurements averaged into 0.25\degr x 0.25\degr ~horizontally resolved bins.
+      Daily OMI NO$_2$ (OMNO2d) is a gridded daily level three NO$_2$ product of satellite measurements averaged into 0.25\degr x 0.25\degr ~horizontally resolved bins.
       An example from Jan 29, 2005 is shown in Figure \ref{Model:datasets:OMNO2d:fig_eg_omno2d}, while an average for 2005 (global) is shown in Figure \ref{Model:datasets:OMNO2d:fig_omno2d_2005}.
       OMNO2 measurement resolution is 40~km by 130~km.
       NO$_2$ measured by OMI is used in this thesis to check whether NO$_2$ is well represented by GEOS-Chem (see Section \ref{Model:GC:NOx} for the comparison between this product and GEOS-Chem calculations).
@@ -139,6 +139,7 @@
       
       \mypic{Figures/OMNO2d_2005m0129.png}{%
         Example of NO$_2$ tropospheric columns for 29 Jan. 2005 from the OMNO2d product.
+        Data downloaded from \url{https://search.earthdata.nasa.gov/search}, DOI:10.5067/Aura/OMI/DATA3007.
       }{\label{Model:datasets:OMNO2d:fig_eg_omno2d}}
       
       \mypic{Figures/OMNO2d_avg2005.png}{%
@@ -155,7 +156,7 @@
       % smoke aaod outline
       Aerosols in the atmosphere can be seen through their interactions with visible radiation. 
       Smoke and dust can be seen as an increase in aerosol optical depth (AOD) (see Section \ref{Model:omhcho:DOAS}).
-      This is due these particles scattering and absorbing UV radiation \parencite{Ahn2008}.
+      This is due to these particles scattering and absorbing UV radiation \parencite{Ahn2008}.
       A data product provided by Earthdata (\url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}) called OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) is used in this thesis. 
       
       
@@ -175,7 +176,7 @@
     \subsubsection{Active fires}
       \label{Model:datasets:MOD14A1}
       MOD14A1 is a gridded daily satellite dataset of fire counts at 1x1~km$^2$ horizontal resolution.
-      Fire counts are observed four times daily from Terra (10:30~LT, 22:30~LT) and Aqua (01:30~LT, 13:30~LT).
+      Fire counts are observed four times daily from Terra (10:30, 22:30 local time) and Aqua (01:30, 13:30~ local time).
       The fire pixels are detected based on parameters including apparent pixel temperature and the nearby background temperature.
       The dataset is obtained from NASA Earth Observations that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
       This product is downloaded and binned into the lower \highhr ~resolution (using the sum of fire pixels) to create an active fire influence mask (see Section \ref{Model:filter:fire}).
@@ -184,7 +185,7 @@
       \label{Model:datasets:AIRS}
       
       In Chapter \ref{Ozone}, potential biomass burning plumes are identified using satellite observations of carbon monoxide (CO) from the AIRS (Atmospheric Infra-red Sounder) instrument aboard the Aqua satellite \parencite{AIRS3STD}.
-      The Aqua satellite overpasses at approximately 01:30~LT and 13:30~LT, with NASA producing level three gridded output at 1\degr x1\degr .
+      The Aqua satellite overpasses at approximately 01:30 and 13:30 local time, with NASA producing level three gridded output at 1\degr x1\degr .
       CO is used as a proxy for biomass burning plumes, and used to qualitatively attribute ozone intrusion events (Section \ref{Ozone:WeatherClassifications}).
       %This is a method of detecting fire influence near specific sites through visual analysis.
       
@@ -231,8 +232,8 @@
       CPC Global Temperature data is provided by National Oceanic and Atmospheric Administration/Office of Oceanic and Atmospheric Research/Earth System Research Laboratory Physical Sciences Division, Boulder, Colorado, USA, from their web site at \url{https://www.esrl.noaa.gov/psd/}.
       An example of one day of land temperature output is shown in Figure \ref{Model:datasets:fig_CPC_EG}.
       
-      \mypicw{.5\textwidth}{%
-        Figures/CPC_Temperature_EG.png}{CPC daily maximum temperature data for 1 Jan. 2005.
+      \mypicw{.5\textwidth}{Figures/CPC_Temperature_EG.png}{%
+        Climate Prediction Center daily maximum temperature data for 1 Jan. 2005.
       }{\label{Model:datasets:fig_CPC_EG}}
   
   \subsection{In-situ and ground based datasets}
@@ -304,7 +305,7 @@
       It is possible that other chemicals (such as furan, with the same m/z) interfered with this value, especially at low ambient isoprene concentrations and towards the end of autumn (SPS2) when wood fires start to become frequent \parencite{Guerette2018}.
       The GC-FID analysed samples collected in multi-absorbent tubes, with lower temporal resolution but no interference. 
       Further details for this method can be found in \textcite{Cheng2016}.
-      GC-FID data are averaged from 0500-1000~LT, and 1100-1900~LT, while PTR-MS data are averaged hourly.
+      GC-FID data are averaged from 05:00-10:00~local time, and 11:00-19:00~local time, while PTR-MS data are averaged hourly.
       Significant differences occur between measurement devices when detecting isoprene, potentially due to interfering compounds in the PTR-MS \parencite{Dunne2018}.
       
       
@@ -333,7 +334,7 @@
       
       Measurements of vertical profiles are affected by the instrument's sensitivity to HCHO at all vertical levels.
       Vertical mixing ratios resolved to 48 vertical levels are retrieved. %with the help of a priori assumed vertical profiles ($x_{apri}$).
-      The averaging kernel ($A$) essentially represents the sensitivity of the retrieval technique to HCHO concentrations.
+      The averaging kernel ($A$) essentially represents the sensitivity of the retrieval technique to HCHO concentrations at different altitudes.
       Figure \ref{Model:datasets:wollongong_ftir:fig_apriori} shows averaged retrievals $x_{ret}$ and the a priori side by side.
       Most of the HCHO is close to the surface, and generally the a priori lies within the inter-quartile range of the retrievals, just below the mean.
       Figure \ref{Model:datasets:wollongong_ftir:fig_MiddayAK} shows how the retrievals of total vertical column HCHO ($\Omega$) are sensitive to HCHO between 0~km and 60~km altitude.
@@ -386,7 +387,7 @@
     % Geos chem is a box model with chemistry and meteorology
     GEOS-Chem is a global, Eulerian CTM (see Section \ref{LR:Models:ctm}) with a state of the science chemical mechanism, and transport driven by meteorological input from the Goddard Earth Observing System (GEOS) of the NASA Global Modeling and Assimilation Office (GMAO).
     Chemistry, transport, and meteorology are simulated at 15 minute time steps within a global set of 3-D boxes.
-    Emissions are either prescribed by inventories (e.g., fire emissions are prescribed from the global fire emissions database GFED4) or modelled (e.g., biogenic emissions are modelled using MEGAN).
+    Emissions are either prescribed by inventories (e.g., fire emissions are prescribed from the global fire emissions database GFED4) or modelled (e.g., biogenic emissions are modelled using the Model of Emissions of Gases and Aerosols from Nature (MEGAN)).
     % It uses GEOS, from GMAO
     
     % This thesis uses 10.01 at 2x2.5 model output
@@ -420,7 +421,7 @@
     A chemical mechanism is a closed system of chemical reactions and their associated rate constants.
     Chemical reactions are represented by systems of differential equations to be solved for each gridbox in GEOS-Chem.
     Simplifications are required due to the large number of reactions that occur in the atmosphere, and the coupled and stiff nature of these reactions that slow down computation of the solutions \parencite{BrasseurJacob2017}.
-    Stiffness in chemical systems of differential equations is due to the massively differing reaction time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
+    Mathematical stiffness in chemical systems of differential equations is due to the massively differing reaction time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
     This section focuses on isoprene oxidative chemistry simulated by GEOS-Chem, as it will be used to determine the yield from isoprene emissions to HCHO columns. 
 
     Some of the important reactions involving isoprene are reproduced here, including reaction rates ($k$) in the form $ k = A \exp{(-E/RT)}$, where $T$ is temperature, $E$ is activation energy, and $R$ is the gas constant.
@@ -666,7 +667,7 @@
     In order to determine the accuracy of GEOS-Chem simulated NO$_X$ over Australia, modelled NO$_2$ amounts are compared to satellite data (where available) for 2005.
     Figure \ref{Model:analysis:NOx:fig_NO_maps_2005} shows tropospheric NO$_2$ columns from GEOS-Chem, OMI satellite data OMNO2d, and their differences over four seasons in 2005.
     % Geos chem vs tropno2 from omno2d
-    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 13:00-14:00 local time (LT) are compared against OMNO2d data that are averaged into seasonal \lowhr ~bins. %(Sec. \ref{Model:datasets:OMNO2d}). 
+    Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 13:00-14:00 local time are compared against OMNO2d data that are averaged into seasonal \lowhr ~bins. %(Sec. \ref{Model:datasets:OMNO2d}). 
     Both data sets show Sydney and Melbourne as NO$_2$ hotspots; however, Sydney itself is underestimated by GEOS-Chem throughout the year, likely due to low or poorly aligned emission maps (shown in Figure \ref{Model:analysis:NOx:fig_NO_emiss_maps_2005}).
     Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in the northern areas where up to 50\% underestimation occurs in summer.
     An underestimation in southern NSW can also be seen in the later half of the year.
@@ -699,7 +700,7 @@
       The reduced major axis linear regression is drawn in red, and the equation, regression coefficient (r), and number of grid squares (n) used is inlaid as a legend.
       The second and third columns show the scatter between emissions and the bias between GEOS-Chem and OMNO2d (GC-OMI), for anthropogenic and soil emissions respectively.
       The third column has a different x-axis scale for each season.
-      These right two columns share the far right axis; however,emissions are from anthropogenic and soil sources respectively.
+      These right two columns share the far right axis; however, emissions are from anthropogenic and soil sources respectively.
       All scatter points are coloured by the sum of anthropogenic and soil NO emissions (from GEOS-chem), as per the colour bar shown at the bottom.
     }{\label{Model:analysis:NOx:fig_NO_regressions_2005}}
 
@@ -716,197 +717,195 @@
     Finally a brief comparison between a subset of the runs is performed (Section \ref{Model:GC:simulations:comparison}).
 
 
-\subsubsection{GEOS-Chem outputs}
-  \label{Model:GC:simulations:outputs}
-  
-  % Default time step and resolution of GC outputs
-  GEOS-Chem in this thesis is run with a 15 minute time step for transport and 30 minutes for chemistry, at \lowhr ~horizontal resolution over 47 vertical levels.
-  Output is the average over many of these time steps.
-  Optionally one to many columns can be output at high temporal resolution.
-  This feature has been used here to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
-  %For example: in this thesis, estimation of model isoprene to HCHO yields uses daily averaged HCHO columns compared against co-located isoprene emissions.
-  
-  
-  \begin{description}
-    \item[Midday output]%
-    is output from averaging over a window of local time for each gridbox. 
-    Output averaged between 13:00-14:00 local time is saved to match with Aura satellite measurements, as Aura overpasses at $\sim$1330 local time each day.
-    Midday output is saved both for comparison with, and recalculation of, satellite measurements.
-    %This has been performed by others \parencite[e.g.,][]{Jin2017}.
-    \item[HEMCO diagnostics]%
-    the Harvard-NASA Emissions Component (HEMCO) deals with emissions inventories used in GEOS-Chem.
-    % Local time offsets
-    When working with globally gridded data, handling local time offsets becomes more important.
-    The hourly averaged emissions of isoprene are saved using GMT, and an offset based on the longitude is used to retrieve values at local time.
-    %This is done by setting up a latitude by longitude array that matches the horizontal resolution of the data, filling each grid box with its local time offset.
-    This offset is determined as one hour per 15\degr ~(as 360\degr ~is 24 hours).
-    %The retrieval of a daily local time global array is done by index matching the GMT+local time (modulo 24) with the desired hour on this grid over the 24 GMT hours.
-    % Emissions are averaged over the hour for hemco diag output in biogenic run at least
-    \item[Tracer averages]%
-    are daily or monthly averaged gridbox concentrations. 
-    \item[Time series]%
-    are vertical profiles of ozone and other species and meteorological diagnostics saved at a temporal resolution of up to 15 minutes.
-  \end{description}
-  
-  One issue with modelled outputs over Australia is that they are difficult to compare to in-situ measurements as they are averaged over a large horizontal space and vertical volume.
-  
-  \subsubsection{GEOS-Chem runs}
-  \label{Model:GC:simulations:runs}
-  
-  The following list summarises each model run as well as enumerating the outputs (described above), and how the run is used in the thesis.
-  \begin{description}
-    \item[UCX]%
-    The model was run using the Universal tropospheric-stratospheric Chemistry eXtension (UCX) mechanism with 72 vertical levels from the surface to the top of the atmosphere (TOA $\sim$0.1~hPa).
-    UCX runs a chemistry mechanism with combined tropospheric and stratospheric reactions, with an increased number of stratospheric calculations performed online relative to the default (tropospheric chemistry) simulation \parencite{Eastham2014}.
-    \begin{enumerate}
-      \item Outputs: Midday output, daily tracer averages, and time series over three stations.
-      %\item The Midday output is used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry. 
-      %%TODO: Should I add a plot of how the AMF$_{GC}$ changes with/without the UCX? I'll remove this item if it's not worth it.
-      \item This run shows what influence the stratospheric chemistry additions have over tropospheric isoprene, HCHO, and ozone concentrations.
-      \item The daily tracer averages are used to determine ozone intrusion quantification (Section \ref{Ozone:fluxcalc}), and ozone concentration seasonality (Section \ref{Ozone:ModelComparison}).
-      \item Time series outputs are compared against ozonesonde releases (Section \ref{Ozone:ModelComparison}) both over time and vertically.
-    \end{enumerate}
-    
-    \item [Tropchem (standard)]%
-    default settings for GEOS-Chem 10.01, using 47 vertical levels at \lowhr ~horizontal resolution.
-    Additional midday output is created to allow AMF recalculation code to run on OMI satellite measurements (Section \ref{Model:omiRecalc:ppcode}).
-    \begin{enumerate}
-      \item Outputs: Midday output, daily tracer averages, and HEMCO diagnostics
-      \item These are used in recalculation of the satellite AMF (Section \ref{Model:AMF}), and the modelled background HCHO over the remote Pacific that is used in the reference sector correction for OMI column retrievals (Section \ref{Model:omiRecalc:RSC}).
-      Additional diagnostic outputs are added by the author to allow AMF recalculation.
-      \item Midday output is combined from two different runs in order to determine smearing of the isoprene-to-HCHO relationship (Section \ref{Model:filter:smearing})
-      \item Total yearly ozone concentrations are compared before and after scaling isoprene emissions using the top-down estimate.
-    \end{enumerate}
-    
-    \item [Tropchem (isoprene emissions halved)]%
-    identical to standard tropchem except isoprene emissions are halved.
-    \begin{enumerate}
-      \item Outputs: Midday output, and monthly tracer averages 
-      \item They are used to check modelled ozone sensitivity to isoprene emissions (following section Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}).
-      \item They are also combined with the standard run to determine model sensitivity to transport (Section \ref{Model:filter:smearing})
-    \end{enumerate}
-    
-    \item [Tropchem (biogenic emissions only)]%
-    identical to standard tropchem except all non-biogenic emissions inventories are disabled.
-    \begin{enumerate}
-      \item Outputs: Midday output, and hourly biogenic emissions from MEGAN
-      \item Midday and HEMCO outputs are used to determine isoprene to HCHO yield, after removing days with high smearing (Section \ref{BioIsop:method:slope})
-      \item HEMCO diagnostics are compared against top-down estimations of isoprene emissions (Section \ref{BioIsop:results:emissions})
-    \end{enumerate}
-    
-    \item [Tropchem (altered MEGAN scaling factor)]%
-    Identical to standard tropchem except isoprene emissions are scaled to match multi-year monthly averaged top-down estimates.
-    \begin{enumerate}
-      \item Outputs: midday output, time series, daily averaged tracers
-      \item These are used to compare to campaign datasets after altering isoprene emissions (see Chapter \ref{BioIsop})
-      \item They are also used to compare against satellite column HCHO as a sanity check on improving isoprene emissions
-    \end{enumerate}
-  \end{description}
+    \subsubsection{GEOS-Chem outputs}
+      \label{Model:GC:simulations:outputs}
+      
+      % Default time step and resolution of GC outputs
+      GEOS-Chem in this thesis is run with a 15 minute time step for transport and 30 minutes for chemistry, at \lowhr ~horizontal resolution over 47 vertical levels.
+      Output is the average over many of these time steps.
+      Optionally one to many columns can be output at high temporal resolution.
+      This feature has been used here to compare modelled ozone with ozonesonde profiles at three sonde release sites discussed in Chapter \ref{Ozone}.
+      %For example: in this thesis, estimation of model isoprene to HCHO yields uses daily averaged HCHO columns compared against co-located isoprene emissions.
+      
+      
+      \begin{description}
+        \item[Midday output]%
+        is output from averaging over a window of local time for each gridbox. 
+        Output averaged between 13:00-14:00 local time is saved to match with Aura satellite measurements, as Aura overpasses at $\sim$1330 local time each day.
+        Midday output is saved both for comparison with, and recalculation of, satellite measurements.
+        %This has been performed by others \parencite[e.g.,][]{Jin2017}.
+        \item[HEMCO diagnostics]%
+        the Harvard-NASA Emissions Component (HEMCO) deals with emissions inventories used in GEOS-Chem.
+        % Local time offsets
+        When working with globally gridded data, handling local time offsets becomes more important.
+        The hourly averaged emissions of isoprene are saved using GMT, and an offset based on the longitude is used to retrieve values at local time.
+        %This is done by setting up a latitude by longitude array that matches the horizontal resolution of the data, filling each grid box with its local time offset.
+        This offset is determined as one hour per 15\degr ~(as 360\degr ~is 24 hours).
+        %The retrieval of a daily local time global array is done by index matching the GMT+local time (modulo 24) with the desired hour on this grid over the 24 GMT hours.
+        % Emissions are averaged over the hour for hemco diag output in biogenic run at least
+        \item[Tracer averages]%
+        are daily or monthly averaged gridbox concentrations. 
+        \item[Time series]%
+        are vertical profiles of ozone and other species and meteorological diagnostics saved at a temporal resolution of up to 15 minutes.
+      \end{description}
+      
+      One issue with modelled outputs over Australia is that they are difficult to compare to in-situ measurements as they are averaged over a large horizontal space and vertical volume.
+      
+    \subsubsection{GEOS-Chem runs}
+      \label{Model:GC:simulations:runs}
+      
+      The following list summarises each model run as well as enumerating the outputs (described above), and how the run is used in the thesis.
+      \begin{description}
+        \item[UCX]%
+          The model was run using the Universal tropospheric-stratospheric Chemistry eXtension (UCX) mechanism with 72 vertical levels from the surface to the top of the atmosphere (TOA $\sim$0.1~hPa).
+          UCX runs a chemistry mechanism with combined tropospheric and stratospheric reactions, with an increased number of stratospheric calculations performed online relative to the default (tropospheric chemistry) simulation \parencite{Eastham2014}.
+          \begin{enumerate}
+            \item Outputs: Midday output, daily tracer averages, and time series over three stations.
+            %\item The Midday output is used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry. 
+            %%TODO: Should I add a plot of how the AMF$_{GC}$ changes with/without the UCX? I'll remove this item if it's not worth it.
+            \item This run shows what influence the stratospheric chemistry additions have over tropospheric isoprene, HCHO, and ozone concentrations.
+            \item The daily tracer averages are used to determine ozone intrusion quantification (Section \ref{Ozone:fluxcalc}), and ozone concentration seasonality (Section \ref{Ozone:ModelComparison}).
+            \item Time series outputs are compared against ozonesonde releases (Section \ref{Ozone:ModelComparison}) both over time and vertically.
+          \end{enumerate}
+        
+        \item [Tropchem (standard)]%
+          default settings for GEOS-Chem 10.01, using 47 vertical levels at \lowhr ~horizontal resolution.
+          Additional midday output is created to allow AMF recalculation code to run on OMI satellite measurements (Section \ref{Model:omiRecalc:ppcode}).
+          \begin{enumerate}
+            \item Outputs: Midday output, daily tracer averages, and HEMCO diagnostics
+            \item These are used in recalculation of the satellite AMF (Section \ref{Model:AMF}), and the modelled background HCHO over the remote Pacific that is used in the reference sector correction for OMI column retrievals (Section \ref{Model:omiRecalc:RSC}).
+            Additional diagnostic outputs are added by the author to allow AMF recalculation.
+            \item Midday output is combined from two different runs in order to determine smearing of the isoprene-to-HCHO relationship (Section \ref{Model:filter:smearing})
+            \item Total yearly ozone concentrations are compared before and after scaling isoprene emissions using the top-down estimate.
+          \end{enumerate}
+        
+        \item [Tropchem (isoprene emissions halved)]%
+          identical to standard tropchem except isoprene emissions are halved.
+          \begin{enumerate}
+            \item Outputs: Midday output, and monthly tracer averages 
+            \item They are used to check modelled ozone sensitivity to isoprene emissions (following section Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}).
+            \item They are also combined with the standard run to determine model sensitivity to transport (Section \ref{Model:filter:smearing})
+          \end{enumerate}
+          
+        \item [Tropchem (biogenic emissions only)]%
+          identical to standard tropchem except all non-biogenic emissions inventories are disabled.
+          \begin{enumerate}
+            \item Outputs: Midday output, and hourly biogenic emissions from MEGAN
+            \item Midday and HEMCO outputs are used to determine isoprene to HCHO yield, after removing days with high smearing (Section \ref{BioIsop:method:slope})
+            \item HEMCO diagnostics are compared against top-down estimations of isoprene emissions (Section \ref{BioIsop:results:emissions})
+          \end{enumerate}
+        
+        \item [Tropchem (altered MEGAN scaling factor)]%
+          Identical to standard tropchem except isoprene emissions are scaled to match multi-year monthly averaged top-down estimates.
+          \begin{enumerate}
+            \item Outputs: midday output, time series, daily averaged tracers
+            \item These are used to compare to campaign datasets after altering isoprene emissions (see Chapter \ref{BioIsop})
+            \item They are also used to compare against satellite column HCHO as a sanity check on improving isoprene emissions
+          \end{enumerate}
+      \end{description}
 
-\subsubsection{UCX vs tropchem}
-\label{Model:GC:simulations:comparison}
-
-% brief description of both runs resolution
-Here the model output is analysed before and after enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
-%From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
-Both runs use \lowhr ~latitude by longitude; however,the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
-The reduced vertical levels are created by lumping together sets of the higher resolved levels from around 70~hPa to the top of the atmosphere.
-For both runs the input parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
-
-% Figure showing differences between runs HCHO described and analysed
-Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} shows an example of surface HCHO amounts, averaged over Jan and Feb, 2007, with and without the UCX mechanism enabled.
-Surface HCHO (first model level; up to $\sim$100~m) does not differ much between runs.
-The differences do not exceed 3\% over Australia, and absolute differences are minor (note the scale in A-B).
-The major notable difference occurs over northern Africa, where HCHO is around 20\% lower in the UCX run (although absolute HCHO is relatively low in this region).
-Additionally a slight ($<8\%$) decrease in HCHO over the oceans can be seen.
-The comparison is repeated using total columns (instead of surface values) in Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
-Differences over Australia in total column HCHO are small, and these are the values used in this thesis.
-
-\begin{figure}
-  % These figures created in GC_test.py -> UCX_vs_trp...:
-  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_hcho_final.png}
-  \caption{%
-    Surface HCHO simulated by GEOS-Chem with UCX (A: top left), and without UCX (B: top right), along with their absolute and relative differences (bottom left, right respectively).
-    Amounts are the average of all times between 1 Jan and 28 Feb 2007.
-  }
-  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}
-\end{figure}
-
-\begin{figure}
-  % These figures created in GC_test.py -> UCX_vs_trp...:
-  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_hcho.png}
-  \caption{%
-    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} but using total column amounts instead of surface concentrations.
-  }
-  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}
-\end{figure}
-
-
-% Differences between run isoprene amounts described and analysed here
-Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
-Here we start to see a higher relative difference in concentrations, although this is generally over the areas with lower absolute concentrations. 
-Very little isoprene is seen away from the continents (4-5 orders of magnitude less), due to its short lifetime and  lack of oceanic sources.
-Generally isoprene is 0-30\% higher over mid to western Australia when the UCX mechanism is turned on; however,this increase is lower in the regions with high isoprene emissions (north-east to south-east coastline).
-This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}.
-There is a greater effect in Africa and South America in the tropics, with high relative differences in many regions with low absolute amounts, but very small differences in locations where isoprene is strongly emitted.
-
-\begin{figure}
-  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_isop_final.png}
-  \caption{ %
-    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing isoprene surface concentrations. 
-  }      
-  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}
-\end{figure}
-\begin{figure}
-  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_isop_final.png}
-  \caption{ %
-    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}, except showing isoprene total column amounts. 
-  }      
-  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_totcol_fullday}
-\end{figure}
-
-
-The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
-Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX run.
-This shows that UCX ozone is lower everywhere except for a thin band just north and south of the equator.
-With higher stratospheric ozone levels, less radiation would reach the troposphere in the tropchem run.
-This would slow photolysis limited reactions, such as the splitting of ozone that leads to OH production in the troposphere, in turn slowing the isoprene loss to OH reactions.
-% hydroxyl radical plot used to be mentioned here
-% is this correct??
-%Decreased O$_3$ could lead to lower OH and the other differences between the runs over Australia.
-
-% Figure from GC_tests->UCX_vs_...
-\mypic{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_O3.png}{%
-  Total column ozone simulated by GEOS-Chem with UCX (A: top left), and without UCX (B: top right), along with their absolute and relative differences (bottom left, right respectively).
-  Amounts are the average of all times between 1 Jan and 28 Feb 2007.
-}{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}}
-
-% Wrap up of UCX vs Tropchem differences and explanation of tropchem usage
-Overall the UCX mechanism and increased vertical resolution lead to slightly higher isoprene and HCHO, and slightly lower ozone over Australia.
-These differences are on the order of 0-10\% and as shown later (see Section \ref{BioIsop:uncertainty}) are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
-Running UCX requires roughly twice the computation (and real) hours, and outside of Chapter \ref{Ozone} the normal tropchem runs are used.
-
-
-%% Ozone surface plot, not useful to explain column 
-%\begin{figure}
-%  % Figure from GC_tests.py -> ucx vs tropchem function
-%  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_O3.png}
-%  \caption{%
-%    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing ozone. 
-%  }
-%  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3_surf_fullday}
-%\end{figure}
-
-%      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday} shows how OH at midday is changed between runs.
-%      This figure shows a marked striping which is due to how OH is handled in GEOS-Chem.
-%      The most notable difference is again over northern Africa into eastern Europe, with some small decrease in the UCX OH over Australia everywhere except the east coast.
-%% Gc_tests.py -> compare_tc_ucx(...)
-%\mypic{Figures/OMI_link/GC/UCX_vs_trp_middaysurf_20070101-20070228_OH.png}{%
-%  Midday (1300-1400~LT) surface OH concentrations averaged over Jan-Feb, 2007. 
-%  Absolute and relative differences are shown on the bottom row.}
-%{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday}}
-
-
+    \subsubsection{UCX vs tropchem}
+      \label{Model:GC:simulations:comparison}
+      
+      % brief description of both runs resolution
+      Here the model output is analysed before and after enabling the Universal tropospheric-stratospheric Chemistry eXtension (UCX).
+      %From version 11 of GEOS-Chem, the UCX mechanism is enabled by default.
+      Both runs use \lowhr ~latitude by longitude; however, the UCX mechanism is run with 72 vertical levels from the surface to the top of the atmosphere (TOA$\sim$0.1~hPa), while the standard (tropchem) run uses 47 levels.
+      The reduced vertical levels are created by lumping together sets of the higher resolved levels from around 70~hPa to the top of the atmosphere.
+      For both runs the input parameters such as MEGAN emissions and GEOS-5 meteorological fields are identical.
+      
+      % Figure showing differences between runs HCHO described and analysed
+      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} shows an example of surface HCHO amounts, averaged over Jan and Feb, 2007, with and without the UCX mechanism enabled.
+      Surface HCHO (first model level; up to $\sim$100~m) does not differ much between runs.
+      The differences do not exceed 3\% over Australia, and absolute differences are minor (note the scale in A-B).
+      The major notable difference occurs over northern Africa, where HCHO is around 20\% lower in the UCX run (although absolute HCHO is relatively low in this region).
+      Additionally a slight ($<8\%$) decrease in HCHO over the oceans can be seen.
+      The comparison is repeated using total columns (instead of surface values) in Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}, showing that differences affecting HCHO between the model run are spread over the entire vertical column.
+      Differences over Australia in total column HCHO are small, and these are the values used in this thesis.
+      
+      \begin{figure}
+        % These figures created in GC_test.py -> UCX_vs_trp...:
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_hcho_final.png}
+        \caption{%
+          Surface HCHO simulated by GEOS-Chem with UCX (A: top left), and without UCX (B: top right), along with their absolute and relative differences (bottom left, right respectively).
+          Amounts are the average of all times between 1 Jan and 28 Feb 2007.
+        }
+        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}
+      \end{figure}
+      
+      \begin{figure}
+        % These figures created in GC_test.py -> UCX_vs_trp...:
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_hcho.png}
+        \caption{%
+          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday} but using total column amounts instead of surface concentrations.
+        }
+        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_totcol_fullday}
+      \end{figure}
+      
+      
+      % Differences between run isoprene amounts described and analysed here
+      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
+      Here we start to see a higher relative difference in concentrations, although this is generally over the areas with lower absolute concentrations. 
+      Very little isoprene is seen away from the continents (4-5 orders of magnitude less), due to its short lifetime and  lack of oceanic sources.
+      Generally isoprene is 0-30\% higher over mid to western Australia when the UCX mechanism is turned on; however, this increase is lower in the regions with high isoprene emissions (north-east to south-east coastline).
+      This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}.
+      There is a greater effect in Africa and South America in the tropics, with high relative differences in many regions with low absolute amounts, but very small differences in locations where isoprene is strongly emitted.
+      
+      \begin{figure}
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_isop_final.png}
+        \caption{ %
+          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing isoprene surface concentrations. 
+        }      
+        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}
+      \end{figure}
+      \begin{figure}
+        \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_isop_final.png}
+        \caption{ %
+          As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}, except showing isoprene total column amounts. 
+        }      
+        \label{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_totcol_fullday}
+      \end{figure}
+      
+      
+      The difference in isoprene between UCX and tropchem is likely caused by differences in the modelled radiation reaching the troposphere due to differences in simulated ozone in the stratosphere.
+      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_O3} shows the total column ozone between UCX and non-UCX run.
+      This shows that UCX ozone is lower everywhere except for a thin band just north and south of the equator.
+      With higher stratospheric ozone levels, less radiation would reach the troposphere in the tropchem run.
+      This would slow photolysis limited reactions, such as the splitting of ozone that leads to OH production in the troposphere, in turn slowing the isoprene loss to OH reactions.
+      % hydroxyl radical plot used to be mentioned here
+      % is this correct??
+      %Decreased O$_3$ could lead to lower OH and the other differences between the runs over Australia.
+      
+      % Figure from GC_tests->UCX_vs_...
+      \mypic{Figures/OMI_link/GC/UCX_vs_trp_avgtotcol_20070101-20070228_O3.png}{%
+        Total column ozone simulated by GEOS-Chem with UCX (A: top left), and without UCX (B: top right), along with their absolute and relative differences (bottom left, right respectively).
+        Amounts are the average of all times between 1 Jan and 28 Feb 2007.
+      }{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3}}
+      
+      % Wrap up of UCX vs Tropchem differences and explanation of tropchem usage
+      Overall the UCX mechanism and increased vertical resolution lead to slightly higher isoprene and HCHO, and slightly lower ozone over Australia.
+      These differences are on the order of 0-10\% and as shown later (see Section \ref{BioIsop:uncertainty}) are minimal compared to other uncertainties in both AMF calculation and emissions estimation.
+      Running UCX requires roughly twice the computation (and real) hours, and outside of Chapter \ref{Ozone} the normal tropchem runs are used.
+      
+      
+      %% Ozone surface plot, not useful to explain column 
+      %\begin{figure}
+      %  % Figure from GC_tests.py -> ucx vs tropchem function
+      %  \includegraphics[width=\textwidth]{Figures/OMI_link/GC/UCX_vs_trp_avgsurf_20070101-20070228_O3.png}
+      %  \caption{%
+      %    As Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_HCHO_surf_fullday}, except showing ozone. 
+      %  }
+      %  \label{Model:GC:simulations:comparison:fig_UCXvsTrop_O3_surf_fullday}
+      %\end{figure}
+      
+      %      Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday} shows how OH at midday is changed between runs.
+      %      This figure shows a marked striping which is due to how OH is handled in GEOS-Chem.
+      %      The most notable difference is again over northern Africa into eastern Europe, with some small decrease in the UCX OH over Australia everywhere except the east coast.
+      %% Gc_tests.py -> compare_tc_ucx(...)
+      %\mypic{Figures/OMI_link/GC/UCX_vs_trp_middaysurf_20070101-20070228_OH.png}{%
+      %  Midday (1300-1400~local time) surface OH concentrations averaged over Jan-Feb, 2007. 
+      %  Absolute and relative differences are shown on the bottom row.}
+      %{\label{Model:GC:simulations:comparison:fig_UCXvsTrop_OH_surf_midday}}
 
 
 \section{OMI satellite formaldehyde}
@@ -927,7 +926,7 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
   Figure \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary} shows the details of OMI's detector array and measurement resolutions.
   %OMI measures atmospheric trace gases including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
   OMI measurements occur from right to left on a band covering a viewing angle of 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
-  The swaths cover Earth daily, both on the light and dark side of the planet, but only daytime measurements provide useful near-UV/Visible information.
+  The swaths cover the Earth daily, both on the light and dark side of the planet, but only daytime measurements provide useful near-UV/Visible information.
   While satellite measurements can only be used during daytime hours, HCHO lifetimes are sufficiently short that any night-time chemistry will not affect midday observations \parencite{Wolfe2016}.
   
   \begin{figure}
@@ -956,7 +955,7 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
   These RTM are also required to account for (often estimated) atmospheric parameters such as albedo.
   The next step is to transform the calculated amounts along the non-vertical light path into vertical column amounts.
   This is done by applying an AMF.
-  In the absence of atmospheric scattering a simple geometric AMF can be defined as a function of the solar zenith angle. 
+  In the absence of atmospheric scattering a simple geometric AMF (a scaling factor using the projection of the slant column onto a vertical axis) can be defined as a function of the solar zenith angle. 
   The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
   However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see Section \ref{Model:omhcho:DOAS}) must also be accounted for.
   
@@ -972,7 +971,7 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
   %A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
   %This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
   In this thesis I use the NASA OMHCHOv003 data product \parencite{Abad2015}, with HCHO determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
-  The algorithm used is based on direct fitting of radiances, and accounts for competing absorbers, under-sampling, and Ring effects.
+  The algorithm used is based on direct fitting of radiances, and accounts for competing absorbers, under-sampling, and Ring effects (these affect measured absorption lines).
   %An OMI radiance measurement over the remote Pacific ocean is used instead of an irradiance measurement.
   %This means that the 
   Slant columns ($\Os$) are determined from the spectra differential with respect to radiance reference column over the remote Pacific.
@@ -1075,7 +1074,7 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
     These properties are combined to determine the AMF.
     Different models are used for different satellite AMFs.
     For example GOME-2 products %(\url{http://atmos.caf.dlr.de/gome/product_hcho.html}), 
-    use the LIDORT RTM with IMAGESv2 CTM, and OMI products use LIDORT combined with the GEOS-Chem CTM \parencite{Chance2002, Abad2015}.
+    use the LInearized Discrete Ordinate Radiative Transfer (LIDORT) RTM with IMAGESv2 CTM, and OMI products use LIDORT combined with the GEOS-Chem CTM \parencite{Chance2002, Abad2015}.
     \textcite{Lamsal2014} recommends that when comparing satellite data to models, the AMF should first be recalculated using the model as an a priori.
     This is in order to remove any a priori bias between model and satellite columns.
     For this reason the OMHCHO AMF are recalculated in this thesis using GEOS-Chem to create the a priori profiles and LIDORT to calculate scattering weights.
@@ -1102,7 +1101,7 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
   
   \subsection{Uncertainty}
   
-    The main sources of error in satellite retrievals of HCHO are instrument detection sensitivities and calculation of the air mass factor (AMF) that converts slanted light path concentrations into a vertical profile \parencite{Millet2006}.
+    The main sources of error in satellite retrievals of HCHO are instrument detection sensitivities and calculation of the AMF (the factor calculated to convert slanted light path concentrations into a vertical profile) \parencite{Millet2006}.
     % amf agreements between groups, but sensitive to a priori
     Calculations of the AMF performed by different groups tend to agree fairly well, as long as the a priori and ancillary data are similar.
     Large differences can occur depending on the a priori vertical profile, trace gas concentrations, and cloud properties \parencite{Lorente2017}.
@@ -1403,7 +1402,7 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
       The integration is performed using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum for each vertical box.
       This assumes that the provided scattering weights and shape factors are linear between the 47 resolved values.
     
-    \subsubsection{Recalculating the AMF using PP code}
+    \subsubsection{Recalculating the AMF}
       \label{Model:omiRecalc:ppcode}
       % pp code for AMF recalculation referred to as pp code
       
@@ -1424,12 +1423,11 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
       Additionally, required tropopause heights averaged within satellite overpass times are created by modifying the GEOS-Chem diagnostic output.
       The calculation of $\omega$(z) is simplified by using large ``look up tables'' of values based on many parameters such as cloud top heights and optical depths.
       These AMF look up tables can be found in the source code at \url{https://github.com/LukeSurl/amf581g}.
-      The PP code uses HCHO concentration profiles averaged between 1300 and 1400 LT, including optical depths at 550~nm, and dust concentrations from GEOS-Chem, along with a subset of the OMI pixel information.
+      The PP code uses HCHO concentration profiles averaged between 13:00 and 14:00 local time, including optical depths at 550~nm, and dust concentrations from GEOS-Chem, along with a subset of the OMI pixel information.
       The required information is taken from OMHCHO daily swath files, and sorted into csv files (one per day) which are then read by the PP code in conjunction with the GEOS-Chem outputs for each day.
       The PP code then produces a list of recalculated AMF values that are read by Python code and associated with the corresponding satellite pixel.
     
     
-      
     \subsubsection{Saving the AMF with satellite pixels}
       
       % Downloading the data
@@ -1714,7 +1712,7 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
     % Products making up the pyro filter
     MODIS fire counts are used in conjunction with smoke AAOD enhancements from OMI to remove data points that may be affected by fires or fire smoke plumes.
     %The method used in this thesis follows that of \textcite{Marais2012} and \textcite{Barkley2013}, with active fires filtered using fire counts and smoke filtered using smoke AAOD.
-    The MODIS fire counts come from a combination of measurements from the Terra and Aqua satellites (Terra overpasses at 10:30, 22:30 LT; Aqua at 13:30, 01:30 LT).
+    The MODIS fire counts come from a combination of measurements from the Terra and Aqua satellites (Terra overpasses at 10:30, 22:30; Aqua at 13:30, 01:30 local time).
     Satellite AAOD from product OMAERUVd (described in Section \ref{Model:datasets:OMAERUVd}) is analysed over Australia to determine a suitable filter threshold.
     AAOD is used instead of an alternative product AOD as it is less sensitive to the presence of clouds \parencite{Ahn2008}.
     
@@ -1985,7 +1983,7 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
       
       %To determine which model grid boxes are affected by smearing, we follow \textcite{Marais2012}.
       GEOS-Chem is run with normal isoprene emissions and with isoprene emissions halved, then Equation \ref{Model:filter:smearing:calculation:eqn_hats} ( $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $) provides $\hat{S}$.
-      Here $\Delta$ represents the difference (daily 1300-1400~LT) between default and scaled runs.
+      Here $\Delta$ represents the difference (daily 1300-1400~local time) between default and scaled runs.
       If $\hat{S}$ sits outside the 800-4600 range then we remove that grid square day from both $S$ and subsequent a posteriori emission calculations.
       A relatively large change in $\Omega_{HCHO}$ compared to local emissions ($\hat{S}>4600$) suggests HCHO production is from non-local isoprene emissions.
       Alternatively, a relatively low value of $\hat{S}$ ($\hat{S}<800$) suggests emissions from the local grid square are being exported before they form HCHO.
@@ -2094,7 +2092,6 @@ Running UCX requires roughly twice the computation (and real) hours, and outside
         %Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}  
     
-  % UP TO HERE JENNY
 \section{Summary schematic for OMI HCHO processing}
   \label{Model:saving_omhchorp}
   % final summary of omhchorp creation
