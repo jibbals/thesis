@@ -658,7 +658,7 @@
     % previous versions had $\sim 21$~Tg N a$^{-1}$ from fossil fuel combustion
     Other NO$_X$ emissions arise from sources including soil emissions %($\sim 10$~Tg N a$^{-1}$)
     and lightning.
-    Soil emissions are layed out in \textcite{Hudson2012}, parameterised using biome specific emission factors, and an explicit fertiliser dataset.
+    Soil emissions are layed out in \textcite{Hudman2012}, parameterised using biome specific emission factors, and an explicit fertiliser dataset.
     Lightning based NO$_X$ production is created based on inventories of lightning flash rates scaled within GEOS-Chem.
     Conversion to nitric acid (HNO$_3$) followed by deposition is the primary NO$_x$ removal mechanism \parencite{Delmas1997, Ayers2006}.
     
@@ -1847,8 +1847,8 @@
     % Filters and Threshhold determination and reasoning
     The anthropogenic filter is created for each year in two steps:
     \begin{enumerate}
-      \item Daily grid squares with NO$_2$ greater than $1.5\times10^{15}$\moleccm  ~are flagged as anthropogenic.
-      \item After taking the yearly average for each grid square, any tropospheric NO$_2$ columns greater than $2 \times 10^{15}$\moleccm ~are flagged for the whole year.
+      \item Daily grid squares with NO$_2$ greater than $2.0 \times10^{15}$\moleccm  ~are flagged as anthropogenic.
+      \item After taking the yearly average for each grid square, any tropospheric NO$_2$ columns greater than $1.5 \times 10^{15}$\moleccm ~are flagged for the whole year.
     \end{enumerate}
     These thresholds are chosen subjectively to ensure the removal of definite anthropogenic influence while not removing too many data points over nearly uninhabited portions of Australia.
     These thresholds completely remove grid squares over major cities that are likely emitting NMVOCs year round, and also frequently remove grid squares downwind.
@@ -1950,7 +1950,8 @@
       
       Potential smearing is masked by checking a daily modelled value for $\hat{S} \approx Y_{isop}/k_{HCHO}$ against thresholds.
       By assuming that midday HCHO lifetime ($\tau = 1/k_{HCHO}$) typically falls within 1.5 to 4~hrs (as seen in the USA; \textcite[e.g.,][]{Palmer2006,Wolfe2016}) and isoprene-to-HCHO yield (HCHO per isoprene carbon emitted) lies within the range 0.2 to 0.4 (scenarios estimated in \textcite{Palmer2003}), one can set a simple bound on $\hat{S}$ of $[0.2 \times 1.5, 0.4 \times 4]$~hrs or 1080 to 5760 seconds.
-      As NO$_x$ levels across Australia are relatively low, and lower NO$_x$ levels reduce the prompt yield \parencite{Palmer2003,Wolfe2016}, I reduce the threshold range by 20\% and round to the nearest hundred leading to a bounding range of 800 to 4600 for $\hat{S}$. 
+      As NO$_x$ levels across Australia are relatively low, and lower NO$_x$ levels reduce the prompt yield \parencite{Palmer2003,Wolfe2016}.
+      In this work the threshold range is the simple bound shown here, reduced by 20\% and rounded to the nearest hundred leading to a bounding range of 800 to 4600 for $\hat{S}$. 
       This range strikes a balance between unlikely modelled yields and the amount of data lost to filtering.
       Table \ref{Model:filter:smearing:tab_smearing_ranges} compares the smearing filter for Australia used in this thesis to typical values used in previous work for other regions.
       %This smearing range captures isoprene to HCHO yields of around 0.16 to 0.32 C per C if HCHO lifetime is assumed to lie within 1.5 to 4 hours.
@@ -2106,46 +2107,49 @@
   }{\label{Model:saving_omhchorp:fig_flow_omhchorp}}
      
 \section{Data Access}
-\label{Model:DataAccess}
-\begin{description}
-  \item[AIRS] Atmospheric Infra-red Sounder instrument aboard the Aqua satellite \parencite{AIRS3STD}.
-  Satellite measurements of carbon monoxide downloaded from \url{https://search.earthdata.nasa.gov} with the product name AIRS3STD, DOI: 10.5067/AQUA/AIRS/DATA303.
-  Data from this product are used in Chapter \ref{Ozone}, and briefly described in Section \ref{Model:datasets:AIRS}.
+  \label{Model:DataAccess}
   
-  \item[CPC] Climate Prediction Center global temperature data provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their website at \url{https://www.esrl.noaa.gov/psd/}.
-  Surface temperatures from this data set used in Section \ref{Model:omiRecalc:diff}, and described in Section \ref{Model:datasets:model:CPC}.
+  Here I list the data sets used in this thesis, along with where it is from and where it is used.
   
-  \item[ERAI] European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}. 
-  Downloaded using the online portal: \url{https://apps.ecmwf.int/datasets/data/interim-full-daily/}.
-  These data are used in Chapter \ref{Ozone}
-  
-  \item[MUMBA] Measurements of Urban, Marine and Biogenic Air campaign \parencite{PatonWalsh2017}.
-  Several trace gases from this campaign are examined here in Section \ref{BioIsop:results:measurements}, the data set is described in more detail in Section \ref{Model:datasets:MUMBA}.
-  
-  
-  \item[OMHCHO] Satellite swaths of HCHO slant columns downloaded from \url{https://search.earthdata.nasa.gov}, with DOI 10.5067/Aura/OMI/DATA2015.
-  More information can be found in Section \ref{Model:omhcho}.
-  
-  \item[OMNO2d] Daily satellite NO$_2$ product downloaded from \url{https://search.earthdata.nasa.gov/search}, DOI:10.5067/Aura/OMI/DATA3007. 
-  For more information in refer to section \ref{Model:datasets:OMNO2d}.
-  
-  \item[OMAERUVd] Gridded satellite based AAOD measurements downloaded from the NASA earth data portal \url{https://search.earthdata.nasa.gov}.
-  A summary can be found at \url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd\_V003/summary}, \fullcite{Omar2008}.
-  This dataset is described in detail in Section \ref{Model:datasets:OMAERUVd}.
-  
-  %\item[SPEI] Monthly standardised precipitation evapotranspiration index (metric to determine drought stress) downloaded from \url{http://hdl.handle.net/10261/153475} with DOI:10.20350/digitalCSIC/8508.
-  %See more information in section ?? THIS WORK IS FUTURE WORK
-  
-  \item[SPS] Observations from Westmead Air Quality Station, stage 1 (SPS1, \textcite{SPS12016}) from 5 February to 7 March 2011, stage 2 (SPS2, textcite{SPS22016})  from 16 April to 14 May 2012.
-  SPS1 is available from \url{https://doi.org/10.4225/08/57903B83D6A5D}, and SPS2 from \url{https://doi.org/10.4225/08/5791B5528BD63}.
-  Some trace gas measurements are examined here in Section \ref{BioIsop:results:measurements}.
-  Relevant measurements described in detail in Section \ref{Model:datasets:SPS}.
-  
-  \item[Wollongong FTIR] The instrument is part of the Network for the Detection of Atmospheric Composition Change (NDACC) and data can be retrieved from the NDACC database (\url{http://www.ndaccdemo.org/stations/wollongong-australia}).
-  The current principle investigator producing and quality assuring the data set is \href{mailto:njones@uow.edu.au}{Dr. Nicholas Jones}.
-  
-  \item[Ozone sondes] Ozonesonde data were retrieved from the World Ozone and Ultraviolet Data Centre (WOUDC)  \url{http://woudc.org/data/explore.php}.
-  
-  
-  
-\end{description}
+  \begin{description}
+    \item[AIRS] Atmospheric Infra-red Sounder instrument aboard the Aqua satellite \parencite{AIRS3STD}.
+    Satellite measurements of carbon monoxide downloaded from \url{https://search.earthdata.nasa.gov} with the product name AIRS3STD, DOI: 10.5067/AQUA/AIRS/DATA303.
+    Data from this product are used in Chapter \ref{Ozone}, and briefly described in Section \ref{Model:datasets:AIRS}.
+    
+    \item[CPC] Climate Prediction Center global temperature data provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their website at \url{https://www.esrl.noaa.gov/psd/}.
+    Surface temperatures from this data set used in Section \ref{Model:omiRecalc:diff}, and described in Section \ref{Model:datasets:model:CPC}.
+    
+    \item[ERAI] European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}. 
+    Downloaded using the online portal: \url{https://apps.ecmwf.int/datasets/data/interim-full-daily/}.
+    These data are used in Chapter \ref{Ozone}
+    
+    \item[MUMBA] Measurements of Urban, Marine and Biogenic Air campaign \parencite{PatonWalsh2017}.
+    Several trace gases from this campaign are examined here in Section \ref{BioIsop:results:measurements}, the data set is described in more detail in Section \ref{Model:datasets:MUMBA}.
+    
+    
+    \item[OMHCHO] Satellite swaths of HCHO slant columns downloaded from \url{https://search.earthdata.nasa.gov}, with DOI 10.5067/Aura/OMI/DATA2015.
+    More information can be found in Section \ref{Model:omhcho}.
+    
+    \item[OMNO2d] Daily satellite NO$_2$ product downloaded from \url{https://search.earthdata.nasa.gov/search}, DOI:10.5067/Aura/OMI/DATA3007. 
+    For more information in refer to section \ref{Model:datasets:OMNO2d}.
+    
+    \item[OMAERUVd] Gridded satellite based AAOD measurements downloaded from the NASA earth data portal \url{https://search.earthdata.nasa.gov}.
+    A summary can be found at \url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd\_V003/summary}, \fullcite{Omar2008}.
+    This dataset is described in detail in Section \ref{Model:datasets:OMAERUVd}.
+    
+    %\item[SPEI] Monthly standardised precipitation evapotranspiration index (metric to determine drought stress) downloaded from \url{http://hdl.handle.net/10261/153475} with DOI:10.20350/digitalCSIC/8508.
+    %See more information in section ?? THIS WORK IS FUTURE WORK
+    
+    \item[SPS] Observations from Westmead Air Quality Station, stage 1 (SPS1, \textcite{SPS12016}) from 5 February to 7 March 2011, stage 2 (SPS2, textcite{SPS22016})  from 16 April to 14 May 2012.
+    SPS1 is available from \url{https://doi.org/10.4225/08/57903B83D6A5D}, and SPS2 from \url{https://doi.org/10.4225/08/5791B5528BD63}.
+    Some trace gas measurements are examined here in Section \ref{BioIsop:results:measurements}.
+    Relevant measurements described in detail in Section \ref{Model:datasets:SPS}.
+    
+    \item[Wollongong FTIR] The instrument is part of the Network for the Detection of Atmospheric Composition Change (NDACC) and data can be retrieved from the NDACC database (\url{http://www.ndaccdemo.org/stations/wollongong-australia}).
+    The current principle investigator producing and quality assuring the data set is \href{mailto:njones@uow.edu.au}{Dr. Nicholas Jones}.
+    
+    \item[Ozone sondes] Ozonesonde data were retrieved from the World Ozone and Ultraviolet Data Centre (WOUDC)  \url{http://woudc.org/data/explore.php}.
+    
+    
+    
+  \end{description}
