@@ -455,10 +455,9 @@
     Since we have assumed variation in HCHO columns only depends on isoprene emissions, our background term is theoretically identical to the simulated HCHO without isoprene emissions.
     The other method uses HCHO over the remote Pacific Ocean at matching latitudes and times, which emulates how the background is determined for the satellite measured HCHO.
     Figure \ref{BioIsop:method:fig_background_hcho} shows the background total column HCHO calculated in these two different manners, and how they compare to each other and normal levels for an example month (January, 2005).
-    % UP TO HERE JENNY
-    % JENNY TODO: How? These have been removed. Wouldn't it make more sense if the difference is due to non-isoprene NMVOC precursors (like monoterpenes)? These would cause some HCHO formation over the continent which would raise the background in the non-isoprene case. The pattern in the figure looks consistent with that to me.
-    %I haven't looked yet, but the uncertainty in your method due to neglecting non-isoprene biogenic NMVOC sources of HCHO is something you definitely need to mention, and this may be one place where you should first bring it up (with further discussion in uncertainties section).
-    The difference between these definitions is approximately $15\%$, and may be due to non-isoprene HCHO precursors such as pyrogenic and anthropogenic emissions.
+    The difference between these definitions is approximately $15\%$, and is mostly caused by non-isoprene HCHO precursors (such as monoterpenes).
+    Non-isoprene HCHO precursor emissions are neglected in the top-down estimation technique used in this work, which introduce some uncertainty (Section \ref{BioIsop:uncertainty:Model}).
+    %, pyrogenic, or anthropogenic emissions could also influence this.
     %This is made apparent by the locations of the difference between the two definitions, with hot spots over forested and populous areas.
     Generally in summer months the continental HCHO levels are over 3 times higher than background levels, so the choice of background definition has only a very small impact on the final results.
     For consistency with the satellite data, we determine backgrounds using the remote Pacific.
@@ -480,7 +479,8 @@
     \label{BioIsop:method:calculation}
    
     Top-down emissions estimates are calculated using OMHCHO (see Section \ref{Model:omhcho}) slant columns and an updated AMF calculated using code written by Paul Palmer and Randal Martin, with modifications by Luke Surl (see Section \ref{Model:omiRecalc:ppcode}).
-    These emissions are referred to as the a posteriori from here onward, or $\apost$ in formulae.
+    In Chapter \ref{Model} there are three calculations of the AMF referred to as $AMF_{OMI}$ (the original OMI AMF), $AMF_{GC}$ (AMF recalculated with GEOS-Chem shape factors), and $AMF_{PP}$ (AMF recalculated using GEOS-Chem shape factors and scattering weights).
+    The new emissions are calculated (using the $AMF_{PP}$) are referred to as the a posteriori from here onward, or $\apost$ in formulae.
     
     
     % First: outline of what we do
@@ -496,31 +496,34 @@
     This is the same as equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}, except now we use the satellite HCHO ($\Oomi$ ~and $\Omega_0$).
     $\Omega_0$ is calculated using $\Oomi$ in the remote Pacific averaged monthly and longitudinally, for each latitude.
     This leaves $\apost$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
-    Figure \ref{BioIsop:method:calculation:fig_E_isop_200501} shows an example of how the a priori compares to the a posteriori, averaged over January 2005.
-    This figure gives a single month of output as an example.
-    The a priori exceeds 500\% of the a posteriori in many regions; however, the major absolute differences occur in the east between Sydney and Brisbane. 
-    Analysis of the full record is discussed in the results (Section \ref{BioIsop:results}).
-    
-    
+    % I would actually suggest you delete the rest of this paragraph and the associated figure 3.5 here. It's a bit weird to be really showing your results this early in the methods (even if it is just an example) and I don't think it adds any clarity.
+    %Figure \ref{BioIsop:method:calculation:fig_E_isop_200501} shows an example of how the a priori compares to the a posteriori, averaged over January 2005.
+    %This figure gives a single month of output as an example.
+    %The a priori exceeds 500\% of the a posteriori in many regions (meaning the original emissions are five times too high); however, the major absolute differences occur in the vegetated east between Sydney and Brisbane. 
+    %Analysis of the full record is discussed in the results (Section \ref{BioIsop:results}).
     
     % RERUN MAKING SURE NEGATIVES ARE REMOVED OR ZEROED
-    \begin{figure}
-      % Figure from Analyse_E_new.MEGAN_vs_E_new()
-      \includegraphics[width=\textwidth]{Figures/OMI_link/Emiss/MEGAN_vs_E_PP_lr_20050101-20050131.png}
-      \caption{%
-        Top row: isoprene emissions from GEOS-Chem (a priori, left) simulation and top-down (a posteriori, right) calculations averaged over the month of January, 2005.
-        Bottom row: the absolute (left) and relative (right) differences between the two.
-      }
-      \label{BioIsop:method:calculation:fig_E_isop_200501}
-    \end{figure}
+    %\begin{figure}
+    %  % Figure from Analyse_E_new.MEGAN_vs_E_new()
+    %  \includegraphics[width=\textwidth]{Figures/OMI_link/Emiss/MEGAN_vs_E_PP_lr_20050101-20050131.png}
+    %  \caption{%
+    %    Top row: isoprene emissions from GEOS-Chem (a priori, left) simulation and top-down (a posteriori, right) calculations averaged over the month of January, 2005.
+    %    Bottom row: the absolute (left) and relative (right) differences between the two.
+    %  }
+    %  \label{BioIsop:method:calculation:fig_E_isop_200501}
+    %\end{figure}
     
     
     One potential issue in this top-down estimation technique is the low number of valid satellite measurements that may occur due to the higher solar zenith angles in winter and at higher latitudes.
-    Another issue is that negative emissions are commonly calculated in areas wherever measured HCHO columns are lower than background amounts (as $\apost = \frac{\Oomi - \Omega_0}{S}$).
-    These are set to zero, which increases the overall average emissions from 4.4$\times 10^{11}$ atom C cm$^{-2}$ s$^{-1}$ to 1.1$\times 10^{12}$ atom C cm$^{-2}$ s$^{-1}$, due to the frequency of sub-zero column amounts (especially in winter) over low isoprene emission areas.
+    Another issue is that negative emissions are commonly calculated in areas wherever measured HCHO columns are lower than background amounts (as $\apost = \frac{\Oomi - \Omega_0}{S}$) due to uncertainty in the background calculation.
+    These negative calculated emissions are set to zero, as negative emissions physically meaningless in this calculation.
+    Relative uncertainty in these gridsquares is set to 100\% for later estimations of uncertainty (Section \ref{BioIsop:uncertainty:eomi}).
+    %which increases the overall average emissions from 4.4$\times 10^{11}$ atom C cm$^{-2}$ s$^{-1}$ to 1.1$\times 10^{12}$ atom C cm$^{-2}$ s$^{-1}$, due to the frequency of sub-zero column amounts (especially in winter) over low isoprene emission areas.
     %% MAYBEDO: split this into seasonl emission changes?.
     
     
+    % UP TO HERE JENNY
+  % JENNY TODO: This section is in the wrong place. Very repetitive of what is already there at the end of 3.2.5 (calculation of modelled slope) and Figure 3.3 which you've already discussed. Move this text up to that section and condense so that you aren't duplicating the discussion (especially the second paragraph of this one). Move Figure 3.6 along with it.
   % Smearing subsection used to be here...
   \subsection{Sensitivity to smearing}
   \label{BioIsop:method:smearing}
