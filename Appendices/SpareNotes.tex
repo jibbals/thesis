@@ -358,6 +358,31 @@
   
   This subsection could analyse nox and LAI correlations to isop,hcho, and ozone over australia?
  
+
+  \subsection{Modelled HCHO lifetimes}
+    \label{BioIsop:method:smearing:hcho_life}
+    By assuming yield $Y_{isop}$ lies between 0.2 and 0.4, we find a range for midday lifetimes of HCHO using equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}:
+    \begin{eqnarray} \begin{split}
+    \label{Model:results:hcho_life:eqn_smearing_vs_yield}
+    S = & \frac{Y_{isop}}{k_{HCHO}} \\
+    \tau \equiv & \frac{1}{k_{HCHO}} \\
+    \tau = & \frac{S}{Y_{isop}}
+    \end{split} \end{eqnarray}
+    $\tau$ is heavily influenced by assumed yield, and improved methods of estimating yield over Australia are required to improve this estimate.
+    Figure \ref{BioIsop:method:smearing:hcho_life:fig_Lifetime} shows the GEOS-Chem HCHO lifetime estimated throughout the year.
+    There is a clear seasonal cycle with longer lifetimes in winter months.
+    In June (and sometimes March, July and August), HCHO lifetimes increase, which is caused by the reduced winter HCHO concentrations, temperature, and insolation.
+    These factors may limit the utility of any top-down emissions estimation technique using HCHO in the winter months.
+    The figure is produced using filtered slope information from 2005; however, outliers along with low data availability (in some months) are issues which lead to wide estimate ranges and high uncertainty.
+    Noise in the southwest and middle regions may be indicative of substantial filtering, potentially driven by westerly winds which can bring transported pollution and also lead to smearing.
+    
+    % Plot/calculation from GC_tests.yield_and_lifetime()
+    \mypic{Figures/OMI_link/GC/HCHO_lifetime.png}{ %
+      Monthly area averaged HCHO lifetime ($\tau$ in hours), with IQR shaded.
+      Solid lines show lifetime assuming yield is 0.2, and 0.4 (higher and lower lines respectively).
+      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
+    }{\label{BioIsop:method:smearing:hcho_life:fig_Lifetime}}
+
 \section{Campaigns}
 
   \subsection{Daintree}
