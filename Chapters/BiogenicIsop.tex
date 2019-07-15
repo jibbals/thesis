@@ -770,38 +770,38 @@
       
       % Figure from chapter_3_isop.Seasonal_daycycle
       \mypic{Figures/OMI_link/Emiss/MEGAN_monthly_daycycle_final.png}{ %
-        The diurnal cycle of GEOS-Chem a priori emissions (solid line) averaged by month into hourly bins over from 2005 to 2013 are shown against top-down a posteriori (dashed line) emissions.
+        The diurnal cycle of GEOS-Chem a priori emissions (solid line) averaged by month into hourly bins over from 2005 to 2013 along with top-down a posteriori (dashed line) emissions.
         Standard deviations for the monthly average are shaded for the a priori, and shown with error bars at 13:30~LT for the a posteriori.
         top-down emissions shown here are based on monthly midday emissions being the peak of a sine wave which drops to zero after and before daylight hours (see Section \ref{BioIsop:method:conversion_to_kg}).
       }{\label{BioIsop:method:scaled:fig_megan_diurnal}}
     
-    % UP TO HERE JENNY
+
     \subsubsection{Trends}
     
       %Plot time series of isoprene emissions for each region pre and post change
       % subtract seasonal mya cycle and show trend and p value for trend being non-zero.
       Figure \ref{BioIsop:results:new_emiss:trends:fig_emission_anomalies} shows monthly deseasonalised a priori and a posteriori midday emission anomalies for each region.
       First the emissions are spatially averaged within each region to form a daily time series of midday emission rates
-      They are averaged into monthly data, and then the multiyear monthly mean is subtracted to form the anomaly time series.
+      These are averaged into monthly data, and then the multi-year monthly mean is subtracted to form the anomaly time series.
       Any anomaly greater than three standard deviations from the mean is removed (crosses in Figure \ref{BioIsop:results:new_emiss:trends:fig_emission_anomalies}).
       An ordinary least squares linear regression is then performed to look for any significant trend.
       A trend is considered significant if the p-value from a Wald test (equivalent to a t-test) is less than 0.05.
-      The same process is repeated for surface concentrations of ozone, HCHO, and NO$_x$ (not shown).
+      %The same process is repeated for surface concentrations of ozone, HCHO, and NO$_x$ (not shown).
       Trend results for isoprene are summarised in Table \ref{BioIsop:results:trends:tab_trends}.
       The a priori midday surface isoprene concentrations show a small decline outside of the southwest region over the 8 year period from 2005-2012.
       This decline reduces in scale by approximately a factor of 2-3 in the a posteriori emissions.
-      None of the species shows any significant changes in trend due to scaling isoprene emissions.
-      Some trends are no longer significant in surface HCHO, however none of the trends change sign.
+      There is no significant change in trend due to scaling isoprene emissions.
+      %Some trends are no longer significant in surface HCHO, however none of the trends change sign.
       Since the scaling factor $\alpha$ is applied to each grid square seasonally and not changing each year, changing trends are not expected.
       
       
       \begin{table}\begin{threeparttable}
-        \caption{Yearly trend in surface amounts (ppbvC) before and after scaling isoprene emissions.}
+        \caption{2005-2012 trend$^{a}$ in surface isoprene mixing ratio (ppbvC yr$^{-1}$) from simulations using a priori and a posteriori isoprene emissions.}
         \begin{tabular}{ l | c  c } 
           \toprule
           Region & a priori & a posteriori \\
           \midrule
-          \textbf{Isoprene} & & \\
+          %\textbf{Isoprene} & & \\
           Aus                   & \textbf{-.04} & \textbf{-.02}  \\
           \textcolor{red}{SE}   & \textbf{-.15} & \textbf{-.07}  \\
           \textcolor{green}{NE} & \textbf{-.13} & \textbf{-.04}  \\
@@ -835,8 +835,8 @@
           \bottomrule
         \end{tabular}
         \begin{tablenotes} 
-          \item Statistically significant (two sided test with $\alpha=0.1$) trends are bolded.
-          \item Units are ppbv Carbon rounded to two decimal places.
+          \item a: Statistically significant (two sided test with $\alpha=0.1$) trends are bolded.
+          %\item Units are ppbv Carbon rounded to two decimal places.
           %pptv for NO$_x$, ppbv for others
         \end{tablenotes}
         \label{BioIsop:results:trends:tab_trends}
@@ -845,7 +845,8 @@
       
       % trend figures from chapter_3_isop.trend_analysis
       \mypic{Figures/OMI_link/new_emiss/trend_isop.png}{%
-        A priori (row 1) and a posteriori (row 2) emissions anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
+        A priori (row 1) and a posteriori (row 2) monthly emissions anomalies from multi-year monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
+        TODO: Subtitles changed to a priori and a posteriori (instead of scaled)
       }{\label{BioIsop:results:new_emiss:trends:fig_emission_anomalies}}
    
   \subsection{Modelled impacts of reduced isoprene emissions}
@@ -871,11 +872,11 @@
     
     \subsubsection{Implications for HCHO}
   
-      As a preliminary check on the GEOS-Chem output, simulated $\Ogc$ and $\Ogca$ is compared to $\Oomi$ over January and February, 2005 in Figure \ref{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}.
+      As a preliminary check on the GEOS-Chem output, simulated $\Ogc$ and $\Ogca$ are compared to $\Oomi$ over January and February, 2005 in Figure \ref{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}.
       In every region, $\Ogca$ is closer to $\Oomi$ with biases decreasing from $\sim{100\%}$ to $\sim{50\%}$ everywhere except the northern region, which has biases decreasing from $\sim{50\%}$ to $\sim{25\%}$.
       Note that this is not an independent validation as $\Oomi$ drive the creation of $\Ogca$, and as we expect the relationship is much improved.
       The remaining differences are most likely driven by filtering and temporal averaging of the applied scaling factor $\alpha$.
-      When looking over all of Australia from 2005-2012, the summer mean decreases from $ 9.8 \times 10^{15}$ to $ 7.4 \times 10^{15}$ \moleccm after scaling isoprene emissions, while the satellite column is $ 4.9 \times 10^{15}$.
+      When looking over all of Australia from 2005-2012, the summer mean decreases from $ 9.8 \times 10^{15}$ to $ 7.4 \times 10^{15}$ \moleccm ~after scaling isoprene emissions, while the satellite column is $ 4.9 \times 10^{15}$.
       
       %JENNY NOTE: interesting that N seems least improved, is bias largest during monsoon? worth a comment
       % figure from initial version of tests/test_new_emissions.hcho_ozone_timeseries
@@ -885,25 +886,28 @@
       
       
       Figure \ref{BioIsop:results:emissions:fig_hcho_reduction} shows HCHO is most reduced in summer for the majority of Australia.
-      In winter, a reduction is seen along the northern edge of Australia, most likely because emissions in this area are less affected by the seasonal decline.
-      Seasonal means and the standard deviations for each region are summarised in Figure \ref{BioIsop:results:emissions:fig_hcho_summary}.
-      Both mean and variance within the vertical column of HCHO are reduced after running GEOS-Chem with scaled isoprene, although the mean is lower still in OMI vertical columns.
+      In winter, a reduction is seen along the northern coast of Australia, most likely because emissions in this area are less affected by the seasonal decline.
+      Seasonal means and the standard deviations (between all grid boxes and days used in averaging) for each region are summarised in Figure \ref{BioIsop:results:emissions:fig_hcho_summary}.
+      Both mean and variance are reduced after running GEOS-Chem with scaled isoprene, although the mean is lower still in OMI vertical columns.
       Model output standard deviations in summer range from $\sim{20-30}\%$, while OMI standard deviations range from $\sim{32-41}\%$.
       The highest OMI standard deviations occur in winter, ranging over $\sim{46-73}\%$, which is the opposite of model output with standard deviations between $\sim{12-27}\%$.
-      This could be an effect from the increased winter uncertainty in satellite output, which is amplified by the low column amounts in the season.
-      Overall the standard deviation within model output appears to be too low in all regions, ranging from three quarters (south eastern region) to one fifth (middle region) of the standard deviations within the OMI HCHO column output
+      This could be an effect of the increased winter uncertainty in satellite output, which is amplified by the low column amounts in the season.
+      Overall the standard deviation within model output appears to be too low in all regions, ranging from three quarters (south eastern region) to one fifth (middle region) of the standard deviations within the OMI HCHO column output.
+      These standard deviations are formed from the monthly averaged grid boxes used to create each multi-year seasonal mean.
+      Their low value (relative to satellite measurements) suggests that the model does not capture the full range of variance over time and space of HCHO levels over Australia; however, variance is heightened in satellite measurements due to the filtering that reduces the number of grid squares that form the multi-year seasonal mean.
+      
       
       % Figure from chapter_3_isop.seasonal_differences
       \mypic{Figures/OMI_link/new_emiss/HCHO_total_columns_seasonal.png}{%
-        Total column HCHO before (left) and after (middle) scaling isoprene emissions, and their relative differences (right).
+        Total column HCHO a priori (left) and a posteriori (middle) isoprene emissions, and their relative differences (right).
         Top row shows summer (DJF) averaged total columns, while bottom row shows the winter (JJA).
       }{\label{BioIsop:results:emissions:fig_hcho_reduction}}
       
-      % Figure from chapter_3_isop.hcho_summary
+      % Figure from chapter_3_isop.hcho_vs_satellite
       \mypic{Figures/OMI_link/hcho_vs_satellite.png}{%
-        Regionally and seasonally averaged HCHO total columns from GEOS-Chem and recalculated OMI measurements side by side.
+        Regionally and seasonally averaged HCHO total columns from GEOS-Chem ($\Omega_{GC}$, and $\Omega_{GC}^{\alpha}$) and recalculated OMI measurements ($\Omega_{OMI}$) side by side.
         Each row represents one region within Australia, while each column represents from left to right: summer, autumn, winter, spring.
-        Standard deviations are shown with error bars.
+        Standard deviations between grid boxes used to form the multi-year seasonal average are shown with error bars.
       }{\label{BioIsop:results:emissions:fig_hcho_summary}}
       
       Decreasing isoprene emissions in the model lead to reduction in HCHO concentrations as one would expect.
@@ -912,7 +916,7 @@
       The high correlation is effectively a sanity check of the top-down method used in this thesis to estimate isoprene emissions.
       
       \mypicw{0.5\textwidth}{Figures/OMI_link/check_GC_profile.png}{%
-        Monthly averaged HCHO profile over Wollongong modelled by GEOS-Chem before (VMR) and after (VMR$^{\alpha}$) scaling isoprene emissions.
+        Monthly averaged HCHO profile over the 2\degr x 2\degr ~grid box containing Wollongong modelled by GEOS-Chem before (VMR) and after (VMR$^{\alpha}$) scaling isoprene emissions.
         Shaded areas represent the inter-quartile range over the month.
       }{\label{BioIsop:results:emissions:fig_profile_example}}
         
@@ -924,9 +928,11 @@
       Reducing isoprene emissions lowers surface ozone concentrations by $\sim1$~ppbv in all regions in all seasons.
       The largest reductions ($\sim3$~ppbv) occur in the northern region in spring.
       A regression between the change in isoprene emissions, and the change in surface ozone was performed (as in the prior section with HCHO); however, only very weak correlations between reductions are apparent.
-      While the overall decrease in surface ozone is clear, there is no direct correlation between monthly grid square averaged reductions in isoprene emission and surface ozone concentrations.
-      This suggests that changes in isoprene emissions affect ozone in grid squares where absolute emission reductions are not as strong.
+      While the overall decrease in surface ozone is clear, there is no direct correlation between monthly grid square averaged reductions in isoprene emission and surface ozone concentrations in the same grid square.
+      This suggests that changes in isoprene emissions affect ozone in non-local grid squares due to transport, including grid squares where absolute emission reductions are not as strong.
+      % JENNY NOTE: Or that the effects are smeared across grid squares; i.e. the effect is not necessarily local like you expect it to be for HCHO 
       
+      % UP TO HERE JENNY
       % plot from tests/test_new_emissions.hcho_ozone_series
       \mypic{Figures/OMI_link/new_emiss/O3_surface_20050101_20051231.png}{%
         Surface ozone concentrations (ppb) per region over 2005.
@@ -956,15 +962,15 @@
     %\label{BioIsop:results:new_emiss:trends}
     
 %      \mypic{Figures/OMI_link/new_emiss/trend_O3.png}{%
-%        A priori (row 1) and a posteriori (row 2) surface ozone anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
+%        A priori (row 1) and a posteriori (row 2) surface ozone anomaly from multi-year monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
 %      }{\label{BioIsop:results:new_emiss:trends:fig_ozone_anomalies}}
 %      
 %      \mypic{Figures/OMI_link/new_emiss/trend_hcho.png}{%
-%        A priori (row 1) and a posteriori (row 2) surface HCHO anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
+%        A priori (row 1) and a posteriori (row 2) surface HCHO anomaly from multi-year monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
 %      }{\label{BioIsop:results:new_emiss:trends:fig_hcho_anomalies}}
 %      
 %      \mypic{Figures/OMI_link/new_emiss/trend_NOx.png}{%
-%        A priori (row 1) and a posteriori (row 2) surface NO$_2$ anomaly from multiyear monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
+%        A priori (row 1) and a posteriori (row 2) surface NO$_2$ anomaly from multi-year monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
 %      }{\label{BioIsop:results:new_emiss:trends:fig_no2_anomalies}}
 
   
