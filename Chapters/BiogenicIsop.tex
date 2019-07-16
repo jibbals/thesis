@@ -932,7 +932,6 @@
       This suggests that changes in isoprene emissions affect ozone in non-local grid squares due to transport, including grid squares where absolute emission reductions are not as strong.
       % JENNY NOTE: Or that the effects are smeared across grid squares; i.e. the effect is not necessarily local like you expect it to be for HCHO 
       
-      % UP TO HERE JENNY
       % plot from tests/test_new_emissions.hcho_ozone_series
       \mypic{Figures/OMI_link/new_emiss/O3_surface_20050101_20051231.png}{%
         Surface ozone concentrations (ppb) per region over 2005.
@@ -944,16 +943,17 @@
       Ozone and fine particulate concentrations in Australian cities have not reduced over the last 10 years, unlike other atmospheric pollutants such as CO, NO$_2$, and SO$_2$ \parencite{SOE2016}.
       This could be in part due to the downwind effects of isoprene emission, which are most likely to affect suburban fringes (e.g. western Sydney) of Australian cities which are surrounded by vegetation \parencite{Millet2016}.
       Outside of densely populated regions, Australia is likely to be NO$_x$-limited and changes in VOC emissions will have less of an impact on ozone production.
-      Here the modelled ozone output is averaged over large areas that are mostly non-urban, which means detected ozone sensitivity to isoprene emissions is likely understated for cities.
+      Here the modelled ozone output is averaged over large areas that are mostly non-urban, which means detected ozone sensitivity to isoprene emissions is likely underestimated for cities.
+      % JENNY NOTE: perhaps relate to Yu 2016 model resolution paper which shows ozone not particularly sensitive to spatial segregation of NOx and isoprene emissions (even though the initial chemistry is)
       Figure \ref{BioIsop:results:emissions:fig_ozone_reduction} shows how ozone is reduced in summer and winter after scaling isoprene emissions.
       In summer, reductions are strongest in Sydney and Melbourne, but can also be seen in the west coast and central Australia.
       Winter reductions are more uncertain (relatively); however, they are strongest in the coastal and oceanic regions around Darwin.
-      In the future the estimated emissions will be downscaled to properly evaluate their impacts on ozone in different NO$_x$ regimes (for instance over cities).
+      In future work, the estimated emissions will be downscaled to better evaluate their impacts on ozone in different NO$_x$ regimes (for instance over cities).
       
       
       % chapter_3_isop.seasonal_differences
       \mypic{Figures/OMI_link/new_emiss/O3_surf_map_seasonal.png}{%
-        Surface (up to $\sim{150}$~m) ozone before (left) and after (middle) scaling isoprene emissions, and their relative differences (right).
+        Multi-year seasonal surface (up to $\sim{150}$~m) ozone before (left) and after (middle) scaling isoprene emissions, and their relative differences (right).
         Top row shows summer (DJF) averaged total columns, while bottom row shows the winter (JJA).
       }{\label{BioIsop:results:emissions:fig_ozone_reduction}}
       
@@ -979,13 +979,12 @@
     %Analyse comparison of grid box with campaigns of measurements
     
     Comparison between ground-based measurements and large (\lowhr) averaged model output suffers from representation error.
-    Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement sites, along with the extent of the relevant \lowhr ~GEOS-Chem grid box, a rectangle with edge lengths of roughly 200~km$^{2}$.
+    Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement campaigns (see Section \ref{Model:datasets}), along with the extent of the relevant \lowhr ~GEOS-Chem grid box, a rectangle with edge lengths of roughly 200~km$^{2}$.
     The urban footprint of Sydney and Wollongong can be seen, along with ocean, forest, and rural regions, which will all affect the model output as it is based on the average of inputs within the grid box.
     Due to high uncertainty in components of the top-down emissions estimate, temporal resolution is also limited.
     MUMBA (Section \ref{Model:datasets:MUMBA}), SPS1 and SPS2 (Section \ref{Model:datasets:SPS}) each provide on the order of one month of hourly or daily data, which are compared in this section against surface level concentrations from GEOS-Chem (midday output) before and after scaling the biogenic emissions.
     %campaigns measured isoprene concentrations while our estimate is of emissions.
     
-    %figure from Jenny
     \mypic{Figures/gridmapsmall_sites.png}{% 
       GEOS-Chem grid box (\lowhr) containing Wollongong FTIR, SPS, and MUMBA campaign data.
     }{\label{BioIsop:results:measurements:fig_gridbox}}
@@ -997,7 +996,7 @@
     Midday measurements from MUMBA (summer, Wollongong) compared against SPS (summer, autumn, Sydney) show lower isoprene and HCHO levels, and similar ozone levels, and also lower variance across all three species.
     %representative of an environment similar to Wollongong, with some forest and limited city influences. 
     Variation in SPS data are higher than modelled, which is likely due to a dependence on local meteorology, as plumes of HCHO or isoprene enriched air can be detected as they pass by while the modelled grid square averages these out.
-    Although, this higher variance is not seen in the MUMBA midday concentrations.
+    This higher variance is not seen in the MUMBA midday observations; however, this may be due to the small sample size of the measured data.
     
     %Figure \ref{Model:datasets:SPS:fig_series} shows isoprene and formaldehyde over the course of these two campaigns, as well as the detection limits (dashed lines), as measured by PTR-MS. 
     
@@ -1015,23 +1014,23 @@
     }{\label{BioIsop:results:measurements:fig_campaign_comparison}}
     % Figure showing apriori and apostiori for any locatation can be made by test_E_new.location_timeseries
     
-    The mean of each campaign, and how the measurements compare to coincident modelled values of isoprene, HCHO, and ozone are summarised in Table \ref{BioIsop:results:measurements:tab_campaign_comparison}.
-    Isoprene correlations are greatest during the MUMBA campaign at $r=0.83,0.84$, nearly double that of SPS1 and SPS2.
-    This may suggest that isoprene in the large grid square may be more representative of a Wollongong-like environment, with somewhat more forest and less urban influence when compared to Sydney.
-    However, the root mean square error (RMSE) is approximately $100\%$ in summer, and more than $300\%$ in autumn (SPS2) before isoprene scaling is applied.
-    In this case the reduced isoprene emissions improves the model drastically, bringing the RMSE down to $\sim{50}\%$.
-    Similarly for HCHO, the SPS2 RMSE is reduced from $\sim{130}\%$ to $\sim{80}\%$ by bringing down the mean modelled amounts.
-    In summer (MUMBA and SPS1), modelled HCHO is too low, and is further reduced through scaling.
-    Without improved model resolution or further measurements, this is assumed to be due to local influences which are measured but not captured by the model.
-    Modelled ozone concentrations are slightly reduced ($3-8\%$) when scaling isoprene emissions, however the concentrations remain $30-50\%$ too high in summer and nearly $100\%$ too high in autumn.
-    This is likely due to the reduced ozone concentrations in cities compared to regional areas, as the modelled ozone concentrations are averages over the larger area which is mostly non-city.
+    Coincident measured and modelled means and comparison statistics for each campaign for isoprene, HCHO, and ozone are summarised in Table \ref{BioIsop:results:measurements:tab_campaign_comparison}.
+    Isoprene correlations are greatest during the MUMBA campaign at $r=0.83,0.84$, nearly double those of SPS1 and SPS2.
+    This suggests that isoprene in the large grid square may be more representative of a Wollongong-like environment, with somewhat more forest and less urban influence when compared to Sydney.
+    However, the root mean square error (RMSE) in MUMBA is 1.7~ppb ($\sim 300\%$) and approximately 0.9~ppb and 0.4~ppb in SPS1, SPS2 respectively ($\sim 100\%$),  before isoprene scaling is applied.
+    In MUMBA the reduced isoprene emissions improves the model drastically, bringing the RMSE down to $\sim{100}\%$, however this improvement is not seen in either of SPS1 or SPS2.
+    Similarly for HCHO, the MUMBA RMSE is reduced from 2.0~ppb ($\sim{130}\%$) to 1.2~ppb ($\sim{80}\%$) by bringing down the mean modelled amounts.
+    Modelled HCHO is low compared against measurements from Sydney (SPS1 and SPS2), and is further lowered through scaling.
+    Without improved model resolution or further measurements, this is assumed to be due to local influences seen in the measurements but not captured by the model, such as HCHO enriched air from the nearby forest being blown down the escarpment directly to the measurement site.
+    Modelled ozone concentrations are slightly reduced ($3-8\%$) when scaling isoprene emissions, however the concentrations remain $30-50\%$ too high for Wollongong and nearly $100\%$ too high for Sydney.
+    This is likely due to the reduced ozone concentrations in cities compared to regional areas, as the modelled ozone concentrations are averages over the larger area which is mostly non-urban.
     
-    
+    % table created in chapter_3_isop
     \begin{table}\begin{threeparttable}
       \caption{Campaign measurements compared to model output [ppb].}
       \begin{tabular}{ l | c c c | c c c | c c c } 
         \toprule
-        & & MUMBA & & & SPS1 & & & SPS2 & \\
+        & & SPS1 & & & SPS2 & & & MUMBA & \\
         \midrule
         Isoprene   & mean & RMSE & r   & mean & RMSE & r   & mean & RMSE & r   \\
         Meas            &  1.16 &     &     &  0.46 &     &     &  0.47 &     &     \\
@@ -1072,9 +1071,9 @@
 %    GCalpha         & 39.20 & 14.23 &  0.54 & 32.81 & 12.69 &  0.36 & 47.14 & 24.91 & 0.36  \\
 %    
     
-    
+    % UP TO HERE JENNY
     A spectrometer (FTIR) on the roof of the Chemistry building at the University of Wollongong measures total column HCHO in the atmosphere during clear sky conditions.
-    This is the only non-satellite long-term measurement record of total column HCHO available in Australia.
+    This is the only non-satellite long-term measurement record of total column HCHO available in Australia (see Section \ref{Model:datasets:wollongong_ftir}).
     In order to compare modelled profiles against retrievals from the FTIR, modelled profiles are first convolved with the instrument averaging kernel and a priori as shown in Section \ref{Model:datasets:wollongong_ftir}.
     FTIR output is resampled to only include measurements taken at midday (13:00-14:00) and GEOS-Chem overpass outputs are interpolated onto matching vertical levels for days where FTIR output exists.
     Figure \ref{BioIsop:results:measurements:fig_FTIR_Comparison_MYA} shows total column HCHO from FTIR, and GEOS-Chem before and after scaling isoprene.
@@ -1099,7 +1098,7 @@
   
     % output from ???
     \begin{table}\begin{threeparttable}
-      \caption{Mean total column HCHO amounts in $10^{15}$ molec cm$^{-2}$.}
+      \caption{Mean total column HCHO amounts in $10^{15}$ molec cm$^{-2}$ at Wollongong.}
       \begin{tabular}{ l | c c c } 
         \toprule
         Season & $\Omega_{FTIR}$ & $\Omega_{GC}$ &  $\Omega_{GC}^{\alpha}$  \\
