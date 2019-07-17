@@ -1484,8 +1484,7 @@
       % Bottom left shows the absolute difference between them, while bottom right shows the relative difference.}
       %{\label{BioIsop:uncertainty:Fire:fig_emiss_without_fire_filter}}
     
-    % UP TO HERE JENNY
-    % Things I did should be in past tense
+    
 \section{Conclusions and implications}
   \label{BioIsop:conclusions}
   
@@ -1497,7 +1496,7 @@
   
   % Motivation
   Very few ground-based measurements of BVOC concentrations are available in Australia.
-  Emissions from models use largely unverified extrapolations for emission factors and parameterisations in Australia, leading to overestimated isoprene emissions \parencite{Emmerson2016}.
+  Emission models use largely unverified extrapolations for emission factors and parameterisations in Australia, leading to overestimated isoprene emissions \parencite{Emmerson2016}.
   This leads to uncertainty and error when modelling atmospheric ozone and other trace gases.
   
   % What I did
@@ -1510,42 +1509,42 @@
   % What I found:
   The a posteriori isoprene emission estimate showed that GEOS-Chem coupled with the MEGAN emissions model overestimates emissions in summer by a factor of 2-5.
   Total yearly Australian emissions are reduced from 39\tgpyr ~to 21\tgpyr ~(decrease of $\sim{46}\%$) in the a posteriori.
-  The overestimate is spatially and temporally diverse and leads to model overestimates of HCHO, which affects ozone levels.
+  The overestimate is spatially and temporally diverse and leads to model biases in HCHO, and ozone.
   Running GEOS-Chem using scaled emissions based on OMI HCHO columns reduced the model HCHO overestimate (when compared to OMI HCHO) in summer by half, from $\sim{100\%}$ down to $\sim{50\%}$, with most of the difference occurring outside the northern region.
   Model vertical column HCHO variance is somewhat ($\sim{10\%-50\%}$) lower than that seen by the OMI satellite, and this difference increased after scaling isoprene emissions.
   Scaling GEOS-Chem emissions also lowered simulated surface ozone concentrations by $\sim 5\%$.
-  A posteriori uncertainty was shown to be on the order of 50\%  (monthly, per grid square), with large satellite-based uncertainty in winter and a potential bias coming from satellite data of $-13\%$ to $40\%$.
+  A posteriori uncertainty was shown to be on the order of 50\%  (monthly, per grid square), with large satellite-based uncertainty in winter and a potential bias coming from satellite data of $-13\%$ to $+40\%$.
   The primary uncertainty in the a posteriori emissions comes from the monthly modelled isoprene-to-HCHO yield ($\sim 30\%-50\%$ uncertainty), although at higher latitudes in winter the satellite uncertainty becomes restrictively high ($>100\%$).
   
   
   
   % Why might emissions be too high -> leading towards future work
   The reason for the a priori overestimate remains unclear, and both global and Australian emissions estimates for isoprene range widely.
-  It is in part due to the MEGAN emission model's parameterisation of how isoprene responds to parameters such as leaf area indices, plant functional type emission factors, and meteorological factors. 
-  In Australia, a mixture of poorly defined emission factors \parencite[e.g.,][]{Emmerson2016}, unaccounted for soil moisture \parencite[e.g.,][]{Sindelarova2014, Emmerson2019} and poorly understood forest responses to meteorological stresses likely drive uncertainty and model biases \parencite{Jiang2018,Emmerson2019}.
+  The bias is in part due to the MEGAN emission model's parameterisation of how isoprene responds to parameters such as leaf area index, plant specific emission factors, and meteorological factors. 
+  In Australia, a mixture of poorly defined emission factors \parencite[e.g.,][]{Emmerson2016}, unaccounted for soil moisture forcing \parencite[e.g.,][]{Sindelarova2014, Emmerson2019} and poorly understood forest responses to meteorological stresses likely drive uncertainty and model biases \parencite{Jiang2018,Emmerson2019}.
   %For instance, \textcite{Sindelarova2014} found % a 41\tgpyr decrease in Australia when 
-  A potential improvement to the MEGAN soil parameterisation has been described \parencite{Jiang2018}; however, a detailed map of soil properties is not readily available in Australia, and this would be required to apply the parameterisation here.
-  Alternatively soil moisture and the parameterisation of drought processes which affect isoprene emissions could be implemented within GEOS-Chem similar to how it was recently applied to a different CTM in \textcite{Emmerson2019}. 
+  A potential improvement to the MEGAN soil parameterisation has been described \parencite{Jiang2018}; however, a detailed map of soil properties is not currently available in Australia, and this would be required to apply the parameterisation here.
+  An alternative parameterisation of soil moisture and drought effects on isoprene emissions was recently implemented in a different CTM by \textcite{Emmerson2019} and applying this parameterisation in GEOS-Chem should be a priority for future work in Australia..  
   % Future work also discussed in conclusion chapter
 
 
   %introducing soil moisture parameterisation led to a large decrease in isoprene emissions modelled by MEGAN in Australia.
   In the US, bias between OMI and in situ measurements is as high as 40\%, but 
   bias across Australia cannot be determined as there are not enough independent observations.
-  This leads to a wide range for potential emissions (see Figure \ref{BioIsop:results:emissions:fig_regional_seasonal_comparison}) and limits potential top-down refinements to isoprene emissions.
-  Ground-based and aircraft VOC, NO$_x$, HCHO, and ozone measurements over large areas at relatively fine temporal resolution would help quantify unknown satellite biases while additionally providing constraints for bottom-up models.
+  This leads to a wide uncertainty range for estimated top-down emissions (see Figure \ref{BioIsop:results:emissions:fig_regional_seasonal_comparison}) and limits potential top-down refinements to isoprene emissions.
+  Ground-based and aircraft VOC, NO$_x$, HCHO, and ozone measurements over large areas at relatively fine temporal resolution would help quantify the currently unknown satellite biases while additionally providing constraints for bottom-up models.
   In the northern region in particular, emissions are affected by monsoonal forcing, but increased cloud coverage during the monsoon limits satellite coverage. 
   This makes characterisation of forest emissions and their response to sunlight, temperature, and moisture even more important in these areas.
-  In addition to measurements, further analysis determining the sensitivity of modelled emissions to model resolution and changing soil moisture parameters (and parameterisations) would provide the foundation to improve GEOS-Chem and MEGAN modelled emissions along with products like HCHO and ozone.
+  In addition to measurements, further analysis determining the sensitivity of modelled emissions to model resolution and changing soil moisture parameters (and parameterisations) would provide the foundation to improve GEOS-Chem and MEGAN modelled isoprene emissions along with oxidation products like HCHO and ozone.
   % potential future work synonymised (by me by hand) in conclusions
   
-  In the future, other satellites (e.g., GOME-2) could be used to improve emission estimates further, with differing overpass times potentially allowing a measure of diurnal emission patterns.
-  Additionally, an adjoint version of GEOS-Chem could provide details of isoprene transport and ozone production sources.
-  This version of GEOS-Chem could also provide an evaluation of how resolution-limited the linear top-down emission estimates are over Australia.
+  In the future, other satellites (e.g., GOME-2, TROPOMI) could be used to improve emission estimates further, with differing overpass times potentially allowing a measure of diurnal emission patterns.
+  Additionally, an adjoint version of GEOS-Chem over Australia could provide improved estimates of isoprene emission taking into account transport.
+  An adjoin based inversion could also provide an evaluation of how resolution-limited the linear top-down emission estimates are over Australia.
   %along with an analysis of satellite resolution limitations regarding uncertainty could be undertaken.
-  The emission estimate created in this chapter could be refined to higher temporal resolution, with further analysis of uncertainty.
+  The emission estimate created in this chapter could also be refined to higher temporal resolution, with further analysis of uncertainty.
   Oversampling techniques could be applied near populated areas in order to improve the understanding of isoprene, HCHO, and ozone relationships over cities \parencite[e.g.,][]{Surl2018}.
-  Furthermore, publishing the updated underlying emission factors for Australia and implementing the changes in GEOS-Chem would improve the understanding of the natural atmosphere over this relatively remote portion of the planet. % for modelling scientists world wide.
+  Furthermore, linking the top-down isoprene emissions to the underlying emission factors for Australia and implementing the changes in GEOS-Chem would improve the understanding of the natural atmosphere over this relatively remote portion of the planet. % for modelling scientists world wide.
   % Future work summarised in conclusions
 
 % Extras for potential paper output 
