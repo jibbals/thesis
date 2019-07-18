@@ -1,14 +1,14 @@
-\chapter{Summary and Concluding remarks} % Chapter Title
+\chapter{Summary and Concluding Remarks} % Chapter Title
 \label{Conclusions}
 
   % The two largest contributors to tropospheric ozone concentrations are chemical production (driven by precursor emissions) and stratospheric transport.
   % I aim to improve understanding of both of these sources using existing satellite and ground-based datasets along with GEOS-Chem modelled outputs.
   \textbf{In this thesis I aimed to improve understanding of natural contributions to ozone over Australia and the southern ocean.}
-  Chapter \fullref{LR} examined processes leading to ozone creation in the troposphere, primarily isoprene emissions and subsequent chemistry.
-  The secondary cause of ozone, stratosphere to troposphere transport (STT), was also outlined with associated processes and causes discussed.
+  Chapter \fullref{LR} examined processes leading to ozone enhancement in the troposphere, primarily isoprene emissions and subsequent chemistry.
+  A secondary source of ozone, stratosphere to troposphere transport (STT), was also outlined with associated processes and causes discussed.
   A summary of how the lack of information available over Australia affects modelling and forecasting was provided.
   Methodologies, tools and data-sets used throughout the thesis were detailed in Chapter \fullref{Model}.
-  Chapter \fullref{BioIsop} showed how models are misrepresenting isoprene emissions by a large margin in Australia, along with the description and implementation of a relatively simple method of improvement.
+  Chapter \fullref{BioIsop} showed how models are misrepresenting isoprene emissions by a large margin in Australia, along with the description and implementation of a relatively simple method of improvement and its impacts and uncertainties.
   Chapter \fullref{Ozone} provided an estimate of stratospheric ozone influx to the troposphere, along with potential classifications and seasonality.
 
 % Split by aim/chapter?
@@ -16,24 +16,37 @@
 \label{Conclusions:aims}
   
   % % Aim for Chapter 2: Modelling examination
-  \textbf{I aim to recalculate satellite vertical columns of HCHO using updated model a priori information.}
-  HCHO from OMI on board the AURA satellite %(see Section \ref{Model:omhcho}) was read pixel by pixel and 
-  was examined and recalculated in Chapter \ref{Model}, where influence of the air mass factor (AMF) was discussed in detail. %(Section \ref{Model:AMF}).
-  This AMF was created using an older version of GEOS-Chem with out-of-date HCHO chemistry.
+  \textbf{I aimed to recalculate satellite vertical columns of HCHO using updated model a priori information.}
+  HCHO from the OMI instrument onboard the Aura satellite %(see Section \ref{Model:omhcho}) was read pixel by pixel and 
+  was examined and recalculated in Chapter \ref{Model}, where the influence of the air mass factor (AMF) was discussed in detail. %(Section \ref{Model:AMF}).
+  The original AMF used in the satellite product was created using an older version of the GEOS-Chem model with out-of-date HCHO chemistry.
   Recalculation, binning, and analysis of the satellite HCHO vertical columns was performed using GEOS-Chem v10.01, outlined in Section \ref{Model:omiRecalc:outline}.
   This was performed using my own partial AMF recalculation code, along with full recalculation code set up in collaboration with Prof. Palmer and Dr. Surl.
-  Subsequent use of the data makes further use of the recalculation as a basic sensitivity analysis of top-down emissions estimations to a priori satellite information.
+  % outcome from looking at AMF sensitivity
+  Satellite measured vertical columns changed systematically when using updated shape factors, and again when using updated shape factors in conjunction with updated scattering weights.
+  Over Australia an increase in average total column HCHO was observed, along with lower background levels, following either recalculation.
+  Even though complete recalculation is computationally more expensive, it is recommended as the differences seen with recalculated scattering weights are substantial.
+  
    
   % % Aim for Chapter 3: Biogenic emissions estimation
-  \textbf{I aim to determine biogenic isoprene emissions in Australia using a top-down inversion of satellite HCHO, through an estimated yield from GEOS-Chem.}
-  In Chapter \ref{BioIsop} I determine the linear relationship between total column HCHO and biogenic isoprene emissions over Australia using the global CTM GEOS-Chem.
-  Applying this relationship to satellite based HCHO measurements creates the desired top-down isoprene emissions estimate.
+  \textbf{I aimed to determine biogenic isoprene emissions in Australia using a top-down inversion of satellite HCHO, through an estimated yield from GEOS-Chem.}
+  In Chapter \ref{BioIsop} I determined the linear relationship between total column HCHO and biogenic isoprene emissions over Australia using the global model GEOS-Chem.
+  Applying this relationship to satellite HCHO measurements created the desired top-down isoprene emissions estimate.
   This process was described in Section \ref{BioIsop:method}, using extensive filtering of both satellite data (to exclude non-biogenic HCHO sources) and model yield (to minimise spatial smearing).
-  The uncertainty and limitations of top-down estimates due to satellite and model uncertainty, along with temporal and horizontal resolution of available data was examined in Section \ref{BioIsop:uncertainty}.
-  Furthermore, this top-down estimation was used to scale a new simulation of HCHO, and O$_3$ over Australia, described in Section \ref{BioIsop:method:scaled}.
+  The uncertainty and limitations of top-down estimates due to satellite and model uncertainty, along with temporal and horizontal resolution of available data, were examined in Section \ref{BioIsop:uncertainty}.
+  Furthermore, this top-down estimation was used to scale isoprene emissions for a new simulation of HCHO and O$_3$ over Australia, described in Section \ref{BioIsop:method:scaled}.
+  % Outcomes from chapter:
+  MEGAN isoprene emissions were shown to be overestimated in summer by a factor of 2-5, with total emissions of 39\tgpyr in the a priori dropping to 21\tgpyr in the a posteriori.
+  Reduced isoprene emissions across Australia was shown to lower ozone concentrations by approximately 5\% mostly in the surface level of model output.
+  % copied from ch3:
+  %model overestimates emissions in summer by a factor of 2-5.
+  %Total yearly Australian emissions are reduced from 39\tgpyr ~to 21\tgpyr ~(decrease of $\sim{46}\%$) in the a posteriori.
+  %Running GEOS-Chem using scaled emissions based on OMI HCHO columns reduced the model HCHO overestimate (when compared to OMI HCHO) in summer by half, from $\sim{100\%}$ down to $\sim{50\%}$, with most of the difference occurring outside the northern region.
+  % Model vertical column HCHO variance is somewhat ($\sim{10\%-50\%}$) lower than that seen by the OMI satellite, and this difference increased after scaling isoprene emissions.
+   %Scaling GEOS-Chem emissions also lowered simulated surface ozone concentrations by $\sim 5\%$.
    
   % % Aim for Chapter 4: STT Ozone
-  \textbf{I aim to improve understanding of ozone transported to the troposphere from the stratosphere in Australia and the southern ocean.}
+  \textbf{I aimed to improve understanding of ozone transported to the troposphere from the stratosphere over Australia and the southern ocean.}
   % Stratospheric transport is the second largest driver of tropospheric ozone concentrations, and an improved understanding of transported ozone can be determined from ozonesonde measurements.
   % Ozonesondes provide a glimpse of the vertical ozone profile up to $\sim 30$~km, and we use a Fourier filter to determine how often stratospheric transport was occurring at three sites: Melbourne, Macquarie Island, and Davis Station. 
   % Combining transport event frequency analysis with modelled ozone distributions was used to derive a new method of detection and quantification of transported ozone in Chapter \ref{Ozone}.
@@ -58,41 +71,45 @@
   A new isoprene emissions estimate was created using OMI satellite measurements of HCHO.
   This estimate was compared against the bottom-up estimate from GEOS-Chem (running MEGAN).
   % Taken from isoprene chapter:
-  Generally months outside of May to August show the a posteriori lower than the a priori, except in the south eastern portion of Australia where only February was notably reduced.
-  MEGAN isoprene emissions appear to be overestimated in Austral summer, suggesting poorly understood emission factors for Australian forests.
+  Generally months outside of May to August showed the a posteriori lower than the a priori, except in the southeastern portion of Australia where only February emissions were notably reduced.
+  MEGAN isoprene emissions appear to be overestimated in austral summer, suggesting poorly understood emission factors for Australian forests.
   The overall reduction over Australia was $\sim{46}\%$, and the MEGAN based a priori emissions range from 2-5 times higher than the a posteriori.
-  How these emissions affect ozone concentrations was examined through running GEOS-Chem with emissions scaled seasonally to match the a posteriori.
   
-\section{Ozone over Australia}
+\section{Tropospheric Ozone over Australia}
 \label{Conclusions:ozone}
   
+  % UP TO HERE JENNY
   Ozone production in the troposphere is a complex process involving various compounds.
-  Tropospheric ozone is enhanced through VOC chemistry, stratospheric transport, and pollution.
+  Tropospheric ozone is enhanced through biogenic VOC chemistry, stratospheric transport, and pollution.
   The first two of these processes are highly uncertain, with few studies performed on either topic within Australia.
-  Of these ozone sources, VOC chemistry uncertainty is dominated by poor understanding of biogenic emissions (mainly) of isoprene.
+  Of these ozone sources, VOC chemistry uncertainty is dominated by poor understanding of biogenic emissions (which are mainly isoprene).
   Emissions of isoprene have been globally modelled at $\sim$465-500\tgcpyr ~\parencite{Guenther2006, Messina2016}. 
-  However these appear to be overestimated in Australia, as seen here with top-down estimates at $\sim 21$ \tgcpyr ~compared to $\sim 39$ \tgcpyr ~using GEOS-Chem (which implements MEGAN).
+  However these appear to be overestimated in Australia, as seen here with top-down estimates at $\sim 21$ \tgcpyr ~compared to $\sim 39$ \tgcpyr ~from bottom-up estimates using GEOS-Chem (which implements MEGAN).
   
   
   Tropospheric ozone production was estimated using GEOS-Chem before and after scaling isoprene emissions based on top-down satellite data.
   Figure \ref{Conclusions:ozone:fig_ozone_surf_summer} shows Australian summer surface level ozone with and without scaling isoprene emissions to match the multi-year top-down estimation.
-  The reduction in surface ozone is approximately 5\%, and most of this reduction is seen at the surface, as shown by only minimal ($<1\%$) tropospheric column ozone reduction.
+  %Start a new sentence, and rephrase. Right now you are using "this" which refers to "reduction in surface ozone", so you are saying "most of the reduction in surface ozone is seen at the surface" -- which is redundant and doesn't really make sense. You could just state that the ozone change is greatest at the surface...
+  The reduction in surface ozone is approximately 5\%.
+  Total column ozone does not change much ($<<1\%$) and most of the change in ozone is only seen at the surface level.
   This shows that modelled impacts from reduced isoprene emission are seen nearly completely in the surface level, and outweighed by other processes at higher altitudes.
   
   % Figure from tests/test_new_emissions.spatial_comparisons
   \mypic{Figures/OMI_link/new_emiss/O3_surf_map_Summer_05.png}{%
-    Top row: ozone maps before (left) and after (right) scaling isoprene emissions in GEOS-Chem for summer.
+    Top row: Summer surface-level ozone before (left) and after (right) scaling isoprene emissions in GEOS-Chem to match top-down estimates.
     Middle row: absolute (left) and relative (right) differences.
-    The bottom panel shows the linear regression between the runs along with a black dashed line representing the 1-1 ratio.%
+    Bottom row: linear regression between the two model runs along with a black dashed line representing the 1-1 ratio.
+    Each point represents one summer averaged land gridsquare (as shown in the top row).
   }{\label{Conclusions:ozone:fig_ozone_surf_summer}}
   
   Ozone is one of the two measured air pollutants that have not fallen in concentration over the last 10 years \parencite{SOE2016}.
   %Ozone production from isoprene emissions form an extra layer on top of anthropogenic ozone.
   Isoprene emissions are one of the important precursors to ozone production, and this has been examined in Section \ref{BioIsop:results}.
-  The results have been tabulated for Australia and five sub-regions, shown here in Table \ref{Conclusions:ozone:tab_emissions_vs_ozone}.
+  The results are tabulated for Australia and five sub-regions, in Table \ref{Conclusions:ozone:tab_emissions_vs_ozone}.
   The sub-regions were detailed in Section \ref{BioIsop:results} and shown again here in Figure \ref{Conclusions:fig_subregions}. 
-  A 5\% mean difference in surface ozone levels will directly affect exposure levels and impacts air quality estimates. 
+  A 5\% mean difference in surface ozone levels will directly affect population exposure levels and impacts air quality estimates. 
   This effect could be underestimated in cities due to the low horizontal resolution used in this thesis, as isoprene is most likely to impact city fringes \parencite{Millet2016}.
+  Changes in background ozone (such as that seen here) need to be accurately modelled to confidently predict ozone exceedances \parencite{Cope2004).
   % Copied from BiogenicIsop.tex:
   %Ozone and fine particulate concentrations in Australian cities have not reduced over the last 10 years, unlike other atmospheric pollutants such as CO, NO$_2$, and SO$_2$ \parencite{SOE2016}.
   %This could be in part due to the downwind effects of isoprene emission, which are most likely to affect suburban fringes (e.g. western Sydney) of Australian cities which are surrounded by vegetation \parencite{Millet2016}.
@@ -104,15 +121,17 @@
   % TODO UPDATE TO USE SURFACE PPB AVERAGES
   %Ozone currently output from tests/test_new_emissions.hcho_ozone_timeseries()
   \begin{table}\begin{threeparttable}
-    \caption{Isoprene emissions from MEGAN and top-down estimation in Tg a$^{-1}$, along with ozone tropospheric column amounts in O$_3$ cm$^{-2} \times 10^{17}$.}
+    \caption{Isoprene emissions from MEGAN and top-down estimate in Tg a$^{-1}$, along with ozone tropospheric column amounts in $10^{17}$\moleccm.}
     \begin{tabular}{ l c c c c c c } 
       \toprule
-      Metric & AUS & SEA & NEA & NA & SWA & MID \\
+                     & AUS & SEA & NEA & NA & SWA & MID \\
       \midrule
-      MEGAN & 43(2) & blah &  &  & & \\
+      Bottom-up & & & & & & \\
+      isoprene & 43(2) & blah &  &  & & \\
       Ozone & 9.70 & 11.17 & 11.03 & 11.19 & 11.69 & 9.09 \\
       \midrule
-      Top-Down & 19(2) & & & & & \\
+      Top-Down & & & & & & \\
+      Isoprene & 19(2) & & & & & \\
       Ozone & 9.64 & 11.11 & 10.99 & 11.12 & 11.63 & 9.02 \\
       \bottomrule
     \end{tabular}
@@ -131,13 +150,15 @@
   
   
   Ozone transported from the stratosphere affects surface ozone levels, although this was hard to detect with the methods used in this thesis.
-  We compared the effects of two disparate influences on the tropospheric ozone column.
-  STT analysis over Melbourne suggests up to $\sim 10\%$ of the tropospheric column was due to stratospheric influx, with the average increase caused by influx being $\sim 1$ to $3.5\%$.
-  From the biogenic source we see a relatively large ($\sim{50}\%$) drop in isoprene emissions causes $\sim{1-5}\%$ reduced surface ozone concentrations over summer.
-  The direct correlation between reduced emissions and surface ozone reductions was not apparent without taking large area averages, likely due to the effects being down-wind of where isoprene emissions are reduced.
+  The effects of two influences on the tropospheric ozone column were examined in this thesis.
+  STT analysis over Melbourne suggests up to $\sim 10\%$ of the tropospheric column was due to stratospheric influx, with the average increase caused by STT influx being $\sim 1$ to $3.5\%$.
+  From the biogenic source a relatively large ($\sim{50}\%$) drop in isoprene emissions causes a $\sim{1-5}\%$ reduction in surface ozone concentrations over summer.
+  The direct correlation between reduced emissions and surface ozone reductions was not apparent without taking large area averages, likely due to the effects being downwind of where isoprene emissions are reduced.
   Both STT and biogenic ozone sources become more important in summer, as STT occur more frequently and isoprene emissions increase with the summer high temperatures.
-  The impacts were separated by altitude with most STT occurring in the free troposphere, while isoprene emission impacts were largely seen at the surface.
-  Ozone in the free troposphere has the largest effect on climate, while surface ozone matters more when looking at air quality and ecosystem impacts.
+  Days with exceptionally high temperatures can also lead to high ozone concentrations not shown in models \parencite[e.g.][]{PatonWalsh2018}.
+  The impacts of these two sources vary with altitude with most STT occurring in the free troposphere, while isoprene emission impacts were largely seen at the surface.
+  Ozone in the free troposphere has the largest effect on climate, while surface ozone matters more for air quality and ecosystem impacts.
+  Therefore, accurate STT modelling is expected to impact estimates of radiative forcing, while improved isoprene emission modelling is expected to improve air quality and surface ozone concentration simulations.
   %Total uncertainty (shaded) was on the order of $100\%$ (see Sect. \ref{Ozone:fluxuncertainty}). 
   %We calculate the annual amount based on the sum of the monthly values.  
   %The regions over Davis, Macquarie Island, and Melbourne have estimated STT ozone contributions of $\sim 5.7 \times 10^{17}$, $\sim 5.7 \times 10^{17}$, and $\sim 8.7 \times 10^{17}$ molecules cm$^{-2}$ a$^{-1}$ respectively, or equivalently $\sim 2.0$, 2.1, and 3.3~Tg a$^{-1}$.
@@ -149,50 +170,51 @@
   \label{Conclusions:outputs}
   
   % may need to include \usepackage{bibentry}
-  Analysis of STT along with an estimate of ozone flux from the stratosphere over a portion of Australia and the southern ocean was published in \textcite{Greenslade2017}.
-  Ozone production using GEOS-Chem with updated top-down isoprene emissions was examined in this thesis and may form part of a new publication in the near future with the aim of updating MEGAN isoprene emission factors in Australia.
+  Analysis of STT along with an estimate of ozone flux from the stratosphere over parts of Australia and the southern ocean was published in ACP: \fullcite{Greenslade2017}.
   
-  A top down estimate of isoprene emissions over Australia created using OMI HCHO and GEOS-Chem modelled chemistry in Chapter \ref{BioIsop} is currently in preparation to become a publication.
-  Regridded OMI HCHO prepared in this thesis has been used in a publication currently under review (of which I am a co-author), which examines the HCHO trend over Wollongong over the last 20 years.
+  A top-down estimate of isoprene emissions over Australia created using OMI HCHO and GEOS-Chem modelled chemistry in Chapter \ref{BioIsop} is currently in preparation: Greenslade J. W., Fisher J. A., Top-down emissions of isoprene over Australia, in prep.
+  Regridded OMI HCHO prepared in this thesis has been used in a publication currently under review (of which I am a co-author), which examines the HCHO trend over Wollongong over the last 20 years \fullcite{Leischke2019}.
   
   
 \section{Future work}
   \label{Conclusions:futurework}
-
+  
+  This section briefly examines possible future works or extensions from this thesis that would be beneficial to tropospheric ozone (and precursor) modelling over Australia.
+  
   % Soil moisture improvement
-  One important parameters dealing with isoprene emission in Australia is the soil moisture activity factor ($\gamma_{SM}$) \parencite{Sindelarova2014,Bauwens2016}.
+  One important parameter potentially influencing isoprene emission in Australia is the soil moisture activity factor ($\gamma_{SM}$) \parencite{Sindelarova2014,Bauwens2016}.
   \textcite{Sindelarova2014} and more recently \textcite{Emmerson2019} showed how Australian isoprene emissions could be as much as halved by accounting for lower soil moisture.
   Generally if soil moisture is too low, isoprene emissions stop \parencite{Pegoraro2004,Niinemets2010}, however in many Australian regions the plants may be more adapted to lower moisture levels \parencite{Emmerson2019}.
-  GEOS-Chem runs MEGANv2.1, which has three possible states for isoprene emissions based on the soil moisture ($\theta$):
-  \begin{align*}
-  \gamma_\mathrm{SM} & = 1 && \theta > \theta_1 \\
-  \gamma_\mathrm{SM} & = (\theta-\theta_w)/\Delta\theta_1  && \theta_w < \theta < \theta_1 \\
-  \gamma_\mathrm{SM} & = 0 && \theta < \theta_w \\
-  \end{align*}
-  where $\theta_w$ is the wilting point, and $\theta_1$ determines when plants are near the wilting point.
-  The wilting point is set by a land based database from \textcite{Chen2001}, while $\theta_1$ is set globally based on \textcite{Pegoraro2004}.
+  %GEOS-Chem runs MEGANv2.1, which has three possible states for isoprene emissions based on the soil moisture ($\theta$):
+  %\begin{align*}
+  %\gamma_\mathrm{SM} & = 1 && \theta > \theta_1 \\
+  %\gamma_\mathrm{SM} & = (\theta-\theta_w)/\Delta\theta_1  && \theta_w < \theta < \theta_1 \\
+  %\gamma_\mathrm{SM} & = 0 && \theta < \theta_w \\
+  %\end{align*}
+  %where $\theta_w$ is the wilting point, and $\theta_1$ determines when plants are near the wilting point.
+  %The wilting point is set by a land based database from \textcite{Chen2001}, while $\theta_1$ is set globally based on \textcite{Pegoraro2004}.
   These moisture states are not implemented in recent GEOS-Chem versions (including v10.01, used in this thesis).
-  Improved isoprene emissions modelling requires this soil moisture problem to be handled.
-  Simply enabling the parameter in its current form is not quite good enough for Australia, due to both the unknown soil moisture and the poorly understood plant responses in this country.
-  Recently an update to this has been shown to improve modelled isoprene emissions in drought conditions \parencite{Jiang2018}.
+  Improved isoprene emissions modelling requires this soil moisture problem to be addressed.
+  Simply enabling the parameter in its current form is not sufficient for Australia, due to both the unknown soil moisture and the poorly understood plant responses in this country.
+  Recently, updated soil moisture parameterisation has been shown to improve modelled isoprene emissions in drought conditions \parencite{Jiang2018}.
   Alternatively improving the soil moisture and drought process parameterisation in GEOS-Chem could be performed following a similar process to that shown in \textcite{Emmerson2019}, using satellite based soil moisture estimates.
   Calibrating and applying a soil moisture update to Australia would be a worthwhile future project.
   Testing improvements and sensitivity of modelled VOCs and ozone to a soil moisture update could provide useful information with which to update GEOS-Chem.
   
-  Using satellite data to improve isoprene emission estimates such as done in this thesis must be used to analyse model improvements, since fully independent measurements are lacking.
+  Using satellite data to improve isoprene emission estimates such as has been done in this thesis must be used to analyse model improvements, since fully independent measurements are lacking.
   Measurements of isoprene emissions in Australia would provide a valuable opportunity to verify improvements in emission estimates.
-  Emissions measurement would be greatly valuable however they remain expensive and difficult, especially over the large sparse environment which makes up the Australia outback.
-  Working on prioritising measurement priorities for potential campaigns may be worthwhile in a future project, due to the limitations of coverage such operations can reasonably provide.
-  For instance ground-and-aircraft-based VOC, NO$_x$, HCHO, and ozone measurements would greatly improve the understanding of both satellite biases and model uncertainties over Australia.
-  Additionally, measurements in the northern forested areas of Australia could be used to improve how models handle the monsoonal conditions which are not likely to be represented by satellite measurements due to increased cloud coverage.
+  Emissions measurement would be valuable however they remain expensive and difficult, especially over the large sparse environment that makes up much of the Australian continent.
+  Working on measurement priorities for potential campaigns is a worthwhile future project, due to the limitations of coverage such operations can reasonably provide.
+  For instance ground- and aircraft-based VOC, NO$_x$, HCHO, and ozone measurements would greatly improve the understanding of both satellite biases and model uncertainties over Australia.
+  Additionally, measurements in the northern forested areas of Australia could be used to improve how models handle the monsoonal conditions which are not likely to be accurately captured by satellite measurements due to increased cloud coverage.
   % BiogenicIsop chapter text:
   %  Ground-based and aircraft VOC, NO$_x$, HCHO, and ozone measurements over large areas at relatively fine temporal resolution would help quantify unknown satellite biases while additionally providing constraints for bottom-up models.
   %  In the northern region in particular, emissions are affected by monsoonal forcing, but increased cloud coverage during the monsoon limits satellite coverage. 
   %  This makes characterisation of forest emissions and their response to sunlight, temperature, and moisture even more important in these areas.
   %  In addition to measurements, further analysis determining the sensitivity of modelled emissions to model resolution and changing soil moisture parameters (and parameterisations) would provide the foundation to improve GEOS-Chem and MEGAN modelled emissions along with products like HCHO and ozone.
 
-  This thesis examines isoprene emissions and how they affect ozone concentrations at one resolution, using one satellite as the basis for a top-down inversion.
-  Other satellites (e.g., GOME-2) could be included to allow more robust estimates as well as providing some diurnal resolution as each satellite has its own overpass time.
+  This thesis examined isoprene emissions and how they affect ozone concentrations at one resolution, using one satellite as the basis for a top-down inversion.
+  Other satellites (e.g., GOME-2) could be included to allow more robust estimates as well as providing some diurnal resolution as each satellite has a different overpass time.
   An adjoint version of GEOS-Chem could be implemented over a smaller domain (either spatially or temporally or both) to provide more detailed analysis of both ozone and isoprene transport.
   This sort of modelling would also provide understanding of the resolution limitations of top-down emissions estimates, along with a clearer look at how sensitive the technique is to various parameters.
   %%In the future, other satellites (e.g., GOME-2) could be used to improve emission estimates further, with differing overpass times potentially allowing a measure of diurnal emission patterns.
@@ -204,7 +226,12 @@
   %Furthermore, publishing the updated underlying emission factors for Australia and implementing the changes in GEOS-Chem would improve the understanding of the natural atmosphere over this relatively remote portion of the planet. % for modelling scientists world wide.
   
   % Ozone future work?
-  Considering ozone flux estimations based on ozone sondes, the process outlined in Chapter \ref{Ozone} could be applied to more ozonesondes.
+  Considering ozone flux estimates based on ozonesondes, the process outlined in Chapter \ref{Ozone} could be applied to other mid to high southern latitude ozonesondes to provide hemispheric-scale understanding of STT and its influences.
   The work as published could be improved to automatically filter potential fire smoke influence using freely available satellite data, which would lead to a very simple and computationally inexpensive method for STT detection.
   A similar improvement based on online (or user specified) ozone concentration data would allow quick estimation of STT impacts, which are highly uncertain in many areas (especially in the southern hemisphere).
   
+  \section{Concluding remark}
+  % Final closing statement
+  Overall this thesis has contributed to the understanding of two important natural sources of ozone over Australia by improving our understanding of isoprene emissions and by improving the characterisation of stratospheric intrusions.
+  Through chemical modelling, impacts on tropospheric ozone from these sources has been quantified and analysed for several regions over Australia.
+  A top-down estimate of isoprene emissions, a dominant biogenic VOC and one of the least characterised in Australia, has also been created and analysed.

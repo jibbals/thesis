@@ -34,7 +34,7 @@
   Reactions following emissions are complex, and are sensitive to other trace gases in the atmosphere.
   Uncertainties in several important products such as ozone and SOA are increased due to both isoprene measurement difficulties and its complicated subsequent chemical mechanisms.
   Isoprene emissions in the frequently used MEGAN model may be overestimated in Australia since they are based on measurements taken from a few young trees \parencite{Winters2009} that may emit more than older trees \parencite{Emmerson2016}.
-  The sample of trees used to construct the MEGAN emissions model included 4 types of Eucalyptus, which are not representative of the hundreds of species that make up Australian forests
+  The sample of trees used to construct the MEGAN emissions model included 4 types of Eucalyptus, which are not representative of the hundreds of species that make up Australian forests.
   Additionally, how these species depend on biological and meteorological stresses is unclear \parencite{Winters2009, FortemsCheiney2012}.
   Emissions estimates are necessary inputs for atmospheric chemistry models and improving these estimates for Australia is a primary goal of this thesis.
   %without an expensive measurement campaign over the large data sparse continent of Australia.
@@ -76,7 +76,8 @@
     
 
     % Overestimates from models
-    The Model of Emissions of Gases and Aerosols from Nature (MEGAN) is one of the most widely used sources for estimating biogenic isoprene emissions.
+    %The Model of Emissions of Gases and Aerosols from Nature (
+    MEGAN is one of the most widely used sources for estimating biogenic isoprene emissions.
     However, along with other models that rely on measured plant emission rates, it is poorly calibrated for Australian conditions.
     Emissions of isoprene (C$_5$H$_8$) appear to be overestimated within Australia \parencite{Sindelarova2014,Stavrakou2014,Emmerson2016}, although the lack of measurements of isoprene emission rates in Australia makes this overestimation difficult to characterise.
     \textcite{Bauwens2016} showed that isoprene emissions were overestimated by up to a factor of 3 over Australia.
@@ -191,7 +192,6 @@
       % Dufour2009, Barkley2013 - SCIAMACHY
       %Palmer's method improved biogenic isoprene emissions estimates (compared with in situ measurements) over two available inventories: the U.S. EPA Biogenic Emissions Inventory System and the Global Emissions Inventory Activity. %(BEIS2)(GEIA).
       %\parencite{Abbot2003,Palmer2003,Palmer2006,Millet2006,Millet2008}, South America \parencite{Barkley2013}, Europe \parencite{Dufour2009,Curci2010}, Africa \parencite{Marais2012}, Asia \parencite{Fu2007,Stavrakou2014}, India \parencite{Surl2018}, and even globally \parencite{Shim2005,FortemsCheiney2012,Bauwens2016}.
-      In this thesis I apply the technique solely focusing on Australia for the first time.
       % Too specific
       %In this thesis the OMHCHO dataset from the OMI instrument (see Section \ref{Model:omhcho}) is used as the basis for HCHO amounts.
       
@@ -272,7 +272,7 @@
     %as it has better temporal coverage and increased pixel counts over Australia 
     as the overpass time (13:30 local time) is closer to peak isoprene emissions than that of GOME or GOME-2. %(on board the ERS-2 and METOP-A satellites respectively).
     
-    In order to determine biogenic HCHO enhancements from $\Oomi$, we require filters for non-biogenic sources.
+    In order to determine biogenic HCHO enhancements from $\Oomi$, filters for non-biogenic sources are required.
     These masks are described in Section \ref{Model:filter}, and a brief recap is provided here.
     Methane oxidation is a major part of the formation of background HCHO; however, the linear regression used to estimate isoprene emissions effectively removes this source (by assuming a constant background), which means a methane contribution filter is not required.
     Anthropogenic, pyrogenic, and smoke influence masks are created from three satellite products: NO$_2$ from OMNO2d, fire counts from MOD14A1, and AAOD from OMAERUVd, respectively.
@@ -347,7 +347,7 @@
       k_{HCHO} \Omega = & \sum_i Y_i E_i \\
       \Omega = & \frac{1}{k_{HCHO}} \sum_i Y_i E_i
     \end{split} \end{eqnarray}
-    Finally, we assume isoprene emissions are driving changes in $\Omega$ \parencite[as assumed elsewhere, e.g.,][]{Palmer2003,Millet2008,Marais2014,Stavrakou2015} and lump other terms together:
+    Finally, it is assumed isoprene emissions are driving changes in $\Omega$ \parencite[as assumed elsewhere, e.g.,][]{Palmer2003,Millet2008,Marais2014,Stavrakou2015} and lump other terms together:
     \begin{eqnarray}
       \label{BioIsop:method:slope:eqn_isolate_isoprene}
       \sum_i Y_i E_i  & = Y_{isop} E_{isop} + \sum_{i \ne isop} Y_{i} VOC_{i} 
@@ -370,7 +370,7 @@
   \subsection{Calculation of modelled slope}
     \label{BioIsop:method:slope_calc}
     
-    To determine $S$, the link between biogenic isoprene and midday column HCHO, we use GEOS-Chem.
+    To determine $S$, the link between biogenic isoprene and midday column HCHO, GEOS-Chem is used.
     The term $\apri$ is used when discussing isoprene emissions estimated within GEOS-Chem and $\Ogc$ is used to represent simulated HCHO total column.
     The method to calculate $S$ using GEOS-Chem follows roughly the following three stages: 
     \begin{enumerate}
@@ -420,8 +420,8 @@
     %When limiting smearing ($\hat{S}$) to within 800-4600~s, %GEOS-Chem correlations between isoprene emissions and HCHO columns improve marginally and not uniformly.
     More data are filtered in summer, presumably due to higher biogenic isoprene emissions over summer, making transport more noticeable on windy days.
     %Essentially the smearing signal is stronger in summer.
-    Additionally, in winter, the HCHO column is relatively more affected by anthropogenic precursors, which are not halved between the two runs.
-    This may lower the smearing filter signal over Sydney and other densely populated areas.
+    Anthropogenic precursor emissions are not halved between the two runs, and they make up relatively more of the total HCHO precursor concentration in winter (when biogenics are lower).
+    This may lower the smearing filter signal over Sydney and other densely populated areas (especially in winter).
     %The left column does not apply the smearing filter prior to slope calculation, while the right column does.
     %The bottom two rows show how the slope calculation looks when using multiple years of data for each month.
     This plot has been repeated for several grid squares over Australia (not shown) sometimes showing more filtering throughout winter months, and sometimes over summer months.
@@ -482,7 +482,7 @@
     
     There are two simple ways to determine the modelled background HCHO, one of which involves running the model with no isoprene emissions. 
     %, which shows how much they alter vertical column HCHO.
-    Since we have assumed variation in HCHO columns only depends on isoprene emissions, our background term is theoretically identical to the simulated HCHO without isoprene emissions.
+    Since variation in HCHO columns is assumed to only depend on isoprene emissions, our background term is theoretically identical to the simulated HCHO without isoprene emissions.
     The other method uses HCHO over the remote Pacific Ocean at matching latitudes and times, which emulates how the background is determined for the satellite measured HCHO.
     Figure \ref{BioIsop:method:fig_background_hcho} shows the background total column HCHO calculated in these two different manners, and how they compare to each other and normal levels for an example month (January, 2005).
     The difference between these definitions is approximately $15\%$, and is mostly caused by non-isoprene HCHO precursors (such as monoterpenes).
@@ -490,7 +490,7 @@
     %, pyrogenic, or anthropogenic emissions could also influence this.
     %This is made apparent by the locations of the difference between the two definitions, with hot spots over forested and populous areas.
     Generally in summer months the continental HCHO levels are over 3 times higher than background levels, so the choice of background definition has only a very small impact on the final results.
-    For consistency with the satellite data, we determine backgrounds using the remote Pacific.
+    For consistency with the satellite data, backgrounds are determined using the remote Pacific.
     Background HCHO for any latitude in this thesis is calculated by averaging longitudinally (140\degr W to 160\degr W) the matching latitudes over the remote Pacific.
     %These backgrounds are used when creating the reference sector corrections for satellite measurements (in Section \ref{Model:omiRecalc:RSC}).
     %The background columns are longitudinally averaged from 140\degr W to 160\degr W.
@@ -523,7 +523,7 @@
       \Oomi = & S \times \apost + \Omega_0 \\
       \apost = & \frac{\Oomi - \Omega_{0}}{S}
     \end{split} \end{eqnarray} 
-    This is the same as equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}, except now we use the satellite HCHO ($\Oomi$ ~and $\Omega_0$).
+    This is the same as equation \ref{BioIsop:method:slope:eqn_isop_to_hcho}, except now the satellite HCHO ($\Oomi$ ~and $\Omega_0$) is used.
     $\Omega_0$ is calculated using $\Oomi$ in the remote Pacific averaged monthly and longitudinally, for each latitude.
     This leaves $\apost$ as the only unknown once the satellite measurements are processed to match the temporal and horizontal resolution of $S$.
     % I would actually suggest you delete the rest of this paragraph and the associated figure 3.5 here. It's a bit weird to be really showing your results this early in the methods (even if it is just an example) and I don't think it adds any clarity.
@@ -652,6 +652,7 @@
     The highest variance is seen in both eastern regions, potentially due to diversity within the regions which include high density cities, large forests, and rural areas.
     This overestimate by the a priori may be caused by some mixture of overly high emission factors and high emission sensitivity to temperatures and soil moisture \parencite{Emmerson2016,Emmerson2019}.
     Over the entirety of Australia the seasonal cycle of emissions is shown to be overestimated by the a priori, and further analysis and measurements are required to determine the cause.
+    % CLARE NOTE: Also I think that MEGAN predicts emissions practically switch off in the winter months and this is probably wrong - so the real seasonality is probably much less than in the apriori ??
     
     %% MAYBEDO: find reason for: January and February also show a low feature in the a posteriori data, which may be due to filtering (check data count), or may have been caused by meteorological factors (Check if drought or fires occurred).
     While most regions show similar overestimates, the northern region of Australia follows a different cycle of bias.
@@ -676,9 +677,9 @@
     
     
     %Figure \ref{BioIsop:results:emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally and coloured to show data-point frequency.
-    There is only weak correlation between daily estimates of the a priori and a posteriori ($r < 0.2$), and a priori distributions show more variance (figure not shown).
+    There is only weak correlation between daily estimates of the a priori and a posteriori ($r < 0.2$), and a priori distributions show more variance (figure in Appendix \ref{App:dailyregression:fig_daily_egressions}).
     This is likely due to the filtering applied to satellite data (e.g., whenever cloud coverage exceeds 40\%) which reduces the count and spread of a posteriori emission calculations.
-    Figure \ref{BioIsop:results:emissions:fig_monthly_egressions} shows how the distributions of a posteriori emissions compare to a priori emissions in each region during summer months (DJF) with zeros removed from both distributions. % zeros or negatives in top-down estimate are from hcho lower than background
+    Figure \ref{BioIsop:results:emissions:fig_monthly_egressions} shows how the distributions of a posteriori emissions compare to a priori emissions in each region during summer months (December - February) with zeros removed from both distributions. % zeros or negatives in top-down estimate are from hcho lower than background
     This figure also shows the regressions between monthly averages of the same data. 
     In the summer monthly averages, the linear regression coefficient $r$ ranges from 0.2 to 0.81 depending on which region is being compared.
     The highest correlations between a priori and a posteriori emissions are in the southeast ($r=0.81$) and southwest ($r=0.79$) regions, followed by the northeast ($r=0.61$) region.
@@ -688,14 +689,6 @@
     %This regression is weaker or stronger in winter.
     If the same analysis is performed over winter months, the regression in the northern region is greatly improved (to $r=0.66$), while other regions remain approximately the same.
     If the modelled emissions distributions are correct (even if the absolute magnitudes are not), this suggests that satellite measurements are not capturing representative samples of monthly grid square averages in the north in summer, likely because of cloud coverage, and the summer inversion in this region may be biased.
-    
-    
-    
-    %    \mypic{Figures/OMI_link/Emiss/daily_Egressions.png}{%
-    %      Scatter plot (binned hexagonally with darker colours representing higher data-point frequency) along with the distributions of MEGAN (y axis) and the top-down estimate (x axis).
-    %      This figure is based on summer (DJF) midday values over multiple years.
-    %      Coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
-    %    }{\label{BioIsop:results:emissions:fig_daily_egressions}}
     
     
     % Figure from Analyse_E_isop.distributions_comparison_regional
@@ -714,7 +707,7 @@
     Table \ref{BioIsop:results:emissions:tab_emissions_Tg} compares annual Australian isoprene emissions estimated in this work to previously published values.
     Our a posteriori estimate of 19\tgpyr ~suggests isoprene emissions may be lower than all prior bottom up estimates, and is close to the lowest top-down estimate of \textcite{Bauwens2016} of 26 \tgpyr.
     Figure \ref{BioIsop:results:emissions:fig_tga_comparison_map} shows how this decrease is distributed spatially, with $\apri$ and $\apost$ in \tgpyr ~calculated as a multi-year mean.
-    Across all of Australia we see large reductions of total emissions using the new top-down estimate.
+    Across all of Australia large reductions of total emissions are seen using the new top-down estimate.
     
     
     % Where's this figure from?
@@ -781,7 +774,7 @@
       %Plot time series of isoprene emissions for each region pre and post change
       % subtract seasonal mya cycle and show trend and p value for trend being non-zero.
       Figure \ref{BioIsop:results:new_emiss:trends:fig_emission_anomalies} shows monthly deseasonalised a priori and a posteriori midday emission anomalies for each region.
-      First the emissions are spatially averaged within each region to form a daily time series of midday emission rates
+      First the emissions are spatially averaged within each region to form a daily time series of midday emission rates.
       These are averaged into monthly data, and then the multi-year monthly mean is subtracted to form the anomaly time series.
       Any anomaly greater than three standard deviations from the mean is removed (crosses in Figure \ref{BioIsop:results:new_emiss:trends:fig_emission_anomalies}).
       An ordinary least squares linear regression is then performed to look for any significant trend.
@@ -874,7 +867,7 @@
   
       As a preliminary check on the GEOS-Chem output, simulated $\Ogc$ and $\Ogca$ are compared to $\Oomi$ over January and February, 2005 in Figure \ref{BioIsop:results:emissions:fig_prelim_new_emiss_HCHO}.
       In every region, $\Ogca$ is closer to $\Oomi$ with biases decreasing from $\sim{100\%}$ to $\sim{50\%}$ everywhere except the northern region, which has biases decreasing from $\sim{50\%}$ to $\sim{25\%}$.
-      Note that this is not an independent validation as $\Oomi$ drive the creation of $\Ogca$, and as we expect the relationship is much improved.
+      Note that this is not an independent validation as $\Oomi$ drive the creation of $\Ogca$, and as is expected the relationship is much improved.
       The remaining differences are most likely driven by filtering and temporal averaging of the applied scaling factor $\alpha$.
       When looking over all of Australia from 2005-2012, the summer mean decreases from $ 9.8 \times 10^{15}$ to $ 7.4 \times 10^{15}$ \moleccm ~after scaling isoprene emissions, while the satellite column is $ 4.9 \times 10^{15}$.
       
@@ -982,7 +975,7 @@
     Figure \ref{BioIsop:results:measurements:fig_gridbox} shows the SPS and MUMBA measurement campaigns (see Section \ref{Model:datasets}), along with the extent of the relevant \lowhr ~GEOS-Chem grid box, a rectangle with edge lengths of roughly 200~km$^{2}$.
     The urban footprint of Sydney and Wollongong can be seen, along with ocean, forest, and rural regions, which will all affect the model output as it is based on the average of inputs within the grid box.
     Due to high uncertainty in components of the top-down emissions estimate, temporal resolution is also limited.
-    MUMBA (Section \ref{Model:datasets:MUMBA}), SPS1 and SPS2 (Section \ref{Model:datasets:SPS}) each provide on the order of one month of hourly or daily data, which are compared in this section against surface level concentrations from GEOS-Chem (midday output) before and after scaling the biogenic emissions.
+    MUMBA (Section \ref{Model:datasets:MUMBA}), SPS1 and SPS2 (Section \ref{Model:datasets:SPS}) provide approximately one month (two for MUMBA) of hourly or daily data, which are compared in this section against surface level concentrations from GEOS-Chem (midday output) before and after scaling the biogenic emissions.
     %campaigns measured isoprene concentrations while our estimate is of emissions.
     
     \mypic{Figures/gridmapsmall_sites.png}{% 
@@ -1295,7 +1288,7 @@
         Air mass factors model vertical sensitivity to slant path measurements in the satellite instrument, and uncertainties arise predominantly from uncertain cloud parameters \parencite{Palmer2006}.
         Vertical columns from OMI are recalculated using AMFs derived from GEOS-Chem (Section \ref{Model:omiRecalc:AMF}).
         AMF uncertainty can be determined through comparison of GEOS-Chem output to independently measured HCHO columns.
-        Here we use 30\% as a rough estimate of error in this term \parencite{Palmer2006}, since measurements over Australia are lacking.
+        In this work the AMF error is set to 30\%, which approximates that seen by \textcite{Palmer2006}, since measurements over Australia are lacking.
         For comparison, Wollongong FTIR measurements are over-predicted by GEOS-Chem modelled vertical columns by $\sim{15-20}\%$ , but these are not representative at the continental scale simulated here.
         The assumed error of 30\% is ascribed to the $AMF$ term.
         
@@ -1368,6 +1361,7 @@
     %chapter_3_isop.relative_error_summary
     \mypic{Figures/OMI_link/mya_Orerr.png}{%
       Median and inter-quartile range for monthly binned relative uncertainty in satellite vertical columns.
+      TODO: update scales, use 0-3 for aus, 0-4 for se, 0-2 for sw, 0-1 for others ORRR just 0-3.5 for all?
     }{\label{BioIsop:uncertainty:satellite:fig_Orerrsummary}}
     
     %We found taking the eight day gridded average with horizontal resolution of \highhr (latitude by longitude) typically reduces uncertainty by a factor of 1.5 to 4.
@@ -1447,7 +1441,7 @@
       The a posteriori emissions change linearly with recalculated vertical columns, which are calculated in three different ways: using the AMF provided in the OMHCHO product ($AMF_{OMI}$), recalculating AMF shape factors but keeping the original scattering weights ($AMF_{GC}$), or recalculating both shape factors and scattering weights ($AMF_{PP}$), as described in Section \ref{Model:AMF}.
       
       Figure \ref{BioIsop:uncertainty:recalc:fig_summary} shows AMFs and emissions recalculated using each of these three methods over 2005.
-      This figure only depicts grid squares with non-zero emissions, since we are interested in regions where emissions are relatively more substantial within Australia.
+      This figure only depicts grid squares with non-zero emissions, since in this work the regions of interest are those where emissions are relatively more substantial within Australia.
       The fully recalculated $AMF_{PP}$ is higher in summer, but lower in other seasons compared against the other recalculations.
       The direct effect of a lower AMF is an increased vertical column, which should lead to higher emission estimates, and vice versa.
       This can be seen in all seasons except for summer, although even here the emissions estimates based on $AMF_{PP}$ are higher than if they are calculated using the original $AMF_{OMI}$.
