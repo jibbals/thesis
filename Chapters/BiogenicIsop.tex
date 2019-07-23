@@ -411,13 +411,12 @@
     % slope calculation filtered by smearing
     One issue with slope calculation is potential transport (also known as smearing), either of isoprene transported in from outside the local grid box (before any HCHO is formed), or of HCHO formed by local emissions but transported out of the local grid box.
     A \textit{smearing} filter is created (see Section \ref{Model:filter:smearing}) which filters out grid squares on days when transport is likely.
-    Days where smearing is expected to affecting local levels of HCHO are removed before calculating $S$, and a quick analysis is performed on how the filter affects monthly slope, correlation, and uncertainty.
-    Figure \ref{BioIsop:method:slope:fig_smear_filter_prior} shows the calculated slope for 2005-2012, along with its 95\% confidence interval for the 2\degr x 2.5\degr ~grid box containing Sydney Sydney.
+    Days where smearing is expected to affecting local levels of HCHO are removed before calculating $S$, and a simple analysis is performed on how the filter affects monthly slope, correlation, and uncertainty.
+    Figure \ref{BioIsop:method:slope:fig_smear_filter_prior} shows the calculated slope for 2005-2012, along with its 95\% confidence interval for the 2\degr x 2.5\degr ~grid box containing Sydney.
     The monthly and multi-year monthly averages are shown before and after the smearing filter is applied.
     The filter slightly reduces the amplitude of the seasonal cycle, raising the January minimum and lowering the June and July maximum.
     Filtering slightly improves the correlation coefficient throughout the year.
     This is likely due to smearing being prevalent in areas where the relationship between a priori emissions and HCHO columns is already be weak (due to low emissions or unsuitable meteorological conditions).
-    %When limiting smearing ($\hat{S}$) to within 800-4600~s, %GEOS-Chem correlations between isoprene emissions and HCHO columns improve marginally and not uniformly.
     More data are filtered in summer, presumably due to higher biogenic isoprene emissions over summer, making transport more noticeable on windy days.
     %Essentially the smearing signal is stronger in summer.
     Anthropogenic precursor emissions are not halved between the two runs, and they make up relatively more of the total HCHO precursor concentration in winter (when biogenics are lower).
@@ -431,15 +430,14 @@
     This happens only infrequently, and only in locations with very limited isoprene emissions such as the lake Eyre basin.
     
     
-    % Figure from ??? title modified in paint
+    % Figure from GC_tests.model_slope_series(), title modified in paint
     \mypic{Figures/OMI_link/GC/slope_series_Syd_20050101-20121231.png}{%
-      Row 1: monthly slope along with 95\% confidence interval both before (left) and after (right) applying the smear filter for the model grid square containing Sydney over 2005-2012. 
-      Limits used in creation of the smear filter are shown with dashed lines.
-      Row 2: regression coefficient and data-point counts for slope shown in row 1.
+      Row 1: monthly slope along with 95\% confidence interval both before (blue) and after (magenta) applying the smear filter for the model grid square containing Sydney over 2005-2012. 
+      Row 2: regression coefficient and data-point counts before (left) and after (right) performing filtering for slopes shown in row 1.
       Additionally limits for r and n used in slope utilisation (see text) are shown with dashed lines.
       Row 3: slope and confidence interval using the multi-year dataset for each month.
       Row 4: regression coefficient and data-point counts for row 3.
-      }{\label{BioIsop:method:slope:fig_smear_filter_prior}}
+    }{\label{BioIsop:method:slope:fig_smear_filter_prior}}
     
     Smearing can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
     As such smearing can vary both spatially and temporally.
@@ -470,7 +468,6 @@
     %  \label{BioIsop:method:calculation:fig_E_isop_vs_hcho_model_sample}
     %\end{figure}
     
-    % JENNY TODO: This section is in the wrong place. Very repetitive of what is already there at the end of 3.2.5 (calculation of modelled slope) and Figure 3.3 which you've already discussed. Move this text up to that section and condense so that you aren't duplicating the discussion (especially the second paragraph of this one). Move Figure 3.6 along with it.
     % Smearing subsection used to be here...
     %\subsection{Sensitivity to smearing}
 
@@ -839,7 +836,6 @@
       % trend figures from chapter_3_isop.trend_analysis
       \mypic{Figures/OMI_link/new_emiss/trend_isop.png}{%
         A priori (row 1) and a posteriori (row 2) monthly emissions anomalies from multi-year monthly mean, split by region (see Figure \ref{BioIsop:results:fig_subregions}).
-        TODO: Subtitles changed to a priori and a posteriori (instead of scaled)
       }{\label{BioIsop:results:new_emiss:trends:fig_emission_anomalies}}
    
   \subsection{Modelled impacts of reduced isoprene emissions}
@@ -850,17 +846,14 @@
     Outputs from the scaled GEOS-Chem run using the a posteriori are denoted by superscript $\alpha$.
     For example, column HCHO from GEOS-Chem before and after scaling are denoted $\Ogc$ and $\Ogca$ respectively.
     %unscaled GEOS-Chem biogenic emissions are the a priori, top-down midday emissions are the a posteriori, and emissions from the scaled GEOS-Chem run are denoted E$^{\alpha}_{GC}$.
-    Figure \ref{BioIsop:results:new_emiss:fig_alpha_mya_series} shows $\alpha$ for January and June averaged over 2005-2012, along with the time series of $\apri$ and $\apost$ and $\alpha$ calculated for the 2\degr x 2.5\degr ~grid box containing Sydney and their multi-year seasonal average.
+    Figure \ref{BioIsop:results:new_emiss:fig_alpha_mya} shows $\alpha$ for January and June averaged over 2005-2012, along with the time series of $\apri$ and $\apost$ and $\alpha$ calculated for the 2\degr x 2.5\degr ~grid box containing Sydney and their multi-year seasonal average.
     GEOS-Chem emissions are scaled according to this multi-year averaged gridded $\alpha$, which is seasonal and spatially diverse.
     
     % Figure from tests/test_new_emissions.alpha_creation()
     \mypic{Figures/OMI_link/new_emiss/alpha_mya.png}{%
       Row 1: Isoprene emissions scaling factor $\alpha$ for the average January (left) and July (right) over 2005-2012.
       Row 2: a priori (magenta, left axis), a posteriori (cyan, left axis), and  $\alpha$ ~(black, right axis) multi-year monthly averages calculated for the 2\degr x 2.5\degr ~grid box containing Sydney.
-      %Row 3: Monthly averages of the same terms in Row 2.
-      TODO: Fix up colour bars, remove row 3.
-    }{\label{BioIsop:results:new_emiss:fig_alpha_mya_series}}
-    
+    }{\label{BioIsop:results:new_emiss:fig_alpha_mya}}
     
     
     \subsubsection{Implications for HCHO}
@@ -871,7 +864,7 @@
       The remaining differences are most likely driven by filtering and temporal averaging of the applied scaling factor $\alpha$.
       When looking over all of Australia from 2005-2012, the summer mean decreases from $ 9.8 \times 10^{15}$ to $ 7.4 \times 10^{15}$ \moleccm ~after scaling isoprene emissions, while the satellite column is $ 4.9 \times 10^{15}$.
       
-      %JENNY NOTE: interesting that N seems least improved, is bias largest during monsoon? worth a comment
+      
       % figure from initial version of tests/test_new_emissions.hcho_ozone_timeseries
       \mypic{Figures/OMI_link/new_emiss/HCHO_total_columns_20050101_20050228.png}{%
         Daily mean total column HCHO amounts from GEOS-Chem with a priori (new emissions run) and a posteriori (tropchem run) a posteriori scaled isoprene emissions, along with the recalculated OMI HCHO columns.
