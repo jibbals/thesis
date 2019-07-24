@@ -560,7 +560,7 @@
         \alpha = \frac{\apost}{\apri}
     \end{equation}
     This seasonal scaling retains shorter time-scale variability and meteorological dependencies built into the parameterisations of the MEGAN model, while ensuring the multi-year monthly averaged emissions match the a posterior totals.
-    This method provides a preliminary estimate of the effects of scaling isoprene emissions, and running this analysis at a finer temporal resolution could be performed in future work.
+    This method provides a preliminary estimate of the effects of scaling isoprene emissions towards the satellite based estimate, and running this analysis at a finer temporal resolution could be performed in future work.
     %Short time-scale variability is largely due to meteorological parameters such as temperature and light, etc..
     Initially $\alpha$ is uniformly set to 1 globally.
     Where top-down emissions exist and $\apri$ is non-zero, $\alpha$ is set using Equation \ref{BioIsop:method:scaled:eqn_alpha}.
@@ -825,6 +825,7 @@
           \bottomrule
         \end{tabular}
         \begin{tablenotes} 
+          \small
           \item a: Statistically significant (two sided test with $\alpha=0.1$) trends are bolded.
           %\item Units are ppbv Carbon rounded to two decimal places.
           %pptv for NO$_x$, ppbv for others
@@ -1036,6 +1037,7 @@
         \bottomrule
       \end{tabular}
       \begin{tablenotes} 
+        \small
         \item Meas: Measurements (midday means)
         \item GC: GEOS-Chem (tropchem run)
         \item GC$^{\alpha}$: (GEOS-Chem scaled run)
@@ -1094,6 +1096,7 @@
         \bottomrule
       \end{tabular}
       %\begin{tablenotes} 
+      %  \small
       %  \item a:
       %\end{tablenotes}
       \label{BioIsop:results:measurements:tab_uncertainties}
@@ -1146,6 +1149,7 @@
         \bottomrule
       \end{tabular}
       \begin{tablenotes} 
+        \small
         \item a: Grid squares with monthly uncertainty over 200\% are removed when calculating the mean uncertainty, which has small ($<1\%$) impacts on $\apost$ overall, but removes many data points in winter. 
       \end{tablenotes}
       \label{BioIsop:uncertainty:tab_uncertainties}
@@ -1230,6 +1234,8 @@
     There is little discernible seasonality to the relative error in $S$, which generally ranges from $0.3-0.4$ ($30-40\%$).
     For comparison, \textcite{Palmer2006} found $\frac{\Delta S}{S}$ to be 30\% over the US after comparing with another chemical transport model and in situ measurements.
     To improve understanding of uncertainty in $S$ would require further analysis of GEOS-Chem yield over Australia, including how it responds to environmental and meteorological parameters, and how representative this modelled quantity is when compared to measurements.
+    Slope estimation may also be affected by non-isoprene biogenic VOC emissions such as monoterpenes, which are not analysed in this work. 
+    The effects of these biogenics will be in part seen by $\Delta S$ (as they make up some of the variability); however this is an important source of HCHO that will need to be attributed in future work to improve confidence in the estimation of $S$. 
     
     \mypic{Figures/OMI_link/mya_Srerr.png}{%
       Median and inter-quartile range of monthly binned uncertainty in $S$.
@@ -1287,7 +1293,7 @@
         
         
         % How others calculated it
-        \textcite{Palmer2006} calculated the error in AMF through combining estimates of error in the UV albedo database ($\sim 8$\%), model error based on in situ measurements, cloud error  ($20-30$\% \parencite{Martin2003}), and aerosol errors ($<20$\%), totalling AMF error of around $\sim 30$\% (calculated in quadrature).
+        \textcite{Palmer2006} calculated the error in AMF through combining estimates of error in the UV albedo database ($\sim 8$\%), model error based on in situ measurements, cloud error  ($20-30$\% \parencite{Martin2003aer}), and aerosol errors ($<20$\%), totalling AMF error of around $\sim 30$\% (calculated in quadrature).
         This error estimate can be compared with that of \textcite{Curci2010}, where the error in AMF calculations and background columns were respectively found to be 30\% and 15\%. % based on their analysis of CHIMERE.
         \textcite{Millet2008} also examined this uncertainty and determine an overall uncertainty ($1\sigma$) of $25-27\%$ in HCHO vertical columns with calculated AMFs where cloud fraction $< 0.2$.
         
@@ -1380,7 +1386,8 @@
           50\%-100+\% & Australia & OMI, in winter at higher latitudes $^d$ \\
           \bottomrule
         \end{tabular}
-        \begin{tablenotes} 
+        \begin{tablenotes}
+          \small
           \item a: \textcite{Millet2006,Palmer2006}
           \item b: \textcite{Millet2008}
           \item c: \textcite{DeSmedt2008,DeSmedt2012}
@@ -1503,7 +1510,9 @@
   A posteriori uncertainty was shown to be on the order of 50\%  (monthly, per grid square), with large satellite-based uncertainty in winter and a potential bias coming from satellite data of $-13\%$ to $+40\%$.
   The primary uncertainty in the a posteriori emissions comes from the monthly modelled isoprene-to-HCHO yield ($\sim 30\%-50\%$ uncertainty), although at higher latitudes in winter the satellite uncertainty becomes restrictively high ($>100\%$).
   
-  
+  %future work item is to update the multi-year alpha and use the monthly average instead
+  %The effects seen here are based on a GEOS-Chem simulation where isoprene emissions are scaled so that the multi-year monthly mean a priori matches that of the multi-year monthly mean a posteriori.
+  %This scaling factor only provides a preliminary estimate of how Australian atmospheric chemistry is affected by a push towards top-down isoprene emissions, and 
   
   % Why might emissions be too high -> leading towards future work
   The reason for the a priori overestimate remains unclear, and both global and Australian emissions estimates for isoprene range widely.
