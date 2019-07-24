@@ -78,13 +78,13 @@
 \section{Tropospheric Ozone over Australia}
 \label{Conclusions:ozone}
   
-  % UP TO HERE JENNY
+  
   Ozone production in the troposphere is a complex process involving various compounds.
   Tropospheric ozone is enhanced through biogenic VOC chemistry, stratospheric transport, and pollution.
   The first two of these processes are highly uncertain, with few studies performed on either topic within Australia.
   Of these ozone sources, VOC chemistry uncertainty is dominated by poor understanding of biogenic emissions (which are mainly isoprene).
   Emissions of isoprene have been globally modelled at $\sim$465-500\tgcpyr ~\parencite{Guenther2006, Messina2016}. 
-  However these appear to be overestimated in Australia, as seen here with top-down estimates at $\sim 21$ \tgcpyr ~compared to $\sim 39$ \tgcpyr ~from bottom-up estimates using GEOS-Chem (which implements MEGAN).
+  However these appear to be overestimated in Australia, as seen here with top-down estimates at $\sim 18$ \tgcpyr ~compared to $\sim 35$ \tgcpyr ~from bottom-up estimates using GEOS-Chem (which implements MEGAN).
   
   
   Tropospheric ozone production was estimated using GEOS-Chem before and after scaling isoprene emissions based on top-down satellite data.
@@ -116,32 +116,42 @@
   %Outside of densely populated regions, Australia is likely to be NO$_x$-limited and changes in VOC emissions will have less of an impact on ozone production.
   
   
-  
-  %TODO: UPDATE: CURRENTLY BASED ON JUST 2005 instead of 2005-2012 mya
-  % TODO UPDATE TO USE SURFACE PPB AVERAGES
   %output from tests/test_new_emissions.print_ozone_isop_table_summary
   \begin{table}\begin{threeparttable}
-    \caption{Isoprene emissions from MEGAN and top-down estimate in Tg a$^{-1}$, along with ozone surface amounts in ppb.}
+    \caption{Isoprene emissions from MEGAN and top-down estimate in Tg C a$^{-1}$, along with ozone surface amounts in ppb.}
     \begin{tabular}{ l c c c c c c } 
       \toprule
-                     & AUS & SEA & NEA & NA & SWA & MID \\
+                     & AUS & SE & NE & MID & SW & N \\
       \midrule
       Bottom-up      & & & & & & \\
-      Isoprene       & 43(2) & blah &  &  & & \\
-      Ozone          & 9.70 & 11.17 & 11.03 & 11.19 & 11.69 & 9.09 \\
+      Isoprene       & 34.67 &  2.80 &  6.33 &  2.31 &  2.04 &  9.95 \\
+      Ozone          & 27.72 & 33.97 & 30.64 & 33.32 & 30.51 & 32.13 \\
       \midrule
-      Top-Down$^{a}$ & & & & & & \\
-      Isoprene & 19(2) & & & & & \\
-      Ozone & 9.64 & 11.11 & 10.99 & 11.12 & 11.63 & 9.02 \\
+      Top-Down       & & & & & & \\
+      Isoprene       & 18.26 &  1.61 &  3.02 &  1.03 &  0.99 &  6.31 \\
+      Ozone$^a$      & 26.93 & 33.10 & 29.99 & 32.19 & 29.69 & 30.92 \\
       \bottomrule
     \end{tabular}
     \begin{tablenotes}
       \small
-      \item Standard deviations shown in parenthesis.
-      \item a: Outputs from GEOS-Chem run with isoprene emissions scaled to match top-down estimate.
+      %\item Standard deviations shown in parenthesis.
+      \item a: Outputs from GEOS-Chem run with isoprene emissions scaled to match the top-down estimate.
     \end{tablenotes}
     \label{Conclusions:ozone:tab_emissions_vs_ozone}
   \end{threeparttable}\end{table}
+  
+  %  Isoprene emissions in TgC/a, O3 in ppb
+  %  ['Aus', 'SE', 'NE', 'Mid', 'SW', 'N']
+  %  TABLE=============
+  %  Bottom-up  &&&&&&
+  %  Isoprene & 34.67 &  2.80 &  6.33 &  2.31 &  2.04 &  9.95 \\
+  %  O3       & 27.72 & 33.97 & 30.64 & 33.32 & 30.51 & 32.13 \\
+  %  Top-down\$^a\$   &&&&&&
+  %  Isoprene & 18.26 &  1.61 &  3.02 &  1.03 &  0.99 &  6.31 \\
+  %  O3       & 26.93 & 33.10 & 29.99 & 32.19 & 29.69 & 30.92 \\
+  %  TIME:   9.63 minutes for table creation
+  %  
+  
   
   % figure from Analysis_E_isop.py.show_subregions()
   \mypic{Figures/OMI_link/subregions.png}{%
