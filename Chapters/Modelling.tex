@@ -118,7 +118,7 @@
       HCHO products can be found in four satellite instruments: GOME (Global Ozone Monitoring Experiment) on ERS-2 (second European Remote Sensing satellite), SCIAMACHY (SCanning Imaging Absorption SpectroMeter for Atmospheric CHartographY) on ENVI-SAT (ENVIronmental SATellite), OMI (Ozone Monitoring Instrument) on the Aura satellite, and GOME2 on MetOp-A and MetOp-B (Meteorological Operational satellites).
       These satellites have slightly different spectral and spatial resolutions, as well as using varied processes to estimate HCHO from detected radiances.
       This leads to different measurements between instruments \parencite{Lorente2017}, and both validation and comparison become more important when using these remotely sensed data.
-      The data set used in this thesis is from the OMI onboard the Aura satellite, as it has data over the time period covered by GEOS5 modelled meteorological information used in GEOS-Chem (Section \ref{Model:GC}), and sufficiently covers the southern hemisphere.
+      The dataset used in this thesis is from the OMI onboard the Aura satellite, as it has data over the time period covered by GEOS5 modelled meteorological information used in GEOS-Chem (Section \ref{Model:GC}), and sufficiently covers the southern hemisphere.
       
       %OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
       Satellite based formaldehyde measurements from the OMI instrument onboard Aura are stored in the OMHCHO product.
@@ -234,14 +234,14 @@
         Climate Prediction Center daily maximum temperature data for 1 Jan. 2005.
       }{\label{Model:datasets:fig_CPC_EG}}
   
-  \subsection{In-situ and ground based datasets}
+  \subsection{In situ and ground based datasets}
   
-    Data from several in-situ measurement campaigns and long-term measurement programs are used to examine the accuracy of modelled data at specific sites.
+    Data from several in situ measurement campaigns and long-term measurement programs are used to examine the accuracy of modelled data at specific sites.
     Figure \ref{Model:datasets:fig_locations} shows the locations of ground-based measurement sites in the top panel, and release sites for ozonesondes in the bottom panel.
     
     % Figure from tests/test_campaigns.py
     \mypic{Figures/campaigns/campaign_locations.png}{%
-      Locations of ground based in-situ measurements (top panel) and ozonesonde release sites (bottom panel). 
+      Locations of ground based in situ measurements (top panel) and ozonesonde release sites (bottom panel). 
     }{\label{Model:datasets:fig_locations}}
     
     \subsubsection{Short term measurement campaigns}
@@ -328,7 +328,7 @@
       Upon the roof of the Chemistry building at the University of Wollongong lies a solar Fourier transform infra-red spectrometer (FTIR) which measures HCHO (amongst other gases) in the path of light between the instrument and the sun.
       %%HCHO is measured using mid infra spectrum measurements transformed 
       The instrument is part of the Network for the Detection of Atmospheric Composition Change (NDACC) and data can be retrieved from the NDACC database (\url{http://www.ndaccdemo.org/stations/wollongong-australia}).
-      The current principle investigator producing and quality assuring the data set is \href{mailto:njones@uow.edu.au}{Dr. Nicholas Jones}.
+      The current principle investigator producing and quality assuring the dataset is \href{mailto:njones@uow.edu.au}{Dr. Nicholas Jones}.
       
       Measurements of vertical profiles are affected by the instrument's sensitivity to HCHO at all vertical levels.
       Vertical mixing ratios resolved to 48 vertical levels are retrieved. %with the help of a priori assumed vertical profiles ($x_{apri}$).
@@ -666,7 +666,7 @@
     Figure \ref{Model:analysis:NOx:fig_NO_maps_2005} shows tropospheric NO$_2$ columns from GEOS-Chem, OMI satellite data OMNO2d, and their differences over four seasons in 2005.
     % Geos chem vs tropno2 from omno2d
     Simulated GEOS-Chem tropospheric NO$_2$ columns averaged from 13:00-14:00 local time are compared against OMNO2d data that are averaged into seasonal \lowhr ~bins. %(Sec. \ref{Model:datasets:OMNO2d}). 
-    Both data sets show Sydney and Melbourne as NO$_2$ hotspots; however, Sydney itself is underestimated by GEOS-Chem throughout the year, likely due to low or poorly aligned emission maps (shown in Figure \ref{Model:analysis:NOx:fig_NO_emiss_maps_2005}).
+    Both datasets show Sydney and Melbourne as NO$_2$ hotspots; however, Sydney itself is underestimated by GEOS-Chem throughout the year, likely due to low or poorly aligned emission maps (shown in Figure \ref{Model:analysis:NOx:fig_NO_emiss_maps_2005}).
     Over much of the country GEOS-Chem overestimates NO$_2$ by 10-60\%, except in the northern areas where up to 50\% underestimation occurs in summer.
     An underestimation in southern NSW can also be seen in the later half of the year.
     Notably GEOS-Chem anthropogenic NO does not have any seasonality (Figure \ref{Model:analysis:NOx:fig_NO_emiss_maps_2005}), while soil shows clear differences in emission hotspots between summer and winter.
@@ -747,7 +747,7 @@
         are vertical profiles of ozone and other species and meteorological diagnostics saved at a temporal resolution of up to 15 minutes.
       \end{description}
       
-      One issue with modelled outputs over Australia is that they are difficult to compare to in-situ measurements as they are averaged over a large horizontal space and vertical volume.
+      One issue with modelled outputs over Australia is that they are difficult to compare to in situ measurements as they are averaged over a large horizontal space and vertical volume.
       
     \subsubsection{GEOS-Chem runs}
       \label{Model:GC:simulations:runs}
@@ -759,8 +759,6 @@
           UCX runs a chemistry mechanism with combined tropospheric and stratospheric reactions, with an increased number of stratospheric calculations performed online relative to the default (tropospheric chemistry) simulation \parencite{Eastham2014}.
           \begin{enumerate}
             \item Outputs: Midday output, daily tracer averages, and time series over three stations.
-            %\item The Midday output is used to check how shape factors for AMF recalculation are affected by vertical resolution and stratospheric chemistry. 
-            %%TODO: Should I add a plot of how the AMF$_{GC}$ changes with/without the UCX? I'll remove this item if it's not worth it.
             \item This run shows what influence the stratospheric chemistry additions have over tropospheric isoprene, HCHO, and ozone concentrations.
             \item The daily tracer averages are used to determine ozone intrusion quantification (Section \ref{Ozone:fluxcalc}), and ozone concentration seasonality (Section \ref{Ozone:ModelComparison}).
             \item Time series outputs are compared against ozonesonde releases (Section \ref{Ozone:ModelComparison}) both over time and vertically.
@@ -1156,7 +1154,6 @@
     For many places the tropospheric column HCHO measured by satellite is biased low.
     \textcite{Zhu2016} examine OMHCHO and show a bias of 37\% %20 - 51\% instrument ranges
     over southeast USA when compared against a campaign of aircraft observations (SEAC$^4$RS).
-    %TODO: JENNYNOTE: UPDATE BIAS RANGES TO JUST OMI
     \textcite{DeSmedt2015} also found OMI and GOME2 observations were 20 - 40\% lower than ground based vertical profiles, and \textcite{Barkley2013} determine OMI to be 37\% low compared with aircraft measurements over Guyana.
     %These bias can be corrected by improving the assumed a priori HCHO profiles that are used to calculate the AMFs of the satellite columns.
     \textcite{Millet2006} examine OMI HCHO columns over North America and determine overall uncertainty to be 40\%, with most of this coming from cloud interference.
@@ -1451,7 +1448,7 @@
     
     % Figure from chapter_2_modelling AMF_distribution
     \mypic{Figures/OMI_link/AMF_distributions_2005.png}{%
-      Top row: averaged OMI Satellite AMF for 2005, from the OMHCHO data set (left, $AMF_{OMI}$), recalculated using GEOS-Chem shape factors  (middle, $AMF_{GC}$), and recalculated using GEOS-Chem shape factors and scattering weights (right, $AMF_{PP}$).
+      Top row: averaged OMI Satellite AMF for 2005, from the OMHCHO dataset (left, $AMF_{OMI}$), recalculated using GEOS-Chem shape factors  (middle, $AMF_{GC}$), and recalculated using GEOS-Chem shape factors and scattering weights (right, $AMF_{PP}$).
       Middle row: AMF time series over 2005 for each recalculation.
       Bottom row: AMF frequency distributions over January and February.
       Oceanic pixels are filtered out, only land pixels are included in this figure.
@@ -1585,7 +1582,7 @@
     This takes around 90 minutes per day; however, each day is completely independent and can be run in parallel once model output is available.
     Initially parallelism was built into the python code; however, simply running python code independently for each date was simpler and more scalable.
     As much as possible this work uses HDF-5 or NetCDF-4 formats, although GEOS-Chem output is in binary (bpch) format.
-    The scripts to regrid and reprocess the swath data set are available from github at \url{https://github.com/jibbals/OMI_regridding}.
+    The scripts to regrid and reprocess the swath dataset are available from github at \url{https://github.com/jibbals/OMI_regridding}.
   
   \subsection{Difference between original and corrected OMI HCHO columns}
   \label{Model:omiRecalc:diff}
@@ -1609,8 +1606,6 @@
       Distribution bins are logarithmic, resulting in wider bins for higher column amounts.
     }{\label{Model:omiRecalc:diff:fig_vcc_comparison}}
     
-    %Potential TODO: Worth looking at regressions between the three AMF and VCC techniques? 
-    %Plot and discussion paragraph would go here.
     
     
     When reading $AMF_{PP}$, missing and near zero ($AMF_{PP}<0.0001$) values are removed, which leads to fewer overall pixels used to recalculate $VCC_{PP}$ than either $VCC_{OMI}$ or $VCC_{PP}$. 
@@ -1637,7 +1632,7 @@
     
     % Figure from chapter_2_modelling AMF_distribution
     \mypic{Figures/OMI_link/VCC_distributions_2005.png}{%
-      Top row: averaged OMI satellite VCC for 2005, from the OMHCHO data set (left, $VCC_{OMI}$), recalculated using GEOS-Chem shape factors  (middle, $VCC_{GC}$), and recalculated using GEOS-Chem shape factors and scattering weights (right, $VCC_{PP}$).
+      Top row: averaged OMI satellite VCC for 2005, from the OMHCHO dataset (left, $VCC_{OMI}$), recalculated using GEOS-Chem shape factors  (middle, $VCC_{GC}$), and recalculated using GEOS-Chem shape factors and scattering weights (right, $VCC_{PP}$).
       Middle row: VCC time series over 2005 for each recalculation.
       Bottom row: VCC frequency distributions over January and February.
       Oceanic pixels are filtered out, so only land pixels are included in this figure.
@@ -2110,7 +2105,7 @@
 \section{Data Access}
   \label{Model:DataAccess}
   
-  Here I list the data sets used in this thesis, along with where it is from and where it is used.
+  Here I list the datasets used in this thesis, along with where it is from and where it is used.
   
   \begin{description}
     \item[AIRS] Atmospheric Infra-red Sounder instrument aboard the Aqua satellite \parencite{AIRS3STD}.
@@ -2118,14 +2113,14 @@
     Data from this product are used in Chapter \ref{Ozone}, and briefly described in Section \ref{Model:datasets:AIRS}.
     
     \item[CPC] Climate Prediction Center global temperature data provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their website at \url{https://www.esrl.noaa.gov/psd/}.
-    Surface temperatures from this data set used in Section \ref{Model:omiRecalc:diff}, and described in Section \ref{Model:datasets:model:CPC}.
+    Surface temperatures from this dataset are used in Section \ref{Model:omiRecalc:diff}, and described in Section \ref{Model:datasets:model:CPC}.
     
     \item[ERAI] European Centre for Medium-range Weather Forecasts (ECMWF) Interim Reanalysis (ERA-I) \parencite{Dee2011}. 
     Downloaded using the online portal: \url{https://apps.ecmwf.int/datasets/data/interim-full-daily/}.
     These data are used in Chapter \ref{Ozone}
     
     \item[MUMBA] Measurements of Urban, Marine and Biogenic Air campaign \parencite{PatonWalsh2017}.
-    Several trace gases from this campaign are examined here in Section \ref{BioIsop:results:measurements}, the data set is described in more detail in Section \ref{Model:datasets:MUMBA}.
+    Several trace gases from this campaign are examined here in Section \ref{BioIsop:results:measurements}, the dataset is described in more detail in Section \ref{Model:datasets:MUMBA}.
     
     
     \item[OMHCHO] Satellite swaths of HCHO slant columns downloaded from \url{https://search.earthdata.nasa.gov}, with DOI 10.5067/Aura/OMI/DATA2015.
@@ -2147,7 +2142,7 @@
     Relevant measurements described in detail in Section \ref{Model:datasets:SPS}.
     
     \item[Wollongong FTIR] The instrument is part of the Network for the Detection of Atmospheric Composition Change (NDACC) and data can be retrieved from the NDACC database (\url{http://www.ndaccdemo.org/stations/wollongong-australia}).
-    The current principle investigator producing and quality assuring the data set is \href{mailto:njones@uow.edu.au}{Dr. Nicholas Jones}.
+    The current principle investigator producing and quality assuring the dataset is \href{mailto:njones@uow.edu.au}{Dr. Nicholas Jones}.
     
     \item[Ozone sondes] Ozonesonde data were retrieved from the World Ozone and Ultraviolet Data Centre (WOUDC)  \url{http://woudc.org/data/explore.php}.
     
