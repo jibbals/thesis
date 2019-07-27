@@ -112,7 +112,7 @@
     Continental tropospheric HCHO enhancements can be directly linked to biogenic isoprene emissions.
     %Even anthropogenic HCHO source estimates, which are accurate at the global scale, can be improved using satellite data to improve regional estimates by up to 25-40\% \parencite{Stavrakou2015}. 
     %Their study used the RETRO 2000 database for anthropogenic emission a prioris except for Asia in 2008 where REASv2 was used. 
-    Since 1997, when the Global Ozone Monitoring Experiment (GOME) satellite measurements were first used to measure HCHO, satellites have been used to provided a total column measurement of HCHO, enabling isoprene emissions estimation by top-down methods \parencite{Thomas1998,Palmer2001,Bauwens2016}.
+    Since 1997, when the Global Ozone Monitoring Experiment (GOME) satellite measurements were first used to measure HCHO, satellites have been used to provide a total column measurement of HCHO, enabling isoprene emissions estimation by top-down methods \parencite{Thomas1998,Palmer2001,Bauwens2016}.
     Using satellite information to improve estimates of biogenic emissions has been highlighted as a valuable use of satellite derived datasets \parencite{Streets2013}.
     Here NASA's OMHCHO product based on measurements from the OMI instrument onboard the Aura satellite (see Section \ref{Model:omhcho}) is the basis for a top-down biogenic isoprene emission estimate over Australia.
     
@@ -267,7 +267,7 @@
     This forms the intermediate product OMHCHORP, which is fully described in Section \ref{Model:omiRecalc:outline}.
     %In total a month of these data are read in at a time %(to allow parallelism and reduce RAM usage)
     %and then used in subsequent steps to calculate the isoprene emissions.
-    This dataset includes gridded satellite HCHO columns ($\Oomi$), along with pixel counts (how many satellite datapoints were used for each grid box) to allow averaging, re-binning, and uncertainty analysis.
+    This dataset includes gridded satellite HCHO columns ($\Oomi$), along with pixel counts (how many satellite data points were used for each grid box) to allow averaging, re-binning, and uncertainty analysis.
     In this thesis I use the OMI product 
     %as it has better temporal coverage and increased pixel counts over Australia 
     as the overpass time (13:30 local time) is closer to peak isoprene emissions than that of GOME or GOME-2. %(on board the ERS-2 and METOP-A satellites respectively).
@@ -407,11 +407,11 @@
     
     \subsubsection{Smearing}
       \label{BioIsop:method:smearing}
-    % JENNY NOTE: I find it a little bit problematic that the smearing filter is being used and analysed here but is not actually described or discussed until after this section. But I don't really want to suggest that you move 3.2.7 into this section because this section otherwise flows really well right now, and 3.2.7 is LONG. I think we should think about whether part or all of 3.2.7 could move into your measurements & modelling chapter. I don't have that in front of me right now and I'm just writing as I read/think, so it might not make sense -- but think about it and whether/where it would fit and let's discuss.
+
     % slope calculation filtered by smearing
     One issue with slope calculation is potential transport (also known as smearing), either of isoprene transported in from outside the local grid box (before any HCHO is formed), or of HCHO formed by local emissions but transported out of the local grid box.
     A \textit{smearing} filter is created (see Section \ref{Model:filter:smearing}) which filters out grid squares on days when transport is likely.
-    Days where smearing is expected to affecting local levels of HCHO are removed before calculating $S$, and a simple analysis is performed on how the filter affects monthly slope, correlation, and uncertainty.
+    Days where smearing is expected to affect local levels of HCHO are removed before calculating $S$, and a simple analysis is performed on how the filter affects monthly slope, correlation, and uncertainty.
     Figure \ref{BioIsop:method:slope:fig_smear_filter_prior} shows the calculated slope for 2005-2012, along with its 95\% confidence interval for the 2\degr x 2.5\degr ~grid box containing Sydney.
     The monthly and multi-year monthly averages are shown before and after the smearing filter is applied.
     The filter slightly reduces the amplitude of the seasonal cycle, raising the January minimum and lowering the June and July maximum.
@@ -432,11 +432,11 @@
     
     % Figure from GC_tests.model_slope_series(), title modified in paint
     \mypic{Figures/OMI_link/GC/slope_series_Syd_20050101-20121231.png}{%
-      Row 1: monthly slope along with 95\% confidence interval both before (blue) and after (magenta) applying the smear filter for the model grid square containing Sydney over 2005-2012. 
-      Row 2: regression coefficient and data-point counts before (left) and after (right) performing filtering for slopes shown in row 1.
-      Additionally limits for r and n used in slope utilisation (see text) are shown with dashed lines.
+      Row 1: monthly slope along with 95\% confidence interval both before (blue) and after (magenta) applying the smearing filter for the model grid square containing Sydney over 2005-2012. 
+      Row 2: regression coefficient and data point counts before (left) and after (right) performing filtering for slopes shown in row 1.
+      Additionally, limits for $r$ and $n$ used in slope utilisation (see text) are shown with dashed lines.
       Row 3: slope and confidence interval using the multi-year dataset for each month.
-      Row 4: regression coefficient and data-point counts for row 3.
+      Row 4: regression coefficient and data point counts for row 3.
     }{\label{BioIsop:method:slope:fig_smear_filter_prior}}
     
     Smearing can be dependent on local or regional weather patterns, as greater wind speeds will reduce the time any emitted compound stays within the local grid box.
@@ -544,7 +544,7 @@
     One potential issue in this top-down estimation technique is the low number of valid satellite measurements that may occur due to the higher solar zenith angles in winter and at higher latitudes.
     Another issue is that negative emissions are commonly calculated in areas wherever measured HCHO columns are lower than background amounts (as $\apost = \frac{\Oomi - \Omega_0}{S}$) due to uncertainty in the background calculation.
     These negative calculated emissions are set to zero, as negative emissions physically meaningless in this calculation.
-    Relative uncertainty in these gridsquares is set to 100\% for later estimations of uncertainty (Section \ref{BioIsop:uncertainty:eomi}).
+    Relative uncertainty in these grid squares is set to 100\% for later estimations of uncertainty (Section \ref{BioIsop:uncertainty:eomi}).
     %which increases the overall average emissions from 4.4$\times 10^{11}$ atom C cm$^{-2}$ s$^{-1}$ to 1.1$\times 10^{12}$ atom C cm$^{-2}$ s$^{-1}$, due to the frequency of sub-zero column amounts (especially in winter) over low isoprene emission areas.
     %% MAYBEDO: split this into seasonl emission changes?.
     
@@ -649,7 +649,7 @@
     The highest variance is seen in both eastern regions, potentially due to diversity within the regions which include high density cities, large forests, and rural areas.
     This overestimate by the a priori may be caused by some mixture of overly high emission factors and high emission sensitivity to temperatures and soil moisture \parencite{Emmerson2016,Emmerson2019}.
     Over the entirety of Australia the seasonal cycle of emissions is shown to be overestimated by the a priori, and further analysis and measurements are required to determine the cause.
-    % CLARE NOTE: Also I think that MEGAN predicts emissions practically switch off in the winter months and this is probably wrong - so the real seasonality is probably much less than in the apriori ??
+    % CLARE NOTE: Also I think that MEGAN predicts emissions practically switch off in the winter months and this is probably wrong - so the real seasonality is probably much less than in the a priori ??
     
     %% MAYBEDO: find reason for: January and February also show a low feature in the a posteriori data, which may be due to filtering (check data count), or may have been caused by meteorological factors (Check if drought or fires occurred).
     While most regions show similar overestimates, the northern region of Australia follows a different cycle of bias.
@@ -673,7 +673,7 @@
     
     
     
-    %Figure \ref{BioIsop:results:emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally and coloured to show data-point frequency.
+    %Figure \ref{BioIsop:results:emissions:fig_daily_egressions} shows the daily midday distributions, binned hexagonally and coloured to show data point frequency.
     There is only weak correlation between daily estimates of the a priori and a posteriori ($r < 0.2$), and a priori distributions show more variance (figure in Appendix \ref{App:dailyregression:fig_daily_egressions}).
     This is likely due to the filtering applied to satellite data (e.g., whenever cloud coverage exceeds 40\%) which reduces the count and spread of a posteriori emission calculations.
     Figure \ref{BioIsop:results:emissions:fig_monthly_egressions} shows how the distributions of a posteriori emissions compare to a priori emissions in each region during summer months (December - February) with zeros removed from both distributions. % zeros or negatives in top-down estimate are from hcho lower than background
@@ -691,7 +691,7 @@
     % Figure from Analyse_E_isop.distributions_comparison_regional
     % updated individual images on NCI, stitched on local machine, edited in paint
     \mypicwh{\textwidth}{0.8\textheight}{Figures/OMI_link/Emiss/monthly_Egressions_final.png}{%
-      Scatter plot of a priori emissions against a posteriori emissions using monthly averaged grid squares as regression datapoints.
+      Scatter plot of a priori emissions against a posteriori emissions using monthly averaged grid squares as regression data points.
       Data points are created using monthly averages (of midday emissions) for each grid box for each month of summer (DJF) within each region shown.
       Multiple years of data are used, meaning if a region has 10 grid boxes, the 8 years of data will add up to 10 boxes $\times 3$ months  $\times 8$ years $= 240$ data points minus filtered and zero emission squares.
       Plots are coloured by regions shown in Figure \ref{BioIsop:results:fig_subregions}.
