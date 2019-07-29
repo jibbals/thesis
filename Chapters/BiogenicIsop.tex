@@ -35,18 +35,18 @@
   Uncertainties in several important products such as ozone and SOA are increased due to both isoprene measurement difficulties and its complicated subsequent chemical mechanisms.
   Isoprene emissions in the frequently used MEGAN model may be overestimated in Australia since they are based on measurements taken from a few young trees \parencite{Winters2009} that may emit more than older trees \parencite{Emmerson2016}.
   The sample of trees used to construct the MEGAN emissions model included 4 types of Eucalyptus, which are not representative of the hundreds of species that make up Australian forests.
-  Additionally, how these species depend on biological and meteorological stresses is unclear \parencite{Winters2009, FortemsCheiney2012}.
+  Additionally, how these species react to biological and meteorological stresses is unclear \parencite{Winters2009, FortemsCheiney2012}.
   Emissions estimates are necessary inputs for atmospheric chemistry models and improving these estimates for Australia is a primary goal of this thesis.
   %without an expensive measurement campaign over the large data sparse continent of Australia.
   %%BVOC emissions are rising globally, and improving estimates for Australia is a priority since they affect such important processes in the atmosphere.
   %\textcite{Kefauver2014} reviews remote sensing of BVOC emissions, examining the last 20 years of data and analysis of the satellite products.
   
   
-  In this chapter I describe and implement a \textit{top-down} technique using satellite measurements of HCHO to calculate surface isoprene emissions.
+  In this chapter, I describe and implement a \textit{top-down} technique using satellite measurements of HCHO to calculate surface isoprene emissions.
   HCHO is a primary product of most BVOC (including isoprene) oxidation, and is measured by satellites via remote sensing.
   In situ isoprene concentration measurements are costly and sparse within Australia, while satellite HCHO data are plentiful and freely available, making this technique very attractive.
-  top-down techniques have informed isoprene emission inventories in North America \parencite{Abbot2003,Palmer2003,Palmer2006,Millet2006,Millet2008}, South America \parencite{Barkley2013}, Europe \parencite{Dufour2009,Curci2010}, Africa \parencite{Marais2012}, Asia \parencite{Fu2007,Stavrakou2014}, India \parencite{Surl2018}, and even globally \parencite{Shim2005,FortemsCheiney2012,Bauwens2016}.
-  In this thesis I apply the technique solely focusing on Australia for the first time.
+  Top-down techniques have informed isoprene emission inventories in North America \parencite{Abbot2003,Palmer2003,Palmer2006,Millet2006,Millet2008}, South America \parencite{Barkley2013}, Europe \parencite{Dufour2009,Curci2010}, Africa \parencite{Marais2012}, Asia \parencite{Fu2007,Stavrakou2014}, India \parencite{Surl2018}, and even globally \parencite{Shim2005,FortemsCheiney2012,Bauwens2016}.
+  In this thesis I apply the technique focusing solely on Australia for the first time.
   % Too specific
   %In this thesis the OMHCHO dataset from the OMI instrument (see Section \ref{Model:omhcho}) is used as the basis for HCHO amounts.
   
@@ -64,7 +64,7 @@
     Goodness of fit between in situ, satellite, and modelled HCHO is determined before and after scaling emissions estimates.
     
     
-    In this section I outline why current isoprene emissions estimates are inadequate and how they can be improved.
+    First I outline why current isoprene emissions estimates are inadequate and how they can be improved.
     I discuss literature that shows how the estimates may be too high, and describe how emissions may be calculated using satellite datasets.
     Section \ref{BioIsop:method} lays out how new isoprene emissions are estimated, with results examined in Section \ref{BioIsop:results}. 
     Section \ref{BioIsop:results} includes a comparison of updated satellite HCHO columns (Chapter \ref{Model}) to available measurements, and an examination of how these changes in emissions would affect ozone concentrations in Australia.
@@ -81,7 +81,7 @@
     However, along with other models that rely on measured plant emission rates, it is poorly calibrated for Australian conditions.
     Emissions of isoprene (C$_5$H$_8$) appear to be overestimated within Australia \parencite{Sindelarova2014,Stavrakou2014,Emmerson2016}, although the lack of measurements of isoprene emission rates in Australia makes this overestimation difficult to characterise.
     \textcite{Bauwens2016} showed that isoprene emissions were overestimated by up to a factor of 3 over Australia.
-    \textcite{Emmerson2016} suggest isoprene emissions are estimated 2-6 times too high compared against available measurements of isoprene concentrations.
+    \textcite{Emmerson2016} suggest isoprene emission estimates are 2-6 times too high compared against available measurements of isoprene concentrations.
     %They also show that no blanket increase or decrease in emission factors is appropriate for the entire southeast of Australia.
     They compared modelled data to campaign measurements from multiple sites over different seasons and found that scaling emissions did not universally improve model outputs.
     % Not relevant
@@ -94,7 +94,7 @@
     %They examine global emissions seen by three models and a top-down inversion. % this is just what they do, not results etc...
     For Australia they found %emissions ranging from 26-94\tgcpyr, with 
     MEGAN based estimates ranging from 38\tgcpyr - 94\tgcpyr, and a posteriori emissions of 36\tgcpyr.
-    In this thesis I develop and analyse a top-down emissions estimate compared against MEGAN, along with how changed emissions affect modelled ozone levels.
+    In this thesis I develop and analyse a top-down emission estimate, which is then compared against MEGAN. I also look at how changed emissions affect modelled ozone levels over Australia.
   
   \subsection{Top-down isoprene emissions estimates}
     \label{BioIsop:intro:top_down_estimates}
@@ -446,7 +446,7 @@
     The smearing filter is more active in winter and spring, especially at higher latitudes.
     Grid squares along the east coast are filtered frequently in all seasons, as well as grid squares in the high smearing lake Eyre region in northeastern South Australia.
     %Any grid square with low isoprene emissions will be more sensitive to transport, as the signal is lower.
-    During summer data loss from smearing is approximately 30\% over the entirety of Australia, which increased to 40\% over winter.
+    Data loss from smearing is approximately 30\% over the entirety of Australia during summer, and 40\% during winter.
     The data loss is generally higher towards the north east and southern coastlines, and at lake Eyre.
     
     % Figure from tests/test_filters.smearing_definition
@@ -762,7 +762,7 @@
       \mypic{Figures/OMI_link/Emiss/MEGAN_monthly_daycycle_final.png}{ %
         The diurnal cycle of GEOS-Chem a priori emissions (solid line) averaged by month into hourly bins over from 2005 to 2013 along with top-down a posteriori (dashed line) emissions.
         Standard deviations for the monthly average are shaded for the a priori, and shown with error bars at 13:30~LT for the a posteriori.
-        top-down emissions shown here are based on monthly midday emissions being the peak of a sine wave which drops to zero after and before daylight hours (see Section \ref{BioIsop:method:conversion_to_kg}).
+        Top-down emissions shown here are based on monthly midday emissions being the peak of a sine wave which drops to zero after and before daylight hours (see Section \ref{BioIsop:method:conversion_to_kg}).
       }{\label{BioIsop:method:scaled:fig_megan_diurnal}}
     
 
@@ -978,8 +978,8 @@
     
     
     Figure \ref{BioIsop:results:measurements:fig_campaign_comparison} shows GEOS-Chem output in the grid square containing Sydney and Wollongong campaign measurements.
-    The measurements are subset to those taken between 13:00 and 14:00, which are averaged on days when more than one data point in this time window exists.
-    In order to minimise introduced bias, any measurements below the machine detection limit are set to half of the detection limit, as performed in \textcite{Lawson2015}. 
+    Measurements between 13:00 and 14:00 are averaged daily.
+    In order to minimise introduced bias, any measurements below the instrument detection limit are set to half of the detection limit, as performed in \textcite{Lawson2015}. 
     Midday measurements from MUMBA (summer, Wollongong) compared against SPS (summer, autumn, Sydney) show lower isoprene and HCHO levels, and similar ozone levels, and also lower variance across all three species.
     %representative of an environment similar to Wollongong, with some forest and limited city influences. 
     Variation in SPS data are higher than modelled, which is likely due to a dependence on local meteorology, as plumes of HCHO or isoprene enriched air can be detected as they pass by while the modelled grid square averages these out.
@@ -1002,14 +1002,13 @@
     % Figure showing apriori and apostiori for any locatation can be made by test_E_new.location_timeseries
     
     Coincident measured and modelled means and comparison statistics for each campaign for isoprene, HCHO, and ozone are summarised in Table \ref{BioIsop:results:measurements:tab_campaign_comparison}.
-    Isoprene correlations are greatest during the MUMBA campaign at $r=0.83,0.84$, nearly double those of SPS1 and SPS2.
-    This suggests that isoprene in the large grid square may be more representative of a Wollongong-like environment, with somewhat more forest and less urban influence when compared to Sydney.
-    However, the root mean square error (RMSE) in MUMBA is 1.7~ppb ($\sim 300\%$) and approximately 0.9~ppb and 0.4~ppb in SPS1, SPS2 respectively ($\sim 100\%$),  before isoprene scaling is applied.
+    Isoprene correlations are greatest during the SPS1 campaign at $r=0.83,0.84$, nearly double those of SPS2 and MUMBA.
+    The root mean square error (RMSE) in MUMBA is 1.7~ppb ($\sim 300\%$) and approximately 0.9~ppb and 0.4~ppb in SPS1, SPS2 respectively ($\sim 100\%$),  before isoprene scaling is applied.
     In MUMBA the reduced isoprene emissions improves the model drastically, bringing the RMSE down to $\sim{100}\%$, however this improvement is not seen in either of SPS1 or SPS2.
     Similarly for HCHO, the MUMBA RMSE is reduced from 2.0~ppb ($\sim{130}\%$) to 1.2~ppb ($\sim{80}\%$) by bringing down the mean modelled amounts.
     Modelled HCHO is low compared against measurements from Sydney (SPS1 and SPS2), and is further lowered through scaling.
-    Without improved model resolution or further measurements, this is assumed to be due to local influences seen in the measurements but not captured by the model, such as HCHO enriched air from the nearby forest being blown down the escarpment directly to the measurement site.
-    Modelled ozone concentrations are slightly reduced ($3-8\%$) when scaling isoprene emissions, however the concentrations remain $30-50\%$ too high for Wollongong and nearly $100\%$ too high for Sydney.
+    Without improved model resolution or further measurements, this is assumed to be due to local influences seen in the measurements but not captured by the model, such as HCHO enriched air from local sources.
+    Modelled ozone concentrations are slightly reduced ($3-8\%$) when scaling isoprene emissions, however the concentrations remain $30-50\%$ too high for Sydney and approximately $100\%$ too high for Wollongong.
     This is likely due to the reduced ozone concentrations in cities compared to regional areas, as the modelled ozone concentrations are averages over the larger area which is mostly non-urban.
     
     % table created in chapter_3_isop
@@ -1166,7 +1165,7 @@
 %    TIME:   9.57 minutes for stuff
 %    
     
-  \subsection{top-down emissions}
+  \subsection{Top-down emissions}
     \label{BioIsop:uncertainty:eomi}
     
     Important factors in the calculation of isoprene emissions using OMI HCHO include the modelled relationship between HCHO and isoprene and the satellite HCHO measurements.
@@ -1400,7 +1399,7 @@
     For example OMI underestimated aircraft measurements by 37\% in Guyana \parencite{Barkley2013}.
     OMI underestimates range from 20-37\% when compared against aircraft data over the southeast United States \parencite{Zhu2016}.
     OMI validation against 7 sites (the most southern site being Reunion Island at 20.9\degr S) using MAX-DOAS and FTIR retrievals showed up to 50\% underestimates by satellite HCHO retrievals \parencite{DeSmedt2015}.
-    The highest underestimate occurred during periods of high concentration. 
+    The highest underestimate occurred during periods of high concentration 
     %; however, there was less underestimation when compared with the FTIR instrument which was at the southernmost site 
     \parencite{Vigouroux2009,DeSmedt2015}.
     Satellite HCHO may also suffer from $\sim{13}\%$ overestimation when taking monthly averages due to only measuring on relatively cloud-free days \parencite{Surl2018}.
@@ -1491,7 +1490,7 @@
   This leads to uncertainty and error when modelling atmospheric ozone and other trace gases.
   
   % What I did
-  In this chapter I created and tested an isoprene emissions estimate (a posteriori) based on OMI satellite measurements of HCHO, a high-yield product of isoprene oxidation.
+  In this chapter, I created and tested an isoprene emissions estimate (a posteriori) based on OMI satellite measurements of HCHO, a high-yield product of isoprene oxidation.
   %Filters are applied to satellite and modelled data to ensure sensible estimation of biogenic emissions only, although this leads to an inability to confidently analyse winter emissions.
   The a posteriori emissions' effects on ozone and HCHO were tested by running GEOS-Chem with a seasonal (multi-year monthly averaged) gridded (\lowhr) scaling factor calculated from the a posteriori applied to the a priori emissions.
   %This factor comes from the multi-year monthly difference between model emissions and our top-down a posteriori.
@@ -1517,7 +1516,7 @@
   In Australia, a mixture of poorly defined emission factors \parencite[e.g.,][]{Emmerson2016}, unaccounted for soil moisture forcing \parencite[e.g.,][]{Sindelarova2014, Emmerson2019} and poorly understood forest responses to meteorological stresses likely drive uncertainty and model biases \parencite{Jiang2018,Emmerson2019}.
   %For instance, \textcite{Sindelarova2014} found % a 41\tgpyr decrease in Australia when 
   A potential improvement to the MEGAN soil parameterisation has been described \parencite{Jiang2018}; however, a detailed map of soil properties is not currently available in Australia, and this would be required to apply the parameterisation here.
-  An alternative parameterisation of soil moisture and drought effects on isoprene emissions was recently implemented in a different CTM by \textcite{Emmerson2019} and applying this parameterisation in GEOS-Chem should be a priority for future work in Australia..  
+  An alternative parameterisation of soil moisture and drought effects on isoprene emissions was recently implemented in a different CTM by \textcite{Emmerson2019} and applying this parameterisation in GEOS-Chem should be a priority for future work in Australia.  
   % Future work also discussed in conclusion chapter
 
 
@@ -1533,7 +1532,7 @@
   
   In the future, other satellites (e.g., GOME-2, TROPOMI) could be used to improve emission estimates further, with differing overpass times potentially allowing a measure of diurnal emission patterns.
   Additionally, an adjoint version of GEOS-Chem over Australia could provide improved estimates of isoprene emission taking into account transport.
-  An adjoin based inversion could also provide an evaluation of how resolution-limited the linear top-down emission estimates are over Australia.
+  An adjoint based inversion could also provide an evaluation of how resolution-limited the linear top-down emission estimates are over Australia.
   %along with an analysis of satellite resolution limitations regarding uncertainty could be undertaken.
   The emission estimate created in this chapter could also be refined to higher temporal resolution, with further analysis of uncertainty.
   Oversampling techniques could be applied near populated areas in order to improve the understanding of isoprene, HCHO, and ozone relationships over cities \parencite[e.g.,][]{Surl2018}.
