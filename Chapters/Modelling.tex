@@ -23,10 +23,10 @@
   %Many data points can be averaged in order to reduce uncertainty.
   In this chapter several satellite datasets are combined to estimate biogenic HCHO amounts over Australia.
   
-  The first goal is to analyse Australia-specific HCHO concentrations measured by satellite.
+  The first aim is to analyse Australia-specific HCHO amounts measured by satellite.
   %and determine isoprene sensitivity and any model bias.
-  The second aim uses these concentrations along with model data to estimate isoprene emissions, which takes place in Chapter \ref{BioIsop}.
-  The third goal is to quantify ozone transported from the stratosphere down into the troposphere (Chapter \ref{Ozone}).
+  These are then used along with model data to estimate isoprene emissions, this is the second aim and takes place in Chapter \ref{BioIsop}.
+  The third aim is to quantify ozone transported from the stratosphere down into the troposphere (Chapter \ref{Ozone}).
   The focus in this chapter is to describe and analyse model outputs and measurements along with how they are calculated and compared for use in achieving the aims of this thesis.
   Section \ref{Model:datasets} details satellite and campaign datasets and describes model outputs.
   Measurement techniques used to retrieve the most utilised satellite dataset are outlined in Section \ref{Model:omhcho}.
@@ -46,10 +46,10 @@
   This includes modelled output, satellite measurements, and measurement campaigns.
   These datasets serve four purposes: 
   \begin{enumerate}
-    \item Model output validation in this chapter
-    \item Calculation of biogenic HCHO distribution over Australia in this chapter
+    \item Model output validation is performed in this chapter
+    \item Calculation of biogenic HCHO distribution over Australia is performed in this chapter
     \item Recalculated OMI formaldehyde columns are used as a basis for estimating isoprene emissions in Chapter \ref{BioIsop}
-    \item Extrapolation of ozone transport in Chapter \ref{Ozone}
+    \item Model outputs and measurements are used quantify ozone transport in Chapter \ref{Ozone}
   \end{enumerate}
   Details on filtering and interpolations which are undertaken when reading data are also provided, as each dataset has its own resolution.
   While no measurements are made throughout this thesis, it is important to understand the techniques used to create utilised datasets in order to understand possible anomalous data points or trends.
@@ -71,7 +71,7 @@
   Arguably the worst of these is systematic error (or bias).
   Bias normally indicates a problem in calculation or instrumentation.
   If the systematic error is known, it can be corrected for by either offsetting data in the opposite direction, or else fixing the cause.
-  A proper fix can only be performed if the sources of error are known and there is a way of correcting or bypassing it.
+  A proper fix can only be performed if the sources of error are known and there is a way of correcting or bypassing them.
   Random error is often reported as some function of a datasets variance, or uncertainty.
   It can be reduced through averaging either spatially or temporally. 
   Temporal and/or spatial averaging decreases uncertainty by a factor of $1/\sqrt{N}$ where N is the number of observations being averaged.
@@ -92,7 +92,8 @@
     This has been seen to introduce a clear-sky bias in monthly averages since measurements do not include cloudy days \parencite{Surl2018}.
     
     % Satellites use DOAS for trace gases which we are interested in
-    Satellite instruments measuring atmospheric composition record spectra between around 250-700~nm split into spectral components at around $0.3$~nm in order to calculate the abundance of trace gases including O$_3$, NO$_2$, and HCHO \parencite[e.g.,][]{Leue2001}.
+    Satellite instruments measuring atmospheric composition of interest in this thesis generally record spectra between around 250-700~nm split into spectral components at around $0.3$~nm \parencite[e.g.,][]{Leue2001}.
+    This allows calculation of the abundance of trace gases including O$_3$, NO$_2$, and HCHO.
     Satellite measurements are generally performed using spectral fitting followed by conversion to vertical column densities.
     %The use of multiple satellites can even be used to detect intradiel concentrations in trace gas columns, as shown in \textcite{Stavrakou2015} using OMI and GOME-2 measurements, which have respective overpass times of 1330 and 0930 local time.
     Several public data servers are available which include products from satellites, including NASA's Earthdata portal (\url{https://earthdata.nasa.gov/}) and the Belgian Institute for Space Aeronomy (IASB-BIRA) Aeronomie site (\url{http://h2co.aeronomie.be/}).
@@ -123,7 +124,7 @@
       %OMI spectra are used in several products used in this thesis, including OMHCHO, OMNO2d, and OMAERUVd.
       Satellite based formaldehyde measurements from the OMI instrument onboard Aura are stored in the OMHCHO product.
       OMHCHO data is used and modified extensively throughout this thesis, and so is discussed in more detail in Section \ref{Model:omhcho}.
-      Calculation of column density and AMF are discussed respectively in sections \ref{Model:omhcho:DOAS} and \ref{Model:omhcho:amf}.
+      Calculation of column density and AMF are discussed respectively in sections \ref{Model:omhcho} and \ref{Model:omhcho:amf}.
       
       
     \subsubsection{Nitrogen dioxide}
@@ -153,7 +154,7 @@
       
       % smoke aaod outline
       Aerosols in the atmosphere can be seen through their interactions with visible radiation. 
-      Smoke and dust can be seen as an increase in aerosol optical depth (AOD) (see Section \ref{Model:omhcho:DOAS}).
+      Smoke and dust can be seen as an increase in aerosol optical depth (AOD) (see Section \ref{LR:HCHO:DOAS}).
       This is due to these particles scattering and absorbing UV radiation \parencite{Ahn2008}.
       A data product provided by Earthdata (\url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}) called OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) is used in this thesis. 
       
@@ -919,7 +920,7 @@
   
   From here onward the word pixel is used to describe one data point retrieved by OMI.
   Each pixel includes a latitude and longitude within OMI's data product.
-  Figure \ref{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary} shows the details of OMI's detector array and measurement resolutions.
+  Figure \ref{Model:omhcho:fig_Shenkeveld_OMI_summary} shows the details of OMI's detector array and measurement resolutions.
   %OMI measures atmospheric trace gases including NO$_2$, SO$_2$, BrO, HCHO, O$_3$, and aerosols.
   OMI measurements occur from right to left on a band covering a viewing angle of 115$^{\circ}$, resulting in swaths of around 2600~km, with pixel sizes from 13x24~km$^2$ at nadir to 26x135~km$^2$ at the swath edges \parencite{Abad2015}.
   The swaths cover the Earth daily, both on the light and dark side of the planet, but only daytime measurements provide useful near-UV/Visible information.
@@ -936,8 +937,8 @@
       Here is an impression of the OMI scanning swathes as the housing satellite sweeps around the Earth.
       The charge-coupled device (CCD) has two dimensions: wavelengths and cross-tracks.
       The table shows the optical properties for OMI's three channels.
-      Reproduced from \textcite{Schenkeveld2017}
-    }\label{LR:HCHO:Sat:fig_Shenkeveld_OMI_summary}
+      Reproduced from \textcite{Schenkeveld2017}.
+    }\label{Model:omhcho:fig_Shenkeveld_OMI_summary}
   \end{figure}
   
   % How omi gets its AMF
@@ -948,12 +949,12 @@
   OMI uses a Differential Optical Absorption Spectroscopy (DOAS) based technique to retrieve HCHO along the path of light that reaches the satellite instrument.
   The first step is to determine how much HCHO is in the path of light between the sun and detector, which is done by applying a forward radiative transfer model (RTM) (see Section \ref{Model:Meas:sat:LIDORT}) in order to determine the radiative properties of a trace gas at various altitudes.
   The forward RTM used for satellite data products also involve functions representing extinction from Mie and Rayleigh scattering, and the effect of these on spectra.
+  Rayleigh and Mie scattering (two kinds of particle effects on radiation passing through a medium) must be accounted for in the UV-VIS region of the spectrum.
   These RTM are also required to account for (often estimated) atmospheric parameters such as albedo.
   The next step is to transform the calculated amounts along the non-vertical light path into vertical column amounts.
   This is done by applying an AMF.
   In the absence of atmospheric scattering a simple geometric AMF (a scaling factor using the projection of the slant column onto a vertical axis) can be defined as a function of the solar zenith angle. 
   The solar zenith angle ($\theta_s$) and the satellite viewing angle ($\theta_v$) are shown in image \ref{ch_HCHO:fig:zenithangle}.
-  However, in the UV-VIS region of the spectrum, Rayleigh and Mie scattering (see Section \ref{Model:omhcho:DOAS}) must also be accounted for.
   
   
   \begin{figure}\begin{center}
@@ -1186,13 +1187,13 @@
   
   The OMI instrument records spectra of light that enter the viewing lens on the Aura satellite.
   The spectra provide backscattered intensity ($I_B$) at various wavelengths (see Section \ref{Model:omhcho}), with the light source ($I_{B_0}$) being the sun. 
-  Using the log of Beer's law (Equation \ref{Model:omhcho:DOAS:eqn_beerslaw}) we get 
+  Using the log of Beer's law (Equation \ref{LR:HCHO:DOAS:eqn_beerslaw}) we get 
   $$ \tau_s = \ln{I_{B_0}} - \ln{I_B} $$
   which can be substituted into Equation \ref{Model:AMF:eqn_AMFFrac} to give an expression for the AMF that includes scattering:
   \begin{equation} \label{Model:AMF:eqn_amfscattering}
     AMF = \frac{\ln{I_{B_0}}-\ln{I_B}}{\tau_v}
   \end{equation}
-  %{Model:omhcho:DOAS:eqn_backscatterextinction}
+  %{LR:HCHO:DOAS:eqn_backscatterextinction}
   %$\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
   
   We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. 
@@ -1210,12 +1211,12 @@
   \begin{equation*}
     AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
   \end{equation*}
-  We can then convert $\text{d}\tau$ to our path using Equation \ref{Model:omhcho:DOAS:eqn_tau} leading to
+  We can then convert $\text{d}\tau$ to our path using Equation \ref{LR:HCHO:DOAS:eqn_tau} leading to
   \begin{equation} \label{Model:AMF:eqn_AMFcross}
     AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
   \end{equation}
   where $\alpha(z)$ and $\eta(z)$ represent absorption cross section in m$^2$ molecule$^{-1}$, and number density in molecules m$^{-3}$ respectively. 
-  This uses the attenuation cross section relationship to optical depth (see Section \ref{Model:omhcho:DOAS}).
+  This uses the attenuation cross section relationship to optical depth (see Section \ref{LR:HCHO:DOAS}).
   
   To represent an average cross section weighted by the absorbing species' vertical distribution, the effective cross section ($\alpha_e$) is used.
   This is to account for temperature and pressure dependence of $\alpha(z)$, and is defined as:
@@ -1810,7 +1811,7 @@
     
     %\textcite{Zhu2013_poster} has a similar analysis over south-eastern USA showing an exponential correlation of ${HCHO} = \exp(0.15\times{T}-9.07)$.
     
-    Additional work was performed to validate the pyrogenic filter through an examination of the relationship between temperature and HCHO (Appendix \ref{App:hcho_vs_tem}).
+    Additional work was performed to validate the pyrogenic filter through an examination of the relationship between temperature and HCHO (Appendix \ref{App:hcho_vs_temp}).
     HCHO should be exponentially related to temperature if it is driven by isoprene, with outliers possibly indicative of pyrogenic influence, especially when high emissions are shown on low temperature days.
     However, fires typically occur on hotter days, and HCHO destruction occurs faster on hotter days, confounding the clear occurrence of outliers \parencite[e.g.][]{Zheng2015}. 
     At \highhr ~resolution, application of the pyrogenic filter slightly strengthens the correlation over the wider south eastern Australian region, with r increasing from $\sim{0.31}$ to $\sim{0.38}$.
