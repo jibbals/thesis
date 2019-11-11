@@ -58,7 +58,7 @@
   Horizontal geographical coordinates are always discussed in terms of degrees north and east, from -180\degr ~to 180\degr ~spanning west to east around the globe and -90\degr ~to 90\degr ~spanning the latitudes from the Antarctic to the Arctic.
   Vertical resolution is sometimes discussed in terms of metres, sometimes in terms of pressure (hPa), and sometimes in terms of sigma ($\sigma$) coordinates.
   Sigma coordinates represent the fraction of the atmosphere vertically above, with $\sigma = 1$ being the surface and $\sigma = 0$ being the top of the atmosphere (TOA).
-  This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and we need not worry about topography.
+  This can be useful when running global atmospheric models as the ground altitude is always at $\sigma=1$ and \replaced[id=mh]{topography is not an issue}{we need not worry about topography}.
   Conversion between $\sigma$ and pressure (p) coordinates is as follows:
   \begin{equation}
     \label{Model:datasets:eqn_sigma_pressure}
@@ -393,7 +393,7 @@
     GEOS-Chem simulates more than 100 chemical species within the atmosphere, from the earth's surface up to 0.01~hPa.
     Modelled concentrations can be used in combination with measurements to give a verifiable estimate of atmospheric gases and aerosols in places and times where no measurements exist.
     It was developed, and is maintained, by Harvard University staff as well as users and researchers worldwide.
-    In this thesis I use version 10.01 of GEOS-Chem, which outputs up to 66 chemical species (tracers) in the standard run, at \lowhr ~horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa).
+    In this thesis\replaced[id=mh]{ GEOS-Chem version 10.01 is used}{ I use version 10.01 of GEOS-Chem}, which outputs up to 66 chemical species (tracers) in the standard run, at \lowhr ~horizontal resolution, with 47 levels up to the top of the atmosphere (TOA at 0.01~hPa).
     
     
     Global CTMs are often run using one or several emission models (or the output from them) to determine input fluxes.
@@ -403,15 +403,15 @@
     % Emissions models used for boundary conditions
     Fire emissions come from the global fire emissions database (GFED4) product \parencite{Giglio2013}. 
     Anthropogenic VOC emissions come from the Emission Database for Global Atmospheric Research (EDGAR) inventory, while biogenic VOC emissions are simulated using the MEGAN model (see Section \ref{Model:GC:MEGAN}).
-    %MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation.
+    %%MEGAN is used to determine biogenic emissions for our default GEOS-Chem simulation.
     %The estimated biogenic VOC emissions are important are used extensively within this thesis.
 
 
   \subsection{Installing and running GEOS-Chem}
     \label{Model:GC:running}
     GEOS-Chem instructions for download, compilation, and running can be found in the user guide provided by Harvard: \url{http://acmg.seas.harvard.edu/geos/doc/man/}.
-    In order to build and run GEOS-Chem a high-speed computing system is optimal, as globally gridded chemical calculations can take a long time to perform (for us $\sim 70$ computation hours per month).
-    I installed GEOS-Chem onto a suitably configured workspace on the Raijin supercomputer at the National Computational Infrastructure (NCI, \url{http://nci.org.au/}).
+    In order to build and run GEOS-Chem a high-speed computing system is optimal, as globally gridded chemical calculations can take a long time to perform (\deleted[id=mh]{for us }$\sim 70$ computation hours per month \added[id=mh]{in this work}).
+    \replaced[id=mh]{For this thesis, GEOS-Chem is installed}{I installed GEOS-Chem} onto a suitably configured workspace on the Raijin supercomputer at the National Computational Infrastructure (NCI, \url{http://nci.org.au/}).
     This workspace included access to compilers and libraries that are needed to build the Fortran based GEOS-Chem source code, and IDL, Python, and various editors and scripting languages to read, run, edit, and analyse both GEOS-Chem and its output.
     %After downloading GEOS-Chem, the code can be compiled with different options for resolution and chemical mechanisms.
 
@@ -842,7 +842,7 @@
       
       % Differences between run isoprene amounts described and analysed here
       Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday} shows the differences in surface isoprene concentrations over Australia, averaged over 1, Jan to 28, Feb, 2007.
-      Here we start to see a higher relative difference in concentrations, although this is generally over the areas with lower absolute concentrations. 
+      Here\deleted[id=mh]{ we start to see} a higher relative difference in concentrations \added[id=mh]{becomes apparent}, although this is generally over the areas with lower absolute concentrations. 
       Very little isoprene is seen away from the continents (4-5 orders of magnitude less), due to its short lifetime and  lack of oceanic sources.
       Generally isoprene is 0-30\% higher over mid to western Australia when the UCX mechanism is turned on; however, this increase is lower in the regions with high isoprene emissions (north-east to south-east coastline).
       This enhancement can be seen throughout the entire tropospheric column as shown by Figure \ref{Model:GC:simulations:comparison:fig_UCXvsTrop_isop_surf_fullday}.
@@ -967,7 +967,7 @@
   % How omhcho is produced
   %A DOAS fit determines the total column amount of a trace gas along the path that the instrument views.
   %This uses the Beer-Lambert law where radiance is reduced as light travels through a medium.
-  In this thesis I use the NASA OMHCHOv003 data product \parencite{Abad2015}, with HCHO determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
+  In this thesis\deleted[id=mh]{ I use} the NASA OMHCHOv003 data product \parencite{Abad2015} \added[id=mh]{is used}, with HCHO determined using the spectral window $328.5$~nm$ - 356.5$~nm. 
   The algorithm used is based on direct fitting of radiances, and accounts for competing absorbers, under-sampling, and Ring effects (these affect measured absorption lines).
   %An OMI radiance measurement over the remote Pacific ocean is used instead of an irradiance measurement.
   %This means that the 
@@ -1114,7 +1114,7 @@
     The top row in Figure \ref{Model:Meas:sat:fig_OMI_uncertainty} shows OMI HCHO columns binned to at \highhr ~longitude by latitude averaged over one day and one month (with and without filtering).
     Row two shows uncertainty of the satellite data after averaging.
     It is clear that one day of satellite data is too uncertain when binned at \highhr ~horizontal resolution; however, after a month (with or without filtering) the uncertainties become manageable.
-    If we assume the uncertainty is random error, and not bias introduced through calculation techniques, then we are able to reduce the uncertainty through averaging.
+    If\replaced[id=mh]{ it is assumed that}{ we assume} the uncertainty is random error, and not bias introduced through calculation techniques, then \replaced[id=mh]{this uncertainty can be reduced}{we are able to reduce the uncertainty} through averaging.
     %High resolution low detection limit estimates can be built up using ``oversampling'', which averages satellite measurements over time \parencite[e.g.,][]{Zhu2014}.
     Uncertainty in satellite recalculations related to estimating isoprene emissions is analysed in Section \ref{BioIsop:uncertainty:satellite}.
     %A good example can be seen in \textcite{Zhu2014} where 0.2\degr ~by 0.2\degr ~resolution with high enough sensitivity to see anthropogenic HCHO is achieved with three summers worth of satellite data.
@@ -1187,7 +1187,7 @@
   
   The OMI instrument records spectra of light that enter the viewing lens on the Aura satellite.
   The spectra provide backscattered intensity ($I_B$) at various wavelengths (see Section \ref{Model:omhcho}), with the light source ($I_{B_0}$) being the sun. 
-  Using the log of Beer's law (Equation \ref{LR:HCHO:DOAS:eqn_beerslaw}) we get 
+  Using the log of Beer's law (Equation \ref{LR:HCHO:DOAS:eqn_beerslaw}) \replaced[id=mh]{gives}{we get} 
   $$ \tau_s = \ln{I_{B_0}} - \ln{I_B} $$
   which can be substituted into Equation \ref{Model:AMF:eqn_AMFFrac} to give an expression for the AMF that includes scattering:
   \begin{equation} \label{Model:AMF:eqn_amfscattering}
@@ -1196,8 +1196,8 @@
   %{LR:HCHO:DOAS:eqn_backscatterextinction}
   %$\tau_s$ is the optical thickness of the absorber along the measured path between source and instrument.
   
-  We use $\nabla I = I_B - I_{B_0}$ to represent the change in intensity due to the absorber. 
-  For optically thin absorption, $\nabla I / I_B << 1$, and we can use:
+  \deleted[id=mh]{We use} $\nabla I = I_B - I_{B_0}$ \added[id=mh]{is used} to represent the change in intensity due to the absorber. 
+  For optically thin absorption, $\nabla I / I_B << 1$\replaced[id=mh]{, which allows one to}{, and we can} use:
   \begin{equation} \label{Model:AMF:eqn_AMFthin}
     AMF = \frac{\ln{ \left( 1 - \frac{\nabla I}{I_B} \right)} }{\tau_v} \approx \frac{ - \frac{\nabla I}{I_B} }{\tau_v}
   \end{equation}
@@ -1211,7 +1211,7 @@
   \begin{equation*}
     AMF \approx \frac{-1}{\tau_v} \int_0^{\tau_v}{\frac{\partial \ln{I_B}}{\partial \tau} \mathrm{d}\tau}
   \end{equation*}
-  We can then convert $\text{d}\tau$ to our path using Equation \ref{LR:HCHO:DOAS:eqn_tau} leading to
+  \replaced[id=mh]{Conversion of $\text{d}\tau$ to the satellite path is performed}{We can then convert $\text{d}\tau$ to our path} using Equation \ref{LR:HCHO:DOAS:eqn_tau} leading to
   \begin{equation} \label{Model:AMF:eqn_AMFcross}
     AMF = \frac{-1}{\tau_v} \int_0^\infty {\frac{\partial \ln{I_B}}{\partial \tau} \alpha(z)\eta(z)\mathrm{d}z}
   \end{equation}
@@ -1224,7 +1224,7 @@
     \alpha_e &= \frac{1}{\Omega_v} \int_0^\infty \alpha(z) \eta(z) \mathrm{d}z \\
      &= \frac{\tau_v}{\Omega_v}
   \end{align*}
-  Then replacing the $\tau_v$ in Equation \ref{Model:AMF:eqn_AMFcross} we obtain:
+  Then replacing the $\tau_v$ in Equation \ref{Model:AMF:eqn_AMFcross} \replaced[id=mh]{provides}{we obtain}:
   \begin{equation} \label{Model:AMF:eqn_AMFpreomega}
     AMF=-\int_0^\infty{ \frac{\partial \ln{I_B}}{\partial \tau} \frac{\alpha(z)}{\alpha_e} \frac{\eta(z)}{\Omega_v} \mathrm{d}z }
   \end{equation}
@@ -1242,11 +1242,11 @@
     \end{equation}
   \end{description}
   
-  Plugging Equations \ref{Model:AMF:eqn_omega} and \ref{Model:AMF:eqn_shapefactor} into Equation \ref{Model:AMF:eqn_AMFpreomega} gives us:
+  Plugging Equations \ref{Model:AMF:eqn_omega} and \ref{Model:AMF:eqn_shapefactor} into Equation \ref{Model:AMF:eqn_AMFpreomega} gives\deleted[id=mh]{ us}:
   \begin{equation} \label{Model:AMF:eqn_AMF_amfgintwSdz}
     AMF = AMF_G\int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
   \end{equation}
-  Since we are using the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation as it is not part Equation \ref{Model:AMF:eqn_omega} leading to 
+  Since \replaced[id=mh]{this thesis uses}{we are using} the $\omega$ provided by OMI, the AMF$_G$ term is removed from this calculation as it is not part Equation \ref{Model:AMF:eqn_omega} leading to 
   \begin{equation} \label{Model:AMF:eqn_AMF_intwSdz}
     AMF = \int_0^\infty{ \omega(z) S(z) \mathrm{d}z}
   \end{equation}
@@ -1254,13 +1254,13 @@
   Additionally the AMF can be determined using the sigma ($\sigma$) coordinate system, which denotes altitude as going from 1 (ground level) to 0 (TOA) (see Section \ref{Model:datasets}).
   A conversion to the $\sigma$ vertical coordinate is performed using $p = \sigma (p_S - p_T) + p_T$, where $p_T$ is pressure at the top of the atmosphere and $p_S$ is surface pressure. 
   $S_\sigma$ is a dimensionless normalised shape factor on the $\sigma$ coordinate system.
-  In the sigma coordinate system we calculated the shape factor as defined in \textcite{Palmer2001}:
+  In the sigma coordinate system\deleted[id=mh]{ we calculated} the shape factor as defined in \textcite{Palmer2001} \added[id=mh]{is calculated as follows}:
   \begin{equation}
     \label{Model:AMF:eqn_ShapeFactorSigma}
     S_\sigma(\sigma) = \frac{\Omega_a}{\Omega_v}C_{HCHO}(\sigma)
   \end{equation}
   where $\Omega_a$ is the vertical column of air from the surface to the top of the atmosphere and C$_{HCHO}(\sigma)$ is the mixing ratio of HCHO.
-  We can integrate over the sigma coordinates using the hydrostatic relation $p = - \rho_a g z$, with $\rho_a$ being air density, and $g$ the gravitational acceleration:
+  \replaced[id=mh]{Then one}{We} can integrate over the sigma coordinates using the hydrostatic relation $p = - \rho_a g z$, with $\rho_a$ being air density, and $g$ the gravitational acceleration:
   \begin{align*}
     \rho_a g z & = \sigma \left( p_S - p_T \right) + p_T \\
     \mathrm{d}\sigma  & = - \frac{ \rho_a g }{ p_S - p_T } \mathrm{d}z
@@ -1392,9 +1392,9 @@
     
     \subsubsection{Updating shape factors}
     
-      From Equation \ref{Model:AMF:eqn_AMF_intwSdz} we have:
+      From Equation \ref{Model:AMF:eqn_AMF_intwSdz}\deleted[id=mh]{ we have}:
       $$ AMF = \int_0^\infty \omega(z) S(z) \mathrm{d}z $$
-      Using the $\omega(z)$ from satellite data, along with our calculated $S_z$ interpolated linearly onto the same vertical grid as $\omega(z)$, the AMF can be determined through integration.
+      Using the $\omega(z)$ from satellite data, along with \deleted[id=mh]{our }calculated $S_z$ interpolated linearly onto the same vertical grid as $\omega(z)$, the AMF can be determined through integration.
       The integration is performed using a simple rectangular method, which multiplies the integrand midpoints by the change in height, and then takes the sum for each vertical box.
       This assumes that the provided scattering weights and shape factors are linear between the 47 resolved values.
     
@@ -1407,7 +1407,7 @@
       The major limitation of vertical columns that implement $AMF_{GC}$ is that the scattering weights also depend on the model atmosphere, which is not updated when only the shape factor is recalculated.
       This is addressed using Fortran code written by Paul Palmer and Randal Martin, subsequently updated by Luke Surl (referred to here as PP code).
       This Fortran code is computationally expensive, and is run on a subset of the globe (50-10\degr~S, 160\degr~W-160\degr~E) covering Australia and the Pacific ocean.
-      This allows both vertical column recalculation and reference sector correction..
+      This allows both vertical column recalculation and reference sector correction.\deleted{.}
       The instrument sensitivity (or scattering weights; $\omega$) and shape factors for each pixel are calculated within the PP code.
       
       The code uses a combination of GEOS-Chem a priori profile information and satellite measurement data to calculate the $AMF_{PP}$ by using LIDORT radiative transfer calculations to determine scattering.
@@ -1437,7 +1437,7 @@
     
   \subsection{Vertical columns from AMF}
     \label{Model:omiRecalc:vertical_columns}
-    All that remains for recalculating the total vertical column using our new a priori shape factor is to apply the new $AMF$ to the slant columns and grid them onto our chosen resolution.
+    All that remains for recalculating the total vertical column using \replaced[id=mh]{the}{our} new a priori shape factor is to apply the new $AMF$ to the slant columns and grid them onto \replaced[id=mh]{a}{our} chosen resolution.
     Each satellite pixel at this stage has an associated $SC$ along with three AMFs: the original ($AMF_{OMI}$), one with recalculated shape factors ($AMF_{GC}$), and one completely recalculated using PP code ($AMF_{PP}$).
     These are used to create vertical columns ($\Omega$) through Equation \ref{Model:AMF:eqn_AMFFrac}: $\Omega = SC/AMF$.
     
@@ -1460,8 +1460,8 @@
     
     % Why we apply a reference sector correction
     On a medium to long time scale, OMI degradation needs to be accounted for.
-    To remove effects from the deterioration of the satellite instrument, measurements over the remote Pacific (our reference sector) are combined with GEOS-Chem simulations to create a reference sector correction (RSC).
-    In this thesis we use OMI HCHO columns to estimate isoprene emissions, and correcting background HCHO does not affect this calculation.
+    To remove effects from the deterioration of the satellite instrument, measurements over the remote Pacific (\deleted[id=mh]{our }reference sector) are combined with GEOS-Chem simulations to create a reference sector correction (RSC).
+    In this thesis\deleted[id=mh]{ we use} OMI HCHO columns \added[id=mh]{are used} to estimate isoprene emissions, and correcting background HCHO does not affect this calculation.
     % hcho over the remote Pacific ocean is expected to be relatively invariable.
     The correction should reduce bias caused by satellite degradation, without impacting isoprene emissions estimation.
     The RSC corrects for several problems; however, it introduces some a priori model influence.
@@ -1823,7 +1823,7 @@
     % Why filter high NO? Anthro influence
     %Need to explicitly state that you are not suggesting that anthropogenic NOx leads to HCHO, but that it is likely to be co-located with anthropogenic NMVOCs that form HCHO and therefore would bias your inversion. In other words, you are using NOx as a proxy for possible anthropogenic NMVOC influence.
     Enhanced NO$_2$ concentrations indicate anthropogenic influence over Australia.
-    We use NO$_2$ as a proxy for potential anthropogenic NMVOC emissions, as these could bias the inversion performed in Chapter \ref{BioIsop}.
+    \deleted[id=mh]{We use} NO$_2$ \added[id=mh]{is used} as a proxy for potential anthropogenic NMVOC emissions, as these could bias the inversion performed in Chapter \ref{BioIsop}.
     A filter is designed using the tropospheric NO$_2$ columns in the OMNO2d product.
     
     % Nox analysis from OMNO2d
@@ -1916,7 +1916,7 @@
       %In order to understand the smearing calculation the underlying equations and assumptions must first be understood.
       From Section \ref{BioIsop:method:slope}, Equation \ref{BioIsop:method:slope:eqn_isop_to_hcho} states that the modelled slope ($S$) is the yield of HCHO per C of emitted isoprene divided by the HCHO loss rate ($S = \frac{Y_{isop}}{k_{HCHO}}$).
       % smearing defined from two runs of geos chem
-      Using two runs of GEOS-Chem with differing isoprene emissions but otherwise identical we have:
+      Using two runs of GEOS-Chem with differing isoprene emissions but otherwise identical \replaced[id=mh]{provides}{we have}:
       \begin{eqnarray}
       \label{Model:filter:smearing:calculation:eqn_runs}
       \begin{split}
@@ -1928,7 +1928,7 @@
       The initial assumption is that the system is at steady state, with no transport of isoprene affecting HCHO columns.
       This is the basis for equation \ref{Model:filter:smearing:calculation:eqn_runs}.
       It is also assumed that background values ($\Omega_0$) are from oxidation of methane and other long-lived VOCs, so that $\Omega_0 = \Omega_0'$.
-      Between these two runs we are only changing the $E$ term.
+      Between these two runs\replaced[id=mh]{ only the $E$ term is changed}{ we are only changing the $E$ term}.
       Chemistry is unchanged so that the yield and loss rate should not change between the two runs: 
       \begin{equation}
       S = S' = \frac{Y_{isop}}{k_{HCHO}}
@@ -1981,7 +1981,7 @@
       %To determine which model grid boxes are affected by smearing, we follow \textcite{Marais2012}.
       GEOS-Chem is run with normal isoprene emissions and with isoprene emissions halved, then Equation \ref{Model:filter:smearing:calculation:eqn_hats} ( $\hat{S} = \frac{\Delta \Omega_{HCHO}}{\Delta E_{isop}} $) provides $\hat{S}$.
       Here $\Delta$ represents the difference (daily 1300-1400~local time) between default and scaled runs.
-      If $\hat{S}$ sits outside the 800-4600 range then we remove that grid square day from both $S$ and subsequent a posteriori emission calculations.
+      If $\hat{S}$ sits outside the 800-4600 range then\deleted[id=mh]{ we remove} that grid square day \added[id=mh]{is removed} from both $S$ and subsequent a posteriori emission calculations.
       A relatively large change in $\Omega_{HCHO}$ compared to local emissions ($\hat{S}>4600$) suggests HCHO production is from non-local isoprene emissions.
       Alternatively, a relatively low value of $\hat{S}$ ($\hat{S}<800$) suggests emissions from the local grid square are being exported before they form HCHO.
       
@@ -2086,7 +2086,7 @@
         Bottom: Scatter plot of NO$_2$ against smearing calculations from GEOS-Chem ($\hat{S}$), with points above and below the smearing threshold range of 800-4600~s coloured red and blue respectively. 
         Points are binned by NO$_2$ with and without the smearing filter applied (orange and magenta respectively).
         Overplotted is the mean and standard deviation (error bars) within each bin. 
-        Due to the logarithmic Y scale we only show the positive direction of standard deviations for unfiltered data.
+        Due to the logarithmic Y scale\replaced[id=mh]{ only the positive direction of standard deviations is shown}{ we only show the positive direction of standard deviations} for unfiltered data.
         %Bottom left: Daily NO$_2$ scattered against smearing with (magenta) and without (orange) applying the smearing filter. This plot is a zoomed out version of the right panel.
       }{\label{BiogIsop:Method:smearing:fig_smearing_vs_nox}}  
     
@@ -2106,7 +2106,7 @@
 \section{Data Access}
   \label{Model:DataAccess}
   
-  Here I list the datasets used in this thesis, along with where it is from and where it is used.
+  Here\deleted[id=mh]{ I list} the datasets used in this thesis \added[id=mh]{are listed}, along with where it is from and where it is used.
   
   \begin{description}
     \item[AIRS] Atmospheric Infra-red Sounder instrument aboard the Aqua satellite \parencite{AIRS3STD}.
