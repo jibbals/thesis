@@ -21,7 +21,7 @@
   was examined and recalculated in Chapter \ref{Model}, where the influence of the air mass factor (AMF) was discussed in detail. %(Section \ref{Model:AMF}).
   The original AMF used in the satellite product was created using an older version of the GEOS-Chem model with out-of-date HCHO chemistry.
   Recalculation, binning, and analysis of the satellite HCHO vertical columns was performed using GEOS-Chem v10.01, outlined in Section \ref{Model:omiRecalc:outline}.
-  This was performed using my own partial AMF recalculation code, along with full recalculation code set up in collaboration with Prof. Palmer and Dr. Surl.
+  This was performed using \replaced[id=mh]{newly developed}{my own} partial AMF recalculation code, along with full recalculation code set up in collaboration with Prof. Palmer and Dr. Surl.
   % outcome from looking at AMF sensitivity
   Satellite measured vertical columns changed systematically when using updated shape factors, and again when using updated shape factors in conjunction with updated scattering weights.
   Over Australia an increase in average total column HCHO was observed, along with lower background levels, following either recalculation.
@@ -30,7 +30,7 @@
    
   % % Aim for Chapter 3: Biogenic emissions estimation
   \textbf{I aimed to determine biogenic isoprene emissions in Australia using a top-down inversion of satellite HCHO, through an estimated yield from GEOS-Chem.}
-  In Chapter \ref{BioIsop} I determined the linear relationship between total column HCHO and biogenic isoprene emissions over Australia using the global model GEOS-Chem.
+  In Chapter \ref{BioIsop}\deleted[id=mh]{ I determined} the linear relationship between total column HCHO and biogenic isoprene emissions over Australia \added[id=mh]{is determined} using the global model GEOS-Chem.
   Applying this relationship to satellite HCHO measurements created the desired top-down isoprene emissions estimate.
   This process was described in Section \ref{BioIsop:method}, using extensive filtering of both satellite data (to exclude non-biogenic HCHO sources) and model yield (to minimise spatial smearing).
   The uncertainty and limitations of top-down estimates due to satellite and model uncertainty, along with temporal and horizontal resolution of available data, were examined in Section \ref{BioIsop:uncertainty}.
@@ -88,25 +88,18 @@
   
   
   Tropospheric ozone production was estimated using GEOS-Chem before and after scaling isoprene emissions based on top-down satellite data.
-  Figure \ref{Conclusions:ozone:fig_ozone_surf_summer} shows Australian summer surface level ozone with and without scaling isoprene emissions to match the multi-year top-down estimation.
-  %Start a new sentence, and rephrase. Right now you are using "this" which refers to "reduction in surface ozone", so you are saying "most of the reduction in surface ozone is seen at the surface" -- which is redundant and doesn't really make sense. You could just state that the ozone change is greatest at the surface...
+  \replaced[id=tb]{This was summarised in Figure \ref{BioIsop:results:emissions:fig_ozone_surf_summer} showing summer surface ozone differences before and after scaling isoprene emissions.}{Figure 5.1 shows Australian summer surface level ozone with and without scaling isoprene emissions to match the multi-year top-down estimation.}
   The reduction in surface ozone is approximately 5\%.
   Total column ozone does not change much ($<<1\%$) and most of the change in ozone is only seen at the surface level.
-  This shows that modelled impacts from reduced isoprene emission are seen nearly completely in the surface level, and outweighed by other processes at higher altitudes.
+  \replaced{M}{This shows that m}odelled impacts from reduced isoprene emission are seen nearly completely in the surface level, and outweighed by other processes at higher altitudes.
   
-  % Figure from tests/test_new_emissions.spatial_comparisons
-  \mypic{Figures/OMI_link/new_emiss/O3_surf_map_Summer_05.png}{%
-    Top row: Summer surface-level ozone before (left) and after (right) scaling isoprene emissions in GEOS-Chem to match top-down estimates.
-    Middle row: absolute (left) and relative (right) differences.
-    Bottom row: linear regression between the two model runs along with a black dashed line representing the 1-1 ratio.
-    Each point represents one summer averaged land grid square (as shown in the top row).
-  }{\label{Conclusions:ozone:fig_ozone_surf_summer}}
+  \deleted[id=tb]{Figure 5.1 deleted from this section.}
   
   Ozone is one of the two measured air pollutants that have not fallen in concentration over the last 10 years \parencite{SOE2016}.
   %Ozone production from isoprene emissions form an extra layer on top of anthropogenic ozone.
   Isoprene emissions are one of the important precursors to ozone production, and this has been examined in Section \ref{BioIsop:results}.
   The results are tabulated for Australia and five sub-regions, in Table \ref{Conclusions:ozone:tab_emissions_vs_ozone}.
-  The sub-regions were detailed in Section \ref{BioIsop:results} and shown again here in Figure \ref{Conclusions:fig_subregions}. 
+  The sub-regions were detailed in Section \ref{BioIsop:results} and shown \replaced[id=tb]{in Figure \ref{BioIsop:results:fig_subregions}}{again here in Figure 5.2}. 
   A 5\% mean difference in surface ozone levels will directly affect population exposure levels and impacts air quality estimates. 
   This effect could be underestimated in cities due to the low horizontal resolution used in this thesis, as isoprene is most likely to impact city fringes \parencite{Millet2016}.
   The background ozone changes seen here need to be accurately modelled to confidently predict ozone exceedances \parencite[e.g.,][]{Cope2004}.
@@ -154,11 +147,11 @@
   
   
   % figure from Analysis_E_isop.py.show_subregions()
-  \mypic{Figures/OMI_link/subregions.png}{%
-    Sub-regions used in subsequent figures.
-    Australia-wide averages will be black or grey, while results from within the coloured rectangles will match the colours shown here.
-  }{\label{Conclusions:fig_subregions}}
-  
+  %\mypic{Figures/OMI_link/subregions.png}{%
+  %  Sub-regions used in subsequent figures.
+  %  Australia-wide averages will be black or grey, while results from within the coloured rectangles will match the colours shown here.
+  %}{\label{Conclusions:fig_subregions}}
+  \deleted[id=tb]{Figure 5.2 deleted from this section.}
   
   Ozone transported from the stratosphere affects surface ozone levels, although this was hard to detect with the methods used in this thesis.
   The effects of two influences on the tropospheric ozone column were examined in this thesis.
@@ -243,6 +236,6 @@
   
   \section{Concluding remark}
   % Final closing statement
-  Overall this thesis has contributed to the understanding of two important natural sources of ozone over Australia by improving our understanding of isoprene emissions and by improving the characterisation of stratospheric intrusions.
+  Overall this thesis has contributed to the understanding of two important natural sources of ozone over Australia by improving \replaced[id=mh]{the}{our} understanding of isoprene emissions and by improving the characterisation of stratospheric intrusions.
   Through chemical modelling, impacts on tropospheric ozone from these sources has been quantified and analysed for several regions over Australia.
   A top-down estimate of isoprene emissions, a dominant biogenic VOC and one of the least characterised in Australia, has also been created and analysed.

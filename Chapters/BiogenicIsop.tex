@@ -28,7 +28,7 @@
   The lack of knowledge about emissions makes it difficult to estimate the subsequent atmospheric processes. 
   
   
-  Emission models used to derive estimates of isoprene fluxes are based on understanding the emissions from different plant species (phenotypes) in varying conditions.
+  Emission models used to derive estimates of isoprene fluxes are based on understanding the emissions from different plant species (phenotypes) in varying conditions \added[id=tb]{(see Section \ref{LR:VOCs:models})}.
   \textcite{Guenther2012} estimated global biogenic isoprene emissions at roughly 535\tgpyr, while \textcite{Sindelarova2014} estimated around 411\tgpyr.
   %Guenther used MEGAN, \textcite{Sindelarova2014} estimated around 594\tgpyr using MEGAN with MACC, showing isoprene as 69.2\% of the total BVOC emissions, with monoterpenes at 10.9\tgpyr (10.9\%).
   Reactions following emissions are complex, and are sensitive to other trace gases in the atmosphere.
@@ -94,7 +94,8 @@
     %They examine global emissions seen by three models and a top-down inversion. % this is just what they do, not results etc...
     For Australia they found %emissions ranging from 26-94\tgcpyr, with 
     MEGAN based estimates ranging from 38\tgcpyr - 94\tgcpyr, and a posteriori emissions of 36\tgcpyr.
-    In this thesis \deleted[id=mh]{I develop and analyse} a top-down emission estimate \replaced[id=mh]{is developed, analysed and}{, which is} then compared against MEGAN. \replaced[id=mh]{H}{I also look at h}ow changed emissions affect modelled ozone levels over Australia \added[id=mh]{is also looked into}.
+    In this thesis \deleted[id=mh]{I develop and analyse} a top-down emission estimate \replaced[id=mh]{is developed, analysed and}{, which is} then compared against MEGAN. 
+    \replaced[id=mh]{H}{I also look at h}ow changed emissions affect modelled ozone levels over Australia \added[id=mh]{is also looked into}.
   
   \subsection{Top-down isoprene emissions estimates}
     \label{BioIsop:intro:top_down_estimates}
@@ -292,7 +293,7 @@
     % Too general
     %Global atmospheric studies often use models and inventories of various chemical emissions, along with a chemical transport model (CTM) to examine transport, emission, deposition, and other chemical processes in the atmosphere.
     %Emissions of Biogenic Volatile Organic Compounds (BVOCs) including isoprene are often the subject of studies as they are still relatively uncertain, as well as being drivers for important oxidation and pollution events.
-    In this work MEGAN (version 2.1) is run as a module within GEOS-Chem (version 10.01).
+    In this work MEGAN (version 2.1) is run as a module within GEOS-Chem (version 10.01) \added{(see Section \ref{Model:GC:MEGAN})}.
     The chemical model is driven by GEOS-5 meteorological fields at 0.5\degr x 0.666\degr ~horizontal resolution.
     GEOS-Chem output is averaged onto 47 vertical levels at \lowhr, based on chemistry and transport calculated every 30 and 15 minutes respectively.
     %, a global CTM that uses emissions inventories and meteorological data to simulate atmospheric gas concentrations and transport.
@@ -918,7 +919,8 @@
       A regression between the change in isoprene emissions, and the change in surface ozone was performed (as in the prior section with HCHO); however, only very weak correlations between reductions are apparent.
       While the overall decrease in surface ozone is clear, there is no direct correlation between monthly grid square averaged reductions in isoprene emission and surface ozone concentrations in the same grid square.
       This suggests that changes in isoprene emissions affect ozone in non-local grid squares due to transport, including grid squares where absolute emission reductions are not as strong.
-      % JENNY NOTE: Or that the effects are smeared across grid squares; i.e. the effect is not necessarily local like you expect it to be for HCHO 
+      \added[id=tb]{Figure \ref{BioIsop:results:emissions:fig_ozone_surf_summer} shows Australian summer surface level ozone with and without scaling isoprene emissions to match the multi-year top-down estimation.
+      Surface ozone is reduced in summer by approximately 5\%, with hotspots of reduction over southern New South Wales, Victoria, and Western Australia.}
       
       % plot from tests/test_new_emissions.hcho_ozone_series
       \mypic{Figures/OMI_link/new_emiss/O3_surface_20050101_20051231.png}{%
@@ -927,6 +929,14 @@
       }{\label{BioIsop:results:emissions:fig_new_emiss_series_O3}}
       
       %JENNY NOTE: could note that future work will downscale your emissions to evaluate impacts on O3 when spatial segregation of NOx and isoprene are properly accounted for. See Yu et al. ACP 2016 about resolution dependencies
+      
+      % Figure from tests/test_new_emissions.spatial_comparisons
+      \mypic{Figures/OMI_link/new_emiss/O3_surf_map_Summer_05.png}{%
+        \added[id=tb]{Top row: Summer surface-level ozone before (left) and after (right) scaling isoprene emissions in GEOS-Chem to match top-down estimates.
+        Middle row: absolute (left) and relative (right) differences.
+        Bottom row: linear regression between the two model runs along with a black dashed line representing the 1-1 ratio.
+        Each point represents one summer averaged land grid square (as shown in the top row).}
+      }{\label{BioIsop:results:emissions:fig_ozone_surf_summer}}
       
       Ozone and fine particulate concentrations in Australian cities have not reduced over the last 10 years, unlike other atmospheric pollutants such as CO, NO$_2$, and SO$_2$ \parencite{SOE2016}.
       This could be in part due to the downwind effects of isoprene emission, which are most likely to affect suburban fringes (e.g. western Sydney) of Australian cities which are surrounded by vegetation \parencite{Millet2016}.
