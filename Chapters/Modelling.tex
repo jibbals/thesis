@@ -117,6 +117,7 @@
     
     \subsubsection{Formaldehyde}
       
+      \added[id=mh]{Satellite formaldehyde data are used in this thesis to constrain Australian isoprene emissions (Chapter \ref{BioIsop}).}
       HCHO products can be found in four satellite instruments: GOME (Global Ozone Monitoring Experiment) on ERS-2 (second European Remote Sensing satellite), SCIAMACHY (SCanning Imaging Absorption SpectroMeter for Atmospheric CHartographY) on ENVI-SAT (ENVIronmental SATellite), OMI (Ozone Monitoring Instrument) on the Aura satellite, and GOME2 on MetOp-A and MetOp-B (Meteorological Operational satellites).
       These satellites have slightly different spectral and spatial resolutions, as well as using varied processes to estimate HCHO from detected radiances.
       This leads to different measurements between instruments \parencite{Lorente2017}, and both validation and comparison become more important when using these remotely sensed data.
@@ -157,7 +158,7 @@
       Aerosols in the atmosphere can be seen through their interactions with visible radiation. 
       Smoke and dust can be seen as an increase in aerosol optical depth (AOD) (see Section \ref{LR:HCHO:DOAS}).
       This is due to these particles scattering and absorbing UV radiation \parencite{Ahn2008}.
-      A data product provided by Earthdata (\url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}) called OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) is used in this thesis. 
+      A data product provided by Earthdata (\url{https://disc.gsfc.nasa.gov/datasets/OMAERUVd_V003/summary}) called OMAERUVd (DOI: 10.5067/Aura/OMI/DATA3003) is used in this thesis \added[id=mh]{to filter out satellite HCHO data that may be influenced by pyrogenic emissions (see Section \ref{Model:filter:fire})}.
       
       
       OMAERUVd allows detection of areas which may be smoke-affected.
@@ -175,11 +176,12 @@
     
     \subsubsection{Active fires}
       \label{Model:datasets:MOD14A1}
+      \added[id=mh]{Filtering pyrogenic influence from satellite HCHO requires knowledge of where fire is occurring, which is determined using the MOD14A1 dataset as applied in Section \ref{Model:filter:fire}.}
       MOD14A1 is a gridded daily satellite dataset of fire counts at 1x1~km$^2$ horizontal resolution.
       Fire counts are observed four times daily from Terra (10:30, 22:30 local time) and Aqua (01:30, 13:30~ local time).
       The fire pixels are detected based on parameters including apparent pixel temperature and the nearby background temperature.
       The dataset is obtained from NASA Earth Observations that is part of the EOS Project Science Office at the NASA Goddard Space Flight Center \url{https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE}.
-      This product is downloaded and binned into the lower \highhr ~resolution (using the sum of fire pixels) to create an active fire influence mask (see Section \ref{Model:filter:fire}).
+      This product is downloaded and binned into the lower \highhr ~resolution (using the sum of fire pixels) to create an active fire influence mask\deleted[id=mh]{ (see Section \ref{Model:filter:fire})}.
       
     \subsubsection{Carbon monoxide}
       \label{Model:datasets:AIRS}
@@ -418,10 +420,10 @@
 
   \subsection{Chemical Mechanism}
     \label{Model:GC:mechanisms}
-    A chemical mechanism is a closed system of chemical reactions and their associated rate constants.
+    \deleted[id=tb]{A chemical mechanism is a closed system of chemical reactions and their associated rate constants.
     Chemical reactions are represented by systems of differential equations to be solved for each gridbox in GEOS-Chem.
     Simplifications are required due to the large number of reactions that occur in the atmosphere, and the coupled and stiff nature of these reactions that slow down computation of the solutions \parencite{BrasseurJacob2017}.
-    Mathematical stiffness in chemical systems of differential equations is due to the massively differing reaction time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}. 
+    Mathematical stiffness in chemical systems of differential equations is due to the massively differing reaction time scales - for instance hydroxyl radicals react within seconds while methane has an atmospheric lifetime of 8-10 years \parencite{Wuebbles2002}.}
     This section focuses on isoprene oxidative chemistry simulated by GEOS-Chem, as it will be used to determine the yield from isoprene emissions to HCHO columns. 
 
     Some of the important reactions involving isoprene are reproduced here, including reaction rates ($k$) in the form $ k = A \exp{(-E/RT)}$, where $T$ is temperature, $E$ is activation energy, and $R$ is the gas constant.
@@ -532,16 +534,14 @@
     % Peeters looks at OH adduction and subsequent pathways to reform OH with ~ 80% efficiency overall
     % HPALD: hydroperoxyenal, hydroperoxyaldehyde, hydroperoxy-methyl-butenals
     
-    In part, GEOS-Chem chemistry mechanisms are based on atmospheric chemistry chamber studies.
+    \deleted[id=tb]{In part, GEOS-Chem chemistry mechanisms are based on atmospheric chemistry chamber studies.
     In a chamber with clean air and high NO concentrations, isoprene photooxidation is initially driven by OH addition, followed by NO$_X$ chemistry (150~min - 600~min), and finally HO$_X$ dominated chemistry.
-    Formation of isoprene nitrates (ISOPN) affect ozone levels through NO$_X$ sequestration, the yields and fate of these nitrates was analysed in \textcite{Paulot2009a}.
+    Formation of isoprene nitrates (ISOPN) affect ozone levels through NO$_X$ sequestration, the yields and fate of these nitrates was analysed in Paulot et al. (2009a).
     %% ISOPN can be oxidised (by OH) to form nitrated organic products \parencite{Paulot2009a}.
-    Prior to 2012, oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s \parencite{Crounse2012, Wolfe2012}.
-    In most environments NO and HO$_2$ concentrations are not so high.
+    Prior to 2012, oxidation chamber studies were performed in high NO or HO$_2$ concentrations, giving peroxy lifetimes of less than 0.1~s (Crounse et al. 2012; Wolfe et al. 2012).
+    In most environments NO and HO$_2$ concentrations are not so high.}
     GEOS-Chem uses production rates for different NO concentrations and peroxy radical lifetimes determined by \textcite{Mao2013}.
-    
-    % too production, rate and cites
-    \textcite{Crounse2011} examined the isomerisations associated with the oxidation of isoprene to six different isomers of \roo formed in the presence of oxygen.
+    \deleted[id=tb]{Crounse et al. (2011) examined the isomerisations associated with the oxidation of isoprene to six different isomers of \roo formed in the presence of oxygen.}
     The primary oxidation pathway of isoprene is reaction with the OH radical ($ ISOP + OH \to RIO_2 $) shown in Equation \ref{mech1}.
     Isoprene undergoes OH addition at the 1 and 4 positions, becoming $\beta$ (71\%) or $\delta$ (29\%) \roo, although these are not distinguished in the v10 GEOS-Chem mechanism except in the distribution of the isoprene nitrates. 
     Additional oxidative pathways are from ozonolysis (Equation \ref{mech2}) and reaction with NO$_3$ (Equation \ref{mech3}).
@@ -553,15 +553,16 @@
 
     \subsubsection{Nitrogen oxide impacts}
 
-      GEOS-Chem reactions do not distinguish between high and low NO$_x$ scenarios.
-      However, when discussing the likely reactions isoprene undergoes after emission, the dominant reactions generally depend on NO$_x$ levels.
-      High NO$_X$ ($\sim 1$~ppb) has been defined as conditions where NO reactions are the main cause of losses for \roo (Reaction \ref{mech5}) \parencite{Palmer2003}.
+      \replaced{Isoprene reactions that occur following emission }{GEOS-Chem reactions do not distinguish between high and low NO$_x$ scenarios.
+      However, when discussing the likely reactions isoprene undergoes after emission, the dominant reactions }generally depend on NO$_x$ levels.
+      \added{This leads to isoprene reactions being broadly discussed within the context of high or low NO$_x$ environmental conditions.}
+      High NO$_x$ ($\sim 1$~ppb) has been defined as conditions where NO reactions are the main cause of losses for \roo (Reaction \ref{mech5}) \parencite{Palmer2003}.
       %low NO$_X$ concentrations are around 0.1~ppb.
       
       
       % Low nox mechanism pathways
       In low NO$_x$ environments, \roo losses occur from isomerisation or reaction with several compounds.
-      NO$_X$ + HO$_2$ (Reaction \ref{mech6}) produces mostly hydroxy hydroperoxides (ISOPOOH), and some HCHO.
+      NO$_x$ + HO$_2$ (Reaction \ref{mech6}) produces mostly hydroxy hydroperoxides (ISOPOOH), and some HCHO.
       ISOPOOH can be oxidised (by OH) to produce epoxydiols, recycling OH \parencite{Paulot2009b}. 
       %($70\%$ yield of hydroxy hydroperoxides, ISOPOOH), 
       Isomerisation of \roo (Reaction \ref{mech4}) largely produces HCHO, while recycling OH and producing HO$_2$.
@@ -574,8 +575,8 @@
       Less frequently, \roo reacts with itself, MO$_2$, or MCO$_3$.
       
       % High nox chemistry
-      Under high NO$_X$ conditions, the fate of \roo differs depending on how it was formed.
-      The $\beta$-hydroxyl reacts with NO$_X$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
+      Under high NO$_x$ conditions, the fate of \roo differs depending on how it was formed.
+      The $\beta$-hydroxyl reacts with NO$_x$ and produces HCHO (66\%), methylvinylketone (40\%) (MVK), methacrolein (26\%), and $\beta$-hydroxyl nitrates (6.7\%) (ISOPNB).
       The $\delta$-hydroxyl reacts with NO to form $\delta$-hydroxyl nitrates (24\%) (ISOPND), and ISOPNB (6.7\%).
       These two pathways are combined in Reaction \ref{mech5}. 
       % , which shows the production from \roo and NO.
@@ -585,13 +586,13 @@
       
       Isoprene chemistry in GEOS-Chem includes OH regeneration from oxidation of epoxydiols (not shown in Equation \ref{Model:GC:mechanisms:eqn_mechanisms}) and slow isomerisation of \roo (Equation \ref{mech4}) \parencite{Mao2013}.
       This regeneration dealt with the problem seen in older models where ISOPOOH production titrated OH, which was not backed up by measurements \parencite{Paulot2009b,Mao2013}.
-      Until recently, models struggled to represent OH in the atmosphere, due to missing chemistry and issues in measurement techniques.
-      Prior to \textcite{Mao2012}, measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside measuring instruments.
+      \deleted[id=tb]{Until recently, models struggled to represent OH in the atmosphere, due to missing chemistry and issues in measurement techniques.
+      Prior to Mao et al. (2012), measurements of OH in high VOC regions may have been up to double the real atmospheric OH levels, due to formation of OH inside measuring instruments.}
       OH regeneration through photolysis of HPALDs in areas with high isoprene emissions are included in GEOS-Chem based on \textcite{Peeters2010}.
-      Photolysis of photolabile peroxy-acid-aldehydes generates OH, improving model agreement with continental observations.
-      OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and sink of OH \parencite{Peeters2010,Taraborrelli2012}.
-      \textcite{Mao2013} showed that drastically lowering (by a factor of 50) the rate constant for \roo isomerisation lead to better organic nitrate agreements with measurements.% (ICARTT).
-      These chemical updates led to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.
+      \deleted[id=tb]{Photolysis of photolabile peroxy-acid-aldehydes generates OH, improving model agreement with continental observations.
+      OH and HPALD interactions are central to maintaining the OH levels in pristine and moderately polluted environments, which makes isoprene both a source and sink of OH Peeters and Muller 2010; Taraborrelli et al. 2012).
+      Mao et al. (2013) showed that drastically lowering (by a factor of 50) the rate constant for \roo isomerisation lead to better organic nitrate agreements with measurements.% (ICARTT).
+      These chemical updates led to more accurate modelling of OH concentrations, especially in low NO$_X$ conditions common in remote forests.}
       The updates to isoprene chemistry by \textcite{Mao2013}, and those shown in \textcite{Crounse2011,Crounse2012} are the last implemented in the version of GEOS-Chem used in this thesis.
 
 
@@ -1657,10 +1658,10 @@
   \label{Model:Contributions}
   
   \added[id=mh]{%
-    All model runs, configuration, and alterations are performed by the Author, with initial instruction from Jenny Fisher.
-    Satellite products are downloaded, collated, and (where appropriate) recalculated by the author.
+    All model runs, configuration, and alterations were performed by the Author, with initial discussions with Jenny Fisher.
+    Satellite products were downloaded, collated, and (where appropriate) recalculated by the author.
     Recalculation of the OMHCHO data product is in part based on code written by Paul Palmer and Randal Martin, with updates and usage instructions given by Luke Surl.
-    Output created in this chapter that is used outside of this thesis includes a filtered and regridded (but not recalculated) version of OMHCHO used in \fullcite{Lieschke2019}, model run analyses used to debug GEOS-Chem satellite parameterisation, highly negative satellite pixels analysis that has been shared with the OMHCHO product owner, and products used in Chapter \ref{BioIsop} may form part of a publication in preparation: Greenslade J. W., Fisher J. A., Top-down emissions of isoprene over Australia.
+    Output created in this chapter that is used outside of this thesis includes a filtered and regridded (but not recalculated) version of OMHCHO used in \fullcite{Lieschke2019}, model run analyses used to debug GEOS-Chem satellite parameterisation, highly negative satellite pixels analysis that has been shared with the OMHCHO product developer, and products used in Chapter \ref{BioIsop} may form part of a publication in preparation: Greenslade J. W., Fisher J. A. et al. Top-down emissions of isoprene over Australia.
     }
   
 \section{Data access}
