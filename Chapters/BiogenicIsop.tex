@@ -91,7 +91,7 @@
     %They examine global emissions seen by three models and a top-down inversion. % this is just what they do, not results etc...
     For Australia they found %emissions ranging from 26-94\tgcpyr, with 
     MEGAN based estimates ranging from 38\tgcpyr - 94\tgcpyr, and a posteriori emissions of 36\tgcpyr.
-    \added[id=tb]{This wide range demonstrates the effect of unknowns and uncertainties involved in isoprene emission estimation. Their results are compared to results here in Section} \ref{BioIsop:results:emissions}.
+    \added[id=tb]{This wide range demonstrates the effect of unknowns and uncertainties involved in isoprene emission estimation. Their results are compared to results here in Section \ref{BioIsop:results:comparisons}}.
     In this thesis \deleted[id=mh]{I develop and analyse} a top-down emission estimate \replaced[id=mh]{is developed, analysed and}{, which is} then compared against MEGAN. 
     \replaced[id=mh]{H}{I also look at h}ow changed emissions affect modelled ozone levels over Australia \added[id=mh]{is also looked into}.
   
@@ -1112,7 +1112,7 @@
     The highest variance is seen in both eastern regions, potentially due to diversity within the regions which include high density cities, large forests, and rural areas.
     This overestimate by the a priori may be caused by some mixture of overly high emission factors and high emission sensitivity to temperatures and soil moisture \parencite{Emmerson2016,Emmerson2019}.
     Over the entirety of Australia the seasonal cycle of emissions is shown to be overestimated by the a priori, and further analysis and measurements are required to determine the cause.
-    % CLARE NOTE: Also I think that MEGAN predicts emissions practically switch off in the winter months and this is probably wrong - so the real seasonality is probably much less than in the a priori ??
+    %% CLARE NOTE: Also I think that MEGAN predicts emissions practically switch off in the winter months and this is probably wrong - so the real seasonality is probably much less than in the a priori ??
     
     %% MAYBEDO: find reason for: January and February also show a low feature in the a posteriori data, which may be due to filtering (check data count), or may have been caused by meteorological factors (Check if drought or fires occurred).
     While most regions show similar overestimates, the northern region of Australia follows a different cycle of bias.
@@ -1162,56 +1162,76 @@
       The normalised distribution of each population is shown at the top and right spine of each subplot, with the right spine (facing the a priori axis) using the a priori axis and scale, and the top spine using the a posteriori axis and scale.
     }{\label{BioIsop:results:emissions:fig_monthly_egressions}}
     
-    
-    When comparing total a priori emissions summed over Australia to the a posteriori calculated using the top-down inversion, a decrease of $\sim{46}\%$ from 39\tgpyr ~to 21\tgpyr is apparent.
-    Table \ref{BioIsop:results:emissions:tab_emissions_Tg} compares annual Australian isoprene emissions estimated in this work to previously published values.
-    \replaced[id=mh]{The a posteriori estimated here to be 21\tgpyr}{Our a posteriori estimate of 21\tgpyr} ~suggests isoprene emissions may be lower than all prior bottom up estimates\replaced{. This}{, and} is close to the lowest \replaced{bottom-up}{top-down} estimate of \textcite{Bauwens2016} of 26 \tgpyr.
-    %Chapter 3 must include a comparative discussion of the method used in this thesis and the method of Bauwens et al. (2016), and how the results of the two studies are influenced by their choice of methodology. Similarly, the range of values for Australian isoprene emissions (both bottom-up and top-down) given in Table 3.1 should be discussed in more detail. What is it about the different emission models and inverse approaches  that lead to such a large range of values? Can the results of this work be understood simply in terms of the way the methodologies are applied, or has something genuinely new been learnt?
-    \added[id=tb]{There are several major differences between work performed in this thesis and work done by \textcite{Bauwens2016}. 
-    %Here the GEOS-Chem CTM with BVOCs determined by MEGAN is used to determine a priori emissions and the steady state relationship between HCHO and isoprene emissions. 
-    They use a fully adjoint version of the IMAGESv2 CTM with emissions determined by MEGAN-MOHYCAN, and iteratively update biogenic isoprene emissions and pyrogenic VOC emissions so that the CTM produces HCHO columns that match (as near as possible) the column HCHO observed from OMI.
-    The differences in results between their work and work performed here are most likely to be primarily driven by differences in modelled chemistry, rather than differences in top-down methodology.
-    Both techniques have the end result of reducing the differences between (respective) modelled and OMI total column HCHO.
-    The fact that both top-down techniques suggest a priori bottom-up emissions are too high is a good indicator that these inventories are indeed overestimating isoprene emissions.}
-    
     \deleted[id=tb]{Figure \ref{BioIsop:results:emissions:fig_tga_comparison_map} shows how this decrease is distributed spatially, with $\apri$ and $\apost$ in \tgpyr ~calculated as a multi-year mean.
     Across all of Australia large reductions of total emissions are seen using the new top-down estimate.}
     
+    \subsubsection{Comparison to other estimates}
+    \label{BioIsop:results:comparisons}
     
-    %%SAVED FIGURE  Figs/Emiss/tga_map.png
-    %%TOTALS:  2005  -  2012
-    %mean(std) global MEGAN:  415.73 (22.54)
-    %mean(std) aus MEGAN   :  39.18 (3.99)
-    %mean(std) aus OMI     :  20.72 (1.59)
-    
-    
-    % Output from Analyse_E_isop.tga_summary
-    \begin{table}\begin{threeparttable}
-      \caption{Isoprene emissions (Tg/yr) from Australia}
-      \begin{tabular}{ c c c c } 
-        \toprule
-        Estimate$^{a}$ & Source & Year & Reference \\
-        \midrule
-        39.2(4.0) & bottom-up & 2005-2012 & This thesis$^{b}$ \\ % 445(18) globally
-        $\sim 80$ & bottom-up & 1980-2010 & \textcite{Sindelarova2014}$^{c}$ \\ % 590 globally
-        26-94 & bottom-up & 2005-2013 & \textcite{Bauwens2016}$^{d}$ \\
-        20.7(1.6) & top-down & 2005-2012 & This thesis$^{e}$ \\
-        36 & top-down & 2005-2013 & \textcite{Bauwens2016}$^{f}$ \\
-        %&  535 & \textcite{Guenther2012}: \\
-        %26-94 & 272-570 & c) \textcite{Bauwens2016}: 2005-2013\\
-        \bottomrule
-      \end{tabular}
-      \begin{tablenotes} 
-        \small
-        \item a: Interannual standard deviation shown in parentheses.
-        \item b: GEOS-Chem with MEGAN diagnostics based on 3-hourly averages. 
-        \item c: MEGAN run using MERRA meteorology.  
-        \item d: Range shown here based on three models, two of which implement MEGAN.
-        \item e: Based on daily peak emissions integrated over a sinusoidal daily curve. 
-        \item f: OMI based top-down inversion.
-      \end{tablenotes}
-      \label{BioIsop:results:emissions:tab_emissions_Tg}
-    \end{threeparttable}\end{table}
+    %Chapter 3 must include a comparative discussion of the method used in this thesis and the method of Bauwens et al. (2016), and how the results of the two studies are influenced by their choice of methodology. Similarly, the range of values for Australian isoprene emissions (both bottom-up and top-down) given in Table 3.1 should be discussed in more detail. What is it about the different emission models and inverse approaches  that lead to such a large range of values? Can the results of this work be understood simply in terms of the way the methodologies are applied, or has something genuinely new been learnt?
+      
+      \added[id=tb]{Table \ref{BioIsop:results:emissions:tab_emissions_Tg} provides a brief comparison of isoprene emissions estimated in this chapter of 39.2\tgpyr ~(bottom-up: from GEOS-Chem running MEGAN) and 21\tgpyr ~(top-down) with recent Australian isoprene emission estimates performed elsewhere.
+      \textcite{Bauwens2016} performed a global inversion of OMI HCHO to produce a top-down isoprene emission estimate, and also examined three separate bottom-up inventories.
+      Their MEGAN-MOHYCAN model run is most similar to the bottom-up GEOS-Chem emissions seen in this work, and shows similar isoprene emissions of 38\tgpyr.
+      MEGAN-MOHYCAN formed the a priori for their inversion, with the two other independent bottom-up models used for comparison.
+      The highest emissions they saw, at 94\tgpyr, came from the MEGAN-MACC model.
+      This high estimate is attributed to neglect of the moisture stress effects and a different crop distribution database compared to MEGAN-MOHYCAN.
+      \textcite{Sindelarova2014} Also examine bottom-up BVOC emissions using MEGAN-MACC.
+      They examined 30 years of MEGAN-MACC emissions globally to determine sensitivity of the model to various parameters.
+      Their estimate over Australia was similar to the MEGAN-MACC estimate seen in \textcite{Bauwens2016}, at 80\tgpyr. 
+      The other bottom-up model \textcite{Bauwens2016} compare with (GUESS-ES) uses a different emissions model, based on \textcite{Niinemets1999}, which estimated isoprene emissions of 26\tgpyr.
+      This was lower than both their a priori (MEGAN-MOHYCAN) and their a posteriori.}
+      
+      \deleted{When comparing total a priori emissions summed over Australia to the a posteriori calculated using the top-down inversion, a decrease of $\sim{46}\%$ from 39\tgpyr ~to 21\tgpyr is apparent.
+      Table \ref{BioIsop:results:emissions:tab_emissions_Tg} compares annual Australian isoprene emissions estimated in this work to previously published values.}
+      \added{Table \ref{BioIsop:results:emissions:tab_emissions_Tg} shows total a posteriori emissions summed over Australia are lower than the a priori by $\sim{46}\%$, reducing from 39\tgpyr ~to 21\tgpyr.}
+      \replaced[id=mh]{The a posteriori estimated here to be 21\tgpyr}{Our a posteriori estimate of 21\tgpyr} ~suggests isoprene emissions may be lower than all prior bottom up estimates\replaced{. This}{, and} is close to the lowest \replaced{bottom-up}{top-down} estimate of \textcite{Bauwens2016} of 26\tgpyr.
+      \added[id=tb]{There are several major differences between work performed in this thesis and work done by \textcite{Bauwens2016}. 
+      %Here the GEOS-Chem CTM with BVOCs determined by MEGAN is used to determine a priori emissions and the steady state relationship between HCHO and isoprene emissions. 
+      They used a fully adjoint version of the IMAGESv2 CTM with emissions determined by MEGAN-MOHYCAN, and iteratively updated biogenic isoprene emissions and pyrogenic VOC emissions so that the CTM produced HCHO columns that matched (as near as possible) the column HCHO observed from OMI.
+      Additionally they handle fire differently, attributing some of the HCHO to pyrogenic precursors rather than filtering out detectable fire influences as is performed here.
+      The differences in results between \textcite{Bauwens2016} and work performed here are most likely to be primarily driven by differences in modelled chemistry, rather than differences in top-down methodology.
+      For instance, any model differences in NO$_X$ emissions or chemistry will greatly affect local HCHO yield and change the link between satellite HCHO and emitted isoprene \parencite[e.g.,][]{Kaiser2018}.
+      Both techniques have the end result of reducing the differences between (respective) modelled and OMI total column HCHO, although the reduction seen here (46\%) is much greater than that seen in \textcite{Bauwens2016}.
+      The fact that both top-down techniques suggest a priori bottom-up emissions are too high is a good indicator that these inventories are indeed overestimating isoprene emissions.}
+      
+      
+      
+      
+      %%SAVED FIGURE  Figs/Emiss/tga_map.png
+      %%TOTALS:  2005  -  2012
+      %mean(std) global MEGAN:  415.73 (22.54)
+      %mean(std) aus MEGAN   :  39.18 (3.99)
+      %mean(std) aus OMI     :  20.72 (1.59)
+      
+      
+      % Output from Analyse_E_isop.tga_summary
+      \begin{table}\begin{threeparttable}
+        \caption{Isoprene emissions (Tg/yr) from Australia}
+        \begin{tabular}{ c c c c } 
+          \toprule
+          Estimate$^{a}$ & Source & Year & Reference \\
+          \midrule
+          39.2(4.0) & bottom-up & 2005-2012 & This thesis$^{b}$ \\ % 445(18) globally
+          $\sim 80$ & bottom-up & 1980-2010 & \textcite{Sindelarova2014}$^{c}$ \\ % 590 globally
+          26-94 & bottom-up & 2005-2013 & \textcite{Bauwens2016}$^{d}$ \\
+          20.7(1.6) & top-down & 2005-2012 & This thesis$^{e}$ \\
+          36 & top-down & 2005-2013 & \textcite{Bauwens2016}$^{f}$ \\
+          %&  535 & \textcite{Guenther2012}: \\
+          %26-94 & 272-570 & c) \textcite{Bauwens2016}: 2005-2013\\
+          \bottomrule
+        \end{tabular}
+        \begin{tablenotes} 
+          \small
+          \item a: Interannual standard deviation shown in parentheses.
+          \item b: GEOS-Chem with MEGAN diagnostics based on 3-hourly averages. 
+          \item c: MEGAN run using MERRA meteorology.  
+          \item d: Range shown here based on three models, two of which implement MEGAN.
+          \item e: Based on daily peak emissions integrated over a sinusoidal daily curve. 
+          \item f: OMI based top-down inversion.
+        \end{tablenotes}
+        \label{BioIsop:results:emissions:tab_emissions_Tg}
+      \end{threeparttable}\end{table}
     
     \subsubsection{Diurnal variability}
     
